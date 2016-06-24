@@ -1,5 +1,3 @@
-'use strict';
-
 /**
  * Policy Mappings
  * (sails.config.policies)
@@ -12,71 +10,42 @@
  * below by its filename, minus the extension, (e.g. "authenticated")
  *
  * For more information on how policies work, see:
- * http://sailsjs.org/#/documentation/concepts/Policies
+ * http://sailsjs.org/#!/documentation/concepts/Policies
  *
  * For more information on configuring policies, check out:
- * http://sailsjs.org/#/documentation/reference/sails.config/sails.config.policies.html
+ * http://sailsjs.org/#!/documentation/reference/sails.config/sails.config.policies.html
  */
+
+
 module.exports.policies = {
-  // Default policy for all controllers and actions
-  '*': ['authenticated'],
 
-  // Author controller
-  AuthController: {
-    '*':              ['passport'],
-    'checkPassword':  ['authenticated']
-  },
+  /***************************************************************************
+  *                                                                          *
+  * Default policy for all controllers and actions (`true` allows public     *
+  * access)                                                                  *
+  *                                                                          *
+  ***************************************************************************/
 
-  // Author controller
-  AuthorController: {
-    '*':        ['authenticated'],
-    'count':    ['authenticated'],
-    'find':     ['authenticated'],
-    'findOne':  ['authenticated'],
-    'create':   ['authenticated', 'isAdmin', 'addDataCreate'],
-    'update':   ['authenticated', 'isAdmin', 'addDataUpdate'],
-    'destroy':  ['authenticated', 'isAdmin'],
-    'add':      ['authenticated', 'isAdmin'],
-    'remove':   ['authenticated', 'isAdmin']
-  },
+  // '*': true,
 
-  // Book controller
-  BookController: {
-    '*':        ['authenticated'],
-    'count':    ['authenticated'],
-    'find':     ['authenticated'],
-    'findOne':  ['authenticated'],
-    'create':   ['authenticated', 'isAdmin', 'addDataCreate'],
-    'update':   ['authenticated', 'isAdmin', 'addDataUpdate'],
-    'destroy':  ['authenticated', 'isAdmin'],
-    'add':      ['authenticated', 'isAdmin'],
-    'remove':   ['authenticated', 'isAdmin']
-  },
+  /***************************************************************************
+  *                                                                          *
+  * Here's an example of mapping some policies to run before a controller    *
+  * and its actions                                                          *
+  *                                                                          *
+  ***************************************************************************/
+	// RabbitController: {
 
-  // User controller
-  UserController: {
-    '*':        ['authenticated'],
-    'count':    ['authenticated'],
-    'find':     ['authenticated'],
-    'findOne':  ['authenticated'],
-    'create':   ['authenticated', 'isAdmin', 'addDataCreate'],
-    'update':   ['authenticated', 'isAdmin', 'addDataUpdate'],
-    'destroy':  ['authenticated', 'isAdmin'],
-    'add':      ['authenticated', 'isAdmin'],
-    'remove':   ['authenticated', 'isAdmin']
-  },
+		// Apply the `false` policy as the default for all of RabbitController's actions
+		// (`false` prevents all access, which ensures that nothing bad happens to our rabbits)
+		// '*': false,
 
-  // UserLogin controller
-  UserLoginController: {
-    '*':          false,
-    'statistics': ['authenticated', 'isAdmin'],
-    'count':      ['authenticated', 'isAdmin'],
-    'find':       ['authenticated', 'isAdmin'],
-    'findOne':    ['authenticated', 'isAdmin'],
-    'create':     false,
-    'update':     false,
-    'destroy':    false,
-    'add':        false,
-    'remove':     false
-  }
+		// For the action `nurture`, apply the 'isRabbitMother' policy
+		// (this overrides `false` above)
+		// nurture	: 'isRabbitMother',
+
+		// Apply the `isNiceToAnimals` AND `hasRabbitFood` policies
+		// before letting any users feed our rabbits
+		// feed : ['isNiceToAnimals', 'hasRabbitFood']
+	// }
 };
