@@ -7,7 +7,7 @@
 
 let ServiceProviderProfile = {
     tableName: 'service_provider_profiles',
-    
+
     attributes: {
         firmName: {
             type: 'string',
@@ -35,9 +35,15 @@ let ServiceProviderProfile = {
             columnName: 'subscription_type'
         },
         userId: {
-            model:'user',
+            model: 'user',
             unique: true,
             columnName: 'user_id'
+        },
+
+        serviceTypes: {
+            collection: 'ServiceType',
+            via: 'serviceProviderProfileId',
+            through: 'serviceproviderprofileservicetype'
         }
     }
 };
