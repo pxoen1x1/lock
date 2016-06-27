@@ -9,7 +9,7 @@ let bcryptjs = require('bcryptjs');
 
 let User = {
     tableName: 'users',
-    
+
     attributes: {
         firstName: {
             type: 'string',
@@ -48,10 +48,13 @@ let User = {
             required: true
         },
 
-        customerProfile:{
-            collection: 'customerprofile',
-            via: 'userId',
-            columnName: 'customer_profile'
+        customerProfile: {
+            collection: 'customerProfile',
+            via: 'userId'
+        },
+        serviceProviderProfile: {
+            collection: 'serviceProviderProfile',
+            via: 'userId'
         },
 
         fullName() {
