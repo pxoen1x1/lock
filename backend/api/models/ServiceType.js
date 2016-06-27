@@ -6,22 +6,26 @@
  */
 
 let ServiceType = {
-  autoCreatedAt: false,
-  autoUpdatedAt: false,
-  tableName: 'service_type',
+    autoCreatedAt: false,
+    autoUpdatedAt: false,
+    tableName: 'service_type',
 
-  attributes: {
-    name: {
-      type: 'string',
-      required: true
-    },
+    attributes: {
+        name: {
+            type: 'string',
+            required: true
+        },
 
-    serviceProviderProfiles: {
-      collection: 'ServiceProviderProfile',
-      via: 'serviceTypeId',
-      through: 'serviceproviderprofileservicetype'
+        serviceProviderProfiles: {
+            collection: 'ServiceProviderProfile',
+            via: 'serviceTypeId',
+            through: 'serviceproviderprofileservicetype'
+        },
+        serviceProcedures: {
+            collection: 'ServiceProcedure',
+            via: 'serviceTypeId'
+        }
     }
-  }
 };
 
 module.exports = ServiceType;
