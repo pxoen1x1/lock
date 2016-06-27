@@ -1,10 +1,10 @@
 module.exports.routes = {
-    'GET /api/users': {
-        controller: 'UsersController',
+    'GET /api/user': {
+        controller: 'UserController',
         action: 'getUsers'
     },
     'POST /api/users': {
-        controller: 'UsersController',
+        controller: 'UserController',
         action: 'createUser'
     }
 };

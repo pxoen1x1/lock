@@ -7,18 +7,19 @@
  */
 let bcryptjs = require('bcryptjs');
 
-let Users = {
-
+let User = {
+    tableName: 'users',
+    
     attributes: {
         firstName: {
             type: 'string',
             required: true,
-            defaultsTo: ''
+            columnName: 'first_name'
         },
         lastName: {
             type: 'string',
             required: true,
-            defaultsTo: ''
+            columnName: 'last_name'
         },
         gender: {
             type: 'string',
@@ -35,7 +36,8 @@ let Users = {
         },
         phoneNumber: {
             type: 'numeric',
-            unique: true
+            unique: true,
+            columnName: 'phone_number'
         },
         password: {
             type: 'string',
@@ -44,6 +46,12 @@ let Users = {
         role: {
             type: 'int',
             required: true
+        },
+
+        customerProfile:{
+            collection: 'customerprofile',
+            via: 'userId',
+            columnName: 'customer_profile'
         },
 
         fullName() {
@@ -78,5 +86,5 @@ let Users = {
     }
 };
 
-module.exports = Users;
+module.exports = User;
 

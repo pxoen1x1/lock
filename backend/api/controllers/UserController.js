@@ -1,14 +1,14 @@
 'use strict';
 /**
- * UsersController
+ * UserController
  *
  * @description :: Server-side logic for managing users
  * @help        :: See http://sailsjs.org/#!/documentation/concepts/Controllers
  */
 
-let UsersController = {
+let UserController = {
     getUsers: (req, res) => {
-        Users.find()
+        User.find()
             .sort('lastName DESC')
             .exec((err, users) => {
                 if (err) {
@@ -22,14 +22,9 @@ let UsersController = {
             });
     },
     createUser: (req, res) => {
-        let user = {
-            firstName: req.body.firstName,
-            lastName: req.body.lastName,
-            email: req.body.email,
-            password: req.body.password
-        };
+        let user = req.body;
 
-        Users.create(user)
+        User.create(user)
             .exec((err, user) => {
                 if (err) {
 
@@ -41,5 +36,5 @@ let UsersController = {
     }
 };
 
-module.exports = UsersController;
+module.exports = UserController;
 
