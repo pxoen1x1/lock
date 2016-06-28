@@ -5,7 +5,7 @@
  * @docs        :: http://sailsjs.org/documentation/concepts/models-and-orm/models
  */
 
-module.exports = {
+let PriceList = {
     autoCreatedAt: false,
     autoUpdatedAt: false,
     tableName: 'price_list',
@@ -25,4 +25,6 @@ module.exports = {
         }
     }
 };
+
+module.exports = PriceList;
 

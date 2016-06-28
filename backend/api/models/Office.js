@@ -5,7 +5,7 @@
  * @docs        :: http://sailsjs.org/documentation/concepts/models-and-orm/models
  */
 
-module.exports = {
+let Office = {
     autoCreatedAt: false,
     autoUpdatedAt: false,
     tableName: 'offices',
@@ -40,3 +40,4 @@ module.exports = {
     }
 };
 
+module.exports = Office;

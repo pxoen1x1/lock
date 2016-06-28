@@ -5,7 +5,7 @@
  * @docs        :: http://sailsjs.org/documentation/concepts/models-and-orm/models
  */
 
-module.exports = {
+let State = {
     autoCreatedAt: false,
     autoUpdatedAt: false,
     tableName: 'states',
@@ -21,7 +21,9 @@ module.exports = {
 
         cities: {
             collection: 'city',
-            via: 'stateId'
+            via: 'state0Id'
         }
     }
 };
+
+module.exports = State;

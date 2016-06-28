@@ -5,7 +5,7 @@
  * @docs        :: http://sailsjs.org/documentation/concepts/models-and-orm/models
  */
 
-module.exports = {
+let Address = {
     autoCreatedAt: false,
     autoUpdatedAt: false,
     tableName: 'addresses',
@@ -33,3 +33,5 @@ module.exports = {
         }
     }
 };
+
+module.exports = Address;

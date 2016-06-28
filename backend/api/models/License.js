@@ -5,7 +5,7 @@
  * @docs        :: http://sailsjs.org/documentation/concepts/models-and-orm/models
  */
 
-module.exports = {
+let License = {
     autoCreatedAt: false,
     autoUpdatedAt: false,
     tableName: 'licenses',
@@ -22,3 +22,5 @@ module.exports = {
         }
     }
 };
+
+module.exports = License;
