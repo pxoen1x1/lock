@@ -6,29 +6,32 @@
  */
 
 module.exports = {
-  autoCreatedAt: false,
-  autoUpdatedAt: false,
-  tableName: 'cities',
+    autoCreatedAt: false,
+    autoUpdatedAt: false,
+    tableName: 'cities',
 
-  attributes: {
-    city: {
-      type: 'string',
-      required: true
-    },
-    zip: {
-      type: 'number'
-    },
-    lat: {
-      type: 'float'
-    },
-    lng: {
-      type: 'float'
-    },
-    
-    stateId: {
-      model: 'state',
-      columnName: 'state_id'
+    attributes: {
+        city: {
+            type: 'string',
+            required: true
+        },
+        zip: {
+            type: 'number'
+        },
+        lat: {
+            type: 'float'
+        },
+        lng: {
+            type: 'float'
+        },
+
+        stateId: {
+            model: 'state',
+            columnName: 'state_id'
+        },
+        addresses: {
+            collection: 'address',
+            via: 'cityId'
+        }
     }
-  }
 };
-

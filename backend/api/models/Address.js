@@ -6,18 +6,22 @@
  */
 
 module.exports = {
-  autoCreatedAt: false,
-  autoUpdatedAt: false,
-  tableName: 'addresses',
+    autoCreatedAt: false,
+    autoUpdatedAt: false,
+    tableName: 'addresses',
 
-  attributes: {
-    address: {
-      type: 'string',
-      required: true
-    },
-    zip: {
-      type: 'number'
+    attributes: {
+        address: {
+            type: 'string',
+            required: true
+        },
+        zip: {
+            type: 'number'
+        },
+
+        cityId: {
+            model: 'city',
+            columnName: 'city_id'
+        }
     }
-  }
 };
-
