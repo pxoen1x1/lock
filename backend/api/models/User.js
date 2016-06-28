@@ -26,7 +26,7 @@ let User = {
             enum: ['male', 'female']
         },
         email: {
-            type: 'email',
+            type: 'string',
             unique: true,
             email: true,
             required: true
