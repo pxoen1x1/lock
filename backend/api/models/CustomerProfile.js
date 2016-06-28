@@ -1,6 +1,6 @@
 'use strict';
 /**
- * CustomerProfiles.js
+ * CustomerProfile.js
  *
  * @description :: TODO: You might write a short summary of how this model works and what it represents here.
  * @docs        :: http://sailsjs.org/documentation/concepts/models-and-orm/models
@@ -14,6 +14,11 @@ let CustomerProfile = {
             model:'user',
             unique: true,
             columnName: 'user_id'
+        },
+        
+        addresses: {
+            collection: 'Address',
+            via: 'customerProfileId'
         }
     }
 };

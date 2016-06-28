@@ -22,6 +22,10 @@ module.exports = {
         cityId: {
             model: 'city',
             columnName: 'city_id'
+        },
+        customerProfileId: {
+            model: 'CustomerProfile',
+            columnName: 'customer_profile_id'
         }
     }
 };
