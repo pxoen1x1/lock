@@ -6,6 +6,8 @@
  */
 
 let ServiceProviderProfile = {
+    autoCreatedAt: false,
+    autoUpdatedAt: false,
     tableName: 'service_provider_profiles',
 
     attributes: {
