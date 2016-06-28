@@ -9,7 +9,7 @@ let ServiceProviderProfileServiceType = {
     autoPK: false,
     autoCreatedAt: false,
     autoUpdatedAt: false,
-    tableName: 'service_provider_profile_service_type',
+    tableName: 'service_provider_profiles_service_types',
 
     attributes: {
         serviceProviderProfileId: {
