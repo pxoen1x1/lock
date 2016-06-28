@@ -6,20 +6,19 @@
  */
 
 module.exports = {
-  autoCreatedAt: false,
-  autoUpdatedAt: false,
-  tableName: 'licenses',
+    autoCreatedAt: false,
+    autoUpdatedAt: false,
+    tableName: 'licenses',
 
-  attributes: {
-    number: {
-      type: 'number',
-      date: 'date'
-    },
+    attributes: {
+        number: {
+            type: 'number',
+            date: 'date'
+        },
 
-    serviceProviderProfileId: {
-      model: 'ServiceProviderProfile',
-      columnName: 'service_provider_profile_id'
+        serviceProviderProfileId: {
+            model: 'ServiceProviderProfile',
+            columnName: 'service_provider_profile_id'
+        }
     }
-  }
 };
-

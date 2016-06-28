@@ -6,23 +6,23 @@
  */
 
 module.exports = {
-  autoCreatedAt: false,
-  autoUpdatedAt: false,
-  tableName: 'price_list',
+    autoCreatedAt: false,
+    autoUpdatedAt: false,
+    tableName: 'price_list',
 
-  attributes: {
-    price: {
-      type: 'number'
-    },
+    attributes: {
+        price: {
+            type: 'number'
+        },
 
-    serviceProcedureId: {
-      model: 'ServiceProcedure',
-      columnName: 'service_procedure_id'
-    },
-    serviceProviderProfileId: {
-      model: 'ServiceProviderProfile',
-      columnName: 'service_provider_profile_id'
+        serviceProcedureId: {
+            model: 'ServiceProcedure',
+            columnName: 'service_procedure_id'
+        },
+        serviceProviderProfileId: {
+            model: 'ServiceProviderProfile',
+            columnName: 'service_provider_profile_id'
+        }
     }
-  }
 };
 
