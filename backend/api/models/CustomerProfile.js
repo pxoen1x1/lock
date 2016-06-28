@@ -8,16 +8,20 @@
 
 let CustomerProfile = {
     tableName: 'customer_profiles',
-    
+
     attributes: {
-        userId:{
-            model:'user',
+        userId: {
+            model: 'user',
             unique: true,
             columnName: 'user_id'
         },
-        
+
         addresses: {
             collection: 'Address',
+            via: 'customerProfileId'
+        },
+        creditCards: {
+            collection: 'CreditCard',
             via: 'customerProfileId'
         }
     }
