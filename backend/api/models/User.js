@@ -35,7 +35,7 @@ let User = {
             type: 'binary'
         },
         phoneNumber: {
-            type: 'numeric',
+            type: 'number',
             unique: true,
             columnName: 'phone_number'
         },
