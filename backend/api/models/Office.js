@@ -22,6 +22,11 @@ module.exports = {
         email: {
             type: 'string',
             email: true
+        },
+
+        addresses: {
+            collection: 'address',
+            via: 'officeId'
         }
     }
 };

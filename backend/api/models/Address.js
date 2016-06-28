@@ -26,6 +26,10 @@ module.exports = {
         customerProfileId: {
             model: 'CustomerProfile',
             columnName: 'customer_profile_id'
+        },
+        officeId: {
+            model: 'office',
+            columnName: 'office_id'
         }
     }
 };
