@@ -8,7 +8,7 @@
 let WorkingHour = {
     autoCreatedAt: false,
     autoUpdatedAt: false,
-    tableName: 'workingHours',
+    tableName: 'working_hours',
 
     attributes: {
         weekday: {
@@ -17,14 +17,20 @@ let WorkingHour = {
         },
         timeFrom: {
             type: 'integer',
-            required: true
+            required: true,
+            columnName: 'time_from'
         },
         timeTo: {
             type: 'integer',
-            required: true
+            required: true,
+            columnName: 'time_to'
+        },
+
+        officeId: {
+            model: 'Office',
+            columnName: 'office_id'
         }
     }
 };
 
 module.exports = WorkingHour;
-

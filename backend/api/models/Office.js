@@ -32,6 +32,10 @@ module.exports = {
         addresses: {
             collection: 'address',
             via: 'officeId'
+        },
+        workingHours: {
+            collection: 'WorkingHour',
+            via: 'officeId'
         }
     }
 };
