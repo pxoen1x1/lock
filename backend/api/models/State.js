@@ -17,6 +17,11 @@ module.exports = {
     },
     code: {
       type: 'string'
+    },
+    
+    cities: {
+      collection: 'city',
+      via: 'stateId'
     }
   }
 };
