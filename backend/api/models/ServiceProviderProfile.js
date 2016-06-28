@@ -49,6 +49,10 @@ let ServiceProviderProfile = {
         priceList: {
             collection: 'PriceList',
             via: 'serviceProviderProfileId'
+        },
+        offices: {
+            collection: 'Office',
+            via: 'serviceProviderProfileId'
         }
     }
 };

@@ -24,6 +24,11 @@ module.exports = {
             email: true
         },
 
+        serviceProviderProfileId: {
+            model: 'ServiceProviderProfile',
+            columnName: 'service_provider_profile_id'
+        },
+
         addresses: {
             collection: 'address',
             via: 'officeId'
