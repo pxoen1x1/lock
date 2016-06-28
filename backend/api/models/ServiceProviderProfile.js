@@ -34,6 +34,7 @@ let ServiceProviderProfile = {
             required: true,
             columnName: 'subscription_type'
         },
+
         userId: {
             model: 'user',
             unique: true,
@@ -44,6 +45,10 @@ let ServiceProviderProfile = {
             collection: 'ServiceType',
             via: 'serviceProviderProfileId',
             through: 'serviceproviderprofileservicetype'
+        },
+        priceList: {
+            collection: 'PriceList',
+            via: 'serviceProviderProfileId'
         }
     }
 };
