@@ -23,7 +23,7 @@ let ServiceProviderProfile = {
             required: true
         },
         workingHistory: {
-            type: 'string',
+            type: 'text',
             columnName: 'working_history'
         },
         resume: {

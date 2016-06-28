@@ -44,7 +44,7 @@ let User = {
             required: true
         },
         role: {
-            type: 'int',
+            type: 'integer',
             required: true
         },
 
