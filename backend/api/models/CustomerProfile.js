@@ -7,6 +7,8 @@
  */
 
 let CustomerProfile = {
+    autoCreatedAt: false,
+    autoUpdatedAt: false,
     tableName: 'customer_profiles',
 
     attributes: {
