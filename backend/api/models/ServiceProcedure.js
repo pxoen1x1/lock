@@ -6,6 +6,8 @@
  */
 
 let ServiceProcedure = {
+    autoCreatedAt: false,
+    autoUpdatedAt: false,
     tableName: 'service_procedures',
 
     attributes: {
@@ -16,6 +18,10 @@ let ServiceProcedure = {
         serviceTypeId: {
             model: 'ServiceType',
             columnName: 'service_type_id'
+        },
+        priceList: {
+            collection: 'PriceList',
+            via: 'serviceProcedureId'
         }
     }
 };

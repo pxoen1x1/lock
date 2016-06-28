@@ -8,7 +8,7 @@
 let ServiceType = {
     autoCreatedAt: false,
     autoUpdatedAt: false,
-    tableName: 'service_type',
+    tableName: 'service_types',
 
     attributes: {
         name: {

@@ -26,7 +26,7 @@ let User = {
             enum: ['male', 'female']
         },
         email: {
-            type: 'email',
+            type: 'string',
             unique: true,
             email: true,
             required: true
@@ -35,7 +35,7 @@ let User = {
             type: 'binary'
         },
         phoneNumber: {
-            type: 'numeric',
+            type: 'number',
             unique: true,
             columnName: 'phone_number'
         },
@@ -44,7 +44,7 @@ let User = {
             required: true
         },
         role: {
-            type: 'int',
+            type: 'integer',
             required: true
         },
 

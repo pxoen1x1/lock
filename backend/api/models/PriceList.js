@@ -1,27 +1,30 @@
 /**
- * ServiceProviderProfileServiceType.js
+ * PriceList.js
  *
  * @description :: TODO: You might write a short summary of how this model works and what it represents here.
  * @docs        :: http://sailsjs.org/documentation/concepts/models-and-orm/models
  */
 
-let ServiceProviderProfileServiceType = {
-    autoPK: false,
+let PriceList = {
     autoCreatedAt: false,
     autoUpdatedAt: false,
-    tableName: 'service_provider_profiles_service_types',
+    tableName: 'price_list',
 
     attributes: {
+        price: {
+            type: 'number'
+        },
+
+        serviceProcedureId: {
+            model: 'ServiceProcedure',
+            columnName: 'service_procedure_id'
+        },
         serviceProviderProfileId: {
             model: 'ServiceProviderProfile',
             columnName: 'service_provider_profile_id'
-        },
-        serviceTypeId: {
-            model: 'ServiceType',
-            columnName: 'service_type_id'
         }
     }
 };
 
-module.exports = ServiceProviderProfileServiceType;
+module.exports = PriceList;
 

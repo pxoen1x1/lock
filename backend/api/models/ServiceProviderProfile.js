@@ -6,6 +6,8 @@
  */
 
 let ServiceProviderProfile = {
+    autoCreatedAt: false,
+    autoUpdatedAt: false,
     tableName: 'service_provider_profiles',
 
     attributes: {
@@ -23,7 +25,7 @@ let ServiceProviderProfile = {
             required: true
         },
         workingHistory: {
-            type: 'string',
+            type: 'text',
             columnName: 'working_history'
         },
         resume: {
@@ -34,6 +36,7 @@ let ServiceProviderProfile = {
             required: true,
             columnName: 'subscription_type'
         },
+
         userId: {
             model: 'user',
             unique: true,
@@ -44,6 +47,14 @@ let ServiceProviderProfile = {
             collection: 'ServiceType',
             via: 'serviceProviderProfileId',
             through: 'serviceproviderprofileservicetype'
+        },
+        priceList: {
+            collection: 'PriceList',
+            via: 'serviceProviderProfileId'
+        },
+        offices: {
+            collection: 'Office',
+            via: 'serviceProviderProfileId'
         }
     }
 };
