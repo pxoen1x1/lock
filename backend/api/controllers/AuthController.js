@@ -27,6 +27,11 @@ let AuthController = {
                 });
             });
         })(req, res);
+    },
+
+    logout: function (req, res) {
+        req.logout();
+        res.ok('logout successful');
     }
 };
 
