@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .moulde('app')
+        .module('app')
         .config(configureState);
 
     configureState.$inject = ['$stateProvider', '$urlRouterProvider'];
@@ -15,20 +15,17 @@
                 abstract: true,
                 views: {
                     '@': {
-                        templateUrl: ''
+                        templateUrl: 'layout/layout.html'
                     },
                     'header@root': {
-                        templateUrl: ''
+                        templateUrl: 'layout/header.html'
                     },
                     'menu@root': {
-                        templateUrl: ''
-                    },
-                    'footer@root': {
-                        templateUrl: ''
+                        templateUrl: 'layout/menu.html'
                     }
                 }
             });
 
-        $urlRouterProvider.otherwise('/');
+        $urlRouterProvider.otherwise('/requests');
     }
 })();
