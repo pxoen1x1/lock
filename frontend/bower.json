@@ -15,7 +15,6 @@
     "src"
   ],
   "dependencies": {
-    "jquery": "^3.0.0",
     "font-awesome": "fontawesome#^4.6.3",
     "angular": "^1.5.7",
     "angular-ui-router": "^0.3.1",
