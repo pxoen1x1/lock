@@ -8,11 +8,75 @@
 
   <link rel="stylesheet" href="vendor/font-awesome/css/font-awesome.min.css">
   <link rel="stylesheet" href="vendor/angular-material/angular-material.min.css">
-  <link rel="stylesheet" href="styles/styles.css">
   <link rel="stylesheet" href="styles/main.css">
 </head>
 <body>
 <div ui-view autoscroll="true"></div>
+
+<div class="registration" layout="column">
+  <!-- header -->
+  <md-toolbar class="md-menu-toolbar md-whiteframe-1dp md-default-theme">
+    <div class="md-toolbar-tools">
+      <md-button class="button-back" ng-href="#"><i class="fa fa-angle-left" aria-hidden="true"></i> Go Back</md-button>
+      <md-button class="button-back-min" ng-href="#"><i class="fa fa-angle-left" aria-hidden="true"></i></md-button>
+      <span flex></span>
+      <h2 class="md-display-1" style="text-align: center">Customer registration</h2>
+      <span flex></span>
+      <md-button class="button-login" ng-href="#">Log in <i class="fa fa-sign-in" aria-hidden="true"></i></md-button>
+      <md-button class="button-login-min" ng-href="#"><i class="fa fa-sign-in" aria-hidden="true"></i></md-button>
+    </div>
+  </md-toolbar>
+  <!-- !header -->
+
+  <div layout="column" layout-align="center center" flex>
+    <div class="md-whiteframe-8dp registration-form">
+      <form name="regForm">
+        <!-- First and last name -->
+        <div layout="row">
+          <md-input-container class="md-block" flex>
+            <label>First name</label>
+            <input ng-model="user.firstName">
+          </md-input-container>
+          <md-input-container class="md-block" flex>
+            <label>Last name</label>
+            <input ng-model="user.lastName">
+          </md-input-container>
+        </div>
+        <!-- Phone number -->
+        <div layout="row">
+          <md-input-container class="md-block" flex>
+            <label>Phone number</label>
+            <input ng-model="user.phone" type="phone">
+          </md-input-container>
+        </div>
+        <!-- E-mail -->
+        <div layout="row">
+          <md-input-container class="md-block" flex>
+            <label>Email</label>
+            <input ng-model="user.email" type="email">
+          </md-input-container>
+        </div>
+        <!-- Password -->
+        <div layout="row">
+          <md-input-container class="md-block" flex>
+            <label>Password</label>
+            <input ng-model="user.password" type="password">
+          </md-input-container>
+        </div>
+        <!-- Agree -->
+        <div>
+          <md-checkbox ng-model="user.agree" aria-label="I read and accept terms and conditions">
+            I read and accept <a ng-href="#">terms and conditions</a>
+          </md-checkbox>
+        </div>
+        <!-- Submit -->
+        <md-button type="submit">
+          Submit
+        </md-button>
+      </form>
+    </div>
+  </div>
+</div>
 
 <script src="vendor/angular/angular.min.js"></script>
 <script src="vendor/angular-ui-router/release/angular-ui-router.min.js"></script>
