@@ -24,8 +24,17 @@
                         templateUrl: 'layout/menu.html'
                     }
                 }
+            })
+            .state('main', {
+                parent: 'root',
+                url: '/',
+                views: {
+                    'content@root' :{
+                        template: '<div>Main</div>'
+                    }
+                }
             });
 
-        $urlRouterProvider.otherwise('/requests');
+        $urlRouterProvider.otherwise('/');
     }
 })();
