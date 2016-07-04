@@ -1,10 +1,79 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="app">
 <head>
   <meta charset="UTF-8">
-  <title></title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Customer registration</title>
+  <link rel="stylesheet" href="vendor/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="vendor/angular-material/angular-material.min.css">
+  <link rel="stylesheet" href="styles/styles.css">
+  <link rel="stylesheet" href="styles/main.css">
 </head>
 <body>
+
+<!-- header -->
+<md-toolbar class="md-menu-toolbar md-whiteframe-1dp ng-scope _md md-default-theme">
+  <div class="md-toolbar-tools">
+    <md-button class="md-button" ng-href="#">Go Back</md-button>
+    <span flex class="flex"></span>
+    <md-button class="md-button md-primary md-raised" ng-href="#">Log in</md-button>
+  </div>
+</md-toolbar>
+<!-- !header -->
+
+<h2 class="md-display-1" style="text-align: center">Registration for Customer</h2>
+<div class="inset" style="max-width: 500px; margin: auto;">
+  <form name="regForm" layout-align="center start">
+    <!-- First and last name -->
+    <div layout="row">
+      <md-input-container class="md-block" flex>
+        <label>First name</label>
+        <input ng-model="user.firstName">
+      </md-input-container>
+      <md-input-container class="md-block" flex>
+        <label>Last name</label>
+        <input ng-model="user.lastName">
+      </md-input-container>
+    </div>
+    <!-- Phone number -->
+    <div layout="row">
+      <md-input-container class="md-block" flex>
+        <label>Phone number</label>
+        <input ng-model="user.phone" type="phone">
+      </md-input-container>
+    </div>
+    <!-- E-mail -->
+    <div layout="row">
+      <md-input-container class="md-block" flex>
+        <label>Email</label>
+        <input ng-model="user.email" type="email">
+      </md-input-container>
+    </div>
+    <!-- Password -->
+    <div layout="row">
+      <md-input-container class="md-block" flex>
+        <label>Password</label>
+        <input ng-model="user.password" type="password">
+      </md-input-container>
+    </div>
+    <!-- Agree -->
+    <div>
+      <md-checkbox ng-model="user.agree" aria-label="I read and accept terms and conditions">
+        I read and accept <a ng-href="#">terms and conditions</a>
+      </md-checkbox>
+    </div>
+    <!-- Submit -->
+    <md-button type=submit"" class="md-raised" style="width: 100%; margin: 16px auto; background-color: #00bfa6; color: #fff">Submit</md-button>
+  </form>
+</div>
+
+
+<script src="vendor/angular/angular.min.js"></script>
+<script src="vendor/angular-ui-router/release/angular-ui-router.min.js"></script>
+<script src="vendor/angular-aria/angular-aria.min.js"></script>
+<script src="vendor/angular-animate/angular-animate.min.js"></script>
+<script src="vendor/angular-material/angular-material.min.js"></script>
+<script src="vendor/angular-sanitize/angular-sanitize.min.js"></script>
 
 </body>
 </html>
