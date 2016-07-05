@@ -1,24 +1,21 @@
 /* jshint node: true */
 'use strict';
 
+var historyApiFallback = require('connect-history-api-fallback');
+
 var paths = {
     build: 'dist/',
     src: 'app/',
     development: 'dist/development',
     production: 'dist/production',
     vendor: 'vendor/'
-    /*src: 'app',
-     build: 'build',
-     development: 'build/development',
-     production: 'build/production',
-     developmentAssets: 'build/assets',
-     productionAssets: 'build/production/assets'*/
 };
 
 module.exports = {
     browsersync: {
         server: {
             baseDir: [paths.development, paths.src],
+            middleware: [historyApiFallback()],
             routes: {
                 '/vendor': paths.vendor
             }

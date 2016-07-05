@@ -16,12 +16,17 @@
                 views: {
                     '@': {
                         templateUrl: 'layout/layout.html'
-                    },
-                    'header@root': {
-                        templateUrl: 'layout/header.html'
-                    },
-                    'menu@root': {
-                        templateUrl: 'layout/menu.html'
+                    }
+                }
+            })
+            .state('home', {
+                parent: 'root',
+                url: '/',
+                views: {
+                    'content@root': {
+                        templateUrl: 'home/home.html',
+                        controller: 'HomeController',
+                        controllerAs: 'vm'
                     }
                 }
             });
