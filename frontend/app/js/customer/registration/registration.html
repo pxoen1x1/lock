@@ -15,47 +15,47 @@
 
   <div layout="column" layout-align="center center" flex>
     <div class="md-whiteframe-8dp registration-form">
-      <form name="regForm">
+      <form role="form" name="regForm">
         <!-- First and last name -->
         <div layout="row">
           <md-input-container class="md-block" flex>
             <label>First name</label>
-            <input ng-model="user.firstName">
+            <input ng-model="firstName">
           </md-input-container>
           <md-input-container class="md-block" flex>
             <label>Last name</label>
-            <input ng-model="user.lastName">
+            <input ng-model="lastName">
           </md-input-container>
         </div>
         <!-- Phone number -->
         <div layout="row">
           <md-input-container class="md-block" flex>
             <label>Phone number</label>
-            <input ng-model="user.phone" type="phone">
+            <input ng-model="phone" type="phone">
           </md-input-container>
         </div>
         <!-- E-mail -->
         <div layout="row">
           <md-input-container class="md-block" flex>
             <label>Email</label>
-            <input ng-model="user.email" type="email">
+            <input ng-model="email" type="email">
           </md-input-container>
         </div>
         <!-- Password -->
         <div layout="row">
           <md-input-container class="md-block" flex>
             <label>Password</label>
-            <input ng-model="user.password" type="password">
+            <input ng-model="password" type="password">
           </md-input-container>
         </div>
         <!-- Agree -->
         <div>
-          <md-checkbox ng-model="user.agree" aria-label="I read and accept terms and conditions">
+          <md-checkbox ng-model="agree" aria-label="I read and accept terms and conditions">
             I read and accept <a ng-href="#">terms and conditions</a>
           </md-checkbox>
         </div>
         <!-- Submit -->
-        <md-button type="submit">
+        <md-button type="submit" ng-click="vm.submit()">
           Submit
         </md-button>
       </form>

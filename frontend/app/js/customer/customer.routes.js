@@ -17,12 +17,6 @@
                 views: {
                     'content@root': {
                         templateUrl: 'customer/layout/layout.html'
-                    },
-                    'menu@customer': {
-                        templateUrl: 'customer/layout/menu.html'
-                    },
-                    'header@customer': {
-                        templateUrl: 'customer/layout/header.html'
                     }
                 }
             })
@@ -31,11 +25,23 @@
                 views: {
                     'content@customer': {
                         templateUrl: 'customer/registration/registration.html',
-                        controller: 'CustomerRegistrationController'
+                        controller: 'CustomerRegistrationController',
+                        controllerAs: 'vm'
                     }
                 }
             })
-            .state('customer.requests', {
+            .state('customer.content', {
+                abstract: true,
+                views: {
+                    'menu@customer': {
+                        templateUrl: 'customer/layout/menu.html'
+                    },
+                    'header@customer': {
+                        templateUrl: 'customer/layout/header.html'
+                    }
+                }
+            })
+            .state('customer.content.requests', {
                 url: '/requests',
                 views: {
                     'content@customer': {
