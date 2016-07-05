@@ -4,4 +4,5 @@ dist/*
 .tmp/
 .temp/
 .idea/
+.gulp-scss-cache/
 .sass-cache/
