@@ -22,12 +22,7 @@ module.exports = {
         },
         port: 9000,
         files: [
-            paths.src + 'scss/*.scss',
-            paths.src + 'styles/*.css',
-            paths.src + 'js/**/*.js',
-            paths.src + '**/*.html',
-            paths.src + 'images/**',
-            paths.src + 'fonts/*'
+            paths.src + '**/*'
         ]
     },
     copyfonts: {
