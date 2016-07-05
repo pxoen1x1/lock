@@ -96,7 +96,7 @@ module.exports = {
         scss: paths.src + 'scss/**/*.scss',
         styles: paths.src + 'styles/**/*.css',
         scripts: paths.src + 'js/**/*.js',
-        templates: paths.src + '/**/*.html'
+        templates: paths.src + 'js/**/*.html'
     },
     webserver: {
         src: ['./dist/development/', './app/', './' + paths.vendor + '/'],
