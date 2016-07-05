@@ -12,14 +12,35 @@
         $stateProvider
             .state('customer', {
                 parent: 'root',
-                abstract: true
+                abstract: true,
+                url: '/client',
+                views: {
+                    'content@root': {
+                        templateUrl: 'customer/layout/layout.html'
+                    },
+                    'menu@customer': {
+                        templateUrl: 'customer/layout/menu.html'
+                    },
+                    'header@customer': {
+                        templateUrl: 'customer/layout/header.html'
+                    }
+                }
+            })
+            .state('customer.registration', {
+                url: '/registration',
+                views: {
+                    'content@customer': {
+                        templateUrl: 'customer/registration/registration.html',
+                        controller: 'CustomerRegistrationController'
+                    }
+                }
             })
             .state('customer.requests', {
                 url: '/requests',
                 views: {
-                    'content@root': {
+                    'content@customer': {
                         templateUrl: 'customer/requests/requests.html',
-                        controller: 'RequestsController',
+                        controller: 'CustomerRequestsController',
                         controllerAs: 'vm'
                     }
                 }
