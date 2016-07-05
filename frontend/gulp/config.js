@@ -22,12 +22,7 @@ module.exports = {
         },
         port: 9000,
         files: [
-            paths.src + 'scss/*.scss',
-            paths.src + 'styles/*.css',
-            paths.src + 'js/**/*.js',
-            paths.src + '**/*.html',
-            paths.src + 'images/**',
-            paths.src + 'fonts/*'
+            paths.src + '**/*'
         ]
     },
     copyfonts: {
@@ -101,7 +96,7 @@ module.exports = {
         scss: paths.src + 'scss/**/*.scss',
         styles: paths.src + 'styles/**/*.css',
         scripts: paths.src + 'js/**/*.js',
-        templates: paths.src + 'js/**/*.html'
+        templates: paths.src + '/**/*.html'
     },
     webserver: {
         src: ['./dist/development/', './app/', './' + paths.vendor + '/'],
