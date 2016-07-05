@@ -4,7 +4,7 @@
     angular
         .module('app.customer')
         .config(configureState);
-
+    
     configureState.$inject = ['$stateProvider'];
 
     /* @ngInject */
