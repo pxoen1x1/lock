@@ -8,6 +8,7 @@
 
         'app.core',
         'app.home',
-        'app.customer'
+        'app.customer',
+        'app.provider'
     ]);
 })();
