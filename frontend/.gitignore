@@ -1,6 +1,8 @@
 node_modules/
-bower_components/
+vendor/
 dist/*
 .tmp/
+.temp/
 .idea/
-config/config.json
+.gulp-scss-cache/
+.sass-cache/
