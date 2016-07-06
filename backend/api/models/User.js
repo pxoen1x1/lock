@@ -21,10 +21,6 @@ let User = {
             required: true,
             columnName: 'last_name'
         },
-        gender: {
-            type: 'string',
-            enum: ['male', 'female']
-        },
         email: {
             type: 'string',
             unique: true,
@@ -35,16 +31,13 @@ let User = {
             type: 'binary'
         },
         phoneNumber: {
-            type: 'number',
+            type: 'string',
+            required: true,
             unique: true,
             columnName: 'phone_number'
         },
         password: {
             type: 'string',
-            required: true
-        },
-        role: {
-            type: 'integer',
             required: true
         },
 
