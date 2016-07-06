@@ -5,12 +5,16 @@ let LocalStrategy = require('passport-local').Strategy;
 let bcryptjs = require('bcryptjs');
 
 passport.serializeUser(function (user, done) {
-    done(null, user);
+    done(null, user.id);
 });
 
-passport.deserializeUser(function (user, done) {
-
-    done(null, user);
+passport.deserializeUser(function (userId, done) {
+    User.findOne({id: userId})
+        .exec(
+            (err, user) => {
+                done(null, user);
+            }
+        );
 });
 
 passport.use(new LocalStrategy({
