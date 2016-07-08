@@ -1,20 +1,6 @@
-<div class="registration" layout="column">
-  <!-- header -->
-  <md-toolbar class="md-menu-toolbar md-whiteframe-1dp md-default-theme">
-    <div class="md-toolbar-tools">
-      <md-button class="button-back" ng-href="/"><i class="fa fa-angle-left" aria-hidden="true"></i> Go Back</md-button>
-      <md-button class="button-back-min" ng-href="#"><i class="fa fa-angle-left" aria-hidden="true"></i></md-button>
-      <span flex></span>
-      <h2 class="md-display-1 page-name">Customer registration</h2>
-      <span flex></span>
-      <md-button class="button-login" ng-href="#">Log in <i class="fa fa-sign-in" aria-hidden="true"></i></md-button>
-      <md-button class="button-login-min" ng-href="#"><i class="fa fa-sign-in" aria-hidden="true"></i></md-button>
-    </div>
-  </md-toolbar>
-  <!-- !header -->
-
-  <div class="form-wrapper" layout="column" layout-align="center center" flex>
-    <div class="md-whiteframe-8dp registration-form">
+<div class="registration" layout="column" layout-align="center center" flex>
+  <div class="form-wrapper" layout-align="center center">
+    <div class="registration-form">
       <form role="form" name="regForm" ng-model="regForm" novalidate>
         <!-- First and last name -->
         <div layout="row">
@@ -24,7 +10,6 @@
             <div ng-messages="regForm.firstName.$error">
               <div ng-message="minlength">Your first name is too short.</div>
               <div ng-message="maxlength">Your first name is too long.</div>
-              <div ng-message="required">Your first name is required.</div>
             </div>
           </md-input-container>
           <md-input-container class="md-block" flex>
@@ -33,7 +18,6 @@
             <div ng-messages="regForm.lastName.$error">
               <div ng-message="minlength">Your last name is too short.</div>
               <div ng-message="maxlength">Your last name is too long.</div>
-              <div ng-message="required">Your last name is required.</div>
             </div>
           </md-input-container>
         </div>
@@ -41,10 +25,9 @@
         <div layout="row">
           <md-input-container class="md-block" flex>
             <label>Phone number</label>
-            <input type="tel" name="phone" ng-model="vm.user.phone" required ng-pattern="phoneRegExp">
+            <input type="tel" name="phone" ng-model="vm.user.phone" required ng-pattern="vm.phoneRegExp">
             <div ng-messages="regForm.phone.$error">
-              <div ng-message="required">Your phone number is required.</div>
-              <div ng-message="pattern">The phone number is not valid.</div>
+              <div ng-message="pattern">That doesn't look like a valid phone number.</div>
             </div>
           </md-input-container>
         </div>
@@ -54,8 +37,7 @@
             <label>Email</label>
             <input type="email" name="email" ng-model="vm.user.email" required>
             <div ng-messages="regForm.email.$error">
-              <div ng-message="required">Your email is required.</div>
-              <div ng-message="email">Your email is not valid.</div>
+              <div ng-message="email">That doesn't look like a valid email.</div>
             </div>
           </md-input-container>
         </div>
@@ -66,7 +48,6 @@
             <input type="password" name="password" ng-model="vm.user.password" required ng-minlength="6">
             <div ng-messages="regForm.password.$error">
               <div ng-message="minlength">Your password is too short.</div>
-              <div ng-message="required">Your last name is required.</div>
             </div>
           </md-input-container>
         </div>

@@ -1,13 +1,12 @@
 .customer {
   $primary-color: rgb(3, 155, 229);
 
-  a {
-    color: $primary-color;
-  }
-
-  .button-login {
-    background-color: $primary-color !important;
-    color: #fff !important;
+  .md-toolbar-tools {
+    .button-login,
+    .button-login:hover {
+      background-color: $primary-color;
+      color: #fff;
+    }
   }
 
   .button-back-min, .button-login-min {
@@ -29,13 +28,13 @@
 
   .page-name {
     text-align: center;
+    font-weight: 600;
   }
 
   .registration {
     background: url(http://fuse-angular-material.withinpixels.com/assets/images/backgrounds/march.jpg) no-repeat;
     background-attachment: fixed;
     background-size: cover;
-    min-height: 100vh;
   }
 
   .form-wrapper {
@@ -47,6 +46,7 @@
     max-width: 384px;
     padding: 32px;
     background: #fff;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 2px 1px -1px rgba(0, 0, 0, 0.12);
   }
 
   .registration-form .md-button[type="submit"] {

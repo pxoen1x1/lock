@@ -12,27 +12,12 @@
         $stateProvider
             .state('provider', {
                 parent: 'root',
-                abstract: true,
+                //abstract: true,
                 url: '/provider',
                 views: {
                     'content@root': {
                         templateUrl: 'provider/layout/layout.html'
-                    }
-                }
-            })
-            .state('provider.registration', {
-                url: '/registration',
-                views: {
-                    'content@provider': {
-                        templateUrl: 'provider/registration/registration.html',
-                        controller: 'ProviderRegistrationController',
-                        controllerAs: 'vm'
-                    }
-                }
-            })
-            .state('provider.content', {
-                abstract: true,
-                views: {
+                    },
                     'menu@provider': {
                         templateUrl: 'provider/layout/menu.html'
                     },
@@ -41,10 +26,26 @@
                     }
                 }
             })
-            .state('provider.content.requests', {
+            .state('provider.registration', {
+                url: '/registration',
+                views: {
+                    'content@root': {
+                        templateUrl: 'provider/registration/layout/layout.html'
+                    },
+                    'content@provider.registration': {
+                        templateUrl: 'provider/registration/layout/content.html',
+                        controller: 'ProviderRegistrationController',
+                        controllerAs: 'vm'
+                    },
+                    'header@provider.registration': {
+                        templateUrl: 'provider/registration/layout/header.html'
+                    }
+                }
+            })
+            .state('provider.requests', {
                 url: '/requests',
                 views: {
-                    'content@provider': {
+                    'content@root': {
                         templateUrl: 'provider/requests/requests.html',
                         controller: 'providerRequestsController',
                         controllerAs: 'vm'
