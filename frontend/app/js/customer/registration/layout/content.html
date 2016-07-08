@@ -35,7 +35,7 @@
         <div layout="row">
           <md-input-container class="md-block" flex>
             <label>Email</label>
-            <input type="email" name="email" ng-model="vm.user.email" required>
+            <input email-validation type="email" name="email" ng-model="vm.user.email" required>
             <div ng-messages="regForm.email.$error">
               <div ng-message="email">That doesn't look like a valid email.</div>
             </div>
@@ -45,9 +45,9 @@
         <div layout="row">
           <md-input-container class="md-block" flex>
             <label>Password</label>
-            <input type="password" name="password" ng-model="vm.user.password" required ng-minlength="6">
+            <input password-validation type="password" name="password" ng-model="vm.user.password" required>
             <div ng-messages="regForm.password.$error">
-              <div ng-message="minlength">Your password is too short.</div>
+              <div ng-message="password">Your password must contain 6 characters (at least one number and one letter).</div>
             </div>
           </md-input-container>
         </div>

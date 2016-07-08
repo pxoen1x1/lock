@@ -38,7 +38,7 @@
   </md-input-container>
   <md-input-container class="md-block" flex="100" flex-gt-xs="50">
     <label>Email</label>
-    <input type="email" name="email" ng-model="vm.user.email" required>
+    <input email-validation type="email" name="email" ng-model="vm.user.email" required>
     <div ng-messages="regForm.email.$error">
       <div ng-message="email">That doesn't look like a valid email.</div>
     </div>

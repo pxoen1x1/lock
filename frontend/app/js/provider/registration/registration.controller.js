@@ -61,12 +61,7 @@
                 disabled: true
             }
         ];
-        vm.stepperTemplates = [
-            "provider/registration/steps/first.html",
-            "provider/registration/steps/second.html",
-            "provider/registration/steps/third.html",
-            "provider/registration/steps/fourth.html"
-        ];
+        vm.templatesPath = "provider/registration/layout/steps/";
         vm.currentStep = 0;
 
         vm.isStepCurrent = isStepCurrent;
@@ -75,6 +70,7 @@
         vm.isFirstStep = isFirstStep;
         vm.gotoPreviousStep = gotoPreviousStep;
         vm.gotoNextStep = gotoNextStep;
+        vm.gotoStep = gotoStep;
 
         function isStepCurrent(a) {
             if (vm.currentStep == a)
@@ -106,6 +102,10 @@
 
         function gotoNextStep() {
             vm.currentStep++;
+        }
+
+        function gotoStep(a) {
+            vm.currentStep = a;
         }
     }
 })();

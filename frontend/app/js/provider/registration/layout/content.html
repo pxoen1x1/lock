@@ -5,7 +5,7 @@
         <div class="stepper-navigation" layout="row" layout-align="center center">
           <md-button ng-repeat="step in ms.stepperItems" layout="row" layout-align="start center"
                   class="stepper-navigation-item md-button md-ink-ripple md-default-theme" type="button"
-                  ng-class="{'current': ms.isStepCurrent($index), 'valid': ms.isStepValid($index), 'disabled': ms.isStepDisabled($index) && !ms.isStepCurrent($index)}"
+                  ng-class="{'current': ms.isStepCurrent($index), 'valid': ms.isStepValid($index) && !ms.isStepCurrent($index), 'disabled': ms.isStepDisabled($index) && !ms.isStepCurrent($index)}"
                   ng-click="ms.gotoStep($index)"
                   ng-disabled="ms.isStepDisabled($index) && !ms.isStepCurrent($index)">
             <div class="step md-accent-bg" layout="row" layout-align="center center">
@@ -23,8 +23,8 @@
         </div>
         <md-divider></md-divider>
         <div class="stepper-steps">
-          <div ng-repeat="step in ms.stepperTemplates">
-            <div ng-include="step" ng-show="ms.isStepCurrent($index)"></div>
+          <div ng-repeat="step in ms.stepperItems">
+            <div ng-include="ms.templatesPath+($index+1)+'.html'" ng-show="ms.isStepCurrent($index)"></div>
           </div>
         </div>
         <div class="stepper-controls" layout-align="center center" layout="row">

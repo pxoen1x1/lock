@@ -5,6 +5,7 @@
         'ui.router',                //Client-side Single Page Application routing framework for AngularJS.
         'ngMaterial',               //Angular Material is both a UI Component framework
         'ngSanitize',               //The ngSanitize module provides functionality to sanitize HTML.
+        'ngMessages',
 
         'app.core',
         'app.home',

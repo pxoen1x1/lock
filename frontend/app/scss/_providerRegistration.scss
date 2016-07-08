@@ -101,6 +101,9 @@
   .stepper-navigation-item.current {
     display: inherit;
   }
+  .stepper-navigation-item.valid .step {
+    background-color: #4CAF50;
+  }
   .stepper-navigation-item .step {
     width: 24px;
     min-width: 24px;

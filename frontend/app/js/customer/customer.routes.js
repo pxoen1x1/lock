@@ -12,7 +12,7 @@
         $stateProvider
             .state('customer', {
                 parent: 'root',
-                abstract: true,
+                //abstract: true,
                 url: '/client',
                 views: {
                     'content@root': {
