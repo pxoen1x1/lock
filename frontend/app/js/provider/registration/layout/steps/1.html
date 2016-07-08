@@ -27,7 +27,7 @@
     </div>
   </md-input-container>
 </div>
-<p>Conctact information:</p>
+<p>Contact information:</p>
 <div layout-gt-xs="row">
   <md-input-container class="md-block" flex="100" flex-gt-xs="50">
     <label>Phone number</label>
@@ -64,7 +64,7 @@
       </md-input-container>
       <md-input-container class="md-block" flex="100" flex-gt-xs="50">
         <label>Postal Code</label>
-        <input name="postalCode" ng-model="user.postalCode" ng-pattern="/^[0-9]{5}$/"
+        <input name="postalCode" ng-model="vm.user.postalCode" ng-pattern="/^[0-9]{5}$/"
                md-maxlength="5" ng-trim="false">
         <div ng-messages="regForm.postalCode.$error" multiple>
           <div ng-message="pattern">That doesn't look like a valid postal code.</div>

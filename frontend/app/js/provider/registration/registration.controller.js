@@ -14,6 +14,35 @@
         vm.submit = submit;
         vm.phoneRegExp = /^\+?\d{2}[- ]?\d{3}[- ]?\d{5}$/;
         vm.states = loadAll();
+        vm.serviceTypes = [
+            {
+                display: "Car",
+                value: "car"
+            },
+            {
+                display: "Residential",
+                value: "res"
+            },
+            {
+                display: "Commercial",
+                value: "com"
+            }
+        ];
+        vm.serviceProcedures = [
+            {
+                display: "First",
+                value: "1"
+            },
+            {
+                display: "Second",
+                value: "2"
+            },
+            {
+                display: "Third",
+                value: "3"
+            }
+        ];
+        vm.getNumber = getNumber;
 
         function submit(data) {
             alert(angular.toJson(data));
@@ -35,14 +64,19 @@
                 };
             });
         }
+
+        function getNumber(num) {
+            console.log(new Array(num));
+            return new Array(num);
+        }
     }
 
-    function StepperController($scope) {
+    function StepperController() {
         var vm = this;
         vm.stepperItems = [
             {
-                title: "Profile info",
-                valid: true,
+                title: "Profile",
+                valid: false,
                 disabled: false
             },
             {
@@ -51,12 +85,12 @@
                 disabled: true
             },
             {
-                title: "Price list",
+                title: "Work",
                 valid: false,
                 disabled: true
             },
             {
-                title: "Bank",
+                title: "Payments",
                 valid: false,
                 disabled: true
             }
@@ -68,32 +102,29 @@
         vm.isStepValid = isStepValid;
         vm.isStepDisabled = isStepDisabled;
         vm.isFirstStep = isFirstStep;
+        vm.isLastStep = isLastStep;
         vm.gotoPreviousStep = gotoPreviousStep;
         vm.gotoNextStep = gotoNextStep;
         vm.gotoStep = gotoStep;
 
         function isStepCurrent(a) {
-            if (vm.currentStep == a)
-                return true;
-            else return false;
+            return vm.currentStep == a;
         }
 
         function isStepValid(a) {
-            if (vm.stepperItems[a].valid)
-                return true;
-            else
-                return false;
+            return vm.stepperItems[a].valid;
         }
 
         function isStepDisabled(a) {
-            if (vm.stepperItems[a].disabled)
-                return true;
-            else
-                return false;
+            return vm.stepperItems[a].disabled;
         }
 
         function isFirstStep() {
-            if (vm.currentStep == 0) return true;
+            return vm.currentStep == 0;
+        }
+
+        function isLastStep() {
+            return vm.currentStep == vm.stepperItems.length-1;
         }
 
         function gotoPreviousStep() {
@@ -101,6 +132,8 @@
         }
 
         function gotoNextStep() {
+            vm.stepperItems[vm.currentStep].valid = true;
+            vm.stepperItems[vm.currentStep+1].disabled = false;
             vm.currentStep++;
         }
 

@@ -1,1 +1,35 @@
-Third
+<div layout="column">
+  <p>Work details (optional)</p>
+  <div layout-gt-xs="row">
+    <md-input-container flex="100" flex-gt-xs="70">
+      <label>Service procedure</label>
+      <md-select ng-model="vm.user.serviceProcedures">
+        <md-option ng-repeat="item in vm.serviceProcedures" ng-value="item.value" ng-bind="item.display">
+        </md-option>
+      </md-select>
+    </md-input-container>
+    <md-input-container class="md-block" flex="100" flex-gt-xs="30">
+      <label>Price $</label>
+      <input name="price" ng-model="vm.user.price">
+    </md-input-container>
+  </div>
+  <p>Working hours (optional)</p>
+  <div layout="row">
+    <md-input-container class="md-block" flex="20">
+      <label>From</label>
+      <md-select ng-model="vm.user.hours[0]">
+        <md-option ng-repeat="item in vm.getNumber(24) track by $index" ng-value="$index+1" ng-bind="$index>11?$index-11+' pm':$index+1+' am'">
+        </md-option>
+      </md-select>
+    </md-input-container>
+    <div class="hours-separator">—</div>
+    <md-input-container class="md-block" flex="20">
+      <label>To</label>
+      <md-select ng-model="vm.user.hours[1]">
+        <md-option ng-repeat="item in vm.getNumber(24) track by $index" ng-value="$index+1" ng-bind="$index>11?$index-11+' pm':$index+1+' am'">
+        </md-option>
+      </md-select>
+    </md-input-container>
+  </div>
+
+</div>

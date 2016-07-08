@@ -4,16 +4,15 @@
       <form role="form" name="regForm" ng-model="regForm" novalidate ng-controller="StepperController as ms">
         <div class="stepper-navigation" layout="row" layout-align="center center">
           <md-button ng-repeat="step in ms.stepperItems" layout="row" layout-align="start center"
-                  class="stepper-navigation-item md-button md-ink-ripple md-default-theme" type="button"
-                  ng-class="{'current': ms.isStepCurrent($index), 'valid': ms.isStepValid($index) && !ms.isStepCurrent($index), 'disabled': ms.isStepDisabled($index) && !ms.isStepCurrent($index)}"
-                  ng-click="ms.gotoStep($index)"
-                  ng-disabled="ms.isStepDisabled($index) && !ms.isStepCurrent($index)">
+                     class="stepper-navigation-item md-button md-ink-ripple md-default-theme" type="button"
+                     ng-class="{'current': ms.isStepCurrent($index), 'valid': ms.isStepValid($index), 'disabled': ms.isStepDisabled($index) && !ms.isStepCurrent($index)}"
+                     ng-click="ms.gotoStep($index)"
+                     ng-disabled="ms.isStepDisabled($index) && !ms.isStepCurrent($index)">
             <div class="step md-accent-bg" layout="row" layout-align="center center">
-              <span ng-if="!ms.isStepValid($index) || ms.isStepCurrent($index)"
-                    ng-bind="$index+1"></span>
-              <span ng-if="ms.isStepValid($index) && !ms.isStepCurrent($index)">
-                <i class="fa fa-check" aria-hidden="true"></i>
-              </span>
+              <span ng-bind="$index+1"></span>
+              <!--<span ng-if="ms.isStepValid($index) && !ms.isStepCurrent($index)">-->
+              <!--<i class="fa fa-check" aria-hidden="true"></i>-->
+              <!--</span>-->
             </div>
             <div layout="column" layout-align="start start">
               <div class="title" ng-bind="step.title">
@@ -23,21 +22,31 @@
         </div>
         <md-divider></md-divider>
         <div class="stepper-steps">
-          <div ng-repeat="step in ms.stepperItems">
-            <div ng-include="ms.templatesPath+($index+1)+'.html'" ng-show="ms.isStepCurrent($index)"></div>
-          </div>
+          <div ng-repeat="step in ms.stepperItems track by $index" ng-include="ms.templatesPath+($index+1)+'.html'"
+               ng-show="ms.isStepCurrent($index)" ></div>
         </div>
         <div class="stepper-controls" layout-align="center center" layout="row">
           <md-button class="md-accent md-raised md-button md-ink-ripple md-default-theme" type="button"
-                  ng-disabled="ms.isFirstStep()" ng-click="ms.gotoPreviousStep()" aria-label="Back">
+                     ng-disabled="ms.isFirstStep()" ng-click="ms.gotoPreviousStep()" aria-label="Back">
             <span class="ng-scope">Back</span>
           </md-button>
           <md-button class="md-accent md-raised md-button ng-scope md-ink-ripple md-default-theme" type="button"
-                  ng-if="!ms.isLastStep()"
-                  ng-disabled="!ms.isStepValid(ms.currentStep)" ng-click="ms.gotoNextStep()"
-                  aria-label="Next">
+                     ng-if="!ms.isLastStep()"
+                      ng-click="ms.gotoNextStep()"
+                     aria-label="Next">
+            <!--ng-disabled="!ms.isStepValid(ms.currentStep)"-->
             <span class="ng-scope">Next</span>
           </md-button>
+          <md-button class="md-accent md-raised md-button ng-scope md-ink-ripple md-default-theme" type="button"
+                     ng-if="ms.isLastStep()"
+                     ng-disabled="!ms.isStepValid(ms.currentStep)" ng-click="ms.gotoNextStep()"
+                     aria-label="Submit">
+            <span class="ng-scope">Submit</span>
+          </md-button>
+        </div>
+
+        <div onclick="this.parentElement.removeChild(this)" style="position: absolute; top:64px; left:0; width: 200px; min-height: 200px; background: #fff; opacity: 0.8">
+          <pre>user = {{ vm.user | json }}</pre>
         </div>
       </form>
     </div>

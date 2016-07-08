@@ -61,7 +61,9 @@
         <md-button type="submit" ng-click="vm.submit(vm.user)" ng-disabled="!regForm.$valid || !vm.user.agree">
           Submit
         </md-button>
-        <pre>user = {{vm.user | json}}</pre>
+        <div onclick="this.parentElement.removeChild(this)" style="position: absolute; top:64px; left:0; width: 200px; min-height: 200px; background: #fff; opacity: 0.8">
+          <pre>user = {{ vm.user | json }}</pre>
+        </div>
       </form>
     </div>
   </div>

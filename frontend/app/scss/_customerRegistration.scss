@@ -32,7 +32,7 @@
   }
 
   .registration {
-    background: url(http://fuse-angular-material.withinpixels.com/assets/images/backgrounds/march.jpg) no-repeat;
+    background: url(https://newevolutiondesigns.com/images/freebies/google-material-design-wallpaper-2.jpg) no-repeat;
     background-attachment: fixed;
     background-size: cover;
   }
@@ -74,8 +74,12 @@
     .md-toolbar-tools {
       padding: 0;
     }
+    .registration {
+      background: none;
+    }
     .registration-form {
       padding: 20px;
+      box-shadow: none;
     }
     .page-name {
       font-size: 17px !important;
