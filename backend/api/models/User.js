@@ -21,14 +21,24 @@ let User = {
             required: true,
             columnName: 'last_name'
         },
+        gender: {
+            type: 'string',
+            enum: ['male', 'female']
+        },
         email: {
             type: 'string',
             unique: true,
             email: true,
             required: true
         },
+        emailConfirmed: {
+            type: 'boolean'
+        },
+        enabled: {
+            type: 'boolean'
+        },
         portrait: {
-            type: 'binary'
+            type: 'string'
         },
         phoneNumber: {
             type: 'string',

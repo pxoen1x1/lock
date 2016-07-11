@@ -6,22 +6,20 @@
  * @help        :: See http://sailsjs.org/#!/documentation/concepts/Controllers
  */
 
+/*let path = require('path');
+ let appRoot = path.resolve(process.cwd());
+ let mailerService = require(`${appRoot}/api/services/Mailer`);*/
+
+
 let CustomerController = {
     createCustomer: (req, res) => {
         let user = req.body;
 
-        User.create(user)
-            .exec((err, user) => {
-                if (err) {
-
-                    return res.serverError(err.details);
-                }
-
-                res.send(
-                    {
-                        user: user
-                    }
-                );
+        async.waterfall([
+                async.apply(createUser, user, res)
+            ],
+            (err, createdUser) => {
+                MailerService.successRegistration(createdUser);
             });
     },
     updateCustomer: (req, res) => {
@@ -30,7 +28,7 @@ let CustomerController = {
 
         if (!id || Object.keys(user).length === 0) {
 
-            return res.badRequest();
+            return res.badRequest({message: 'Please, check data.'});
         }
 
         if (user.password) {
@@ -46,12 +44,12 @@ let CustomerController = {
                 (err, updatedUser) => {
                     if (err) {
 
-                        return res.serverError(err.details);
+                        return res.serverError();
                     }
 
                     if (updatedUser.length === 0) {
 
-                        return res.badRequest('User not found.');
+                        return res.badRequest({message: 'User not found.'});
                     }
 
                     res.ok(
@@ -63,5 +61,18 @@ let CustomerController = {
             );
     }
 };
+
+function createUser(user, res, done) {
+    UserService.create(user)
+        .then(
+            (createdUser)=> {
+                res.ok({user: createdUser});
+                done(null, createdUser);
+            })
+        .catch(
+            (err) => {
+                res.serverError(err);
+            });
+}
 
 module.exports = CustomerController;
