@@ -1,13 +1,12 @@
 .customer {
   $primary-color: rgb(3, 155, 229);
 
-  a {
-    color: $primary-color;
-  }
-
-  .button-login {
-    background-color: $primary-color !important;
-    color: #fff !important;
+  .md-toolbar-tools {
+    .button-login,
+    .button-login:hover {
+      background-color: $primary-color;
+      color: #fff;
+    }
   }
 
   .button-back-min, .button-login-min {
@@ -29,26 +28,33 @@
 
   .page-name {
     text-align: center;
+    font-weight: 300;
+    font-size: 26px;
   }
 
   .registration {
-    background: url(http://fuse-angular-material.withinpixels.com/assets/images/backgrounds/march.jpg) no-repeat;
+    background: url(https://newevolutiondesigns.com/images/freebies/google-material-design-wallpaper-2.jpg) no-repeat;
     background-attachment: fixed;
     background-size: cover;
-    min-height: 100vh;
   }
 
   .form-wrapper {
-    padding: 25px 0 25px 0;
+    background: #fff;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 2px 1px -1px rgba(0, 0, 0, 0.12);
+    max-width: 720px;
   }
 
   .registration-form {
-    min-width: 320px;
-    max-width: 384px;
-    padding: 32px;
-    background: #fff;
+    //min-width: 320px;
+    //max-width: 384px;
+    padding: 32px 32px 14px 32px;
   }
 
+  .registration-name {
+    margin: 10px 0 15px 0;
+    font-weight: 300;
+    font-size: 28px;
+  }
   .registration-form .md-button[type="submit"] {
     width: 100%;
     margin: 16px auto;
@@ -64,6 +70,56 @@
     background-color: $primary-color;
   }
 
+  .social-wrapper {
+    background: url('https://goo.gl/YbktSj');
+    background-size: cover;
+    background-position: center;
+    height: 548px;
+    padding: 32px;
+    color: #fff;
+  }
+  .social-button-wrapper {
+    height: 400px;
+  }
+  .go-to-social {
+    display: none;
+  }
+  .go-to-social i {
+    margin-right: 10px;
+    font-size: 18px;
+  }
+  .go-to-social i.fa-facebook {
+    color: rgba(60, 91, 152, 1);
+  }
+  .go-to-social i.fa-google-plus {
+    color: rgba(240, 87, 67, 1);
+  }
+  .go-to-social i.fa-twitter {
+    color: rgba(29, 169, 251, 1);
+  }
+  .social-button {
+    width: calc(100% - 14px);
+    font-weight: 500;
+    font-size: 12px;
+    min-height: 36px;
+    margin-bottom: 20px;
+    text-transform: none;
+  }
+  .social-button.facebook, .social-button.facebook:hover {
+    background-color: rgba(60, 91, 152, 1);
+  }
+  .social-button.google, .social-button.google:hover {
+    background-color: rgba(240, 87, 67, 1);
+  }
+  .social-button.twitter, .social-button.twitter:hover {
+    background-color: rgba(29, 169, 251, 1);
+  }
+  .social-button.gray, .social-button.gray:hover {
+    display: none;
+    color: #000;
+    background-color: #ececec;
+  }
+
   @media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
     .button-back, .button-login {
       display: none;
@@ -74,14 +130,42 @@
     .md-toolbar-tools {
       padding: 0;
     }
+    .registration {
+      background: none;
+    }
+    .form-wrapper {
+      box-shadow: none;
+    }
     .registration-form {
       padding: 20px;
     }
     .page-name {
-      font-size: 17px !important;
+      font-size: 19px;
     }
     .form-wrapper {
       padding: 0;
+    }
+    .go-to-social {
+      display: inherit;
+    }
+    .social-wrapper {
+      background: none;
+    }
+    .social-wrapper h1 {
+      color: #000;
+    }
+    .mobile-hidden {
+      display: none;
+    }
+    .social-button.gray, .social-button.gray:hover {
+      display: inherit;
+    }
+    .registration-name.social {
+      font-size: 32px;
+      text-align: center;
+    }
+    .social-button-wrapper {
+      height: 340px;
     }
   }
 }

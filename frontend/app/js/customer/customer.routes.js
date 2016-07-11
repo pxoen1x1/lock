@@ -12,27 +12,12 @@
         $stateProvider
             .state('customer', {
                 parent: 'root',
-                abstract: true,
+                //abstract: true,
                 url: '/client',
                 views: {
                     'content@root': {
                         templateUrl: 'customer/layout/layout.html'
-                    }
-                }
-            })
-            .state('customer.registration', {
-                url: '/registration',
-                views: {
-                    'content@customer': {
-                        templateUrl: 'customer/registration/registration.html',
-                        controller: 'CustomerRegistrationController',
-                        controllerAs: 'vm'
-                    }
-                }
-            })
-            .state('customer.content', {
-                abstract: true,
-                views: {
+                    },
                     'menu@customer': {
                         templateUrl: 'customer/layout/menu.html'
                     },
@@ -41,10 +26,26 @@
                     }
                 }
             })
-            .state('customer.content.requests', {
+            .state('customer.registration', {
+                url: '/registration',
+                views: {
+                    'content@root': {
+                        templateUrl: 'customer/registration/layout/layout.html'
+                    },
+                    'content@customer.registration': {
+                        templateUrl: 'customer/registration/layout/content.html',
+                        controller: 'CustomerRegistrationController',
+                        controllerAs: 'vm'
+                    },
+                    'header@customer.registration': {
+                        templateUrl: 'customer/registration/layout/header.html'
+                    }
+                }
+            })
+            .state('customer.requests', {
                 url: '/requests',
                 views: {
-                    'content@customer': {
+                    'content@root': {
                         templateUrl: 'customer/requests/requests.html',
                         controller: 'CustomerRequestsController',
                         controllerAs: 'vm'

@@ -1,5 +1,7 @@
-<div class="customer">
-  <div ui-view="menu"></div>
-  <div ui-view="header"></div>
-  <div ui-view="content"></div>
+<div class="customer" layout="row">
+  <div class="menu" ui-view="menu" layout="column" flex="0" flex-gt-xs="20"></div>
+  <div layout="column" flex>
+    <div class="header" ui-view="header"></div>
+    <div class="content" ui-view="content" layout="column" flex></div>
+  </div>
 </div>

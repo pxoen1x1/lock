@@ -1,13 +1,12 @@
 .provider {
-  $primary-color: rgb(155, 155, 229);
+  $primary-color: rgb(3, 155, 229);
 
-  a {
-    color: $primary-color;
-  }
-
-  .button-login {
-    background-color: $primary-color !important;
-    color: #fff !important;
+  .md-toolbar-tools {
+    .button-login,
+    .button-login:hover {
+      background-color: $primary-color;
+      color: #fff;
+    }
   }
 
   .button-back-min, .button-login-min {
@@ -27,15 +26,10 @@
     /*color: $primary-color;*/
   }
 
-  .page-name {
-    text-align: center;
-  }
-
   .registration {
-    background: url(http://fuse-angular-material.withinpixels.com/assets/images/backgrounds/march.jpg) no-repeat;
+    background: url(https://newevolutiondesigns.com/images/freebies/google-material-design-wallpaper-2.jpg) no-repeat;
     background-attachment: fixed;
     background-size: cover;
-    min-height: 100vh;
   }
 
   .form-wrapper {
@@ -44,20 +38,134 @@
 
   .registration-form {
     min-width: 320px;
-    max-width: 384px;
-    padding: 32px;
+    width: 620px;
     background: #fff;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .2), 0 1px 1px 0 rgba(0, 0, 0, .14), 0 2px 1px -1px rgba(0, 0, 0, .12);
   }
 
-  .registration-form .md-button[type="submit"] {
-    width: 100%;
-    margin: 16px auto;
-    background-color: $primary-color;
-    color: #fff;
+  .stepper-navigation {
+    height: 72px;
+    min-height: 72px;
+    background: #FFF;
+    //box-shadow: 0 1px 3px 0 rgba(0,0,0,.2),0 1px 1px 0 rgba(0,0,0,.14),0 2px 1px -1px rgba(0,0,0,.12);
   }
 
+  .stepper-navigation-item::before {
+    content: '';
+    display: block;
+    position: absolute;
+    left: -12px;
+    top: 50%;
+    width: 24px;
+    border-bottom: 1px solid rgba(0, 0, 0, .12);
+  }
+  .stepper-navigation-item:last-child::after {
+    display: none;
+  }
+  .stepper-navigation-item:first-child::before {
+    display: none;
+  }
+  .stepper-navigation-item::after {
+    right: 0;
+    box-sizing: border-box;
+  }
+  .stepper-navigation-item {
+    display: -webkit-flexbox;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: row;
+    flex-direction: row;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    position: relative;
+    height: 72px;
+    min-height: 72px;
+    max-height: 72px;
+    line-height: 24px;
+    margin: 0;
+    padding: 24px 12px;
+    border-radius: 0;
+    cursor: pointer;
+    font-size: 14px;
+    text-transform: none;
+    overflow: visible;
+  }
+  .stepper-navigation-item.current {
+    display: inherit;
+  }
+  .stepper-navigation-item.valid .step {
+    background-color: #4CAF50;
+  }
+  .stepper-navigation-item .step {
+    width: 24px;
+    min-width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    margin: 0 8px 0 16px;
+    color: #FFF;
+    font-weight: 600;
+  }
+  .stepper-navigation-item .title {
+    color: rgba(0, 0, 0, .54);
+    padding-right: 16px;
+  }
+  .stepper-navigation-item.current .title {
+    color: rgba(0, 0, 0, .87);
+  }
+  .stepper-navigation-item.disabled .step {
+    background: rgba(0, 0, 0, .12);
+  }
+  .stepper-navigation-item.disabled .title {
+    color: rgba(0, 0, 0, .27);
+  }
+  .md-accent-bg {
+    background-color: rgb(3, 155, 229);
+    color: rgba(255, 255, 255, 1);
+  }
+  .stepper-navigation-item.disabled {
+    cursor: default;
+  }
   .md-button[disabled] {
-    background-color: rgba(0, 0, 0, 0.12) !important;
+    background-color: transparent;
+  }
+
+  .stepper-steps {
+    padding: 24px;
+  }
+  .stepper-steps p {
+    font-weight: 600;
+  }
+
+  .stepper-controls {
+    padding: 0 16px 16px;
+  }
+
+  .md-button.md-default-theme.md-accent.md-raised:not([disabled]) {
+    color: #fff;
+    background-color: $primary-color;
+    box-shadow: none;
+  }
+
+  .license-date-container md-input-container {
+    margin-top: 0;
+  }
+  .license-date-container .date-separator {
+    font-size: 24px;
+    font-weight: 300;
+    opacity: .4;
+    padding: 5px 10px 0 10px;
+  }
+
+  .hours-separator {
+    padding: 29px 15px;
+    opacity: .5;
+    font-weight: 100;
+  }
+  input[name="hoursFrom"], input[name="hoursTo"], input[name="licenseDateD"], input[name="licenseDateM"], input[name="licenseDateY"] {
+    text-align: center;
   }
 
   md-checkbox.md-default-theme.md-checked .md-icon, md-checkbox.md-checked .md-icon {
@@ -74,14 +182,24 @@
     .md-toolbar-tools {
       padding: 0;
     }
+    .registration {
+      background: none;
+    }
     .registration-form {
       padding: 20px;
-    }
-    .page-name {
-      font-size: 17px !important;
+      box-shadow: none;
     }
     .form-wrapper {
       padding: 0;
+    }
+    .stepper-steps {
+      padding: 0;
+    }
+    .stepper-navigation-item {
+      display: none;
+    }
+    .stepper-navigation-item::before {
+      display: none;
     }
   }
 }
