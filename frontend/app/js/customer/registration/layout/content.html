@@ -1,6 +1,14 @@
 <div class="registration" layout="column" layout-align="center center" flex>
-  <div class="form-wrapper" layout-align="center center">
-    <div class="registration-form">
+  <div class="form-wrapper" layout="column" layout-gt-xs="row" layout-align="start center">
+    <div class="registration-form" flex-gt-xs="50" ng-class="{'mobile-hidden': vm.showSocial}">
+      <div layout="row">
+      <h1 flex="50" class="registration-name">Sign up</h1>
+        <div class="go-to-social" flex="50" layout="row" layout-align="end center" ng-click="vm.showSocial = !vm.showSocial">
+          <i class="fa fa-facebook" aria-hidden="true"></i>
+          <i class="fa fa-google-plus" aria-hidden="true"></i>
+          <i class="fa fa-twitter" aria-hidden="true"></i>
+        </div>
+        </div>
       <form role="form" name="regForm" ng-model="regForm" novalidate>
         <!-- First and last name -->
         <div layout="row">
@@ -47,24 +55,35 @@
             <label>Password</label>
             <input password-validation type="password" name="password" ng-model="vm.user.password" required>
             <div ng-messages="regForm.password.$error">
-              <div ng-message="password">Your password must contain 6 characters (at least one number and one letter).</div>
+              <div ng-message="password">Your password must contain 6 characters (at least one number and one letter).
+              </div>
             </div>
           </md-input-container>
         </div>
         <!-- Agree -->
-        <div>
+        <div style="display: none">
           <md-checkbox ng-model="vm.user.agree" aria-label="I read and accept terms and conditions">
             I read and accept <a ng-href="#">terms and conditions</a>
           </md-checkbox>
         </div>
         <!-- Submit -->
-        <md-button type="submit" ng-click="vm.submit(vm.user)" ng-disabled="!regForm.$valid || !vm.user.agree">
+        <md-button type="submit" ng-click="vm.submit(vm.user)"> <!--ng-disabled="!regForm.$valid || !vm.user.agree"-->
           Submit
         </md-button>
-        <div onclick="this.parentElement.removeChild(this)" style="position: absolute; top:64px; left:0; width: 200px; min-height: 200px; background: #fff; opacity: 0.8">
+        <div style="display:none" onclick="this.parentElement.removeChild(this)"
+             style="position: absolute; top:64px; left:0; width: 200px; min-height: 200px; background: #fff; opacity: 0.8">
           <pre>user = {{ vm.user | json }}</pre>
         </div>
       </form>
+    </div>
+    <div class="social-wrapper" flex-gt-xs="50" ng-class="{'mobile-hidden': !vm.showSocial}">
+      <h1 class="registration-name social">Sign in with social network</h1>
+      <div class="social-button-wrapper" layout="column" layout-align="center start">
+        <md-button class="social-button facebook" >Log in with Facebook</md-button>
+        <md-button class="social-button google" >Log in with Google+</md-button>
+        <md-button class="social-button twitter" >Log in with Twitter</md-button>
+      </div>
+      <md-button class="social-button gray" ng-click="vm.showSocial = !vm.showSocial"><i class="fa fa-angle-left" aria-hidden="true"></i> Sign up with Email</md-button>
     </div>
   </div>
 </div>
