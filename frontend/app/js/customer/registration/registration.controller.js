@@ -5,15 +5,16 @@
         .module('app.customer')
         .controller('CustomerRegistrationController', CustomerRegistrationController);
 
-    CustomerRegistrationController.$inject = ['$state'];
+    CustomerRegistrationController.$inject = ['$scope', '$state'];
 
     /* @ngInject */
-    function CustomerRegistrationController($state) {
+    function CustomerRegistrationController($scope, $state) {
         var vm = this;
+        vm.submit = submit;
+        $scope.phoneRegExp = /^\+?\d{2}[- ]?\d{3}[- ]?\d{5}$/;
 
-        activate();
-
-        function activate() {
+        function submit() {
+            alert($scope.regForm.$valid);
         }
     }
 })();

@@ -1,0 +1,87 @@
+.customer {
+  $primary-color: rgb(3, 155, 229);
+
+  a {
+    color: $primary-color;
+  }
+
+  .button-login {
+    background-color: $primary-color !important;
+    color: #fff !important;
+  }
+
+  .button-back-min, .button-login-min {
+    display: none;
+    min-width: 52px;
+    padding: 0;
+    margin: 0 !important;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
+    font-size: 100%;
+    height: 100%;
+  }
+  .button-back-min i, .button-login-min i {
+    display: table-cell;
+    vertical-align: middle;
+    /*color: $primary-color;*/
+  }
+
+  .page-name {
+    text-align: center;
+  }
+
+  .registration {
+    background: url(http://fuse-angular-material.withinpixels.com/assets/images/backgrounds/march.jpg) no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    min-height: 100vh;
+  }
+
+  .form-wrapper {
+    padding: 25px 0 25px 0;
+  }
+
+  .registration-form {
+    min-width: 320px;
+    max-width: 384px;
+    padding: 32px;
+    background: #fff;
+  }
+
+  .registration-form .md-button[type="submit"] {
+    width: 100%;
+    margin: 16px auto;
+    background-color: $primary-color;
+    color: #fff;
+  }
+
+  .md-button[disabled] {
+    background-color: rgba(0, 0, 0, 0.12) !important;
+  }
+
+  md-checkbox.md-default-theme.md-checked .md-icon, md-checkbox.md-checked .md-icon {
+    background-color: $primary-color;
+  }
+
+  @media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
+    .button-back, .button-login {
+      display: none;
+    }
+    .button-back-min, .button-login-min {
+      display: table;
+    }
+    .md-toolbar-tools {
+      padding: 0;
+    }
+    .registration-form {
+      padding: 20px;
+    }
+    .page-name {
+      font-size: 17px !important;
+    }
+    .form-wrapper {
+      padding: 0;
+    }
+  }
+}
