@@ -28,8 +28,8 @@ Icon?
 Thumbs.db
 
 # Node Files #
-/node_modules
-/vendor
+*/node_modules
+*/vendor
 npm-debug.log
 
 # Coverage #
