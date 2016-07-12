@@ -4,9 +4,10 @@
     <md-checkbox ng-model="vm.user.serviceType[$index]"
                  ng-repeat="item in vm.serviceTypes track by $index"
                  aria-label="item.display"
-                  ng-value="item.value">
+                  ng-value="item.value" ng-change="vm.serviceTypeChange()">
       {{item.display}}
     </md-checkbox>
+    <input type="hidden" ng-model="vm.user.serviceType" required>
   </div>
   <div layout="column" flex="100" flex-gt-xs="50">
     <p>License information:</p>
