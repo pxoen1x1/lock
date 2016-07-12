@@ -14,8 +14,8 @@
         vm.phoneRegExp = /^\+?\d{2}[- ]?\d{3}[- ]?\d{5}$/;
         vm.showSocial = false;
 
-        function submit(data) {
-            alert(angular.toJson(data));
+        function submit() {
+            alert(angular.toJson(vm.user));
         }
     }
 })();

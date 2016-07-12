@@ -5,14 +5,14 @@
         <div class="stepper-navigation" layout="row" layout-align="center center">
           <md-button ng-repeat="step in ms.stepperItems" layout="row" layout-align="start center"
                      class="stepper-navigation-item md-button md-ink-ripple md-default-theme" type="button"
-                     ng-class="{'current': ms.isStepCurrent($index), 'valid': ms.isStepValid($index), 'disabled': ms.isStepDisabled($index) && !ms.isStepCurrent($index)}"
+                     ng-class="{
+                      'current': ms.isStepCurrent($index),
+                      'valid': ms.isStepValid($index, regForm.$valid),
+                      'disabled': (regForm.$invalid && $index>ms.currentStep) || (regForm.$valid && $index>ms.currentStep+1 && !ms.isStepValid(ms.currentStep+2)) }"
                      ng-click="ms.gotoStep($index)"
-                     ng-disabled="ms.isStepDisabled($index) && !ms.isStepCurrent($index)">
+                     ng-disabled="(regForm.$invalid && $index>ms.currentStep) || (regForm.$valid && $index>ms.currentStep+1 && !ms.isStepValid(ms.currentStep+2))">
             <div class="step md-accent-bg" layout="row" layout-align="center center">
               <span ng-bind="$index+1"></span>
-              <!--<span ng-if="ms.isStepValid($index) && !ms.isStepCurrent($index)">-->
-              <!--<i class="fa fa-check" aria-hidden="true"></i>-->
-              <!--</span>-->
             </div>
             <div layout="column" layout-align="start start">
               <div class="title" ng-bind="step.title">
@@ -23,7 +23,7 @@
         <md-divider></md-divider>
         <div class="stepper-steps">
           <div ng-repeat="step in ms.stepperItems track by $index" ng-include="ms.templatesPath+($index+1)+'.html'"
-               ng-show="ms.isStepCurrent($index)" ></div>
+               ng-if="ms.isStepCurrent($index)"></div>
         </div>
         <div class="stepper-controls" layout-align="center center" layout="row">
           <md-button class="md-accent md-raised md-button md-ink-ripple md-default-theme" type="button"
@@ -32,21 +32,22 @@
           </md-button>
           <md-button class="md-accent md-raised md-button ng-scope md-ink-ripple md-default-theme" type="button"
                      ng-if="!ms.isLastStep()"
-                      ng-click="ms.gotoNextStep()"
+                     ng-click="ms.gotoNextStep()"
+                     ng-disabled="regForm.$invalid"
                      aria-label="Next">
-            <!--ng-disabled="!ms.isStepValid(ms.currentStep)"-->
             <span class="ng-scope">Next</span>
           </md-button>
           <md-button class="md-accent md-raised md-button ng-scope md-ink-ripple md-default-theme" type="button"
                      ng-if="ms.isLastStep()"
-                     ng-disabled="!ms.isStepValid(ms.currentStep)" ng-click="ms.gotoNextStep()"
+                     ng-disabled="regForm.$invalid"
+                     ng-click="vm.submit()"
                      aria-label="Submit">
             <span class="ng-scope">Submit</span>
           </md-button>
         </div>
-
-        <div style="display: none" onclick="this.parentElement.removeChild(this)" style="position: absolute; top:64px; left:0; width: 200px; min-height: 200px; background: #fff; opacity: 0.8">
-          <pre>user = {{ vm.user | json }}</pre>
+        <div onclick="this.parentElement.removeChild(this)"
+             style="position: absolute; top:64px; left:0; width: 200px; min-height: 200px; background: #fff; opacity: 0.8">
+          <pre>user = {{ vm.user | json }}<br>{{ regForm.$valid }}</pre>
         </div>
       </form>
     </div>

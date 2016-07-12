@@ -44,8 +44,10 @@
         ];
         vm.getNumber = getNumber;
 
-        function submit(data) {
-            alert(angular.toJson(data));
+        vm.serviceTypeChange = serviceTypeChange;
+
+        function submit() {
+            alert(angular.toJson(vm.user));
         }
 
         function loadAll() {
@@ -69,6 +71,16 @@
             console.log(new Array(num));
             return new Array(num);
         }
+
+        function serviceTypeChange() {
+            var valid = false;
+            for (var i=0; i<vm.serviceTypes.length; i++) {
+                if (vm.user.serviceType[i] == true) valid = true;
+            }
+            if (!valid) vm.user.serviceType = null;
+            return valid;
+        }
+        
     }
 
     function StepperController() {
@@ -76,23 +88,19 @@
         vm.stepperItems = [
             {
                 title: "Profile",
-                valid: false,
-                disabled: false
+                valid: false
             },
             {
                 title: "Service",
-                valid: false,
-                disabled: true
+                valid: false
             },
             {
                 title: "Work",
-                valid: false,
-                disabled: true
+                valid: false
             },
             {
                 title: "Payments",
-                valid: false,
-                disabled: true
+                valid: false
             }
         ];
         vm.templatesPath = "provider/registration/layout/steps/";
@@ -100,7 +108,6 @@
 
         vm.isStepCurrent = isStepCurrent;
         vm.isStepValid = isStepValid;
-        vm.isStepDisabled = isStepDisabled;
         vm.isFirstStep = isFirstStep;
         vm.isLastStep = isLastStep;
         vm.gotoPreviousStep = gotoPreviousStep;
@@ -111,12 +118,12 @@
             return vm.currentStep == a;
         }
 
-        function isStepValid(a) {
+        function isStepValid(a, valid) {
+            if (a==vm.currentStep) {
+                vm.stepperItems[a].valid = valid;
+                return valid;
+            }
             return vm.stepperItems[a].valid;
-        }
-
-        function isStepDisabled(a) {
-            return vm.stepperItems[a].disabled;
         }
 
         function isFirstStep() {
@@ -133,7 +140,6 @@
 
         function gotoNextStep() {
             vm.stepperItems[vm.currentStep].valid = true;
-            vm.stepperItems[vm.currentStep+1].disabled = false;
             vm.currentStep++;
         }
 

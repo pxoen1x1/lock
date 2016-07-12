@@ -2,13 +2,14 @@
   <div class="form-wrapper" layout="column" layout-gt-xs="row" layout-align="start center">
     <div class="registration-form" flex-gt-xs="50" ng-class="{'mobile-hidden': vm.showSocial}">
       <div layout="row">
-      <h1 flex="50" class="registration-name">Sign up</h1>
-        <div class="go-to-social" flex="50" layout="row" layout-align="end center" ng-click="vm.showSocial = !vm.showSocial">
+        <h1 flex="50" class="registration-name">Sign up</h1>
+        <div class="go-to-social" flex="50" layout="row" layout-align="end center"
+             ng-click="vm.showSocial = !vm.showSocial">
           <i class="fa fa-facebook" aria-hidden="true"></i>
           <i class="fa fa-google-plus" aria-hidden="true"></i>
           <i class="fa fa-twitter" aria-hidden="true"></i>
         </div>
-        </div>
+      </div>
       <form role="form" name="regForm" ng-model="regForm" novalidate>
         <!-- First and last name -->
         <div layout="row">
@@ -67,7 +68,7 @@
           </md-checkbox>
         </div>
         <!-- Submit -->
-        <md-button type="submit" ng-click="vm.submit(vm.user)"> <!--ng-disabled="!regForm.$valid || !vm.user.agree"-->
+        <md-button type="submit" ng-click="vm.submit()">
           Submit
         </md-button>
         <div style="display:none" onclick="this.parentElement.removeChild(this)"
@@ -79,11 +80,14 @@
     <div class="social-wrapper" flex-gt-xs="50" ng-class="{'mobile-hidden': !vm.showSocial}">
       <h1 class="registration-name social">Sign in with social network</h1>
       <div class="social-button-wrapper" layout="column" layout-align="center start">
-        <md-button class="social-button facebook" >Log in with Facebook</md-button>
-        <md-button class="social-button google" >Log in with Google+</md-button>
-        <md-button class="social-button twitter" >Log in with Twitter</md-button>
+        <md-button class="social-button facebook">Log in with Facebook</md-button>
+        <md-button class="social-button google">Log in with Google+</md-button>
+        <md-button class="social-button twitter">Log in with Twitter</md-button>
       </div>
-      <md-button class="social-button gray" ng-click="vm.showSocial = !vm.showSocial"><i class="fa fa-angle-left" aria-hidden="true"></i> Sign up with Email</md-button>
+      <md-button class="social-button gray" ng-click="vm.showSocial = !vm.showSocial"><i class="fa fa-angle-left"
+                                                                                         aria-hidden="true"></i> Sign up
+        with Email
+      </md-button>
     </div>
   </div>
 </div>
