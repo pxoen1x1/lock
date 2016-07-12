@@ -42,12 +42,12 @@
                     }
                 }
             })
-            .state('customer.requests', {
-                url: '/requests',
+            .state('customer.request', {
+                url: '/request',
                 views: {
-                    'content@root': {
-                        templateUrl: 'customer/requests/requests.html',
-                        controller: 'CustomerRequestsController',
+                    'content@customer': {
+                        templateUrl: 'customer/request/request.html',
+                        controller: 'CustomerRequestController',
                         controllerAs: 'vm'
                     }
                 }
