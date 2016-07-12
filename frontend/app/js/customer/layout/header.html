@@ -1,1 +1,22 @@
-<div style="background-color: #a1887f; height:64px;">Client Header</div>
+<md-toolbar class="md-menu-toolbar md-whiteframe-1dp md-default-theme">
+  <div class="md-toolbar-tools">
+    <md-button class="md-icon-button button-menu" hide-gt-sm ng-click="vm.toggleMenu()">
+      <md-icon>
+        <i class="material-icons">menu</i>
+      </md-icon>
+    </md-button>
+    <h2 class="page-name">
+      <span ng-repeat="item in vm.headerPath track by $index">
+        <a ng-href="{{item.url}}" ng-bind="item.display"></a>
+        <i class="material-icons" ng-if="$index != vm.headerPath.length-1">keyboard_arrow_right</i>
+      </span>
+    </h2>
+    <span flex></span>
+    <md-button class="button-login" ng-href="#">
+      Log out
+    </md-button>
+    <md-button class="button-login-min" ng-href="#">
+      <i class="fa fa-sign-in" aria-hidden="true"></i>
+    </md-button>
+  </div>
+</md-toolbar>

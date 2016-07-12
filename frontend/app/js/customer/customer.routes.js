@@ -16,7 +16,9 @@
                 url: '/client',
                 views: {
                     'content@root': {
-                        templateUrl: 'customer/layout/layout.html'
+                        templateUrl: 'customer/layout/layout.html',
+                        controller: 'CustomerLayoutController',
+                        controllerAs: 'vm'
                     },
                     'menu@customer': {
                         templateUrl: 'customer/layout/menu.html'
