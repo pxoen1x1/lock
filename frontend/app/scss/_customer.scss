@@ -2,6 +2,10 @@
 
 $primary-color: rgb(3, 155, 229);
 
+a:focus {
+  outline: 0;
+}
+
 .customer {
   min-height: 100vh;
 }
@@ -37,13 +41,21 @@ $primary-color: rgb(3, 155, 229);
       font-size: 16px;
       text-transform: uppercase;
     }
-    .photo-wrapper {
-      margin-top: 26px;
-      padding: 7px;
-      border: 2px solid rgba(255,255,255,.05);
-      -webkit-border-radius: 50%;
-      -moz-border-radius: 50%;
-      border-radius: 50%;
+    .profile {
+      padding-top: 42px;
+      padding-bottom: 34px;
+      width: 100%;
+      color: inherit;
+      text-decoration: none;
+    }
+    .profile a:visited {
+      color: inherit;
+    }
+    .profile.active {
+      background-color: rgb(3, 155, 229);
+    }
+    .profile.active .photo-wrapper {
+      border: 2px solid rgba(0,0,0,.05);
     }
     .photo {
       -webkit-border-radius: 50%;
@@ -72,6 +84,34 @@ $primary-color: rgb(3, 155, 229);
     .email {
       color: rgba(255, 255, 255, 0.298039);
       font-size: 15px;
+      cursor: default;
+    }
+    .profile.active .email {
+      color: rgba(255, 255, 255, 0.4);
+    }
+    .navigation {
+      width: 100%;
+    }
+    .navigation a {
+      color: rgba(255,255,255,.7);
+      padding: 16px 16px 16px 24px;
+      font-size: 13px;
+      text-decoration: none;
+    }
+    .navigation a:hover {
+      background-color: rgba(0, 0, 0, .1);
+    }
+    .navigation a.active {
+      background-color: rgb(3, 155, 229);
+      color: #fff;
+    }
+    .navigation a.active i.material-icons {
+      color: #fff;
+    }
+    .navigation a i.material-icons {
+      color: rgba(255,255,255,.7);
+      font-size: 16px;
+      margin: 0 16px 0 0;
     }
   }
 }
@@ -82,6 +122,10 @@ $primary-color: rgb(3, 155, 229);
       text-transform: uppercase;
       font-size: 16px;
       font-weight: 400;
+    }
+    .root.bold {
+      font-size: 18px;
+      font-weight: 600;
     }
     .root i.material-icons {
       vertical-align: middle;
@@ -94,6 +138,9 @@ $primary-color: rgb(3, 155, 229);
     }
     .root a:hover {
       color: $primary-color;
+    }
+    md-icon i {
+      vertical-align: top;
     }
   }
 }

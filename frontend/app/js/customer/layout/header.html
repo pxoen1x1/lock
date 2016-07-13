@@ -5,18 +5,24 @@
         <i class="material-icons">menu</i>
       </md-icon>
     </md-button>
-    <h2 class="root">
+    <h2 class="root" ng-show="vm.$mdMedia('gt-xs')">
       <span ng-repeat="item in vm.headerPath track by $index">
         <a ng-href="{{item.url}}" ng-bind="item.display"></a>
         <i class="material-icons" ng-if="$index != vm.headerPath.length-1">chevron_right</i>
       </span>
     </h2>
     <span flex></span>
-    <md-button class="button-login" ng-href="#">
+    <h2 class="root bold" hide-gt-xs>
+      <span ng-bind="vm.headerPath[vm.headerPath.length-1].display"></span>
+    </h2>
+    <span flex hide-gt-sm></span>
+    <md-button class="button-login" ng-show="vm.$mdMedia('gt-xs')" ng-href="#">
       Log out
     </md-button>
-    <md-button class="button-login-min" ng-href="#">
-      <i class="fa fa-sign-in" aria-hidden="true"></i>
+    <md-button class="md-icon-button button-menu" hide-gt-xs ng-href="#">
+      <md-icon>
+        <i class="fa fa-sign-in" aria-hidden="true"></i>
+      </md-icon>
     </md-button>
   </div>
 </md-toolbar>

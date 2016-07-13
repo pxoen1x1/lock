@@ -4,7 +4,7 @@
     angular
         .module('app.customer')
         .config(configureState);
-    
+
     configureState.$inject = ['$stateProvider'];
 
     /* @ngInject */
@@ -53,6 +53,21 @@
                         controllerAs: 'vm'
                     }
                 }
+            })
+            .state('customer.map', {
+                url: '/map'
+            })
+            .state('customer.chat', {
+                url: '/chat'
+            })
+            .state('customer.recommended', {
+                url: '/recommended'
+            })
+            .state('customer.settings', {
+                url: '/settings'
+            })
+            .state('customer.profile', {
+                url: '/profile'
             });
     }
 })();

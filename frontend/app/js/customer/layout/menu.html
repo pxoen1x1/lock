@@ -6,16 +6,26 @@
       </div>
     </div>
   </md-toolbar>
-  <div class="photo-wrapper">
+  <a class="profile" layout="column" layout-align="start center" ng-href="/client/profile"
+     ng-class="{'active': vm.path == '/client/profile'}"
+     ng-click="vm.toggleMenu()">
     <div class="photo">
-      <img src="https://s-media-cache-ak0.pinimg.com/236x/a5/f0/d6/a5f0d69b35f39dc33a8cf469e38ce1d4.jpg" alt="photo">
+      <img src="https://pp.vk.me/c630527/v630527851/3e8fa/omJed26c8gQ.jpg" alt="photo">
     </div>
-  </div>
-  <div class="name">
-    <i class="material-icons">verified_user</i>
-    <span>Elliot Alderson</span>
-  </div>
-  <div class="email">
-    mrrobot@fsociety.org
+    <div class="name">
+      <i class="material-icons">verified_user</i>
+      <span>Elliot Alderson</span>
+    </div>
+    <div class="email">
+      mrrobot@fsociety.org
+    </div>
+  </a>
+  <div class="navigation" layout="column">
+    <div class="navigation-item" ng-repeat="item in vm.menuNavigationItems">
+      <a layout="row" layout-align="start start" ng-href="{{item.href}}" ng-class="{'active': vm.path == item.href}" ng-click="vm.toggleMenu()">
+        <i ng-if="item.icon" class="material-icons" ng-bind="item.icon"></i>
+        <span ng-bind="item.display"></span>
+      </a>
+    </div>
   </div>
 </div>
