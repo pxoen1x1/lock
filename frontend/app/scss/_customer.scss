@@ -12,9 +12,33 @@ $primary-color: rgb(3, 155, 229);
 }
 
 .customer {
+  a {
+    text-decoration: none;
+  }
+  .primary-color {
+    color: $primary-color;
+  }
   .md-button-blue, .md-button-blue:hover {
     background-color: $primary-color !important;
     color: #fff;
+  }
+  .block-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+  }
+  .vertical-top {
+    vertical-align: top;
+  }
+  .vertical-middle {
+    vertical-align: middle;
+  }
+  .vertical-bottom {
+    vertical-align: bottom;
+  }
+  .text-center {
+    text-align: center;
   }
 }
 
