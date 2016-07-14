@@ -17,9 +17,14 @@
         
         vm.menuNavigationItems = [
             {
-                display: 'Request',
+                display: 'New request',
                 icon: 'playlist_add',
                 href: '/client/request'
+            },
+            {
+                display: 'History',
+                icon: 'history',
+                href: '/client/history'
             },
             {
                 display: 'Map',

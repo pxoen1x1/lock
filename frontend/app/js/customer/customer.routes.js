@@ -70,7 +70,14 @@
                 url: '/settings'
             })
             .state('customer.profile', {
-                url: '/profile'
+                url: '/profile',
+                views: {
+                    'content@customer': {
+                        templateUrl: 'customer/profile/profile.html',
+                        controller: 'CustomerProfileController',
+                        controllerAs: 'vm'
+                    }
+                }
             });
     }
 })();

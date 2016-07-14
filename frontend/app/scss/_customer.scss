@@ -225,3 +225,37 @@ $primary-color: rgb(3, 155, 229);
     }
   }
 }
+
+.customer {
+  .profile-content {
+    .profile-left {
+      width: 240px;
+    }
+    .avatar {
+      overflow: hidden;
+      -webkit-border-radius: 4px;
+      -moz-border-radius: 4px;
+      border-radius: 4px;
+    }
+    .avatar img {
+      max-width: 240px;
+      display: block;
+    }
+    .actions {
+      margin-top: 12px;
+    }
+    .actions .md-button {
+      margin-left: 0;
+      margin-right: 0;
+    }
+    .profile-right {
+      margin-left: 50px;
+    }
+    .profile-right h1 {
+      margin-top: 4px;
+    }
+    .profile-right .section {
+      padding: 10px 0 10px 0;
+    }
+  }
+}
