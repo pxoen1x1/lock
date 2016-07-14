@@ -1,9 +1,11 @@
 <md-content class="md-default" layout="column" layout-align="start center">
   <md-toolbar class="menu-header md-menu-toolbar md-whiteframe-1dp md-default-theme">
     <div class="md-toolbar-tools">
-      <div class="logo layout-align-start-center layout-row" layout="row" layout-align="start center">
-        <span class="logo-image">L</span> <span class="logo-text">Locksmith</span>
-      </div>
+      <a ng-href="/client">
+        <div class="logo layout-align-start-center layout-row" layout="row" layout-align="start center">
+          <span class="logo-image">L</span> <span class="logo-text">Locksmith</span>
+        </div>
+      </a>
     </div>
   </md-toolbar>
   <a class="profile" layout="column" layout-align="start center" ng-href="/client/profile"
@@ -22,7 +24,8 @@
   </a>
   <div class="navigation" layout="column">
     <div class="navigation-item" ng-repeat="item in vm.menuNavigationItems">
-      <a layout="row" layout-align="start start" ng-href="{{item.href}}" ng-class="{'active': vm.path == item.href}" ng-click="vm.toggleMenu()">
+      <a layout="row" layout-align="start start" ng-href="{{item.href}}" ng-class="{'active': vm.path == item.href}"
+         ng-click="vm.toggleMenu()">
         <i ng-if="item.icon" class="material-icons" ng-bind="item.icon"></i>
         <span ng-bind="item.display"></span>
       </a>
