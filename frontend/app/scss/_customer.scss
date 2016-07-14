@@ -166,6 +166,12 @@ $primary-color: rgb(3, 155, 229);
       padding: 24px 24px 0 24px;
       font-size: 20px;
     }
+    .container-title i.material-icons {
+      vertical-align: middle;
+    }
+    .container-title span {
+      vertical-align: middle;
+    }
     .container-content {
       padding: 24px;
     }
