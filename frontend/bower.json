@@ -21,7 +21,8 @@
     "angular-sanitize": "^1.5.7",
     "sails.io.js": "^0.13.8",
     "angularSails": "^0.12.1",
-    "angular-material": "^1.0.9"
+    "angular-material": "^1.0.9",
+    "angular-loading-bar": "^0.9.0"
   },
   "devDependencies": {},
   "overrides": {

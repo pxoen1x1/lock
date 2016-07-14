@@ -6,6 +6,7 @@
         'ngMaterial',               //Angular Material is both a UI Component framework
         'ngSanitize',               //The ngSanitize module provides functionality to sanitize HTML.
         'ngMessages',
+        'angular-loading-bar',
 
         'app.core',
         'app.home',
