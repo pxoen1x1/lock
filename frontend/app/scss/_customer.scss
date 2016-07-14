@@ -25,6 +25,9 @@ $primary-color: rgb(3, 155, 229);
     min-width: 240px;
   }
   .menu {
+    md-content {
+      background: none;
+    }
     .menu-header {
       background-color: rgba(255, 255, 255, .05);
       padding: 0 16px 0 24px;
@@ -52,6 +55,7 @@ $primary-color: rgb(3, 155, 229);
       padding-top: 42px;
       padding-bottom: 34px;
       width: 100%;
+      min-height: 255px;
       color: inherit;
       text-decoration: none;
     }
@@ -98,6 +102,9 @@ $primary-color: rgb(3, 155, 229);
     }
     .navigation {
       width: 100%;
+    }
+    .navigation-item {
+      min-height: 48px;
     }
     .navigation a {
       color: rgba(255, 255, 255, .7);
