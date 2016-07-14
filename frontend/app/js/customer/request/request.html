@@ -70,7 +70,7 @@
             <md-radio-button ng-value="0" flex="50">Public request</md-radio-button>
           </md-radio-group>
         </div>
-        <br>
+        <br><br>
         <div layout="column">
           <p style="margin-bottom: 0px">Details (optional)</p>
           <div layout="row">
@@ -84,7 +84,7 @@
               </md-input-container>
             </div>
             <div flex="50">
-              <md-input-container class="md-block" flex="50">
+              <md-input-container class="md-block" flex="60">
                 <label>Distance from provider (km)</label>
                 <input name="distance" ng-model="vm.data.distance">
               </md-input-container>
@@ -94,13 +94,14 @@
         <div layout="column">
           <p>Request note (optional)</p>
           <md-input-container class="md-block">
-            <label>Write something..</label>
+            <label>Do you want to clarify something?</label>
             <textarea ng-model="vm.data.note" md-maxlength="300" rows="3"></textarea>
           </md-input-container>
         </div>
         <div layout="column" layout-align="start center">
           <md-button class="md-button-blue md-raised md-button ng-scope md-ink-ripple" type="submit"
                      ng-click="vm.submit()"
+                     ng-disabled="requestForm.$invalid"
                      aria-label="Submit">
             <span class="ng-scope">Submit</span>
         </div>
