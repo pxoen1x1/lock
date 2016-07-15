@@ -78,6 +78,16 @@
                         controllerAs: 'vm'
                     }
                 }
+            })
+            .state('customer.history', {
+                url: '/history',
+                views: {
+                    'content@customer': {
+                        templateUrl: 'customer/history/history.html',
+                        controller: 'CustomerHistoryController',
+                        controllerAs: 'vm'
+                    }
+                }
             });
     }
 })();
