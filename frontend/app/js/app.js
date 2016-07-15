@@ -7,6 +7,7 @@
         'ngSanitize',               //The ngSanitize module provides functionality to sanitize HTML.
         'ngMessages',
         'angular-loading-bar',
+        'md.data.table',
 
         'app.core',
         'app.home',

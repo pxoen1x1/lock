@@ -27,11 +27,11 @@
 
     /* @ngInject */
     function loadingBarInit($rootScope, cfpLoadingBar) {
-        $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
+        $rootScope.$on('$stateChangeStart', function() {
             cfpLoadingBar.start();
         });
 
-        $rootScope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams) {
+        $rootScope.$on('$stateChangeSuccess', function() {
             cfpLoadingBar.complete();
         });
     }
