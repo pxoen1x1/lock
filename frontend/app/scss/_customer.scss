@@ -11,6 +11,21 @@ $primary-color: rgb(3, 155, 229);
   height: 100vh;
 }
 
+.rating-stars {
+  cursor: pointer;
+}
+.rating-stars ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.rating-stars li {
+  display: inline;
+}
+.rating-stars li i {
+  font-size: inherit;
+}
+
 .customer {
   a {
     text-decoration: none;
@@ -222,6 +237,87 @@ $primary-color: rgb(3, 155, 229);
     }
     .md-datepicker-open .md-datepicker-input {
       margin-left: 2px;
+    }
+  }
+}
+
+.customer {
+  .profile-content {
+    .profile-left {
+      width: 220px;
+    }
+    .avatar {
+      overflow: hidden;
+      -webkit-border-radius: 4px;
+      -moz-border-radius: 4px;
+      border-radius: 4px;
+    }
+    .avatar img {
+      max-width: 220px;
+      display: block;
+    }
+    .actions {
+      margin-top: 12px;
+    }
+    .actions .md-button {
+      margin-left: 0;
+      margin-right: 0;
+    }
+    .profile-right {
+      margin-left: 50px;
+    }
+    .profile-right h1 {
+      margin-top: 4px;
+    }
+    .profile-right .section {
+      padding: 10px 0 10px 0;
+    }
+    .section .md-body-1, .section .md-body-2 {
+      font-size: 16px;
+    }
+    .section .md-body-2 {
+       text-transform: uppercase;
+      letter-spacing: 1px;
+     }
+    .section .md-body-1 {
+      padding-left: 5px;
+    }
+  }
+}
+
+.customer {
+  .history-content {
+    .td-status {
+      min-width: 84px;
+      text-align: center !important;
+    }
+    .td-status span {
+      padding: 4px 8px;
+      border-radius: 2px;
+      border-style: solid;
+      border-width: 1px;
+    }
+    .td-status.new span {
+      color: #4CAF50;
+      border-color: #4CAF50;
+    }
+    .td-status.pending span {
+      color: $primary-color;
+      border-color: $primary-color;
+    }
+    .td-status.closed span {
+      color: #B71C1C;
+      border-color: #B71C1C;
+    }
+    .td-cost {
+      text-align: center !important;
+    }
+    .td-location {
+      padding-top: 10px !important;
+      padding-bottom: 10px !important;
+    }
+    .td-provider {
+      width: 110px;
     }
   }
 }

@@ -22,7 +22,9 @@
     "sails.io.js": "^0.13.8",
     "angularSails": "^0.12.1",
     "angular-material": "^1.0.9",
-    "angular-loading-bar": "^0.9.0"
+    "angular-loading-bar": "^0.9.0",
+    "angular-material-data-table": "^0.10.9",
+    "material-design-icons": "^2.2.3"
   },
   "devDependencies": {},
   "overrides": {
