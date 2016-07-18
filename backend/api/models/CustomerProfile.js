@@ -12,6 +12,12 @@ let CustomerProfile = {
     tableName: 'customer_profiles',
 
     attributes: {
+        id: {
+            type: 'integer',
+            unique: true,
+            primaryKey: true
+        },
+
         userId: {
             model: 'user',
             unique: true,
@@ -25,6 +31,14 @@ let CustomerProfile = {
         creditCards: {
             collection: 'CreditCard',
             via: 'customerProfileId'
+        },
+
+        toJSON() {
+            let profile = this.toObject();
+
+            delete profile.token;
+
+            return profile;
         }
     }
 };
