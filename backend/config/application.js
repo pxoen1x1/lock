@@ -1,15 +1,16 @@
 'use strict';
 
-let appConfig = {
+let application = {
+    tokenLength: 16,
     customerVerificationEnabled: true,
     mailer: {
         from: `LockSmith <no-reply@locksmith.local>`,
         providerPath: '/usr/sbin/sendmail',
         templates: {
             successRegistration: 'emails/successRegistration',
-            confirmRegistration: 'Please, confirm your registration'
+            confirmRegistration: 'emails/confirmRegistration'
         }
     }
 };
 
-module.exports = appConfig;
+module.exports.application = application;
