@@ -6,23 +6,30 @@
  * @help        :: See http://sailsjs.org/#!/documentation/concepts/Controllers
  */
 
-/*let path = require('path');
- let appRoot = path.resolve(process.cwd());
- let mailerService = require(`${appRoot}/api/services/Mailer`);*/
-
-
 let CustomerController = {
-    createCustomer: (req, res) => {
+    createCustomer(req, res) {
         let user = req.body;
 
         async.waterfall([
-                async.apply(createUser, user, res)
+                async.apply(createUser, user)
             ],
             (err, createdUser) => {
-                MailerService.successRegistration(createdUser);
+                if (err) {
+                    sails.log.error(err);
+
+                    return res.serverError();
+                }
+
+                res.ok(createdUser);
+
+                if (sails.config.application.customerVerificationEnabled) {
+                    MailerService.confirmRegistration(createdUser);
+                } else {
+                    MailerService.successRegistration(createdUser);
+                }
             });
     },
-    updateCustomer: (req, res) => {
+    updateCustomer(req, res) {
         let id = req.params.id;
         let user = req.body;
 
@@ -43,13 +50,14 @@ let CustomerController = {
             .exec(
                 (err, updatedUser) => {
                     if (err) {
+                        sails.log.error(err);
 
                         return res.serverError();
                     }
 
                     if (updatedUser.length === 0) {
 
-                        return res.badRequest({message: 'User not found.'});
+                        return res.notFound({message: 'User not found.'});
                     }
 
                     res.ok(
@@ -59,20 +67,56 @@ let CustomerController = {
                     );
                 }
             );
+    },
+    confirmRegistration (req, res) {
+        let token = req.param('token');
+
+        if (!token) {
+
+            return res.badRequest({message: 'Token is not defined'});
+        }
+
+        User.findOne({
+            token: token
+        }).exec((err, user) => {
+            if (err) {
+                sails.log.error(err);
+
+                return res.serverError();
+            }
+
+            if (!user) {
+
+                return res.notFound({message: 'User not found.'});
+            }
+
+            user.token = '';
+            user.emailConfirmed = true;
+            user.enabled = true;
+
+            user.save(
+                (err) => {
+                    if (err) {
+                        sails.log.error(err);
+
+                        return res.serverError();
+                    }
+
+                    res.ok();
+                }
+            );
+        });
     }
 };
 
-function createUser(user, res, done) {
+function createUser(user, done) {
     UserService.create(user)
         .then(
-            (createdUser)=> {
-                res.ok({user: createdUser});
-                done(null, createdUser);
-            })
+            (createdUser) => done(null, createdUser)
+        )
         .catch(
-            (err) => {
-                res.serverError(err);
-            });
+            (err) => done(err)
+        );
 }
 
 module.exports = CustomerController;
