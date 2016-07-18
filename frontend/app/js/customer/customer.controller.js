@@ -18,36 +18,41 @@
         vm.menuNavigationItems = [
             {
                 display: 'New request',
+                min: 'New',
                 icon: 'playlist_add',
                 href: '/client/request'
             },
             {
                 display: 'History',
+                min: 'History',
                 icon: 'history',
                 href: '/client/history'
             },
             {
                 display: 'Map',
+                min: 'Map',
                 icon: 'map',
                 href: '/client/map'
             },
             {
                 display: 'Chat',
+                min: 'Chat',
                 icon: 'chat',
                 href: '/client/chat'
             },
             {
                 display: 'Recommended',
+                min: 'Top',
                 icon: 'star',
                 href: '/client/recommended'
             },
             {
                 display: 'Settings',
+                min: 'Settings',
                 icon: 'settings',
                 href: '/client/settings'
             }
         ];
-
 
         function toggleMenu() {
             $mdSidenav('left').toggle();

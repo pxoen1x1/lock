@@ -2,7 +2,7 @@
   <md-sidenav ui-view="menu"
               class="menu"
               md-component-id="left"
-              md-is-locked-open="$mdMedia('gt-sm')"
+              md-is-locked-open="vm.$mdMedia('gt-sm')"
               md-disable-backdrop
               md-whiteframe="4" layout="column" flex>
 
@@ -11,4 +11,5 @@
     <div class="header" ui-view="header"></div>
     <md-content class="content" ui-view="content" flex></md-content>
   </div>
+  <tab-bar customer ng-hide="vm.$mdMedia('gt-sm')"></tab-bar>
 </div>

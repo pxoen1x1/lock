@@ -1,0 +1,10 @@
+<div class="tab-bar-items" layout="row">
+<div class="tab-bar-item" ng-repeat="item in vm.menuNavigationItems" flex="{{100 / vm.menuNavigationItems.length}}">
+  <a layout="column" ng-href="{{item.href}}" ng-class="{'active': vm.path == item.href}">
+    <div class="icon" layout="row" layout-align="center end">
+      <i ng-if="item.icon" class="material-icons" ng-bind="item.icon"></i>
+    </div>
+    <div class="title" layout="row" layout-align="center center" ng-bind="item.min"></div>
+  </a>
+</div>
+</div>
