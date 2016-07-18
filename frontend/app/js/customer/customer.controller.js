@@ -14,7 +14,7 @@
         vm.$mdMedia = $mdMedia;
         vm.headerPath = headerPath();
         vm.path = $location.path();
-        
+
         vm.menuNavigationItems = [
             {
                 display: 'New request',
@@ -54,12 +54,24 @@
             }
         ];
 
+        vm.tabFlow = ['/request', '/history', '/map', '/chat', '/recommended', '/settings'];
+
         function toggleMenu() {
             $mdSidenav('left').toggle();
         }
 
         $rootScope.$on('$stateChangeStart',
             function (event, toState, toParams, fromState, fromParams) {
+                var elem = angular.element(document.getElementsByClassName('content'));
+
+                if (vm.tabFlow.indexOf(fromState.url) > vm.tabFlow.indexOf(toState.url)) {
+                    elem.addClass('anim-slide-left');
+                    elem.removeClass('anim-slide-right');
+                } else {
+                    elem.addClass('anim-slide-right');
+                    elem.removeClass('anim-slide-left');
+                }
+
                 vm.headerPath = headerPath();
                 vm.path = $location.path();
             }

@@ -9,7 +9,9 @@
   </md-sidenav>
   <div layout="column" flex>
     <div class="header" ui-view="header"></div>
-    <md-content class="content" ui-view="content" flex></md-content>
+    <div class="content-wrapper" flex>
+      <md-content class="content anim-in-out anim-fade" ui-view="content" data-anim-speed="400"></md-content>
+    </div>
   </div>
   <tab-bar customer ng-hide="vm.$mdMedia('gt-sm')"></tab-bar>
 </div>
