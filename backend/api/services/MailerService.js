@@ -1,19 +1,19 @@
 'use strict';
 
-let appConfig = require('./appConfig');
-
 const mailerOptions = {
-    from: appConfig.mailer.from,
+    from: sails.config.application.mailer.from,
     provider: {
-        path: appConfig.mailer.providerPath
+        path: sails.config.application.mailer.providerPath
     }
 };
+const host = sails.config.host;
+const port = sails.config.port;
 
 let mailer = require('sails-service-mailer');
 
 let MailerService = {
     successRegistration(user) {
-        let templatePath = appConfig.mailer.templates.successRegistration;
+        let templatePath = sails.config.application.mailer.templates.successRegistration;
         let options = {};
         options.user = user;
 
@@ -27,16 +27,31 @@ let MailerService = {
                             to: user.email,
                             html: template.html
                         });
-                });
+                })
+            .catch(
+                (err) => sails.log.error(err)
+            );
     },
     confirmRegistration(user) {
-        mailerOptions.subject = appConfig.mailer.subjects.confirmRegistration;
+        let templatePath = sails.config.application.mailer.templates.confirmRegistration;
+        let options = {};
+        options.user = user;
+        options.url = `http://${host}:${port}/client/registration/confirm?token=${user.token}`;
 
-        return mailer('sendmail', mailerOptions)
-            .send({
-                to: user.email,
-                text: `${user.fullName} confirm registration`
-            });
+        ViewService.getEmailTemplate(templatePath, options)
+            .then(
+                (template) => {
+                    mailerOptions.subject = template.subject;
+
+                    return mailer('sendmail', mailerOptions)
+                        .send({
+                            to: user.email,
+                            html: template.html
+                        });
+                })
+            .catch(
+                (err) => sails.log.error(err)
+            );
     }
 };
 
