@@ -5,12 +5,16 @@
  * @description :: TODO: You might write a short summary of how this model works and what it represents here.
  * @docs        :: http://sailsjs.org/documentation/concepts/models-and-orm/models
  */
-let bcryptjs = require('bcryptjs');
 
 let User = {
     tableName: 'users',
 
     attributes: {
+        id: {
+            type: 'integer',
+            unique: true,
+            primaryKey: true
+        },
         firstName: {
             type: 'string',
             required: true,
@@ -31,11 +35,28 @@ let User = {
             email: true,
             required: true
         },
-        emailConfirmed: {
-            type: 'boolean'
-        },
         enabled: {
-            type: 'boolean'
+            type: 'boolean',
+            defaultsTo() {
+
+                return !sails.config.application.customerVerificationEnabled;
+            }
+        },
+        emailConfirmed: {
+            type: 'boolean',
+            defaultsTo() {
+
+                return !sails.config.application.customerVerificationEnabled;
+            }
+        },
+        token: {
+            type: 'string',
+            defaultsTo() {
+                if (sails.config.application.customerVerificationEnabled) {
+
+                    return UserService.generateToken();
+                }
+            }
         },
         portrait: {
             type: 'string'
@@ -71,26 +92,29 @@ let User = {
             user.fullName = this.fullName();
 
             delete user.password;
+            delete user.token;
 
             return user;
         }
     },
 
-    beforeCreate: function (user, next) {
-        bcryptjs.genSalt(10, (err, salt) => {
-            bcryptjs.hash(user.password, salt, (err, hash) => {
-                if (err) {
-
-                    next(err);
-                } else {
-                    user.password = hash;
+    beforeCreate(user, next) {
+        UserService.encryptPassword(user.password)
+            .then(
+                (encryptedPassword) => {
+                    user.password = encryptedPassword;
 
                     next(null, user);
                 }
-            });
-        });
+            )
+            .catch(
+                (err) => {
+                    sails.log.error(err);
+
+                    next(err);
+                }
+            );
     }
 };
 
 module.exports = User;
-
