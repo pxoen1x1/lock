@@ -14,14 +14,17 @@ $primary-color: rgb(3, 155, 229);
 .rating-stars {
   cursor: pointer;
 }
+
 .rating-stars ul {
   list-style: none;
   padding: 0;
   margin: 0;
 }
+
 .rating-stars li {
   display: inline;
 }
+
 .rating-stars li i {
   font-size: inherit;
 }
@@ -276,9 +279,9 @@ $primary-color: rgb(3, 155, 229);
       font-size: 16px;
     }
     .section .md-body-2 {
-       text-transform: uppercase;
-      letter-spacing: 1px;
-     }
+      text-transform: uppercase;
+      font-weight: 600;
+    }
     .section .md-body-1 {
       padding-left: 5px;
     }
@@ -318,6 +321,75 @@ $primary-color: rgb(3, 155, 229);
     }
     .td-provider {
       width: 110px;
+    }
+  }
+}
+
+.customer {
+  .tab-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 59;
+    background: #fff;
+    height: 49px;
+    box-shadow: 0 -1px 3px 0 rgba(0, 0, 0, 0.2), 0 -1px 1px 0 rgba(0, 0, 0, 0.14), 0 -2px 1px -1px rgba(0, 0, 0, 0.12);
+  }
+  .tab-bar-items {
+    height: 49px;
+    width: 100%;
+  }
+  .tab-bar-item {
+    overflow: hidden;
+    height: 100%;
+  }
+  .tab-bar-item a {
+    height: 100%;
+    color: rgba(186, 189, 194, 1);
+  }
+  .tab-bar-item a.active {
+    color: $primary-color;
+  }
+  .tab-bar-item .icon {
+    font-size: 30px;
+    height: 60%;
+    width: 100%;
+  }
+  .tab-bar-item .title {
+    height: 40%;
+    font-size: 11px;
+    width: 100%;
+  }
+}
+
+@media only screen and (min-device-width: 320px) and (max-device-width: 600px) {
+  .customer {
+    .content {
+      background-color: #fff;
+      padding-bottom: 49px;
+    }
+    .content {
+      .container {
+        background: #fff;
+        margin: 0;
+      }
+      .container-title {
+        display: none;
+      }
+      .container-content {
+        padding: 16px;
+      }
+      .container-content p {
+        font-weight: 600;
+      }
+    }
+    .profile-content .profile-right {
+      margin-left: 0;
+    }
+    .profile-content .profile-right h1 {
+      margin-top: 22px;
+      margin-bottom: 4px;
     }
   }
 }
