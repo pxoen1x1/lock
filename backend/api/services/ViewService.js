@@ -5,13 +5,14 @@ let ViewService = {
         let promise = new Promise((resolve, reject) => {
             options = options || {layout: false};
 
-            return sails.renderView(filePath, options,
+            sails.renderView(filePath, options,
                 (err, renderedView) => {
                     if (err) {
-                        reject(err);
-                    } else {
-                        resolve(renderedView);
+
+                        return reject(err);
                     }
+
+                    return resolve(renderedView);
                 });
         });
 
@@ -33,7 +34,10 @@ let ViewService = {
                     }
 
                     return template;
-                });
+                })
+            .catch(
+                (err) =>sails.log.error(err)
+            );
     }
 };
 
