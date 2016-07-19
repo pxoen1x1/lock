@@ -8,7 +8,7 @@
     <h2 class="root" ng-show="vm.$mdMedia('gt-xs')">
       <span ng-repeat="item in vm.headerPath track by $index">
         <a ng-href="{{item.url}}" ng-bind="item.display"></a>
-        <i class="material-icons" ng-if="$index != vm.headerPath.length-1">chevron_right</i>
+        <i class="material-icons" ng-if="$index != vm.headerPath.length-1 && item.display">chevron_right</i>
       </span>
     </h2>
     <span flex></span>

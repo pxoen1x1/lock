@@ -49,21 +49,35 @@
             })
             .state('customer.request', {
                 url: '/request',
+                abstract: true
+            })
+            .state('customer.request.new', {
+                url: '/new',
                 views: {
                     'content@customer': {
-                        templateUrl: 'customer/request/request.html',
+                        templateUrl: 'customer/request/new/request.html',
                         controller: 'CustomerRequestController',
                         controllerAs: 'vm'
                     }
                 }
             })
-            .state('customer.map', {
+            .state('customer.request.view', {
+                url: '/:requestId',
+                views: {
+                    'content@customer': {
+                        templateUrl: 'customer/request/view/view.html',
+                        controller: 'CustomerViewRequestController',
+                        controllerAs: 'vm'
+                    }
+                }
+            })
+            .state('customer.request.view.map', {
                 url: '/map'
             })
-            .state('customer.chat', {
+            .state('customer.request.view.chat', {
                 url: '/chat'
             })
-            .state('customer.recommended', {
+            .state('customer.request.view.recommended', {
                 url: '/recommended'
             })
             .state('customer.settings', {
