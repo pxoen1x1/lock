@@ -10,12 +10,14 @@
     /* @ngInject */
     function CustomerRegistrationController($state) {
         var vm = this;
-        vm.submit = submit;
-        vm.phoneRegExp = /^\+?\d{2}[- ]?\d{3}[- ]?\d{5}$/;
-        vm.showSocial = false;
 
-        function submit() {
-            alert(angular.toJson(vm.user));
+        vm.phoneRegExp = /^\+?\d{2}[- ]?\d{3}[- ]?\d{5}$/;
+        vm.showSocialButtons = false;
+
+        vm.createUser = createUser;
+
+        function createUser(user) {
+
         }
     }
 })();
