@@ -9,6 +9,7 @@ $primary-color: rgb(3, 155, 229);
 
 .customer {
   height: 100vh;
+  overflow-x: hidden;
 }
 
 .rating-stars {
@@ -204,7 +205,16 @@ $primary-color: rgb(3, 155, 229);
 
 .customer {
   .content {
+    background: transparent;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+  }
+  .content-wrapper {
     background-color: rgb(245, 245, 245);
+    position: relative;
   }
   .content {
     .container {
@@ -333,11 +343,11 @@ $primary-color: rgb(3, 155, 229);
     right: 0;
     z-index: 59;
     background: #fff;
-    height: 49px;
+    height: 54px;
     box-shadow: 0 -1px 3px 0 rgba(0, 0, 0, 0.2), 0 -1px 1px 0 rgba(0, 0, 0, 0.14), 0 -2px 1px -1px rgba(0, 0, 0, 0.12);
   }
   .tab-bar-items {
-    height: 49px;
+    height: 54px;
     width: 100%;
   }
   .tab-bar-item {
@@ -357,17 +367,20 @@ $primary-color: rgb(3, 155, 229);
     width: 100%;
   }
   .tab-bar-item .title {
-    height: 40%;
     font-size: 11px;
     width: 100%;
+    text-align: center;
+    padding-top: 3px;
   }
 }
 
 @media only screen and (min-device-width: 320px) and (max-device-width: 600px) {
   .customer {
-    .content {
+    .content-wrapper {
       background-color: #fff;
-      padding-bottom: 49px;
+    }
+    .content {
+      padding-bottom: 54px;
     }
     .content {
       .container {
@@ -378,7 +391,7 @@ $primary-color: rgb(3, 155, 229);
         display: none;
       }
       .container-content {
-        padding: 16px;
+        padding: 20px;
       }
       .container-content p {
         font-weight: 600;

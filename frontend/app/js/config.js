@@ -22,16 +22,18 @@
     /* @ngInject */
     function loadingBarConfig(cfpLoadingBarProvider) {
         cfpLoadingBarProvider.includeSpinner = false;
-        //cfpLoadingBarProvider.latencyThreshold = 100;
+        //cfpLoadingBarProvider.latencyThreshold = 1;
     }
 
     /* @ngInject */
     function loadingBarInit($rootScope, cfpLoadingBar) {
+
         $rootScope.$on('$stateChangeStart', function() {
             cfpLoadingBar.start();
         });
 
         $rootScope.$on('$stateChangeSuccess', function() {
+        //$rootScope.$on('animEnd', function($event, element, speed) {
             cfpLoadingBar.complete();
         });
     }

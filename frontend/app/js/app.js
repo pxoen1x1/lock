@@ -8,6 +8,8 @@
         'ngMessages',
         'angular-loading-bar',
         'md.data.table',
+        'ngAnimate',
+        'anim-in-out',
 
         'app.core',
         'app.home',

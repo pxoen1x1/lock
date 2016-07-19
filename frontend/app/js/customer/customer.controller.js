@@ -14,37 +14,19 @@
         vm.$mdMedia = $mdMedia;
         vm.headerPath = headerPath();
         vm.path = $location.path();
-        
+
         vm.menuNavigationItems = [
             {
                 display: 'New request',
                 min: 'New',
                 icon: 'playlist_add',
-                href: '/client/request'
+                href: '/client/request/new'
             },
             {
                 display: 'History',
                 min: 'History',
                 icon: 'history',
                 href: '/client/history'
-            },
-            {
-                display: 'Map',
-                min: 'Map',
-                icon: 'map',
-                href: '/client/map'
-            },
-            {
-                display: 'Chat',
-                min: 'Chat',
-                icon: 'chat',
-                href: '/client/chat'
-            },
-            {
-                display: 'Recommended',
-                min: 'Top',
-                icon: 'star',
-                href: '/client/recommended'
             },
             {
                 display: 'Settings',
@@ -54,12 +36,25 @@
             }
         ];
 
+        vm.requestId = $state.params.requestId;
+        // vm.tabFlow = ['/request', '/history', '/map', '/chat', '/recommended', '/settings'];
+
         function toggleMenu() {
             $mdSidenav('left').toggle();
         }
 
         $rootScope.$on('$stateChangeStart',
             function (event, toState, toParams, fromState, fromParams) {
+                // var elem = angular.element(document.getElementsByClassName('content'));
+
+                // if (vm.tabFlow.indexOf(fromState.url) > vm.tabFlow.indexOf(toState.url)) {
+                //     elem.addClass('anim-slide-left');
+                //     elem.removeClass('anim-slide-right');
+                // } else {
+                //     elem.addClass('anim-slide-right');
+                //     elem.removeClass('anim-slide-left');
+                // }
+
                 vm.headerPath = headerPath();
                 vm.path = $location.path();
             }
@@ -72,7 +67,9 @@
             path = path.split('/');
             for (var i = 0; i < path.length; i++) {
                 pathObj[i] = {display: '', url: ''};
-                pathObj[i].display = path[i][0].toUpperCase() + path[i].slice(1);
+                if (!/^\d+$/.test(path[i])) {
+                    pathObj[i].display = path[i][0].toUpperCase() + path[i].slice(1);
+                }
                 for (var j = 0; j <= i; j++) {
                     pathObj[i].url += '/' + path[j];
                 }
