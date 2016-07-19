@@ -3,37 +3,18 @@
 
     angular
         .module('app')
-        .config(appConfig)
-        .config(loadingBarConfig)
-        .run(loadingBarInit);
+        .config(appConfig);
 
-    appConfig.$inject = ['$locationProvider'];
-    loadingBarInit.$inject = ['$rootScope', 'cfpLoadingBar'];
-    loadingBarConfig.$inject = ['cfpLoadingBarProvider'];
+    appConfig.$inject = ['$locationProvider', 'cfpLoadingBarProvider'];
 
     /* @ngInject */
-    function appConfig($locationProvider) {
+    function appConfig($locationProvider, cfpLoadingBarProvider) {
         $locationProvider.html5Mode({
             enabled: true,
             requireBase: false
         });
-    }
 
-    /* @ngInject */
-    function loadingBarConfig(cfpLoadingBarProvider) {
         cfpLoadingBarProvider.includeSpinner = false;
         //cfpLoadingBarProvider.latencyThreshold = 100;
     }
-
-    /* @ngInject */
-    function loadingBarInit($rootScope, cfpLoadingBar) {
-        $rootScope.$on('$stateChangeStart', function() {
-            cfpLoadingBar.start();
-        });
-
-        $rootScope.$on('$stateChangeSuccess', function() {
-            cfpLoadingBar.complete();
-        });
-    }
-
 })();
