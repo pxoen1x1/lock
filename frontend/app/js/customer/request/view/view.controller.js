@@ -3,12 +3,12 @@
 
     angular
         .module('app.customer')
-        .controller('CustomerViewRequestController', CustomerViewRequestController);
+        .controller('CustomerRequestViewController', CustomerRequestViewController);
 
-    CustomerViewRequestController.$inject = ['$state'];
+    CustomerRequestViewController.$inject = ['$state'];
 
     /* @ngInject */
-    function CustomerViewRequestController($state) {
+    function CustomerRequestViewController($state) {
         var vm = this;
 
     }

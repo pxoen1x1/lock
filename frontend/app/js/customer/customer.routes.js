@@ -49,36 +49,49 @@
             })
             .state('customer.request', {
                 url: '/request',
-                abstract: true
-            })
-            .state('customer.request.new', {
-                url: '/new',
                 views: {
                     'content@customer': {
-                        templateUrl: 'customer/request/new/request.html',
+                        templateUrl: 'customer/request/request.html',
                         controller: 'CustomerRequestController',
                         controllerAs: 'vm'
                     }
                 }
             })
-            .state('customer.request.view', {
-                url: '/:requestId',
+            .state('customer.request.new', {
+                url: '/new',
                 views: {
-                    'content@customer': {
-                        templateUrl: 'customer/request/view/view.html',
-                        controller: 'CustomerViewRequestController',
+                    'content@customer.request': {
+                        templateUrl: 'customer/request/new/new.html',
+                        controller: 'CustomerRequestNewController',
                         controllerAs: 'vm'
                     }
                 }
             })
-            .state('customer.request.view.map', {
-                url: '/map'
+            .state('customer.request.view', {
+                url: '/{requestId:int}',
+                views: {
+                    'content@customer.request': {
+                        templateUrl: 'customer/request/view/view.html',
+                        controller: 'CustomerRequestViewController',
+                        controllerAs: 'vm'
+                    }
+                }
             })
-            .state('customer.request.view.chat', {
-                url: '/chat'
+            .state('customer.request.map', {
+                url: '/{requestId:int}/map',
+                views: {
+                    'content@customer.request': {
+                        templateUrl: 'customer/request/map/map.html',
+                        controller: 'CustomerRequestMapController',
+                        controllerAs: 'vm'
+                    }
+                }
             })
-            .state('customer.request.view.recommended', {
-                url: '/recommended'
+            .state('customer.request.chat', {
+                url: '/{requestId:int}/chat'
+            })
+            .state('customer.request.recommended', {
+                url: '/{requestId:int}/recommended'
             })
             .state('customer.settings', {
                 url: '/settings'

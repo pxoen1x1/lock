@@ -5,60 +5,54 @@
         .module('app.customer')
         .controller('CustomerLayoutController', CustomerLayoutController);
 
-    CustomerLayoutController.$inject = ['$mdMedia', '$rootScope', '$state', '$mdSidenav', '$location'];
+    CustomerLayoutController.$inject = ['$mdMedia', '$rootScope', '$state', '$mdSidenav', '$location', 'menuItems'];
 
     /* @ngInject */
-    function CustomerLayoutController($mdMedia, $rootScope, $state, $mdSidenav, $location) {
+    function CustomerLayoutController($mdMedia, $rootScope, $state, $mdSidenav, $location, menuItems) {
         var vm = this;
         vm.toggleMenu = toggleMenu;
         vm.$mdMedia = $mdMedia;
-        vm.headerPath = headerPath();
-        vm.path = $location.path();
+        vm.menuItems = menuItems;
+        vm.tabsFlow = initTabsFlow(menuItems);
 
-        vm.menuNavigationItems = [
-            {
-                display: 'New request',
-                min: 'New',
-                icon: 'playlist_add',
-                href: '/client/request/new'
-            },
-            {
-                display: 'History',
-                min: 'History',
-                icon: 'history',
-                href: '/client/history'
-            },
-            {
-                display: 'Settings',
-                min: 'Settings',
-                icon: 'settings',
-                href: '/client/settings'
+        $rootScope.$on('$stateChangeStart',
+            function (event, toState, toParams, fromState, fromParams) {
+                if (toState.name == 'customer.request') {
+                    event.preventDefault();
+                    $state.go('customer.history');
+                    return;
+                }
+
+                var elem = angular.element(document.getElementsByClassName('content'));
+
+                if (vm.tabsFlow.indexOf(fromState.name) > vm.tabsFlow.indexOf(toState.name)) {
+                    elem.addClass('anim-slide-left');
+                    elem.removeClass('anim-slide-right');
+                } else {
+                    elem.addClass('anim-slide-right');
+                    elem.removeClass('anim-slide-left');
+                }
             }
-        ];
+        );
 
-        vm.requestId = $state.params.requestId;
-        // vm.tabFlow = ['/request', '/history', '/map', '/chat', '/recommended', '/settings'];
+        $rootScope.$watch(function() {
+            return $location.path();
+        }, function(){
+            vm.path = $location.path();
+            vm.headerPath = headerPath();
+        });
 
         function toggleMenu() {
             $mdSidenav('left').toggle();
         }
 
-        $rootScope.$on('$stateChangeStart',
-            function (event, toState, toParams, fromState, fromParams) {
-                // var elem = angular.element(document.getElementsByClassName('content'));
-
-                // if (vm.tabFlow.indexOf(fromState.url) > vm.tabFlow.indexOf(toState.url)) {
-                //     elem.addClass('anim-slide-left');
-                //     elem.removeClass('anim-slide-right');
-                // } else {
-                //     elem.addClass('anim-slide-right');
-                //     elem.removeClass('anim-slide-left');
-                // }
-
-                vm.headerPath = headerPath();
-                vm.path = $location.path();
+        function initTabsFlow(a) {
+            var arr = [];
+            for (var i=0; i<a.length; i++) {
+                arr.push(a[i].name);
             }
-        );
+            return arr;
+        }
 
         function headerPath() {
             var path = $location.path();

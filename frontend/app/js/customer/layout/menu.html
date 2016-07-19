@@ -23,7 +23,7 @@
     </div>
   </a>
   <div class="navigation" layout="column">
-    <div class="navigation-item" ng-repeat="item in vm.menuNavigationItems">
+    <div class="navigation-item" ng-repeat="item in vm.menuItems">
       <a layout="row" layout-align="start start" ng-href="{{item.href}}" ng-class="{'active': vm.path == item.href}"
          ng-click="vm.toggleMenu()">
         <i ng-if="item.icon" class="material-icons" ng-bind="item.icon"></i>

@@ -1,0 +1,21 @@
+<div class="tab-bar-items" layout="row">
+  <div class="tab-bar-item" ng-repeat="item in items" flex="{{100 / items.length}}">
+    <md-button layout="column" layout-align-gt-xs="center center" layout-align="center center" ng-href="{{item.href}}"
+               ng-class="{'active': path == item.href}">
+      <div ng-show="!mdMedia('gt-xs')" layout="column" layout-align="center center">
+        <div class="icon">
+          <i ng-if="item.icon" class="material-icons" ng-bind="item.icon"></i>
+        </div>
+        <div class="title">
+          <span ng-bind="item.display"></span>
+        </div>
+      </div>
+      <div ng-show="mdMedia('gt-xs')" layout="row" layout-align="center center">
+      <span>
+        <i ng-if="item.icon" class="material-icons vertical-middle" ng-bind="item.icon"></i>
+        <span class="vertical-middle" ng-bind="item.display"></span>
+      </span>
+      </div>
+    </md-button>
+  </div>
+</div>

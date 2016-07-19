@@ -12,10 +12,6 @@
         var vm = this;
 
         vm.$mdMedia = $mdMedia;
-        vm.rate = function(value) {
-            alert('rate = '+value);
-            return 1.2;
-        };
 
         vm.dataSource = {
             items: [
@@ -88,13 +84,9 @@
         vm.type = ["Car", "Residental", "Commercial"];
 
         vm.loadStuff = function () {
-            vm.promise = $timeout(function () {
-                // loading
-            }, 2000);
         };
 
         vm.logOrder = function (order) {
-            console.log('order: ', order);
         };
     }
 })();
