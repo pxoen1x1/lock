@@ -5,10 +5,10 @@
         .module('app.customer')
         .factory('customerDataservice', customerDataservice);
 
-    customerDataservice.$inject = ['$http'];
+    customerDataservice.$inject = ['$http', 'conf'];
 
     /* @ngInject */
-    function customerDataservice($http) {
+    function customerDataservice($http, conf) {
         var service = {
             createCustomer: createCustomer,
             updateCustomer: updateCustomer
@@ -19,7 +19,7 @@
         function createCustomer(customer) {
 
             return $http({
-                url: '/api/client',
+                url: conf.URL + 'client',
                 method: 'POST',
                 data: customer
             })
@@ -34,7 +34,7 @@
         function updateCustomer(customer) {
 
             return $http({
-                url: '/api/client/' + customer.id,
+                url: conf.URL + 'client/' + customer.id,
                 method: 'PUT',
                 data: customer
             })
