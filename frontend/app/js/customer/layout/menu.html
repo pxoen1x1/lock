@@ -12,18 +12,16 @@
      ng-class="{'active': vm.path == '/client/profile'}"
      ng-click="vm.toggleMenu()">
     <div class="photo">
-      <img src="https://pp.vk.me/c630527/v630527851/3e8fa/omJed26c8gQ.jpg" alt="photo">
+      <img src="{{vm.dataSource.photo}}" alt="photo">
     </div>
     <div class="name">
-      <i class="material-icons">verified_user</i>
-      <span>Elliot Alderson</span>
+      <i ng-if="vm.dataSource.verified" class="material-icons">verified_user</i>
+      <span ng-bind="vm.dataSource.name"></span>
     </div>
-    <div class="email">
-      mrrobot@fsociety.org
-    </div>
+    <div class="email" ng-bind="vm.dataSource.email"></div>
   </a>
   <div class="navigation" layout="column">
-    <div class="navigation-item" ng-repeat="item in vm.menuNavigationItems">
+    <div class="navigation-item" ng-repeat="item in vm.menuItems">
       <a layout="row" layout-align="start start" ng-href="{{item.href}}" ng-class="{'active': vm.path == item.href}"
          ng-click="vm.toggleMenu()">
         <i ng-if="item.icon" class="material-icons" ng-bind="item.icon"></i>

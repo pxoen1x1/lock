@@ -8,6 +8,8 @@
         'ngMessages',
         'angular-loading-bar',
         'md.data.table',
+        'ngAnimate',
+        'anim-in-out',
         'ui.utils.masks',           // Opinionated angular input masks
 
         'app.core',

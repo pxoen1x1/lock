@@ -5,65 +5,61 @@
         .module('app.customer')
         .controller('CustomerLayoutController', CustomerLayoutController);
 
-    CustomerLayoutController.$inject = ['$mdMedia', '$rootScope', '$state', '$mdSidenav', '$location'];
+    CustomerLayoutController.$inject = ['$mdMedia', '$rootScope', '$state', '$mdSidenav', '$location', 'menuItems'];
 
     /* @ngInject */
-    function CustomerLayoutController($mdMedia, $rootScope, $state, $mdSidenav, $location) {
+    function CustomerLayoutController($mdMedia, $rootScope, $state, $mdSidenav, $location, menuItems) {
         var vm = this;
         vm.toggleMenu = toggleMenu;
         vm.$mdMedia = $mdMedia;
-        vm.headerPath = headerPath();
-        vm.path = $location.path();
-        
-        vm.menuNavigationItems = [
-            {
-                display: 'New request',
-                min: 'New',
-                icon: 'playlist_add',
-                href: '/client/request'
-            },
-            {
-                display: 'History',
-                min: 'History',
-                icon: 'history',
-                href: '/client/history'
-            },
-            {
-                display: 'Map',
-                min: 'Map',
-                icon: 'map',
-                href: '/client/map'
-            },
-            {
-                display: 'Chat',
-                min: 'Chat',
-                icon: 'chat',
-                href: '/client/chat'
-            },
-            {
-                display: 'Recommended',
-                min: 'Top',
-                icon: 'star',
-                href: '/client/recommended'
-            },
-            {
-                display: 'Settings',
-                min: 'Settings',
-                icon: 'settings',
-                href: '/client/settings'
+        vm.menuItems = menuItems;
+        vm.tabsFlow = initTabsFlow(menuItems);
+
+        vm.dataSource = {
+            photo: "https://pp.vk.me/c604329/v604329073/1a33c/XhTVHpUbzGU.jpg",
+            name: "Elliot Alderson",
+            verified: 1,
+            email: "mrrobot@fsociety.org"
+        }
+
+        $rootScope.$on('$stateChangeStart',
+            function (event, toState, toParams, fromState, fromParams) {
+                if (toState.name == 'customer.request') {
+                    event.preventDefault();
+                    $state.go('customer.history');
+                    return;
+                }
+
+                var elem = angular.element(document.getElementsByClassName('content'));
+
+                if (vm.tabsFlow.indexOf(fromState.name) > vm.tabsFlow.indexOf(toState.name)) {
+                    elem.addClass('anim-slide-left');
+                    elem.removeClass('anim-slide-right');
+                } else {
+                    elem.addClass('anim-slide-right');
+                    elem.removeClass('anim-slide-left');
+                }
             }
-        ];
+        );
+
+        $rootScope.$watch(function() {
+            return $location.path();
+        }, function(){
+            vm.path = $location.path();
+            vm.headerPath = headerPath();
+        });
 
         function toggleMenu() {
             $mdSidenav('left').toggle();
         }
 
-        $rootScope.$on('$stateChangeStart',
-            function (event, toState, toParams, fromState, fromParams) {
-                vm.headerPath = headerPath();
-                vm.path = $location.path();
+        function initTabsFlow(a) {
+            var arr = [];
+            for (var i=0; i<a.length; i++) {
+                arr.push(a[i].name);
             }
-        );
+            return arr;
+        }
 
         function headerPath() {
             var path = $location.path();
@@ -72,7 +68,9 @@
             path = path.split('/');
             for (var i = 0; i < path.length; i++) {
                 pathObj[i] = {display: '', url: ''};
-                pathObj[i].display = path[i][0].toUpperCase() + path[i].slice(1);
+                if (!/^\d+$/.test(path[i])) {
+                    pathObj[i].display = path[i][0].toUpperCase() + path[i].slice(1);
+                }
                 for (var j = 0; j <= i; j++) {
                     pathObj[i].url += '/' + path[j];
                 }

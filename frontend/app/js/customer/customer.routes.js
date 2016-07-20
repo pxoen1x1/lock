@@ -57,14 +57,41 @@
                     }
                 }
             })
-            .state('customer.map', {
-                url: '/map'
+            .state('customer.request.new', {
+                url: '/new',
+                views: {
+                    'content@customer.request': {
+                        templateUrl: 'customer/request/new/new.html',
+                        controller: 'CustomerRequestNewController',
+                        controllerAs: 'vm'
+                    }
+                }
             })
-            .state('customer.chat', {
-                url: '/chat'
+            .state('customer.request.view', {
+                url: '/{requestId:int}',
+                views: {
+                    'content@customer.request': {
+                        templateUrl: 'customer/request/view/view.html',
+                        controller: 'CustomerRequestViewController',
+                        controllerAs: 'vm'
+                    }
+                }
             })
-            .state('customer.recommended', {
-                url: '/recommended'
+            .state('customer.request.map', {
+                url: '/{requestId:int}/map',
+                views: {
+                    'content@customer.request': {
+                        templateUrl: 'customer/request/map/map.html',
+                        controller: 'CustomerRequestMapController',
+                        controllerAs: 'vm'
+                    }
+                }
+            })
+            .state('customer.request.chat', {
+                url: '/{requestId:int}/chat'
+            })
+            .state('customer.request.recommended', {
+                url: '/{requestId:int}/recommended'
             })
             .state('customer.settings', {
                 url: '/settings'

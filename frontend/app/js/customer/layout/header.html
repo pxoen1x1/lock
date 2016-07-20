@@ -8,12 +8,12 @@
     <h2 class="root" ng-show="vm.$mdMedia('gt-xs')">
       <span ng-repeat="item in vm.headerPath track by $index">
         <a ng-href="{{item.url}}" ng-bind="item.display"></a>
-        <i class="material-icons" ng-if="$index != vm.headerPath.length-1">chevron_right</i>
+        <i class="material-icons" ng-if="$index != vm.headerPath.length-1 && vm.headerPath[$index+1].display">chevron_right</i>
       </span>
     </h2>
     <span flex></span>
     <h2 class="root bold" hide-gt-xs>
-      <span ng-bind="vm.headerPath[vm.headerPath.length-1].display"></span>
+      <span ng-bind="vm.headerPath[vm.headerPath.length-1].display ? vm.headerPath[vm.headerPath.length-1].display : vm.headerPath[vm.headerPath.length-2].display"></span>
     </h2>
     <span flex hide-gt-sm></span>
     <md-button class="button-login" ng-show="vm.$mdMedia('gt-xs')" ng-href="#">

@@ -5,36 +5,63 @@
         .module('app.customer')
         .controller('CustomerRequestController', CustomerRequestController);
 
-    CustomerRequestController.$inject = ['$state'];
+    CustomerRequestController.$inject = ['$rootScope', '$state', '$location'];
 
     /* @ngInject */
-    function CustomerRequestController($state) {
+    function CustomerRequestController($rootScope, $state, $location) {
         var vm = this;
 
-        vm.states = loadAll();
-        vm.languages = ["English", "Spanish", "Russian", "Elven"];
-        vm.submit = submit;
+        vm.requestId = $state.params.requestId;
+        vm.tabBarItems = [
+            {
+                display: 'Request',
+                icon: 'list',
+                href: '/client/request/' + vm.requestId,
+                name: 'customer.request.new'
+            },
+            {
+                display: 'Map',
+                icon: 'location_on',
+                href: '/client/request/' + vm.requestId + '/map',
+                name: 'customer.request.map'
+            },
+            {
+                display: 'Chat',
+                icon: 'chat',
+                href: '/client/request/' + vm.requestId + '/chat',
+                name: 'customer.request.chat'
+            },
+            {
+                display: 'Recommended',
+                icon: 'star',
+                href: '/client/request/' + vm.requestId + '/recommended',
+                name: 'customer.request.recommended'
+            }
+        ];
+        vm.tabsFlow = initTabsFlow(vm.tabBarItems);
+        
+        $rootScope.$on('$stateChangeStart',
+            function (event, toState, toParams, fromState, fromParams) {
+                vm.requestId = toParams.requestId;
 
+                var elem = angular.element(document.getElementsByClassName('content'));
+                if (vm.tabsFlow.indexOf(fromState.name) > vm.tabsFlow.indexOf(toState.name)) {
+                    elem.addClass('anim-slide-left');
+                    elem.removeClass('anim-slide-right');
+                } else {
+                    elem.addClass('anim-slide-right');
+                    elem.removeClass('anim-slide-left');
+                }
+            }
+        );
 
-        function loadAll() {
-            var allStates = 'Alabama, Alaska, Arizona, Arkansas, California, Colorado, Connecticut, Delaware,\
-            Florida, Georgia, Hawaii, Idaho, Illinois, Indiana, Iowa, Kansas, Kentucky, Louisiana,\
-            Maine, Maryland, Massachusetts, Michigan, Minnesota, Mississippi, Missouri, Montana,\
-            Nebraska, Nevada, New Hampshire, New Jersey, New Mexico, New York, North Carolina,\
-            North Dakota, Ohio, Oklahoma, Oregon, Pennsylvania, Rhode Island, South Carolina,\
-            South Dakota, Tennessee, Texas, Utah, Vermont, Virginia, Washington, West Virginia,\
-            Wisconsin, Wyoming';
-
-            return allStates.split(/, +/g).map(function (state) {
-                return {
-                    value: state.toLowerCase(),
-                    display: state
-                };
-            });
+        function initTabsFlow(a) {
+            var arr = [];
+            for (var i = 0; i < a.length; i++) {
+                arr.push(a[i].name);
+            }
+            return arr;
         }
 
-        function submit() {
-            alert(angular.toJson(vm.data));
-        }
     }
 })();

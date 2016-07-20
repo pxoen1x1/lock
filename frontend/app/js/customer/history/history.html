@@ -34,7 +34,7 @@
           <td md-cell class="td-cost" ng-bind="item.cost ? '$'+ item.cost : '–'"></td>
           <td md-cell class="td-provider">
             <span ng-bind="item.provider ? item.provider.name : '–'"></span>
-            <star-rating ng-if="item.provider" value="item.provider.rating" max="5" onchange="vm.rate(rating)"></star-rating>
+            <star-rating ng-if="item.provider" value="item.provider.rating" max="5" readonly></star-rating>
           </td>
           <!--<td md-cell>
             <md-button class="md-icon-button">
