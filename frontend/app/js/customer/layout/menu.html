@@ -11,9 +11,7 @@
   <a class="profile" layout="column" layout-align="start center" ng-href="/client/profile"
      ng-class="{'active': vm.path == '/client/profile'}"
      ng-click="vm.toggleMenu()">
-    <div class="photo">
-      <img src="{{vm.dataSource.photo}}" alt="photo">
-    </div>
+    <div class="photo" ng-style="{'background-image': 'url('+vm.dataSource.photo+')'}"></div>
     <div class="name">
       <i ng-if="vm.dataSource.verified" class="material-icons">verified_user</i>
       <span ng-bind="vm.dataSource.name"></span>

@@ -42,7 +42,7 @@
         
         $rootScope.$on('$stateChangeStart',
             function (event, toState, toParams, fromState, fromParams) {
-                vm.requestId = toParams.requestId;
+                vm.requestId = toParams.requestId ? toParams.requestId : fromParams.requestId;
 
                 var elem = angular.element(document.getElementsByClassName('content'));
                 if (vm.tabsFlow.indexOf(fromState.name) > vm.tabsFlow.indexOf(toState.name)) {
