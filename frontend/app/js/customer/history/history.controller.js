@@ -12,6 +12,7 @@
         var vm = this;
 
         vm.$mdMedia = $mdMedia;
+        vm.selected = [];
 
         vm.dataSource = {
             items: [
@@ -87,6 +88,10 @@
         };
 
         vm.logOrder = function (order) {
+        };
+
+        vm.logItem = function(item) {
+            $state.go('customer.request.view', {'requestId': item.id});
         };
     }
 })();
