@@ -7,23 +7,23 @@
  */
 
 let UserController = {
-    getUser (req, res) {
-        res.send(req.user);
+    getUser (request, response) {
+        response.ok(request.user);
     },
-    createUser (req, res) {
-        let user = req.body;
+    createUser(requestuest, response) {
+        let user = request.body;
 
         async.waterfall([
                 async.apply(createUser, user)
             ],
-            (err, createdUser) => {
-                if (err) {
-                    sails.log.error(err);
+            (error, createdUser) => {
+                if (error) {
+                    sails.log.error(error);
 
-                    return res.serverError();
+                    return response.serverError();
                 }
 
-                res.ok(createdUser);
+                response.created(createdUser);
 
                 if (sails.config.application.emailVerificationEnabled) {
                     MailerService.confirmRegistration(createdUser);
@@ -32,13 +32,15 @@ let UserController = {
                 }
             });
     },
-    updateUser (req, res) {
-        let id = req.params.id;
-        let user = req.body;
+    updateUser(request, response) {
+        let id = request.params.id;
+        let user = request.body;
 
         if (!id || Object.keys(user).length === 0) {
 
-            return res.badRequest({message: 'Please, check data.'});
+            return response.badRequest({
+                message: sails.__('Please, check data.')
+            });
         }
 
         if (user.password) {
@@ -51,19 +53,21 @@ let UserController = {
 
         User.update({id: id}, user)
             .exec(
-                (err, updatedUser) => {
-                    if (err) {
-                        sails.log.error(err);
+                (error, updatedUser) => {
+                    if (error) {
+                        sails.log.error(error);
 
-                        return res.serverError();
+                        return response.serverError();
                     }
 
                     if (updatedUser.length === 0) {
 
-                        return res.notFound({message: 'User not found.'});
+                        return response.notFound({
+                            message: sails.__('User not found.')
+                        });
                     }
 
-                    res.ok(
+                    response.ok(
                         {
                             user: updatedUser[0]
                         }
@@ -71,26 +75,26 @@ let UserController = {
                 }
             );
     },
-    confirmRegistration (req, res) {
-        let token = req.param('token');
+    confirmEmail(request, response) {
+        let token = request.param('token');
 
         if (!token) {
 
-            return res.badRequest({message: 'Token is not defined'});
+            return response.badRequest(sails.__('Token is not defined.'));
         }
 
         User.findOne({
             token: token
-        }).exec((err, user) => {
-            if (err) {
-                sails.log.error(err);
+        }).exec((error, user) => {
+            if (error) {
+                sails.log.error(error);
 
-                return res.serverError();
+                return response.serverError();
             }
 
             if (!user) {
 
-                return res.notFound({message: 'User not found.'});
+                return response.notFound(sails.__('User not found.'));
             }
 
             user.token = '';
@@ -98,19 +102,29 @@ let UserController = {
             user.enabled = true;
 
             user.save(
-                (err) => {
-                    if (err) {
-                        sails.log.error(err);
+                (error) => {
+                    if (error) {
+                        sails.log.error(error);
 
-                        return res.serverError();
+                        return response.serverError();
                     }
 
-                    res.ok();
+                    response.redirect(sails.config.homePage);
                 }
             );
         });
     }
 };
+
+function createUser(user, done) {
+    UserService.create(user)
+        .then(
+            (createdUser) => done(null, createdUser)
+        )
+        .catch(
+            (error) => done(error)
+        );
+}
 
 module.exports = UserController;
 

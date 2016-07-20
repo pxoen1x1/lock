@@ -8,7 +8,7 @@ let userRoutes = {
     },
     [`GET ${appConfig.application.urls.emailConfirmation}`]: {
         controller: 'UserController',
-        action: 'confirmRegistration'
+        action: 'confirmEmail'
     },
     'POST /api/user': {
         controller: 'UserController',
