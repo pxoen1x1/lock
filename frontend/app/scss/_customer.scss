@@ -242,14 +242,12 @@ $primary-color: rgb(3, 155, 229);
 
 .customer {
   .request-content {
-    md-datepicker {
-      margin-left: 14px;
-    }
     .md-datepicker-input-container {
       margin-left: 4px;
     }
     .md-datepicker-open .md-datepicker-input {
       margin-left: 2px;
+      height: 18px;
     }
   }
 }
@@ -379,9 +377,6 @@ $primary-color: rgb(3, 155, 229);
   .customer {
     .content-wrapper {
       background-color: #fff;
-    }
-    .content {
-      padding-bottom: 54px;
     }
     .content {
       .container {

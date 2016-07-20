@@ -3,17 +3,17 @@
   <div class="container-content">
     <form role="form" name="requestForm" ng-model="requestForm" novalidate>
       <div layout="column">
-        <div layout="row">
-          <div flex="50">
-            <p>Type of service needed</p>
+        <div layout="column" layout-gt-xs="row">
+          <div flex="100" flex-gt-xs="50">
+            <p layout="row" layout-align="center start" layout-align-gt-xs="start start">Type of service needed</p>
             <md-radio-group ng-model="vm.data.serviceType" class="md-primary" ng-required="true">
               <md-radio-button ng-value="0">Car</md-radio-button>
               <md-radio-button ng-value="1">Residential</md-radio-button>
               <md-radio-button ng-value="2">Commercial</md-radio-button>
             </md-radio-group>
           </div>
-          <div flex="50">
-            <p>Emergency</p>
+          <div flex="100" flex-gt-xs="50">
+            <p layout="row" layout-align="center start" layout-align-gt-xs="start start">Emergency</p>
             <md-radio-group ng-model="vm.data.emergency.now" class="md-primary" ng-required="true">
               <md-radio-button ng-value="1">
                 I need a locksmith now
@@ -32,67 +32,67 @@
           </div>
         </div>
         <br>
-        <div layout="column">
-          <p>Location</p>
-          <md-radio-group ng-model="vm.data.location.type" class="md-primary" layout="row" ng-required="true">
-            <div flex="50">
-              <md-radio-button ng-value="0">Provide location by GPS</md-radio-button>
+        <div layout="column" layout-gt-xs="row">
+          <div flex="50">
+            <p layout="row" layout-align="center start" layout-align-gt-xs="start start">Location</p>
+            <md-radio-group ng-model="vm.data.location.type" class="md-primary"
+                            ng-required="true">
+                <md-radio-button ng-value="0">Provide location by GPS</md-radio-button>
+              <div ng-click="(vm.data.location.type = 1)">
+                <md-radio-button ng-value="1">Provide location manually:</md-radio-button>
+                <div layout="row" flex="80">
+                  <md-input-container class="md-block" flex="25">
+                    <label>State</label>
+                    <md-select ng-model="vm.data.location.state" role="listbox" ng-disabled="!vm.data.location.type"
+                               ng-required="vm.data.location.type">
+                      <md-option ng-value="state.value" ng-repeat="state in vm.states"
+                                 ng-bind="state.display"></md-option>
+                    </md-select>
+                  </md-input-container>
+                  <md-input-container class="md-block" flex="25">
+                    <label>City</label>
+                    <input name="city" ng-model="vm.data.location.city" ng-disabled="!vm.data.location.type"
+                           ng-required="vm.data.location.type">
+                  </md-input-container>
+                  <md-input-container class="md-block" flex="50">
+                    <label>Address</label>
+                    <input name="address" ng-model="vm.data.address" ng-disabled="!vm.data.location.type"
+                           ng-required="vm.data.location.type">
+                  </md-input-container>
+                </div>
+              </div>
+            </md-radio-group>
+          </div>
+          <div flex="100" flex-gt-xs="50">
+            <div flex="100">
+              <p layout="row" layout-align="center start" layout-align-gt-xs="start start">Type of request</p>
+              <md-radio-group ng-model="vm.data.privateRequest" class="md-primary" ng-required="true" layout="row">
+                <md-radio-button ng-value="1">Private request</md-radio-button>
+                <md-radio-button ng-value="0">Public request</md-radio-button>
+              </md-radio-group>
             </div>
-            <div flex="50" layout="column" ng-click="(vm.data.location.type = 1)">
-              <md-radio-button ng-value="1">Provide location manually</md-radio-button>
-              <div layout-gt-xs="row">
-                <md-input-container class="md-block" flex="100" flex-gt-xs="25">
-                  <label>State</label>
-                  <md-select ng-model="vm.data.location.state" role="listbox" ng-disabled="!vm.data.location.type"
-                             ng-required="vm.data.location.type">
-                    <md-option ng-value="state.value" ng-repeat="state in vm.states"
-                               ng-bind="state.display"></md-option>
+            <br>
+            <div flex="100">
+              <p layout="row" layout-align="center start" layout-align-gt-xs="start start" style="margin-bottom: 0">
+                Details (optional)</p>
+              <div layout="row" flex="100" flex-gt-xs="70">
+                <md-input-container class="md-block" flex="40">
+                  <label>Language</label>
+                  <md-select ng-model="vm.data.language" role="listbox">
+                    <md-option ng-value="lang" ng-repeat="lang in vm.languages"
+                               ng-bind="lang"></md-option>
                   </md-select>
                 </md-input-container>
-                <md-input-container class="md-block" flex="100" flex-gt-xs="25">
-                  <label>City</label>
-                  <input name="city" ng-model="vm.data.location.city" ng-disabled="!vm.data.location.type"
-                         ng-required="vm.data.location.type">
-                </md-input-container>
-                <md-input-container class="md-block" flex="50">
-                  <label>Address</label>
-                  <input name="address" ng-model="vm.data.address" ng-disabled="!vm.data.location.type"
-                         ng-required="vm.data.location.type">
+                <md-input-container class="md-block" flex="60">
+                  <label>Provider distance (km)</label>
+                  <input name="distance" ng-model="vm.data.distance">
                 </md-input-container>
               </div>
-            </div>
-          </md-radio-group>
-        </div>
-        <div layout="column">
-          <p>Type of request</p>
-          <md-radio-group ng-model="vm.data.privateRequest" class="md-primary" ng-required="true" layout="row">
-            <md-radio-button ng-value="1" flex="50">Private request</md-radio-button>
-            <md-radio-button ng-value="0" flex="50">Public request</md-radio-button>
-          </md-radio-group>
-        </div>
-        <br><br>
-        <div layout="column">
-          <p style="margin-bottom: 0px">Details (optional)</p>
-          <div layout="row">
-            <div flex="50">
-              <md-input-container class="md-block" flex="50">
-                <label>Language</label>
-                <md-select ng-model="vm.data.language" role="listbox">
-                  <md-option ng-value="lang" ng-repeat="lang in vm.languages"
-                             ng-bind="lang"></md-option>
-                </md-select>
-              </md-input-container>
-            </div>
-            <div flex="50">
-              <md-input-container class="md-block" flex="60">
-                <label>Distance from provider (km)</label>
-                <input name="distance" ng-model="vm.data.distance">
-              </md-input-container>
             </div>
           </div>
         </div>
         <div layout="column">
-          <p>Request note (optional)</p>
+          <p layout="row" layout-align="center start" layout-align-gt-xs="start start">Request note (optional)</p>
           <md-input-container class="md-block">
             <label>Do you want to clarify something?</label>
             <textarea ng-model="vm.data.note" md-maxlength="300" rows="3"></textarea>
