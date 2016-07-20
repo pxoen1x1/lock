@@ -31,7 +31,7 @@
             <input name="firstName"
                    required
                    ng-maxlength="20"
-                   ng-model="vm.customer.firstName">
+                   ng-model="vm.user.firstName">
             <div ng-messages="registrationForm.firstName.$error">
               <div ng-message="maxlength">Your first name is too long.</div>
             </div>
@@ -41,7 +41,7 @@
             <input name="lastName"
                    required
                    ng-maxlength="20"
-                   ng-model="vm.customer.lastName">
+                   ng-model="vm.user.lastName">
             <div ng-messages="registrationForm.lastName.$error">
               <div ng-message="maxlength">Your last name is too long.</div>
             </div>
@@ -55,7 +55,7 @@
                    name="phoneNumber"
                    required
                    ui-us-phone-number
-                   ng-model="vm.customer.phoneNumber">
+                   ng-model="vm.user.phoneNumber">
             <div ng-messages="registrationForm.phoneNumber.$error">
               <span ng-message="usPhoneNumber">That doesn't look like a valid phone number.</span>
             </div>
@@ -69,7 +69,7 @@
                    name="email"
                    required
                    email-validation
-                   ng-model="vm.customer.email">
+                   ng-model="vm.user.email">
             <div ng-messages="registrationForm.email.$error">
               <div ng-message="email">That doesn't look like a valid email.</div>
             </div>
@@ -83,7 +83,7 @@
                    name="password"
                    required
                    password-validation
-                   ng-model="vm.customer.password">
+                   ng-model="vm.user.password">
             <div ng-messages="registrationForm.password.$error">
               <div ng-message="password">
                 Your password must contain 6 characters (at least one number and one letter).
@@ -93,7 +93,7 @@
         </div>
         <!-- Submit -->
         <md-button type="submit"
-                   ng-click="vm.createCustomer(vm.customer, registrationForm.$valid)">Submit
+                   ng-click="vm.createUser(vm.user, registrationForm.$valid)">Submit
         </md-button>
       </form>
     </div>
@@ -101,7 +101,9 @@
          flex-gt-xs="50"
          ng-class="{'mobile-hidden': !vm.showSocialButtons}">
       <h1 class="registration-name social">Sign in with social network</h1>
-      <div class="social-button-wrapper" layout="column" layout-align="center start">
+      <div class="social-button-wrapper"
+           layout="column"
+           layout-align="center start">
         <md-button class="social-button facebook">Log in with Facebook</md-button>
         <md-button class="social-button google">Log in with Google+</md-button>
         <md-button class="social-button twitter">Log in with Twitter</md-button>

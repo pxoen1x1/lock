@@ -5,25 +5,25 @@
         .module('app.customer')
         .controller('CustomerRegistrationController', CustomerRegistrationController);
 
-    CustomerRegistrationController.$inject = ['$state', 'customerDataservice'];
+    CustomerRegistrationController.$inject = ['$state', 'coreDataservice'];
 
     /* @ngInject */
-    function CustomerRegistrationController($state, customerDataservice) {
+    function CustomerRegistrationController($state, coreDataservice) {
         var vm = this;
 
-        vm.customer = {};
-        vm.phoneRegExp = /^\+?\d{2}[- ]?\d{3}[- ]?\d{5}$/;
+        vm.user = {};
+
         vm.showSocialButtons = false;
 
-        vm.createCustomer = createCustomer;
+        vm.createUser = createUser;
 
-        function createCustomer(customer, isFormValid) {
+        function createUser(user, isFormValid) {
             if (!isFormValid) {
 
                 return;
             }
 
-            return customerDataservice.createCustomer(customer)
+            return coreDataservice.createUser(user)
                 .then(function () {
                     $state.go('home');
                 });

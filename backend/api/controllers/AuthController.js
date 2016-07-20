@@ -9,29 +9,43 @@
 let passport = require('passport');
 
 let AuthController = {
-    login: function (req, res) {
-        passport.authenticate('local', function (err, user, info) {
-            if (err || !user) {
-                return res.forbidden({
-                    message: info.message
-                });
-            }
+    login(request, response) {
+        passport.authenticate('local',
+            (error, user) => {
+                if (error || !user) {
 
-            req.logIn(user, function (err) {
-                if (err) {
-                    res.serverError(err);
+                    return response.forbidden({
+                        message: sails.__('User authentication failed.')
+                    });
                 }
 
-                return res.ok({
-                    user: user
-                });
-            });
-        })(req, res);
+                request.logIn(user,
+                    (error) => {
+                        if (error) {
+
+                            return response.serverError({
+                                message: sails.__('User authentication failed.')
+                            });
+                        }
+
+                        response.ok({user: user});
+                    });
+            })(request, response);
     },
 
-    logout: function (req, res) {
-        req.logout();
-        res.ok('logout successful');
+    logout: function (request, response) {
+        request.logout();
+
+        response.ok(true);
+    },
+
+    isAuthenticated(request, response) {
+        if (!request.isAuthenticated()) {
+
+            return response.ok(false);
+        }
+
+        response.ok(request.user);
     }
 };
 

@@ -6,10 +6,10 @@ let ViewService = {
             options = options || {layout: false};
 
             sails.renderView(filePath, options,
-                (err, renderedView) => {
-                    if (err) {
+                (error, renderedView) => {
+                    if (error) {
 
-                        return reject(err);
+                        return reject(error);
                     }
 
                     return resolve(renderedView);
@@ -36,7 +36,7 @@ let ViewService = {
                     return template;
                 })
             .catch(
-                (err) =>sails.log.error(err)
+                (error) => sails.log.error(error)
             );
     }
 };

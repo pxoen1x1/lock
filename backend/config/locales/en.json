@@ -2,5 +2,10 @@
   "Welcome": "Welcome",
   "Dear": "Dear",
   "Please, confirm your registration.": "Please, confirm your registration.",
-  "Please confirm your trial registration by clicking on the following link:": "Please confirm your trial registration by clicking on the following link:"
+  "Please confirm your registration by clicking on the following link:": "Please confirm your registration by clicking on the following link:",
+  "User authentication failed.": "User authentication failed.",
+  "User not found.": "User not found.",
+  "Token is not defined.": "Token is not defined.",
+  "Invalid password.": "Invalid password.",
+  "Please, check data.": "Please, check data."
 }
