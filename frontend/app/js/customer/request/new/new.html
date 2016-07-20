@@ -2,9 +2,8 @@
   <div class="container-title"><i class="material-icons">playlist_add</i> <span>New request</span></div>
   <div class="container-content">
     <form role="form" name="requestForm" ng-model="requestForm" novalidate>
-      <div layout="column">
         <div layout="column" layout-gt-xs="row">
-          <div flex="100" flex-gt-xs="50">
+          <div flex-gt-xs="50">
             <p layout="row" layout-align="center start" layout-align-gt-xs="start start">Type of service needed</p>
             <md-radio-group ng-model="vm.data.serviceType" class="md-primary" ng-required="true">
               <md-radio-button ng-value="0">Car</md-radio-button>
@@ -12,7 +11,7 @@
               <md-radio-button ng-value="2">Commercial</md-radio-button>
             </md-radio-group>
           </div>
-          <div flex="100" flex-gt-xs="50">
+          <div flex-gt-xs="50">
             <p layout="row" layout-align="center start" layout-align-gt-xs="start start">Emergency</p>
             <md-radio-group ng-model="vm.data.emergency.now" class="md-primary" ng-required="true">
               <md-radio-button ng-value="1">
@@ -33,14 +32,13 @@
         </div>
         <br>
         <div layout="column" layout-gt-xs="row">
-          <div flex="50">
+          <div flex-gt-xs="50">
             <p layout="row" layout-align="center start" layout-align-gt-xs="start start">Location</p>
-            <md-radio-group ng-model="vm.data.location.type" class="md-primary"
-                            ng-required="true">
-                <md-radio-button ng-value="0">Provide location by GPS</md-radio-button>
+            <md-radio-group ng-model="vm.data.location.type" class="md-primary" ng-required="true">
+              <md-radio-button ng-value="0">Provide location by GPS</md-radio-button>
               <div ng-click="(vm.data.location.type = 1)">
                 <md-radio-button ng-value="1">Provide location manually:</md-radio-button>
-                <div layout="row" flex="80">
+                <div layout="row" flex="100" flex-gt-xs="80">
                   <md-input-container class="md-block" flex="25">
                     <label>State</label>
                     <md-select ng-model="vm.data.location.state" role="listbox" ng-disabled="!vm.data.location.type"
@@ -63,7 +61,7 @@
               </div>
             </md-radio-group>
           </div>
-          <div flex="100" flex-gt-xs="50">
+          <div flex-gt-xs="50">
             <div flex="100">
               <p layout="row" layout-align="center start" layout-align-gt-xs="start start">Type of request</p>
               <md-radio-group ng-model="vm.data.privateRequest" class="md-primary" ng-required="true" layout="row">
@@ -105,7 +103,6 @@
                      aria-label="Submit">
             <span class="ng-scope">Submit</span>
         </div>
-      </div>
     </form>
   </div>
 </div>
