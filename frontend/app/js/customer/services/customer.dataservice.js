@@ -16,25 +16,10 @@
 
         return service;
 
-        function createCustomer(customer) {
-
-            return $http({
-                url: conf.URL + 'client',
-                method: 'POST',
-                data: customer
-            })
-                .then(createCustomerComplete);
-
-            function createCustomerComplete(response) {
-
-                return response.data;
-            }
-        }
-
         function updateCustomer(customer) {
 
             return $http({
-                url: conf.URL + 'client/' + customer.id,
+                url: conf.URL + 'user/' + customer.id,
                 method: 'PUT',
                 data: customer
             })
