@@ -39,20 +39,20 @@ let User = {
             type: 'boolean',
             defaultsTo() {
 
-                return !sails.config.application.customerVerificationEnabled;
+                return !sails.config.application.emailVerificationEnabled;
             }
         },
         emailConfirmed: {
             type: 'boolean',
             defaultsTo() {
 
-                return !sails.config.application.customerVerificationEnabled;
+                return !sails.config.application.emailVerificationEnabled;
             }
         },
         token: {
             type: 'string',
             defaultsTo() {
-                if (sails.config.application.customerVerificationEnabled) {
+                if (sails.config.application.emailVerificationEnabled) {
 
                     return UserService.generateToken();
                 }

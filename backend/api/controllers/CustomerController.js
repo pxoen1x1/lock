@@ -22,7 +22,7 @@ let CustomerController = {
 
                 res.ok(createdUser);
 
-                if (sails.config.application.customerVerificationEnabled) {
+                if (sails.config.application.emailVerificationEnabled) {
                     MailerService.confirmRegistration(createdUser);
                 } else {
                     MailerService.successRegistration(createdUser);
