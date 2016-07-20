@@ -3,9 +3,7 @@
   <div class="container-content">
     <div layout="column" layout-gt-xs="row" layout-align-gt-xs="start start" layout-align="start center">
       <div layout="column" class="profile-left">
-        <div class="avatar" md-whiteframe="1">
-          <img src="{{vm.dataSource.photo}}">
-        </div>
+        <div class="avatar" ng-style="{'background-image': 'url('+vm.dataSource.photo+')'}"></div>
         <div class="actions" layout="column" ng-show="vm.$mdMedia('gt-xs')">
           <md-button class="md-button-blue" flex="100">Change photo</md-button>
           <md-button class="md-button-blue" flex="100">Edit profile</md-button>
