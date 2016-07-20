@@ -72,15 +72,6 @@ let User = {
             required: true
         },
 
-        customerProfile: {
-            collection: 'customerProfile',
-            via: 'userId'
-        },
-        serviceProviderProfile: {
-            collection: 'serviceProviderProfile',
-            via: 'userId'
-        },
-
         fullName() {
 
             return `${this.firstName} ${this.lastName}`;

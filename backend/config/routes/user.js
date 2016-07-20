@@ -1,6 +1,23 @@
-module.exports.routes = {
+'use strict';
+let appConfig = require('../application');
+
+let userRoutes = {
     'GET /api/user': {
         controller: 'UserController',
-        action: 'getUsers'
+        action: 'getUser'
+    },
+    [`GET ${appConfig.application.urls.emailConfirmation}`]: {
+        controller: 'UserController',
+        action: 'confirmRegistration'
+    },
+    'POST /api/user': {
+        controller: 'UserController',
+        action: 'createUser'
+    },
+    'PUT /api/user/:id': {
+        controller: 'UserController',
+        action: 'updateUser'
     }
 };
+
+module.exports.routes = userRoutes;
