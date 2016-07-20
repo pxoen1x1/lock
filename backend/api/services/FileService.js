@@ -5,14 +5,15 @@ let fs = require('fs');
 let FileService = {
     readFile(filePath, optons) {
         let promise = new Promise((resolve, reject) => {
-            fs.readFile(filePath, optons, (err, file) => {
-                if (err) {
+            fs.readFile(filePath, optons,
+                (error, file) => {
+                    if (error) {
 
-                    return reject(err);
-                }
+                        return reject(error);
+                    }
 
-                return resolve(file);
-            });
+                    return resolve(file);
+                });
         });
 
         return promise;

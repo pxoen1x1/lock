@@ -29,14 +29,14 @@ let MailerService = {
                         });
                 })
             .catch(
-                (err) => sails.log.error(err)
+                (error) => sails.log.error(error)
             );
     },
     confirmRegistration(user) {
         let templatePath = sails.config.application.mailer.templates.confirmRegistration;
         let options = {};
         options.user = user;
-        options.url = `http://${host}:${port}/client/registration/confirm?token=${user.token}`;
+        options.url = `http://${host}:${port}${sails.config.application.urls.emailConfirmation}?token=${user.token}`;
 
         ViewService.getEmailTemplate(templatePath, options)
             .then(
@@ -50,7 +50,7 @@ let MailerService = {
                         });
                 })
             .catch(
-                (err) => sails.log.error(err)
+                (error) => sails.log.error(error)
             );
     }
 };
