@@ -31,7 +31,7 @@
             <input name="firstName"
                    required
                    ng-maxlength="20"
-                   ng-model="vm.user.firstName">
+                   ng-model="vm.customer.firstName">
             <div ng-messages="registrationForm.firstName.$error">
               <div ng-message="maxlength">Your first name is too long.</div>
             </div>
@@ -41,7 +41,7 @@
             <input name="lastName"
                    required
                    ng-maxlength="20"
-                   ng-model="vm.user.lastName">
+                   ng-model="vm.customer.lastName">
             <div ng-messages="registrationForm.lastName.$error">
               <div ng-message="maxlength">Your last name is too long.</div>
             </div>
@@ -54,10 +54,10 @@
             <input type="tel"
                    name="phoneNumber"
                    required
-                   ng-pattern="vm.phoneRegExp"
-                   ng-model="vm.user.phoneNumber">
+                   ui-us-phone-number
+                   ng-model="vm.customer.phoneNumber">
             <div ng-messages="registrationForm.phoneNumber.$error">
-              <div ng-message="pattern">That doesn't look like a valid phone number.</div>
+              <span ng-message="usPhoneNumber">That doesn't look like a valid phone number.</span>
             </div>
           </md-input-container>
         </div>
@@ -69,7 +69,7 @@
                    name="email"
                    required
                    email-validation
-                   ng-model="vm.user.email">
+                   ng-model="vm.customer.email">
             <div ng-messages="registrationForm.email.$error">
               <div ng-message="email">That doesn't look like a valid email.</div>
             </div>
@@ -83,7 +83,7 @@
                    name="password"
                    required
                    password-validation
-                   ng-model="vm.user.password">
+                   ng-model="vm.customer.password">
             <div ng-messages="registrationForm.password.$error">
               <div ng-message="password">
                 Your password must contain 6 characters (at least one number and one letter).
@@ -93,7 +93,7 @@
         </div>
         <!-- Submit -->
         <md-button type="submit"
-                   ng-click="vm.createUser(vm.user)">Submit
+                   ng-click="vm.createCustomer(vm.customer, registrationForm.$valid)">Submit
         </md-button>
       </form>
     </div>
