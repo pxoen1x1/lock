@@ -1,7 +1,6 @@
-<div class="container history-content" md-whiteframe="4">
+<div class="container history-content" ng-show="vm.$mdMedia('gt-xs')">
   <div class="container-title"><i class="material-icons">history</i> <span>History</span></div>
   <div class="container-content">
-    <!-- exact table from live demo -->
     <md-table-container>
       <table md-table md-row-select ng-model="vm.selected" md-progress="vm.promise">
         <thead md-head md-order="vm.query.order" md-on-reorder="vm.logOrder">
@@ -12,7 +11,6 @@
           <th md-column md-order-by="status"><span>Status</span></th>
           <th md-column md-numeric md-order-by="cost">Cost</th>
           <th md-column>Provider</th>
-          <!--<th md-column>Actions</th>-->
         </tr>
         </thead>
         <tbody md-body>
@@ -23,7 +21,7 @@
 
           <td class="td-location" md-cell ng-bind="item.location" ng-show="vm.$mdMedia('gt-xs')"></td>
           <td md-cell ng-hide="vm.$mdMedia('gt-xs')">
-            <md-button class="md-icon-button">
+            <md-button class="md-icon-button" aria-label="Location">
               <md-icon class="material-icons"><i class="material-icons">place</i></md-icon>
             </md-button>
           </td>
@@ -36,11 +34,6 @@
             <span ng-bind="item.provider ? item.provider.name : '–'"></span>
             <star-rating ng-if="item.provider" value="item.provider.rating" max="5" readonly></star-rating>
           </td>
-          <!--<td md-cell>
-            <md-button class="md-icon-button">
-              <md-icon class="material-icons"><i class="material-icons">more_horiz</i></md-icon>
-            </md-button>
-          </td>-->
         </tr>
         </tbody>
       </table>
@@ -50,4 +43,37 @@
                          md-total="{{vm.dataSource.count}}" md-on-paginate="getDesserts"
                          md-page-select></md-table-pagination>
   </div>
+</div>
+
+<div class="history-content" ng-hide="vm.$mdMedia('gt-xs')">
+  <a class="list card" ng-href="/client/request/{{item.id}}"
+       ng-repeat="item in vm.dataSource.items | orderBy: vm.query.order | limitTo: vm.query.limit : (vm.query.page -1) * vm.query.limit">
+    <div class="item item-header" layout="row">
+      <div flex="50">
+        <div class="md-title" ng-bind="item.date"></div>
+        <span class="md-body-2">Type:</span>
+        <span class="md-body-1" ng-bind="vm.type[item.type]"></span>
+      </div>
+      <div flex="50" layout="column" layout-align="start end">
+        <div class="td-status"
+             ng-class="{'new': item.status === 0, 'pending': item.status === 1, 'closed': item.status === 2}">
+          <span ng-bind="vm.status[item.status]"></span>
+        </div>
+        <div class="md-body-2" ng-bind="'$ '+(item.cost?item.cost:'–')"></div>
+      </div>
+    </div>
+    <div class="item item-body">
+      <span class="md-body-2">Location:</span>
+      <span class="md-body-1" ng-bind="item.location"></span>
+      <div class="item-provider" ng-if="item.provider" layout="row">
+        <div flex="15">
+          <div class="photo" ng-style="{'background-image': 'url('+item.provider.photo+')'}"></div>
+        </div>
+        <div flex="85">
+          <span class="md-body-2" ng-bind="item.provider.name"></span>
+          <star-rating ng-if="item.provider" value="item.provider.rating" max="5" readonly></star-rating>
+        </div>
+      </div>
+    </div>
+  </a>
 </div>
