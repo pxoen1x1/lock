@@ -10,7 +10,7 @@ let UserController = {
     getUser (request, response) {
         response.ok(request.user);
     },
-    createUser(requestuest, response) {
+    createUser(request, response) {
         let user = request.body;
 
         async.waterfall([
