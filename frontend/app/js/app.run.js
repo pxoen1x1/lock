@@ -12,8 +12,13 @@
         $rootScope.$on('$stateChangeStart', function () {
             cfpLoadingBar.start();
         });
-
-        $rootScope.$on('$stateChangeSuccess', function () {
+        $rootScope.$on('$stateChangeError', function () {
+            cfpLoadingBar.complete();
+        });
+        $rootScope.$on('$viewContentLoaded', function () {
+            cfpLoadingBar.complete();
+        });
+        $rootScope.$on('$stateNotFound', function () {
             cfpLoadingBar.complete();
         });
     }

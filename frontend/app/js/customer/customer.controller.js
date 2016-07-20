@@ -25,9 +25,16 @@
         $rootScope.$on('$stateChangeStart',
             function (event, toState, toParams, fromState, fromParams) {
                 if (toState.name == 'customer.request') {
-                    event.preventDefault();
-                    $state.go('customer.history');
-                    return;
+                    if (fromState.name == 'customer.request.view') {
+                        event.preventDefault();
+                        $state.reload();
+                    } else {
+                        event.preventDefault();
+                        if (fromParams.requestId)
+                            $state.go('customer.request.view', fromParams);
+                        else
+                            $state.go('customer.history');
+                    }
                 }
 
                 var elem = angular.element(document.getElementsByClassName('content'));
