@@ -60,7 +60,7 @@
             .state('customer.request.new', {
                 url: '/new',
                 views: {
-                    'content@customer.request': {
+                    'content@customer': {
                         templateUrl: 'customer/request/new/new.html',
                         controller: 'CustomerRequestNewController',
                         controllerAs: 'vm'
