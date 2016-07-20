@@ -66,10 +66,10 @@
       <span class="md-body-2">Location:</span>
       <span class="md-body-1" ng-bind="item.location"></span>
       <div class="item-provider" ng-if="item.provider" layout="row">
-        <div flex="15">
-          <div class="photo"></div>
+        <div flex="20">
+          <div class="photo" ng-style="{'background-image': 'url('+item.provider.photo+')'}"></div>
         </div>
-        <div flex="85">
+        <div flex="80">
           <span class="md-body-2" ng-bind="item.provider.name"></span>
           <star-rating ng-if="item.provider" value="item.provider.rating" max="5" readonly></star-rating>
         </div>
