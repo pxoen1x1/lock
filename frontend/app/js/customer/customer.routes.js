@@ -35,15 +35,15 @@
                 url: '/registration',
                 views: {
                     'content@root': {
-                        templateUrl: 'customer/registration/layout/layout.html'
+                        templateUrl: 'customer/layout/registration-layout.html'
                     },
                     'content@customer.registration': {
-                        templateUrl: 'customer/registration/layout/content.html',
+                        templateUrl: 'customer/registration/registration.html',
                         controller: 'CustomerRegistrationController',
                         controllerAs: 'vm'
                     },
                     'header@customer.registration': {
-                        templateUrl: 'customer/registration/layout/header.html'
+                        templateUrl: 'customer/layout/registration-header.html'
                     }
                 }
             })

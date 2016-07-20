@@ -15,7 +15,7 @@
     function tabBar($location, $mdMedia) {
         return {
             restrict: 'AE',
-            templateUrl: '/js/core/directives/tabBar/tabBarCustomer.html',
+            templateUrl: '/js/core/directives/tab-bar/tab-bar-customer.html',
             scope: {
                 items: '='
             },
