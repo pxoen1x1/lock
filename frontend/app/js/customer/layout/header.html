@@ -1,6 +1,6 @@
 <md-toolbar class="md-menu-toolbar md-whiteframe-1dp md-default-theme">
   <div class="md-toolbar-tools">
-    <md-button class="md-icon-button button-menu" hide-gt-sm ng-click="vm.toggleMenu()">
+    <md-button class="md-icon-button button-menu" hide-gt-sm ng-click="vm.toggleMenu()" aria-label="Menu">
       <md-icon>
         <i class="material-icons">menu</i>
       </md-icon>
@@ -16,10 +16,10 @@
       <span ng-bind="vm.headerPath[vm.headerPath.length-1].display ? vm.headerPath[vm.headerPath.length-1].display : vm.headerPath[vm.headerPath.length-2].display"></span>
     </h2>
     <span flex hide-gt-sm></span>
-    <md-button class="button-login" ng-show="vm.$mdMedia('gt-xs')" ng-href="#">
+    <md-button class="button-login" ng-show="vm.$mdMedia('gt-xs')" ng-href="#" aria-label="Log out">
       Log out
     </md-button>
-    <md-button class="md-icon-button button-menu" hide-gt-xs ng-href="#">
+    <md-button class="md-icon-button button-menu" hide-gt-xs ng-href="#" aria-label="Log out">
       <md-icon>
         <i class="fa fa-sign-in" aria-hidden="true"></i>
       </md-icon>

@@ -118,9 +118,7 @@ $primary-color: rgb(3, 155, 229);
       width: 120px;
       height: 120px;
       overflow: hidden;
-    }
-    .photo img {
-      height: 100%
+      background-size: cover;
     }
     .name {
       font-size: 20px;

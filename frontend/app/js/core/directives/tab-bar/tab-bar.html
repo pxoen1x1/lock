@@ -1,7 +1,7 @@
 <div class="tab-bar-items" layout="row">
   <div class="tab-bar-item" ng-repeat="item in items" flex="{{100 / items.length}}">
     <md-button layout="column" layout-align-gt-xs="center center" layout-align="center center" ng-href="{{item.href}}"
-               ng-class="{'active': path == item.href}">
+               ng-class="{'active': path == item.href}" aria-label="item.display">
       <div ng-show="!mdMedia('gt-xs')" layout="column" layout-align="center center">
         <div class="icon">
           <i ng-if="item.icon" class="material-icons" ng-bind="item.icon"></i>
