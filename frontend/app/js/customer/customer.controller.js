@@ -15,6 +15,13 @@
         vm.menuItems = menuItems;
         vm.tabsFlow = initTabsFlow(menuItems);
 
+        vm.dataSource = {
+            photo: "https://pp.vk.me/c604329/v604329073/1a33c/XhTVHpUbzGU.jpg",
+            name: "Elliot Alderson",
+            verified: 1,
+            email: "mrrobot@fsociety.org"
+        }
+
         $rootScope.$on('$stateChangeStart',
             function (event, toState, toParams, fromState, fromParams) {
                 if (toState.name == 'customer.request') {
