@@ -14,7 +14,7 @@ let AuthController = {
             (error, user) => {
                 if (error || !user) {
 
-                    return response.forbidden({
+                    return response.badRequest({
                         message: sails.__('User authentication failed.')
                     });
                 }
