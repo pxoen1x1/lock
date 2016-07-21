@@ -2,7 +2,7 @@
   <form role="form"
         name="loginForm"
         novalidate
-        ng-submit="vm.login(vm.user, loginForm.$valid)">
+        ng-submit="vm.submit(vm.user, loginForm.$valid, vm.isForgotPasswordEnabled)">
     <md-toolbar>
       <div class="md-toolbar-tools">
         <h2>Log In</h2>
@@ -31,7 +31,8 @@
           </md-input-container>
         </div>
         <!-- Password -->
-        <div layout="row">
+        <div layout="row"
+             ng-if="!vm.isForgotPasswordEnabled">
           <md-input-container class="md-block" flex>
             <label>Password<sup>*</sup></label>
             <input type="password"
@@ -46,11 +47,19 @@
             </div>
           </md-input-container>
         </div>
+        <div layout="row">
+          <md-button class="md-primary"
+                     aria-label="{{ vm.isForgotPasswordEnabled ? 'Log In': 'Forgot your password?' }}"
+                     ng-click="vm.isForgotPasswordEnabled = !vm.isForgotPasswordEnabled">
+            <span ng-bind="vm.isForgotPasswordEnabled ? 'Log In': 'Forgot your password?'"></span>
+          </md-button>
+        </div>
       </div>
     </md-dialog-content>
     <md-dialog-actions layout="row">
-      <md-button type="submit">
-        Login
+      <md-button type="submit"
+                 aria-label="{{ vm.isForgotPasswordEnabled ? 'Reset Password' : 'Log In' }}">
+        <span ng-bind="vm.isForgotPasswordEnabled ? 'Reset Password' : 'Log In'"></span>
       </md-button>
     </md-dialog-actions>
   </form>
