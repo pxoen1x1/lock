@@ -8,7 +8,7 @@
 
     /* @ngInject */
     function mdDialogConfig($provide) {
-        $provide.decorator('$mdDialog', function ($delegate) {
+        $provide.decorator('$mdDialog', ['$delegate', function ($delegate) {
             var defaultOptions = {
                 clickOutsideToClose: true,
                 hasBackdrop: false,
@@ -26,6 +26,6 @@
             $delegate.show = decorateDialogShow;
 
             return $delegate;
-        });
+        }]);
     }
 })();
