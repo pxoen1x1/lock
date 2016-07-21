@@ -3,13 +3,14 @@
 
 var gulp = require('gulp');
 var del = require('del');
+
 var config = require('../../config');
-var development = config.delete.development;
+var deleteOptions = config.delete;
 
 /**
  * Delete folders and files
  */
 gulp.task('delete', function (callback) {
     
-    return del(development.src, callback);
+    return del(deleteOptions.src, callback);
 });
