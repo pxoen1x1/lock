@@ -29,6 +29,9 @@
                         controllerAs: 'vm'
                     }
                 }
+            })
+            .state('login', {
+                reloadOnSearch: false
             });
 
         $urlRouterProvider.otherwise('/');
