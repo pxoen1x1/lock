@@ -21,5 +21,6 @@ module.exports = {
   //   connection: 'someMongodbServer'
   // }
 
-  host: 'localhost'
+  host: 'localhost',
+  homePage: 'http://localhost:9000/'
 };

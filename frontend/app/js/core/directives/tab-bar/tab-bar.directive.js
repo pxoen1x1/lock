@@ -1,8 +1,3 @@
-// Attributes:
-//  onchange - calls when user select a star
-//  showChoice - show user choice after he select a star (by default shows what your 'onchange' return)
-//  readonly - stars aren't selectable
-
 (function () {
     'use strict';
 
@@ -15,7 +10,7 @@
     function tabBar($location, $mdMedia) {
         return {
             restrict: 'AE',
-            templateUrl: '/js/core/directives/tab-bar/tab-bar-customer.html',
+            templateUrl: '/js/core/directives/tab-bar/tab-bar.html',
             scope: {
                 items: '='
             },

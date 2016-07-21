@@ -2,7 +2,10 @@
 
 let application = {
     tokenLength: 16,
-    customerVerificationEnabled: true,
+    emailVerificationEnabled: true,
+    urls: {
+        emailConfirmation: '/user/email/confirm'
+    },
     mailer: {
         from: `LockSmith <no-reply@locksmith.local>`,
         providerPath: '/usr/sbin/sendmail',

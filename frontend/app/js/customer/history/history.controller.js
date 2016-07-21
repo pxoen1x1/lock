@@ -12,6 +12,7 @@
         var vm = this;
 
         vm.$mdMedia = $mdMedia;
+        vm.selected = [];
 
         vm.dataSource = {
             items: [
@@ -32,7 +33,8 @@
                     cost: 300,
                     provider: {
                         id: 123,
-                        name: "Alex Neff",
+                        name: "Richard Hendricks",
+                        photo: "http://www.piedpiper.com/app/themes/pied-piper/dist/images/richard.png",
                         rating: 3.2
                     }
                 },
@@ -45,7 +47,8 @@
                     cost: 200,
                     provider: {
                         id: 123,
-                        name: "Mark Zuckerberg",
+                        name: "Erlich Bachman",
+                        photo: "http://www.piedpiper.com/app/themes/pied-piper/dist/images/erlich.png",
                         rating: 4.5
                     }
                 },
@@ -58,7 +61,8 @@
                     cost: 250,
                     provider: {
                         id: 123,
-                        name: "Any Locksmith",
+                        name: "Nelson Bighetti",
+                        photo: "http://www.piedpiper.com/app/themes/pied-piper/dist/images/bighead.png",
                         rating: 5
                     }
                 },
@@ -87,6 +91,10 @@
         };
 
         vm.logOrder = function (order) {
+        };
+
+        vm.logItem = function(item) {
+            $state.go('customer.request.view', {'requestId': item.id});
         };
     }
 })();

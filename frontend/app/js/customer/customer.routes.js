@@ -60,7 +60,7 @@
             .state('customer.request.new', {
                 url: '/new',
                 views: {
-                    'content@customer.request': {
+                    'content@customer': {
                         templateUrl: 'customer/request/new/new.html',
                         controller: 'CustomerRequestNewController',
                         controllerAs: 'vm'
@@ -88,10 +88,24 @@
                 }
             })
             .state('customer.request.chat', {
-                url: '/{requestId:int}/chat'
+                url: '/{requestId:int}/chat',
+                views: {
+                    'content@customer.request': {
+                        templateUrl: 'customer/request/chat/chat.html',
+                        controller: 'CustomerRequestChatController',
+                        controllerAs: 'vm'
+                    }
+                }
             })
             .state('customer.request.recommended', {
-                url: '/{requestId:int}/recommended'
+                url: '/{requestId:int}/recommended',
+                views: {
+                    'content@customer.request': {
+                        templateUrl: 'customer/request/recommended/recommended.html',
+                        controller: 'CustomerRequestRecommendedController',
+                        controllerAs: 'vm'
+                    }
+                }
             })
             .state('customer.settings', {
                 url: '/settings'
