@@ -23,7 +23,8 @@
       </div>
       <form role="form"
             name="registrationForm"
-            novalidate>
+            novalidate
+            ng-submit="vm.createCustomer(vm.customer, registrationForm.$valid)">
         <!-- First and last name -->
         <div layout="row">
           <md-input-container class="md-block" flex>
@@ -92,9 +93,7 @@
           </md-input-container>
         </div>
         <!-- Submit -->
-        <md-button type="submit"
-                   ng-click="vm.createUser(vm.user, registrationForm.$valid)">Submit
-        </md-button>
+        <md-button type="submit">Submit</md-button>
       </form>
     </div>
     <div class="social-wrapper"
