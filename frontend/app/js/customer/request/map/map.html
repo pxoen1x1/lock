@@ -1,6 +1,10 @@
-<div class="container request-content">
+<div class="container map-content">
   <div class="container-title"><i class="material-icons">location_on</i> <span>Map</span></div>
   <div class="container-content">
-    Let's map here.
+    <!-- Documentation -> http://angular-ui.github.io/angular-google-maps/#!/api/google-map -->
+    <ui-gmap-google-map center="vm.map.center" zoom="vm.map.zoom" options="vm.map.options">
+      <ui-gmap-markers models="vm.markers" coords="'self'" modelsbyref="false"/>
+    </ui-gmap-google-map>
+    <md-button ng-click="vm.getCurrentLocation()" aria-label="Get my location">Get my location</md-button>
   </div>
 </div>
