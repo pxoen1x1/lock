@@ -7,7 +7,7 @@
     mdDialogConfig.$inject = ['$provide'];
 
     /* @ngInject */
-    function mdDialogConfig($provide, $mdMediaProvider) {
+    function mdDialogConfig($provide) {
         $provide.decorator('$mdDialog', function ($delegate) {
             var defaultOptions = {
                 clickOutsideToClose: true,
