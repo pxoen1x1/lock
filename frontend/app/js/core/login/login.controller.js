@@ -13,10 +13,10 @@
 
         vm.user = {};
 
-        vm.login = login;
-        vm.cancel = cancel;
+        vm.isForgotPasswordEnabled = false;
 
-        activate();
+        vm.submit = submit;
+        vm.cancel = cancel;
 
         function loginUser(user) {
 
@@ -27,8 +27,13 @@
                 });
         }
 
-        function login(user, isFromValid) {
+        function submit(user, isFromValid, isForgotPasswordEnabled) {
             if (!isFromValid) {
+
+                return;
+            }
+
+            if (isForgotPasswordEnabled) {
 
                 return;
             }
@@ -43,9 +48,6 @@
 
         function cancel() {
             $mdDialog.cancel();
-        }
-
-        function activate() {
         }
     }
 })();
