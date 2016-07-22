@@ -6,52 +6,69 @@ var historyApiFallback = require('connect-history-api-fallback');
 var paths = {
     build: 'dist/',
     src: 'app/',
-    development: 'dist/development',
-    production: 'dist/production',
+    development: 'dist/development/',
+    production: 'dist/production/',
     vendor: 'vendor/'
 };
 
 module.exports = {
     browsersync: {
-        server: {
-            baseDir: [paths.development, paths.src],
-            middleware: [historyApiFallback()],
-            routes: {
-                '/vendor': paths.vendor
-            }
+        development: {
+            server: {
+                baseDir: [paths.development, paths.src],
+                middleware: [historyApiFallback()],
+                routes: {
+                    '/vendor': paths.vendor
+                }
+            },
+            port: 9000,
+            files: [
+                paths.src + '**/*'
+            ]
         },
-        port: 9000,
-        files: [
-            paths.src + '**/*'
-        ]
+        production: {
+            server: {
+                baseDir: [paths.production]
+            },
+            port: 9001
+        }
     },
     copyfonts: {
-        src: paths.src + 'fonts/*',
-        dest: paths.production + '/fonts'
+        src: [
+            paths.src + 'fonts/*',
+            paths.vendor + 'font-awesome/fonts/*.{eot,svg,ttf,woff,woff2}',
+            paths.vendor + 'material-design-icons/iconfont/*.{eot,svg,ttf,woff,woff2}'
+        ],
+        dest: paths.production + 'fonts'
     },
     copystyles: {
         src: paths.src + 'styles/*',
         dest: paths.development + '/styles'
     },
     delete: {
-        development: {
-            src: paths.development
-        },
-        production: {
-            src: paths.production
-        }
-    },
-    images: {
-        src: paths.src + 'images/**/*',
-        dest: paths.production + '/images'
+        src: paths.build
     },
     htmlmin: {
-        collapseWhitespace: true,
-        conservativeCollapse: true,
-        collapseBooleanAttributes: true,
-        html5: true,
-        removeCommentsFromCDATA: true,
-        removeOptionalTags: true
+        options: {
+            collapseWhitespace: true,
+            collapseBooleanAttributes: true,
+            collapseInlineTagWhitespace: true,
+            conservativeCollapse: true,
+            html5: true,
+            removeCommentsFromCDATA: true
+        }
+    },
+    imagemin: {
+        src: paths.src + 'images/**/*.{jpg,jpeg,png,gif}',
+        dest: paths.production + 'images/',
+        options: {
+            optimizationLevel: 3,
+            progessive: true,
+            interlaced: true
+        }
+    },
+    jshint: {
+        src: paths.src + 'js/*.js'
     },
     lintStyles: {
         src: [
@@ -69,27 +86,52 @@ module.exports = {
         }
     },
     ngtemplate: {
-        development: {
-            src: paths.src + 'js/**/*.html',
-            dest: paths.development + '/js'
-        },
+        src: paths.src + 'js/**/*.html',
+        dest: paths.development + 'js',
         options: {
             moduleName: 'app',
             useStrict: true
         }
     },
+    replace: {
+        materialIcons: {
+            from: 'url(MaterialIcons-Regular',
+            to: 'url(../fonts/MaterialIcons-Regular'
+        }
+    },
+    rsync: {
+        src: paths.production + '**',
+        options: {
+            destination: '/srv/www/locksmith/frontend/',
+            root: paths.production,
+            hostname: '192.168.0.99',
+            username: 'deploy',
+            incremental: true,
+            progress: true,
+            relative: true,
+            emptyDirectories: true,
+            recursive: true,
+            clean: true,
+            exclude: [],
+            include: []
+        }
+    },
     sass: {
         development: {
             src: paths.src + 'scss/**/*.scss',
-            dest: paths.development + '/styles'
+            dest: paths.development + 'styles'
         },
         production: {
             src: paths.src + 'scss/**/main.scss',
-            dest: paths.production + '/styles'
+            dest: paths.production + 'styles'
         }
     },
     styles: {
         src: paths.src + 'styles/**/*.css'
+    },
+    usemin: {
+        src: paths.src + '*.html',
+        dest: paths.production
     },
     watch: {
         images: paths.src + 'images/**/*',
@@ -97,52 +139,5 @@ module.exports = {
         styles: paths.src + 'styles/**/*.css',
         scripts: paths.src + 'js/**/*.js',
         templates: paths.src + 'js/**/*.html'
-    },
-    webserver: {
-        src: ['./dist/development/', './app/', './' + paths.vendor + '/'],
-        options: {
-            path: '/dist/development/',
-            port: 9000,
-            livereload: true,
-            /* fallback: '/index.html', */
-            open: '/dist/development/'
-        }
-    },
-    jshint: {
-        src: paths.src + 'js/*.js'
-    },
-    optimize: {
-        css: {
-            src: paths.src + 'css/**/*.css',
-            dest: paths.production + '/css/',
-            options: {
-                keepSpecialComments: 0
-            }
-        },
-        js: {
-            src: paths.src + 'js/**/*.js',
-            dest: paths.production + '/js/',
-            options: {}
-        },
-        images: {
-            src: paths.src + 'images/**/*.{jpg,jpeg,png,gif}',
-            dest: paths.production + '/images/',
-            options: {
-                optimizationLevel: 3,
-                progessive: true,
-                interlaced: true
-            }
-        },
-        html: {
-            src: paths.src + '**/*.html',
-            dest: paths.production,
-            options: {
-                collapseWhitespace: true,
-                conservativeCollapse: true,
-                collapseBooleanAttributes: true,
-                removeCommentsFromCDATA: true,
-                removeOptionalTags: true
-            }
-        }
     }
 };

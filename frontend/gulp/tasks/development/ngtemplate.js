@@ -4,11 +4,13 @@
 var gulp = require('gulp');
 var ngTemplate = require('gulp-ng-template');
 var htmlmin = require('gulp-htmlmin');
+
 var config = require('../../config');
+var ngtemplateOptions = config.ngtemplate;
 
 gulp.task('ngtemplate', function () {
-    return gulp.src(config.ngtemplate.development.src)
+    return gulp.src(ngtemplateOptions.src)
         .pipe(htmlmin(config.htmlmin))
-        .pipe(ngTemplate(config.ngtemplate.options))
-        .pipe(gulp.dest(config.ngtemplate.development.dest));
+        .pipe(ngTemplate(ngtemplateOptions.options))
+        .pipe(gulp.dest(ngtemplateOptions.dest));
 });
