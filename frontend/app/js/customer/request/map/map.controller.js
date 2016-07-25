@@ -126,8 +126,7 @@
                                 height: 30
                             }
                         },
-                        title: "Your request",
-                        animation: google.maps.Animation.DROP
+                        title: "Your request"
                     }
                 });
             });

@@ -529,6 +529,11 @@ $primary-color: rgb(3, 155, 229);
 
 .customer {
   .map-content {
+    .map-wrapper {
+      background: url('https://maps.gstatic.com/tactile/pane/spinner_color.gif');
+      background-position: center center;
+      background-repeat: no-repeat;
+    }
     .map-wrapper, .angular-google-map-container {
       position: relative;
       width: 100%;
@@ -589,13 +594,30 @@ $primary-color: rgb(3, 155, 229);
       .status.not-available {
         color: #B71C1C;
       }
+      .message {
+        width: 70px;
+      }
+      .message .md-button.md-fab {
+        background-color: $primary-color;
+      }
+      .message .md-button {
+        width: 50px;
+        height: 50px;
+        margin: 0;
+        padding: 0;
+      }
+      .message md-icon {
+        line-height: 18px;
+      }
       .close {
         position: absolute;
         right: 5px;
         top: 5px;
-        font-size: 12px;
         opacity: 0.3;
         cursor: pointer;
+      }
+      .close i.material-icons {
+        font-size: 16px;
       }
       .close:hover {
         opacity: 1;
