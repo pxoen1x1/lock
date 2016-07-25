@@ -1,5 +1,14 @@
 <div class="container map-content">
-  <div class="container-title"><i class="material-icons">location_on</i> <span>Map</span></div>
+  <div class="container-title" layout="row">
+    <div flex>
+      <i class="material-icons">location_on</i> <span>Map</span>
+    </div>
+    <div flex layout="row" layout-align="end center" class="actions">
+      <md-checkbox aria-label="Show only available" ng-click="vm.showOnlyAvailable = !vm.showOnlyAvailable">
+        Show only available
+      </md-checkbox>
+    </div>
+  </div>
   <div class="container-content">
     <!-- Documentation -> http://angular-ui.github.io/angular-google-maps/#!/api/google-map -->
     <div class="map-wrapper">
@@ -26,19 +35,16 @@
                 <star-rating class="inline-block md-body-1" value="vm.selectedProvider.rating" max="5" readonly></star-rating>
             </div>
             <div>
-              <span class="md-body-1">
-                <span ng-bind="vm.selectedProvider.done"></span>
-                <span>done requests</span>
-                <span> · </span>
-                <span>Working hours:</span>
+              <span class="md-subhead">
+                <span ng-bind="vm.selectedProvider.distance+' km away'"></span>
+                <span>· Working hours:</span>
                 <span>{{(vm.selectedProvider.working.from > 12 ? (vm.selectedProvider.working.from-12)+' pm' : vm.selectedProvider.working.from+' am')}} – {{(vm.selectedProvider.working.to > 12 ? (vm.selectedProvider.working.to-12)+' pm' : vm.selectedProvider.working.to+' am')}}</span>
               </span>
             </div>
-            <div class="status"
+            <div class="md-subhead status"
                  ng-class="{'not-available': !vm.selectedProvider.available}"
-                 ng-bind="vm.selectedProvider.available ? 'available':'not available'">
+                 ng-bind="vm.selectedProvider.available ? 'available':'not available now'">
             </div>
-            <div class="close" ng-click="vm.showWindow = !vm.showWindow"><i class="material-icons">close</i></div>
           </div>
 
           <div class="message" layout="row" layout-align="start center">
@@ -46,6 +52,8 @@
               <md-icon>chat</md-icon>
             </md-button>
           </div>
+
+          <div class="close" ng-click="vm.showWindow = !vm.showWindow"><i class="material-icons">close</i></div>
         </div>
       </div>
     </div>

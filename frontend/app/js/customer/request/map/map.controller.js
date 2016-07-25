@@ -14,6 +14,7 @@
         vm.markers = [];
         vm.selectedProvider = '';
         vm.showWindow = false;
+        vm.showOnlyAvailable = false;
         vm.createMarker = createMarker;
         vm.getCurrentLocation = getCurrentLocation;
 
@@ -38,19 +39,10 @@
                             latitude: lat,
                             longitude: lon
                         },
-                        provider: {
-                            id: Math.floor(Math.random()*100) % 100,
-                            photo: getRandProvider().photo,
-                            name: getRandProvider().name,
-                            rating: Math.floor(Math.random()*100) % 5,
-                            available: Math.floor(Math.random()*100) % 2,
-                            done: Math.floor(Math.random()*100) % 50,
-                            working: {
-                                from: Math.floor(Math.random()*100) % 13 + 1,
-                                to: Math.floor(Math.random()*100) % 24 + 1
-                            }
-                        }
+                        provider: getRandProvider()
                     });
+                    marker.options.data.provider.distance = (getDistance(lat, lon, vm.map.center.latitude, vm.map.center.longitude) / 1000).toFixed(1);
+
                     vm.markers.push(marker);
                     $scope.$apply();
                 }
@@ -67,7 +59,7 @@
                         latitude: pos.coords.latitude,
                         longitude: pos.coords.longitude
                     };
-                    console.log('Current location: '+angular.toJson(vm.map.center));
+                    console.log('Current location: ' + angular.toJson(vm.map.center));
                     $scope.$apply();
                 },
                 function (error) {
@@ -78,14 +70,13 @@
         }
 
 
-
         function createMarker(data) {
             return {
                 id: data.id,
                 location: data.coords,
                 options: {
                     icon: {
-                        url: "/images/map-marker-locksmith"+(!data.provider.available ? "-inactive" : "")+".png",
+                        url: "/images/map-marker-locksmith" + (!data.provider.available ? "-inactive" : "") + ".png",
                         scaledSize: {
                             width: 50,
                             height: 50
@@ -102,7 +93,7 @@
                         var provider = this.options.data.provider;
                         vm.showWindow = false;
 
-                        $timeout(function() {
+                        $timeout(function () {
                             vm.selectedProvider = provider;
                             vm.showWindow = true;
                         }, 200);
@@ -131,14 +122,51 @@
                 });
             });
 
+        function getDistance(lat1, lon1, lat2, lon2) {
+            var R = 6371e3; // metres
+            var φ1 = toRadians(lat1);
+            var φ2 = toRadians(lat2);
+            var Δφ = toRadians(lat2 - lat1);
+            var Δλ = toRadians(lon2 - lon1);
+
+            var a = Math.sin(Δφ / 2) * Math.sin(Δφ / 2) +
+                Math.cos(φ1) * Math.cos(φ2) *
+                Math.sin(Δλ / 2) * Math.sin(Δλ / 2);
+            var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+            var d = R * c;
+
+            function toRadians(deg) {
+                return deg * (Math.PI / 180)
+            }
+
+            return d;
+        }
+
+        $scope.$watch('vm.showOnlyAvailable', function (value) {
+            if (vm.markers.length === 1) return;
+            for (var i = 1; i < vm.markers.length; i++) {
+                if (!vm.markers[i].options.data.provider.available) vm.markers[i].options.visible = !value;
+            }
+        });
+
         // for testing (remove before production)
-        var getRandProvider = function() {
-            var _p = ["erlich", "richard", "bighead"];
-            var _n = ["Erlich Bachman", "Richard Hendricks", "Nelson Bigetti"];
-            var r = Date.now() % 3;
+        var getRandProvider = function () {
+            var _p = ["erlich", "richard", "bighead", "jared", "dinesh", "gilfoyle"];
+            var _n = ["Erlich Bachman", "Richard Hendricks", "Nelson Bigetti", "Jared Dunn", "Dinesh Chugtai", "Bertram Gilfoyle"];
+            var r = Math.floor(Math.random() * 100) % _p.length;
             return {
-                photo: "http://www.piedpiper.com/app/themes/pied-piper/dist/images/"+_p[r]+".png",
-                name: _n[r]
+                id: Math.floor(Math.random() * 100) % 100,
+                photo: "http://www.piedpiper.com/app/themes/pied-piper/dist/images/" + _p[r] + ".png",
+                name: _n[r],
+                rating: ((Math.random() * 100 % 3) + 3).toFixed(1),
+                available: Math.floor(Math.random() * 100) % 2,
+                done: Math.floor(Math.random() * 100) % 50,
+                working: {
+                    from: Math.floor(Math.random() * 100) % 13 + 1,
+                    to: Math.floor(Math.random() * 100) % 24 + 1
+                },
+                distance: 0
             };
         };
     }
