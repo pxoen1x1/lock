@@ -3,7 +3,7 @@
 
 var gulp = require('gulp');
 var config = require('../../config');
-var configCopyfonts = config.copyfonts.development;
+var configCopyfonts = config.copyfonts;
 
 /**
  * Copy fonts to folder

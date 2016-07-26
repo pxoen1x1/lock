@@ -27,12 +27,12 @@
             link: function (scope, elem, attrs) {
                 scope.readonly = 'readonly' in attrs;
                 scope.showChoice = 'showchoice' in attrs;
-
+                
                 if (scope.readonly) {
                     angular.element(elem)[0].style.cursor = 'default';
                 }
 
-                angular.element(elem).addClass('rating-stars');
+                angular.element(elem).addClass('star-rating');
                 angular.element(elem).attr('title', scope.ratingValue);
 
                 var updateStars = function () {
@@ -71,11 +71,9 @@
                 };
 
                 scope.$watch('value',
-                    function (oldVal, newVal) {
-                        if (newVal) {
-                            angular.element(elem).attr('title', newVal);
-                            updateStars();
-                        }
+                    function (value) {
+                        angular.element(elem).attr('title', value);
+                        updateStars();
                     }
                 );
 

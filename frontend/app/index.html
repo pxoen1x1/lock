@@ -6,17 +6,24 @@
 
   <title>Locksmith</title>
 
+  <!-- build:vendorcss(.) /styles/vendor.css -->
   <link rel="stylesheet" href="/vendor/font-awesome/css/font-awesome.min.css">
   <link rel="stylesheet" href="/vendor/angular-loading-bar/build/loading-bar.min.css">
   <link rel="stylesheet" href="/vendor/material-design-icons/iconfont/material-icons.css">
   <link rel="stylesheet" href="/vendor/angular-material/angular-material.min.css">
   <link rel="stylesheet" href="/vendor/angular-material-data-table/dist/md-data-table.min.css">
   <link rel="stylesheet" href="/vendor/angular-ui-router-anim-in-out/css/anim-in-out.css">
+  <!-- endbuild -->
+
+  <!-- build:css(dist/development) /styles/styles.css -->
   <link rel="stylesheet" href="/styles/main.css">
+  <!-- endbuild -->
+
 </head>
 <body>
 <div ui-view autoscroll="true"></div>
 
+<!-- build:vendorjs(.) /js/vendor.js -->
 <script src="/vendor/angular/angular.min.js"></script>
 <script src="/vendor/angular-ui-router/release/angular-ui-router.min.js"></script>
 <script src="/vendor/angular-aria/angular-aria.min.js"></script>
@@ -28,21 +35,29 @@
 <script src="/vendor/angular-material-data-table/dist/md-data-table.min.js"></script>
 <script src="/vendor/angular-ui-router-anim-in-out/anim-in-out.js"></script>
 <script src="/vendor/angular-input-masks/angular-input-masks-standalone.min.js"></script>
+<script src='/vendor/lodash/dist/lodash.min.js'></script>
+<script src='/vendor/angular-simple-logger/dist/angular-simple-logger.min.js'></script>
+<script src="/vendor/angular-google-maps/dist/angular-google-maps.min.js"></script>
+<!-- endbuild -->
 
+<!-- build:js({app,dist/development}) /js/app.js-->
 <script src="/js/app.js"></script>
 <script src="/js/app.constants.js"></script>
 <script src="/js/app.config.js"></script>
+<script src="/js/map.config.js"></script>
 <script src="/js/app.run.js"></script>
 <script src="/js/routes.js"></script>
 
 <script src="/js/templates.js"></script>
 
 <script src="/js/core/core.module.js"></script>
+<script src="/js/core/md-dialog.config.js"></script>
 <script src="/js/core/services/core.dataservice.js"></script>
 <script src="/js/core/directives/tab-bar/tab-bar.directive.js"></script>
 <script src="/js/core/directives/email-validation.directive.js"></script>
 <script src="/js/core/directives/password-validation.directive.js"></script>
 <script src="/js/core/directives/star-rating.directive.js"></script>
+<script src="/js/core/login/login.controller.js"></script>
 
 <script src="/js/home/home.module.js"></script>
 <script src="/js/home/home.controller.js"></script>
@@ -66,6 +81,7 @@
 <script src="/js/provider/provider.routes.js"></script>
 <script src="/js/provider/registration/registration.controller.js"></script>
 <script src="/js/provider/registration/registration.controller.js"></script>
+<!-- endbuild -->
 
 </body>
 </html>

@@ -10,7 +10,7 @@
     function tabBar($location, $mdMedia) {
         return {
             restrict: 'AE',
-            templateUrl: '/js/core/directives/tab-bar/tab-bar.html',
+            templateUrl: 'core/directives/tab-bar/tab-bar.html',
             scope: {
                 items: '='
             },

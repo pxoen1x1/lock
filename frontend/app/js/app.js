@@ -11,6 +11,7 @@
         'ngAnimate',
         'anim-in-out',
         'ui.utils.masks',           // Opinionated angular input masks
+        'uiGmapgoogle-maps',
 
         'app.core',
         'app.home',

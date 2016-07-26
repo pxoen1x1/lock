@@ -12,21 +12,21 @@ $primary-color: rgb(3, 155, 229);
   overflow-x: hidden;
 }
 
-.rating-stars {
+.star-rating {
   cursor: pointer;
 }
 
-.rating-stars ul {
+.star-rating ul {
   list-style: none;
   padding: 0;
   margin: 0;
 }
 
-.rating-stars li {
+.star-rating li {
   display: inline;
 }
 
-.rating-stars li i {
+.star-rating li i {
   font-size: inherit;
 }
 
@@ -58,6 +58,9 @@ $primary-color: rgb(3, 155, 229);
   }
   .text-center {
     text-align: center;
+  }
+  .inline-block {
+    display: inline-block;
   }
 }
 
@@ -208,7 +211,10 @@ $primary-color: rgb(3, 155, 229);
     top: 0px;
     left: 0px;
     right: 0px;
-    bottom: 0px;
+    height: 100%;
+  }
+  .content._content {
+    min-height: 100%;
   }
   .content-wrapper {
     background-color: rgb(245, 245, 245);
@@ -218,6 +224,7 @@ $primary-color: rgb(3, 155, 229);
     .container {
       background: #fff;
       margin: 30px;
+      margin-bottom: 84px;
       box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .2), 0 1px 1px 0 rgba(0, 0, 0, .14), 0 2px 1px -1px rgba(0, 0, 0, .12);
     }
     .container-title {
@@ -488,7 +495,7 @@ $primary-color: rgb(3, 155, 229);
     z-index: 59;
     background: #fff;
     height: 54px;
-    box-shadow: 0 -1px 3px 0 rgba(0, 0, 0, 0.2), 0 -1px 1px 0 rgba(0, 0, 0, 0.14), 0 -2px 1px -1px rgba(0, 0, 0, 0.12);
+    border-top: 1px solid rgba(0, 0, 0, .1);
   }
   .tab-bar-items {
     height: 54px;
@@ -517,6 +524,147 @@ $primary-color: rgb(3, 155, 229);
   }
   .tab-bar-item .title {
     font-size: 12px;
+  }
+}
+
+.customer {
+  .map-content {
+    .actions {
+      font-size: 15px;
+    }
+    .actions md-checkbox {
+      margin: 0;
+    }
+    .map-wrapper {
+      background: url('https://maps.gstatic.com/tactile/pane/spinner_color.gif');
+      background-position: center center;
+      background-repeat: no-repeat;
+    }
+    .map-wrapper, .angular-google-map-container {
+      position: relative;
+      width: 100%;
+      height: 400px;
+    }
+    .map-wrapper .list.card.map-card {
+      position: absolute;
+      left: 50%;
+      bottom: 16px;
+      width: 70%;
+      margin: 0;
+      opacity: 0;
+      -webkit-transform: translate(-50%, -15%);
+      -moz-transform: translate(-50%, 0) scaleY(0);
+      -ms-transform: translate(-50%, 0) scaleY(0);
+      -o-transform: translate(-50%, 0) scaleY(0);
+      transform: translate(-50%, 0) scaleY(0);
+
+      -webkit-transition: all 0.2s ease;
+      -moz-transition: all 0.2s ease;
+      -ms-transition: all 0.2s ease;
+      -o-transition: all 0.2s ease;
+      transition: all 0.2s ease;
+    }
+
+    .map-wrapper .list.card.map-card.show {
+      opacity: 1;
+      -webkit-transform: translate(-50%, 0);
+      -moz-transform: translate(-50%, 0);
+      -ms-transform: translate(-50%, 0);
+      -o-transform: translate(-50%, 0);
+      transform: translate(-50%, 0);
+    }
+    .map-card-provider {
+      padding: 10px 10px 10px 20px;
+    }
+    .map-card-provider {
+      .right {
+        margin-right: 20px;
+      }
+      .star-rating {
+        color: rgba(29, 177, 239, 1);
+      }
+      .photo {
+        width: 71px;
+        height: 71px;
+        -webkit-border-radius: 50%;
+        -moz-border-radius: 50%;
+        border-radius: 50%;
+        background-size: cover;
+      }
+      .md-subhead {
+        color: rgba(0, 0, 0, 0.541176);
+        display: inline;
+        font-size: 14px;
+        letter-spacing: 0.14000000059604645px;
+        line-height: 24px;
+      }
+      .status {
+        font-size: 12px;
+        color: #4CAF50;
+        text-transform: uppercase;
+      }
+      .status.not-available {
+        color: #B71C1C;
+      }
+      .message {
+        width: 70px;
+      }
+      .message .md-button.md-fab {
+        background-color: $primary-color;
+      }
+      .message .md-button {
+        width: 50px;
+        height: 50px;
+        margin: 0;
+        padding: 0;
+      }
+      .message md-icon {
+        line-height: 18px;
+      }
+      .close {
+        position: absolute;
+        right: 5px;
+        top: 5px;
+        opacity: 0.3;
+        cursor: pointer;
+      }
+      .close i.material-icons {
+        font-size: 16px;
+      }
+      .close:hover {
+        opacity: 1;
+      }
+    }
+  }
+}
+
+.customer {
+  .recommended-content {
+    .actions {
+      font-size: 15px;
+    }
+    .actions md-checkbox {
+      margin: 0;
+    }
+    .star-rating {
+      color: rgba(29, 177, 239, 1);
+    }
+    .md-media-md {
+      -webkit-border-radius: 50%;
+      -moz-border-radius: 50%;
+      border-radius: 50%;
+      background-size: cover;
+    }
+    .status {
+      color: #4CAF50;
+      text-transform: uppercase;
+    }
+    .status.not-available {
+      color: #B71C1C;
+    }
+    md-card-actions .md-button {
+      color: $primary-color;
+    }
   }
 }
 

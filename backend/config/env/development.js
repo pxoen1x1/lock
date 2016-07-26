@@ -17,10 +17,21 @@ module.exports = {
    * environment (see config/connections.js and config/models.js )           *
    ***************************************************************************/
 
-  // models: {
-  //   connection: 'someMongodbServer'
-  // }
+  connections: {
+    developmentMysqlServer: {
+      adapter: 'sails-mysql',
+      host: 'localhost',
+      user: 'locksmith',
+      password: 'l0ck$m1th_p@$$',
+      database: 'locksmith'
+    }
+  },
 
-  host: 'localhost',
+  models: {
+    connection: 'developmentMysqlServer',
+    migrate: 'alter'
+  },
+
+  port: 1338,
   homePage: 'http://localhost:9000/'
 };
