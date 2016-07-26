@@ -32,6 +32,7 @@ module.exports = {
     migrate: 'alter'
   },
 
+  host: '0.0.0.0',
   port: 1338,
   homePage: 'http://localhost:9000/'
 };

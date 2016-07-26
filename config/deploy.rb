@@ -36,7 +36,7 @@ namespace :deploy do
         app = fetch(:application)
         env = fetch(:environment)
 
-        execute "NODE_ENV=#{env} pm2 start #{release_path}/backend/app.js --user #{user} --name #{app}"
+        execute "NODE_ENV=#{env} pm2 start #{current_path}/backend/app.js --user #{user} --name #{app}"
         execute "pm2 save"
       end
     end
