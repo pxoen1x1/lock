@@ -1,6 +1,64 @@
-<div class="container request-content">
-  <div class="container-title"><i class="material-icons">star</i> <span>Recommended</span></div>
-  <div class="container-content">
-    Let's recommended here.
+<div class="container recommended-content">
+  <div class="container-title" layout="row">
+    <div flex>
+      <i class="material-icons">star</i> <span>Recommended</span>
+    </div>
+    <div flex layout="row" layout-align="end center" class="actions">
+      <md-checkbox aria-label="Show only available" ng-click="vm.showOnlyAvailable = !vm.showOnlyAvailable; vm.init()">
+        Show only available
+      </md-checkbox>
+    </div>
+  </div>
+  <div class="container-content" layout-xs="column" layout="row">
+    <div flex-xs flex-gt-xs="50" layout="column">
+      <md-card ng-repeat="item in vm.providers.left track by $index">
+        <md-card-title>
+          <md-card-title-text>
+            <span class="md-headline" ng-bind="item.name"></span>
+            <star-rating class="md-subhead" value="item.rating" max="5" readonly></star-rating>
+            <span class="md-subhead" ng-bind="item.distance+' km away'"></span>
+              <span class="md-subhead">
+                <span>Working hours:</span>
+                <span>{{(item.working.from > 12 ? (item.working.from-12)+' pm' : item.working.from+' am')}} – {{(item.working.to > 12 ? (item.working.to-12)+' pm' : item.working.to+' am')}}</span>
+              </span>
+            <div class="md-subhead status"
+                 ng-class="{'not-available': !item.available}"
+                 ng-bind="item.available ? 'available':'not available now'">
+            </div>
+          </md-card-title-text>
+          <md-card-title-media>
+            <div class="md-media-md card-media" ng-style="{'background-image': 'url('+item.photo+')'}"></div>
+          </md-card-title-media>
+        </md-card-title>
+        <md-card-actions layout="row" layout-align="end center">
+          <md-button>Chat with {{ item.name.split(' ')[0] }}</md-button>
+        </md-card-actions>
+      </md-card>
+    </div>
+    <div flex-xs flex-gt-xs="50" layout="column">
+      <md-card ng-repeat="item in vm.providers.right track by $index">
+        <md-card-title>
+          <md-card-title-text>
+            <span class="md-headline" ng-bind="item.name"></span>
+            <star-rating class="md-subhead" value="item.rating" max="5" readonly></star-rating>
+            <span class="md-subhead" ng-bind="item.distance+' km away'"></span>
+              <span class="md-subhead">
+                <span>Working hours:</span>
+                <span>{{(item.working.from > 12 ? (item.working.from-12)+' pm' : item.working.from+' am')}} – {{(item.working.to > 12 ? (item.working.to-12)+' pm' : item.working.to+' am')}}</span>
+              </span>
+            <div class="md-subhead status"
+                 ng-class="{'not-available': !item.available}"
+                 ng-bind="item.available ? 'available':'not available now'">
+            </div>
+          </md-card-title-text>
+          <md-card-title-media>
+            <div class="md-media-md card-media" ng-style="{'background-image': 'url('+item.photo+')'}"></div>
+          </md-card-title-media>
+        </md-card-title>
+        <md-card-actions layout="row" layout-align="end center">
+          <md-button>Chat with {{ item.name.split(' ')[0] }}</md-button>
+        </md-card-actions>
+      </md-card>
+    </div>
   </div>
 </div>

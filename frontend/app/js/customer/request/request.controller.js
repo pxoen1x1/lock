@@ -45,7 +45,7 @@
                 vm.requestId = toParams.requestId ? toParams.requestId : fromParams.requestId;
 
                 var elem = angular.element(document.getElementsByClassName('content'));
-                if (vm.tabsFlow.indexOf(fromState.name) > vm.tabsFlow.indexOf(toState.name)) {
+                if (vm.tabsFlow.indexOf(fromState.name) < vm.tabsFlow.indexOf(toState.name)) {
                     elem.addClass('anim-slide-left');
                     elem.removeClass('anim-slide-right');
                 } else {
