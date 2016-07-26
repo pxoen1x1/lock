@@ -29,7 +29,7 @@ let MailerService = {
                         });
                 })
             .catch(
-                (error) => sails.log.error(error)
+                (err) => sails.log.error(err)
             );
     },
     confirmRegistration(user) {
@@ -50,7 +50,7 @@ let MailerService = {
                         });
                 })
             .catch(
-                (error) => sails.log.error(error)
+                (err) => sails.log.error(err)
             );
     }
 };

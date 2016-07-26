@@ -6,10 +6,10 @@ let FileService = {
     readFile(filePath, optons) {
         let promise = new Promise((resolve, reject) => {
             fs.readFile(filePath, optons,
-                (error, file) => {
-                    if (error) {
+                (err, file) => {
+                    if (err) {
 
-                        return reject(error);
+                        return reject(err);
                     }
 
                     return resolve(file);

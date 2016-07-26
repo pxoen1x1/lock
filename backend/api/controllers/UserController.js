@@ -7,23 +7,23 @@
  */
 
 let UserController = {
-    getUser (request, response) {
-        response.ok(request.user);
+    getUser (req, res) {
+        res.ok(req.user);
     },
-    createUser(request, response) {
-        let user = request.body;
+    createUser(req, res) {
+        let user = req.body;
 
         async.waterfall([
                 async.apply(createUser, user)
             ],
-            (error, createdUser) => {
-                if (error) {
-                    sails.log.error(error);
+            (err, createdUser) => {
+                if (err) {
+                    sails.log.error(err);
 
-                    return response.serverError();
+                    return res.serverError();
                 }
 
-                response.created(createdUser);
+                res.created(createdUser);
 
                 if (sails.config.application.emailVerificationEnabled) {
                     MailerService.confirmRegistration(createdUser);
@@ -32,13 +32,13 @@ let UserController = {
                 }
             });
     },
-    updateUser(request, response) {
-        let id = request.params.id;
-        let user = request.body;
+    updateUser(req, res) {
+        let id = req.params.id;
+        let user = req.body;
 
         if (!id || Object.keys(user).length === 0) {
 
-            return response.badRequest({
+            return res.badRequest({
                 message: sails.__('Please, check data.')
             });
         }
@@ -53,21 +53,21 @@ let UserController = {
 
         User.update({id: id}, user)
             .exec(
-                (error, updatedUser) => {
-                    if (error) {
-                        sails.log.error(error);
+                (err, updatedUser) => {
+                    if (err) {
+                        sails.log.error(err);
 
-                        return response.serverError();
+                        return res.serverError();
                     }
 
                     if (updatedUser.length === 0) {
 
-                        return response.notFound({
+                        return res.notFound({
                             message: sails.__('User not found.')
                         });
                     }
 
-                    response.ok(
+                    res.ok(
                         {
                             user: updatedUser[0]
                         }
@@ -75,26 +75,26 @@ let UserController = {
                 }
             );
     },
-    confirmEmail(request, response) {
-        let token = request.param('token');
+    confirmEmail(req, res) {
+        let token = req.param('token');
 
         if (!token) {
 
-            return response.badRequest(sails.__('Token is not defined.'));
+            return res.badRequest(sails.__('Token is not defined.'));
         }
 
         User.findOne({
             token: token
-        }).exec((error, user) => {
-            if (error) {
-                sails.log.error(error);
+        }).exec((err, user) => {
+            if (err) {
+                sails.log.error(err);
 
-                return response.serverError();
+                return res.serverError();
             }
 
             if (!user) {
 
-                return response.notFound(sails.__('User not found.'));
+                return res.notFound(sails.__('User not found.'));
             }
 
             user.token = '';
@@ -102,14 +102,14 @@ let UserController = {
             user.enabled = true;
 
             user.save(
-                (error) => {
-                    if (error) {
-                        sails.log.error(error);
+                (err) => {
+                    if (err) {
+                        sails.log.error(err);
 
-                        return response.serverError();
+                        return res.serverError();
                     }
 
-                    response.redirect(sails.config.homePage);
+                    res.redirect(sails.config.homePage);
                 }
             );
         });
@@ -122,7 +122,7 @@ function createUser(user, done) {
             (createdUser) => done(null, createdUser)
         )
         .catch(
-            (error) => done(error)
+            (err) => done(err)
         );
 }
 
