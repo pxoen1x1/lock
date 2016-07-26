@@ -17,7 +17,7 @@ let MailerService = {
         let options = {};
         options.user = user;
 
-        ViewService.getEmailTemplate(templatePath, options)
+        return ViewService.getEmailTemplate(templatePath, options)
             .then(
                 (template) => {
                     mailerOptions.subject = template.subject;
@@ -29,7 +29,11 @@ let MailerService = {
                         });
                 })
             .catch(
-                (err) => sails.log.error(err)
+                (err) => {
+                    sails.log.error(err);
+
+                    return err;
+                }
             );
     },
     confirmRegistration(user) {
@@ -38,7 +42,7 @@ let MailerService = {
         options.user = user;
         options.url = `http://${host}:${port}${sails.config.application.urls.emailConfirmation}?token=${user.token}`;
 
-        ViewService.getEmailTemplate(templatePath, options)
+        return ViewService.getEmailTemplate(templatePath, options)
             .then(
                 (template) => {
                     mailerOptions.subject = template.subject;
@@ -50,7 +54,11 @@ let MailerService = {
                         });
                 })
             .catch(
-                (err) => sails.log.error(err)
+                (err) => {
+                    sails.log.error(err);
+
+                    return err;
+                }
             );
     }
 };

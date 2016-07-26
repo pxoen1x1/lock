@@ -14,7 +14,8 @@ let UserController = {
         let user = req.body;
 
         async.waterfall([
-                async.apply(createUser, user)
+                async.apply(createUser, user),
+                sendConfirmation
             ],
             (err, createdUser) => {
                 if (err) {
@@ -24,12 +25,6 @@ let UserController = {
                 }
 
                 res.created(createdUser);
-
-                if (sails.config.application.emailVerificationEnabled) {
-                    MailerService.confirmRegistration(createdUser);
-                } else {
-                    MailerService.successRegistration(createdUser);
-                }
             });
     },
     updateUser(req, res) {
@@ -119,11 +114,35 @@ let UserController = {
 function createUser(user, done) {
     UserService.create(user)
         .then(
-            (createdUser) => done(null, createdUser)
+            (createdUser) => {
+                done(null, createdUser);
+            }
         )
         .catch(
-            (err) => done(err)
+            (err) => {
+                done(err);
+            }
         );
+}
+
+function sendConfirmation(createdUser, done) {
+    if (sails.config.application.emailVerificationEnabled) {
+        MailerService.confirmRegistration(createdUser)
+            .then(
+                () => done(null, createdUser)
+            )
+            .catch(
+                (err) => done(err)
+            );
+    } else {
+        MailerService.successRegistration(createdUser)
+            .then(
+                () => done(null, createdUser)
+            )
+            .catch(
+                (err) => done(err)
+            );
+    }
 }
 
 module.exports = UserController;
