@@ -54,27 +54,23 @@ let UserController = {
             delete user.id;
         }
 
-        User.update({id: id}, user)
-            .exec(
-                (err, updatedUser) => {
+        UserService.update({id: id}, user)
+            .then((updatedUser) => res.ok(
+                {
+                    user: updatedUser
+                }
+            ))
+            .catch(
+                (err) => {
                     if (err) {
                         sails.log.error(err);
 
                         return res.serverError();
                     }
 
-                    if (updatedUser.length === 0) {
-
-                        return res.notFound({
-                            message: sails.__('User not found.')
-                        });
-                    }
-
-                    res.ok(
-                        {
-                            user: updatedUser[0]
-                        }
-                    );
+                    return res.notFound({
+                        message: sails.__('User not found.')
+                    });
                 }
             );
     },
@@ -90,52 +86,34 @@ let UserController = {
             );
         }
 
-        User.findOne({
-            token: token
-        }).exec((err, user) => {
-            if (err) {
-                sails.log.error(err);
+        let user = {};
 
-                return res.serverError();
-            }
+        user.token = '';
+        user.emailConfirmed = true;
+        user.enabled = true;
 
-            if (!user) {
-
-                return res.notFound(
-                    {
-                        message: sails.__('User not found.')
-                    }
-                );
-            }
-
-            user.token = '';
-            user.emailConfirmed = true;
-            user.enabled = true;
-
-            user.save(
+        UserService.update({token: token}, user)
+            .then(
+                (updatedUser) => AuthService.logIn(req, updatedUser)
+            )
+            .then(
+                () => res.redirect(sails.config.homePage)
+            )
+            .catch(
                 (err) => {
                     if (err) {
                         sails.log.error(err);
 
-                        return res.serverError();
+                        return res.serverError({
+                            message: sails.__('User authentication failed.')
+                        });
                     }
 
-                    AuthService.logIn(req, user)
-                        .then(
-                            () => res.redirect(sails.config.homePage)
-                        )
-                        .catch(
-                            (err) => {
-                                sails.log.error(err);
-
-                                return res.serverError({
-                                    message: sails.__('User authentication failed.')
-                                });
-                            }
-                        );
+                    return res.notFound({
+                        message: sails.__('User not found.')
+                    });
                 }
             );
-        });
     },
     createResetPasswordToken(req, res) {
         let email = req.body.email;
@@ -288,41 +266,32 @@ function sendConfirmation(createdUser, done) {
 }
 
 function createResetPasswordToken(email, done) {
-    User.findOne({
-        email: email
-    }).exec(
-        (err, user) => {
-            if (err) {
-                return done(err);
-            }
+    let user = {};
 
-            if (!user) {
+    let resetPasswordExpiresTimestamp = Date.now() + sails.config.application.resetPasswordExpiresTime;
 
-                return done();
-            }
+    user.resetPasswordToken = UserService.generateToken();
+    user.resetPasswordExpires = new Date(resetPasswordExpiresTimestamp).toUTCString();
 
-            let resetPasswordExpiresTimestamp = Date.now() + sails.config.application.resetPasswordExpiresTime;
-
-            user.resetPasswordToken = UserService.generateToken();
-            user.resetPasswordExpires = new Date(resetPasswordExpiresTimestamp).toUTCString();
-
-            user.save(
-                (err) => {
-                    if (err) {
-
-                        return done(err);
-                    }
-
-                    done(null, user);
+    UserService.update({email: email}, user)
+        .then(
+            (updatedUser) => done(null, updatedUser)
+        )
+        .catch(
+            (err) => {
+                if (err) {
+                    return done(err);
                 }
-            );
-        });
+
+                return done(null, null);
+            }
+        );
 }
 
 function sendPasswordResetRequest(user, done) {
     if (!user) {
 
-        return done();
+        return done(null, null);
     }
 
     MailerService.passwordResetRequest(user)
@@ -335,56 +304,40 @@ function sendPasswordResetRequest(user, done) {
 }
 
 function resetPassword(req, done) {
-    let token = req.param('token');
-    let password = req.body.password;
+    let user = {};
 
-    User.findOne({
+    let token = req.param('token');
+
+    user.password = req.body.password;
+    user.resetPasswordToken = '';
+    user.resetPasswordExpires = null;
+
+    UserService.update({
         resetPasswordToken: token,
         resetPasswordExpires: {'>': Date.now()}
-    }).exec((err, user) => {
-        if (err) {
-
-            return done(err);
-        }
-
-        if (!user) {
-
-            return done();
-        }
-
-        user.password = password;
-        user.resetPasswordToken = '';
-        user.resetPasswordExpires = null;
-
-        user.save(
-            (err) => {
+    }, user)
+        .then(
+            (updatedUser) => AuthService.logIn(req, updatedUser)
+        )
+        .then(
+            (updatedUser) => done(null, updatedUser)
+        )
+        .catch(
+            (err)=> {
                 if (err) {
 
                     return done(err);
                 }
 
-                AuthService.logIn(req, user)
-                    .then(
-                        () => {
-                            done(null, user);
-                        }
-                    )
-                    .catch(
-                        (err) => {
-                            {
-                                done(err);
-                            }
-                        }
-                    );
+                return done(null, null);
             }
         );
-    });
 }
 
 function sendPasswordResetConfirmation(user, done) {
     if (!user) {
 
-        return done();
+        return done(null, null);
     }
 
     MailerService.passwordResetConfirmation(user)
