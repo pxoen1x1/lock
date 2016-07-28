@@ -8,7 +8,11 @@
 
 let UserController = {
     getUser (req, res) {
-        res.ok(req.user);
+        res.ok(
+            {
+                user: req.user
+            }
+        );
     },
     createUser(req, res) {
         let user = req.body;
@@ -24,7 +28,11 @@ let UserController = {
                     return res.serverError();
                 }
 
-                res.created(createdUser);
+                res.created(
+                    {
+                        user: createdUser
+                    }
+                );
             });
     },
     updateUser(req, res) {
@@ -75,7 +83,11 @@ let UserController = {
 
         if (!token) {
 
-            return res.badRequest(sails.__('Token is not defined.'));
+            return res.badRequest(
+                {
+                    message: sails.__('Token is not defined.')
+                }
+            );
         }
 
         User.findOne({
@@ -89,7 +101,11 @@ let UserController = {
 
             if (!user) {
 
-                return res.notFound(sails.__('User not found.'));
+                return res.notFound(
+                    {
+                        message: sails.__('User not found.')
+                    }
+                );
             }
 
             user.token = '';
@@ -125,7 +141,11 @@ let UserController = {
         let email = req.body.email;
 
         if (!email) {
-            return res.badRequest(sails.__('Email is not defined.'));
+            return res.badRequest(
+                {
+                    message: sails.__('Email is not defined.')
+                }
+            );
         }
 
         async.waterfall([
@@ -140,7 +160,11 @@ let UserController = {
 
                 if (!user) {
 
-                    return res.notFound(sails.__('User not found.'));
+                    return res.notFound(
+                        {
+                            message: sails.__('User not found.')
+                        }
+                    );
                 }
 
                 res.ok();
@@ -151,7 +175,11 @@ let UserController = {
 
         if (!token) {
 
-            return res.badRequest(sails.__('Token is not defined.'));
+            return res.badRequest(
+                {
+                    message: sails.__('Token is not defined.')
+                }
+            );
         }
 
         User.findOne({
@@ -166,7 +194,11 @@ let UserController = {
 
             if (!user) {
 
-                return res.notFound(sails.__('Password reset token is invalid or has expired.'));
+                return res.notFound(
+                    {
+                        message: sails.__('Password reset token is invalid or has expired.')
+                    }
+                );
             }
 
             res.render('passwordReset', {
@@ -180,12 +212,20 @@ let UserController = {
 
         if (!token) {
 
-            return res.badRequest(sails.__('Token is not defined.'));
+            return res.badRequest(
+                {
+                    message: sails.__('Token is not defined.')
+                }
+            );
         }
 
         if (!password) {
 
-            return res.badRequest(sails.__('Password is not defined.'));
+            return res.badRequest(
+                {
+                    message: sails.__('Password is not defined.')
+                }
+            );
         }
 
         async.waterfall([
@@ -194,14 +234,18 @@ let UserController = {
             ],
             (err, user) => {
                 if (err) {
-                    sails.log.error(err);
+                    sails.log.error();
 
                     return res.serverError();
                 }
 
                 if (!user) {
 
-                    return res.badRequest('Password reset token is invalid or has expired.');
+                    return res.badRequest(
+                        {
+                            message: sails.__('Password reset token is invalid or has expired.')
+                        }
+                    );
                 }
 
                 res.redirect(sails.config.homePage);
@@ -313,7 +357,7 @@ function resetPassword(req, done) {
         user.resetPasswordExpires = null;
 
         user.save(
-            (err, updatedUser) => {
+            (err) => {
                 if (err) {
 
                     return done(err);
