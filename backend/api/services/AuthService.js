@@ -1,18 +1,18 @@
 'use strict';
+/**
+ * Auth Service
+ */
 
-let fs = require('fs');
-
-let FileService = {
-    readFile(filePath, optons) {
+let AuthService = {
+    logIn(req, user) {
         let promise = new Promise((resolve, reject) => {
-            fs.readFile(filePath, optons,
-                (err, file) => {
+            req.logIn(user,
+                (err) => {
                     if (err) {
-
                         return reject(err);
                     }
 
-                    return resolve(file);
+                    return resolve(user);
                 });
         });
 
@@ -20,4 +20,4 @@ let FileService = {
     }
 };
 
-module.exports = FileService;
+module.exports = AuthService;

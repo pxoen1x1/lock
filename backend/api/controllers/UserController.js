@@ -7,38 +7,41 @@
  */
 
 let UserController = {
-    getUser (request, response) {
-        response.ok(request.user);
+    getUser (req, res) {
+        res.ok(
+            {
+                user: req.user
+            }
+        );
     },
-    createUser(request, response) {
-        let user = request.body;
+    createUser(req, res) {
+        let user = req.body;
 
         async.waterfall([
-                async.apply(createUser, user)
+                async.apply(createUser, user),
+                sendConfirmation
             ],
-            (error, createdUser) => {
-                if (error) {
-                    sails.log.error(error);
+            (err, createdUser) => {
+                if (err) {
+                    sails.log.error(err);
 
-                    return response.serverError();
+                    return res.serverError();
                 }
 
-                response.created(createdUser);
-
-                if (sails.config.application.emailVerificationEnabled) {
-                    MailerService.confirmRegistration(createdUser);
-                } else {
-                    MailerService.successRegistration(createdUser);
-                }
+                res.created(
+                    {
+                        user: createdUser
+                    }
+                );
             });
     },
-    updateUser(request, response) {
-        let id = request.params.id;
-        let user = request.body;
+    updateUser(req, res) {
+        let id = req.params.id;
+        let user = req.body;
 
         if (!id || Object.keys(user).length === 0) {
 
-            return response.badRequest({
+            return res.badRequest({
                 message: sails.__('Please, check data.')
             });
         }
@@ -51,80 +54,299 @@ let UserController = {
             delete user.id;
         }
 
-        User.update({id: id}, user)
-            .exec(
-                (error, updatedUser) => {
-                    if (error) {
-                        sails.log.error(error);
+        UserService.update({id: id}, user)
+            .then((updatedUser) => res.ok(
+                {
+                    user: updatedUser
+                }
+            ))
+            .catch(
+                (err) => {
+                    if (err) {
+                        sails.log.error(err);
 
-                        return response.serverError();
+                        return res.serverError();
                     }
 
-                    if (updatedUser.length === 0) {
-
-                        return response.notFound({
-                            message: sails.__('User not found.')
-                        });
-                    }
-
-                    response.ok(
-                        {
-                            user: updatedUser[0]
-                        }
-                    );
+                    return res.notFound({
+                        message: sails.__('User not found.')
+                    });
                 }
             );
     },
-    confirmEmail(request, response) {
-        let token = request.param('token');
+    confirmEmail(req, res) {
+        let token = req.param('token');
 
         if (!token) {
 
-            return response.badRequest(sails.__('Token is not defined.'));
+            return res.badRequest(
+                {
+                    message: sails.__('Token is not defined.')
+                }
+            );
+        }
+
+        let user = {};
+
+        user.token = '';
+        user.emailConfirmed = true;
+        user.enabled = true;
+
+        UserService.update({token: token}, user)
+            .then(
+                (updatedUser) => AuthService.logIn(req, updatedUser)
+            )
+            .then(
+                () => res.redirect(sails.config.homePage)
+            )
+            .catch(
+                (err) => {
+                    if (err) {
+                        sails.log.error(err);
+
+                        return res.serverError({
+                            message: sails.__('User authentication failed.')
+                        });
+                    }
+
+                    return res.notFound({
+                        message: sails.__('User not found.')
+                    });
+                }
+            );
+    },
+    createResetPasswordToken(req, res) {
+        let email = req.body.email;
+
+        if (!email) {
+            return res.badRequest(
+                {
+                    message: sails.__('Email is not defined.')
+                }
+            );
+        }
+
+        async.waterfall([
+                async.apply(createResetPasswordToken, email),
+                sendPasswordResetRequest
+            ],
+            (err, user) => {
+                if (err) {
+
+                    return res.serverError();
+                }
+
+                if (!user) {
+
+                    return res.notFound(
+                        {
+                            message: sails.__('User not found.')
+                        }
+                    );
+                }
+
+                res.ok();
+            });
+    },
+    openPasswordResetPage(req, res) {
+        let token = req.param('token');
+
+        if (!token) {
+
+            return res.badRequest(
+                {
+                    message: sails.__('Token is not defined.')
+                }
+            );
         }
 
         User.findOne({
-            token: token
-        }).exec((error, user) => {
-            if (error) {
-                sails.log.error(error);
+            resetPasswordToken: token,
+            resetPasswordExpires: {'>': Date.now()}
+        }).exec((err, user) => {
+            if (err) {
+                sails.log.error(err);
 
-                return response.serverError();
+                return res.serverError();
             }
 
             if (!user) {
 
-                return response.notFound(sails.__('User not found.'));
+                return res.notFound(
+                    {
+                        message: sails.__('Password reset token is invalid or has expired.')
+                    }
+                );
             }
 
-            user.token = '';
-            user.emailConfirmed = true;
-            user.enabled = true;
+            res.render('passwordReset', {
+                user: req.user,
+            });
+        });
+    },
+    resetPassword(req, res) {
+        let token = req.param('token');
+        let password = req.body.password;
 
-            user.save(
-                (error) => {
-                    if (error) {
-                        sails.log.error(error);
+        if (!token) {
 
-                        return response.serverError();
-                    }
-
-                    response.redirect(sails.config.homePage);
+            return res.badRequest(
+                {
+                    message: sails.__('Token is not defined.')
                 }
             );
-        });
+        }
+
+        if (!password) {
+
+            return res.badRequest(
+                {
+                    message: sails.__('Password is not defined.')
+                }
+            );
+        }
+
+        async.waterfall([
+                async.apply(resetPassword, req),
+                sendPasswordResetConfirmation
+            ],
+            (err, user) => {
+                if (err) {
+                    sails.log.error();
+
+                    return res.serverError();
+                }
+
+                if (!user) {
+
+                    return res.badRequest(
+                        {
+                            message: sails.__('Password reset token is invalid or has expired.')
+                        }
+                    );
+                }
+
+                res.redirect(sails.config.homePage);
+            });
     }
 };
 
 function createUser(user, done) {
     UserService.create(user)
         .then(
-            (createdUser) => done(null, createdUser)
+            (createdUser) => {
+                done(null, createdUser);
+            }
         )
         .catch(
-            (error) => done(error)
+            (err) => {
+                done(err);
+            }
+        );
+}
+
+function sendConfirmation(createdUser, done) {
+    if (sails.config.application.emailVerificationEnabled) {
+        MailerService.confirmRegistration(createdUser)
+            .then(
+                () => done(null, createdUser)
+            )
+            .catch(
+                (err) => done(err)
+            );
+    } else {
+        MailerService.successRegistration(createdUser)
+            .then(
+                () => done(null, createdUser)
+            )
+            .catch(
+                (err) => done(err)
+            );
+    }
+}
+
+function createResetPasswordToken(email, done) {
+    let user = {};
+
+    let resetPasswordExpiresTimestamp = Date.now() + sails.config.application.resetPasswordExpiresTime;
+
+    user.resetPasswordToken = UserService.generateToken();
+    user.resetPasswordExpires = new Date(resetPasswordExpiresTimestamp).toUTCString();
+
+    UserService.update({email: email}, user)
+        .then(
+            (updatedUser) => done(null, updatedUser)
+        )
+        .catch(
+            (err) => {
+                if (err) {
+                    return done(err);
+                }
+
+                return done(null, null);
+            }
+        );
+}
+
+function sendPasswordResetRequest(user, done) {
+    if (!user) {
+
+        return done(null, null);
+    }
+
+    MailerService.passwordResetRequest(user)
+        .then(
+            () => done(null, user)
+        )
+        .catch(
+            (err) => done(err)
+        );
+}
+
+function resetPassword(req, done) {
+    let user = {};
+
+    let token = req.param('token');
+
+    user.password = req.body.password;
+    user.resetPasswordToken = '';
+    user.resetPasswordExpires = null;
+
+    UserService.update({
+        resetPasswordToken: token,
+        resetPasswordExpires: {'>': Date.now()}
+    }, user)
+        .then(
+            (updatedUser) => AuthService.logIn(req, updatedUser)
+        )
+        .then(
+            (updatedUser) => done(null, updatedUser)
+        )
+        .catch(
+            (err)=> {
+                if (err) {
+
+                    return done(err);
+                }
+
+                return done(null, null);
+            }
+        );
+}
+
+function sendPasswordResetConfirmation(user, done) {
+    if (!user) {
+
+        return done(null, null);
+    }
+
+    MailerService.passwordResetConfirmation(user)
+        .then(
+            () => done(null, user)
+        )
+        .catch(
+            (err) => done(err)
         );
 }
 
 module.exports = UserController;
-

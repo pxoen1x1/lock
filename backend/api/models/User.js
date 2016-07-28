@@ -58,6 +58,12 @@ let User = {
                 }
             }
         },
+        resetPasswordToken: {
+            type: 'string'
+        },
+        resetPasswordExpires: {
+            type: 'datetime'
+        },
         portrait: {
             type: 'string'
         },
@@ -84,12 +90,31 @@ let User = {
 
             delete user.password;
             delete user.token;
+            delete user.resetPasswordToken;
+            delete user.resetPasswordExpires;
 
             return user;
         }
     },
 
     beforeCreate(user, next) {
+        UserService.encryptPassword(user.password)
+            .then(
+                (encryptedPassword) => {
+                    user.password = encryptedPassword;
+
+                    next(null, user);
+                }
+            )
+            .catch(
+                (err) => {
+                    sails.log.error(err);
+
+                    next(err);
+                }
+            );
+    },
+    beforeUpdate(user, next) {
         UserService.encryptPassword(user.password)
             .then(
                 (encryptedPassword) => {

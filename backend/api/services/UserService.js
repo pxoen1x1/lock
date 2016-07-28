@@ -20,6 +20,37 @@ let UserService = {
 
         return promise;
     },
+    update(queryKey, updatedUser) {
+        let promise = new Promise((resolve, reject) => {
+            User.findOne(queryKey)
+                .exec((err, user) => {
+                    if (err) {
+
+                        return reject(err);
+                    }
+
+                    if (!user) {
+
+                        return reject();
+                    }
+
+                    user = Object.assign(user, updatedUser);
+
+                    user.save(
+                        (err) => {
+                            if (err) {
+
+                                return reject(err);
+                            }
+
+                            return resolve(user);
+                        }
+                    );
+                });
+        });
+
+        return promise;
+    },
     encryptPassword(password) {
         let promise = new Promise(
             (resolve, reject) => {

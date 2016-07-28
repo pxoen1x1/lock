@@ -10,9 +10,21 @@ let userRoutes = {
         controller: 'UserController',
         action: 'confirmEmail'
     },
+    [`GET ${appConfig.application.urls.passwordResetRequest}/:token`]: {
+        controller: 'UserController',
+        action: 'openPasswordResetPage'
+    },
     'POST /api/user': {
         controller: 'UserController',
         action: 'createUser'
+    },
+    'POST /user/password/forgot': {
+        controller: 'UserController',
+        action: 'createResetPasswordToken'
+    },
+    [`POST ${appConfig.application.urls.passwordResetRequest}/:token`]: {
+        controller: 'UserController',
+        action: 'resetPassword'
     },
     'PUT /api/user/:id': {
         controller: 'UserController',
