@@ -17,24 +17,7 @@ let MailerService = {
         let options = {};
         options.user = user;
 
-        return ViewService.getEmailTemplate(templatePath, options)
-            .then(
-                (template) => {
-                    mailerOptions.subject = template.subject;
-
-                    return mailer('sendmail', mailerOptions)
-                        .send({
-                            to: user.email,
-                            html: template.html
-                        });
-                })
-            .catch(
-                (err) => {
-                    sails.log.error(err);
-
-                    return err;
-                }
-            );
+        return this.sendMail(templatePath, options);
     },
     confirmRegistration(user) {
         let templatePath = sails.config.application.mailer.templates.confirmRegistration;
@@ -42,6 +25,27 @@ let MailerService = {
         options.user = user;
         options.url = `http://${host}:${port}${sails.config.application.urls.emailConfirmation}?token=${user.token}`;
 
+        return this.sendMail(templatePath, options);
+    },
+    passwordResetRequest(user) {
+        let templatePath = sails.config.application.mailer.templates.passwordResetRequest;
+        let options = {};
+        options.user = user;
+        options.url = `http://${host}:${port}${sails.config.application.urls.passwordResetRequest}/` +
+            `${user.resetPasswordToken}`;
+
+        return this.sendMail(templatePath, options);
+    },
+    passwordResetConfirmation(user) {
+        let templatePath = sails.config.application.mailer.templates.passwordResetConfirmation;
+        let options = {};
+        options.user = user;
+
+        return this.sendMail(templatePath, options);
+    },
+
+    sendMail(templatePath, options) {
+
         return ViewService.getEmailTemplate(templatePath, options)
             .then(
                 (template) => {
@@ -49,7 +53,7 @@ let MailerService = {
 
                     return mailer('sendmail', mailerOptions)
                         .send({
-                            to: user.email,
+                            to: options.user.email,
                             html: template.html
                         });
                 })

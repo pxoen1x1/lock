@@ -3,15 +3,19 @@
 let application = {
     tokenLength: 16,
     emailVerificationEnabled: true,
+    resetPasswordExpiresTime: 24*3600*1000,
     urls: {
-        emailConfirmation: '/user/email/confirm'
+        emailConfirmation: '/user/email/confirm',
+        passwordResetRequest: '/user/password/reset'
     },
     mailer: {
         from: `LockSmith <no-reply@locksmith.local>`,
         providerPath: '/usr/sbin/sendmail',
         templates: {
             successRegistration: 'emails/successRegistration',
-            confirmRegistration: 'emails/confirmRegistration'
+            confirmRegistration: 'emails/confirmRegistration',
+            passwordResetRequest: 'emails/passwordResetRequest',
+            passwordResetConfirmation: 'emails/passwordResetConfirmation'
         }
     }
 };

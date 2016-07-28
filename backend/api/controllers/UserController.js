@@ -104,10 +104,108 @@ let UserController = {
                         return res.serverError();
                     }
 
-                    res.redirect(sails.config.homePage);
+                    AuthService.logIn(req, user)
+                        .then(
+                            () => res.redirect(sails.config.homePage)
+                        )
+                        .catch(
+                            (err) => {
+                                sails.log.error(err);
+
+                                return res.serverError({
+                                    message: sails.__('User authentication failed.')
+                                });
+                            }
+                        );
                 }
             );
         });
+    },
+    createResetPasswordToken(req, res) {
+        let email = req.body.email;
+
+        if (!email) {
+            return res.badRequest(sails.__('Email is not defined.'));
+        }
+
+        async.waterfall([
+                async.apply(createResetPasswordToken, email),
+                sendPasswordResetRequest
+            ],
+            (err, user) => {
+                if (err) {
+
+                    return res.serverError();
+                }
+
+                if (!user) {
+
+                    return res.notFound(sails.__('User not found.'));
+                }
+
+                res.ok();
+            });
+    },
+    openPasswordResetPage(req, res) {
+        let token = req.param('token');
+
+        if (!token) {
+
+            return res.badRequest(sails.__('Token is not defined.'));
+        }
+
+        User.findOne({
+            resetPasswordToken: token,
+            resetPasswordExpires: {'>': Date.now()}
+        }).exec((err, user) => {
+            if (err) {
+                sails.log.error(err);
+
+                return res.serverError();
+            }
+
+            if (!user) {
+
+                return res.notFound(sails.__('Password reset token is invalid or has expired.'));
+            }
+
+            res.render('passwordReset', {
+                user: req.user,
+            });
+        });
+    },
+    resetPassword(req, res) {
+        let token = req.param('token');
+        let password = req.body.password;
+
+        if (!token) {
+
+            return res.badRequest(sails.__('Token is not defined.'));
+        }
+
+        if (!password) {
+
+            return res.badRequest(sails.__('Password is not defined.'));
+        }
+
+        async.waterfall([
+                async.apply(resetPassword, req),
+                sendPasswordResetConfirmation
+            ],
+            (err, user) => {
+                if (err) {
+                    sails.log.error(err);
+
+                    return res.serverError();
+                }
+
+                if (!user) {
+
+                    return res.badRequest('Password reset token is invalid or has expired.');
+                }
+
+                res.redirect(sails.config.homePage);
+            });
     }
 };
 
@@ -145,5 +243,113 @@ function sendConfirmation(createdUser, done) {
     }
 }
 
-module.exports = UserController;
+function createResetPasswordToken(email, done) {
+    User.findOne({
+        email: email
+    }).exec(
+        (err, user) => {
+            if (err) {
+                return done(err);
+            }
 
+            if (!user) {
+
+                return done();
+            }
+
+            let resetPasswordExpiresTimestamp = Date.now() + sails.config.application.resetPasswordExpiresTime;
+
+            user.resetPasswordToken = UserService.generateToken();
+            user.resetPasswordExpires = new Date(resetPasswordExpiresTimestamp).toUTCString();
+
+            user.save(
+                (err) => {
+                    if (err) {
+
+                        return done(err);
+                    }
+
+                    done(null, user);
+                }
+            );
+        });
+}
+
+function sendPasswordResetRequest(user, done) {
+    if (!user) {
+
+        return done();
+    }
+
+    MailerService.passwordResetRequest(user)
+        .then(
+            () => done(null, user)
+        )
+        .catch(
+            (err) => done(err)
+        );
+}
+
+function resetPassword(req, done) {
+    let token = req.param('token');
+    let password = req.body.password;
+
+    User.findOne({
+        resetPasswordToken: token,
+        resetPasswordExpires: {'>': Date.now()}
+    }).exec((err, user) => {
+        if (err) {
+
+            return done(err);
+        }
+
+        if (!user) {
+
+            return done();
+        }
+
+        user.password = password;
+        user.resetPasswordToken = '';
+        user.resetPasswordExpires = null;
+
+        user.save(
+            (err, updatedUser) => {
+                if (err) {
+
+                    return done(err);
+                }
+
+                AuthService.logIn(req, user)
+                    .then(
+                        () => {
+                            done(null, user);
+                        }
+                    )
+                    .catch(
+                        (err) => {
+                            {
+                                done(err);
+                            }
+                        }
+                    );
+            }
+        );
+    });
+}
+
+function sendPasswordResetConfirmation(user, done) {
+    if (!user) {
+
+        return done();
+    }
+
+    MailerService.passwordResetConfirmation(user)
+        .then(
+            () => done(null, user)
+        )
+        .catch(
+            (err) => done(err)
+        );
+}
+
+module.exports = UserController;
