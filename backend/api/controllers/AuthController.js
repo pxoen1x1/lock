@@ -20,18 +20,19 @@ let AuthController = {
                     });
                 }
 
-                req.logIn(user,
-                    (err) => {
-                        if (err) {
+                AuthService.logIn(req, user)
+                    .then(
+                        (user) => res.ok({user: user})
+                    )
+                    .catch(
+                        (err) => {
                             sails.log.error(err);
 
                             return res.serverError({
                                 message: sails.__('User authentication failed.')
                             });
                         }
-
-                        res.ok({user: user});
-                    });
+                    );
             })(req, res);
     },
 
