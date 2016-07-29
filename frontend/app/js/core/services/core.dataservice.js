@@ -12,6 +12,7 @@
         var service = {
             createUser: createUser,
             loginUser: loginUser,
+            resetUserPassword: resetUserPassword,
             updateUser: updateUser
         };
 
@@ -42,6 +43,21 @@
                 .then(loginUserComplete);
 
             function loginUserComplete(response) {
+
+                return response.data;
+            }
+        }
+
+        function resetUserPassword(user) {
+
+            return $http({
+                url: conf.URL + 'user/password/forgot',
+                method: 'POST',
+                data: user
+            })
+                .then(resetPasswordCompleted);
+
+            function resetPasswordCompleted(response) {
 
                 return response.data;
             }

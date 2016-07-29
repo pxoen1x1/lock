@@ -5,10 +5,10 @@
         .module('app.core')
         .controller('LoginController', LoginController);
 
-    LoginController.$inject = ['$state', '$mdDialog', 'coreDataservice'];
+    LoginController.$inject = ['$state', '$mdDialog', 'toastService', 'coreDataservice'];
 
     /* @ngInject */
-    function LoginController($state, $mdDialog, coreDataservice) {
+    function LoginController($state, $mdDialog, toastService, coreDataservice) {
         var vm = this;
 
         vm.user = {};
@@ -27,6 +27,15 @@
                 });
         }
 
+        function resetUserPassword(user) {
+
+            return coreDataservice.resetUserPassword(user)
+                .then(function (result) {
+
+                    return result;
+                });
+        }
+
         function submit(user, isFromValid, isForgotPasswordEnabled) {
             if (!isFromValid) {
 
@@ -35,7 +44,10 @@
 
             if (isForgotPasswordEnabled) {
 
-                return;
+                return resetUserPassword(user)
+                    .then(function () {
+                        toastService.success('Please check your email');
+                    });
             }
 
             loginUser(user)
