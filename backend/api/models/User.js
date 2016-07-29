@@ -29,6 +29,9 @@ let User = {
             type: 'string',
             enum: ['male', 'female']
         },
+        birthday: {
+            type: 'date'
+        },
         email: {
             type: 'string',
             unique: true,

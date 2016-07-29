@@ -5,14 +5,16 @@
         .module('app')
         .config(appConfig);
 
-    appConfig.$inject = ['$locationProvider', 'cfpLoadingBarProvider'];
+    appConfig.$inject = ['$locationProvider', '$httpProvider', 'cfpLoadingBarProvider'];
 
     /* @ngInject */
-    function appConfig($locationProvider, cfpLoadingBarProvider) {
+    function appConfig($locationProvider, $httpProvider, cfpLoadingBarProvider) {
         $locationProvider.html5Mode({
             enabled: true,
             requireBase: false
         });
+
+        $httpProvider.interceptors.push('httpInterceptors');
 
         cfpLoadingBarProvider.includeSpinner = false;
         //cfpLoadingBarProvider.latencyThreshold = 100;

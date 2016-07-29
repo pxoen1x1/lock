@@ -10,12 +10,28 @@
     /* @ngInject */
     function coreDataservice($http, conf) {
         var service = {
-            loginUser: loginUser,
             createUser: createUser,
+            loginUser: loginUser,
+            resetUserPassword: resetUserPassword,
             updateUser: updateUser
         };
 
         return service;
+
+        function createUser(newUser) {
+
+            return $http({
+                url: conf.URL + 'user',
+                method: 'POST',
+                data: newUser
+            })
+                .then(createUserComplete);
+
+            function createUserComplete(response) {
+
+                return response.data;
+            }
+        }
 
         function loginUser(user) {
 
@@ -32,16 +48,16 @@
             }
         }
 
-        function createUser(newUser) {
+        function resetUserPassword(user) {
 
             return $http({
-                url: conf.URL + 'user',
+                url: conf.URL + 'user/password/forgot',
                 method: 'POST',
-                data: newUser
+                data: user
             })
-                .then(createUserComplete);
+                .then(resetPasswordCompleted);
 
-            function createUserComplete(response) {
+            function resetPasswordCompleted(response) {
 
                 return response.data;
             }
