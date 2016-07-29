@@ -38,6 +38,11 @@ let User = {
             email: true,
             required: true
         },
+        ssn: {
+            type: 'string',
+            unique: true,
+            is: /^\d{3}-?\d{2}-?\d{4}$/
+        },
         enabled: {
             type: 'boolean',
             defaultsTo() {
