@@ -1,0 +1,21 @@
+$success-color: #66BB6A;
+$warning-color: #FFB74D;
+$error-color: #EF5350;
+
+md-toast.md-success-toast-theme {
+  .md-toast-content {
+    background-color: $success-color;
+  }
+}
+
+md-toast.md-warning-toast-theme {
+  .md-toast-content {
+    background-color: $warning-color;
+  }
+}
+
+md-toast.md-error-toast-theme {
+  .md-toast-content {
+    background-color: $error-color;
+  }
+}
