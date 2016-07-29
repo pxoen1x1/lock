@@ -83,7 +83,8 @@ let User = {
         },
         password: {
             type: 'string',
-            required: true
+            required: true,
+            minLength: '6'
         },
 
         fullName() {
