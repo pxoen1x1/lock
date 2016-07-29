@@ -18,7 +18,7 @@ let userRoutes = {
         controller: 'UserController',
         action: 'createUser'
     },
-    'POST /user/password/forgot': {
+    'POST /api/user/password/forgot': {
         controller: 'UserController',
         action: 'createResetPasswordToken'
     },
