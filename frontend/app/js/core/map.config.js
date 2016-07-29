@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('app')
+        .module('app.core')
         .config(mapConfig);
 
     mapConfig.$inject = ['uiGmapGoogleMapApiProvider'];
