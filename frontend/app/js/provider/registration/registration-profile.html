@@ -1,0 +1,121 @@
+<p>Personal information:</p>
+<div layout-gt-xs="row">
+  <div layout="row"
+       flex="100"
+       flex-gt-xs="60">
+    <md-input-container class="md-block"
+                        flex="100"
+                        flex-gt-xs="50">
+      <label>First name</label>
+      <input type="text"
+             name="firstName"
+             required
+             ng-maxlength="20"
+             ng-model="vm.user.firstName">
+      <div ng-messages="registrationForm.firstName.$error">
+        <div ng-message="maxlength">Your first name is too long.</div>
+      </div>
+    </md-input-container>
+    <md-input-container class="md-block" flex="100" flex-gt-xs="50">
+      <label>Last name</label>
+      <input type="text"
+             name="lastName"
+             required
+             ng-maxlength="20"
+             ng-model="vm.user.lastName">
+      <div ng-messages="registrationForm.lastName.$error">
+        <div ng-message="maxlength">Your last name is too long.</div>
+      </div>
+    </md-input-container>
+  </div>
+  <md-input-container class="md-block" flex="100" flex-gt-xs="40">
+    <label>Social Security Number</label>
+    <input type="text"
+           name="ssn"
+           required
+           ng-pattern="/^\d{3}-?\d{2}-?\d{4}$/"
+           ng-model="vm.user.ssn">
+    <div ng-messages="registrationForm.ssn.$error">
+      <div ng-message="pattern">That doesn't look like a valid SSN.</div>
+    </div>
+  </md-input-container>
+</div>
+<p>Contact information:</p>
+<div layout-gt-xs="row">
+  <md-input-container class="md-block"
+                      flex="100"
+                      flex-gt-xs="50">
+    <label>Phone number</label>
+    <input type="tel"
+           name="phoneNumber"
+           required
+           ui-us-phone-number
+           ng-model="vm.user.phoneNumber">
+    <div ng-messages="registrationForm.phoneNumber.$error">
+      <span ng-message="usPhoneNumber">That doesn't look like a valid phone number.</span>
+    </div>
+  </md-input-container>
+  <md-input-container
+      class="md-block"
+      flex="100"
+      flex-gt-xs="50">
+    <label>Email</label>
+    <input type="email"
+           name="email"
+           required
+           email-validation
+           ng-model="vm.user.email">
+    <div ng-messages="registrationForm.email.$error">
+      <div ng-message="email">That doesn't look like a valid email.</div>
+    </div>
+  </md-input-container>
+</div>
+<p>Where are you? (optional)</p>
+<div layout="column">
+  <md-input-container class="md-block" flex>
+    <label>Address</label>
+    <input type="text"
+           name="address"
+           ng-model="vm.user.address.address">
+  </md-input-container>
+  <div layout-gt-xs="row">
+    <md-input-container class="md-block"
+                        flex="100"
+                        flex-gt-xs="33">
+      <label>City</label>
+      <input type="text"
+             name="city"
+             ng-model="vm.user.address.city">
+    </md-input-container>
+    <div layout="row"
+         flex="100"
+         flex-gt-xs="66">
+      <md-input-container class="md-block"
+                          flex="100"
+                          flex-gt-xs="50">
+        <label>State</label>
+        <md-select role="listbox"
+                   ng-model="vm.user.state">
+          <md-option ng-repeat="state in vm.states"
+                     ng-value="state.value">
+            <span ng-bind="state.display"></span>
+          </md-option>
+        </md-select>
+      </md-input-container>
+      <md-input-container class="md-block"
+                          flex="100"
+                          flex-gt-xs="50">
+        <label>Postal Code</label>
+        <input type="text"
+               name="postalCode"
+               ng-pattern="/^[0-9]{5}$/"
+               md-maxlength="5"
+               ng-trim="false"
+               ng-model="vm.user.postalCode">
+        <div ng-messages="registrationForm.postalCode.$error">
+          <div ng-message="pattern">That doesn't look like a valid postal code.</div>
+        </div>
+      </md-input-container>
+    </div>
+  </div>
+</div>
