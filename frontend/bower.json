@@ -27,7 +27,8 @@
     "material-design-icons": "^2.2.3",
     "angular-ui-router-anim-in-out": "^1.0.2",
     "angular-input-masks": "^2.4.0",
-    "angular-google-maps": "^2.3.3"
+    "angular-google-maps": "^2.3.3",
+    "checklist-model": "^0.10.0"
   },
   "devDependencies": {},
   "overrides": {

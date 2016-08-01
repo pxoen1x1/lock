@@ -12,6 +12,7 @@
         'anim-in-out',
         'ui.utils.masks',           // Opinionated angular input masks
         'uiGmapgoogle-maps',
+        'checklist-model',          // AngularJS directive for list of checkboxes
 
         'app.core',
         'app.home',
