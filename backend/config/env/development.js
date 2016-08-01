@@ -32,7 +32,7 @@ module.exports = {
     migrate: 'alter'
   },
 
-  host: 'localhost',
+  host: 'locksmith.i-deasoft.com',
   port: 1338,
-  homePage: 'http://localhost:9000/'
+  homePage: 'http://locksmith.i-deasoft.com/'
 };
