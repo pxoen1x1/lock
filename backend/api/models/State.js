@@ -1,33 +1,29 @@
 /**
- * Address.js
+ * State.js
  *
  * @description :: TODO: You might write a short summary of how this model works and what it represents here.
  * @docs        :: http://sailsjs.org/documentation/concepts/models-and-orm/models
  */
 
-let Address = {
+let State = {
     autoCreatedAt: false,
     autoUpdatedAt: false,
-    tableName: 'addresses',
+    tableName: 'states',
 
     attributes: {
-        address: {
+        state: {
             type: 'string',
             required: true
         },
-        zip: {
-            type: 'number'
+        code: {
+            type: 'string'
         },
 
-        cityId: {
-            model: 'city',
-            columnName: 'city_id'
-        },
-        userId: {
-            model: 'user',
-            columnName: 'user_id'
+        cities: {
+            collection: 'city',
+            via: 'stateId'
         }
     }
 };
 
-module.exports = Address;
+module.exports = State;

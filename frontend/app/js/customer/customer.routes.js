@@ -20,9 +20,6 @@
                         controller: 'CustomerLayoutController',
                         controllerAs: 'vm'
                     },
-                    'content@customer': {
-                        templateUrl: 'customer/layout/content.html'
-                    },
                     'menu@customer': {
                         templateUrl: 'customer/layout/menu.html'
                     },

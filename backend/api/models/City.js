@@ -1,33 +1,39 @@
 /**
- * Address.js
+ * City.js
  *
  * @description :: TODO: You might write a short summary of how this model works and what it represents here.
  * @docs        :: http://sailsjs.org/documentation/concepts/models-and-orm/models
  */
 
-let Address = {
+let City = {
     autoCreatedAt: false,
     autoUpdatedAt: false,
-    tableName: 'addresses',
+    tableName: 'cities',
 
     attributes: {
-        address: {
+        city: {
             type: 'string',
             required: true
         },
         zip: {
             type: 'number'
         },
-
-        cityId: {
-            model: 'city',
-            columnName: 'city_id'
+        lat: {
+            type: 'float'
         },
-        userId: {
-            model: 'user',
-            columnName: 'user_id'
+        lng: {
+            type: 'float'
+        },
+
+        stateId: {
+            model: 'state',
+            columnName: 'state_id'
+        },
+        addresses: {
+            collection: 'address',
+            via: 'cityId'
         }
     }
 };
 
-module.exports = Address;
+module.exports = City;
