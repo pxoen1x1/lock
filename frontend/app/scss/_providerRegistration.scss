@@ -46,7 +46,7 @@
   .stepper-navigation {
     height: 72px;
     min-height: 72px;
-    background: #FFF;
+    background: #fff;
     //box-shadow: 0 1px 3px 0 rgba(0,0,0,.2),0 1px 1px 0 rgba(0,0,0,.14),0 2px 1px -1px rgba(0,0,0,.12);
   }
 
@@ -97,7 +97,7 @@
     display: inherit;
   }
   .stepper-navigation-item.valid .step {
-    background-color: #4CAF50;
+    background-color: #4caf50;
   }
   .stepper-navigation-item .step {
     width: 24px;
@@ -105,7 +105,7 @@
     height: 24px;
     border-radius: 50%;
     margin: 0 8px 0 16px;
-    color: #FFF;
+    color: #fff;
     font-weight: 600;
   }
   .stepper-navigation-item .title {
@@ -114,18 +114,21 @@
   }
   .stepper-navigation-item.current .title {
     color: rgba(0, 0, 0, .87);
+    font: {
+      weight: 600;
+    }
   }
-  .stepper-navigation-item.disabled .step {
+  .stepper-navigation-item[disabled] .step {
     background: rgba(0, 0, 0, .12);
   }
-  .stepper-navigation-item.disabled .title {
+  .stepper-navigation-item[disabled] .title {
     color: rgba(0, 0, 0, .27);
   }
   .md-accent-bg {
     background-color: rgb(3, 155, 229);
     color: rgba(255, 255, 255, 1);
   }
-  .stepper-navigation-item.disabled {
+  .stepper-navigation-item[disabled] {
     cursor: default;
   }
   .md-button[disabled] {
