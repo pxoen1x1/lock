@@ -5,46 +5,23 @@
         .module('app.provider')
         .controller('ProviderRegistrationController', ProviderRegistrationController);
 
-    ProviderRegistrationController.$inject = ['specialistProviderConstant'];
+    ProviderRegistrationController.$inject = ['$state', 'coreDataservice', 'coreConstants',
+        'specialistProviderConstant'];
 
     /* @ngInject */
-    function ProviderRegistrationController(specialistProviderConstant) {
+    function ProviderRegistrationController($state, coreDataservice, coreConstants,
+                                            specialistProviderConstant) {
         var vm = this;
 
         vm.user = {};
 
+        vm.serviceTypes = [];
+        vm.serviceProcedures = [];
 
-        vm.user.ssn=211231231;
-        vm.user.phoneNumber = 12345678901;
-        vm.user.email='asd@dsf.df';
-        vm.serviceTypes = [
-            {
-                id: 1,
-                name: 'Car'
-            },
-            {
-                id: 2,
-                name: 'Residential'
-            },
-            {
-                id:3,
-                name: 'Commercial'
-            }
-        ];
-        vm.serviceProcedures = [
-            {
-                display: 'First',
-                value: '1'
-            },
-            {
-                display: 'Second',
-                value: '2'
-            },
-            {
-                display: 'Third',
-                value: '3'
-            }
-        ];
+        vm.datePickerOptions = {
+            maxDate: new Date()
+        };
+        vm.timePickerOptions = coreConstants.MD_PICKERS_OPTIONS.timePicker;
         vm.registrationSteps = specialistProviderConstant.REGISTRATION_STEPS;
         vm.validSteps = {};
         vm.currentStep = 0;
@@ -52,8 +29,16 @@
         vm.goToNextStep = goToNextStep;
         vm.goToPrevStep = goToPrevStep;
         vm.goToStep = goToStep;
-        vm.createUser = createUser;
-        vm.getNumber = getNumber;
+        vm.createNewUser = createNewUser;
+
+        function createUser(user) {
+
+            return coreDataservice.createUser(user)
+                .then(function () {
+
+                    $state.go('home');
+                });
+        }
 
         function goToNextStep(isStepValid) {
             vm.validSteps[vm.currentStep] = isStepValid;
@@ -73,19 +58,13 @@
             vm.currentStep = indexStep;
         }
 
-        function createUser(user, isFormValid) {
+        function createNewUser(user, isFormValid) {
             if (!isFormValid) {
 
                 return;
             }
 
-            console.log(user);
+            createUser(user);
         }
-
-        function getNumber() {
-
-            return new Array(24);
-        }
-
     }
 })();
