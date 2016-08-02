@@ -15,27 +15,21 @@
                         flex="100"
                         flex-gt-xs="30">
       <label>Price $</label>
-      <input name="price" ng-model="vm.user.price">
+      <input name="price"
+             ng-model="vm.user.details.price">
     </md-input-container>
   </div>
   <p>Working hours (optional)</p>
   <div layout="row">
-    <md-input-container class="md-block" flex="20">
-      <label>From</label>
-      <md-select ng-model="vm.user.hours[0]">
-        <md-option ng-repeat="item in vm.getNumber(24) track by $index" ng-value="$index+1"
-                   ng-bind="$index>11?$index-11+' pm':$index+1+' am'">
-        </md-option>
-      </md-select>
-    </md-input-container>
-    <div class="hours-separator">—</div>
-    <md-input-container class="md-block" flex="20">
-      <label>To</label>
-      <md-select ng-model="vm.user.hours[1]">
-        <md-option ng-repeat="item in vm.getNumber(24) track by $index" ng-value="$index+1"
-                   ng-bind="$index>11?$index-11+' pm':$index+1+' am'">
-        </md-option>
-      </md-select>
-    </md-input-container>
+    <mdp-time-picker name="timeFrom"
+                     mdp-placeholder="From"
+                     mdp-auto-switch="vm.timePickerOptions.autoSwitch"
+                     ng-model="vm.user.details.workingHours.timeFrom">
+    </mdp-time-picker>
+    <mdp-time-picker name="timeTo"
+                     mdp-placeholder="To"
+                     mdp-auto-switch="vm.timePickerOptions.autoSwitch"
+                     ng-model="vm.user.details.workingHours.timeTo">
+    </mdp-time-picker>
   </div>
 </div>
