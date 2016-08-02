@@ -13,6 +13,7 @@
   <link rel="stylesheet" href="/vendor/angular-material/angular-material.min.css">
   <link rel="stylesheet" href="/vendor/angular-material-data-table/dist/md-data-table.min.css">
   <link rel="stylesheet" href="/vendor/angular-ui-router-anim-in-out/css/anim-in-out.css">
+  <link rel="stylesheet" href="/vendor/mdPickers/dist/mdPickers.min.css">
   <!-- endbuild -->
 
   <!-- build:css(dist/development) /styles/styles.css -->
@@ -24,6 +25,7 @@
 <div ui-view autoscroll="true"></div>
 
 <!-- build:vendorjs(.) /js/vendor.js -->
+<script src="/vendor/moment/min/moment-with-locales.min.js"></script>
 <script src="/vendor/angular/angular.min.js"></script>
 <script src="/vendor/angular-ui-router/release/angular-ui-router.min.js"></script>
 <script src="/vendor/angular-aria/angular-aria.min.js"></script>
@@ -31,6 +33,7 @@
 <script src="/vendor/angular-material/angular-material.min.js"></script>
 <script src="/vendor/angular-sanitize/angular-sanitize.min.js"></script>
 <script src="/vendor/angular-messages/angular-messages.min.js"></script>
+<script src="/vendor/angular-moment/angular-moment.min.js"></script>
 <script src="/vendor/angular-loading-bar/build/loading-bar.min.js"></script>
 <script src="/vendor/angular-material-data-table/dist/md-data-table.min.js"></script>
 <script src="/vendor/angular-ui-router-anim-in-out/anim-in-out.js"></script>
@@ -39,6 +42,7 @@
 <script src='/vendor/angular-simple-logger/dist/angular-simple-logger.min.js'></script>
 <script src="/vendor/angular-google-maps/dist/angular-google-maps.min.js"></script>
 <script src="/vendor/checklist-model/checklist-model.js"></script>
+<script src="/vendor/mdPickers/dist/mdPickers.js"></script>
 <!-- endbuild -->
 
 <!-- build:js({app,dist/development}) /js/app.js-->
@@ -51,6 +55,7 @@
 <script src="/js/templates.js"></script>
 
 <script src="/js/core/core.module.js"></script>
+<script src="/js/core/core.constants.js"></script>
 <script src="/js/core/map.config.js"></script>
 <script src="/js/core/md-dialog.config.js"></script>
 <script src="/js/core/md-toast.config.js"></script>
