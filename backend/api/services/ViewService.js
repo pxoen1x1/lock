@@ -1,3 +1,5 @@
+/*global sails*/
+
 'use strict';
 
 let ViewService = {

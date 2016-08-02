@@ -26,7 +26,7 @@ module.exports.policies = {
   *                                                                          *
   ***************************************************************************/
 
-  // '*': true,
+  '*': ['isAuthenticated'],
 
   /***************************************************************************
   *                                                                          *
@@ -48,4 +48,13 @@ module.exports.policies = {
 		// before letting any users feed our rabbits
 		// feed : ['isNiceToAnimals', 'hasRabbitFood']
 	// }
+
+  AuthController: {
+    '*': true
+  },
+
+  UserController: {
+    '*': ['isAuthenticated'],
+    'createUser': true
+  }
 };
