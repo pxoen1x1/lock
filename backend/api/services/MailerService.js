@@ -1,3 +1,5 @@
+/*global sails, ViewService*/
+
 'use strict';
 
 const mailerOptions = {

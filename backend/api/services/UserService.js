@@ -1,3 +1,5 @@
+/*global sails, User*/
+
 'use strict';
 
 let bcryptjs = require('bcryptjs');
