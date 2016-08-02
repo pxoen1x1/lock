@@ -27,14 +27,16 @@
         <div ng-message="licenseNumber">That doesn't look like a valid license number.</div>
       </div>
     </md-input-container>
-    <div layout="row" class="license-date-container">
-      <md-datepicker name="licenseDate"
-                     md-placeholder="Enter date"
-                     ng-model="vm.user.details.license.date">
-      </md-datepicker>
-      <div ng-messages="registrationForm.licenseDate.$error">
-        <div ng-message="valid">The entered value is not a date!</div>
-      </div>
+    <md-datepicker name="licenseDate"
+                   date-formatter
+                   md-placeholder="Enter date"
+                   md-max-date="vm.datePickerOptions.maxDate"
+                   ng-model="vm.user.details.license.date">
+    </md-datepicker>
+    <div class="validation-messages"
+         ng-messages="registrationForm.licenseDate.$error">
+      <div ng-message="valid">The entered value is not a date!</div>
+      <div ng-message="maxdate">Date is too late!</div>
     </div>
   </div>
 </div>
