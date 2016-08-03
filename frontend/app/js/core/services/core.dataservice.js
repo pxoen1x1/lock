@@ -5,11 +5,12 @@
         .module('app.core')
         .factory('coreDataservice', coreDataservice);
 
-    coreDataservice.$inject = ['$http', 'conf'];
+    coreDataservice.$inject = ['$http', 'request', 'conf'];
 
     /* @ngInject */
-    function coreDataservice($http, conf) {
+    function coreDataservice($http, request, conf) {
         var service = {
+            getStates: getStates,
             createUser: createUser,
             loginUser: loginUser,
             resetUserPassword: resetUserPassword,
@@ -17,6 +18,14 @@
         };
 
         return service;
+
+        function getStates() {
+
+            return request.httpWithTimeout({
+                url: conf.URL + 'lists/states',
+                method: 'GET'
+            });
+        }
 
         function createUser(newUser) {
 
