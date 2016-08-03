@@ -11,10 +11,12 @@
     /* @ngInject */
     function ProviderRegistrationController($state, coreDataservice, coreConstants,
                                             specialistProviderConstant) {
+        var getStatesPromise;
         var vm = this;
 
         vm.user = {};
 
+        vm.statesList = [];
         vm.serviceTypes = [];
         vm.serviceProcedures = [];
 
@@ -30,6 +32,22 @@
         vm.goToPrevStep = goToPrevStep;
         vm.goToStep = goToStep;
         vm.createNewUser = createNewUser;
+
+        activate();
+
+        function getStates() {
+            if (getStatesPromise) {
+                getStatesPromise.cancel();
+            }
+
+            getStatesPromise = coreDataservice.getStates();
+
+            return getStatesPromise
+                .then(function (response) {
+
+                    return response.data.states;
+                });
+        }
 
         function createUser(user) {
 
@@ -65,6 +83,13 @@
             }
 
             createUser(user);
+        }
+
+        function activate() {
+            getStates()
+                .then(function (states) {
+                    vm.statesList = states;
+                });
         }
     }
 })();

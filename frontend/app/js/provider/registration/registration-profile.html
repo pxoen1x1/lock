@@ -85,26 +85,26 @@
   <div layout-gt-xs="row">
     <md-input-container class="md-block"
                         flex="100"
-                        flex-gt-xs="33">
-      <label>City</label>
-      <input type="text"
-             name="city"
-             ng-model="vm.user.address.city">
+                        flex-gt-xs="50">
+      <label>State</label>
+      <md-select role="listbox"
+                 ng-model="vm.user.address.state">
+        <md-option ng-repeat="state in vm.statesList"
+                   ng-value="state.id">
+          <span ng-bind="state.name"></span>
+        </md-option>
+      </md-select>
     </md-input-container>
     <div layout="row"
          flex="100"
          flex-gt-xs="66">
       <md-input-container class="md-block"
                           flex="100"
-                          flex-gt-xs="50">
-        <label>State</label>
-        <md-select role="listbox"
-                   ng-model="vm.user.address.state">
-          <md-option ng-repeat="state in vm.states"
-                     ng-value="state.value">
-            <span ng-bind="state.display"></span>
-          </md-option>
-        </md-select>
+                          flex-gt-xs="33">
+        <label>City</label>
+        <input type="text"
+               name="city"
+               ng-model="vm.user.address.city">
       </md-input-container>
       <md-input-container class="md-block"
                           flex="100"
