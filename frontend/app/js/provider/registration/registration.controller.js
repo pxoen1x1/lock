@@ -12,11 +12,21 @@
     function ProviderRegistrationController($state, coreDataservice, coreConstants,
                                             specialistProviderConstant) {
         var getStatesPromise;
+        var getCitiesPromise;
+
+        var getCityRequestOptions = {
+            page: 1,
+            previousQuery: '',
+            isAllCitiesLoaded: false
+        };
+
         var vm = this;
 
         vm.user = {};
 
+        vm.searchCity = '';
         vm.statesList = [];
+        vm.citiesList = [];
         vm.serviceTypes = [];
         vm.serviceProcedures = [];
 
@@ -28,6 +38,8 @@
         vm.validSteps = {};
         vm.currentStep = 0;
 
+        vm.getCitiesList = getCitiesList;
+        vm.resetSelectedCity = resetSelectedCity;
         vm.goToNextStep = goToNextStep;
         vm.goToPrevStep = goToPrevStep;
         vm.goToStep = goToStep;
@@ -45,8 +57,68 @@
             return getStatesPromise
                 .then(function (response) {
 
-                    return response.data.states;
+                    return response.data.items;
                 });
+        }
+
+        function getCities(state, params) {
+            if (getCitiesPromise) {
+                getCitiesPromise.cancel();
+            }
+
+            getCitiesPromise = coreDataservice.getCities(state, params);
+
+            return getCitiesPromise
+                .then(function (response) {
+
+                    return response.data;
+                });
+        }
+
+        function getCitiesList(state, query) {
+            if (!state || (query && query.length < 2)) {
+
+                return;
+            }
+
+            if (query !== getCityRequestOptions.previousQuery) {
+                resetSelectedCity();
+            }
+
+            if (getCityRequestOptions.isAllCitiesLoaded) {
+
+                return;
+            }
+
+            var params = {
+                limit: 20,
+                page: getCityRequestOptions.page,
+                query: query
+            };
+
+            return getCities(state, params)
+                .then(function (cities) {
+                    vm.citiesList = vm.citiesList.concat(cities.items);
+
+                    getCityRequestOptions.page++;
+                    getCityRequestOptions.previousQuery = query;
+                    getCityRequestOptions.isAllCitiesLoaded = vm.citiesList.length >= cities.totalCount;
+
+                    return vm.citiesList;
+                });
+        }
+
+        function resetSelectedCity(selectedState) {
+            if (selectedState) {
+                vm.user.address.city = null;
+                vm.searchCity = '';
+                getCityRequestOptions.previousQuery = '';
+
+            }
+
+            vm.citiesList = [];
+            getCityRequestOptions.page = 1;
+            getCityRequestOptions.isAllCitiesLoaded = false;
         }
 
         function createUser(user) {

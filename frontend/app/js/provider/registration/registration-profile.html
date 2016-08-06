@@ -85,30 +85,46 @@
   <div layout-gt-xs="row">
     <md-input-container class="md-block"
                         flex="100"
-                        flex-gt-xs="50">
+                        flex-gt-xs="30">
       <label>State</label>
       <md-select role="listbox"
+                 ng-change="vm.resetSelectedCity(vm.user.address.state); vm.getCitiesList(vm.user.address.state)"
                  ng-model="vm.user.address.state">
-        <md-option ng-repeat="state in vm.statesList"
+        <md-option ng-repeat="state in vm.statesList track by state.id"
                    ng-value="state.id">
-          <span ng-bind="state.name"></span>
+          <span ng-bind="::state.state"></span>
         </md-option>
       </md-select>
     </md-input-container>
     <div layout="row"
          flex="100"
-         flex-gt-xs="66">
+         flex-gt-xs="70">
       <md-input-container class="md-block"
                           flex="100"
-                          flex-gt-xs="33">
+                          flex-gt-xs="60">
         <label>City</label>
-        <input type="text"
-               name="city"
-               ng-model="vm.user.address.city">
+        <md-select role="listbox"
+                   class="cities-select"
+                   infinite-scroll="vm.getCitiesList(vm.user.address.state, vm.searchCity)"
+                   ng-model="vm.user.address.city">
+          <md-select-header>
+            <input type="search"
+                   placeholder="Search for a city.."
+                   ng-change="vm.getCitiesList(vm.user.address.state, vm.searchCity)"
+                   ng-model-options="{ debounce: 400 }"
+                   ng-model="vm.searchCity">
+          </md-select-header>
+          <md-optgroup label="cities">
+            <md-option ng-repeat="city in vm.citiesList | filter: vm.searchCity track by city.id"
+                       ng-value="city.id">
+              <span ng-bind="city.city"></span>
+            </md-option>
+          </md-optgroup>
+        </md-select>
       </md-input-container>
       <md-input-container class="md-block"
                           flex="100"
-                          flex-gt-xs="50">
+                          flex-gt-xs="40">
         <label>Postal Code</label>
         <input type="text"
                name="zipCode"
