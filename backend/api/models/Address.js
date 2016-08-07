@@ -16,14 +16,19 @@ let Address = {
             required: true
         },
         zip: {
-            type: 'number'
+            type: 'string',
+            is: /^[0-9]{5}(-[0-9]{4})?$/
         },
 
-        cityId: {
+        city: {
             model: 'city',
             columnName: 'city_id'
         },
-        userId: {
+        state: {
+            model: 'state',
+            columnName: 'state_id'
+        },
+        user: {
             model: 'user',
             columnName: 'user_id'
         }
