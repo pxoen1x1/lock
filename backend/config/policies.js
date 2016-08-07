@@ -56,5 +56,15 @@ module.exports.policies = {
   UserController: {
     '*': ['isAuthenticated'],
     'createUser': true
+  },
+
+  StateController: {
+    '*': ['isAuthenticated'],
+    'getStates': true
+  },
+
+  CityController: {
+    '*': ['isAuthenticated'],
+    'getCitiesByState': true
   }
 };
