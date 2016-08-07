@@ -91,7 +91,6 @@
             }
 
             var params = {
-                limit: 20,
                 page: getCityRequestOptions.page,
                 query: query
             };
