@@ -11,6 +11,7 @@
     function coreDataservice($http, request, conf) {
         var service = {
             getStates: getStates,
+            getCities: getCities,
             createUser: createUser,
             loginUser: loginUser,
             resetUserPassword: resetUserPassword,
@@ -24,6 +25,15 @@
             return request.httpWithTimeout({
                 url: conf.URL + 'lists/states',
                 method: 'GET'
+            });
+        }
+
+        function getCities(stateId, params) {
+
+            return request.httpWithTimeout({
+                url: conf.URL + 'lists/states/' + stateId + '/cities',
+                method: 'GET',
+                params: params
             });
         }
 
