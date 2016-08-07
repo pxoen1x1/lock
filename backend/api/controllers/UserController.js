@@ -9,7 +9,7 @@
 'use strict';
 
 let UserController = {
-    getUser (req, res) {
+    getCurrentUser(req, res) {
         res.ok(
             {
                 user: req.user
@@ -21,9 +21,11 @@ let UserController = {
 
         async.waterfall([
                 async.apply(createUser, user),
-                sendConfirmation
+                createAddress,
+                sendConfirmation,
+                getCreatedUser
             ],
-            (err, createdUser) => {
+            (err, user) => {
                 if (err) {
                     sails.log.error(err);
 
@@ -32,7 +34,7 @@ let UserController = {
 
                 res.created(
                     {
-                        user: createdUser
+                        user: user
                     }
                 );
             });
@@ -78,18 +80,36 @@ let UserController = {
     }
 };
 
+module.exports = UserController;
+
 function createUser(user, done) {
     UserService.create(user)
         .then(
-            (createdUser) => {
-                done(null, createdUser);
-            }
+            (createdUser) => done(null, createdUser, user.address)
         )
         .catch(
-            (err) => {
-                done(err);
-            }
+            (err) => done(err)
         );
+}
+
+function createAddress(createdUser, address, done) {
+    if (!address) {
+
+        return done(null, createdUser);
+    }
+
+    createdUser.addresses.add(address);
+
+    createdUser.save(
+        (err) => {
+            if (err) {
+
+                return done(err);
+            }
+
+            done(null, createdUser);
+        }
+    );
 }
 
 function sendConfirmation(createdUser, done) {
@@ -112,4 +132,14 @@ function sendConfirmation(createdUser, done) {
     }
 }
 
-module.exports = UserController;
+function getCreatedUser(createdUser, done) {
+    UserService.getUser(createdUser)
+        .then(
+            (foundUser) => {
+                done(null, foundUser);
+            }
+        )
+        .catch(
+            (err) => done(err)
+        );
+}
