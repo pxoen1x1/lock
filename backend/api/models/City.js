@@ -25,13 +25,12 @@ let City = {
             type: 'float'
         },
 
-        stateId: {
-            model: 'state',
-            columnName: 'state_id'
+        state: {
+            model: 'state'
         },
         addresses: {
             collection: 'address',
-            via: 'cityId'
+            via: 'city'
         }
     }
 };
