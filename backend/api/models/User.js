@@ -12,11 +12,6 @@ let User = {
     tableName: 'users',
 
     attributes: {
-        id: {
-            type: 'integer',
-            unique: true,
-            primaryKey: true
-        },
         firstName: {
             type: 'string',
             required: true,
@@ -87,6 +82,11 @@ let User = {
             type: 'string',
             required: true,
             minLength: '6'
+        },
+
+        addresses: {
+            collection: 'address',
+            via: 'user'
         },
 
         fullName() {

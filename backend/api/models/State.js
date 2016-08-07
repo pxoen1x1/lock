@@ -21,7 +21,11 @@ let State = {
 
         cities: {
             collection: 'city',
-            via: 'stateId'
+            via: 'state'
+        },
+        addresses: {
+            collection: 'address',
+            via: 'city'
         }
     }
 };
