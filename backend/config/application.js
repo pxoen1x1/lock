@@ -2,6 +2,7 @@
 
 let application = {
     tokenLength: 16,
+    queryLimit: 10,
     emailVerificationEnabled: true,
     resetPasswordExpiresTime: 24*3600*1000,
     urls: {

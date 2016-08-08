@@ -6,6 +6,27 @@ let bcryptjs = require('bcryptjs');
 let crypto = require('crypto');
 
 let UserService = {
+    getUser(user) {
+        let promise = new Promise((resolve, reject) => {
+                User.findOne(
+                    {id: user.id}
+                )
+                    .populate('addresses')
+                    .exec(
+                        (err, foundUser) => {
+                            if (err) {
+
+                                return reject(err);
+                            }
+
+                            return resolve(foundUser);
+                        }
+                    );
+            }
+        );
+
+        return promise;
+    },
     create(user) {
         let promise = new Promise(
             (resolve, reject) => {

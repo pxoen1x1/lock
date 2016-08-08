@@ -12,16 +12,16 @@
         $stateProvider
             .state('provider', {
                 parent: 'root',
-                //abstract: true,
-                url: '/provider',
+                abstract: true,
+                url: '/specialist',
                 views: {
                     'content@root': {
-                        templateUrl: 'provider/layout/layout.html'
+                        templateUrl: 'provider/layout/layout.html',
                     },
-                    'menu@provider': {
+                    'menu@customer': {
                         templateUrl: 'provider/layout/menu.html'
                     },
-                    'header@provider': {
+                    'header@customer': {
                         templateUrl: 'provider/layout/header.html'
                     }
                 }
@@ -30,15 +30,15 @@
                 url: '/registration',
                 views: {
                     'content@root': {
-                        templateUrl: 'provider/registration/layout/layout.html'
+                        templateUrl: 'provider/layout/registration-layout.html'
                     },
                     'content@provider.registration': {
-                        templateUrl: 'provider/registration/layout/content.html',
+                        templateUrl: 'provider/registration/registration.html',
                         controller: 'ProviderRegistrationController',
                         controllerAs: 'vm'
                     },
                     'header@provider.registration': {
-                        templateUrl: 'provider/registration/layout/header.html'
+                        templateUrl: 'provider/layout/registration-header.html'
                     }
                 }
             })

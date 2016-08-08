@@ -12,16 +12,13 @@
         $stateProvider
             .state('customer', {
                 parent: 'root',
-                //abstract: true,
+                abstract: true,
                 url: '/client',
                 views: {
                     'content@root': {
                         templateUrl: 'customer/layout/layout.html',
                         controller: 'CustomerLayoutController',
                         controllerAs: 'vm'
-                    },
-                    'content@customer': {
-                        templateUrl: 'customer/layout/content.html'
                     },
                     'menu@customer': {
                         templateUrl: 'customer/layout/menu.html'

@@ -3,7 +3,7 @@
 let userRoutes = {
     'GET /api/user': {
         controller: 'UserController',
-        action: 'getUser'
+        action: 'getCurrentUser'
     },
     'POST /api/user': {
         controller: 'UserController',

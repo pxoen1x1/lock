@@ -3,148 +3,164 @@
 
     angular
         .module('app.provider')
-        .controller('ProviderRegistrationController', ProviderRegistrationController)
-        .controller('StepperController', StepperController);
+        .controller('ProviderRegistrationController', ProviderRegistrationController);
 
-    ProviderRegistrationController.$inject = ['$state'];
+    ProviderRegistrationController.$inject = ['$state', 'coreDataservice', 'coreConstants',
+        'specialistProviderConstant'];
 
     /* @ngInject */
-    function ProviderRegistrationController($state) {
+    function ProviderRegistrationController($state, coreDataservice, coreConstants,
+                                            specialistProviderConstant) {
+        var getStatesPromise;
+        var getCitiesPromise;
+
+        var getCityRequestOptions = {
+            page: 1,
+            previousQuery: '',
+            isAllCitiesLoaded: false
+        };
+
         var vm = this;
-        vm.submit = submit;
-        vm.phoneRegExp = /^\+?\d{2}[- ]?\d{3}[- ]?\d{5}$/;
-        vm.states = loadAll();
-        vm.serviceTypes = [
-            {
-                display: "Car",
-                value: "car"
-            },
-            {
-                display: "Residential",
-                value: "res"
-            },
-            {
-                display: "Commercial",
-                value: "com"
-            }
-        ];
-        vm.serviceProcedures = [
-            {
-                display: "First",
-                value: "1"
-            },
-            {
-                display: "Second",
-                value: "2"
-            },
-            {
-                display: "Third",
-                value: "3"
-            }
-        ];
-        vm.getNumber = getNumber;
 
-        vm.serviceTypeChange = serviceTypeChange;
+        vm.user = {};
 
-        function submit() {
-            alert(angular.toJson(vm.user));
-        }
+        vm.searchCity = '';
+        vm.statesList = [];
+        vm.citiesList = [];
+        vm.serviceTypes = [];
+        vm.serviceProcedures = [];
 
-        function loadAll() {
-            var allStates = 'Alabama, Alaska, Arizona, Arkansas, California, Colorado, Connecticut, Delaware,\
-            Florida, Georgia, Hawaii, Idaho, Illinois, Indiana, Iowa, Kansas, Kentucky, Louisiana,\
-            Maine, Maryland, Massachusetts, Michigan, Minnesota, Mississippi, Missouri, Montana,\
-            Nebraska, Nevada, New Hampshire, New Jersey, New Mexico, New York, North Carolina,\
-            North Dakota, Ohio, Oklahoma, Oregon, Pennsylvania, Rhode Island, South Carolina,\
-            South Dakota, Tennessee, Texas, Utah, Vermont, Virginia, Washington, West Virginia,\
-            Wisconsin, Wyoming';
-
-            return allStates.split(/, +/g).map(function (state) {
-                return {
-                    value: state.toLowerCase(),
-                    display: state
-                };
-            });
-        }
-
-        function getNumber(num) {
-            console.log(new Array(num));
-            return new Array(num);
-        }
-
-        function serviceTypeChange() {
-            var valid = false;
-            for (var i=0; i<vm.serviceTypes.length; i++) {
-                if (vm.user.serviceType[i] == true) valid = true;
-            }
-            if (!valid) vm.user.serviceType = null;
-            return valid;
-        }
-        
-    }
-
-    function StepperController() {
-        var vm = this;
-        vm.stepperItems = [
-            {
-                title: "Profile",
-                valid: false
-            },
-            {
-                title: "Service",
-                valid: false
-            },
-            {
-                title: "Work",
-                valid: false
-            },
-            {
-                title: "Payments",
-                valid: false
-            }
-        ];
-        vm.templatesPath = "provider/registration/layout/steps/";
+        vm.datePickerOptions = {
+            maxDate: new Date()
+        };
+        vm.timePickerOptions = coreConstants.MD_PICKERS_OPTIONS.timePicker;
+        vm.registrationSteps = specialistProviderConstant.REGISTRATION_STEPS;
+        vm.validSteps = {};
         vm.currentStep = 0;
 
-        vm.isStepCurrent = isStepCurrent;
-        vm.isStepValid = isStepValid;
-        vm.isFirstStep = isFirstStep;
-        vm.isLastStep = isLastStep;
-        vm.gotoPreviousStep = gotoPreviousStep;
-        vm.gotoNextStep = gotoNextStep;
-        vm.gotoStep = gotoStep;
+        vm.getCitiesList = getCitiesList;
+        vm.resetSelectedCity = resetSelectedCity;
+        vm.goToNextStep = goToNextStep;
+        vm.goToPrevStep = goToPrevStep;
+        vm.goToStep = goToStep;
+        vm.createNewUser = createNewUser;
 
-        function isStepCurrent(a) {
-            return vm.currentStep == a;
-        }
+        activate();
 
-        function isStepValid(a, valid) {
-            if (a==vm.currentStep) {
-                vm.stepperItems[a].valid = valid;
-                return valid;
+        function getStates() {
+            if (getStatesPromise) {
+                getStatesPromise.cancel();
             }
-            return vm.stepperItems[a].valid;
+
+            getStatesPromise = coreDataservice.getStates();
+
+            return getStatesPromise
+                .then(function (response) {
+
+                    return response.data.items;
+                });
         }
 
-        function isFirstStep() {
-            return vm.currentStep == 0;
+        function getCities(state, params) {
+            if (getCitiesPromise) {
+                getCitiesPromise.cancel();
+            }
+
+            getCitiesPromise = coreDataservice.getCities(state, params);
+
+            return getCitiesPromise
+                .then(function (response) {
+
+                    return response.data;
+                });
         }
 
-        function isLastStep() {
-            return vm.currentStep == vm.stepperItems.length-1;
+        function getCitiesList(state, query) {
+            if (!state || (query && query.length < 2)) {
+
+                return;
+            }
+
+            if (query !== getCityRequestOptions.previousQuery) {
+                resetSelectedCity();
+            }
+
+            if (getCityRequestOptions.isAllCitiesLoaded) {
+
+                return;
+            }
+
+            var params = {
+                page: getCityRequestOptions.page,
+                query: query
+            };
+
+            return getCities(state, params)
+                .then(function (cities) {
+                    vm.citiesList = vm.citiesList.concat(cities.items);
+
+                    getCityRequestOptions.page++;
+                    getCityRequestOptions.previousQuery = query;
+                    getCityRequestOptions.isAllCitiesLoaded = vm.citiesList.length >= cities.totalCount;
+
+                    return vm.citiesList;
+                });
         }
 
-        function gotoPreviousStep() {
-            vm.currentStep--;
+        function resetSelectedCity(selectedState) {
+            if (selectedState) {
+                vm.user.address.city = null;
+                vm.searchCity = '';
+                getCityRequestOptions.previousQuery = '';
+
+            }
+
+            vm.citiesList = [];
+            getCityRequestOptions.page = 1;
+            getCityRequestOptions.isAllCitiesLoaded = false;
         }
 
-        function gotoNextStep() {
-            vm.stepperItems[vm.currentStep].valid = true;
+        function createUser(user) {
+
+            return coreDataservice.createUser(user)
+                .then(function () {
+
+                    $state.go('home');
+                });
+        }
+
+        function goToNextStep(isStepValid) {
+            vm.validSteps[vm.currentStep] = isStepValid;
+
             vm.currentStep++;
         }
 
-        function gotoStep(a) {
-            vm.currentStep = a;
+        function goToPrevStep(isStepValid) {
+            vm.validSteps[vm.currentStep] = isStepValid;
+
+            vm.currentStep--;
+        }
+
+        function goToStep(indexStep, isStepValid) {
+            vm.validSteps[vm.currentStep] = isStepValid;
+
+            vm.currentStep = indexStep;
+        }
+
+        function createNewUser(user, isFormValid) {
+            if (!isFormValid) {
+
+                return;
+            }
+
+            createUser(user);
+        }
+
+        function activate() {
+            getStates()
+                .then(function (states) {
+                    vm.statesList = states;
+                });
         }
     }
 })();
