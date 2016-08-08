@@ -12,6 +12,7 @@
     function ProviderRegistrationController($q, $state, coreDataservice, coreConstants,
                                             serviceProviderConstant, serviceProviderDataservice) {
         var getServicesPromise;
+        var getProceduresPromise;
         var getStatesPromise;
         var getCitiesPromise;
 
@@ -29,7 +30,7 @@
         vm.statesList = [];
         vm.citiesList = [];
         vm.servicesList = [];
-        vm.serviceProcedures = [];
+        vm.proceduresList = [];
 
         vm.datePickerOptions = {
             maxDate: new Date()
@@ -39,6 +40,7 @@
         vm.validSteps = {};
         vm.currentStep = 0;
 
+        vm.getProceduresList = getProceduresList;
         vm.getCitiesList = getCitiesList;
         vm.resetSelectedCity = resetSelectedCity;
         vm.goToNextStep = goToNextStep;
@@ -69,6 +71,35 @@
                     vm.servicesList = services;
 
                     return vm.servicesList;
+                });
+        }
+
+        function getProcedures(params) {
+            if (getProceduresPromise) {
+                getProceduresPromise.cancel();
+            }
+
+            getProceduresPromise = serviceProviderDataservice.getProcedures(params);
+
+            return getProceduresPromise
+                .then(
+                    function (response) {
+
+                        return response.data.procedures;
+                    }
+                );
+        }
+
+        function getProceduresList(servicesIds) {
+            var params = {
+                services: servicesIds
+            };
+
+            return getProcedures(params)
+                .then(function (procedures) {
+                    vm.proceduresList = procedures;
+
+                    return vm.proceduresList;
                 });
         }
 

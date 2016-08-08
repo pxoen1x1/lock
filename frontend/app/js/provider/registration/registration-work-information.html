@@ -4,10 +4,10 @@
     <md-input-container flex="100"
                         flex-gt-xs="70">
       <label>Service procedure</label>
-      <md-select ng-model="vm.user.details.serviceProcedure">
-        <md-option ng-repeat="serviceProcedure in vm.serviceProcedures track by $index"
-                   ng-value="serviceProcedure.value">
-          <span ng-bind="serviceProcedure.display"></span>
+      <md-select ng-model="vm.user.details.prices.procedure">
+        <md-option ng-repeat="procedure in vm.proceduresList track by procedure.id"
+                   ng-value="procedure.id">
+          <span ng-bind="procedure.name"></span>
         </md-option>
       </md-select>
     </md-input-container>
@@ -16,7 +16,7 @@
                         flex-gt-xs="30">
       <label>Price $</label>
       <input name="price"
-             ng-model="vm.user.details.price">
+             ng-model="vm.user.details.prices.price">
     </md-input-container>
   </div>
   <p>Working hours (optional)</p>
