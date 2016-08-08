@@ -3,11 +3,11 @@
        flex="100"
        flex-gt-xs="50">
     <p>Type of service:</p>
-    <div ng-repeat="serviceType in vm.serviceTypes track by serviceType.id">
-      <md-checkbox aria-label="serviceType.display"
-                   checklist-value="serviceType.id"
-                   checklist-model="vm.user.details.serviceTypes">
-        <span ng-bind="serviceType.name"></span>
+    <div ng-repeat="service in vm.servicesList track by service.id">
+      <md-checkbox aria-label="{{ service.name }}"
+                   checklist-value="service.id"
+                   checklist-model="vm.user.details.services">
+        <span ng-bind="service.name"></span>
       </md-checkbox>
     </div>
   </div>
@@ -20,11 +20,9 @@
       <input type="text"
              name="licenseNumber"
              required
-             md-maxlength="15"
              ng-model="vm.user.details.number">
       <div ng-messages="registrationForm.licenseNumber.$error">
-        <!--!ToDo: license number validation-->
-        <div ng-message="licenseNumber">That doesn't look like a valid license number.</div>
+        <div ng-message="required">Please, enter a license number.</div>
       </div>
     </md-input-container>
     <md-datepicker name="licenseDate"
