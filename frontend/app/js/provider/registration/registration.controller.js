@@ -5,12 +5,13 @@
         .module('app.provider')
         .controller('ProviderRegistrationController', ProviderRegistrationController);
 
-    ProviderRegistrationController.$inject = ['$state', 'coreDataservice', 'coreConstants',
-        'specialistProviderConstant'];
+    ProviderRegistrationController.$inject = ['$q', '$state', 'coreDataservice', 'coreConstants',
+        'serviceProviderConstant', 'serviceProviderDataservice'];
 
     /* @ngInject */
-    function ProviderRegistrationController($state, coreDataservice, coreConstants,
-                                            specialistProviderConstant) {
+    function ProviderRegistrationController($q, $state, coreDataservice, coreConstants,
+                                            serviceProviderConstant, serviceProviderDataservice) {
+        var getServicesPromise;
         var getStatesPromise;
         var getCitiesPromise;
 
@@ -27,14 +28,14 @@
         vm.searchCity = '';
         vm.statesList = [];
         vm.citiesList = [];
-        vm.serviceTypes = [];
+        vm.servicesList = [];
         vm.serviceProcedures = [];
 
         vm.datePickerOptions = {
             maxDate: new Date()
         };
         vm.timePickerOptions = coreConstants.MD_PICKERS_OPTIONS.timePicker;
-        vm.registrationSteps = specialistProviderConstant.REGISTRATION_STEPS;
+        vm.registrationSteps = serviceProviderConstant.REGISTRATION_STEPS;
         vm.validSteps = {};
         vm.currentStep = 0;
 
@@ -47,6 +48,30 @@
 
         activate();
 
+        function getServices() {
+            if (getServicesPromise) {
+                getServicesPromise.cancel();
+            }
+
+            getServicesPromise = serviceProviderDataservice.getServices();
+
+            return getServicesPromise
+                .then(function (response) {
+
+                    return response.data.services;
+                });
+        }
+
+        function getServicesList() {
+
+            return getServices()
+                .then(function (services) {
+                    vm.servicesList = services;
+
+                    return vm.servicesList;
+                });
+        }
+
         function getStates() {
             if (getStatesPromise) {
                 getStatesPromise.cancel();
@@ -57,8 +82,20 @@
             return getStatesPromise
                 .then(function (response) {
 
-                    return response.data.items;
+                    return response.data.states;
                 });
+        }
+
+        function getStatesList() {
+
+            return getStates()
+                .then(
+                    function (states) {
+                        vm.statesList = states;
+
+                        return vm.statesList;
+                    }
+                );
         }
 
         function getCities(state, params) {
@@ -157,10 +194,10 @@
         }
 
         function activate() {
-            getStates()
-                .then(function (states) {
-                    vm.statesList = states;
-                });
+            $q.all([
+                getServicesList(),
+                getStatesList()
+            ]);
         }
     }
 })();
