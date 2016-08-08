@@ -21,6 +21,10 @@ let Service = {
             collection: 'UserDetails',
             via: 'service',
             through: 'userdetailsservice'
+        },
+        procedures: {
+            collection: 'Procedure',
+            via: 'service'
         }
     }
 };

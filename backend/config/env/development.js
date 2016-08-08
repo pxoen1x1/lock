@@ -32,6 +32,8 @@ module.exports = {
     migrate: 'alter'
   },
 
+  hookTimeout: 60000,
+
   host: 'locksmith.i-deasoft.com',
   port: 1338,
   homePage: 'http://locksmith.i-deasoft.com/'

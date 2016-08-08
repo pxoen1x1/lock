@@ -71,5 +71,10 @@ module.exports.policies = {
     ServiceController: {
         '*': ['isAuthenticated'],
         'getServices': true
+    },
+
+    ProcedureController: {
+        '*': ['isAuthenticated'],
+        'getProceduresByService': true
     }
 };
