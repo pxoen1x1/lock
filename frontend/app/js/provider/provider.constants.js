@@ -3,7 +3,7 @@
 
     angular
         .module('app.provider')
-        .constant('specialistProviderConstant',{
+        .constant('serviceProviderConstant',{
             REGISTRATION_STEPS: [
                 {
                     id: 1,
@@ -27,5 +27,4 @@
                 }
             ]
         });
-
 })();
