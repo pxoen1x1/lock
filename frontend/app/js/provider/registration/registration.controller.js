@@ -6,11 +6,11 @@
         .controller('ProviderRegistrationController', ProviderRegistrationController);
 
     ProviderRegistrationController.$inject = ['$state', 'coreDataservice', 'coreConstants',
-        'specialistProviderConstant'];
+        'serviceProviderConstant'];
 
     /* @ngInject */
     function ProviderRegistrationController($state, coreDataservice, coreConstants,
-                                            specialistProviderConstant) {
+                                            serviceProviderConstant) {
         var getStatesPromise;
         var getCitiesPromise;
 
@@ -27,14 +27,14 @@
         vm.searchCity = '';
         vm.statesList = [];
         vm.citiesList = [];
-        vm.serviceTypes = [];
+        vm.services = [];
         vm.serviceProcedures = [];
 
         vm.datePickerOptions = {
             maxDate: new Date()
         };
         vm.timePickerOptions = coreConstants.MD_PICKERS_OPTIONS.timePicker;
-        vm.registrationSteps = specialistProviderConstant.REGISTRATION_STEPS;
+        vm.registrationSteps = serviceProviderConstant.REGISTRATION_STEPS;
         vm.validSteps = {};
         vm.currentStep = 0;
 
@@ -59,6 +59,18 @@
 
                     return response.data.items;
                 });
+        }
+
+        function getStatesList() {
+
+            return getStates()
+                .then(
+                    function (states) {
+                        vm.statesList = states;
+
+                        return vm.statesList;
+                    }
+                );
         }
 
         function getCities(state, params) {
@@ -157,10 +169,7 @@
         }
 
         function activate() {
-            getStates()
-                .then(function (states) {
-                    vm.statesList = states;
-                });
+            getStatesList();
         }
     }
 })();
