@@ -20,7 +20,7 @@ let StateController = {
                     }
 
                     res.ok({
-                        items: states
+                        states: states
                     });
                 }
             );
