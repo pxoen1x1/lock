@@ -8,19 +8,20 @@
 'use strict';
 
 let Procedure = {
-  autoCreatedAt: false,
-  autoUpdatedAt: false,
-  tableName: 'procedures',
+    autoCreatedAt: false,
+    autoUpdatedAt: false,
+    tableName: 'procedures',
 
-  attributes: {
-    name: {
-      type: 'string'
-    },
+    attributes: {
+        name: {
+            type: 'string'
+        },
 
-    service: {
-      model: 'Service'
+        service: {
+            model: 'Service',
+            columnName: 'service_id'
+        }
     }
-  }
 };
 
 module.exports = Procedure;
