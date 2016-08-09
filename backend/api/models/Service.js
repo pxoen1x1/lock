@@ -18,9 +18,8 @@ let Service = {
         },
 
         userDetails: {
-            collection: 'UserDetails',
-            via: 'service',
-            through: 'userdetailsservice'
+            collection: 'UserDetail',
+            via: 'services'
         },
         procedures: {
             collection: 'Procedure',
@@ -30,4 +29,3 @@ let Service = {
 };
 
 module.exports = Service;
-
