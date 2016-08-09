@@ -85,7 +85,11 @@ let User = {
         },
 
         addresses: {
-            collection: 'address',
+            collection: 'Address',
+            via: 'user'
+        },
+        userDetail: {
+            collection: 'UserDetail',
             via: 'user'
         },
 

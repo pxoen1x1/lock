@@ -12,29 +12,29 @@
 
 module.exports = {
 
-  /***************************************************************************
-   * Set the default database connection for models in the development       *
-   * environment (see config/connections.js and config/models.js )           *
-   ***************************************************************************/
+    /***************************************************************************
+     * Set the default database connection for models in the development       *
+     * environment (see config/connections.js and config/models.js )           *
+     ***************************************************************************/
 
-  connections: {
-    developmentMysqlServer: {
-      adapter: 'sails-mysql',
-      host: 'localhost',
-      user: 'locksmith',
-      password: 'l0ck$m1th_p@$$',
-      database: 'locksmith'
-    }
-  },
+    connections: {
+        developmentMysqlServer: {
+            adapter: 'sails-mysql',
+            host: 'localhost',
+            user: 'locksmith',
+            password: 'l0ck$m1th_p@$$',
+            database: 'locksmith'
+        }
+    },
 
-  models: {
-    connection: 'developmentMysqlServer',
-    migrate: 'alter'
-  },
+    models: {
+        connection: 'developmentMysqlServer',
+        migrate: 'alter'
+    },
 
-  hookTimeout: 60000,
+    hookTimeout: 60000,
 
-  host: 'locksmith.i-deasoft.com',
-  port: 1338,
-  homePage: 'http://locksmith.i-deasoft.com/'
+    host: 'locksmith.i-deasoft.com',
+    port: 1338,
+    homePage: 'http://locksmith.i-deasoft.com/'
 };

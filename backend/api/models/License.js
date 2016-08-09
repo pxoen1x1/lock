@@ -1,5 +1,5 @@
 /**
- * Service.js
+ * License.js
  *
  * @description :: TODO: You might write a short summary of how this model works and what it represents here.
  * @docs        :: http://sailsjs.org/documentation/concepts/models-and-orm/models
@@ -7,25 +7,25 @@
 
 'use strict';
 
-let Service = {
+let License = {
     autoCreatedAt: false,
     autoUpdatedAt: false,
-    tableName: 'services',
+    tableName: 'licenses',
 
     attributes: {
-        name: {
+        number: {
             type: 'string'
         },
-
-        userDetails: {
-            collection: 'UserDetail',
-            via: 'services'
+        date: {
+            type: 'date'
         },
-        procedures: {
-            collection: 'Procedure',
-            via: 'service'
+
+        userDetail: {
+            model: 'UserDetail',
+            unique: true,
+            columnName: 'user_details_id'
         }
     }
 };
 
-module.exports = Service;
+module.exports = License;
