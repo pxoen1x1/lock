@@ -20,6 +20,11 @@ let Procedure = {
         service: {
             model: 'Service',
             columnName: 'service_id'
+        },
+
+        servicePrices: {
+            collection: 'ServicePrice',
+            via: 'procedure'
         }
     }
 };
