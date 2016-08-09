@@ -4,6 +4,6 @@
     angular
         .module('app')
         .constant('conf', {
-            URL: 'http://locksmith.i-deasoft.com:1338/api/'
+            URL: 'http://localhost:1338/api/'
         });
 })();
