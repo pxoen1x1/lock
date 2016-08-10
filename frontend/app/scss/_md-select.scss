@@ -16,3 +16,10 @@ md-select-header {
     padding: 0;
   }
 }
+
+.md-select-value :first-child {
+  white-space: normal;
+  .md-container {
+    display: inline-block;
+  }
+}
