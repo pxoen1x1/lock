@@ -15,7 +15,9 @@ let ProcedureController = {
 
         if (!services || services.length === 0) {
 
-            return;
+            return res.ok({
+                procedures: []
+            });
         }
 
         Procedure.find({
