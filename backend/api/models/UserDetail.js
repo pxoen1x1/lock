@@ -19,11 +19,6 @@ let UserDetail = {
             columnName: 'user_id'
         },
 
-        services: {
-            collection: 'Service',
-            via: 'userDetails',
-            dominant: true
-        },
         license: {
             collection: 'License',
             via: 'userDetail'
@@ -35,6 +30,17 @@ let UserDetail = {
         workingHours: {
             collection: 'WorkingHour',
             via: 'userDetail'
+        },
+
+        services: {
+            collection: 'Service',
+            via: 'userDetails',
+            dominant: true
+        },
+        languages: {
+            collection: 'Language',
+            via: 'userDetails',
+            dominant: true
         }
     }
 };
