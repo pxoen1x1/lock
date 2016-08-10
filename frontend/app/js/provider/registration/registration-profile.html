@@ -44,6 +44,19 @@
     </div>
   </md-input-container>
 </div>
+<p>What languages do you speak?</p>
+<div layout-gt-xs="row">
+  <md-input-container class="md-block" flex>
+    <md-select aria-label="Languages"
+               multiple
+               ng-model="vm.user.details.languages">
+      <md-option ng-repeat="language in vm.languagesList track by language.id"
+                 ng-value="language.id">
+        <span ng-bind="language.name"></span>
+      </md-option>
+    </md-select>
+  </md-input-container>
+</div>
 <p>Contact information:</p>
 <div layout-gt-xs="row">
   <md-input-container class="md-block"

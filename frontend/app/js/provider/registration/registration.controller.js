@@ -11,6 +11,7 @@
     /* @ngInject */
     function ProviderRegistrationController($q, $state, coreDataservice, coreConstants,
                                             serviceProviderConstant, serviceProviderDataservice) {
+        var getLanguagesPromise;
         var getServicesPromise;
         var getProceduresPromise;
         var getStatesPromise;
@@ -29,6 +30,7 @@
         vm.searchCity = '';
         vm.statesList = [];
         vm.citiesList = [];
+        vm.languagesList = [];
         vm.servicesList = [];
         vm.proceduresList = [];
 
@@ -49,6 +51,30 @@
         vm.createNewUser = createNewUser;
 
         activate();
+
+        function getLanguages() {
+            if (getLanguagesPromise) {
+                getLanguagesPromise.cancel();
+            }
+
+            getLanguagesPromise = coreDataservice.getLanguages();
+
+            return getLanguagesPromise
+                .then(function (response) {
+
+                    return response.data.languages;
+                });
+        }
+
+        function getLanguagesList() {
+
+            return getLanguages()
+                .then(function (languages) {
+                    vm.languagesList = languages;
+
+                    return vm.languagesList;
+                });
+        }
 
         function getServices() {
             if (getServicesPromise) {
@@ -226,6 +252,7 @@
 
         function activate() {
             $q.all([
+                getLanguagesList(),
                 getServicesList(),
                 getStatesList()
             ]);
