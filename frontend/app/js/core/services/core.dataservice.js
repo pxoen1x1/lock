@@ -10,6 +10,7 @@
     /* @ngInject */
     function coreDataservice($http, request, conf) {
         var service = {
+            getLanguages: getLanguages,
             getStates: getStates,
             getCities: getCities,
             createUser: createUser,
@@ -19,6 +20,14 @@
         };
 
         return service;
+
+        function getLanguages() {
+
+            return request.httpWithTimeout({
+                url: conf.URL + 'lists/languages',
+                method: 'GET'
+            });
+        }
 
         function getStates() {
 

@@ -23,7 +23,7 @@ module.exports = {
 
         userDetail: {
             model: 'UserDetail',
-            columnName: 'user_detail_id'
+            columnName: 'user_details_id'
         }
     }
 };

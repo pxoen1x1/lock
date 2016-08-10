@@ -17,13 +17,14 @@ let Service = {
             type: 'string'
         },
 
-        userDetails: {
-            collection: 'UserDetail',
-            via: 'services'
-        },
         procedures: {
             collection: 'Procedure',
             via: 'service'
+        },
+
+        userDetails: {
+            collection: 'UserDetail',
+            via: 'services'
         }
     }
 };
