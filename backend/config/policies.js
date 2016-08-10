@@ -76,5 +76,10 @@ module.exports.policies = {
     ProcedureController: {
         '*': ['isAuthenticated'],
         'getProceduresByService': true
+    },
+
+    LanguageController: {
+        '*': ['isAuthenticated'],
+        'getLanguages': true
     }
 };
