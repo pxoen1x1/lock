@@ -31,6 +31,10 @@ let UserDetail = {
         servicePrices: {
             collection: 'ServicePrice',
             via: 'userDetail'
+        },
+        workingHours: {
+            collection: 'WorkingHour',
+            via: 'userDetail'
         }
     }
 };
