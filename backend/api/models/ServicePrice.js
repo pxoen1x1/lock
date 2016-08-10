@@ -1,5 +1,5 @@
 /**
- * Procedure.js
+ * ServicePrice.js
  *
  * @description :: TODO: You might write a short summary of how this model works and what it represents here.
  * @docs        :: http://sailsjs.org/documentation/concepts/models-and-orm/models
@@ -7,27 +7,23 @@
 
 'use strict';
 
-let Procedure = {
+module.exports = {
     autoCreatedAt: false,
     autoUpdatedAt: false,
-    tableName: 'procedures',
+    tableName: 'service_prices',
 
     attributes: {
-        name: {
-            type: 'string'
+        price: {
+            type: 'float'
+        },
+        procedure: {
+            model: 'Procedure',
+            columnName: 'procedure_id'
         },
 
-        service: {
-            model: 'Service',
-            columnName: 'service_id'
-        },
-
-        servicePrices: {
-            collection: 'ServicePrice',
-            via: 'procedure'
+        userDetail: {
+            model: 'UserDetail',
+            columnName: 'user_detail_id'
         }
     }
 };
-
-module.exports = Procedure;
-

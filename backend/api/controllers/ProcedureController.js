@@ -15,8 +15,8 @@ let ProcedureController = {
 
         if (!services || services.length === 0) {
 
-            return res.badRequest({
-                message: sails.__('Services are not defined.')
+            return res.ok({
+                procedures: []
             });
         }
 

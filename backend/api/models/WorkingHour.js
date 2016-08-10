@@ -1,5 +1,5 @@
 /**
- * Procedure.js
+ * WorkingHour.js
  *
  * @description :: TODO: You might write a short summary of how this model works and what it represents here.
  * @docs        :: http://sailsjs.org/documentation/concepts/models-and-orm/models
@@ -7,27 +7,25 @@
 
 'use strict';
 
-let Procedure = {
+module.exports = {
     autoCreatedAt: false,
     autoUpdatedAt: false,
-    tableName: 'procedures',
+    tableName: 'working_hours',
 
     attributes: {
-        name: {
-            type: 'string'
+        timeFrom: {
+            type: 'datetime',
+            columnName: 'time_from'
+        },
+        timeTo: {
+            type: 'datetime',
+            columnName: 'time_to'
         },
 
-        service: {
-            model: 'Service',
-            columnName: 'service_id'
-        },
-
-        servicePrices: {
-            collection: 'ServicePrice',
-            via: 'procedure'
+        userDetail: {
+            model: 'UserDetail',
+            columnName: 'user_detail_id'
         }
     }
 };
-
-module.exports = Procedure;
 
