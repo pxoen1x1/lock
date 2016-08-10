@@ -27,6 +27,10 @@ let UserDetail = {
         license: {
             collection: 'License',
             via: 'userDetail'
+        },
+        servicePrices: {
+            collection: 'ServicePrice',
+            via: 'userDetail'
         }
     }
 };

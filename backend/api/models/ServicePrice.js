@@ -5,6 +5,8 @@
  * @docs        :: http://sailsjs.org/documentation/concepts/models-and-orm/models
  */
 
+'use strict';
+
 module.exports = {
     autoCreatedAt: false,
     autoUpdatedAt: false,
@@ -14,10 +16,14 @@ module.exports = {
         price: {
             type: 'float'
         },
-
         procedure: {
             model: 'Procedure',
             columnName: 'procedure_id'
+        },
+
+        userDetail: {
+            model: 'UserDetail',
+            columnName: 'user_detail_id'
         }
     }
 };
