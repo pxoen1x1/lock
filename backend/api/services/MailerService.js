@@ -8,9 +8,8 @@ const mailerOptions = {
         path: sails.config.application.mailer.providerPath
     }
 };
-const host = sails.config.host;
-const port = sails.config.port;
 
+let host = sails.getBaseurl();
 let mailer = require('sails-service-mailer');
 
 let MailerService = {
@@ -25,7 +24,7 @@ let MailerService = {
         let templatePath = sails.config.application.mailer.templates.confirmRegistration;
         let options = {};
         options.user = user;
-        options.url = `http://${host}:${port}${sails.config.application.urls.emailConfirmation}?token=${user.token}`;
+        options.url = `${host}${sails.config.application.urls.emailConfirmation}?token=${user.token}`;
 
         return this.sendMail(templatePath, options);
     },
@@ -33,7 +32,7 @@ let MailerService = {
         let templatePath = sails.config.application.mailer.templates.passwordResetRequest;
         let options = {};
         options.user = user;
-        options.url = `http://${host}:${port}${sails.config.application.urls.passwordResetRequest}/` +
+        options.url = `${host}${sails.config.application.urls.passwordResetRequest}/` +
             `${user.resetPasswordToken}`;
 
         return this.sendMail(templatePath, options);
