@@ -12,8 +12,7 @@ let Address = {
 
     attributes: {
         address: {
-            type: 'string',
-            required: true
+            type: 'string'
         },
         zip: {
             type: 'string',
