@@ -1,20 +1,20 @@
-/*global UserDetail*/
+/* global UserDetail */
 
 'use strict';
 
 let UserDetailService = {
-    create(user, userDetails) {
-        userDetails.user = user.id;
-
+    getUserDetailByUser(user) {
         let promise = new Promise((resolve, reject) => {
-            UserDetail.create(userDetails)
+            UserDetail.findOneByUser(user.id)
+                .populateAll()
                 .exec(
-                    (err, createdUserDetail) => {
-                        if(err) {
+                    (err, foundUserDetail) => {
+                        if (err) {
+
                             return reject(err);
                         }
 
-                        return resolve(createdUserDetail);
+                        return resolve(foundUserDetail);
                     }
                 );
         });
