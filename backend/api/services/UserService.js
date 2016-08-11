@@ -1,4 +1,4 @@
-/*global sails, User*/
+/* global sails, User, UserDetailService */
 
 'use strict';
 
@@ -8,9 +8,7 @@ let crypto = require('crypto');
 let UserService = {
     getUser(user) {
         let promise = new Promise((resolve, reject) => {
-                User.findOne(
-                    {id: user.id}
-                )
+                User.findOneById(user.id)
                     .populate('addresses')
                     .exec(
                         (err, foundUser) => {
@@ -19,7 +17,17 @@ let UserService = {
                                 return reject(err);
                             }
 
-                            return resolve(foundUser);
+                            UserDetailService.getUserDetailByUser(foundUser)
+                                .then(
+                                    (userDetails) => {
+                                        foundUser.details = userDetails;
+
+                                        return resolve(foundUser);
+                                    }
+                                )
+                                .catch(
+                                    (err) => reject(err)
+                                );
                         }
                     );
             }

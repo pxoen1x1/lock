@@ -4,7 +4,7 @@
     <md-input-container flex="100"
                         flex-gt-xs="70">
       <label>Service procedure</label>
-      <md-select ng-model="vm.user.details.prices.procedure">
+      <md-select ng-model="vm.user.details.servicePrices.procedure">
         <md-option ng-repeat="procedure in vm.proceduresList track by procedure.id"
                    ng-value="procedure.id">
           <span ng-bind="procedure.name"></span>
@@ -16,7 +16,7 @@
                         flex-gt-xs="30">
       <label>Price $</label>
       <input name="price"
-             ng-model="vm.user.details.prices.price">
+             ng-model="vm.user.details.servicePrices.price">
     </md-input-container>
   </div>
   <p>Working hours (optional)</p>

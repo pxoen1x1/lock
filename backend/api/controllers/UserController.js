@@ -1,4 +1,4 @@
-/*global async, sails, MailerService, UserService, UserDetailService*/
+/* global async, sails, MailerService, UserService */
 
 /**
  * UserController
@@ -21,8 +21,7 @@ let UserController = {
 
         async.waterfall([
                 async.apply(createUser, user),
-                createAddress,
-                createUserDetails,
+                createAssociations,
                 sendConfirmation,
                 getCreatedUser
             ],
@@ -93,13 +92,14 @@ function createUser(user, done) {
         );
 }
 
-function createAddress(createdUser, address, userDetails, done) {
-    if (!address) {
+function createAssociations(createdUser, address, userDetails, done) {
+    if (!address && !userDetails) {
 
-        return done(null, createdUser, userDetails);
+        return done(null, createdUser);
     }
 
     createdUser.addresses.add(address);
+    createdUser.userDetail.add(userDetails);
 
     createdUser.save(
         (err) => {
@@ -108,24 +108,9 @@ function createAddress(createdUser, address, userDetails, done) {
                 return done(err);
             }
 
-            done(null, createdUser, userDetails);
+            done(null, createdUser);
         }
     );
-}
-
-function createUserDetails(createdUser, userDetails, done) {
-    if (!userDetails) {
-
-        return done(null, createdUser);
-    }
-
-    UserDetailService.create(createdUser, userDetails)
-        .then(
-            () => done(null, createdUser)
-        )
-        .catch(
-            (err) => done(err)
-        );
 }
 
 function sendConfirmation(createdUser, done) {
@@ -151,9 +136,7 @@ function sendConfirmation(createdUser, done) {
 function getCreatedUser(createdUser, done) {
     UserService.getUser(createdUser)
         .then(
-            (foundUser) => {
-                done(null, foundUser);
-            }
+            (foundUser) => done(null, foundUser)
         )
         .catch(
             (err) => done(err)
