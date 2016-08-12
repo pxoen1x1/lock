@@ -5,36 +5,57 @@
         .module('app.customer')
         .controller('NewRequestController', NewRequestController);
 
-    NewRequestController.$inject = ['$state'];
+    NewRequestController.$inject = ['$q', 'coreDictionary'];
 
     /* @ngInject */
-    function NewRequestController($state) {
+    function NewRequestController($q, coreDictionary) {
         var vm = this;
 
-        vm.states = loadAll();
-        vm.languages = ["English", "Spanish", "Russian", "Elven"];
-        vm.submit = submit;
+        vm.request = {};
 
+        vm.services = [];
+        vm.languages = [];
 
-        function loadAll() {
-            var allStates = 'Alabama, Alaska, Arizona, Arkansas, California, Colorado, Connecticut, Delaware,\
-            Florida, Georgia, Hawaii, Idaho, Illinois, Indiana, Iowa, Kansas, Kentucky, Louisiana,\
-            Maine, Maryland, Massachusetts, Michigan, Minnesota, Mississippi, Missouri, Montana,\
-            Nebraska, Nevada, New Hampshire, New Jersey, New Mexico, New York, North Carolina,\
-            North Dakota, Ohio, Oklahoma, Oregon, Pennsylvania, Rhode Island, South Carolina,\
-            South Dakota, Tennessee, Texas, Utah, Vermont, Virginia, Washington, West Virginia,\
-            Wisconsin, Wyoming';
+        vm.isEmergency = null;
+        vm.isLocationSetManually = null;
+        vm.searchCity = '';
 
-            return allStates.split(/, +/g).map(function (state) {
-                return {
-                    value: state.toLowerCase(),
-                    display: state
-                };
-            });
+        vm.createRequest = createRequest;
+
+        activate();
+
+        function getServices() {
+
+            return coreDictionary.getServices()
+                .then(function (services) {
+                    vm.services = services.services;
+
+                    return vm.services;
+                });
         }
 
-        function submit() {
-            alert(angular.toJson(vm.data));
+        function getLanguages() {
+
+            return coreDictionary.getLanguages()
+                .then(function (languages) {
+                    vm.languages = languages.languages;
+
+                    return vm.languages;
+                });
+        }
+
+        function createRequest(request, isFormValid) {
+            if (!isFormValid) {
+
+                return;
+            }
+        }
+
+        function activate() {
+            $q.all(
+                getServices(),
+                getLanguages()
+            );
         }
     }
 })();
