@@ -11,8 +11,8 @@ module.exports = {
     tableName: 'requests',
 
     attributes: {
-        foDate: {
-            type: 'date'
+        forDate: {
+            type: 'datetime'
         },
         latitude: {
             type: 'float',
