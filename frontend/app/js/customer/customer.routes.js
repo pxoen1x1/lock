@@ -58,8 +58,8 @@
                 url: '/new',
                 views: {
                     'content@customer': {
-                        templateUrl: 'customer/request/new/new.html',
-                        controller: 'CustomerRequestNewController',
+                        templateUrl: 'customer/new-request/new-request.html',
+                        controller: 'NewRequestController',
                         controllerAs: 'vm'
                     }
                 }

@@ -3,12 +3,12 @@
 
     angular
         .module('app.customer')
-        .controller('CustomerRequestNewController', CustomerRequestNewController);
+        .controller('NewRequestController', NewRequestController);
 
-    CustomerRequestNewController.$inject = ['$state'];
+    NewRequestController.$inject = ['$state'];
 
     /* @ngInject */
-    function CustomerRequestNewController($state) {
+    function NewRequestController($state) {
         var vm = this;
 
         vm.states = loadAll();
