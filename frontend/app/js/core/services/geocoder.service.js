@@ -9,11 +9,13 @@
 
     function geocoderService($q, $window) {
 
-        return {
+        var service = {
             getCurrentCoordinates: getCurrentCoordinates,
             getCoordinates: getCoordinates,
             getLocation: getLocation
         };
+
+        return service;
 
         function getCurrentCoordinates() {
 
