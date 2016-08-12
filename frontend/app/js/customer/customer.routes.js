@@ -68,8 +68,8 @@
                 url: '/{requestId:int}',
                 views: {
                     'content@customer.request': {
-                        templateUrl: 'customer/request/view/view.html',
-                        controller: 'CustomerRequestViewController',
+                        templateUrl: 'customer/view-request/view-request.html',
+                        controller: 'ViewRequestController',
                         controllerAs: 'vm'
                     }
                 }
