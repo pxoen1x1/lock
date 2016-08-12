@@ -25,6 +25,10 @@ let Service = {
         userDetails: {
             collection: 'UserDetail',
             via: 'services'
+        },
+        requests: {
+            collection: 'Request',
+            via: 'services'
         }
     }
 };
