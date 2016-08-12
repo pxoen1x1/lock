@@ -13,6 +13,7 @@
             getServices: getServices,
             getLanguages: getLanguages
         };
+
         return service;
 
         function getServices() {
