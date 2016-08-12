@@ -10,19 +10,10 @@
     /* @ngInject */
     function serviceProviderDataservice($http, request, conf) {
         var service = {
-            getServices: getServices,
             getProcedures: getProcedures
         };
 
         return service;
-
-        function getServices() {
-
-            return request.httpWithTimeout({
-                url: conf.URL + 'lists/services',
-                method: 'GET'
-            });
-        }
 
         function getProcedures(params) {
 
