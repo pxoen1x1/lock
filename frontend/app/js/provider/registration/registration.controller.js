@@ -5,22 +5,15 @@
         .module('app.provider')
         .controller('ProviderRegistrationController', ProviderRegistrationController);
 
-    ProviderRegistrationController.$inject = ['$q', '$state', 'coreDataservice', 'coreConstants',
-        'serviceProviderConstant', 'serviceProviderDataservice'];
+    ProviderRegistrationController.$inject = ['$q', '$state', 'coreDataservice', 'coreConstants', 'coreDictionary',
+        'serviceProviderConstant', 'serviceProviderDataservice', 'citiesLoader'];
 
     /* @ngInject */
-    function ProviderRegistrationController($q, $state, coreDataservice, coreConstants,
-                                            serviceProviderConstant, serviceProviderDataservice) {
-        var getLanguagesPromise;
-        var getServicesPromise;
-        var getProceduresPromise;
-        var getStatesPromise;
-        var getCitiesPromise;
-
-        var getCityRequestOptions = {
-            page: 1,
-            previousQuery: '',
-            isAllCitiesLoaded: false
+    function ProviderRegistrationController($q, $state, coreDataservice, coreConstants, coreDictionary,
+                                            serviceProviderConstant, serviceProviderDataservice, citiesLoader) {
+        var promises = {
+            getState: null,
+            getProcedures: null
         };
 
         var vm = this;
@@ -28,11 +21,11 @@
         vm.user = {};
 
         vm.searchCity = '';
-        vm.statesList = [];
-        vm.citiesList = [];
-        vm.languagesList = [];
-        vm.servicesList = [];
-        vm.proceduresList = [];
+        vm.states = [];
+        vm.cities = [];
+        vm.languages = [];
+        vm.services = [];
+        vm.procedures = [];
 
         vm.datePickerOptions = {
             maxDate: new Date()
@@ -42,8 +35,8 @@
         vm.validSteps = {};
         vm.currentStep = 0;
 
-        vm.getProceduresList = getProceduresList;
-        vm.getCitiesList = getCitiesList;
+        vm.getProcedures = getProcedures;
+        vm.getCities = getCities;
         vm.resetSelectedCity = resetSelectedCity;
         vm.goToNextStep = goToNextStep;
         vm.goToPrevStep = goToPrevStep;
@@ -53,61 +46,33 @@
         activate();
 
         function getLanguages() {
-            if (getLanguagesPromise) {
-                getLanguagesPromise.cancel();
-            }
 
-            getLanguagesPromise = coreDataservice.getLanguages();
-
-            return getLanguagesPromise
-                .then(function (response) {
-
-                    return response.data.languages;
-                });
-        }
-
-        function getLanguagesList() {
-
-            return getLanguages()
+            return coreDictionary.getLanguages()
                 .then(function (languages) {
-                    vm.languagesList = languages;
+                    vm.languages = languages.languages;
 
-                    return vm.languagesList;
+                    return vm.languages;
                 });
         }
 
         function getServices() {
-            if (getServicesPromise) {
-                getServicesPromise.cancel();
-            }
 
-            getServicesPromise = serviceProviderDataservice.getServices();
-
-            return getServicesPromise
-                .then(function (response) {
-
-                    return response.data.services;
-                });
-        }
-
-        function getServicesList() {
-
-            return getServices()
+            return coreDictionary.getServices()
                 .then(function (services) {
-                    vm.servicesList = services;
+                    vm.services = services.services;
 
-                    return vm.servicesList;
+                    return vm.services;
                 });
         }
 
-        function getProcedures(params) {
-            if (getProceduresPromise) {
-                getProceduresPromise.cancel();
+        function getProceduresList(params) {
+            if (promises.getProcedures) {
+                promises.getProcedures.cancel();
             }
 
-            getProceduresPromise = serviceProviderDataservice.getProcedures(params);
+            promises.getProcedures = serviceProviderDataservice.getProcedures(params);
 
-            return getProceduresPromise
+            return promises.getProcedures
                 .then(
                     function (response) {
 
@@ -116,102 +81,49 @@
                 );
         }
 
-        function getProceduresList(servicesIds) {
+        function getProcedures(servicesIds) {
             var params = {
                 services: servicesIds
             };
 
-            return getProcedures(params)
+            return getProceduresList(params)
                 .then(function (procedures) {
-                    vm.proceduresList = procedures;
+                    vm.procedures = procedures;
 
-                    return vm.proceduresList;
+                    return vm.procedures;
                 });
         }
 
         function getStates() {
-            if (getStatesPromise) {
-                getStatesPromise.cancel();
+            if (promises.getStates) {
+                promises.getStates.cancel();
             }
 
-            getStatesPromise = coreDataservice.getStates();
+            promises.getStates = coreDataservice.getStates();
 
-            return getStatesPromise
+            return promises.getStates
                 .then(function (response) {
+                    vm.states = response.data.states;
 
-                    return response.data.states;
+                    return vm.states;
                 });
         }
 
-        function getStatesList() {
+        function getCities(state, query) {
 
-            return getStates()
-                .then(
-                    function (states) {
-                        vm.statesList = states;
-
-                        return vm.statesList;
-                    }
-                );
-        }
-
-        function getCities(state, params) {
-            if (getCitiesPromise) {
-                getCitiesPromise.cancel();
-            }
-
-            getCitiesPromise = coreDataservice.getCities(state, params);
-
-            return getCitiesPromise
-                .then(function (response) {
-
-                    return response.data;
-                });
-        }
-
-        function getCitiesList(state, query) {
-            if (!state || (query && query.length < 2)) {
-
-                return;
-            }
-
-            if (query !== getCityRequestOptions.previousQuery) {
-                resetSelectedCity();
-            }
-
-            if (getCityRequestOptions.isAllCitiesLoaded) {
-
-                return;
-            }
-
-            var params = {
-                page: getCityRequestOptions.page,
-                query: query
-            };
-
-            return getCities(state, params)
+            return citiesLoader.getCities(state, query)
                 .then(function (cities) {
-                    vm.citiesList = vm.citiesList.concat(cities.items);
+                    vm.cities = cities;
 
-                    getCityRequestOptions.page++;
-                    getCityRequestOptions.previousQuery = query;
-                    getCityRequestOptions.isAllCitiesLoaded = vm.citiesList.length >= cities.totalCount;
-
-                    return vm.citiesList;
+                    return vm.cities;
                 });
         }
 
-        function resetSelectedCity(selectedState) {
-            if (selectedState) {
-                vm.user.address.city = null;
-                vm.searchCity = '';
-                getCityRequestOptions.previousQuery = '';
+        function resetSelectedCity() {
+            vm.user.address.city = null;
+            vm.searchCity = '';
 
-            }
-
-            vm.citiesList = [];
-            getCityRequestOptions.page = 1;
-            getCityRequestOptions.isAllCitiesLoaded = false;
+            citiesLoader.resetSelectedCity();
         }
 
         function createUser(user) {
@@ -252,9 +164,9 @@
 
         function activate() {
             $q.all([
-                getLanguagesList(),
-                getServicesList(),
-                getStatesList()
+                getLanguages(),
+                getServices(),
+                getStates()
             ]);
         }
     }

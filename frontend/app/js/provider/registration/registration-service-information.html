@@ -3,10 +3,10 @@
        flex="100"
        flex-gt-xs="50">
     <p>Type of service:</p>
-    <div ng-repeat="service in vm.servicesList track by service.id">
+    <div ng-repeat="service in vm.services track by service.id">
       <md-checkbox aria-label="{{ service.name }}"
                    checklist-value="service.id"
-                   checklist-change="vm.getProceduresList(vm.user.details.services)"
+                   checklist-change="vm.getProcedures(vm.user.details.services)"
                    checklist-model="vm.user.details.services">
         <span ng-bind="service.name"></span>
       </md-checkbox>
