@@ -99,6 +99,7 @@
                   <md-select-header>
                     <input type="search"
                            placeholder="Search for a city.."
+                           ng-change="vm.getCities(vm.address.state, vm.searchCity)"
                            ng-model-options="{ debounce: 400 }"
                            ng-model="vm.searchCity">
                   </md-select-header>
