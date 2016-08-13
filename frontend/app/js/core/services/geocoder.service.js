@@ -5,9 +5,9 @@
         .module('app.core')
         .factory('geocoderService', geocoderService);
 
-    geocoderService.$inject = ['$q', '$window'];
+    geocoderService.$inject = ['$q', '$window', 'uiGmapGoogleMapApi'];
 
-    function geocoderService($q, $window) {
+    function geocoderService($q, $window, uiGmapGoogleMapApi) {
 
         var service = {
             getCurrentCoordinates: getCurrentCoordinates,
@@ -36,54 +36,55 @@
         }
 
         function getCoordinates(address) {
+            var deferred = $q.defer();
 
-            return $q(function (resolve, reject) {
-                if (!$window.google || !$window.google.maps) {
-
-                    return reject('The Maps JavaScript API was not loaded');
-                }
-
-                var geocoder = new $window.google.maps.Geocoder();
+            uiGmapGoogleMapApi.then(function (googleMaps) {
+                var geocoder = new googleMaps.Geocoder();
 
                 geocoder.geocode(
                     {'address': address},
                     function (results, status) {
-                        if (status !== $window.google.maps.GeocoderStatus.OK) {
+                        if (status === googleMaps.GeocoderStatus.ZERO_RESULTS) {
 
-                            return reject('Geocode was not successful for the following reason: ' + status);
+                            return deferred.reject('Address isn\'t found');
                         }
 
-                        resolve(results[0].geometry.location);
+                        if (status !== googleMaps.GeocoderStatus.OK) {
+
+                            return deferred.reject('Geocode was not successful for the following reason: ' + status);
+                        }
+
+                        deferred.resolve(results[0].geometry.location);
                     });
             });
+
+            return deferred.promise;
         }
 
         function getLocation(lat, lng) {
+            var deferred = $q.defer();
 
-            return $q(function (resolve, reject) {
-                if (!$window.google || !$window.google.maps) {
-
-                    return reject('The Maps JavaScript API was not loaded');
-                }
-
-                var geocoder = new $window.google.maps.Geocoder();
+            uiGmapGoogleMapApi.then(function (googleMaps) {
+                var geocoder = new googleMaps.Geocoder();
 
                 geocoder.geocode(
                     {'location': {lat: lat, lng: lng}},
                     function (results, status) {
-                        if (status !== $window.google.maps.GeocoderStatus.OK) {
+                        if (status !== googleMaps.GeocoderStatus.OK) {
 
-                            return reject('Geocoder failed due to: ' + status);
+                            return deferred.reject('Geocoder failed due to: ' + status);
                         }
 
                         if (!results[1]) {
 
-                            return reject('No results found');
+                            return deferred.reject('No results found');
                         }
 
-                        resolve(results[1].formatted_address); // jshint ignore:line
+                        deferred.resolve(results[1].formatted_address); // jshint ignore:line
                     });
             });
+
+            return deferred.promise;
         }
     }
 })();
