@@ -64,7 +64,9 @@
               class="md-primary"
               required
               ng-model="vm.isLocationSetManually">
-            <md-radio-button ng-value="false">Provide location by GPS</md-radio-button>
+            <md-radio-button ng-value="false"
+                             ng-click="vm.getAddressLocation()">Provide location by GPS
+            </md-radio-button>
             <md-radio-button ng-value="true">Provide location manually:</md-radio-button>
             <div layout="row"
                  flex="100"
@@ -91,12 +93,12 @@
                            name="city"
                            md-select-infinite-scroll
                            on-scroll="vm.getCities(vm.address.state, vm.searchCity)"
+                           ng-change="vm.getAddressLocation(vm.address);"
                            ng-required="vm.isLocationSetManually"
                            ng-model="vm.address.city">
                   <md-select-header>
                     <input type="search"
                            placeholder="Search for a city.."
-                           ng-change="vm.getCities(vm.address.state, vm.searchCity)"
                            ng-model-options="{ debounce: 400 }"
                            ng-model="vm.searchCity">
                   </md-select-header>
@@ -112,6 +114,8 @@
                 <label>Address</label>
                 <input name="address"
                        ng-required="vm.isLocationSetManually"
+                       ng-model-options="{ debounce: 400 }"
+                       ng-change="vm.getAddressLocation(vm.address)"
                        ng-model="vm.address.address">
               </md-input-container>
             </div>

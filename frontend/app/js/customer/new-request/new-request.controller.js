@@ -5,10 +5,10 @@
         .module('app.customer')
         .controller('NewRequestController', NewRequestController);
 
-    NewRequestController.$inject = ['$q', 'coreDataservice', 'coreDictionary', 'citiesLoader'];
+    NewRequestController.$inject = ['$q', 'coreDataservice', 'coreDictionary', 'citiesLoader', 'geocoderService'];
 
     /* @ngInject */
-    function NewRequestController($q, coreDataservice, coreDictionary, citiesLoader) {
+    function NewRequestController($q, coreDataservice, coreDictionary, citiesLoader, geocoderService) {
         var promises = {
             getStates: null
         };
@@ -26,10 +26,12 @@
 
         vm.isEmergency = null;
         vm.isLocationSetManually = null;
+        vm.isLocationFound = false;
         vm.searchCity = '';
 
         vm.getCities = getCities;
         vm.resetSelectedCity = resetSelectedCity;
+        vm.getAddressLocation = getAddressLocation;
         vm.createRequest = createRequest;
 
         activate();
@@ -86,8 +88,44 @@
             citiesLoader.resetSelectedCity();
         }
 
+        function getAddressLocation(selectedAddress) {
+            if (!selectedAddress || Object.keys(selectedAddress).length === 0) {
+
+                return geocoderService.getCurrentCoordinates()
+                    .then(function (location) {
+                        vm.isLocationFound = true;
+
+                        vm.request.latitude = location.latitude;
+                        vm.request.longitude = location.longitude;
+                    })
+                    .catch(function () {
+                        vm.isLocationFound = false;
+                    });
+            }
+
+            if (!selectedAddress.city || !selectedAddress.address) {
+
+                return;
+            }
+
+            var address = selectedAddress.address + ', ' +
+                selectedAddress.city.city + ', ' +
+                selectedAddress.state.state;
+
+            return geocoderService.getCoordinates(address)
+                .then(function (location) {
+                    vm.isLocationFound = true;
+
+                    vm.request.latitude = location.lat();
+                    vm.request.longitude = location.lng();
+                })
+                .catch(function () {
+                    vm.isLocationFound = false;
+                });
+        }
+
         function createRequest(request, isFormValid) {
-            if (!isFormValid) {
+            if (!isFormValid || !vm.isLocationFound) {
 
                 return;
             }
