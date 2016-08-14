@@ -5,10 +5,12 @@
         .module('app.customer')
         .controller('NewRequestController', NewRequestController);
 
-    NewRequestController.$inject = ['$q', 'coreDataservice', 'coreDictionary', 'citiesLoader', 'geocoderService'];
+    NewRequestController.$inject = ['$q', '$state', 'citiesLoader', 'geocoderService',
+        'coreDataservice', 'coreDictionary', 'customerDataservice'];
 
     /* @ngInject */
-    function NewRequestController($q, coreDataservice, coreDictionary, citiesLoader, geocoderService) {
+    function NewRequestController($q, $state, citiesLoader, geocoderService,
+                                  coreDataservice, coreDictionary, customerDataservice) {
         var promises = {
             getStates: null
         };
@@ -124,11 +126,28 @@
                 });
         }
 
+        function createNewRequest(request) {
+            var params = {
+                request: request
+            };
+
+            return customerDataservice.createRequest(params)
+                .then(function (createdRequest) {
+
+                    return createdRequest.request;
+                });
+        }
+
         function createRequest(request, isFormValid) {
             if (!isFormValid || !vm.isLocationFound) {
 
                 return;
             }
+
+            return createNewRequest(request)
+                .then(function () {
+                    $state.go('customer.request');
+                });
         }
 
         function activate() {
