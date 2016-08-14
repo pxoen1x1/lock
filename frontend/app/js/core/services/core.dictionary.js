@@ -39,7 +39,7 @@
         }
 
         function getLanguages() {
-            var cacheId = 'services';
+            var cacheId = 'languages';
             var cache = dataCache.get(cacheId);
 
             return $q.when(cache || getLanguagesFromHttp(cacheId))
