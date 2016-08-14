@@ -16,6 +16,35 @@ h2.page-name {
   }
 }
 
+.m-t-none {
+  margin-top: 0;
+}
+
+.m-r-none {
+  margin-right: 0;
+}
+
+.m-b-none {
+  margin-bottom: 0;
+}
+
+.m-l-none {
+  margin-left: 0;
+}
+
+.disabled {
+  md-input-container .md-input,
+  md-select .md-select-value {
+    margin-bottom: -1px;
+    background-position: 0 bottom;
+    background-size: 4px 1px;
+    background-repeat: repeat-x;
+    border-bottom-color: transparent;
+    background-image: linear-gradient(to right, rgba(0, 0, 0, 0.26) 0%, rgba(0, 0, 0, 0.26) 33%, transparent 0%);
+    background-image: -ms-linear-gradient(left, transparent 0%, rgba(0, 0, 0, 0.26) 100%);
+  }
+}
+
 @media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
   h2.page-name {
     font-size: 19px;

@@ -50,7 +50,7 @@
     <md-select aria-label="Languages"
                multiple
                ng-model="vm.user.details.languages">
-      <md-option ng-repeat="language in vm.languagesList track by language.id"
+      <md-option ng-repeat="language in vm.languages track by language.id"
                  ng-value="language.id">
         <span ng-bind="language.name"></span>
       </md-option>
@@ -116,9 +116,9 @@
                         flex-gt-xs="30">
       <label>State</label>
       <md-select role="listbox"
-                 ng-change="vm.resetSelectedCity(vm.user.address.state); vm.getCitiesList(vm.user.address.state)"
+                 ng-change="vm.resetSelectedCity(vm.user.address.state); vm.getCities(vm.user.address.state)"
                  ng-model="vm.user.address.state">
-        <md-option ng-repeat="state in vm.statesList track by state.id"
+        <md-option ng-repeat="state in vm.states track by state.id"
                    ng-value="state.id">
           <span ng-bind="::state.state"></span>
         </md-option>
@@ -134,17 +134,17 @@
         <md-select role="listbox"
                    class="cities-select"
                    md-select-infinite-scroll
-                   on-scroll="vm.getCitiesList(vm.user.address.state, vm.searchCity)"
+                   on-scroll="vm.getCities(vm.user.address.state, vm.searchCity)"
                    ng-model="vm.user.address.city">
           <md-select-header>
             <input type="search"
                    placeholder="Search for a city.."
-                   ng-change="vm.getCitiesList(vm.user.address.state, vm.searchCity)"
+                   ng-change="vm.getCities(vm.user.address.state, vm.searchCity)"
                    ng-model-options="{ debounce: 400 }"
                    ng-model="vm.searchCity">
           </md-select-header>
           <md-optgroup label="cities">
-            <md-option ng-repeat="city in vm.citiesList | filter: vm.searchCity track by city.id"
+            <md-option ng-repeat="city in vm.cities | filter: vm.searchCity track by city.id"
                        ng-value="city.id">
               <span ng-bind="city.city"></span>
             </md-option>

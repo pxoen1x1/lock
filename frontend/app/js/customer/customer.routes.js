@@ -58,8 +58,8 @@
                 url: '/new',
                 views: {
                     'content@customer': {
-                        templateUrl: 'customer/request/new/new.html',
-                        controller: 'CustomerRequestNewController',
+                        templateUrl: 'customer/new-request/new-request.html',
+                        controller: 'NewRequestController',
                         controllerAs: 'vm'
                     }
                 }
@@ -68,8 +68,8 @@
                 url: '/{requestId:int}',
                 views: {
                     'content@customer.request': {
-                        templateUrl: 'customer/request/view/view.html',
-                        controller: 'CustomerRequestViewController',
+                        templateUrl: 'customer/view-request/view-request.html',
+                        controller: 'ViewRequestController',
                         controllerAs: 'vm'
                     }
                 }
