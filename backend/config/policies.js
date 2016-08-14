@@ -81,5 +81,9 @@ module.exports.policies = {
     LanguageController: {
         '*': ['isAuthenticated'],
         'getLanguages': true
+    },
+
+    RequestController: {
+        '*': ['isAuthenticated']
     }
 };

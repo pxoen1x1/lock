@@ -1,3 +1,4 @@
+/* global sails, RequestService */
 /**
  * RequestController
  *
@@ -7,6 +8,27 @@
 
 'use strict';
 
-let RequestController = {};
+let RequestController = {
+    create(req, res) {
+        let params = req.allParams();
+        let newRequest = params.request;
+
+        RequestService.create(newRequest)
+            .then(
+                (createdRequest) => res.created(
+                    {
+                        request: createdRequest
+                    }
+                )
+            )
+            .catch(
+                (err) => {
+                    sails.log.error(err);
+
+                    res.serverError();
+                }
+            );
+    }
+};
 
 module.exports = RequestController;
