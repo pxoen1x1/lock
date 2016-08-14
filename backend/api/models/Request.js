@@ -17,7 +17,7 @@ module.exports = {
         latitude: {
             type: 'float',
             required: true,
-            is: /^(-?[1-8]?\d(?:\.\d{1,18})?|90(?:\.0{1,18})?)$/
+            is: /^(\+|-)?(?:90(?:(?:\.0{1,6})?)|(?:[0-9]|[1-8][0-9])(?:(?:\.[0-9]*)?))$/
         },
         longitude: {
             type: 'float',
@@ -48,6 +48,11 @@ module.exports = {
         },
         closed: {
             type: 'boolean'
+        },
+
+        language: {
+            model: 'Language',
+            columnName: 'language_id'
         },
 
         services: {

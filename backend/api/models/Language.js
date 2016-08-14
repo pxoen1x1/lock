@@ -20,6 +20,10 @@ module.exports = {
     userDetails: {
       collection: 'UserDetail',
       via: 'languages'
+    },
+    requests: {
+      collection: 'Request',
+      via: 'language'
     }
   }
 };
