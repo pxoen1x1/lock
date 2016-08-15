@@ -8,7 +8,7 @@
   "scripts": {
     "install": "cd backend && npm install && cd ../frontend && npm install",
     "start": "(cd backend && sails lift) & (cd frontend && gulp serve)",
-    "debug": "(cd backend && nodemon --debug app.js)"
+    "debug": "(cd backend && pm2 start app.js --node-args='--debug=5858' --watch --name locksmith)"
   },
   "repository": {
     "type": "git",
