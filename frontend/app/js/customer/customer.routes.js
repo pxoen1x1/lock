@@ -59,7 +59,7 @@
                 views: {
                     'content@customer': {
                         templateUrl: 'customer/new-request/new-request.html',
-                        controller: 'NewRequestController',
+                        controller: 'CustomerNewRequestController',
                         controllerAs: 'vm'
                     }
                 }
@@ -69,7 +69,7 @@
                 views: {
                     'content@customer.request': {
                         templateUrl: 'customer/view-request/view-request.html',
-                        controller: 'ViewRequestController',
+                        controller: 'CustomerViewRequestController',
                         controllerAs: 'vm'
                     }
                 }
