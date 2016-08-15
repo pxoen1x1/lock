@@ -54,11 +54,9 @@ module.exports = {
             model: 'Language',
             columnName: 'language_id'
         },
-
         services: {
-            collection: 'Service',
-            via: 'requests',
-            dominant: true
+            model: 'Service',
+            columnName: 'service_id',
         }
     }
 };
