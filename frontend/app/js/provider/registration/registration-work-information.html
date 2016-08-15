@@ -20,7 +20,7 @@
       <label>Price $</label>
       <input name="price"
              ng-model="item.price"
-             ng-required="vm.user.details.servicePrices.length > 1">
+             ng-required="item.procedure || vm.user.details.servicePrices.length > 1">
     </md-input-container>
     <div class="service-price-remove"
          flex="100"
