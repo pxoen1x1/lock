@@ -19,6 +19,8 @@
         var vm = this;
 
         vm.user = {};
+        vm.user.details = {};
+        vm.user.details.servicePrices = [];
 
         vm.searchCity = '';
         vm.states = [];
@@ -169,8 +171,6 @@
                 getStates()
             ])
                 .then(function(){
-                    vm.user.details = {};
-                    vm.user.details.servicePrices = [];
                     vm.user.details.servicePrices.push({});
                 });
         }
