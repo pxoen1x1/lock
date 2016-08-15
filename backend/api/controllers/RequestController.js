@@ -10,8 +10,16 @@
 
 let RequestController = {
     create(req, res) {
-        let params = req.allParams();
-        let newRequest = params.request;
+        let newRequest = req.body.request;
+
+        if (!newRequest) {
+            return res.badRequest(
+                {
+                    message: sails.__('Please, check data.')
+                }
+            );
+        }
+
         newRequest.creator = req.user.id;
 
         RequestService.create(newRequest)

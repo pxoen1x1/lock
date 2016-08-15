@@ -1,4 +1,4 @@
-/*global sails, Procedure*/
+/*global Procedure*/
 
 /**
  * ProcedureController
@@ -23,6 +23,7 @@ let ProcedureController = {
         Procedure.find({
             service: services
         })
+            .populate('service')
             .exec(
                 (err, foundProcedures) => {
                     if (err) {
