@@ -92,6 +92,14 @@ let User = {
             collection: 'UserDetail',
             via: 'user'
         },
+        requestCreators: {
+            collection: 'Request',
+            via: 'creator'
+        },
+        requestExecutors: {
+            collection: 'Request',
+            via: 'executor'
+        },
 
         fullName() {
 

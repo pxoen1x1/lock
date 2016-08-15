@@ -12,6 +12,7 @@ let RequestController = {
     create(req, res) {
         let params = req.allParams();
         let newRequest = params.request;
+        newRequest.creator = req.user.id;
 
         RequestService.create(newRequest)
             .then(

@@ -57,6 +57,15 @@ module.exports = {
         services: {
             model: 'Service',
             columnName: 'service_id',
+        },
+        creator: {
+            model: 'User',
+            required: true,
+            columnName: 'creator_id'
+        },
+        executor: {
+            model: 'User',
+            columnName: 'executor_id'
         }
     }
 };
