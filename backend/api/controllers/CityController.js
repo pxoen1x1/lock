@@ -37,6 +37,7 @@ let CityController = {
         }
 
         City.find(searchCriteria)
+            .populate('state')
             .paginate(
                 {
                     page: currentPageNumber,
