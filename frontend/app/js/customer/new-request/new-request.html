@@ -46,7 +46,7 @@
           <md-datepicker name="date"
                          ng-class="{ disabled: vm.isEmergency !== false }"
                          md-placeholder="Enter date"
-                         ng-required="!vm.isEmergency"
+                         ng-required="vm.isEmergency === false"
                          ng-disabled="vm.isEmergency !== false"
                          ng-click="vm.isEmergency = false"
                          ng-model="vm.request.forDate">
