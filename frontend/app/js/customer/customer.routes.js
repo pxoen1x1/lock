@@ -121,7 +121,7 @@
                 url: '/history',
                 views: {
                     'content@customer': {
-                        templateUrl: 'customer/history/history.html',
+                        templateUrl: 'customer/history-requests/history-requests.html',
                         controller: 'CustomerHistoryController',
                         controllerAs: 'vm'
                     }
