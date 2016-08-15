@@ -33,6 +33,7 @@
             Emergency
           </p>
           <md-radio-group class="md-primary"
+                          name="emergency"
                           required
                           ng-model="vm.isEmergency">
             <md-radio-button ng-value="true">
@@ -62,6 +63,7 @@
           </p>
           <md-radio-group
               class="md-primary"
+              name="location"
               required
               ng-model="vm.isLocationSetManually">
             <md-radio-button ng-value="false"
@@ -130,6 +132,7 @@
               Type of request
             </p>
             <md-radio-group class="md-primary"
+                            name="typeOfRequest"
                             layout="row"
                             required
                             ng-model="vm.request.isPublic">

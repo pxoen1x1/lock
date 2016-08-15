@@ -54,11 +54,18 @@ module.exports = {
             model: 'Language',
             columnName: 'language_id'
         },
-
         services: {
-            collection: 'Service',
-            via: 'requests',
-            dominant: true
+            model: 'Service',
+            columnName: 'service_id',
+        },
+        creator: {
+            model: 'User',
+            required: true,
+            columnName: 'creator_id'
+        },
+        executor: {
+            model: 'User',
+            columnName: 'executor_id'
         }
     }
 };
