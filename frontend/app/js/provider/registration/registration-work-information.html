@@ -1,5 +1,5 @@
 <div layout="column">
-  <p>Work details (optional)</p>
+  <p>Work details</p>
   <div layout-gt-xs="row"
        layout="column"
        ng-repeat="servicePrice in vm.user.details.servicePrices track by $index">
@@ -33,7 +33,7 @@
     </div>
   </div>
   <md-button ng-click="vm.user.details.servicePrices.push({})">Add</md-button>
-  <p>Working hours (optional)</p>
+  <p>Working hours</p>
   <div layout="row">
     <mdp-time-picker name="timeFrom"
                      mdp-placeholder="From"

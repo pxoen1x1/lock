@@ -21,9 +21,10 @@
                      current: vm.currentStep === $index,
                      valid: $index === vm.currentStep && registrationForm.$valid || vm.validSteps[$index]
                      }"
-                     ng-disabled="($index > vm.currentStep && registrationForm.$invalid) ||
-                     (registrationForm.$valid && $index > (vm.currentStep + 1) && !vm.validSteps[$index])"
+
                      ng-click="vm.goToStep($index, registrationForm.$valid)">
+            <!--ng-disabled="($index > vm.currentStep && registrationForm.$invalid) ||
+                     (registrationForm.$valid && $index > (vm.currentStep + 1) && !vm.validSteps[$index])"-->
             <div class="step md-accent-bg"
                  layout="row"
                  layout-align="center center">
