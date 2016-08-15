@@ -167,7 +167,12 @@
                 getLanguages(),
                 getServices(),
                 getStates()
-            ]);
+            ])
+                .then(function(){
+                    vm.user.details = {};
+                    vm.user.details.servicePrices = [];
+                    vm.user.details.servicePrices.push({});
+                });
         }
     }
 })();
