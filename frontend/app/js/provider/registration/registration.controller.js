@@ -161,7 +161,23 @@
                 return;
             }
 
+            user.details.servicePrices = clearEmptyElements(user.details.servicePrices);
+
             createUser(user);
+        }
+
+        function clearEmptyElements(arr) {
+            arr = arr.filter(function (el) {
+                var isEmpty = true;
+
+                angular.forEach(el, function (value) {
+                    isEmpty = value === '' || value === null;
+                });
+
+                return !isEmpty;
+            });
+
+            return arr;
         }
 
         function activate() {
@@ -170,7 +186,7 @@
                 getServices(),
                 getStates()
             ])
-                .then(function(){
+                .then(function () {
                     vm.user.details.servicePrices.push({});
                 });
         }
