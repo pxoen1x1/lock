@@ -1,10 +1,13 @@
 <div layout="column">
   <p>Work details (optional)</p>
-  <div layout-gt-xs="row">
+  <div layout-gt-xs="row"
+       layout="column"
+       ng-repeat="servicePrice in vm.user.details.servicePrices track by $index">
     <md-input-container flex="100"
-                        flex-gt-xs="70">
+                        flex-gt-xs="65">
       <label>Service procedure</label>
-      <md-select ng-model="vm.user.details.servicePrices.procedure">
+      <md-select ng-model="servicePrice.procedure"
+                 ng-required="vm.user.details.servicePrices.length > 1">
         <md-option ng-repeat="procedure in vm.procedures track by procedure.id"
                    ng-value="procedure.id">
           <span ng-bind="procedure.name"></span>
@@ -16,9 +19,20 @@
                         flex-gt-xs="30">
       <label>Price $</label>
       <input name="price"
-             ng-model="vm.user.details.servicePrices.price">
+             ng-model="servicePrice.price"
+             ng-required="servicePrice.procedure || vm.user.details.servicePrices.length > 1">
     </md-input-container>
+    <div class="service-price-remove"
+         flex="100"
+         flex-gt-xs="5"
+         layout="column"
+         layout-align="start center"
+         ng-click="vm.user.details.servicePrices.splice($index, 1)"
+         ng-if="vm.user.details.servicePrices.length > 1">
+      <i class="material-icons">indeterminate_check_box</i>
+    </div>
   </div>
+  <md-button ng-click="vm.user.details.servicePrices.push({})">Add</md-button>
   <p>Working hours (optional)</p>
   <div layout="row">
     <mdp-time-picker name="timeFrom"
