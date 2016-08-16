@@ -3,12 +3,33 @@
 'use strict';
 
 let RequestService = {
+    getAll(searchCriteria, sorting, pagination) {
+        let promise = new Promise((resolve, reject) => {
+            Request.find(searchCriteria)
+                .sort(sorting)
+                .populateAll()
+                .paginate(pagination)
+                .exec(
+                    (err, foundRequests) => {
+                        if (err) {
+
+                            return reject(err);
+                        }
+
+                        return resolve(foundRequests);
+                    }
+                );
+        });
+
+        return promise;
+    },
     create(request) {
         let promise = new Promise((resolve, reject) => {
             Request.create(request)
                 .exec(
                     (err, createdRequest) => {
                         if (err) {
+
                             return reject(err);
                         }
 
