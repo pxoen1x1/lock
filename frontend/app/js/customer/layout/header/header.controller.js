@@ -22,6 +22,8 @@
             var path = $location.path();
             var pathObj = [];
 
+            if (path == '/') return;
+
             path = path.slice(1);
             path = path.split('/');
 
@@ -45,10 +47,14 @@
 
         $rootScope.$watch(function() {
             return $location.path();
-        }, function() {
-            try {
-                vm.headerPath = createHeaderPath();
-            } catch(e) {}
+        }, function(newVal, oldVal) {
+            if (newVal === oldVal) {
+
+                return;
+            }
+
+            vm.headerPath = createHeaderPath();
+
         });
 
     }
