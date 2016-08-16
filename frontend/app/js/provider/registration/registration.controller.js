@@ -161,7 +161,22 @@
                 return;
             }
 
+            prepareUserObject(user);
+
             createUser(user);
+        }
+
+        function prepareUserObject(user) {
+            user.details.servicePrices = user.details.servicePrices.filter(function (el) {
+                angular.forEach(Object.keys(el), function (key) {
+                    if (el[key] == '' || el[key] == null) {
+                        el = {};
+                        return;
+                    }
+                });
+                return Object.keys(el).length;
+            });
+            return user;
         }
 
         function activate() {
@@ -170,7 +185,7 @@
                 getServices(),
                 getStates()
             ])
-                .then(function(){
+                .then(function () {
                     vm.user.details.servicePrices.push({});
                 });
         }
