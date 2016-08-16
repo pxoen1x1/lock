@@ -6,20 +6,17 @@
   </div>
   <div class="container-content">
     <md-table-container>
-      <table md-table
-             md-row-select
-             md-progress="vm.promise"
-             ng-model="vm.selected">
+      <table md-table>
         <thead md-head
-               md-order="vm.query.order"
-               md-on-reorder="vm.logOrder">
+               md-order="vm.queryOptions.orderBy"
+               md-on-reorder="vm.getRequests">
         <tr md-row>
           <th md-column
-              md-order-by="date">
+              md-order-by="updatedAt">
             <span>Date</span>
           </th>
           <th md-column
-              md-order-by="type"
+              md-order-by="service"
               ng-show="vm.$mdMedia('gt-xs')">
             <span>Type of service</span>
           </th>
@@ -37,22 +34,20 @@
         </thead>
         <tbody md-body>
         <tr md-row
-            md-select="item"
-            md-on-select="vm.logItem"
-            md-auto-select
-            ng-repeat="item in vm.dataSource.items | orderBy: vm.query.order | limitTo: vm.query.limit : (vm.query.page -1) * vm.query.limit">
+            ui-sref="customer.request.view({ requestId: request.id })"
+            ng-repeat="request in vm.requests track by request.id">
           <td md-cell>
-            <span ng-bind="item.date"></span>
+            <span ng-bind="request.updatedAt | date : 'MM/dd/yyyy H:mm a'"></span>
           </td>
           <td md-cell
               ng-show="vm.$mdMedia('gt-xs')">
-            <span ng-bind="vm.type[item.type]"></span>
+            <span ng-bind="request.service.name"></span>
           </td>
 
           <td class="td-location"
               md-cell
               ng-show="vm.$mdMedia('gt-xs')">
-            <span ng-bind="item.location"></span>
+            <span ng-bind="request.location"></span>
           </td>
           <td md-cell
               ng-hide="vm.$mdMedia('gt-xs')">
@@ -65,20 +60,20 @@
           <td class="td-status"
               md-cell
               ng-class="{
-              'new': item.status === 0,
-              'pending': item.status === 1,
-              'closed': item.status === 2
+              'new': request.status === 0,
+              'pending': request.status === 1,
+              'closed': request.status === 2
               }">
-            <span ng-bind="vm.status[item.status]"></span>
+            <span ng-bind="vm.status[request.status]"></span>
           </td>
           <td class="td-cost" md-cell>
-            <span ng-bind="item.cost ? '$'+ item.cost : '–'"></span>
+            <span ng-bind="request.cost ? '$'+ request.cost : '–'"></span>
           </td>
           <td class="td-provider" md-cell>
-            <span ng-bind="item.provider ? item.provider.name : '–'"></span>
+            <span ng-bind="request.provider ? request.provider.name : '–'"></span>
             <star-rating readonly
-                         value="item.provider.rating"
-                         ng-if="item.provider">
+                         value="request.provider.rating"
+                         ng-if="request.provider">
             </star-rating>
           </td>
         </tr>
@@ -86,11 +81,11 @@
       </table>
     </md-table-container>
 
-    <md-table-pagination md-limit="vm.query.limit"
-                         md-limit-options="[5, 10, 15]"
-                         md-page="vm.query.page"
-                         md-total="{{vm.dataSource.count}}"
-                         md-on-paginate="getDesserts"
+    <md-table-pagination md-limit="vm.queryOptions.limit"
+                         md-limit-options="vm.paginationOptions.limitOptions"
+                         md-page="vm.queryOptions.page"
+                         md-total="{{ vm.paginationOptions.totalCount }}"
+                         md-on-paginate="vm.getRequests"
                          md-page-select>
     </md-table-pagination>
   </div>
@@ -99,44 +94,44 @@
 <div class="history-content"
      ng-if="!vm.$mdMedia('gt-xs')">
   <a class="list card"
-     ui-sref="customer.request.view({ requestId: item.id })"
-     ng-repeat="item in vm.dataSource.items | orderBy: vm.query.order | limitTo: vm.query.limit : (vm.query.page -1) * vm.query.limit">
+     ui-sref="customer.request.view({ requestId: request.id })"
+     ng-repeat="request in vm.requests.items">
     <div class="item item-header" layout="row">
       <div flex="50">
-        <div class="md-title" ng-bind="item.date"></div>
+        <div class="md-title" ng-bind="request.date"></div>
         <span class="md-body-2">Type:</span>
-        <span class="md-body-1" ng-bind="vm.type[item.type]"></span>
+        <span class="md-body-1" ng-bind="vm.type[request.type]"></span>
       </div>
       <div flex="50" layout="column" layout-align="start end">
         <div class="td-status"
              ng-class="{
-             'new': item.status === 0,
-             'pending': item.status === 1,
-             'closed': item.status === 2
+             'new': request.status === 0,
+             'pending': request.status === 1,
+             'closed': request.status === 2
              }">
-          <span ng-bind="vm.status[item.status]"></span>
+          <span ng-bind="vm.status[request.status]"></span>
         </div>
         <div class="md-body-2">
-          <span ng-bind="'$ '+(item.cost?item.cost:'–')"></span>
+          <span ng-bind="'$ ' + (request.cost ? request.cost : '–')"></span>
         </div>
       </div>
     </div>
     <div class="item item-body">
       <span class="md-body-2">Location:</span>
-      <span class="md-body-1" ng-bind="item.location"></span>
+      <span class="md-body-1" ng-bind="request.location"></span>
       <div class="item-provider"
            layout="row"
-           ng-if="item.provider">
+           ng-if="request.provider">
         <div flex="20">
           <div class="photo"
-               ng-style="{'background-image': 'url(' + item.provider.photo + ')'}">
+               ng-style="{'background-image': 'url(' + request.provider.photo + ')'}">
           </div>
         </div>
         <div flex="80">
-          <span class="md-body-2" ng-bind="item.provider.name"></span>
-          <star-rating ng-if="item.provider"
+          <span class="md-body-2" ng-bind="request.provider.name"></span>
+          <star-rating ng-if="request.provider"
                        readonly
-                       value="item.provider.rating">
+                       value="request.provider.rating">
           </star-rating>
         </div>
       </div>
