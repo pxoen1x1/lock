@@ -7,6 +7,10 @@
                 timePicker: {
                     autoSwitch: true
                 }
+            },
+            PAGINATION_OPTIONS: {
+                limit: 10,
+                limitOptions: [5, 10, 20]
             }
         });
 })();
