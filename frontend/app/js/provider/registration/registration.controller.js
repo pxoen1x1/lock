@@ -161,22 +161,20 @@
                 return;
             }
 
-            user.details.servicePrices = prepareArray(user.details.servicePrices);
+            user.details.servicePrices = clearEmptyElements(user.details.servicePrices);
 
             createUser(user);
         }
 
-        function prepareArray(arr) {
+        function clearEmptyElements(arr) {
             arr = arr.filter(function (el) {
-                angular.forEach(el, function (value) {
-                    if (value == '' || value == null) {
-                        el = {};
+                var isEmpty = true;
 
-                        return;
-                    }
+                angular.forEach(el, function (value) {
+                    isEmpty = value === '' || value === null;
                 });
 
-                return Object.keys(el).length;
+                return !isEmpty;
             });
 
             return arr;
