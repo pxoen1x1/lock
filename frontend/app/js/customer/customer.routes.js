@@ -16,15 +16,17 @@
                 url: '/client',
                 views: {
                     'content@root': {
-                        templateUrl: 'customer/layout/layout.html',
-                        controller: 'CustomerLayoutController',
-                        controllerAs: 'vm'
+                        templateUrl: 'customer/layout/layout.html'
                     },
                     'menu@customer': {
-                        templateUrl: 'customer/layout/menu.html'
+                        templateUrl: 'customer/layout/menu/menu.html',
+                        controller: 'CustomerMenuController',
+                        controllerAs: 'vm'
                     },
                     'header@customer': {
-                        templateUrl: 'customer/layout/header.html'
+                        templateUrl: 'customer/layout/header/header.html',
+                        controller: 'CustomerHeaderController',
+                        controllerAs: 'vm'
                     }
                 }
             })
@@ -62,6 +64,10 @@
                         controller: 'NewRequestController',
                         controllerAs: 'vm'
                     }
+                },
+                data: {
+                    title: 'New request',
+                    icon: 'playlist_add'
                 }
             })
             .state('customer.request.view', {
@@ -105,7 +111,11 @@
                 }
             })
             .state('customer.settings', {
-                url: '/settings'
+                url: '/settings',
+                data: {
+                    title: 'Settings',
+                    icon: 'settings'
+                }
             })
             .state('customer.profile', {
                 url: '/profile',
@@ -125,6 +135,10 @@
                         controller: 'CustomerHistoryController',
                         controllerAs: 'vm'
                     }
+                },
+                data: {
+                    title: 'History',
+                    icon: 'history'
                 }
             });
     }
