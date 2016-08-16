@@ -23,6 +23,23 @@ let RequestService = {
 
         return promise;
     },
+    getRequestCount(searchCriteria) {
+        let promise = new Promise((resolve, reject) => {
+            Request.count(searchCriteria)
+                .exec(
+                    (err, count) => {
+                        if (err) {
+
+                            return reject(err);
+                        }
+
+                        return resolve(count);
+                    }
+                );
+        });
+
+        return promise;
+    },
     create(request) {
         let promise = new Promise((resolve, reject) => {
             Request.create(request)
