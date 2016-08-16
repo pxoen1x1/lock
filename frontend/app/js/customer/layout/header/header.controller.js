@@ -22,7 +22,10 @@
             var path = $location.path();
             var pathObj = [];
 
-            if (path == '/') return;
+            if (path === '/') {
+
+                return;
+            }
 
             path = path.slice(1);
             path = path.split('/');
@@ -34,12 +37,10 @@
                 };
 
                 if (!/^\d+$/.test(path[i])) {
-                    pathObj[i].display = path[i][0].toUpperCase() + path[i].slice(1);
+                    pathObj[i].display = path[i];
                 }
 
-                for (var j = 0; j <= i; j++) {
-                    pathObj[i].url += '/' + path[j];
-                }
+                pathObj[i].url = i > 0 ? pathObj[i-1].url + '/' + path[i] : '/' + path[i];
             }
 
             return pathObj;
@@ -47,11 +48,7 @@
 
         $rootScope.$watch(function() {
             return $location.path();
-        }, function(newVal, oldVal) {
-            if (newVal === oldVal) {
-
-                return;
-            }
+        }, function() {
 
             vm.headerPath = createHeaderPath();
 
