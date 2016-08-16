@@ -161,22 +161,25 @@
                 return;
             }
 
-            prepareUserObject(user);
+            user.details.servicePrices = prepareArray(user.details.servicePrices);
 
             createUser(user);
         }
 
-        function prepareUserObject(user) {
-            user.details.servicePrices = user.details.servicePrices.filter(function (el) {
-                angular.forEach(Object.keys(el), function (key) {
-                    if (el[key] == '' || el[key] == null) {
+        function prepareArray(arr) {
+            arr = arr.filter(function (el) {
+                angular.forEach(el, function (value) {
+                    if (value == '' || value == null) {
                         el = {};
+
                         return;
                     }
                 });
+
                 return Object.keys(el).length;
             });
-            return user;
+
+            return arr;
         }
 
         function activate() {
