@@ -28,7 +28,7 @@ let Service = {
         },
         requests: {
             collection: 'Request',
-            via: 'services'
+            via: 'service'
         }
     }
 };

@@ -54,7 +54,7 @@ module.exports = {
             model: 'Language',
             columnName: 'language_id'
         },
-        services: {
+        service: {
             model: 'Service',
             columnName: 'service_id',
         },
