@@ -9,9 +9,9 @@
     </md-button>
     <h2 class="root"
         ng-show="$mdMedia('gt-xs')">
-      <span ng-repeat="item in vm.pageTitles track by $index">
-        <a ng-href="{{item.url}}"
-           ng-bind="item.title">
+      <span ng-repeat="pageTitle in vm.pageTitles track by $index">
+        <a ng-href="{{pageTitle.url}}"
+           ng-bind="pageTitle.title">
         </a>
         <i class="material-icons"
            ng-if="$index != vm.pageTitles.length-1 && vm.pageTitles[$index+1].title">

@@ -5,19 +5,20 @@
         .module('app.core')
         .directive('tabBar', tabBar);
 
-    tabBar.$inject = ['$state', '$mdMedia'];
+    tabBar.$inject = ['$state', '$mdMedia', '$stateParams'];
 
-    function tabBar($state, $mdMedia) {
+    function tabBar($state, $mdMedia, $stateParams) {
         return {
             restrict: 'AE',
             templateUrl: 'core/directives/tab-bar/tab-bar.html',
             scope: {
-                data: '='
+                items: '='
             },
             link: function (scope, elem, attrs) {
                 angular.element(elem).addClass('tab-bar');
 
                 scope.$state = $state;
+                scope.$stateParams = $stateParams;
                 scope.$mdMedia = $mdMedia;
                 
             }
