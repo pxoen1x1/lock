@@ -8,7 +8,7 @@
                aria-label="$state.get(tabBarItem).data.title"
                ui-sref="{{ tabBarItem }}(data.params)"
                ui-sref-active="active">
-      <div ng-show="!mdMedia('gt-xs')"
+      <div ng-show="!$mdMedia('gt-xs')"
            layout="column"
            layout-align="center center">
         <div class="icon">
@@ -22,7 +22,7 @@
         </div>
       </div>
       <div layout="row"
-           ng-show="mdMedia('gt-xs')"
+           ng-show="$mdMedia('gt-xs')"
            layout-align="center center">
       <span>
         <i class="material-icons vertical-middle"
