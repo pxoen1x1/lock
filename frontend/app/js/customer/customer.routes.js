@@ -28,6 +28,9 @@
                         controller: 'CustomerHeaderController',
                         controllerAs: 'vm'
                     }
+                },
+                data: {
+                    title: 'Client'
                 }
             })
             .state('customer.registration', {
@@ -46,10 +49,8 @@
                     }
                 }
             })
-            .state('customer.request', {
-                url: '/request'
-            })
-            .state('customer.request.new', {
+            .state('customer.new', {
+                parent: 'customer',
                 url: '/new',
                 views: {
                     'content@customer': {
@@ -59,12 +60,16 @@
                     }
                 },
                 data: {
-                    title: 'New request',
-                    icon: 'playlist_add'
+                    title: 'New',
+                    menu: {
+                        title: 'New request',
+                        icon: 'playlist_add'
+                    }
                 }
             })
-            .state('customer.request.history', {
-                url: '/history',
+            .state('customer.requests', {
+                parent: 'customer',
+                url: '/requests',
                 views: {
                     'content@customer': {
                         templateUrl: 'customer/history/history.html',
@@ -73,11 +78,15 @@
                     }
                 },
                 data: {
-                    title: 'History',
-                    icon: 'history'
+                    title: 'Requests',
+                    menu: {
+                        title: 'Requests',
+                        icon: 'list'
+                    }
                 }
             })
-            .state('customer.request.id', {
+            .state('customer.requests.request', {
+                parent: 'customer.requests',
                 abstract: true,
                 url: '/{requestId:int}',
                 views: {
@@ -86,12 +95,16 @@
                         controller: 'CustomerRequestController',
                         controllerAs: 'vm'
                     }
+                },
+                data: {
+                    title: ''
                 }
             })
-            .state('customer.request.id.view', {
+            .state('customer.requests.request.view', {
+                parent: 'customer.requests.request',
                 url: '/view',
                 views: {
-                    'content@customer.request.id': {
+                    'content@customer.requests.request': {
                         templateUrl: 'customer/view-request/view-request.html',
                         controller: 'ViewRequestController',
                         controllerAs: 'vm'
@@ -99,56 +112,74 @@
                 },
                 data: {
                     title: 'Request',
-                    icon: 'list'
+                    tab: {
+                        title: 'View',
+                        icon: 'list'
+                    }
                 }
             })
-            .state('customer.request.id.map', {
+            .state('customer.requests.request.map', {
+                parent: 'customer.requests.request',
                 url: '/map',
                 views: {
-                    'content@customer.request.id': {
+                    'content@customer.requests.request': {
                         templateUrl: 'customer/request/map/map.html',
                         controller: 'CustomerRequestMapController',
                         controllerAs: 'vm'
                     }
                 },
                 data: {
-                    title: 'Map',
-                    icon: 'location_on'
+                    title: 'Request',
+                    tab: {
+                        title: 'Map',
+                        icon: 'location_on'
+                    }
                 }
             })
-            .state('customer.request.id.chat', {
+            .state('customer.requests.request.chat', {
+                parent: 'customer.requests.request',
                 url: '/chat',
                 views: {
-                    'content@customer.request.id': {
+                    'content@customer.requests.request': {
                         templateUrl: 'customer/request/chat/chat.html',
                         controller: 'CustomerRequestChatController',
                         controllerAs: 'vm'
                     }
                 },
                 data: {
-                    title: 'Chat',
-                    icon: 'chat'
+                    title: 'Request',
+                    tab: {
+                        title: 'Chat',
+                        icon: 'chat'
+                    }
                 }
             })
-            .state('customer.request.id.recommended', {
+            .state('customer.requests.request.recommended', {
+                parent: 'customer.requests.request',
                 url: '/recommended',
                 views: {
-                    'content@customer.request.id': {
+                    'content@customer.requests.request': {
                         templateUrl: 'customer/request/recommended/recommended.html',
                         controller: 'CustomerRequestRecommendedController',
                         controllerAs: 'vm'
                     }
                 },
                 data: {
-                    title: 'Recommended',
-                    icon: 'star'
+                    title: 'Request',
+                    tab: {
+                        title: 'Recommended',
+                        icon: 'star'
+                    }
                 }
             })
             .state('customer.settings', {
                 url: '/settings',
                 data: {
                     title: 'Settings',
-                    icon: 'settings'
+                    menu: {
+                        title: 'Settings',
+                        icon: 'settings'
+                    }
                 }
             })
             .state('customer.profile', {

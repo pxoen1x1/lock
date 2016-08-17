@@ -5,15 +5,15 @@
         .module('app.core')
         .constant('customerConstants', {
             MENU_ITEMS: [
-                'customer.request.new',
-                'customer.request.history',
+                'customer.new',
+                'customer.requests',
                 'customer.settings'
             ],
             REQUEST_TABBAR_ITEMS: [
-                'customer.request.id.view',
-                'customer.request.id.map',
-                'customer.request.id.chat',
-                'customer.request.id.recommended'
+                'customer.requests.request.view',
+                'customer.requests.request.map',
+                'customer.requests.request.chat',
+                'customer.requests.request.recommended'
             ]
         });
 

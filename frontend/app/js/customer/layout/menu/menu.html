@@ -33,10 +33,10 @@
          ui-sref-active="active"
          ng-click="vm.toggleMenu()">
         <i class="material-icons"
-           ng-if="$state.get(menuItem).data.icon"
-           ng-bind="$state.get(menuItem).data.icon">
+           ng-if="$state.get(menuItem).data.menu.icon"
+           ng-bind="$state.get(menuItem).data.menu.icon">
         </i>
-        <span ng-bind="$state.get(menuItem).data.title"></span>
+        <span ng-bind="$state.get(menuItem).data.menu.title"></span>
       </a>
     </div>
   </div>

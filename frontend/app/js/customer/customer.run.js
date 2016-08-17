@@ -12,20 +12,6 @@
 
         $rootScope.$on('$stateChangeStart',
             function (event, toState, toParams, fromState, fromParams) {
-                console.log(toState);
-                if (toState.name === 'customer.request') {
-                    if (fromState.name === 'customer.request.id.view') {
-                        event.preventDefault();
-                        $state.reload();
-                    } else {
-                        event.preventDefault();
-                        if (fromParams.requestId) {
-                            $state.go('customer.request.id.view', fromParams);
-                        } else {
-                            $state.go('customer.request.history');
-                        }
-                    }
-                }
 
                 var elem = angular.element(document.getElementsByClassName('content'));
                 var statesFlow = customerConstants.MENU_ITEMS.concat(customerConstants.REQUEST_TABBAR_ITEMS);
