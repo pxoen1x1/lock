@@ -4,10 +4,16 @@
 @import 'provider';
 @import 'customer';
 
+$primary-color: rgb(3, 155, 229);
+
 h2.page-name {
   text-align: center;
   font-weight: 300;
   font-size: 26px;
+}
+
+.primary-color {
+  color: $primary-color;
 }
 
 .text-capitalize {

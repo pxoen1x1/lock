@@ -55,7 +55,7 @@
                 views: {
                     'content@customer': {
                         templateUrl: 'customer/new-request/new-request.html',
-                        controller: 'NewRequestController',
+                        controller: 'CustomerNewRequestController',
                         controllerAs: 'vm'
                     }
                 },
@@ -72,8 +72,8 @@
                 url: '/requests',
                 views: {
                     'content@customer': {
-                        templateUrl: 'customer/history/history.html',
-                        controller: 'CustomerHistoryController',
+                        templateUrl: 'customer/requests-list/requests-list.html',
+                        controller: 'CustomerRequestsListController',
                         controllerAs: 'vm'
                     }
                 },
@@ -106,7 +106,7 @@
                 views: {
                     'content@customer.requests.request': {
                         templateUrl: 'customer/view-request/view-request.html',
-                        controller: 'ViewRequestController',
+                        controller: 'CustomerViewRequestController',
                         controllerAs: 'vm'
                     }
                 },
@@ -123,7 +123,7 @@
                 url: '/map',
                 views: {
                     'content@customer.requests.request': {
-                        templateUrl: 'customer/request/map/map.html',
+                        templateUrl: 'customer/request-map/request-map.html',
                         controller: 'CustomerRequestMapController',
                         controllerAs: 'vm'
                     }
@@ -141,7 +141,7 @@
                 url: '/chat',
                 views: {
                     'content@customer.requests.request': {
-                        templateUrl: 'customer/request/chat/chat.html',
+                        templateUrl: 'customer/request-chat/request-chat.html',
                         controller: 'CustomerRequestChatController',
                         controllerAs: 'vm'
                     }
@@ -159,7 +159,7 @@
                 url: '/recommended',
                 views: {
                     'content@customer.requests.request': {
-                        templateUrl: 'customer/request/recommended/recommended.html',
+                        templateUrl: 'customer/request-recommended/request-recommended.html',
                         controller: 'CustomerRequestRecommendedController',
                         controllerAs: 'vm'
                     }
@@ -173,6 +173,7 @@
                 }
             })
             .state('customer.settings', {
+                parent: 'customer',
                 url: '/settings',
                 data: {
                     title: 'Settings',
@@ -183,6 +184,7 @@
                 }
             })
             .state('customer.profile', {
+                parent: 'customer',
                 url: '/profile',
                 views: {
                     'content@customer': {
@@ -190,6 +192,9 @@
                         controller: 'CustomerProfileController',
                         controllerAs: 'vm'
                     }
+                },
+                data: {
+                    title: 'Profile'
                 }
             });
     }

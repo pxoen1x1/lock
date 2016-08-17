@@ -1,7 +1,11 @@
 'use strict';
 
 let requestRoutes = {
-    'POST /api/request': {
+    'GET /api/user/requests': {
+        controller: 'RequestController',
+        action: 'getAllUserRequests'
+    },
+    'POST /api/user/request': {
         controller: 'RequestController',
         action: 'create'
     }

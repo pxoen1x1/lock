@@ -5,23 +5,32 @@
         .module('app.customer')
         .factory('customerDataservice', customerDataservice);
 
-    customerDataservice.$inject = ['$http', 'conf'];
+    customerDataservice.$inject = ['$http', 'request', 'conf'];
 
     /* @ngInject */
-    function customerDataservice($http, conf) {
+    function customerDataservice($http, request, conf) {
         var service = {
+            getAllRequests: getAllRequests,
             createRequest: createRequest
         };
 
         return service;
 
+        function getAllRequests(params) {
+
+            return request.httpWithTimeout({
+                url: conf.URL + 'user/requests',
+                method: 'GET',
+                params: params
+            });
+        }
+
         function createRequest(newRequest) {
 
             return $http({
-                url: conf.URL + 'request',
+                url: conf.URL + 'user/request',
                 method: 'POST',
-                data: newRequest,
-                withCredentials: true
+                data: newRequest
             })
                 .then(createRequestCompleted);
 

@@ -2,7 +2,7 @@
   <div layout="column"
        flex="100"
        flex-gt-xs="50">
-    <p>Type of service:</p>
+    <p>Type of service: <sup>*</sup></p>
     <div ng-repeat="service in vm.services track by service.id">
       <md-checkbox aria-label="{{ service.name }}"
                    checklist-value="service.id"
@@ -15,7 +15,7 @@
   <div layout="column"
        flex="100"
        flex-gt-xs="50">
-    <p>License information:</p>
+    <p>License information: <sup>*</sup></p>
     <md-input-container class="md-block">
       <label>License Number</label>
       <input type="text"
@@ -26,12 +26,13 @@
         <div ng-message="required">Please, enter a license number.</div>
       </div>
     </md-input-container>
-    <md-datepicker name="licenseDate"
-                   date-formatter
-                   md-placeholder="Enter date"
-                   md-max-date="vm.datePickerOptions.maxDate"
-                   ng-model="vm.user.details.license.date">
-    </md-datepicker>
+    <mdp-date-picker name="licenseDate"
+                     mdp-placeholder="License Date"
+                     mdp-max-date="vm.datePickerOptions.maxDate"
+                     date-formatter
+                     ng-required
+                     ng-model="vm.user.details.license.date">
+    </mdp-date-picker>
     <div class="validation-messages"
          ng-messages="registrationForm.licenseDate.$error">
       <div ng-message="valid">The entered value is not a date!</div>

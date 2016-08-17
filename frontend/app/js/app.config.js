@@ -14,6 +14,7 @@
             requireBase: false
         });
 
+        $httpProvider.defaults.withCredentials = true;
         $httpProvider.interceptors.push('httpInterceptors');
 
         cfpLoadingBarProvider.includeSpinner = false;

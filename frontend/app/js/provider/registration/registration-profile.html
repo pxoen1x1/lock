@@ -1,4 +1,4 @@
-<p>Personal information:</p>
+<p>Personal information: <sup>*</sup></p>
 <div layout-gt-xs="row">
   <div layout="row"
        flex="100"
@@ -44,20 +44,7 @@
     </div>
   </md-input-container>
 </div>
-<p>What languages do you speak?</p>
-<div layout-gt-xs="row">
-  <md-input-container class="md-block" flex>
-    <md-select aria-label="Languages"
-               multiple
-               ng-model="vm.user.details.languages">
-      <md-option ng-repeat="language in vm.languages track by language.id"
-                 ng-value="language.id">
-        <span ng-bind="language.name"></span>
-      </md-option>
-    </md-select>
-  </md-input-container>
-</div>
-<p>Contact information:</p>
+<p>Contact information: <sup>*</sup></p>
 <div layout-gt-xs="row">
   <md-input-container class="md-block"
                       flex="100"
@@ -102,7 +89,20 @@
     </div>
   </md-input-container>
 </div>
-<p>Where are you? (optional)</p>
+<p>What languages do you speak?</p>
+<div layout-gt-xs="row">
+  <md-input-container class="md-block" flex>
+    <md-select aria-label="Languages"
+               multiple
+               ng-model="vm.user.details.languages">
+      <md-option ng-repeat="language in vm.languages track by language.id"
+                 ng-value="language.id">
+        <span ng-bind="language.name"></span>
+      </md-option>
+    </md-select>
+  </md-input-container>
+</div>
+<p>Where are you?</p>
 <div layout="column">
   <md-input-container class="md-block" flex>
     <label>Address</label>
