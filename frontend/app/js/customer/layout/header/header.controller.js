@@ -12,6 +12,7 @@
         var vm = this;
 
         vm.headerPath = [];
+        vm.title = '';
         vm.toggleMenu = toggleMenu;
 
         function toggleMenu() {
@@ -20,7 +21,7 @@
 
         function createHeaderPath() {
             var path = $location.path();
-            var pathObj = [];
+            var result = [];
 
             if (path === '/') {
 
@@ -31,19 +32,21 @@
             path = path.split('/');
 
             for (var i = 0; i < path.length; i++) {
-                pathObj[i] = {
+                result[i] = {
                     display: '',
                     url: ''
                 };
 
                 if (!/^\d+$/.test(path[i])) {
-                    pathObj[i].display = path[i];
+                    result[i].display = path[i];
+                    vm.title = path[i];
                 }
 
-                pathObj[i].url = i > 0 ? pathObj[i-1].url + '/' + path[i] : '/' + path[i];
+                result[i].url = i ? result[i-1].url : '';
+                result[i].url += '/' + path[i];
             }
 
-            return pathObj;
+            return result;
         }
 
         $rootScope.$watch(function() {

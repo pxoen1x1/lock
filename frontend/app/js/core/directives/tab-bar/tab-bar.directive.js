@@ -5,25 +5,23 @@
         .module('app.core')
         .directive('tabBar', tabBar);
 
-    tabBar.$inject = ['$location', '$mdMedia'];
+    tabBar.$inject = ['$state', '$mdMedia'];
 
-    function tabBar($location, $mdMedia) {
+    function tabBar($state, $mdMedia) {
         return {
             restrict: 'AE',
             templateUrl: 'core/directives/tab-bar/tab-bar.html',
             scope: {
-                items: '='
+                data: '='
             },
             link: function (scope, elem, attrs) {
                 angular.element(elem).addClass('tab-bar');
-                
-                scope.mdMedia = $mdMedia;
 
-                scope.$watch(function() {
-                    return $location.path();
-                }, function(){
-                    scope.path = $location.path();
-                });
+                scope.$state = $state;
+                scope.$mdMedia = $mdMedia;
+
+                scope.items = scope.data.items;
+                scope.params = scope.data.params;
             }
         };
     }

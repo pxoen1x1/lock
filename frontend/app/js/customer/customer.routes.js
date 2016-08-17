@@ -47,14 +47,7 @@
                 }
             })
             .state('customer.request', {
-                url: '/request',
-                views: {
-                    'content@customer': {
-                        templateUrl: 'customer/request/request.html',
-                        controller: 'CustomerRequestController',
-                        controllerAs: 'vm'
-                    }
-                }
+                url: '/request'
             })
             .state('customer.request.new', {
                 url: '/new',
@@ -70,44 +63,85 @@
                     icon: 'playlist_add'
                 }
             })
-            .state('customer.request.view', {
+            .state('customer.request.history', {
+                url: '/history',
+                views: {
+                    'content@customer': {
+                        templateUrl: 'customer/history/history.html',
+                        controller: 'CustomerHistoryController',
+                        controllerAs: 'vm'
+                    }
+                },
+                data: {
+                    title: 'History',
+                    icon: 'history'
+                }
+            })
+            .state('customer.request.id', {
+                abstract: true,
                 url: '/{requestId:int}',
                 views: {
-                    'content@customer.request': {
+                    'content@customer': {
+                        templateUrl: 'customer/request/request.html',
+                        controller: 'CustomerRequestController',
+                        controllerAs: 'vm'
+                    }
+                }
+            })
+            .state('customer.request.id.view', {
+                url: '/view',
+                views: {
+                    'content@customer.request.id': {
                         templateUrl: 'customer/view-request/view-request.html',
                         controller: 'ViewRequestController',
                         controllerAs: 'vm'
                     }
+                },
+                data: {
+                    title: 'Request',
+                    icon: 'list'
                 }
             })
-            .state('customer.request.map', {
-                url: '/{requestId:int}/map',
+            .state('customer.request.id.map', {
+                url: '/map',
                 views: {
-                    'content@customer.request': {
+                    'content@customer.request.id': {
                         templateUrl: 'customer/request/map/map.html',
                         controller: 'CustomerRequestMapController',
                         controllerAs: 'vm'
                     }
+                },
+                data: {
+                    title: 'Map',
+                    icon: 'location_on'
                 }
             })
-            .state('customer.request.chat', {
-                url: '/{requestId:int}/chat',
+            .state('customer.request.id.chat', {
+                url: '/chat',
                 views: {
-                    'content@customer.request': {
+                    'content@customer.request.id': {
                         templateUrl: 'customer/request/chat/chat.html',
                         controller: 'CustomerRequestChatController',
                         controllerAs: 'vm'
                     }
+                },
+                data: {
+                    title: 'Chat',
+                    icon: 'chat'
                 }
             })
-            .state('customer.request.recommended', {
-                url: '/{requestId:int}/recommended',
+            .state('customer.request.id.recommended', {
+                url: '/recommended',
                 views: {
-                    'content@customer.request': {
+                    'content@customer.request.id': {
                         templateUrl: 'customer/request/recommended/recommended.html',
                         controller: 'CustomerRequestRecommendedController',
                         controllerAs: 'vm'
                     }
+                },
+                data: {
+                    title: 'Recommended',
+                    icon: 'star'
                 }
             })
             .state('customer.settings', {
@@ -125,20 +159,6 @@
                         controller: 'CustomerProfileController',
                         controllerAs: 'vm'
                     }
-                }
-            })
-            .state('customer.history', {
-                url: '/history',
-                views: {
-                    'content@customer': {
-                        templateUrl: 'customer/history/history.html',
-                        controller: 'CustomerHistoryController',
-                        controllerAs: 'vm'
-                    }
-                },
-                data: {
-                    title: 'History',
-                    icon: 'history'
                 }
             });
     }
