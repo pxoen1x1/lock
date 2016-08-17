@@ -5,7 +5,7 @@
     <md-button layout="column"
                layout-align-gt-xs="center center"
                layout-align="center center"
-               aria-label="$state.get(tabBarItem).data.title"
+               aria-label="{{ $state.get(tabBarItem).data.title }}"
                ui-sref="{{ tabBarItem }}(data.params)"
                ui-sref-active="active">
       <div ng-show="!$mdMedia('gt-xs')"
