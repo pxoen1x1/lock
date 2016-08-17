@@ -1,1 +1,23 @@
-Fourth
+<div layout-gt-xs="row">
+  <div layout="column"
+       flex="100">
+    <p>Type of subscription: <sup>*</sup></p>
+    <md-radio-group layout="row"
+                    required
+                    ng-model="vm.user.details.isPaid">
+      <md-radio-button value="0" class="md-primary">
+        Free
+        <md-tooltip>
+          An explanation of why a free account is shit
+        </md-tooltip>
+      </md-radio-button>
+      <md-radio-button value="1" class="md-primary">
+        Paid
+        <sup class="primary-color">[?]</sup>
+        <md-tooltip>
+          And the explanation of why with paid account you become a millionaire
+        </md-tooltip>
+      </md-radio-button>
+    </md-radio-group>
+  </div>
+</div>
