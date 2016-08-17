@@ -19,9 +19,7 @@
 
                 scope.$state = $state;
                 scope.$mdMedia = $mdMedia;
-
-                scope.items = scope.data.items;
-                scope.params = scope.data.params;
+                
             }
         };
     }
