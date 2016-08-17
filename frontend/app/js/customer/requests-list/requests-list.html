@@ -1,8 +1,8 @@
 <div class="container history-content"
-     ng-if="vm.$mdMedia('gt-xs')">
+     ng-if="$mdMedia('gt-xs')">
   <div class="container-title">
-    <i class="material-icons">history</i>
-    <span>History</span>
+    <i class="material-icons">list</i>
+    <span>Requests</span>
   </div>
   <div class="container-content">
     <md-table-container>
@@ -17,7 +17,7 @@
           </th>
           <th md-column
               md-order-by="service"
-              ng-show="vm.$mdMedia('gt-xs')">
+              ng-show="$mdMedia('gt-xs')">
             <span>Type of service</span>
           </th>
           <th md-column>Location</th>
@@ -31,23 +31,23 @@
         </thead>
         <tbody md-body>
         <tr md-row
-            ui-sref="customer.request.view({ requestId: request.id })"
+            ui-sref="customer.requests.request.view({ requestId: request.id })"
             ng-repeat="request in vm.requests track by request.id">
           <td md-cell>
             <span ng-bind="request.updatedAt | date : 'MM/dd/yyyy H:mm a'"></span>
           </td>
           <td md-cell
-              ng-show="vm.$mdMedia('gt-xs')">
+              ng-show="$mdMedia('gt-xs')">
             <span ng-bind="request.service.name"></span>
           </td>
 
           <td class="td-location"
               md-cell
-              ng-show="vm.$mdMedia('gt-xs')">
+              ng-show="$mdMedia('gt-xs')">
             <span ng-bind="request.location"></span>
           </td>
           <td md-cell
-              ng-hide="vm.$mdMedia('gt-xs')">
+              ng-hide="$mdMedia('gt-xs')">
             <md-button class="md-icon-button" aria-label="Location">
               <md-icon class="material-icons">
                 <i class="material-icons">place</i>
@@ -89,7 +89,7 @@
 </div>
 
 <div class="history-content"
-     ng-if="!vm.$mdMedia('gt-xs')">
+     ng-if="!$mdMedia('gt-xs')">
   <a class="list card"
      ui-sref="customer.request.view({ requestId: request.id })"
      ng-repeat="request in vm.requests.items">

@@ -3,19 +3,17 @@
 
     angular
         .module('app.customer')
-        .controller('CustomerHistoryController', CustomerHistoryController);
+        .controller('CustomerRequestsListController', CustomerRequestsListController);
 
-    CustomerHistoryController.$inject = ['$mdMedia', 'coreConstants', 'customerDataservice'];
+    CustomerRequestsListController.$inject = ['coreConstants', 'customerDataservice'];
 
     /* @ngInject */
-    function CustomerHistoryController($mdMedia, coreConstants, customerDataservice) {
+    function CustomerRequestsListController(coreConstants, customerDataservice) {
         var promises = {
             getAllRequests: null
         };
 
         var vm = this;
-
-        vm.$mdMedia = $mdMedia;
 
         vm.paginationOptions = coreConstants.PAGINATION_OPTIONS;
         vm.requestStatuses= coreConstants.REQUEST_STATUSES;
