@@ -25,10 +25,7 @@
               md-order-by="status">
             <span>Status</span>
           </th>
-          <th md-column
-              md-numeric
-              md-order-by="cost">Cost
-          </th>
+          <th md-column>Cost</th>
           <th md-column>Provider</th>
         </tr>
         </thead>
@@ -60,11 +57,11 @@
           <td class="td-status"
               md-cell
               ng-class="{
-              'new': request.status === 0,
-              'pending': request.status === 1,
-              'closed': request.status === 2
+              'new': request.status === 1,
+              'pending': request.status === 2,
+              'closed': request.status === 3
               }">
-            <span ng-bind="vm.status[request.status]"></span>
+            <span ng-bind="vm.requestStatuses[request.status]"></span>
           </td>
           <td class="td-cost" md-cell>
             <span ng-bind="request.cost ? '$'+ request.cost : '–'"></span>

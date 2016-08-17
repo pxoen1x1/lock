@@ -18,9 +18,10 @@
         vm.$mdMedia = $mdMedia;
 
         vm.paginationOptions = coreConstants.PAGINATION_OPTIONS;
+        vm.requestStatuses= coreConstants.REQUEST_STATUSES;
 
         vm.queryOptions = {
-            orderBy: 'forDate',
+            orderBy: '-updatedAt',
             limit: vm.paginationOptions.limit,
             page: 1,
             totalCount: 0
