@@ -67,10 +67,10 @@
             <span ng-bind="request.cost ? '$'+ request.cost : '–'"></span>
           </td>
           <td class="td-provider" md-cell>
-            <span ng-bind="request.provider ? request.provider.name : '–'"></span>
+            <span ng-bind="request.executor ? request.executor.fullName : '–'"></span>
             <star-rating readonly
-                         value="request.provider.rating"
-                         ng-if="request.provider">
+                         value="request.executor.rating"
+                         ng-if="request.executor">
             </star-rating>
           </td>
         </tr>
