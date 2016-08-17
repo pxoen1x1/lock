@@ -13,33 +13,35 @@
 
         vm.pageTitles = [];
         vm.toggleMenu = toggleMenu;
-        
+
         activate();
 
         $rootScope.$on('$stateChangeStart', function (fromState, toState, fromParams, toParams) {
-            createPageTitles(toState);
+            vm.pageTitles = createPageTitles(toState);
         });
 
         function toggleMenu() {
             $mdSidenav('left').toggle();
         }
 
-        function createPageTitles(forState) {
-            var state = forState;
-            vm.pageTitles = [];
+        function createPageTitles(state) {
+            var pageTitles = [];
+            
             while (state.parent) {
                 if (state.data.title) {
-                    vm.pageTitles.unshift({
+                    pageTitles.unshift({
                         'title': state.data.title,
-                        'state': state.name
+                        'url': $state.href(state.name)
                     });
                 }
                 state = $state.get(state.parent);
             }
+
+            return pageTitles;
         }
 
         function activate() {
-            createPageTitles($state.current);
+            vm.pageTitles = createPageTitles($state.current);
         }
 
     }

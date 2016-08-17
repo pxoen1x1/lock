@@ -10,7 +10,7 @@
     <h2 class="root"
         ng-show="$mdMedia('gt-xs')">
       <span ng-repeat="item in vm.pageTitles track by $index">
-        <a ui-sref="{{item.state}}"
+        <a ng-href="{{item.url}}"
            ng-bind="item.title">
         </a>
         <i class="material-icons"
