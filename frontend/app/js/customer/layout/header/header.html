@@ -9,19 +9,19 @@
     </md-button>
     <h2 class="root"
         ng-show="$mdMedia('gt-xs')">
-      <span ng-repeat="item in vm.headerPath track by $index">
-        <a ng-href="{{item.url}}"
-           ng-bind="item.display">
+      <span ng-repeat="item in vm.pageTitles track by $index">
+        <a ui-sref="{{item.state}}"
+           ng-bind="item.title">
         </a>
         <i class="material-icons"
-           ng-if="$index != vm.headerPath.length-1 && vm.headerPath[$index+1].display">
+           ng-if="$index != vm.pageTitles.length-1 && vm.pageTitles[$index+1].title">
           chevron_right
         </i>
       </span>
     </h2>
     <span flex></span>
     <h2 class="root bold" hide-gt-xs>
-      <span ng-bind="vm.title"></span>
+      <span ng-bind="vm.pageTitles[vm.pageTitles.length - 1].title"></span>
     </h2>
     <span flex hide-gt-sm></span>
     <md-button class="button-login"
