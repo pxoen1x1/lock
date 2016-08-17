@@ -1,3 +1,4 @@
+/* global sails */
 /**
  * Request.js
  *
@@ -7,7 +8,9 @@
 
 'use strict';
 
-module.exports = {
+const STATUSES = sails.config.requests.STATUSES;
+
+let Request = {
     tableName: 'requests',
 
     attributes: {
@@ -46,15 +49,22 @@ module.exports = {
         executed: {
             type: 'boolean'
         },
+        cost: {
+            type: 'float',
+            is: /^\d+(\.\d{1,2})$/
+        },
         closed: {
             type: 'boolean'
+        },
+        status: {
+            type: 'integer'
         },
 
         language: {
             model: 'Language',
             columnName: 'language_id'
         },
-        services: {
+        service: {
             model: 'Service',
             columnName: 'service_id',
         },
@@ -67,6 +77,28 @@ module.exports = {
             model: 'User',
             columnName: 'executor_id'
         }
+    },
+
+    beforeCreate (request, next) {
+        request.status = STATUSES.NEW;
+
+        next(null, request);
+    },
+
+    beforeUpdate(request, next) {
+        if (request.closed) {
+            request.status = STATUSES.CLOSED;
+
+            return next(null, request);
+        }
+
+        if (request.executor) {
+            request.status = STATUSES.IN_PROGRESS;
+
+            return next(null, request);
+        }
     }
 };
+
+module.exports = Request;
 

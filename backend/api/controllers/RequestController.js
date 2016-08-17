@@ -9,6 +9,44 @@
 'use strict';
 
 let RequestController = {
+    getAllUserRequests(req, res) {
+        let params = req.allParams();
+
+        let searchCriteria = {
+            where: {
+                creator: req.user.id
+            }
+        };
+
+        let sorting = params.order || 'forDate';
+
+        let pagination = {};
+        pagination.limit = params.limit || sails.config.application.queryLimit;
+        pagination.page = params.page || 1;
+
+        RequestService.getAll(searchCriteria, sorting, pagination)
+            .then(
+                (foundRequests) => {
+
+                    return RequestService.getRequestCount(searchCriteria)
+                        .then(
+                            (totalCount) =>
+                                res.ok({
+                                    items: foundRequests,
+                                    currentPageNumber: pagination.page,
+                                    totalCount: totalCount
+                                })
+                        );
+                }
+            )
+            .catch(
+                (err) => {
+                    sails.log.error(err);
+
+                    res.serverError();
+                }
+            );
+    },
     create(req, res) {
         let newRequest = req.body.request;
 

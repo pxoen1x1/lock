@@ -3,13 +3,13 @@
 
     angular
         .module('app.customer')
-        .controller('NewRequestController', NewRequestController);
+        .controller('CustomerNewRequestController', CustomerNewRequestController);
 
-    NewRequestController.$inject = ['$q', '$state', 'citiesLoader', 'geocoderService',
+    CustomerNewRequestController.$inject = ['$q', '$state', 'citiesLoader', 'geocoderService',
         'coreDataservice', 'coreDictionary', 'customerDataservice'];
 
     /* @ngInject */
-    function NewRequestController($q, $state, citiesLoader, geocoderService,
+    function CustomerNewRequestController($q, $state, citiesLoader, geocoderService,
                                   coreDataservice, coreDictionary, customerDataservice) {
         var promises = {
             getStates: null
