@@ -49,6 +49,10 @@ let Request = {
         executed: {
             type: 'boolean'
         },
+        cost: {
+            type: 'float',
+            is: /^\d+(\.\d{1,2})$/
+        },
         closed: {
             type: 'boolean'
         },
