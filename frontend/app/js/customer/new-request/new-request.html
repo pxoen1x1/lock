@@ -55,7 +55,6 @@
                              ng-class="{ disabled: vm.isEmergency !== false }"
                              md-placeholder="Enter date"
                              ng-required="vm.isEmergency === false"
-                             ng-disabled="vm.isEmergency !== false"
                              ng-click="vm.isEmergency = false"
                              ng-model="vm.request.forDate">
             </mdp-date-picker>
@@ -64,7 +63,6 @@
                              mdp-auto-switch="vm.timePickerOptions.autoSwitch"
                              ng-class="{ disabled: vm.isEmergency !== false }"
                              ng-required="vm.isEmergency === false"
-                             ng-disabled="vm.isEmergency !== false"
                              ng-click="vm.isEmergency = false"
                              ng-model="vm.request.forTime">
             </mdp-time-picker>
@@ -95,7 +93,6 @@
             <div layout="row"
                  flex="100"
                  flex-gt-xs="80"
-                 ng-class="{ disabled: !vm.isLocationSetManually }"
                  ng-click="vm.isLocationSetManually = true"
                  ng-if="vm.isLocationSetManually === true">
               <md-input-container class="md-block" flex="50">
