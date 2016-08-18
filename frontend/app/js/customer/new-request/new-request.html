@@ -91,12 +91,13 @@
                  ng-if="vm.warnings.isLocationGpsWrong">
               Your GPS is wrong. Please, enter address manually
             </div>
-            <md-radio-button ng-value="true">Provide location manually:</md-radio-button>
+            <md-radio-button ng-value="true">Provide location manually</md-radio-button>
             <div layout="row"
                  flex="100"
                  flex-gt-xs="80"
                  ng-class="{ disabled: !vm.isLocationSetManually }"
-                 ng-click="vm.isLocationSetManually = true">
+                 ng-click="vm.isLocationSetManually = true"
+                 ng-if="vm.isLocationSetManually === true">
               <md-input-container class="md-block" flex="50">
                 <label>Address</label>
                 <input name="address"
