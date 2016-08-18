@@ -5,10 +5,14 @@
         .module('app')
         .run(runApp);
 
-    runApp.$inject = ['$rootScope', 'cfpLoadingBar', '$mdDialog'];
+    runApp.$inject = ['$rootScope', '$state', '$mdDialog', '$mdMedia', 'cfpLoadingBar'];
 
     /* @ngInject */
-    function runApp($rootScope, cfpLoadingBar, $mdDialog) {
+    function runApp($rootScope, $state, $mdDialog, $mdMedia, cfpLoadingBar) {
+
+        $rootScope.$state = $state;
+        $rootScope.$mdMedia = $mdMedia;
+        
         $rootScope.$on('$stateChangeStart', function (event, toStart) {
             cfpLoadingBar.start();
 

@@ -1,19 +1,37 @@
 <div class="tab-bar-items" layout="row">
-  <div class="tab-bar-item" ng-repeat="item in items" flex="{{100 / items.length}}">
-    <md-button layout="column" layout-align-gt-xs="center center" layout-align="center center" ng-href="{{item.href}}"
-               ng-class="{'active': path == item.href}" aria-label="item.display">
-      <div ng-show="!mdMedia('gt-xs')" layout="column" layout-align="center center">
+  <div class="tab-bar-item"
+       flex="{{100 / items.length}}"
+       ng-repeat="tabBarItem in items track by $index">
+    <md-button layout="column"
+               layout-align-gt-xs="center center"
+               layout-align="center center"
+               aria-label="{{ $state.get(tabBarItem).data.tab.title }}"
+               ui-sref="{{ tabBarItem }}($stateParams)"
+               ui-sref-active="active">
+      <div ng-show="!$mdMedia('gt-xs')"
+           layout="column"
+           layout-align="center center">
         <div class="icon">
-          <i ng-if="item.icon" class="material-icons" ng-bind="item.icon"></i>
+          <i class="material-icons"
+             ng-if="$state.get(tabBarItem).data.tab.icon"
+             ng-bind="$state.get(tabBarItem).data.tab.icon">
+          </i>
         </div>
         <div class="title">
-          <span ng-bind="item.display"></span>
+          <span ng-bind="$state.get(tabBarItem).data.tab.title"></span>
         </div>
       </div>
-      <div ng-show="mdMedia('gt-xs')" layout="row" layout-align="center center">
+      <div layout="row"
+           ng-show="$mdMedia('gt-xs')"
+           layout-align="center center">
       <span>
-        <i ng-if="item.icon" class="material-icons vertical-middle" ng-bind="item.icon"></i>
-        <span class="vertical-middle" ng-bind="item.display"></span>
+        <i class="material-icons vertical-middle"
+           ng-if="$state.get(tabBarItem).data.tab.icon"
+           ng-bind="$state.get(tabBarItem).data.tab.icon">
+        </i>
+        <span class="vertical-middle"
+              ng-bind="$state.get(tabBarItem).data.tab.title">
+        </span>
       </span>
       </div>
     </md-button>

@@ -3,25 +3,18 @@
 
     angular
         .module('app.core')
-    .constant('menuItems', [
-        {
-            display: 'New request',
-            icon: 'playlist_add',
-            href: '/client/request/new',
-            name: 'customer.request.new'
-        },
-        {
-            display: 'History',
-            icon: 'history',
-            href: '/client/history',
-            name: 'customer.history'
-        },
-        {
-            display: 'Settings',
-            icon: 'settings',
-            href: '/client/settings',
-            name: 'customer.settings'
-        }
-    ]);
-    
+        .constant('customerConstants', {
+            MENU_ITEMS: [
+                'customer.new',
+                'customer.requests',
+                'customer.settings'
+            ],
+            REQUEST_TABBAR_ITEMS: [
+                'customer.requests.request.view',
+                'customer.requests.request.map',
+                'customer.requests.request.chat',
+                'customer.requests.request.recommended'
+            ]
+        });
+
 })();
