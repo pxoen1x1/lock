@@ -52,7 +52,6 @@
                              mdp-placeholder="Date"
                              mdp-min-date="vm.datePickerOptions.minDate"
                              date-formatter
-                             ng-class="{ disabled: vm.isEmergency !== false }"
                              md-placeholder="Enter date"
                              ng-required="vm.isEmergency === false"
                              ng-click="vm.isEmergency = false"
@@ -61,7 +60,6 @@
             <mdp-time-picker name="time"
                              mdp-placeholder="Time"
                              mdp-auto-switch="vm.timePickerOptions.autoSwitch"
-                             ng-class="{ disabled: vm.isEmergency !== false }"
                              ng-required="vm.isEmergency === false"
                              ng-click="vm.isEmergency = false"
                              ng-model="vm.request.forTime">
@@ -212,8 +210,7 @@
       <div layout="column" layout-align="start center">
         <md-button type="submit"
                    class="md-button-blue md-raised md-button md-ink-ripple"
-                   aria-label="Submit"
-                   ng-disabled="requestForm.$invalid">
+                   aria-label="Submit">
           <span class="ng-scope">Submit</span>
       </div>
     </form>
