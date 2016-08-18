@@ -13,7 +13,7 @@
           <p layout="row"
              layout-align="center start"
              layout-align-gt-xs="start start">
-            Type of service needed
+            Type of service needed <sup>*</sup>
           </p>
           <md-radio-group class="md-primary"
                           name="services"
@@ -30,7 +30,7 @@
           <p layout="row"
              layout-align="center start"
              layout-align-gt-xs="start start">
-            Emergency
+            Emergency <sup>*</sup>
           </p>
           <md-radio-group class="md-primary"
                           name="emergency"
@@ -40,17 +40,31 @@
               I need a locksmith now
             </md-radio-button>
             <md-radio-button ng-value="false">
-              I need a locksmith for date:
+              I need a locksmith for custom date
             </md-radio-button>
           </md-radio-group>
-          <md-datepicker name="date"
-                         ng-class="{ disabled: vm.isEmergency !== false }"
-                         md-placeholder="Enter date"
-                         ng-required="vm.isEmergency === false"
-                         ng-disabled="vm.isEmergency !== false"
-                         ng-click="vm.isEmergency = false"
-                         ng-model="vm.request.forDate">
-          </md-datepicker>
+          <div class="custom-date"
+               layout="row"
+               flex="100"
+               flex-gt-xs="80"
+               ng-if="vm.isEmergency === false">
+            <mdp-date-picker name="date"
+                             mdp-placeholder="Date"
+                             mdp-min-date="vm.datePickerOptions.minDate"
+                             date-formatter
+                             md-placeholder="Enter date"
+                             ng-required="vm.isEmergency === false"
+                             ng-click="vm.isEmergency = false"
+                             ng-model="vm.request.forDate">
+            </mdp-date-picker>
+            <mdp-time-picker name="time"
+                             mdp-placeholder="Time"
+                             mdp-auto-switch="vm.timePickerOptions.autoSwitch"
+                             ng-required="vm.isEmergency === false"
+                             ng-click="vm.isEmergency = false"
+                             ng-model="vm.request.forTime">
+            </mdp-time-picker>
+          </div>
         </div>
       </div>
       <br>
@@ -59,7 +73,7 @@
           <p layout="row"
              layout-align="center start"
              layout-align-gt-xs="start start">
-            Location
+            Location <sup>*</sup>
           </p>
           <md-radio-group
               class="md-primary"
@@ -69,12 +83,24 @@
             <md-radio-button ng-value="false"
                              ng-click="vm.getAddressLocation()">Provide location by GPS
             </md-radio-button>
-            <md-radio-button ng-value="true">Provide location manually:</md-radio-button>
+            <div class="warning-message"
+                 ng-if="vm.warnings.isLocationGpsWrong">
+              Your GPS is wrong. Please, enter address manually
+            </div>
+            <md-radio-button ng-value="true">Provide location manually</md-radio-button>
             <div layout="row"
                  flex="100"
                  flex-gt-xs="80"
-                 ng-class="{ disabled: !vm.isLocationSetManually }"
-                 ng-click="vm.isLocationSetManually = true">
+                 ng-click="vm.isLocationSetManually = true"
+                 ng-if="vm.isLocationSetManually === true">
+              <md-input-container class="md-block" flex="50">
+                <label>Address</label>
+                <input name="address"
+                       ng-required="vm.isLocationSetManually"
+                       ng-model-options="{ debounce: 400 }"
+                       ng-change="vm.getAddressLocation(vm.address)"
+                       ng-model="vm.address.address">
+              </md-input-container>
               <md-input-container class="md-block" flex="25">
                 <label>State</label>
                 <md-select role="listbox"
@@ -113,14 +139,10 @@
                   </md-optgroup>
                 </md-select>
               </md-input-container>
-              <md-input-container class="md-block" flex="50">
-                <label>Address</label>
-                <input name="address"
-                       ng-required="vm.isLocationSetManually"
-                       ng-model-options="{ debounce: 400 }"
-                       ng-change="vm.getAddressLocation(vm.address)"
-                       ng-model="vm.address.address">
-              </md-input-container>
+            </div>
+            <div class="warning-message"
+                 ng-if="vm.warnings.isLocationManuallyWrong">
+              Your address is wrong. Please, check it
             </div>
           </md-radio-group>
         </div>
@@ -129,7 +151,7 @@
             <p layout="row"
                layout-align="center start"
                layout-align-gt-xs="start start">
-              Type of request
+              Type of request <sup>*</sup>
             </p>
             <md-radio-group class="md-primary"
                             name="typeOfRequest"
