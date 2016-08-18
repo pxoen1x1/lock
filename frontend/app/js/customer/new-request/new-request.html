@@ -40,14 +40,14 @@
               I need a locksmith now
             </md-radio-button>
             <md-radio-button ng-value="false">
-              I need a locksmith for date:
+              I need a locksmith for date
             </md-radio-button>
           </md-radio-group>
           <div layout="row"
                flex="100"
-               flex-gt-xs="80">
+               flex-gt-xs="80"
+               ng-if="vm.isEmergency === false">
             <mdp-date-picker name="date"
-                             flex="55"
                              mdp-placeholder="Date"
                              mdp-min-date="vm.datePickerOptions.minDate"
                              date-formatter
@@ -59,7 +59,6 @@
                              ng-model="vm.request.forDate">
             </mdp-date-picker>
             <mdp-time-picker name="time"
-                             flex="45"
                              mdp-placeholder="Time"
                              mdp-auto-switch="vm.timePickerOptions.autoSwitch"
                              ng-class="{ disabled: vm.isEmergency !== false }"

@@ -112,7 +112,7 @@
                     })
                     .catch(function () {
                         vm.isLocationFound = false;
-                        vm.isLocationSetManually = null;
+                        vm.isLocationSetManually = true;
                         vm.warnings.isLocationGpsWrong = true;
                     });
             }
@@ -134,8 +134,6 @@
                     vm.request.longitude = location.lng();
 
                     vm.warnings.isLocationManuallyWrong = false;
-
-                    alert(angular.toJson(vm.request));
                 })
                 .catch(function () {
                     vm.isLocationFound = false;
