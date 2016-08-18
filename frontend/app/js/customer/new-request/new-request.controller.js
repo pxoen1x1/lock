@@ -6,11 +6,11 @@
         .controller('CustomerNewRequestController', CustomerNewRequestController);
 
     CustomerNewRequestController.$inject = ['$q', '$state', 'citiesLoader', 'geocoderService',
-        'coreDataservice', 'coreDictionary', 'customerDataservice'];
+        'coreDataservice', 'coreDictionary', 'customerDataservice', 'coreConstants'];
 
     /* @ngInject */
     function CustomerNewRequestController($q, $state, citiesLoader, geocoderService,
-                                  coreDataservice, coreDictionary, customerDataservice) {
+                                  coreDataservice, coreDictionary, customerDataservice, coreConstants) {
         var promises = {
             getStates: null
         };
@@ -30,6 +30,16 @@
         vm.isLocationSetManually = null;
         vm.isLocationFound = false;
         vm.searchCity = '';
+
+        vm.datePickerOptions = {
+            minDate: new Date()
+        };
+        vm.timePickerOptions = coreConstants.MD_PICKERS_OPTIONS.timePicker;
+        
+        vm.warnings = {
+            isLocationGpsWrong: false,
+            isLocationManuallyWrong: false
+        };
 
         vm.getCities = getCities;
         vm.resetSelectedCity = resetSelectedCity;
@@ -102,6 +112,8 @@
                     })
                     .catch(function () {
                         vm.isLocationFound = false;
+                        vm.isLocationSetManually = null;
+                        vm.warnings.isLocationGpsWrong = true;
                     });
             }
 
@@ -120,9 +132,14 @@
 
                     vm.request.latitude = location.lat();
                     vm.request.longitude = location.lng();
+
+                    vm.warnings.isLocationManuallyWrong = false;
+
+                    alert(angular.toJson(vm.request));
                 })
                 .catch(function () {
                     vm.isLocationFound = false;
+                    vm.warnings.isLocationManuallyWrong = true;
                 });
         }
 
