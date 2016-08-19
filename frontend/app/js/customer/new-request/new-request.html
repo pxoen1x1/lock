@@ -51,7 +51,6 @@
             <mdp-date-picker name="date"
                              mdp-placeholder="Date"
                              mdp-min-date="vm.datePickerOptions.minDate"
-                             date-formatter
                              md-placeholder="Enter date"
                              ng-required="vm.isEmergency === false"
                              ng-click="vm.isEmergency = false"
@@ -62,7 +61,7 @@
                              mdp-auto-switch="vm.timePickerOptions.autoSwitch"
                              ng-required="vm.isEmergency === false"
                              ng-click="vm.isEmergency = false"
-                             ng-model="vm.request.forTime">
+                             ng-model="vm.request.forDate">
             </mdp-time-picker>
           </div>
         </div>
