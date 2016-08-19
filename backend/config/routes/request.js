@@ -5,6 +5,10 @@ let requestRoutes = {
         controller: 'RequestController',
         action: 'getAllUserRequests'
     },
+    'GET /api/request/:request': {
+        controller: 'RequestController',
+        action: 'getRequestById'
+    },
     'POST /api/user/request': {
         controller: 'RequestController',
         action: 'create'

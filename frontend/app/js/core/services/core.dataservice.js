@@ -14,6 +14,7 @@
             getLanguages: getLanguages,
             getStates: getStates,
             getCities: getCities,
+            getRequest: getRequest,
             createUser: createUser,
             loginUser: loginUser,
             resetUserPassword: resetUserPassword,
@@ -56,6 +57,14 @@
                 method: 'GET',
                 params: params,
                 withCredentials: false
+            });
+        }
+
+        function getRequest(selectedRequest) {
+
+            return request.httpWithTimeout({
+                url: conf.URL + 'request/' + selectedRequest.id,
+                method: 'GET'
             });
         }
 

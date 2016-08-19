@@ -4,6 +4,7 @@
 
 let RequestService = {
     getAll(searchCriteria, sorting, pagination) {
+
         return Request.find(searchCriteria)
             .sort(sorting)
             .populateAll()
@@ -12,30 +13,32 @@ let RequestService = {
                 (foundRequests) => {
                     let executorDetailsPopulatePromises = foundRequests.map(
                         (foundRequest) => {
-                            if (!foundRequest.executor) {
+                            if (!foundRequest || !foundRequest.executor) {
 
                                 return Promise.resolve(foundRequest);
                             }
 
-                            return UserDetailService.getUserDetailByUser(foundRequest.executor)
-                                .then(
-                                    (userDetails) => {
-                                        foundRequest.executor.details = userDetails;
-
-                                        return foundRequest;
-                                    }
-                                )
-                                .catch(
-                                    (err) => err
-                                );
+                            return populateByUserDetails(foundRequest);
                         }
                     );
 
                     return Promise.all(executorDetailsPopulatePromises);
                 }
-            )
-            .catch(
-                (err) => err
+            );
+    },
+    getRequestById(requestId){
+
+        return Request.findOneById(requestId)
+            .populateAll()
+            .then(
+                (foundRequest) => {
+                    if (!foundRequest || !foundRequest.executor) {
+
+                        return foundRequest;
+                    }
+
+                    return populateByUserDetails(foundRequest);
+                }
             );
     },
     getRequestCount(searchCriteria) {
@@ -43,9 +46,6 @@ let RequestService = {
         return Request.count(searchCriteria)
             .then(
                 (count) => count
-            )
-            .catch(
-                (err) => err
             );
     },
     create(request) {
@@ -53,11 +53,19 @@ let RequestService = {
         return Request.create(request)
             .then(
                 (createdRequest) => createdRequest
-            )
-            .catch(
-                (err) => err
             );
     }
 };
 
 module.exports = RequestService;
+
+function populateByUserDetails(request) {
+    return UserDetailService.getUserDetailByUser(request.executor)
+        .then(
+            (userDetails) => {
+                request.executor.details = userDetails;
+
+                return request;
+            }
+        );
+}
