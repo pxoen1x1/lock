@@ -4,22 +4,18 @@
 
 let UserDetailService = {
     getUserDetailByUser(user) {
-        let promise = new Promise((resolve, reject) => {
-            UserDetail.findOneByUser(user.id)
-                .populateAll()
-                .exec(
-                    (err, foundUserDetail) => {
-                        if (err) {
 
-                            return reject(err);
-                        }
+        return UserDetail.findOneByUser(user.id)
+            .populateAll()
+            .then(
+                (foundUserDetail) => {
 
-                        return resolve(foundUserDetail);
-                    }
-                );
-        });
-
-        return promise;
+                    return foundUserDetail;
+                }
+            )
+            .catch(
+                (err) => err
+            );
     }
 };
 

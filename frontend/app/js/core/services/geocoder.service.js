@@ -75,12 +75,12 @@
                             return deferred.reject('Geocoder failed due to: ' + status);
                         }
 
-                        if (!results[1]) {
+                        if (!results[0]) {
 
                             return deferred.reject('No results found');
                         }
 
-                        deferred.resolve(results[1].formatted_address); // jshint ignore:line
+                        deferred.resolve(results[0].formatted_address); // jshint ignore:line
                     });
             });
 

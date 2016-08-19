@@ -16,7 +16,7 @@
         var vm = this;
 
         vm.paginationOptions = coreConstants.PAGINATION_OPTIONS;
-        vm.requestStatuses= coreConstants.REQUEST_STATUSES;
+        vm.requestStatuses = coreConstants.REQUEST_STATUSES;
 
         vm.queryOptions = {
             orderBy: '-updatedAt',
@@ -51,7 +51,7 @@
             };
 
             return getAllRequests(queryOptions)
-                .then(function(requests){
+                .then(function (requests) {
                     vm.requests = requests.items;
                     vm.paginationOptions.totalCount = requests.totalCount;
 

@@ -5,7 +5,7 @@
         .module('app.core')
         .constant('customerConstants', {
             MENU_ITEMS: [
-                'customer.new',
+                'customer.newRequest',
                 'customer.requests',
                 'customer.settings'
             ],
