@@ -10,7 +10,7 @@
 
     /* @ngInject */
     function CustomerNewRequestController($q, $state, citiesLoader, geocoderService,
-                                  coreDataservice, coreDictionary, customerDataservice) {
+                                          coreDataservice, coreDictionary, customerDataservice) {
         var promises = {
             getStates: null
         };
@@ -18,6 +18,7 @@
         var vm = this;
 
         vm.request = {};
+        vm.request.location = {};
 
         vm.address = {};
 
@@ -94,11 +95,18 @@
             if (!selectedAddress || Object.keys(selectedAddress).length === 0) {
 
                 return geocoderService.getCurrentCoordinates()
-                    .then(function (location) {
+                    .then(function (coordinates) {
                         vm.isLocationFound = true;
 
-                        vm.request.latitude = location.latitude;
-                        vm.request.longitude = location.longitude;
+                        vm.request.location.latitude = coordinates.latitude;
+                        vm.request.location.longitude = coordinates.longitude;
+
+                        return geocoderService.getLocation(coordinates.latitude, coordinates.longitude);
+                    })
+                    .then(function (location) {
+                        vm.request.location.address = location;
+
+                        return vm.request;
                     })
                     .catch(function () {
                         vm.isLocationFound = false;
@@ -118,8 +126,11 @@
                 .then(function (location) {
                     vm.isLocationFound = true;
 
-                    vm.request.latitude = location.lat();
-                    vm.request.longitude = location.lng();
+                    vm.request.location.latitude = location.lat();
+                    vm.request.location.longitude = location.lng();
+                    vm.request.location.address = vm.address.address + ', ' +
+                        vm.address.city.city + ', ' +
+                        vm.address.state.state;
                 })
                 .catch(function () {
                     vm.isLocationFound = false;
@@ -146,7 +157,7 @@
 
             return createNewRequest(request)
                 .then(function () {
-                    $state.go('customer.request');
+                    $state.go('customer.requests');
                 });
         }
 
