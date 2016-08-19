@@ -47,6 +47,39 @@ let RequestController = {
                 }
             );
     },
+    getRequestById(req, res) {
+        let requestId = req.params.request;
+
+        if(!requestId){
+
+            return res.badRequest({
+                message: sails.__('Request is not defined.')
+            });
+        }
+
+        RequestService.getRequestById(requestId)
+            .then(
+                (foundRequest) => {
+                    if(!foundRequest) {
+
+                        return res.notFound({
+                            message: sails.__('Request is not found.')
+                        });
+                    }
+
+                    return res.ok({
+                        request: foundRequest
+                    });
+                }
+            )
+            .catch(
+                (err) => {
+                    sails.log.error(err);
+
+                    res.serverError();
+                }
+            );
+    },
     create(req, res) {
         let newRequest = req.body.request;
 
