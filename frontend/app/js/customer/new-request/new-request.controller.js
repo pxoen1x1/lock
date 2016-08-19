@@ -10,7 +10,7 @@
 
     /* @ngInject */
     function CustomerNewRequestController($q, $state, citiesLoader, geocoderService,
-                                  coreDataservice, coreDictionary, customerDataservice, coreConstants) {
+                                          coreDataservice, coreDictionary, customerDataservice, coreConstants) {
         var promises = {
             getStates: null
         };
