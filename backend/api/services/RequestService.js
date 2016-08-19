@@ -1,61 +1,62 @@
-/* global Request */
+/* global Request, UserDetailService */
 
 'use strict';
 
 let RequestService = {
     getAll(searchCriteria, sorting, pagination) {
-        let promise = new Promise((resolve, reject) => {
-            Request.find(searchCriteria)
-                .sort(sorting)
-                .populateAll()
-                .paginate(pagination)
-                .exec(
-                    (err, foundRequests) => {
-                        if (err) {
+        return Request.find(searchCriteria)
+            .sort(sorting)
+            .populateAll()
+            .paginate(pagination)
+            .then(
+                (foundRequests) => {
+                    let executorDetailsPopulatePromises = foundRequests.map(
+                        (foundRequest) => {
+                            if (!foundRequest.executor) {
 
-                            return reject(err);
+                                return Promise.resolve(foundRequest);
+                            }
+
+                            return UserDetailService.getUserDetailByUser(foundRequest.executor)
+                                .then(
+                                    (userDetails) => {
+                                        foundRequest.executor.details = userDetails;
+
+                                        return foundRequest;
+                                    }
+                                )
+                                .catch(
+                                    (err) => err
+                                );
                         }
+                    );
 
-                        return resolve(foundRequests);
-                    }
-                );
-        });
-
-        return promise;
+                    return Promise.all(executorDetailsPopulatePromises);
+                }
+            )
+            .catch(
+                (err) => err
+            );
     },
     getRequestCount(searchCriteria) {
-        let promise = new Promise((resolve, reject) => {
-            Request.count(searchCriteria)
-                .exec(
-                    (err, count) => {
-                        if (err) {
 
-                            return reject(err);
-                        }
-
-                        return resolve(count);
-                    }
-                );
-        });
-
-        return promise;
+        return Request.count(searchCriteria)
+            .then(
+                (count) => count
+            )
+            .catch(
+                (err) => err
+            );
     },
     create(request) {
-        let promise = new Promise((resolve, reject) => {
-            Request.create(request)
-                .exec(
-                    (err, createdRequest) => {
-                        if (err) {
 
-                            return reject(err);
-                        }
-
-                        return resolve(createdRequest);
-                    }
-                );
-        });
-
-        return promise;
+        return Request.create(request)
+            .then(
+                (createdRequest) => createdRequest
+            )
+            .catch(
+                (err) => err
+            );
     }
 };
 
