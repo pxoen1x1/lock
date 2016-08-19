@@ -20,7 +20,8 @@
             return request.httpWithTimeout({
                 url: conf.URL + 'services/procedures',
                 method: 'GET',
-                params: params
+                params: params,
+                withCredentials: false
             });
         }
     }
