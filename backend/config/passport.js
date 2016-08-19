@@ -1,3 +1,4 @@
+/* global User */
 'use strict';
 
 let passport = require('passport');
