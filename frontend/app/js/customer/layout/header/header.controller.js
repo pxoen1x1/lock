@@ -28,7 +28,7 @@
             var pageTitles = [];
             
             while (state.parent) {
-                if (state.data.title) {
+                if (state.data && state.data.title) {
                     pageTitles.unshift({
                         'title': state.data.title,
                         'url': $state.href(state.name)
