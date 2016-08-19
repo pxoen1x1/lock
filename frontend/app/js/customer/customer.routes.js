@@ -54,7 +54,7 @@
                 url: '/request/new',
                 views: {
                     'content@customer': {
-                        templateUrl: 'customer/new-request/new-request.html',
+                        templateUrl: 'customer/request-new/request-new.html',
                         controller: 'CustomerNewRequestController',
                         controllerAs: 'vm'
                     }
@@ -105,7 +105,7 @@
                 url: '/view',
                 views: {
                     'content@customer.requests.request': {
-                        templateUrl: 'customer/view-request/view-request.html',
+                        templateUrl: 'customer/request-view/request-view.html',
                         controller: 'CustomerViewRequestController',
                         controllerAs: 'vm'
                     }
