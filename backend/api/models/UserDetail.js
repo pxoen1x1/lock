@@ -13,6 +13,12 @@ let UserDetail = {
     tableName: 'user_details',
 
     attributes: {
+        isPaid: {
+            type: 'boolean',
+            required: true,
+            columnName: 'is_paid'
+        },
+
         user: {
             model: 'User',
             unique: true,
