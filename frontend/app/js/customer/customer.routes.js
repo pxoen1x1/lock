@@ -49,9 +49,9 @@
                     }
                 }
             })
-            .state('customer.new', {
+            .state('customer.newRequest', {
                 parent: 'customer',
-                url: '/new',
+                url: '/request/new',
                 views: {
                     'content@customer': {
                         templateUrl: 'customer/new-request/new-request.html',
