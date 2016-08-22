@@ -54,9 +54,10 @@ let Request = {
             model: 'Language',
             columnName: 'language_id'
         },
-        service: {
-            model: 'Service',
-            columnName: 'service_id',
+
+        serviceType: {
+            model: 'ServiceType',
+            columnName: 'service_type_id',
         },
         location: {
             model: 'Location',

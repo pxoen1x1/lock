@@ -4,14 +4,14 @@
     <p>Type of subscription: <sup>*</sup></p>
     <md-radio-group layout="row"
                     required
-                    ng-model="vm.user.details.isPaid">
-      <md-radio-button value="0" class="md-primary">
+                    ng-model="vm.user.details.isPro">
+      <md-radio-button class="md-primary" ng-value="false">
         Free
         <md-tooltip>
           An explanation of why a free account is shit
         </md-tooltip>
       </md-radio-button>
-      <md-radio-button value="1" class="md-primary">
+      <md-radio-button class="md-primary" ng-value="true">
         Paid
         <sup class="primary-color">[?]</sup>
         <md-tooltip>

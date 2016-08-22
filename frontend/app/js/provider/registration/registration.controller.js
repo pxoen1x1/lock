@@ -12,8 +12,7 @@
     function ProviderRegistrationController($q, $state, coreDataservice, coreConstants, coreDictionary,
                                             serviceProviderConstant, serviceProviderDataservice, citiesLoader) {
         var promises = {
-            getState: null,
-            getProcedures: null
+            getState: null
         };
 
         var vm = this;
@@ -26,7 +25,7 @@
         vm.states = [];
         vm.cities = [];
         vm.languages = [];
-        vm.services = [];
+        vm.serviceTypes = [];
         vm.procedures = [];
 
         vm.datePickerOptions = {
@@ -37,7 +36,6 @@
         vm.validSteps = {};
         vm.currentStep = 0;
 
-        vm.getProcedures = getProcedures;
         vm.getCities = getCities;
         vm.resetSelectedCity = resetSelectedCity;
         vm.goToNextStep = goToNextStep;
@@ -57,42 +55,13 @@
                 });
         }
 
-        function getServices() {
+        function getServiceTypes() {
 
-            return coreDictionary.getServices()
-                .then(function (services) {
-                    vm.services = services.services;
+            return coreDictionary.getServiceTypes()
+                .then(function (serviceTypes) {
+                    vm.serviceTypes = serviceTypes.serviceTypes;
 
-                    return vm.services;
-                });
-        }
-
-        function getProceduresList(params) {
-            if (promises.getProcedures) {
-                promises.getProcedures.cancel();
-            }
-
-            promises.getProcedures = serviceProviderDataservice.getProcedures(params);
-
-            return promises.getProcedures
-                .then(
-                    function (response) {
-
-                        return response.data.procedures;
-                    }
-                );
-        }
-
-        function getProcedures(servicesIds) {
-            var params = {
-                services: servicesIds
-            };
-
-            return getProceduresList(params)
-                .then(function (procedures) {
-                    vm.procedures = procedures;
-
-                    return vm.procedures;
+                    return vm.serviceTypes;
                 });
         }
 
@@ -183,7 +152,7 @@
         function activate() {
             $q.all([
                 getLanguages(),
-                getServices(),
+                getServiceTypes(),
                 getStates()
             ])
                 .then(function () {

@@ -6,21 +6,19 @@
     <md-input-container flex="100"
                         flex-gt-xs="65">
       <label>Service procedure</label>
-      <md-select ng-model="servicePrice.procedure"
-                 ng-required="servicePrice.price || vm.user.details.servicePrices.length > 1">
-        <md-option ng-repeat="procedure in vm.procedures track by procedure.id"
-                   ng-value="procedure.id">
-          <span ng-bind="procedure.name"></span>
-        </md-option>
-      </md-select>
+      <input type="text"
+             name="serviceName"
+             ng-required="servicePrice.price || vm.user.details.servicePrices.length > 1"
+             ng-model="servicePrice.serviceName">
     </md-input-container>
     <md-input-container class="md-block"
                         flex="100"
                         flex-gt-xs="30">
       <label>Price $</label>
-      <input name="price"
-             ng-model="servicePrice.price"
-             ng-required="servicePrice.procedure || vm.user.details.servicePrices.length > 1">
+      <input type="text"
+             name="price"
+             ng-required="servicePrice.procedure || vm.user.details.servicePrices.length > 1"
+             ng-model="servicePrice.price">
     </md-input-container>
     <div class="service-price-remove"
          flex="100"

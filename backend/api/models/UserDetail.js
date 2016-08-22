@@ -13,6 +13,12 @@ let UserDetail = {
     tableName: 'user_details',
 
     attributes: {
+        isPro: {
+            type: 'boolean',
+            required: true,
+            columnName: 'is_pro'
+        },
+
         user: {
             model: 'User',
             unique: true,
@@ -32,8 +38,8 @@ let UserDetail = {
             via: 'userDetail'
         },
 
-        services: {
-            collection: 'Service',
+        serviceTypes: {
+            collection: 'ServiceType',
             via: 'userDetails',
             dominant: true
         },

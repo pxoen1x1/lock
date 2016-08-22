@@ -1,6 +1,6 @@
-/*global Service*/
+/*global ServiceType*/
 /**
- * ServiceController
+ * ServiceTypeController
  *
  * @description :: Server-side logic for managing Services
  * @help        :: See http://sailsjs.org/#!/documentation/concepts/Controllers
@@ -8,23 +8,23 @@
 
 'use strict';
 
-let ServiceController = {
-    getServices(req, res) {
-        Service.find()
+let ServiceTypeController = {
+    getServiceTypes(req, res) {
+        ServiceType.find()
             .exec(
-                (err, foundServices) => {
+                (err, foundServiceTypes) => {
                     if (err) {
 
                         return res.serverError();
                     }
 
                     return res.ok({
-                        services: foundServices
+                        serviceTypes: foundServiceTypes
                     });
                 }
             );
     }
 };
 
-module.exports = ServiceController;
+module.exports = ServiceTypeController;
 

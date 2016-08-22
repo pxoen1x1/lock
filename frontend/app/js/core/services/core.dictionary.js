@@ -10,26 +10,26 @@
     /* @ngInject */
     function coreDictionary($q, dataCache, coreDataservice) {
         var service = {
-            getServices: getServices,
+            getServiceTypes: getServiceTypes,
             getLanguages: getLanguages
         };
 
         return service;
 
-        function getServices() {
-            var cacheId = 'services';
+        function getServiceTypes() {
+            var cacheId = 'serviceTypes';
             var cache = dataCache.get(cacheId);
 
-            return $q.when(cache || getServicesFromHttp(cacheId))
-                .then(getServicesComplete);
+            return $q.when(cache || getServiceTypesFromHttp(cacheId))
+                .then(getServiceTypesComplete);
 
-            function getServicesComplete(response) {
+            function getServiceTypesComplete(response) {
 
                 return response.data;
             }
 
-            function getServicesFromHttp() {
-                return coreDataservice.getServices()
+            function getServiceTypesFromHttp() {
+                return coreDataservice.getServiceTypes()
                     .then(function (response) {
 
                         return getDataFromHttpComplete(cacheId, response);

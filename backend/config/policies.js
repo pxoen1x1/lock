@@ -68,14 +68,9 @@ module.exports.policies = {
         'getCitiesByState': true
     },
 
-    ServiceController: {
+    ServiceTypeController: {
         '*': ['isAuthenticated'],
-        'getServices': true
-    },
-
-    ProcedureController: {
-        '*': ['isAuthenticated'],
-        'getProceduresByService': true
+        'getServiceTypes': true
     },
 
     LanguageController: {

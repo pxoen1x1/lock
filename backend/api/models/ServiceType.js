@@ -1,5 +1,5 @@
 /**
- * Service.js
+ * ServiceType.js
  *
  * @description :: TODO: You might write a short summary of how this model works and what it represents here.
  * @docs        :: http://sailsjs.org/documentation/concepts/models-and-orm/models
@@ -7,30 +7,25 @@
 
 'use strict';
 
-let Service = {
+let ServiceType = {
     autoCreatedAt: false,
     autoUpdatedAt: false,
-    tableName: 'services',
+    tableName: 'service_types',
 
     attributes: {
         name: {
             type: 'string'
         },
 
-        procedures: {
-            collection: 'Procedure',
-            via: 'service'
-        },
-
         userDetails: {
             collection: 'UserDetail',
-            via: 'services'
+            via: 'serviceTypes'
         },
         requests: {
             collection: 'Request',
-            via: 'service'
+            via: 'serviceType'
         }
     }
 };
 
-module.exports = Service;
+module.exports = ServiceType;
