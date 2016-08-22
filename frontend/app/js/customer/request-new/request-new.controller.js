@@ -22,7 +22,7 @@
 
         vm.address = {};
 
-        vm.services = [];
+        vm.serviceTypes = [];
         vm.languages = [];
         vm.states = [];
         vm.cities = [];
@@ -49,13 +49,13 @@
 
         activate();
 
-        function getServices() {
+        function getServiceTypes() {
 
-            return coreDictionary.getServices()
-                .then(function (services) {
-                    vm.services = services.services;
+            return coreDictionary.getServiceTypes()
+                .then(function (serviceTypes) {
+                    vm.serviceTypes = serviceTypes.serviceTypes;
 
-                    return vm.services;
+                    return vm.serviceTypes;
                 });
         }
 
@@ -178,7 +178,7 @@
 
         function activate() {
             $q.all(
-                getServices(),
+                getServiceTypes(),
                 getLanguages(),
                 getStates()
             );

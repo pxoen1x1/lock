@@ -18,11 +18,11 @@
           <md-radio-group class="md-primary"
                           name="services"
                           required
-                          ng-model="vm.request.service">
-            <md-radio-button aria-label="{{ service.name }}"
-                             ng-repeat="service in vm.services track by service.id"
-                             ng-value="service.id">
-              <span ng-bind="service.name"></span>
+                          ng-model="vm.request.serviceType">
+            <md-radio-button aria-label="{{ serviceType.name }}"
+                             ng-repeat="serviceType in vm.serviceTypes track by serviceType.id"
+                             ng-value="serviceType.id">
+              <span ng-bind="serviceType.name"></span>
             </md-radio-button>
           </md-radio-group>
         </div>
