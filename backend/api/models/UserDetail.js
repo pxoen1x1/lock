@@ -13,7 +13,7 @@ let UserDetail = {
     tableName: 'user_details',
 
     attributes: {
-        isPaid: {
+        isPro: {
             type: 'boolean',
             required: true,
             columnName: 'is_paid'
