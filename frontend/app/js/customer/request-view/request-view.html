@@ -1,42 +1,45 @@
 <div class="container view-content">
   <div class="container-title"><i class="material-icons">list</i> <span>Request</span></div>
   <div class="container-content">
-    <div layout="row">
-      <div class="map-wrapper" flex="35">
-        <a ui-sref="customer.requests.request.map($stateParams)">
-          <ui-gmap-google-map center="vm.map.center"
-                              zoom="vm.map.zoom"
-                              options="vm.map.options">
-            <ui-gmap-marker
-                coords="vm.map.center"
-                options="vm.mapMarkerOptions"
-                idKey="0"
-                fit="false">
-            </ui-gmap-marker>
-          </ui-gmap-google-map>
-        </a>
-      </div>
-      <div class="info-row"
-           layout="column"
-           layout-align="center start"
-           flex="65">
-        <div class="info-column">
-          <b>Needed service:</b>
-          <span ng-bind="vm.request.service.name"></span>
+    <div class="request-info">
+      <div class="title md-headline">Details</div>
+      <div layout="row">
+        <div class="map-wrapper" flex="35">
+          <a ui-sref="customer.requests.request.map($stateParams)">
+            <ui-gmap-google-map center="vm.map.center"
+                                zoom="vm.map.zoom"
+                                options="vm.map.options">
+              <ui-gmap-marker
+                  coords="vm.map.center"
+                  options="vm.mapMarkerOptions"
+                  idKey="0"
+                  fit="false">
+              </ui-gmap-marker>
+            </ui-gmap-google-map>
+          </a>
         </div>
-        <div class="info-column">
-          <b>For date:</b>
-          <span ng-bind="vm.request.forDate ? (vm.request.forDate | date : 'MM/dd/yyyy H:mm a') : 'Now'"></span>
-        </div>
-        <div class="info-column">
-          <b>Address:</b>
-          <span ng-bind="vm.request.location.address"></span>
+        <div class="info-row"
+             layout="column"
+             layout-align="center start"
+             flex="65">
+          <div class="info-column">
+            <b>Needed service:</b>
+            <span ng-bind="vm.request.service.name"></span>
+          </div>
+          <div class="info-column">
+            <b>For date:</b>
+            <span ng-bind="vm.request.forDate ? (vm.request.forDate | date : 'MM/dd/yyyy H:mm a') : 'Now'"></span>
+          </div>
+          <div class="info-column">
+            <b>Address:</b>
+            <span ng-bind="vm.request.location.address"></span>
+          </div>
         </div>
       </div>
     </div>
     <md-divider class="divider"></md-divider>
     <div class="provider-info">
-      <div class="provider-info-title md-headline">Service provider</div>
+      <div class="title md-headline">Service provider</div>
       <div layout="row">
         <div>
           <div class="photo"

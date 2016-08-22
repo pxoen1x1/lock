@@ -528,6 +528,9 @@ $primary-color: rgb(3, 155, 229);
 
 .customer {
   .view-content {
+    .title {
+      margin-bottom: 15px;
+    }
     .map-wrapper {
       background: url('https://maps.gstatic.com/tactile/pane/spinner_color.gif');
       background-position: center center;
@@ -549,12 +552,9 @@ $primary-color: rgb(3, 155, 229);
       font-size: 18px;
     }
     .divider {
-      margin: 20px 0 20px 0;
+      margin: 30px 0 20px 0;
     }
     .provider-info {
-      .provider-info-title {
-        margin-bottom: 15px;
-      }
       .photo {
         width: 56px;
         height: 56px;
