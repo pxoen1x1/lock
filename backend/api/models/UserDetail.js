@@ -16,7 +16,7 @@ let UserDetail = {
         isPro: {
             type: 'boolean',
             required: true,
-            columnName: 'is_paid'
+            columnName: 'is_pro'
         },
 
         user: {
