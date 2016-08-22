@@ -38,8 +38,8 @@ let UserDetail = {
             via: 'userDetail'
         },
 
-        services: {
-            collection: 'Service',
+        serviceTypes: {
+            collection: 'ServiceType',
             via: 'userDetails',
             dominant: true
         },

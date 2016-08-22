@@ -2,8 +2,8 @@
 
 let serviceRoutes = {
     'GET /api/lists/services': {
-        controller: 'ServiceController',
-        action: 'getServices'
+        controller: 'ServiceTypeController',
+        action: 'getServiceTypes'
     }
 };
 
