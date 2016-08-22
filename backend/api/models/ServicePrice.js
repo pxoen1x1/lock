@@ -16,9 +16,9 @@ module.exports = {
         price: {
             type: 'float'
         },
-        procedure: {
-            model: 'Procedure',
-            columnName: 'procedure_id'
+        serviceName: {
+            type: 'string',
+            columnName: 'service_name'
         },
 
         userDetail: {
