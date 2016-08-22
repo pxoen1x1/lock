@@ -10,7 +10,7 @@
     /* @ngInject */
     function coreDataservice($http, request, conf) {
         var service = {
-            getServices: getServices,
+            getServiceTypes: getServiceTypes,
             getLanguages: getLanguages,
             getStates: getStates,
             getCities: getCities,
@@ -23,10 +23,10 @@
 
         return service;
 
-        function getServices() {
+        function getServiceTypes() {
 
             return request.httpWithTimeout({
-                url: conf.URL + 'lists/services',
+                url: conf.URL + 'lists/service-types',
                 method: 'GET',
                 withCredentials: false
             });
