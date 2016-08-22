@@ -17,7 +17,7 @@
 
         vm.request = {};
 
-        vm.selectedRequestId = $stateParams.id;
+        vm.selectedRequestId = $stateParams.requestId;
 
         activate();
 

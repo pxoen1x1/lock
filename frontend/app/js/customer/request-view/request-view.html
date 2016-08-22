@@ -1,6 +1,8 @@
 <div class="container request-content">
   <div class="container-title"><i class="material-icons">list</i> <span>Request</span></div>
   <div class="container-content">
-    Let's request details here.
+    <div>Service type: <span ng-bind="vm.request.service.name"></span></div>
+    <div>Location: <span ng-bind="vm.request.location.address"></span></div>
+    <div>Date: <span ng-bind="vm.request.forDate ? (vm.request.forDate | date : 'MM/dd/yyyy H:mm a') : 'Now'"></span></div>
   </div>
 </div>
