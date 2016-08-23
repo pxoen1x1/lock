@@ -5,7 +5,7 @@
         .module('app.customer')
         .controller('CustomerRequestMapController', CustomerRequestMapController);
 
-    CustomerRequestMapController.$inject = ['$q', '$stateParams', 'uiGmapIsReady', 'coreConstants',
+    CustomerRequestMapController.$inject = ['$stateParams', 'uiGmapIsReady', 'coreConstants',
         'customerDataservice', 'requestService'];
 
     /* @ngInject */
