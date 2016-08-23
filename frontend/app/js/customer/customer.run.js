@@ -5,13 +5,13 @@
         .module('app.customer')
         .run(customerRun);
 
-    customerRun.$inject = ['$rootScope', '$state', 'customerConstants'];
+    customerRun.$inject = ['$rootScope', 'customerConstants'];
 
     /* @ngInject */
-    function customerRun($rootScope, $state, customerConstants) {
+    function customerRun($rootScope, customerConstants) {
 
         $rootScope.$on('$stateChangeStart',
-            function (event, toState, toParams, fromState, fromParams) {
+            function (event, toState, toParams, fromState) {
 
                 var elem = angular.element(document.getElementsByClassName('content'));
                 var statesFlow = customerConstants.MENU_ITEMS.concat(customerConstants.REQUEST_TABBAR_ITEMS);
@@ -25,6 +25,5 @@
                 }
             }
         );
-
     }
 })();
