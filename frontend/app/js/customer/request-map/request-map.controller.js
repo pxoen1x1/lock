@@ -20,6 +20,14 @@
                     x: 15, y: 15
                 }
             },
+            events: {
+                mouseover: function (gMarker, eventName, model) {
+                    model.show = true;
+                },
+                mouseout: function (gMarker, eventName, model) {
+                    model.show = false;
+                }
+            },
             title: 'Your request',
             text: ''
         };
