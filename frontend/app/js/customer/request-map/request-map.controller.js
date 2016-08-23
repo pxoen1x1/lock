@@ -5,7 +5,7 @@
         .module('app.customer')
         .controller('CustomerRequestMapController', CustomerRequestMapController);
 
-    CustomerRequestMapController.$inject = ['$stateParams', 'uiGmapIsReady', 'coreConstants',
+    CustomerRequestMapController.$inject = ['$q', '$stateParams', 'uiGmapIsReady', 'coreConstants',
         'customerDataservice', 'requestService'];
 
     /* @ngInject */
@@ -55,7 +55,9 @@
                 longitude: null
             },
             options: {
-                streetViewControl: false
+                streetViewControl: false,
+                maxZoom: 18,
+                minZoom: 12
             },
             markers: [],
             zoom: 16,
