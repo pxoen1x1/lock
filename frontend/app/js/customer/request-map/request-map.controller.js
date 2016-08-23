@@ -5,11 +5,11 @@
         .module('app.customer')
         .controller('CustomerRequestMapController', CustomerRequestMapController);
 
-    CustomerRequestMapController.$inject = ['$q', '$stateParams', 'uiGmapIsReady', 'coreConstants',
+    CustomerRequestMapController.$inject = ['$stateParams', 'uiGmapIsReady', 'coreConstants',
         'customerDataservice', 'requestService'];
 
     /* @ngInject */
-    function CustomerRequestMapController($q, $stateParams, uiGmapIsReady, coreConstants,
+    function CustomerRequestMapController($stateParams, uiGmapIsReady, coreConstants,
                                           customerDataservice, requestService) {
         var promises = {
             findSpecialists: null
@@ -82,7 +82,7 @@
         function findSpecialists(gMarker) {
             if (vm.map.center.latitude === null && vm.map.center.longitude === null) {
 
-                return $q.reject();
+                return;
             }
 
             var bounds = gMarker.getBounds();
