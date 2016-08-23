@@ -11,6 +11,7 @@
     function customerDataservice($http, request, conf) {
         var service = {
             getAllRequests: getAllRequests,
+            getRequest: getRequest,
             createRequest: createRequest
         };
 
@@ -19,16 +20,24 @@
         function getAllRequests(params) {
 
             return request.httpWithTimeout({
-                url: conf.URL + 'user/requests',
+                url: conf.URL + 'client/requests',
                 method: 'GET',
                 params: params
+            });
+        }
+
+        function getRequest(selectedRequest) {
+
+            return request.httpWithTimeout({
+                url: conf.URL + 'client/requests/' + selectedRequest.id,
+                method: 'GET'
             });
         }
 
         function createRequest(newRequest) {
 
             return $http({
-                url: conf.URL + 'user/request',
+                url: conf.URL + 'client/request',
                 method: 'POST',
                 data: newRequest
             })
