@@ -8,7 +8,7 @@
     CustomerProfileController.$inject = ['$state', '$mdMedia'];
 
     /* @ngInject */
-    function CustomerProfileController($state, $mdMedia) {
+    function CustomerProfileController($state) {
         var vm = this;
 
         vm.dataSource = {
@@ -17,7 +17,7 @@
             verified: 1,
             email: "mrrobot@fsociety.org",
             phone: "+1 (123) 456-789-10",
-            card: "9142",
+            card: "9000 1234 5678 9142",
             join: {
                 date: "24 February 2016",
                 elapsed: "4 month 23 days"
@@ -32,6 +32,12 @@
             }
         };
 
-        vm.$mdMedia = $mdMedia;
+        vm.test = {};
+        vm.isEditing = false;
+        vm.saveEdited = saveEdited;
+
+        function saveEdited() {
+            vm.isEditing = false;
+        }
     }
 })();

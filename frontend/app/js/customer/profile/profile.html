@@ -1,46 +1,120 @@
-<div class="container profile-content">
+<div class="container profile-content"
+     ng-class="{'mobile': !$mdMedia('gt-xs')}">
   <div class="container-title"><i class="material-icons">person</i> <span>Profile</span></div>
   <div class="container-content">
-    <div layout="column" layout-gt-xs="row" layout-align-gt-xs="start start" layout-align="start center">
-      <div layout="column" class="profile-left">
-        <div class="avatar" ng-style="{'background-image': 'url('+vm.dataSource.photo+')'}"></div>
-        <div class="actions" layout="column" ng-show="vm.$mdMedia('gt-xs')">
-          <md-button class="md-button-blue" flex="100">Change photo</md-button>
-          <md-button class="md-button-blue" flex="100">Edit profile</md-button>
+    <div layout="column"
+         layout-gt-xs="row"
+         layout-align-gt-xs="start start"
+         layout-align="start center">
+      <div layout="row"
+           layout-gt-xs="column"
+           class="profile-left">
+        <div class="avatar"
+             ng-style="{'background-image': 'url('+vm.dataSource.photo+')'}"></div>
+        <div class="actions"
+             layout="column"
+              flex>
+          <md-button class="md-button-blue"
+                     flex="100"
+                    aria-label="Change photo">
+            Change photo
+          </md-button>
+          <md-button flex="100"
+                     ng-click="vm.isEditing ? vm.saveEdited() : vm.isEditing = true"
+                     ng-bind="vm.isEditing ? 'Save' : 'Edit profile'"
+                     aria-label="vm.isEditing ? 'Save' : 'Edit profile'"
+                     ng-class="{'md-raised md-warn':vm.isEditing, 'md-button-blue':!vm.isEditing}">
+          </md-button>
         </div>
       </div>
       <div layout="column" class="profile-right" flex layout-align="start center" layout-align-gt-xs="start start">
-        <h1 class="md-display-1">
-          <span class="vertical-middle" ng-bind="vm.dataSource.name"></span>
-          <i ng-if="vm.dataSource.verified" class="material-icons vertical-middle">verified_user</i>
-        </h1>
-        <div class="section">
-          <span class="md-body-2">Email:</span>
-          <span class="md-body-1" ng-bind="vm.dataSource.email"></span>
+        <div ng-hide="vm.isEditing">
+          <h1 class="md-display-1">
+            <span class="vertical-middle" ng-bind="vm.dataSource.name"></span>
+            <i ng-if="vm.dataSource.verified" class="material-icons vertical-middle">verified_user</i>
+          </h1>
+          <div class="section">
+            <span class="md-body-2">Email:</span>
+            <span class="md-body-1" ng-bind="vm.dataSource.email"></span>
+          </div>
+          <div class="section">
+            <span class="md-body-2">Phone:</span>
+            <span class="md-body-1" ng-bind="vm.dataSource.phone"></span>
+          </div>
+          <div class="section">
+            <span class="md-body-2">Credit card:</span>
+            <span class="md-body-1" ng-bind="vm.dataSource.card"></span>
+          </div>
+          <div class="section">
+            <span class="md-body-2">Joined:</span>
+            <span class="md-body-1" ng-bind="vm.dataSource.join.date"></span>
+            <span class="md-body-1" ng-show="$mdMedia('gt-xs')">({{vm.dataSource.join.elapsed}})</span>
+          </div>
+          <div class="section">
+            <span class="md-body-2">Requests:</span>
+            <span class="md-body-1" ng-bind="vm.dataSource.requests.total"></span>
+            <span class="md-body-1">({{vm.dataSource.requests.month}} this month)</span>
+          </div>
+          <div class="section">
+            <span class="md-body-2">Spent:</span>
+            <span class="md-body-1">${{vm.dataSource.spent.total}}</span>
+            <span class="md-body-1">(${{vm.dataSource.spent.total}} this month)</span>
+          </div>
         </div>
-        <div class="section">
-          <span class="md-body-2">Phone:</span>
-          <span class="md-body-1" ng-bind="vm.dataSource.phone"></span>
-        </div>
-        <div class="section">
-          <span class="md-body-2">Credit card:</span>
-          <span class="md-body-1">**** **** ****</span>
-          <span class="md-body-1" ng-bind="vm.dataSource.card"></span>
-        </div>
-        <div class="section">
-          <span class="md-body-2">Joined:</span>
-          <span class="md-body-1" ng-bind="vm.dataSource.join.date"></span>
-          <span class="md-body-1" ng-show="vm.$mdMedia('gt-xs')">({{vm.dataSource.join.elapsed}})</span>
-        </div>
-        <div class="section">
-          <span class="md-body-2">Requests:</span>
-          <span class="md-body-1" ng-bind="vm.dataSource.requests.total"></span>
-          <span class="md-body-1">({{vm.dataSource.requests.month}} this month)</span>
-        </div>
-        <div class="section">
-          <span class="md-body-2">Spent:</span>
-          <span class="md-body-1">${{vm.dataSource.spent.total}}</span>
-          <span class="md-body-1">(${{vm.dataSource.spent.total}} this month)</span>
+        <div ng-show="vm.isEditing">
+          <form name="editForm"
+                novalidate
+                ng-submit="vm.createUser(vm.dataSource, editForm.$valid)">
+            <p>Full name: <sup>*</sup></p>
+            <md-input-container class="md-block" flex>
+              <label>Full name</label>
+              <input name="fullName"
+                     required
+                     ng-maxlength="40"
+                     ng-model="vm.dataSource.name">
+            </md-input-container>
+            <p>Email: <sup>*</sup></p>
+            <md-input-container class="md-block" flex>
+              <label>Email</label>
+              <input name="email"
+                     required
+                     ng-model="vm.dataSource.email">
+            </md-input-container>
+            <p>Credit card: <sup>*</sup></p>
+            <md-input-container class="md-block" flex>
+              <label>Credit card</label>
+              <input name="card"
+                     required
+                     ng-model="vm.dataSource.card">
+            </md-input-container>
+            <p>Phone number:</p>
+            <md-input-container class="md-block" flex>
+              <label>Phone number</label>
+              <input type="tel"
+                     name="phoneNumber"
+                     ui-us-phone-number
+                     ng-model="vm.dataSource.phone">
+              <div ng-messages="editForm.phoneNumber.$error">
+                <span ng-message="usPhoneNumber">That doesn't look like a valid phone number.</span>
+              </div>
+            </md-input-container>
+            <p>Password:</p>
+            <div layout="row">
+              <md-input-container class="md-block" flex>
+                <label>Current password</label>
+                <input name="oldPass"
+                       ng-minlength="6"
+                       ng-model="vm.dataSource.oldPass">
+              </md-input-container>
+              <md-input-container class="md-block" flex>
+                <label>New password</label>
+                <input name="newPass"
+                       ng-minlength="6"
+                       ng-required="vm.dataSource.oldPass"
+                       ng-model="vm.dataSource.newPass">
+              </md-input-container>
+            </div>
+          </form>
         </div>
       </div>
     </div>
