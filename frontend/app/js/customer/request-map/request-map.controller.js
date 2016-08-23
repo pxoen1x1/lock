@@ -5,10 +5,15 @@
         .module('app.customer')
         .controller('CustomerRequestMapController', CustomerRequestMapController);
 
-    CustomerRequestMapController.$inject = ['$stateParams', 'uiGmapIsReady', 'coreConstants', 'requestService'];
+    CustomerRequestMapController.$inject = ['$q', '$stateParams', 'uiGmapIsReady', 'coreConstants',
+        'customerDataservice', 'requestService'];
 
     /* @ngInject */
-    function CustomerRequestMapController($stateParams, uiGmapIsReady, coreConstants, requestService) {
+    function CustomerRequestMapController($q, $stateParams, uiGmapIsReady, coreConstants,
+                                          customerDataservice, requestService) {
+        var promises = {
+            findSpecialists: null
+        };
         var requestLocationMarker = {
             icon: {
                 url: coreConstants.IMAGES.currentLocationMarker,
@@ -34,7 +39,7 @@
         var vm = this;
 
         vm.request = {};
-        vm.serviceproviders = [];
+        vm.specialsits = [];
 
         vm.selectedRequestId = $stateParams.requestId;
 
@@ -42,6 +47,9 @@
         vm.isAvailableSpecialistShown = false;
 
         vm.map = {
+            events: {
+                idle: findSpecialists
+            },
             center: {
                 latitude: null,
                 longitude: null
@@ -54,6 +62,46 @@
         };
 
         activate();
+
+        function findSpecialistsByParams(params) {
+            if (promises.findSpecialists) {
+
+                promises.findSpecialists.cancel();
+            }
+
+            promises.findSpecialists = customerDataservice.getSpecialists(params);
+
+            return promises.findSpecialists
+                .then(function (response) {
+
+                    return response.data.serviceProviders;
+                });
+
+        }
+
+        function findSpecialists(gMarker) {
+            if (vm.map.center.latitude === null && vm.map.center.longitude === null) {
+
+                return $q.reject();
+            }
+
+            var bounds = gMarker.getBounds();
+
+            var params = {
+                southWestLatitude: bounds.getSouthWest().lat(),
+                southWestLongitude: bounds.getSouthWest().lng(),
+                northEastLatitude: bounds.getNorthEast().lat(),
+                northEastLongitude: bounds.getNorthEast().lng(),
+                distance: vm.request.distance
+            };
+
+            return findSpecialistsByParams(params)
+                .then(function (specialists) {
+                    vm.specialsits = specialists;
+
+                    return vm.specialsits;
+                });
+        }
 
         function setMapCenter(latitude, longitude) {
             vm.map.center.latitude = latitude;
