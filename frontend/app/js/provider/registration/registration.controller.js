@@ -6,11 +6,11 @@
         .controller('ProviderRegistrationController', ProviderRegistrationController);
 
     ProviderRegistrationController.$inject = ['$q', '$state', 'coreDataservice', 'coreConstants', 'coreDictionary',
-        'serviceProviderConstant', 'serviceProviderDataservice', 'citiesLoader'];
+        'serviceProviderConstant', 'citiesLoader'];
 
     /* @ngInject */
     function ProviderRegistrationController($q, $state, coreDataservice, coreConstants, coreDictionary,
-                                            serviceProviderConstant, serviceProviderDataservice, citiesLoader) {
+                                            serviceProviderConstant, citiesLoader) {
         var promises = {
             getState: null
         };
