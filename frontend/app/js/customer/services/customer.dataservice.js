@@ -12,6 +12,7 @@
         var service = {
             getAllRequests: getAllRequests,
             getRequest: getRequest,
+            getSpecialists: getSpecialists,
             createRequest: createRequest
         };
 
@@ -31,6 +32,15 @@
             return request.httpWithTimeout({
                 url: conf.URL + 'client/requests/' + selectedRequest.id,
                 method: 'GET'
+            });
+        }
+
+        function getSpecialists(params) {
+
+            return request.httpWithTimeout({
+                url: conf.URL + 'specialists/find',
+                method: 'GET',
+                params: params
             });
         }
 
