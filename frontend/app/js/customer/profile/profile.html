@@ -13,10 +13,10 @@
              ng-style="{'background-image': 'url('+vm.dataSource.photo+')'}"></div>
         <div class="actions"
              layout="column"
-              flex>
+             flex>
           <md-button class="md-button-blue"
                      flex="100"
-                    aria-label="Change photo">
+                     aria-label="Change photo">
             Change photo
           </md-button>
           <md-button flex="100"
@@ -27,7 +27,11 @@
           </md-button>
         </div>
       </div>
-      <div layout="column" class="profile-right" flex layout-align="start center" layout-align-gt-xs="start start">
+      <div layout="column"
+           class="profile-right"
+           flex
+           layout-align="start center"
+           layout-align-gt-xs="start start">
         <div ng-hide="vm.isEditing">
           <h1 class="md-display-1">
             <span class="vertical-middle" ng-bind="vm.dataSource.name"></span>
