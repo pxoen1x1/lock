@@ -1,0 +1,43 @@
+<md-content class="md-default" layout="column" layout-align="start center">
+  <md-toolbar class="menu-header md-menu-toolbar md-whiteframe-1dp md-default-theme">
+    <div class="md-toolbar-tools">
+      <a ng-href="/specialist">
+        <div class="logo layout-align-start-center layout-row"
+             layout="row"
+             layout-align="start center">
+          <span class="logo-image">L</span> <span class="logo-text">Locksmith</span>
+        </div>
+      </a>
+    </div>
+  </md-toolbar>
+  <a class="profile"
+     layout="column"
+     layout-align="start center"
+     ui-sref="provider.profile"
+     ui-sref-active="active"
+     ng-click="vm.toggleMenu()">
+    <div class="photo" ng-style="{'background-image': 'url('+vm.dataSource.photo+')'}"></div>
+    <div class="name">
+      <i class="material-icons" ng-if="vm.dataSource.verified">
+        verified_user
+      </i>
+      <span ng-bind="vm.dataSource.name"></span>
+    </div>
+    <div class="email" ng-bind="vm.dataSource.email"></div>
+  </a>
+  <div class="navigation" layout="column">
+    <div class="navigation-item" ng-repeat="menuItem in vm.menuItems">
+      <a layout="row"
+         layout-align="start start"
+         ui-sref="{{menuItem}}"
+         ui-sref-active="active"
+         ng-click="vm.toggleMenu()">
+        <i class="material-icons"
+           ng-if="$state.get(menuItem).data.menu.icon"
+           ng-bind="$state.get(menuItem).data.menu.icon">
+        </i>
+        <span ng-bind="$state.get(menuItem).data.menu.title"></span>
+      </a>
+    </div>
+  </div>
+</md-content>

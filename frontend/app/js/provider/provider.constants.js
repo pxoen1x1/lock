@@ -3,7 +3,7 @@
 
     angular
         .module('app.provider')
-        .constant('serviceProviderConstant',{
+        .constant('serviceProviderConstants',{
             REGISTRATION_STEPS: [
                 {
                     id: 1,
@@ -25,6 +25,9 @@
                     templateUrl: 'provider/registration/registration-payments-information.html',
                     title: 'payments'
                 }
+            ],
+            MENU_ITEMS: [
+                'provider.requests'
             ]
         });
 })();
