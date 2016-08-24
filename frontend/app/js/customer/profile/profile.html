@@ -20,7 +20,7 @@
             Change photo
           </md-button>
           <md-button flex="100"
-                     ng-click="vm.isEditing ? vm.saveEdited() : vm.isEditing = true"
+                     ng-click="vm.isEditing ? vm.updateUser() : vm.isEditing = true"
                      ng-bind="vm.isEditing ? 'Save' : 'Edit profile'"
                      aria-label="vm.isEditing ? 'Save' : 'Edit profile'"
                      ng-class="{'md-raised md-warn':vm.isEditing, 'md-button-blue':!vm.isEditing}">
@@ -51,24 +51,25 @@
           </div>
           <div class="section">
             <span class="md-body-2">Joined:</span>
-            <span class="md-body-1" ng-bind="vm.dataSource.join.date"></span>
-            <span class="md-body-1" ng-show="$mdMedia('gt-xs')">({{vm.dataSource.join.elapsed}})</span>
+            <span class="md-body-1" ng-bind="vm.dataSource.joined.date | date : 'MM/dd/yyyy'"></span>
+            <span class="md-body-1" ng-bind="'('+vm.dataSource.joined.elapsed+')'">
+            </span>
           </div>
           <div class="section">
             <span class="md-body-2">Requests:</span>
             <span class="md-body-1" ng-bind="vm.dataSource.requests.total"></span>
-            <span class="md-body-1">({{vm.dataSource.requests.month}} this month)</span>
+            <span class="md-body-1" ng-bind="'('+vm.dataSource.requests.month+' this month)'"></span>
           </div>
           <div class="section">
             <span class="md-body-2">Spent:</span>
-            <span class="md-body-1">${{vm.dataSource.spent.total}}</span>
-            <span class="md-body-1">(${{vm.dataSource.spent.total}} this month)</span>
+            <span class="md-body-1" ng-bind="'$'+vm.dataSource.spent.total"></span>
+            <span class="md-body-1" ng-bind="'($'+vm.dataSource.spent.month+' this month)'"></span>
           </div>
         </div>
         <div ng-show="vm.isEditing">
           <form name="editForm"
                 novalidate
-                ng-submit="vm.createUser(vm.dataSource, editForm.$valid)">
+                ng-submit="vm.updateUser(vm.dataSource, editForm.$valid)">
             <p>Full name: <sup>*</sup></p>
             <md-input-container class="md-block" flex>
               <label>Full name</label>
