@@ -15,10 +15,10 @@
         vm.toggleMenu = toggleMenu;
 
         vm.dataSource = {
-            photo: "https://pp.vk.me/c604329/v604329073/1a33c/XhTVHpUbzGU.jpg",
-            name: "Elliot Alderson",
+            photo: 'https://s-media-cache-ak0.pinimg.com/736x/38/fd/d2/38fdd224b7674128ae34ed9138fa730f.jpg',
+            name: 'Tony Stark',
             verified: 1,
-            email: "mrrobot@fsociety.org"
+            email: 'tony@stark.com'
         };
 
         function toggleMenu() {

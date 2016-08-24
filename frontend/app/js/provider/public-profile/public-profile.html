@@ -1,7 +1,37 @@
-<div class="container profile-content"
+<div class="container public-profile-content"
      ng-class="{'mobile': !$mdMedia('gt-xs')}">
   <div class="container-title"><i class="material-icons">person</i> <span>Profile</span></div>
   <div class="container-content">
-    Public profile is here
+    <div layout="column"
+         layout-gt-xs="row">
+      <div flex="100"
+           flex-gt-xs="25">
+        <img class="avatar"
+             src="{{vm.dataSource.photo}}"
+             alt="photo"/>
+      </div>
+      <div flex-gt-xs="5"></div>
+      <div flex="100"
+           flex-gt-xs="70"
+           class="profile-right">
+        <div layout="row">
+          <div class="md-display-1">
+            <span class="vertical-middle" ng-bind="vm.dataSource.name"></span>
+            <i ng-if="vm.dataSource.verified" class="material-icons vertical-middle">verified_user</i>
+          </div>
+          <div class="public-profile-rating"
+               flex layout="row"
+               layout-align="end center">
+            <star-rating value="vm.dataSource.rating" readonly></star-rating>
+            <span class="divider">⋅</span>
+            <span ng-bind="vm.dataSource.rating"></span>
+          </div>
+        </div>
+        <div class="section">
+          <span class="md-body-2">Key:</span>
+          <span class="md-body-1">Value</span>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

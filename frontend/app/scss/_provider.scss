@@ -59,6 +59,9 @@ $primary-color: rgb(3, 155, 229);
   .text-center {
     text-align: center;
   }
+  .text-right {
+    text-align: right;
+  }
   .inline-block {
     display: inline-block;
   }
@@ -242,6 +245,41 @@ $primary-color: rgb(3, 155, 229);
     }
     .container-content p {
       font-weight: 600;
+    }
+  }
+}
+
+.provider {
+  .public-profile-content {
+    .avatar {
+      width: 100%;
+      -webkit-border-radius: 2px;
+      -moz-border-radius: 2px;
+      border-radius: 2px;
+    }
+    .profile-right h1 {
+      margin-top: 4px;
+    }
+    .profile-right .section {
+      padding: 10px 0 10px 0;
+    }
+    .section .md-body-1, .section .md-body-2 {
+      font-size: 16px;
+    }
+    .section .md-body-2 {
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+    .section .md-body-1 {
+      padding-left: 5px;
+    }
+    .public-profile-rating {
+      line-height: 15px;
+      color: $primary-color;
+      font-size: 20px;
+    }
+    .public-profile-rating .divider {
+      padding: 0 4px 0 4px;
     }
   }
 }
