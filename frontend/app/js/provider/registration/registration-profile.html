@@ -109,10 +109,10 @@
       <md-select role="listbox"
                  name="state"
                  required
-                 ng-change="vm.resetSelectedCity(vm.user.address.state); vm.getCities(vm.user.address.state)"
+                 ng-change="vm.resetSelectedCity(); vm.getCities(vm.user.address.state.id)"
                  ng-model="vm.user.address.state">
         <md-option ng-repeat="state in vm.states track by state.id"
-                   ng-value="state.id">
+                   ng-value="state">
           <span ng-bind="::state.state"></span>
         </md-option>
       </md-select>
@@ -132,18 +132,18 @@
                    class="cities-select"
                    required
                    md-select-infinite-scroll
-                   on-scroll="vm.getCities(vm.user.address.state, vm.searchCity)"
+                   on-scroll="vm.getCities(vm.user.address.state.id, vm.searchCity)"
                    ng-model="vm.user.address.city">
           <md-select-header>
             <input type="search"
                    placeholder="Search for a city.."
-                   ng-change="vm.getCities(vm.user.address.state, vm.searchCity)"
+                   ng-change="vm.getCities(vm.user.address.state.id, vm.searchCity)"
                    ng-model-options="{ debounce: 400 }"
                    ng-model="vm.searchCity">
           </md-select-header>
           <md-optgroup label="cities">
             <md-option ng-repeat="city in vm.cities | filter: vm.searchCity track by city.id"
-                       ng-value="city.id">
+                       ng-value="city">
               <span ng-bind="city.city"></span>
             </md-option>
           </md-optgroup>
