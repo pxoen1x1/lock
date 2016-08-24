@@ -1,0 +1,11 @@
+<div class="container profile-content"
+     ng-class="{'mobile': !$mdMedia('gt-xs')}">
+  <div class="container-title"><i class="material-icons">person</i> <span>Profile</span></div>
+  <div class="container-content">
+    <button class="md-button md-raised md-primary"
+            ui-sref="provider.profile.public({'profileId':1})"
+            aria-label="Public Profile">
+      Public profile
+    </button>
+  </div>
+</div>
