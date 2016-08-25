@@ -24,6 +24,11 @@ let UserDetail = {
             unique: true,
             columnName: 'user_id'
         },
+        location: {
+            model: 'Location',
+            unique: true,
+            columnName: 'location_id'
+        },
 
         license: {
             collection: 'License',
