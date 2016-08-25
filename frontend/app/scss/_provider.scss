@@ -251,35 +251,77 @@ $primary-color: rgb(3, 155, 229);
 
 .provider {
   .public-profile-content {
-    .avatar {
-      width: 100%;
-      -webkit-border-radius: 2px;
-      -moz-border-radius: 2px;
-      border-radius: 2px;
-    }
-    .profile-right h1 {
-      margin-top: 4px;
-    }
-    .profile-right .section {
-      padding: 10px 0 10px 0;
-    }
-    .section .md-body-1, .section .md-body-2 {
-      font-size: 16px;
-    }
-    .section .md-body-2 {
-      text-transform: uppercase;
-      font-weight: 600;
-    }
-    .section .md-body-1 {
-      padding-left: 5px;
-    }
-    .public-profile-rating {
-      line-height: 15px;
-      color: $primary-color;
-      font-size: 20px;
-    }
-    .public-profile-rating .divider {
+    .divider-dot {
       padding: 0 4px 0 4px;
+    }
+    .public-profile-overview {
+      .avatar {
+        width: 100%;
+        max-width: 280px;
+        -webkit-border-radius: 3px;
+        -moz-border-radius: 3px;
+        border-radius: 3px;
+      }
+      .profile-right h1 {
+        margin-top: 4px;
+      }
+      .profile-right .section {
+        padding: 10px 0 10px 0;
+      }
+      .section .md-body-1, .section .md-body-2 {
+        font-size: 16px;
+      }
+      .section .md-body-2 {
+        text-transform: uppercase;
+        font-weight: 600;
+      }
+      .section .md-body-1 {
+        padding-left: 5px;
+      }
+      .public-profile-rating {
+        line-height: 15px;
+        font-size: 20px;
+      }
+      .public-profile-rating .star-rating {
+        color: #444;
+      }
+    }
+    .public-profile-feedbacks {
+      .feedback {
+        padding: 2px 10px 22px 10px;
+      }
+      .feedback {
+        .avatar {
+          width: 54px;
+          -webkit-border-radius: 50%;
+          -moz-border-radius: 50%;
+          border-radius: 50%;
+        }
+        .divider {
+          width: 12px;
+        }
+        .star-rating {
+          color: #444;
+        }
+        .star-rating.no-text {
+          line-height: 30px;
+        }
+        .text {
+          padding-top: 2px;
+        }
+      }
+    }
+  }
+  .public-profile-content.mobile {
+    .public-profile-overview {
+      .avatar {
+        -webkit-border-radius: 50%;
+        -moz-border-radius: 50%;
+        border-radius: 50%;
+      }
+      .public-profile-rating {
+        padding: 10px 0 10px 0;
+      }
     }
   }
 }

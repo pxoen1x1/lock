@@ -1,36 +1,62 @@
 <div class="container public-profile-content"
-     ng-class="{'mobile': !$mdMedia('gt-xs')}">
+     ng-class="{'mobile': $mdMedia('xs')}">
   <div class="container-title"><i class="material-icons">person</i> <span>Profile</span></div>
-  <div class="container-content">
-    <div layout="column"
-         layout-gt-xs="row">
-      <div flex="100"
-           flex-gt-xs="25">
-        <img class="avatar"
-             src="{{vm.dataSource.photo}}"
-             alt="photo"/>
+  <div class="container-content public-profile-overview"
+       layout="column"
+       layout-gt-xs="row"
+       layout-align="start center"
+       layout-align-gt-xs="start start">
+    <div flex-gt-xs="25">
+      <img class="avatar"
+           src="{{vm.profileData.photo}}"
+           alt="photo"/>
+    </div>
+    <div flex-gt-xs="5"></div>
+    <div flex-gt-xs="70"
+         class="profile-right">
+      <div layout="column" layout-gt-xs="row">
+        <div class="md-display-1">
+          <span class="vertical-middle" ng-bind="vm.profileData.name"></span>
+          <i ng-if="vm.profileData.verified" class="material-icons vertical-middle">verified_user</i>
+        </div>
+        <div class="public-profile-rating"
+             flex
+             layout="row"
+             layout-align="center center"
+             layout-align-gt-xs="end center">
+          <star-rating value="vm.profileData.rating" readonly></star-rating>
+          <span class="divider-dot">⋅</span>
+          <span ng-bind="vm.profileData.rating"></span>
+        </div>
       </div>
-      <div flex-gt-xs="5"></div>
-      <div flex="100"
-           flex-gt-xs="70"
-           class="profile-right">
-        <div layout="row">
-          <div class="md-display-1">
-            <span class="vertical-middle" ng-bind="vm.dataSource.name"></span>
-            <i ng-if="vm.dataSource.verified" class="material-icons vertical-middle">verified_user</i>
-          </div>
-          <div class="public-profile-rating"
-               flex layout="row"
-               layout-align="end center">
-            <star-rating value="vm.dataSource.rating" readonly></star-rating>
-            <span class="divider">⋅</span>
-            <span ng-bind="vm.dataSource.rating"></span>
-          </div>
-        </div>
-        <div class="section">
-          <span class="md-body-2">Key:</span>
-          <span class="md-body-1">Value</span>
-        </div>
+      <div class="section">
+        <span class="md-body-2">Key:</span>
+        <span class="md-body-1">Value</span>
+      </div>
+    </div>
+  </div>
+  <div class="container-title">
+    <i class="material-icons">star</i>
+    <span>Feedbacks</span>
+    <span class="divider-dot">⋅</span>
+    <span class="md-title" ng-bind="vm.feedbackData.count"></span>
+  </div>
+  <div class="container-content public-profile-feedbacks"
+       layout="column">
+    <div class="feedback"
+         layout="row"
+         ng-repeat="feedback in vm.feedbackData.items track by $index">
+      <div>
+        <img class="avatar" src="{{feedback.photo}}" alt="photo"/>
+      </div>
+      <div class="divider"></div>
+      <div layout="column" flex>
+        <div class="md-subhead" ng-bind="feedback.name"></div>
+        <star-rating value="feedback.rate"
+                     readonly
+                     ng-class="{'no-text': !feedback.text}">
+        </star-rating>
+        <div class="md-body-1 text" ng-bind="feedback.text"></div>
       </div>
     </div>
   </div>
