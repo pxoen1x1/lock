@@ -6,11 +6,11 @@
         .controller('CustomerRequestMapController', CustomerRequestMapController);
 
     CustomerRequestMapController.$inject = ['$stateParams', 'uiGmapIsReady', 'coreConstants',
-        'customerDataservice', 'requestService'];
+        'customerDataservice', 'requestService', 'geocoderService'];
 
     /* @ngInject */
     function CustomerRequestMapController($stateParams, uiGmapIsReady, coreConstants,
-                                          customerDataservice, requestService) {
+                                          customerDataservice, requestService, geocoderService) {
         var promises = {
             findSpecialists: null
         };
@@ -41,6 +41,7 @@
         vm.request = {};
         vm.specialsits = [];
 
+        vm.boundsOfDistance = {};
         vm.selectedRequestId = $stateParams.requestId;
 
         vm.isSpecialistCardShown = false;
@@ -56,8 +57,8 @@
             },
             options: {
                 streetViewControl: false,
-                maxZoom: 18,
-                minZoom: 12
+                maxZoom: 21,
+                minZoom: 7
             },
             markers: [],
             zoom: 16,
@@ -89,12 +90,25 @@
 
             var bounds = gMarker.getBounds();
 
+            var boundsSouthWestLatitude = bounds.getSouthWest().lat();
+            var boundsSouthWestLongitude = bounds.getSouthWest().lng();
+            var boundsNorthEastLatitude = bounds.getNorthEast().lat();
+            var boundsNorthEastLongitude = bounds.getNorthEast().lng();
+
+            var selectedSouthWestLatitude = (boundsSouthWestLatitude < vm.boundsOfDistance.southWest.latitude) ?
+                vm.boundsOfDistance.southWest.latitude : boundsSouthWestLatitude;
+            var selectedSouthWestLongitude = (boundsSouthWestLongitude < vm.boundsOfDistance.southWest.longitude) ?
+                vm.boundsOfDistance.southWest.longitude : boundsSouthWestLongitude;
+            var selectedNorthEastLatitude = (boundsNorthEastLatitude > vm.boundsOfDistance.northEast.latitude) ?
+                vm.boundsOfDistance.northEast.latitude : boundsNorthEastLatitude;
+            var selectedNorthEastLongitude = (boundsNorthEastLongitude > vm.boundsOfDistance.northEast.longitude) ?
+                vm.boundsOfDistance.northEast.longitude : boundsNorthEastLongitude;
+
             var params = {
-                southWestLatitude: bounds.getSouthWest().lat(),
-                southWestLongitude: bounds.getSouthWest().lng(),
-                northEastLatitude: bounds.getNorthEast().lat(),
-                northEastLongitude: bounds.getNorthEast().lng(),
-                distance: vm.request.distance
+                southWestLatitude: selectedSouthWestLatitude,
+                southWestLongitude: selectedSouthWestLongitude,
+                northEastLatitude: selectedNorthEastLatitude,
+                northEastLongitude: selectedNorthEastLongitude
             };
 
             return findSpecialistsByParams(params)
@@ -125,6 +139,12 @@
                     requestLocationMarker.text = vm.request.location.address;
 
                     vm.map.markers.push(requestLocationMarker);
+
+                    vm.boundsOfDistance = geocoderService.getBoundsOfDistance(
+                        vm.request.location.latitude,
+                        vm.request.location.longitude,
+                        vm.request.distance
+                    );
 
                     setMapCenter(vm.request.location.latitude, vm.request.location.longitude);
                 });

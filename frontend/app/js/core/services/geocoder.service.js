@@ -5,14 +5,15 @@
         .module('app.core')
         .factory('geocoderService', geocoderService);
 
-    geocoderService.$inject = ['$q', '$window', 'uiGmapGoogleMapApi'];
+    geocoderService.$inject = ['$q', '$window', 'uiGmapGoogleMapApi', 'coreConstants'];
 
-    function geocoderService($q, $window, uiGmapGoogleMapApi) {
+    function geocoderService($q, $window, uiGmapGoogleMapApi, coreConstants) {
 
         var service = {
             getCurrentCoordinates: getCurrentCoordinates,
             getCoordinates: getCoordinates,
-            getLocation: getLocation
+            getLocation: getLocation,
+            getBoundsOfDistance: getBoundsOfDistance
         };
 
         return service;
@@ -85,6 +86,68 @@
             });
 
             return deferred.promise;
+        }
+
+        function getBoundsOfDistance(latitude, longitude, distance) {
+            var bounds = {};
+            bounds.northEast = {};
+            bounds.southWest = {};
+
+            var radLat = convertToRadian(latitude);
+            var radLon = convertToRadian(longitude);
+            var radius = coreConstants.DISTANCE.earthRadius * coreConstants.DISTANCE.toMile;
+
+            var radDist = distance / radius;
+            var minLat = radLat - radDist;
+            var maxLat = radLat + radDist;
+
+            var MAX_LAT_RAD = convertToRadian(90);
+            var MIN_LAT_RAD = convertToRadian(-90);
+            var MAX_LON_RAD = convertToRadian(180);
+            var MIN_LON_RAD = convertToRadian(-180);
+
+            var PI_X2 = Math.PI * 2;
+
+            var minLon;
+            var maxLon;
+
+            if (minLat > MIN_LAT_RAD && maxLat < MAX_LAT_RAD) {
+                var deltaLon = Math.asin(Math.sin(radDist) / Math.cos(radLat));
+                minLon = radLon - deltaLon;
+
+                if (minLon < MIN_LON_RAD) {
+                    minLon += PI_X2;
+                }
+
+                maxLon = radLon + deltaLon;
+
+                if (maxLon > MAX_LON_RAD) {
+                    maxLon -= PI_X2;
+                }
+
+            } else {
+                // A pole is within the distance.
+                minLat = Math.max(minLat, MIN_LAT_RAD);
+                maxLat = Math.min(maxLat, MAX_LAT_RAD);
+                minLon = MIN_LON_RAD;
+                maxLon = MAX_LON_RAD;
+            }
+
+            bounds.southWest.latitude = convertToDeg(minLat);
+            bounds.southWest.longitude = convertToDeg(minLon);
+            bounds.northEast.latitude = convertToDeg(maxLat);
+            bounds.northEast.longitude = convertToDeg(maxLon);
+
+            return bounds;
+        }
+
+        function convertToRadian(deg) {
+
+            return deg * Math.PI / 180;
+        }
+
+        function convertToDeg(rad) {
+            return rad * 180 / Math.PI;
         }
     }
 })();
