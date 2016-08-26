@@ -9,6 +9,10 @@ let requestRoutes = {
         controller: 'RequestController',
         action: 'getClientRequestById'
     },
+    'GET /api/specialists/find': {
+        controller: 'UserController',
+        action: 'findServiceProviders'
+    },
     'POST /api/client/request': {
         controller: 'RequestController',
         action: 'create'
