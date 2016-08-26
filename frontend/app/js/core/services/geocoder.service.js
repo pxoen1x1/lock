@@ -13,7 +13,8 @@
             getCurrentCoordinates: getCurrentCoordinates,
             getCoordinates: getCoordinates,
             getLocation: getLocation,
-            getBoundsOfDistance: getBoundsOfDistance
+            getBoundsOfDistance: getBoundsOfDistance,
+            getDistance: getDistance
         };
 
         return service;
@@ -139,6 +140,24 @@
             bounds.northEast.longitude = convertToDeg(maxLon);
 
             return bounds;
+        }
+
+        function getDistance(latitude1, longitude1, latitude2, longitude2) {
+            var radius = coreConstants.DISTANCE.earthRadius * coreConstants.DISTANCE.toMile;
+
+            var radLat1 = convertToRadian(latitude1);
+            var radLat2 = convertToRadian(latitude2);
+            var dLat = radLat2 - radLat1;
+            var dLon = convertToRadian(longitude2 - longitude1);
+
+            var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                Math.cos(radLat1) * Math.cos(radLat2) *
+                Math.sin(dLon / 2) * Math.sin(dLon / 2);
+            var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+            var distance = radius * c;
+
+            return distance;
         }
 
         function convertToRadian(deg) {
