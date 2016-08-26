@@ -57,6 +57,9 @@ h2.page-name {
 }
 
 .login-dialog, .invite-dialog {
+  .md-input-messages-animation {
+    max-width: 200px;
+  }
   md-dialog-actions {
     padding-left: 0;
   }
