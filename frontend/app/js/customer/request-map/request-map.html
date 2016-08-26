@@ -53,10 +53,12 @@
               </star-rating>
             </div>
             <div class="md-subhead" layout="row" layout-align="start center">
-              <span ng-bind=" + ' miles away'"></span>
-              <div class="m-w-xs">-</div>
+              <div ng-if="vm.selectedSpecialist.distance">
+                <span ng-bind="vm.selectedSpecialist.distance | number : 2"></span>
+                <span>miles away</span>
+              </div>
               <div ng-if="vm.selectedSpecialist.details.workingHours">
-                <span>Working hours:</span>
+                <span class="m-l-xs">- Working hours:</span>
                 <span ng-bind="vm.selectedSpecialist.details.workingHours.timeFrom | date: 'HH:mm a'"></span> -
                 <span ng-bind="vm.selectedSpecialist.details.workingHours.timeTo | date: 'HH:mm a'"></span>
               </div>

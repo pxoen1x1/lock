@@ -153,7 +153,7 @@
                 vm.request.location.latitude,
                 vm.request.location.longitude,
                 model.control.details.location.latitude,
-                model.control.details.longitude
+                model.control.details.location.longitude
             );
 
             vm.isSpecialistCardShown = false;
