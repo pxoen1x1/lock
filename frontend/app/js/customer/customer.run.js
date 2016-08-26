@@ -5,10 +5,10 @@
         .module('app.customer')
         .run(customerRun);
 
-    customerRun.$inject = ['$rootScope', '$state', 'customerConstants'];
+    customerRun.$inject = ['$rootScope', 'customerConstants'];
 
     /* @ngInject */
-    function customerRun($rootScope, $state, customerConstants) {
+    function customerRun($rootScope, customerConstants) {
 
         $rootScope.$on('$stateChangeStart',
             function (event, toState, toParams, fromState, fromParams) {

@@ -51,7 +51,12 @@ h2.page-name {
   }
 }
 
-.login-dialog {
+.md-button[disabled] {
+  background-color: #f0f0f0 !important;
+  color: rgba(0, 0, 0, 0.26) !important;
+}
+
+.login-dialog, .invite-dialog {
   md-dialog-actions {
     padding-left: 0;
   }
