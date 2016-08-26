@@ -8,34 +8,37 @@
          layout-align="start center">
       <div layout="row"
            layout-gt-xs="column"
-           class="profile-left">
-        <div class="avatar"
-             ng-style="{'background-image': 'url('+vm.dataSource.photo+')'}"></div>
+           layout-align="start center"
+           layout-align-gt-xs="start start"
+           class="profile-left"
+           flex-gt-xs="25">
+        <div>
+          <img class="avatar" src="{{vm.dataSource.photo}}" alt="photo"/>
+        </div>
+        <div flex="5"></div>
         <div class="actions"
-             layout="column"
-             flex>
+             layout="column">
           <md-button class="md-button-blue"
-                     flex="100"
                      aria-label="Change photo">
             Change photo
           </md-button>
-          <md-button flex="100"
-                     ng-click="vm.isEditing ? vm.updateUser() : vm.isEditing = true"
+          <md-button ng-click="vm.isEditing ? vm.updateUser() : vm.isEditing = true"
                      ng-bind="vm.isEditing ? 'Save' : 'Edit profile'"
                      aria-label="vm.isEditing ? 'Save' : 'Edit profile'"
                      ng-class="{'md-raised md-warn':vm.isEditing, 'md-button-blue':!vm.isEditing}">
           </md-button>
         </div>
       </div>
+      <div flex-gt-xs="5"></div>
       <div layout="column"
            class="profile-right"
-           flex
            layout-align="start center"
-           layout-align-gt-xs="start start">
+           layout-align-gt-xs="start start"
+            flex-gt-xs="70">
         <div ng-hide="vm.isEditing">
           <h1 class="md-display-1">
             <span class="vertical-middle" ng-bind="vm.dataSource.name"></span>
-            <i ng-if="vm.dataSource.verified" class="material-icons vertical-middle">verified_user</i>
+            <i ng-if="vm.dataSource.verified" class="material-icons vertical-middle verified">verified_user</i>
           </h1>
           <div class="section">
             <span class="md-body-2">Email:</span>
