@@ -4,16 +4,6 @@
       <i class="material-icons">location_on</i>
       <span>Map</span>
     </div>
-    <div class="actions"
-         flex
-         layout="row"
-         layout-align="end center">
-      <md-checkbox
-          aria-label="Show only available"
-          ng-click="vm.isAvailableSpecialistShown = !vm.isAvailableSpecialistShown">
-        Show only available
-      </md-checkbox>
-    </div>
   </div>
   <div class="container-content">
     <div class="map-wrapper">
@@ -21,6 +11,15 @@
                           zoom="vm.map.zoom"
                           options="vm.map.options"
                           events="vm.map.events">
+
+        <ui-gmap-marker idkey="'specialist' + specialist.id"
+                        coords="specialist.details.location"
+                        options="vm.map.specialistMarker.options"
+                        fit="false"
+                        control="specialist"
+                        events="vm.map.specialistMarker.events"
+                        ng-repeat="specialist in vm.specialists track by specialist.id">
+        </ui-gmap-marker>
 
         <ui-gmap-markers models="vm.map.markers"
                          coords="'self'"
@@ -34,36 +33,37 @@
       </ui-gmap-google-map>
 
       <div class="list card map-card"
-           ng-class="{'show':vm.isSpecialistCardShown}"
+           ng-class="{ 'show': vm.isSpecialistCardShown }"
            ng-show="vm.isSpecialistCardShown">
         <div class="map-card-provider" layout="row">
           <div class="right">
             <div class="photo"
-                 ng-style="{'background-image': 'url('+vm.selectedProvider.photo+')'}">
+                 ng-style="{'background-image': 'url('+ vm.selectedSpecialist.portrait +')'}">
             </div>
           </div>
           <div class="left" flex>
             <div>
               <span class="md-headline"
-                    ng-bind="vm.selectedProvider.name">
+                    ng-bind="vm.selectedSpecialist.fullName">
               </span>
               <span class="md-subhead"> · </span>
               <star-rating class="inline-block md-body-1"
-                           value="vm.selectedProvider.rating"
+                           value="vm.selectedSpecialist.details.rating"
                            readonly>
               </star-rating>
             </div>
-            <div>
-              <span class="md-subhead">
-                <span ng-bind="vm.selectedProvider.distance+' miles away'"></span>
-                <span>· Working hours:</span>
-                <span ng-bind="vm.selectedProvider.working.from | date: 'HH:mm a'"></span> -
-                <span ng-bind="vm.selectedProvider.working.to | date: 'HH:mm a'"></span>
-              </span>
+            <div class="md-subhead" layout="row" layout-align="start center">
+              <span ng-bind=" + ' miles away'"></span>
+              <div class="m-w-xs">-</div>
+              <div ng-if="vm.selectedSpecialist.details.workingHours">
+                <span>Working hours:</span>
+                <span ng-bind="vm.selectedSpecialist.details.workingHours.timeFrom | date: 'HH:mm a'"></span> -
+                <span ng-bind="vm.selectedSpecialist.details.workingHours.timeTo | date: 'HH:mm a'"></span>
+              </div>
             </div>
             <div class="md-subhead status"
-                 ng-class="{'not-available': !vm.selectedProvider.available}"
-                 ng-bind="vm.selectedProvider.available ? 'available':'not available now'">
+                 ng-class="{ 'not-available': !vm.selectedSpecialist.details.isAvailable }"
+                 ng-bind="vm.selectedSpecialist.details.isAvailable ? 'available' : 'not available now'">
             </div>
           </div>
 
@@ -76,7 +76,7 @@
           </div>
 
           <div class="close"
-               ng-click="vm.isSpecialistCardShown = !vm.isSpecialistCardShown">
+               ng-click="vm.isSpecialistCardShown = false">
             <i class="material-icons">close</i>
           </div>
         </div>

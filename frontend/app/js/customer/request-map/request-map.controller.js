@@ -5,11 +5,11 @@
         .module('app.customer')
         .controller('CustomerRequestMapController', CustomerRequestMapController);
 
-    CustomerRequestMapController.$inject = ['$stateParams', 'uiGmapIsReady', 'coreConstants',
+    CustomerRequestMapController.$inject = ['$timeout', '$stateParams', 'uiGmapIsReady', 'coreConstants',
         'customerDataservice', 'requestService', 'geocoderService'];
 
     /* @ngInject */
-    function CustomerRequestMapController($stateParams, uiGmapIsReady, coreConstants,
+    function CustomerRequestMapController($timeout, $stateParams, uiGmapIsReady, coreConstants,
                                           customerDataservice, requestService, geocoderService) {
         var promises = {
             findSpecialists: null
@@ -22,7 +22,8 @@
                     height: 30
                 },
                 anchor: {
-                    x: 15, y: 15
+                    x: 15,
+                    y: 15
                 }
             },
             events: {
@@ -39,13 +40,13 @@
         var vm = this;
 
         vm.request = {};
-        vm.specialsits = [];
+        vm.selectedSpecialist = {};
+        vm.specialists = [];
 
         vm.boundsOfDistance = {};
         vm.selectedRequestId = $stateParams.requestId;
 
         vm.isSpecialistCardShown = false;
-        vm.isAvailableSpecialistShown = false;
 
         vm.map = {
             events: {
@@ -60,9 +61,26 @@
                 maxZoom: 21,
                 minZoom: 7
             },
+            specialistMarker: {
+                options: {
+                    icon: {
+                        url: '/images/map-marker-locksmith.png',
+                        scaledSize: {
+                            width: 50,
+                            height: 50
+                        }
+                    },
+                    animation: 2
+                },
+                events: {
+                    click: showSelectedSpecialistInfo
+                }
+            },
             markers: [],
             zoom: 16,
         };
+
+        vm.showSelectedSpecialistInfo = showSelectedSpecialistInfo;
 
         activate();
 
@@ -104,24 +122,48 @@
             var selectedNorthEastLongitude = (boundsNorthEastLongitude > vm.boundsOfDistance.northEast.longitude) ?
                 vm.boundsOfDistance.northEast.longitude : boundsNorthEastLongitude;
 
-            var params = {
-                southWestLatitude: selectedSouthWestLatitude,
-                southWestLongitude: selectedSouthWestLongitude,
-                northEastLatitude: selectedNorthEastLatitude,
-                northEastLongitude: selectedNorthEastLongitude
-            };
+            var params = {};
+
+            params.southWestLatitude = selectedSouthWestLatitude;
+            params.southWestLongitude = selectedSouthWestLongitude;
+            params.northEastLatitude = selectedNorthEastLatitude;
+            params.northEastLongitude = selectedNorthEastLongitude;
+            params.isAllShown = vm.request.forDate ? true : null;
 
             return findSpecialistsByParams(params)
                 .then(function (specialists) {
-                    vm.specialsits = specialists;
+                    vm.specialists = specialists;
 
-                    return vm.specialsits;
+                    return vm.specialists;
                 });
         }
 
         function setMapCenter(latitude, longitude) {
             vm.map.center.latitude = latitude;
             vm.map.center.longitude = longitude;
+        }
+
+        function showSelectedSpecialistInfo(marker, eventName, model) {
+            if (!model.control || Object.keys(model.control).length === 0) {
+
+                return;
+            }
+
+            var distance = geocoderService.getDistance(
+                vm.request.location.latitude,
+                vm.request.location.longitude,
+                model.control.details.location.latitude,
+                model.control.details.longitude
+            );
+
+            vm.isSpecialistCardShown = false;
+
+            $timeout(function () {
+                vm.selectedSpecialist = model.control;
+                vm.selectedSpecialist.distance = distance;
+
+                vm.isSpecialistCardShown = true;
+            }, 200);
         }
 
         function activate() {
