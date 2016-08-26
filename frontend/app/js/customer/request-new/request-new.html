@@ -184,8 +184,13 @@
               </md-input-container>
               <md-input-container class="md-block" flex="60">
                 <label>Provider distance (km)</label>
-                <input name="distance"
+                <input type="number"
+                       name="distance"
+                       ng-max="100"
                        ng-model="vm.request.distance">
+                <div ng-messages="requestForm.distance.$error">
+                  <div ng-message="max">The maximum distance is 100 miles.</div>
+                </div>
               </md-input-container>
             </div>
           </div>
