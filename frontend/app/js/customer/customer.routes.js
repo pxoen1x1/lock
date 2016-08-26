@@ -201,7 +201,7 @@
                 reloadOnSearch: false,
                 data: {
                     menu: {
-                        title: 'Invite',
+                        title: 'Invite a friend',
                         icon: 'message'
                     }
                 }
