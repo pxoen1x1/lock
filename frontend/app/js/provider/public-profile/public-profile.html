@@ -14,10 +14,13 @@
     <div flex-gt-xs="5"></div>
     <div flex-gt-xs="70"
          class="profile-right">
-      <div layout="column" layout-gt-xs="row">
+      <div layout="column"
+           layout-gt-xs="row"
+           layout-align="center center"
+           layout-align-gt-xs="start center">
         <div class="md-display-1">
           <span class="vertical-middle" ng-bind="vm.profileData.name"></span>
-          <i ng-if="vm.profileData.verified" class="material-icons vertical-middle">verified_user</i>
+          <i ng-if="vm.profileData.verified" class="material-icons vertical-middle verified">verified_user</i>
         </div>
         <div class="public-profile-rating"
              flex
@@ -29,9 +32,20 @@
           <span ng-bind="vm.profileData.rating"></span>
         </div>
       </div>
+      <div class="section first">
+        <span class="md-body-2">Requests done:</span>
+        <span class="md-body-1" ng-bind="vm.profileData.requestsDone"></span>
+      </div>
       <div class="section">
-        <span class="md-body-2">Key:</span>
-        <span class="md-body-1">Value</span>
+        <span class="md-body-2">Working hours:</span>
+        <span class="md-body-1" ng-bind="'from '+(vm.profileData.workingHours.from | date: 'hh:mm a')+' to '+(vm.profileData.workingHours.to | date: 'hh:mm a')"></span>
+      </div>
+      <div class="section">
+        <span class="md-body-2">Services:</span>
+        <span class="md-body-1"
+              ng-repeat="service in vm.profileData.services track by $index"
+              ng-bind="service.name+' ($'+service.price+')'+($index != vm.profileData.services.length-1 ? ',':'')">
+        </span>
       </div>
     </div>
   </div>
@@ -51,10 +65,9 @@
       </div>
       <div class="divider"></div>
       <div layout="column" flex>
-        <div class="md-subhead" ng-bind="feedback.name"></div>
+        <div class="md-subhead primary-color" ng-bind="feedback.name"></div>
         <star-rating value="feedback.rate"
-                     readonly
-                     ng-class="{'no-text': !feedback.text}">
+                     readonly>
         </star-rating>
         <div class="md-body-1 text" ng-bind="feedback.text"></div>
       </div>
