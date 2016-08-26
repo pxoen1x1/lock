@@ -117,50 +117,63 @@ let UserService = {
                             updatedAt: user.updatedAt
                         };
 
+                        if(!user.detailsId) {
+
+                            return result;
+                        }
+
                         result.details = {
                             id: user.detailsId,
                             isAvailable: user.detailsIsAvailable,
                             isPro: user.detailsIsPro
                         };
 
-                        result.details.addresses = {
-                            id: user.addressId,
-                            address: user.addressAddress,
-                            zip: user.addressZip
-                        };
+                        if (user.addressId) {
+                            result.details.addresses = {
+                                id: user.addressId,
+                                address: user.addressAddress,
+                                zip: user.addressZip
+                            };
 
-                        result.details.addresses.city = {
-                            id: user.cityId,
-                            city: user.cityCity,
-                            zip: user.cityZip,
-                            lat: user.cityLat,
-                            lng: user.cityLng
-                        };
+                            result.details.addresses.city = {
+                                id: user.cityId,
+                                city: user.cityCity,
+                                zip: user.cityZip,
+                                lat: user.cityLat,
+                                lng: user.cityLng
+                            };
 
-                        result.details.addresses.state = {
-                            id: user.stateId,
-                            state: user.stateState,
-                            code: user.stateCode
-                        };
+                            result.details.addresses.state = {
+                                id: user.stateId,
+                                state: user.stateState,
+                                code: user.stateCode
+                            };
+                        }
 
-                        result.details.location = {
-                            id: user.locationAddress,
-                            address: user.locationAddress,
-                            latitude: user.locationLatitude,
-                            longitude: user.locationLongitude
-                        };
+                        if (user.locationId) {
+                            result.details.location = {
+                                id: user.locationId,
+                                address: user.locationAddress,
+                                latitude: user.locationLatitude,
+                                longitude: user.locationLongitude
+                            };
+                        }
 
-                        result.details.license = {
-                            id: user.licensesId,
-                            number: user.licensesNumber,
-                            date: user.licensesDate
-                        };
+                        if (user.licensesId) {
+                            result.details.license = {
+                                id: user.licensesId,
+                                number: user.licensesNumber,
+                                date: user.licensesDate
+                            };
+                        }
 
-                        result.details.workingHours = {
-                            id: user.workingHoursId,
-                            timeFrom: user.workingHoursTimeFrom,
-                            timeTo: user.workingHoursTimeTo
-                        };
+                        if (user.workingHoursId) {
+                            result.details.workingHours = {
+                                id: user.workingHoursId,
+                                timeFrom: user.workingHoursTimeFrom,
+                                timeTo: user.workingHoursTimeTo
+                            };
+                        }
 
                         return result;
                     });
