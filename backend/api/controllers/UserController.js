@@ -16,6 +16,23 @@ let UserController = {
             }
         );
     },
+    findServiceProviders(req, res) {
+        let params = req.allParams();
+
+        UserService.findServiceProviders(params)
+            .then(
+                (serviceProviders) => res.ok({
+                    serviceProviders: serviceProviders
+                })
+            )
+            .catch(
+                (err) => {
+                    sails.log.error(err);
+
+                    return res.serverError();
+                }
+            );
+    },
     createUser(req, res) {
         let user = req.body;
 

@@ -1,15 +1,19 @@
 'use strict';
 
 let requestRoutes = {
-    'GET /api/user/requests': {
+    'GET /api/client/requests': {
         controller: 'RequestController',
-        action: 'getAllUserRequests'
+        action: 'getAllClientRequests'
     },
-    'GET /api/request/:request': {
+    'GET /api/client/requests/:request': {
         controller: 'RequestController',
-        action: 'getRequestById'
+        action: 'getClientRequestById'
     },
-    'POST /api/user/request': {
+    'GET /api/specialists/find': {
+        controller: 'UserController',
+        action: 'findServiceProviders'
+    },
+    'POST /api/client/request': {
         controller: 'RequestController',
         action: 'create'
     }

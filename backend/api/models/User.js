@@ -40,19 +40,21 @@ let User = {
             unique: true,
             is: /^\d{3}-?\d{2}-?\d{4}$/
         },
-        enabled: {
+        isEnabled: {
             type: 'boolean',
             defaultsTo() {
 
                 return !sails.config.application.emailVerificationEnabled;
-            }
+            },
+            columnName: 'is_enabled'
         },
-        emailConfirmed: {
+        isEmailConfirmed: {
             type: 'boolean',
             defaultsTo() {
 
                 return !sails.config.application.emailVerificationEnabled;
-            }
+            },
+            columnName: 'is_email_confirmed'
         },
         token: {
             type: 'string',
