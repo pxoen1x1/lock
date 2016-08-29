@@ -13,16 +13,27 @@
         $rootScope.$state = $state;
         $rootScope.$mdMedia = $mdMedia;
         
-        $rootScope.$on('$stateChangeStart', function (event, toStart) {
+        $rootScope.$on('$stateChangeStart', function (event, toState) {
             cfpLoadingBar.start();
 
-            if (toStart.name === 'login') {
+            if (toState.name === 'login') {
                 cfpLoadingBar.complete();
                 event.preventDefault();
 
                 $mdDialog.show({
                     templateUrl: 'core/login/login.html',
                     controller: 'LoginController',
+                    controllerAs: 'vm'
+                });
+            }
+
+            if (toState.name === 'customer.invite') {
+                cfpLoadingBar.complete();
+                event.preventDefault();
+
+                $mdDialog.show({
+                    templateUrl: 'customer/invite/invite.html',
+                    controller: 'CustomerInviteController',
                     controllerAs: 'vm'
                 });
             }
