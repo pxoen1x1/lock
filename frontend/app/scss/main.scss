@@ -60,6 +60,9 @@ h2.page-name {
     background-color: $primary-color;
     color: #fff;
   }
+  .md-input-message-animation {
+    width: 195px;
+  }
 }
 
 @media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
