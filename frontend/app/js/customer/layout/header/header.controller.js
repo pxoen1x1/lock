@@ -26,6 +26,10 @@
 
         function createPageTitles(state) {
             var pageTitles = [];
+
+            if (!state.parent) {
+                return vm.pageTitles;
+            }
             
             while (state.parent) {
                 if (state.data && state.data.title) {
