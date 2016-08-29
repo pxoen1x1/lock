@@ -47,7 +47,7 @@
         function createRequest(newRequest) {
 
             return $http({
-                url: conf.URL + 'client/request',
+                url: conf.URL + 'client/requests',
                 method: 'POST',
                 data: newRequest
             })
