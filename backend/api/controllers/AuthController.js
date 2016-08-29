@@ -127,7 +127,7 @@ let AuthController = {
                     );
                 }
 
-                res.ok();
+                res.ok(true);
             });
     },
     openPasswordResetPage(req, res) {

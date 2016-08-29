@@ -13,7 +13,7 @@ let requestRoutes = {
         controller: 'UserController',
         action: 'findServiceProviders'
     },
-    'POST /api/client/request': {
+    'POST /api/client/requests': {
         controller: 'RequestController',
         action: 'create'
     }
