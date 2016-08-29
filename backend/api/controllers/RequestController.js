@@ -18,7 +18,7 @@ let RequestController = {
             }
         };
 
-        let sorting = params.order || 'forDate';
+        let sorting = params.order || 'updatedAt DESC';
 
         let pagination = {};
         pagination.limit = params.limit || sails.config.application.queryLimit;
