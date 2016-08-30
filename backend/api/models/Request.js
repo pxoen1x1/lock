@@ -18,7 +18,9 @@ let Request = {
             type: 'datetime'
         },
         distance: {
-            type: 'integer'
+            type: 'integer',
+            defaultsTo: 100,
+            max: 100
         },
         isPublic: {
             type: 'boolean',

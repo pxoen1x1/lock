@@ -22,5 +22,6 @@
   "Request is not found.": "Request is not found.",
   "Invalid password.": "Invalid password.",
   "State is not defined.": "State is not defined.",
+  "Submitted data is invalid.": "Submitted data is invalid.",
   "Please, check data.": "Please, check data."
 }

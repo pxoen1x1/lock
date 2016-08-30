@@ -5,22 +5,23 @@
         .module('app.customer')
         .controller('CustomerViewRequestController', CustomerViewRequestController);
 
-    CustomerViewRequestController.$inject = ['$stateParams', 'coreDataservice', 'coreConstants'];
+    CustomerViewRequestController.$inject = ['$stateParams', 'coreConstants', 'customerDataservice', 'requestService'];
 
     /* @ngInject */
-    function CustomerViewRequestController($stateParams, coreDataservice, coreConstants) {
+    function CustomerViewRequestController($stateParams, coreConstants, customerDataservice, requestService) {
         var promises = {
             getRequest: null
         };
 
         var vm = this;
-        
-        vm.$stateParams = $stateParams;
 
         vm.request = {};
 
         vm.map = {
-            center: {},
+            center: {
+                latitude: null,
+                longitude: null
+            },
             zoom: 14,
             options: {
                 scrollwheel: false,
@@ -54,7 +55,7 @@
                 promises.getRequest.cancel();
             }
 
-            promises.getRequest = coreDataservice.getRequest(requestId);
+            promises.getRequest = customerDataservice.getRequest(requestId);
 
             return promises.getRequest
                 .then(function (response) {
@@ -71,8 +72,11 @@
             getRequestById(selectedRequestId)
                 .then(function (request) {
                     vm.request = request;
+                    requestService.setRequest(vm.request);
 
-                    vm.map.center = vm.request.location;
+                    vm.map.center.latitude = vm.request.location.latitude;
+                    vm.map.center.longitude = vm.request.location.longitude;
+
 
                     return vm.request;
                 });

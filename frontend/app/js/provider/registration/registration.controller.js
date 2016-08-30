@@ -6,11 +6,11 @@
         .controller('ProviderRegistrationController', ProviderRegistrationController);
 
     ProviderRegistrationController.$inject = ['$q', '$state', 'coreDataservice', 'coreConstants', 'coreDictionary',
-        'serviceProviderConstants', 'serviceProviderDataservice', 'citiesLoader'];
+        'serviceProviderConstants', 'citiesLoader', 'geocoderService'];
 
     /* @ngInject */
     function ProviderRegistrationController($q, $state, coreDataservice, coreConstants, coreDictionary,
-                                            serviceProviderConstants, serviceProviderDataservice, citiesLoader) {
+                                            serviceProviderConstants, citiesLoader, geocoderService) {
         var promises = {
             getState: null
         };
@@ -130,9 +130,37 @@
                 return;
             }
 
-            user.details.servicePrices = clearEmptyElements(user.details.servicePrices);
+            getAddressLocation(user.address)
+                .then(function (location) {
+                    user.details.location = location;
+                })
+                .finally(function () {
+                    user.details.servicePrices = clearEmptyElements(user.details.servicePrices);
 
-            createUser(user);
+                    createUser(user);
+                });
+        }
+
+        function getAddressLocation(selectedAddress) {
+            if (!selectedAddress.city || !selectedAddress.address) {
+
+                return;
+            }
+
+            var address = selectedAddress.address + ', ' +
+                selectedAddress.city.city + ', ' +
+                selectedAddress.state.state;
+
+            return geocoderService.getCoordinates(address)
+                .then(function (location) {
+                    var resultLocation = {};
+
+                    resultLocation.latitude = location.lat();
+                    resultLocation.longitude = location.lng();
+                    resultLocation.address = address;
+
+                    return resultLocation;
+                });
         }
 
         function clearEmptyElements(arr) {

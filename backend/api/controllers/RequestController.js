@@ -9,7 +9,7 @@
 'use strict';
 
 let RequestController = {
-    getAllUserRequests(req, res) {
+    getAllClientRequests(req, res) {
         let params = req.allParams();
 
         let searchCriteria = {
@@ -18,7 +18,7 @@ let RequestController = {
             }
         };
 
-        let sorting = params.order || 'forDate';
+        let sorting = params.order || 'updatedAt DESC';
 
         let pagination = {};
         pagination.limit = params.limit || sails.config.application.queryLimit;
@@ -47,7 +47,7 @@ let RequestController = {
                 }
             );
     },
-    getRequestById(req, res) {
+    getClientRequestById(req, res) {
         let requestId = req.params.request;
 
         if(!requestId){

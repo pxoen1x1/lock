@@ -196,6 +196,15 @@
                 data: {
                     title: 'Profile'
                 }
+            })
+            .state('customer.invite', {
+                reloadOnSearch: false,
+                data: {
+                    menu: {
+                        title: 'Invite a friend',
+                        icon: 'message'
+                    }
+                }
             });
     }
 })();

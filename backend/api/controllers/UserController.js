@@ -16,6 +16,31 @@ let UserController = {
             }
         );
     },
+    findServiceProviders(req, res) {
+        let params = req.allParams();
+
+        if (!params.southWestLatitude || !params.southWestLongitude ||
+            !params.northEastLatitude || !params.northEastLongitude) {
+
+            return res.badRequest({
+                message: sails.__('Submitted data is invalid.')
+            });
+        }
+
+        UserService.findServiceProviders(params)
+            .then(
+                (serviceProviders) => res.ok({
+                    serviceProviders: serviceProviders
+                })
+            )
+            .catch(
+                (err) => {
+                    sails.log.error(err);
+
+                    return res.serverError();
+                }
+            );
+    },
     createUser(req, res) {
         let user = req.body;
 
@@ -42,6 +67,13 @@ let UserController = {
     updateUser(req, res) {
         let id = req.params.id;
         let user = req.body;
+
+        if(req.user.id !== req.params.id) {
+
+            return res.forbidden({
+                message: sails.__('You are not permitted to perform this action.')
+            });
+        }
 
         if (!id || Object.keys(user).length === 0) {
 

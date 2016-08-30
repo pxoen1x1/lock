@@ -140,9 +140,7 @@
 
                     vm.request.location.latitude = location.lat();
                     vm.request.location.longitude = location.lng();
-                    vm.request.location.address = vm.address.address + ', ' +
-                        vm.address.city.city + ', ' +
-                        vm.address.state.state;
+                    vm.request.location.address = address;
 
                     vm.warnings.isLocationManuallyWrong = false;
                 })
