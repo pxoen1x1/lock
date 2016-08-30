@@ -7,7 +7,7 @@
     <div flex layout="row" layout-align="end center" class="title-actions">
       <button class="md-button md-button-blue"
               aria-label="Show public profile"
-              ui-sref="provider.profile.public({'profileId': vm.dataSource.id})">
+              ui-sref="provider.profile.public({'profileId': vm.profileData.id})">
         Show public profile
       </button>
     </div>
@@ -24,7 +24,7 @@
            layout-align-gt-xs="start start"
            flex-gt-xs="25">
         <div>
-          <img class="avatar" src="{{vm.dataSource.photo}}" alt="photo"/>
+          <img class="avatar" src="{{vm.profileData.photo}}" alt="photo"/>
         </div>
         <div flex="5"></div>
         <div class="actions"
@@ -33,10 +33,11 @@
                      aria-label="Change photo">
             Change photo
           </md-button>
-          <md-button ng-click="vm.isEditing ? vm.updateUser() : vm.isEditing = true"
-                     ng-bind="vm.isEditing ? 'Save' : 'Edit profile'"
-                     aria-label="vm.isEditing ? 'Save' : 'Edit profile'"
-                     ng-class="{'md-raised md-warn':vm.isEditing, 'md-button-blue':!vm.isEditing}">
+          <md-button ng-if="!vm.isEditing"
+                     class="md-button-blue"
+                     ng-click="vm.isEditing = true"
+                     aria-label="Edit profile">
+            Edit profile
           </md-button>
         </div>
       </div>
@@ -52,90 +53,84 @@
                layout-align="center center"
                layout-align-gt-xs="start center">
             <div class="md-display-1">
-              <span class="vertical-middle" ng-bind="vm.dataSource.name"></span>
-              <i ng-if="vm.dataSource.verified" class="material-icons vertical-middle verified">verified_user</i>
+              <span class="vertical-middle" ng-bind="vm.profileData.name"></span>
+              <i ng-if="vm.profileData.verified" class="material-icons vertical-middle verified">verified_user</i>
             </div>
             <div class="profile-rating"
                  flex
                  layout="row"
                  layout-align="center center"
                  layout-align-gt-xs="end center">
-              <star-rating value="vm.dataSource.rating" readonly></star-rating>
+              <star-rating value="vm.profileData.rating" readonly></star-rating>
               <span class="divider-dot">⋅</span>
-              <span ng-bind="vm.dataSource.rating"></span>
+              <span ng-bind="vm.profileData.rating"></span>
             </div>
           </div>
           <div class="section first">
             <span class="md-body-2">Email:</span>
-            <span class="md-body-1" ng-bind="vm.dataSource.email"></span>
+            <span class="md-body-1" ng-bind="vm.profileData.email"></span>
           </div>
           <div class="section">
             <span class="md-body-2">Phone:</span>
-            <span class="md-body-1" ng-bind="vm.dataSource.phone"></span>
+            <span class="md-body-1" ng-bind="vm.profileData.phone"></span>
           </div>
           <div class="section">
             <span class="md-body-2">Credit card:</span>
-            <span class="md-body-1" ng-bind="vm.dataSource.card"></span>
+            <span class="md-body-1" ng-bind="vm.profileData.card"></span>
           </div>
           <div class="section">
             <span class="md-body-2">License:</span>
-            <span class="md-body-1" ng-bind="vm.dataSource.license.number"></span>
-            <span class="md-body-1" ng-bind="' from '+(vm.dataSource.license.date | date: 'MM/dd/yyyy')"></span>
+            <span class="md-body-1" ng-bind="vm.profileData.license.number"></span>
+            <span class="md-body-1" ng-bind="' from '+(vm.profileData.license.date | date: 'MM/dd/yyyy')"></span>
           </div>
           <div class="section">
             <span class="md-body-2">Working hours:</span>
             <span class="md-body-1"
-                  ng-bind="'from '+(vm.dataSource.workingHours.from | date: 'hh:mm a')+' to '+(vm.dataSource.workingHours.to | date: 'hh:mm a')"></span>
+                  ng-bind="'from '+(vm.profileData.workingHours.from | date: 'hh:mm a')+' to '+(vm.profileData.workingHours.to | date: 'hh:mm a')"></span>
           </div>
           <div class="section">
             <span class="md-body-2">Services:</span>
             <span class="md-body-1"
-                  ng-repeat="service in vm.dataSource.services track by $index"
-                  ng-bind="service.name+' ($'+service.price+')'+($index != vm.dataSource.services.length-1 ? ', ':'')">
-            </span>
-          </div>
-          <div class="section">
-            <span class="md-body-2">Joined:</span>
-            <span class="md-body-1" ng-bind="vm.dataSource.joined.date | date : 'MM/dd/yyyy'"></span>
-            <span class="md-body-1" ng-bind="'('+vm.dataSource.joined.elapsed+')'">
+                  ng-repeat="service in vm.profileData.services track by $index"
+                  ng-bind="service.name+' ($'+service.price+')'+($index != vm.profileData.services.length-1 ? ', ':'')">
             </span>
           </div>
           <div class="section">
             <span class="md-body-2">Requests done:</span>
-            <span class="md-body-1" ng-bind="vm.dataSource.requestsDone.total"></span>
-            <span class="md-body-1" ng-bind="'('+vm.dataSource.requestsDone.month+' this month)'"></span>
+            <span class="md-body-1" ng-bind="vm.profileData.requestsDone.total"></span>
+            <span class="md-body-1" ng-bind="'('+vm.profileData.requestsDone.month+' this month)'"></span>
           </div>
           <div class="section">
             <span class="md-body-2">Earned:</span>
-            <span class="md-body-1" ng-bind="'$'+vm.dataSource.earned.total"></span>
-            <span class="md-body-1" ng-bind="'($'+vm.dataSource.earned.month+' this month)'"></span>
+            <span class="md-body-1" ng-bind="'$'+vm.profileData.earned.total"></span>
+            <span class="md-body-1" ng-bind="'($'+vm.profileData.earned.month+' this month)'"></span>
           </div>
         </div>
         <div ng-show="vm.isEditing">
           <form name="editForm"
                 novalidate
-                ng-submit="vm.updateUser(vm.dataSource, editForm.$valid)">
+                ng-submit="vm.updateUser(vm.profileData, editForm.$valid)">
             <p>Full name: <sup>*</sup></p>
             <md-input-container class="md-block" flex>
               <label>Full name</label>
               <input name="fullName"
                      required
                      ng-maxlength="40"
-                     ng-model="vm.dataSource.name">
+                     ng-model="vm.profileData.name">
             </md-input-container>
             <p>Email: <sup>*</sup></p>
             <md-input-container class="md-block" flex>
               <label>Email</label>
               <input name="email"
                      required
-                     ng-model="vm.dataSource.email">
+                     ng-model="vm.profileData.email">
             </md-input-container>
             <p>Credit card: <sup>*</sup></p>
             <md-input-container class="md-block" flex>
               <label>Credit card</label>
               <input name="card"
                      required
-                     ng-model="vm.dataSource.card">
+                     ng-model="vm.profileData.card">
             </md-input-container>
             <p>Phone number: <sup>*</sup></p>
             <md-input-container class="md-block" flex>
@@ -143,7 +138,7 @@
               <input type="tel"
                      name="phoneNumber"
                      ui-us-phone-number
-                     ng-model="vm.dataSource.phone">
+                     ng-model="vm.profileData.phone">
               <div ng-messages="editForm.phoneNumber.$error">
                 <span ng-message="usPhoneNumber">That doesn't look like a valid phone number.</span>
               </div>
@@ -155,7 +150,7 @@
                 <input type="text"
                        name="licenseNumber"
                        required
-                       ng-model="vm.dataSource.license.number">
+                       ng-model="vm.profileData.license.number">
                 <div ng-messages="editForm.licenseNumber.$error">
                   <div ng-message="required">Please, enter a license number.</div>
                 </div>
@@ -165,7 +160,7 @@
                                mdp-max-date="vm.datePickerOptions.maxDate"
                                date-formatter
                                ng-required
-                               ng-model="vm.dataSource.license.number">
+                               ng-model="vm.profileData.license.number">
               </mdp-date-picker>
             </div>
             <div class="validation-messages"
@@ -176,13 +171,13 @@
             <p>Services</p>
             <div layout-gt-xs="row"
                  layout="column"
-                 ng-repeat="service in vm.dataSource.services track by $index">
+                 ng-repeat="service in vm.profileData.services track by $index">
               <md-input-container flex="100"
                                   flex-gt-xs="65">
                 <label>Service procedure</label>
                 <input type="text"
                        name="serviceName"
-                       ng-required="service.price || vm.dataSource.services.length > 1"
+                       ng-required="service.price || vm.profileData.services.length > 1"
                        ng-model="service.name">
               </md-input-container>
               <md-input-container class="md-block"
@@ -191,7 +186,7 @@
                 <label>Price $</label>
                 <input type="text"
                        name="price"
-                       ng-required="service.name || vm.dataSource.services.length > 1"
+                       ng-required="service.name || vm.profileData.services.length > 1"
                        ng-model="service.price">
               </md-input-container>
               <div class="service-price-remove"
@@ -199,41 +194,32 @@
                    flex-gt-xs="5"
                    layout="column"
                    layout-align="start center"
-                   ng-click="vm.dataSource.services.splice($index, 1)"
-                   ng-if="vm.dataSource.services.length > 1">
+                   ng-click="vm.profileData.services.splice($index, 1)"
+                   ng-if="vm.profileData.services.length > 1">
                 <i class="material-icons">indeterminate_check_box</i>
               </div>
             </div>
-            <md-button ng-click="vm.dataSource.services.push({})">Add</md-button>
+            <md-button ng-click="vm.profileData.services.push({})">Add</md-button>
             <p>Working hours:</p>
             <div layout="row">
               <mdp-time-picker name="timeFrom"
                                mdp-placeholder="From"
                                mdp-auto-switch="true"
-                               ng-model="vm.dataSource.workingHours.from">
+                               ng-model="vm.profileData.workingHours.from">
               </mdp-time-picker>
               <mdp-time-picker name="timeTo"
                                mdp-placeholder="To"
                                mdp-auto-switch="true"
-                               ng-model="vm.dataSource.workingHours.to">
+                               ng-model="vm.profileData.workingHours.to">
               </mdp-time-picker>
             </div>
-            <p>Change password:</p>
-            <div layout="row">
-              <md-input-container class="md-block" flex>
-                <label>Current password</label>
-                <input name="oldPass"
-                       ng-minlength="6"
-                       ng-model="vm.dataSource.oldPass">
-              </md-input-container>
-              <md-input-container class="md-block" flex>
-                <label>New password</label>
-                <input name="newPass"
-                       ng-minlength="6"
-                       ng-required="vm.dataSource.oldPass"
-                       ng-model="vm.dataSource.newPass">
-              </md-input-container>
-            </div>
+
+            <md-button type="submit"
+                       class="md-raised md-warn"
+                       aria-label="Save"
+                       ng-if="vm.isEditing">
+              Save
+            </md-button>
           </form>
         </div>
       </div>
