@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('app.customer')
+        .module('app.provider')
         .controller('ProviderHeaderController', ProviderHeaderController);
 
     ProviderHeaderController.$inject = ['$rootScope', '$state', '$mdSidenav'];
