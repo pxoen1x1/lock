@@ -6,11 +6,11 @@
         .controller('ProviderRegistrationController', ProviderRegistrationController);
 
     ProviderRegistrationController.$inject = ['$q', '$state', 'coreDataservice', 'coreConstants', 'coreDictionary',
-        'serviceProviderConstant', 'citiesLoader', 'geocoderService'];
+        'serviceProviderConstants', 'citiesLoader', 'geocoderService'];
 
     /* @ngInject */
     function ProviderRegistrationController($q, $state, coreDataservice, coreConstants, coreDictionary,
-                                            serviceProviderConstant, citiesLoader, geocoderService) {
+                                            serviceProviderConstants, citiesLoader, geocoderService) {
         var promises = {
             getState: null
         };
@@ -32,7 +32,7 @@
             maxDate: new Date()
         };
         vm.timePickerOptions = coreConstants.MD_PICKERS_OPTIONS.timePicker;
-        vm.registrationSteps = serviceProviderConstant.REGISTRATION_STEPS;
+        vm.registrationSteps = serviceProviderConstants.REGISTRATION_STEPS;
         vm.validSteps = {};
         vm.currentStep = 0;
 

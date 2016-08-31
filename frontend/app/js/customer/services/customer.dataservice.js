@@ -13,7 +13,9 @@
             getAllRequests: getAllRequests,
             getRequest: getRequest,
             getSpecialists: getSpecialists,
-            createRequest: createRequest
+            createRequest: createRequest,
+            getUser: getUser,
+            updateUser: updateUser
         };
 
         return service;
@@ -56,6 +58,30 @@
             function createRequestCompleted(response) {
 
                 return response.data;
+            }
+
+        }
+
+        function getUser() {
+
+            return request.httpWithTimeout({
+                url: conf.URL + 'user',
+                method: 'GET'
+            });
+        }
+
+        function updateUser(updatedUser) {
+
+            return $http({
+                url: conf.URL + 'user/' + updatedUser.id,
+                method: 'PUT',
+                data: updatedUser
+            })
+                .then(updateUserCompleted);
+
+            function updateUserCompleted(response) {
+
+                return response;
             }
 
         }

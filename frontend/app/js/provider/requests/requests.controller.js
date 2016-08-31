@@ -5,10 +5,10 @@
         .module('app.provider')
         .controller('ProviderRequestsController', ProviderRequestsController);
 
-    ProviderRequestsController.$inject = ['$state'];
+    ProviderRequestsController.$inject = [];
 
     /* @ngInject */
-    function ProviderRequestsController($state) {
+    function ProviderRequestsController() {
         var vm = this;
 
         activate();

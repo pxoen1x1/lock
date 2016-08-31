@@ -13,7 +13,7 @@
   <a class="profile"
      layout="column"
      layout-align="start center"
-     ui-sref="customer.profile"
+     ui-sref="{{vm.profileRoute}}"
      ui-sref-active="active"
      ng-click="vm.toggleMenu()">
     <div class="photo" ng-style="{'background-image': 'url('+vm.dataSource.photo+')'}"></div>
@@ -26,7 +26,7 @@
     <div class="email" ng-bind="vm.dataSource.email"></div>
   </a>
   <div class="navigation" layout="column">
-    <div class="navigation-item" ng-repeat="menuItem in vm.menuItems">
+    <div class="navigation-item" ng-repeat="menuItem in vm.menuItems track by $index">
       <a layout="row"
          layout-align="start start"
          ui-sref="{{menuItem}}"
