@@ -5,28 +5,60 @@
         .module('app.customer')
         .controller('CustomerProfileController', CustomerProfileController);
 
-    CustomerProfileController.$inject = [];
+    CustomerProfileController.$inject = ['customerDataservice'];
 
     /* @ngInject */
-    function CustomerProfileController() {
-        var vm = this;
-
-        vm.profileData = {
-            photo: 'https://pp.vk.me/c604329/v604329073/1a33c/XhTVHpUbzGU.jpg',
-            name: 'Elliot Aldrerson',
-            verified: 1,
-            email: 'mrrobot@fsociety.org',
-            phone: '+1 (123) 456-789-10',
-            card: '9000 1234 5678 9142',
-            requests: 8,
-            spent: 400
+    function CustomerProfileController(customerDataservice) {
+        var promises = {
+            getUser: null,
+            updateUser: null
         };
 
+        var vm = this;
+
+        vm.profileData = {};
         vm.isEditing = false;
+
         vm.updateUser = updateUser;
+        vm.getUser = getUser;
+
+        activate();
 
         function updateUser() {
-            vm.isEditing = false;
+            if (promises.updateUser) {
+                promises.updateUser.cancel();
+            }
+
+            promises.updateUser = customerDataservice.updateUser();
+
+            return promises.updateUser
+                .then(function (response) {
+
+                    vm.profileData = response.data.user;
+                    vm.isEditing = false;
+
+                    return vm.profileData;
+                });
+        }
+
+        function getUser() {
+            if (promises.getUser) {
+                promises.getUser.cancel();
+            }
+
+            promises.getUser = customerDataservice.getUser();
+
+            return promises.getUser
+                .then(function (response) {
+
+                    vm.profileData = response.data.user;
+
+                    return vm.profileData;
+                });
+        }
+
+        function activate() {
+            getUser();
         }
     }
 })();

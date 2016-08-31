@@ -12,9 +12,9 @@
            layout-align="start center"
            layout-align-gt-xs="start start"
            flex-gt-xs="25">
-        <div>
-          <img class="avatar" ng-src="{{vm.profileData.photo}}" alt="photo"/>
-        </div>
+        <img class="avatar"
+             ng-src="{{conf.FRONT_URL + (vm.profileData.portrait || coreConstants.IMAGES.defaultPortrait)}}"
+             alt="photo"/>
         <div flex="5"></div>
         <div class="actions"
              layout="column">
@@ -43,8 +43,8 @@
                layout-align="center center"
                layout-align-gt-xs="start center">
             <div class="md-display-1">
-              <span class="vertical-middle" ng-bind="vm.profileData.name"></span>
-              <i ng-if="vm.profileData.verified" class="material-icons vertical-middle verified">verified_user</i>
+              <span class="vertical-middle" ng-bind="vm.profileData.fullName"></span>
+              <i ng-if="vm.profileData.isEnabled" class="material-icons vertical-middle verified">verified_user</i>
             </div>
           </div>
           <div class="section first">
@@ -53,19 +53,19 @@
           </div>
           <div class="section">
             <span class="md-body-2">Phone:</span>
-            <span class="md-body-1" ng-bind="vm.profileData.phone"></span>
+            <span class="md-body-1" ng-bind="vm.profileData.phoneNumber"></span>
           </div>
           <div class="section">
             <span class="md-body-2">Credit card:</span>
-            <span class="md-body-1" ng-bind="vm.profileData.card"></span>
+            <span class="md-body-1" ng-bind=""></span>
           </div>
           <div class="section">
             <span class="md-body-2">Requests:</span>
-            <span class="md-body-1" ng-bind="vm.profileData.requests"></span>
+            <span class="md-body-1" ng-bind=""></span>
           </div>
           <div class="section">
             <span class="md-body-2">Spent:</span>
-            <span class="md-body-1" ng-bind="vm.profileData.spent | currency:'$'"></span>
+            <span class="md-body-1" ng-bind=""></span>
           </div>
         </div>
         <div ng-show="vm.isEditing">
@@ -78,7 +78,7 @@
               <input name="fullName"
                      required
                      ng-maxlength="40"
-                     ng-model="vm.profileData.name">
+                     ng-model="vm.profileData.fullName">
             </md-input-container>
             <p>Email: <sup>*</sup></p>
             <md-input-container class="md-block" flex>
@@ -100,7 +100,7 @@
               <input type="tel"
                      name="phoneNumber"
                      ui-us-phone-number
-                     ng-model="vm.profileData.phone">
+                     ng-model="vm.profileData.phoneNumber">
               <div ng-messages="editForm.phoneNumber.$error">
                 <span ng-message="usPhoneNumber">That doesn't look like a valid phone number.</span>
               </div>
