@@ -31,7 +31,7 @@
             <input name="firstName"
                    required
                    ng-maxlength="20"
-                   ng-model="vm.user.firstName">
+                   ng-model="vm.user.user.firstName">
             <div ng-messages="registrationForm.firstName.$error">
               <div ng-message="maxlength">Your first name is too long.</div>
             </div>
@@ -41,7 +41,7 @@
             <input name="lastName"
                    required
                    ng-maxlength="20"
-                   ng-model="vm.user.lastName">
+                   ng-model="vm.user.user.lastName">
             <div ng-messages="registrationForm.lastName.$error">
               <div ng-message="maxlength">Your last name is too long.</div>
             </div>
@@ -55,7 +55,7 @@
                    name="phoneNumber"
                    required
                    ui-us-phone-number
-                   ng-model="vm.user.phoneNumber">
+                   ng-model="vm.user.user.phoneNumber">
             <div ng-messages="registrationForm.phoneNumber.$error">
               <span ng-message="usPhoneNumber">That doesn't look like a valid phone number.</span>
             </div>
