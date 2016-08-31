@@ -18,15 +18,21 @@ let MailerService = {
         let options = {};
         options.user = user;
 
-        return this.sendMail(templatePath, options);
+        return this.sendMail(templatePath, options)
+            .then(
+                () => user
+            );
     },
     confirmRegistration(user) {
         let templatePath = sails.config.application.mailer.templates.confirmRegistration;
         let options = {};
         options.user = user;
-        options.url = `${host}${sails.config.application.urls.emailConfirmation}?token=${user.token}`;
+        options.url = `${host}${sails.config.application.urls.emailConfirmation}?token=${user.emailConfirmationToken}`;
 
-        return this.sendMail(templatePath, options);
+        return this.sendMail(templatePath, options)
+            .then(
+                () => user
+            );
     },
     passwordResetRequest(user) {
         let templatePath = sails.config.application.mailer.templates.passwordResetRequest;
@@ -35,14 +41,20 @@ let MailerService = {
         options.url = `${host}${sails.config.application.urls.passwordResetRequest}/` +
             `${user.resetPasswordToken}`;
 
-        return this.sendMail(templatePath, options);
+        return this.sendMail(templatePath, options)
+            .then(
+                () => user
+            );
     },
     passwordResetConfirmation(user) {
         let templatePath = sails.config.application.mailer.templates.passwordResetConfirmation;
         let options = {};
         options.user = user;
 
-        return this.sendMail(templatePath, options);
+        return this.sendMail(templatePath, options)
+            .then(
+                () => user
+            );
     },
 
     sendMail(templatePath, options) {
@@ -54,17 +66,10 @@ let MailerService = {
 
                     return mailer('sendmail', mailerOptions)
                         .send({
-                            to: options.user.email,
+                            to: options.user.auth.email,
                             html: template.html
                         });
-                })
-            .catch(
-                (err) => {
-                    sails.log.error(err);
-
-                    return err;
-                }
-            );
+                });
     }
 };
 
