@@ -25,7 +25,9 @@
     "sails-mysql": "^0.11.5",
     "sails-service-mailer": "^3.2.1",
     "ua-parser": "^0.3.5",
-    "validator": "^5.4.0"
+    "validator": "^5.4.0",
+    "waterlock": "^0.1.2-rc1",
+    "waterlock-local-auth": "^0.1.2-rc1"
   },
   "devDependencies": {
     "chai": "^3.5.0",
