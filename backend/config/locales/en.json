@@ -14,6 +14,7 @@
   "You are not permitted to perform this action.": "You are not permitted to perform this action.",
   "User authentication failed.": "User authentication failed.",
   "User not found.": "User not found.",
+  "User already exists.": "User already exists.",
   "Password reset token is invalid or has expired.": "Password reset token is invalid or has expired.",
   "Token is not defined.": "Token is not defined.",
   "Password is not defined.": "Password is not defined.",
