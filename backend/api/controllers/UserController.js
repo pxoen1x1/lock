@@ -1,14 +1,18 @@
-/* global async, sails, MailerService, UserService */
+/*global sails, waterlock, UserService, AuthService, MailerService*/
 
 /**
- * UserController
+ * UserController.js
  *
- * @description :: Server-side logic for managing users
- * @help        :: See http://sailsjs.org/#!/documentation/concepts/Controllers
+ * @module      :: Controller
+ * @description :: Provides the base user
+ *                 actions used to make waterlock work.
+ *
+ * @docs        :: http://waterlock.ninja/documentation
  */
+
 'use strict';
 
-let UserController = {
+let UserController = waterlock.actions.user({
     getCurrentUser(req, res) {
         res.ok(
             {
@@ -19,8 +23,8 @@ let UserController = {
     findServiceProviders(req, res) {
         let params = req.allParams();
 
-        if (!params.southWestLatitude || !params.southWestLongitude ||
-            !params.northEastLatitude || !params.northEastLongitude) {
+        if ((!params.southWestLatitude || !params.southWestLongitude) ||
+            (!params.northEastLatitude || !params.northEastLongitude)) {
 
             return res.badRequest({
                 message: sails.__('Submitted data is invalid.')
@@ -42,33 +46,64 @@ let UserController = {
             );
     },
     createUser(req, res) {
-        let user = req.body;
+        let params = req.allParams();
 
-        async.waterfall([
-                async.apply(createUser, user),
-                createAssociations,
-                sendConfirmation,
-                getCreatedUser
-            ],
-            (err, user) => {
-                if (err) {
-                    sails.log.error(err);
+        if ((!params.password || !params.email) ||
+            (!params.user || !params.user.firstName || !params.user.lastName || !params.user.phoneNumber)) {
 
-                    return res.serverError();
-                }
-
-                res.created(
-                    {
-                        user: user
-                    }
-                );
+            return res.badRequest({
+                message: sails.__('Submitted data is invalid.')
             });
+        }
+
+        let criteria = {};
+
+        criteria.email = params.email;
+
+        if (params.user.details) {
+            params.user.userDetail = params.user.details;
+
+            delete params.user.details;
+        }
+
+        AuthService.findAuth(criteria)
+            .then(
+                (user) => {
+                    if (user) {
+
+                        return Promise.reject();
+                    }
+
+                    return AuthService.findOrCreateAuth(criteria, params);
+                }
+            )
+            .then(
+                (createdUser) => sendConfirmation(createdUser)
+            )
+            .then(
+                (createdUser) => res.created({
+                    user: createdUser
+                })
+            )
+            .catch(
+                (err) => {
+                    if (err) {
+                        sails.log.err(err);
+
+                        return res.serverError();
+                    }
+
+                    return res.badRequest({
+                        message: sails.__('User already exists.')
+                    });
+                }
+            );
     },
     updateUser(req, res) {
         let id = req.params.id;
         let user = req.body;
 
-        if(req.user.id !== req.params.id) {
+        if (req.user.id !== req.params.id) {
 
             return res.forbidden({
                 message: sails.__('You are not permitted to perform this action.')
@@ -110,67 +145,16 @@ let UserController = {
                 }
             );
     }
-};
+});
 
 module.exports = UserController;
 
-function createUser(user, done) {
-    UserService.create(user)
-        .then(
-            (createdUser) => done(null, createdUser, user.address, user.details)
-        )
-        .catch(
-            (err) => done(err)
-        );
-}
-
-function createAssociations(createdUser, address, userDetails, done) {
-    if (!address && !userDetails) {
-
-        return done(null, createdUser);
-    }
-
-    createdUser.addresses.add(address);
-    createdUser.userDetail.add(userDetails);
-
-    createdUser.save(
-        (err) => {
-            if (err) {
-
-                return done(err);
-            }
-
-            done(null, createdUser);
-        }
-    );
-}
-
-function sendConfirmation(createdUser, done) {
+function sendConfirmation(createdUser) {
     if (sails.config.application.emailVerificationEnabled) {
-        MailerService.confirmRegistration(createdUser)
-            .then(
-                () => done(null, createdUser)
-            )
-            .catch(
-                (err) => done(err)
-            );
-    } else {
-        MailerService.successRegistration(createdUser)
-            .then(
-                () => done(null, createdUser)
-            )
-            .catch(
-                (err) => done(err)
-            );
-    }
-}
 
-function getCreatedUser(createdUser, done) {
-    UserService.getUser(createdUser)
-        .then(
-            (foundUser) => done(null, foundUser)
-        )
-        .catch(
-            (err) => done(err)
-        );
+        return MailerService.confirmRegistration(createdUser);
+    } else {
+
+        return MailerService.successRegistration(createdUser);
+    }
 }
