@@ -13,7 +13,7 @@
            layout-align-gt-xs="start start"
            flex-gt-xs="25">
         <div>
-          <img class="avatar" src="{{vm.profileData.photo}}" alt="photo"/>
+          <img class="avatar" ng-src="{{vm.profileData.photo}}" alt="photo"/>
         </div>
         <div flex="5"></div>
         <div class="actions"
@@ -65,7 +65,7 @@
           </div>
           <div class="section">
             <span class="md-body-2">Spent:</span>
-            <span class="md-body-1" ng-bind="'$'+vm.profileData.spent"></span>
+            <span class="md-body-1" ng-bind="vm.profileData.spent | currency:'$'"></span>
           </div>
         </div>
         <div ng-show="vm.isEditing">

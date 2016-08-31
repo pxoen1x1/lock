@@ -19,12 +19,12 @@
                         templateUrl: 'customer/layout/layout.html'
                     },
                     'menu@customer': {
-                        templateUrl: 'customer/layout/menu/menu.html',
+                        templateUrl: 'layout/menu/user-menu.html',
                         controller: 'CustomerMenuController',
                         controllerAs: 'vm'
                     },
                     'header@customer': {
-                        templateUrl: 'customer/layout/header/header.html',
+                        templateUrl: 'layout/header/user-header.html',
                         controller: 'CustomerHeaderController',
                         controllerAs: 'vm'
                     }
@@ -45,7 +45,7 @@
                         controllerAs: 'vm'
                     },
                     'header@customer.registration': {
-                        templateUrl: 'customer/layout/registration-header.html'
+                        templateUrl: 'layout/header/registration-header.html'
                     }
                 }
             })

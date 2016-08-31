@@ -30,10 +30,12 @@
             },
             services: [
                 {
+                    id: 1,
                     name: 'Car',
                     price: 40
                 },
                 {
+                    id: 2,
                     name: 'House',
                     price: 60
                 }

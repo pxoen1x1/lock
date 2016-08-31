@@ -24,7 +24,7 @@
            layout-align-gt-xs="start start"
            flex-gt-xs="25">
         <div>
-          <img class="avatar" src="{{vm.profileData.photo}}" alt="photo"/>
+          <img class="avatar" ng-src="{{vm.profileData.photo}}" alt="photo"/>
         </div>
         <div flex="5"></div>
         <div class="actions"
@@ -54,7 +54,10 @@
                layout-align-gt-xs="start center">
             <div class="md-display-1">
               <span class="vertical-middle" ng-bind="vm.profileData.name"></span>
-              <i ng-if="vm.profileData.verified" class="material-icons vertical-middle verified">verified_user</i>
+              <i class="material-icons vertical-middle verified"
+                 ng-if="vm.profileData.verified">
+                verified_user
+              </i>
             </div>
             <div class="profile-rating"
                  flex
@@ -81,18 +84,22 @@
           <div class="section">
             <span class="md-body-2">License:</span>
             <span class="md-body-1" ng-bind="vm.profileData.license.number"></span>
-            <span class="md-body-1" ng-bind="' from '+(vm.profileData.license.date | date: 'MM/dd/yyyy')"></span>
+            from <span class="md-body-1" ng-bind="vm.profileData.license.date | date: 'MM/dd/yyyy'">
           </div>
           <div class="section">
             <span class="md-body-2">Working hours:</span>
+            from
             <span class="md-body-1"
-                  ng-bind="'from '+(vm.profileData.workingHours.from | date: 'hh:mm a')+' to '+(vm.profileData.workingHours.to | date: 'hh:mm a')"></span>
+                  ng-bind="vm.profileData.workingHours.from | date: 'hh:mm a'"></span>
+            to
+            <span class="md-body-1"
+                  ng-bind="vm.profileData.workingHours.to | date: 'hh:mm a'"></span>
           </div>
           <div class="section">
             <span class="md-body-2">Services:</span>
             <span class="md-body-1"
-                  ng-repeat="service in vm.profileData.services track by $index"
-                  ng-bind="service.name+' ($'+service.price+')'+($index != vm.profileData.services.length-1 ? ', ':'')">
+                  ng-repeat="service in vm.profileData.services track by service.id"
+                  ng-bind="service.name + ' (' + (service.price | currency:'$') + ')' + ($last ? '':', ')">
             </span>
           </div>
           <div class="section">
@@ -102,8 +109,8 @@
           </div>
           <div class="section">
             <span class="md-body-2">Earned:</span>
-            <span class="md-body-1" ng-bind="'$'+vm.profileData.earned.total"></span>
-            <span class="md-body-1" ng-bind="'($'+vm.profileData.earned.month+' this month)'"></span>
+            <span class="md-body-1" ng-bind="vm.profileData.earned.total | currency:'$'"></span>
+            <span class="md-body-1" ng-bind="'(' + (vm.profileData.earned.month | currency:'$') + ' this month)'"></span>
           </div>
         </div>
         <div ng-show="vm.isEditing">
@@ -171,7 +178,8 @@
             <p>Services</p>
             <div layout-gt-xs="row"
                  layout="column"
-                 ng-repeat="service in vm.profileData.services track by $index">
+                 ng-repeat="service in vm.profileData.services track by service.id">
+              <input type="hidden" ng-model="service.id" ng-value="$index">
               <md-input-container flex="100"
                                   flex-gt-xs="65">
                 <label>Service procedure</label>

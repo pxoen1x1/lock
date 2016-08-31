@@ -19,12 +19,12 @@
                         templateUrl: 'provider/layout/layout.html',
                     },
                     'menu@provider': {
-                        templateUrl: 'provider/layout/menu/menu.html',
+                        templateUrl: 'layout/menu/user-menu.html',
                         controller: 'ProviderMenuController',
                         controllerAs: 'vm'
                     },
                     'header@provider': {
-                        templateUrl: 'provider/layout/header/header.html',
+                        templateUrl: 'layout/header/user-header.html',
                         controller: 'ProviderHeaderController',
                         controllerAs: 'vm'
                     }
@@ -45,7 +45,7 @@
                         controllerAs: 'vm'
                     },
                     'header@provider.registration': {
-                        templateUrl: 'provider/layout/registration-header.html'
+                        templateUrl: 'layout/header/registration-header.html'
                     }
                 }
             })

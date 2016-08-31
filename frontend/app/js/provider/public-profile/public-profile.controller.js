@@ -25,10 +25,12 @@
             },
             services: [
                 {
+                    id: 1,
                     name: 'Car',
                     price: 40
                 },
                 {
+                    id: 2,
                     name: 'House',
                     price: 60
                 }
@@ -39,30 +41,35 @@
             count: 12,
             items: [
                 {
+                    id: 1,
                     name: 'Happy User',
                     photo: 'https://lh5.ggpht.com/-_JtelNWHlKI/AAAAAAAAAAI/AAAAAAAAAAA/ReIT2Tkc_SU/w96-c-h96/photo.jpg',
                     rate: 4,
                     text: 'Good. Good. Good. Good. Good. Good. Good. Good. Good. Good. Good. Good. Good.'
                 },
                 {
+                    id: 2,
                     name: 'Silent User',
                     photo: 'https://lh5.ggpht.com/-_JtelNWHlKI/AAAAAAAAAAI/AAAAAAAAAAA/ReIT2Tkc_SU/w96-c-h96/photo.jpg',
                     rate: 4,
                     text: ''
                 },
                 {
+                    id: 3,
                     name: 'Some User',
                     photo: 'https://lh5.ggpht.com/-_JtelNWHlKI/AAAAAAAAAAI/AAAAAAAAAAA/ReIT2Tkc_SU/w96-c-h96/photo.jpg',
                     rate: 5,
                     text: 'Very good. Very good. Very good. Very good. Very good. Very good. Very good.'
                 },
                 {
+                    id: 4,
                     name: 'Another User',
                     photo: 'https://lh5.ggpht.com/-_JtelNWHlKI/AAAAAAAAAAI/AAAAAAAAAAA/ReIT2Tkc_SU/w96-c-h96/photo.jpg',
                     rate: 3,
                     text: 'Nice. Nice. Nice. Nice. Nice. Nice. Nice. Nice. Nice. Nice. Nice. Nice. Nice.'
                 },
                 {
+                    id: 5,
                     name: 'Angry User',
                     photo: 'https://lh5.ggpht.com/-_JtelNWHlKI/AAAAAAAAAAI/AAAAAAAAAAA/ReIT2Tkc_SU/w96-c-h96/photo.jpg',
                     rate: 1,
