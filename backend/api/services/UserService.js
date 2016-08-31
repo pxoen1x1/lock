@@ -117,7 +117,7 @@ let UserService = {
                             updatedAt: user.updatedAt
                         };
 
-                        if(!user.detailsId) {
+                        if (!user.detailsId) {
 
                             return result;
                         }
@@ -183,51 +183,34 @@ let UserService = {
             );
     },
     create(user) {
-        let promise = new Promise(
-            (resolve, reject) => {
-                User.create(user)
-                    .exec((err, createdUser) => {
-                        if (err) {
 
-                            return reject(err);
-                        }
-
-                        return resolve(createdUser);
-                    });
-            });
-
-        return promise;
+        return User.create(user)
+            .then(
+                (createdUser) => createdUser
+            );
     },
     update(queryKey, updatedUser) {
-        let promise = new Promise((resolve, reject) => {
-            User.findOne(queryKey)
-                .exec((err, user) => {
-                    if (err) {
 
-                        return reject(err);
-                    }
+        return User.findOne(queryKey)
+            .then((user) => {
+                if (!user) {
 
-                    if (!user) {
+                    return Promise.reject();
+                }
 
-                        return reject();
-                    }
+                user = Object.assign(user, updatedUser);
 
-                    user = Object.assign(user, updatedUser);
+                user.save(
+                    (err) => {
+                        if (err) {
 
-                    user.save(
-                        (err) => {
-                            if (err) {
-
-                                return reject(err);
-                            }
-
-                            return resolve(user);
+                            return Promise.reject(err);
                         }
-                    );
-                });
-        });
 
-        return promise;
+                        return user;
+                    }
+                );
+            });
     },
     encryptPassword(password) {
         let promise = new Promise(
