@@ -27,7 +27,7 @@ let UserController = waterlock.actions.user({
             (!params.northEastLatitude || !params.northEastLongitude)) {
 
             return res.badRequest({
-                message: sails.__('Submitted data is invalid.')
+                message: req.__('Submitted data is invalid.')
             });
         }
 
@@ -52,7 +52,7 @@ let UserController = waterlock.actions.user({
             (!params.user || !params.user.firstName || !params.user.lastName || !params.user.phoneNumber)) {
 
             return res.badRequest({
-                message: sails.__('Submitted data is invalid.')
+                message: req.__('Submitted data is invalid.')
             });
         }
 
@@ -94,7 +94,7 @@ let UserController = waterlock.actions.user({
                     }
 
                     return res.badRequest({
-                        message: sails.__('User already exists.')
+                        message: req.__('User already exists.')
                     });
                 }
             );
@@ -106,14 +106,14 @@ let UserController = waterlock.actions.user({
         if (req.user.id !== req.params.id) {
 
             return res.forbidden({
-                message: sails.__('You are not permitted to perform this action.')
+                message: req.__('You are not permitted to perform this action.')
             });
         }
 
         if (!id || Object.keys(user).length === 0) {
 
             return res.badRequest({
-                message: sails.__('Please, check data.')
+                message: req.__('Please, check data.')
             });
         }
 
@@ -140,7 +140,7 @@ let UserController = waterlock.actions.user({
                     }
 
                     return res.notFound({
-                        message: sails.__('User not found.')
+                        message: req.__('User not found.')
                     });
                 }
             );

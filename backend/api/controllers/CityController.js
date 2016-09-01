@@ -16,7 +16,7 @@ let CityController = {
         if (!stateId) {
 
             return res.badRequest({
-                message: sails.__('State is not defined.')
+                message: req.__('State is not defined.')
             });
         }
 

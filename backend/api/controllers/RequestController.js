@@ -53,7 +53,7 @@ let RequestController = {
         if(!requestId){
 
             return res.badRequest({
-                message: sails.__('Request is not defined.')
+                message: req.__('Request is not defined.')
             });
         }
 
@@ -63,7 +63,7 @@ let RequestController = {
                     if(!foundRequest) {
 
                         return res.notFound({
-                            message: sails.__('Request is not found.')
+                            message: req.__('Request is not found.')
                         });
                     }
 
@@ -86,7 +86,7 @@ let RequestController = {
         if (!newRequest) {
             return res.badRequest(
                 {
-                    message: sails.__('Please, check data.')
+                    message: req.__('Please, check data.')
                 }
             );
         }
