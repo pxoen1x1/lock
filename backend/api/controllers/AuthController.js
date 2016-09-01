@@ -1,4 +1,4 @@
-/* global sails, waterlock, UserService*/
+/* global sails, waterlock, UserService, AuthService, MailerService*/
 /**
  * AuthController
  *
@@ -19,7 +19,7 @@ let AuthController = waterlock.waterlocked({
 
             return res.badRequest(
                 {
-                    message: sails.__('Token is not defined.')
+                    message: req.__('Token is not defined.')
                 }
             );
         }
@@ -40,16 +40,102 @@ let AuthController = waterlock.waterlocked({
                         sails.log.error(err);
 
                         return res.serverError({
-                            message: sails.__('User authentication failed.')
+                            message: req.__('User authentication failed.')
                         });
                     }
 
                     return res.notFound({
-                        message: sails.__('User not found.')
+                        message: req.__('User not found.')
                     });
                 }
             );
     },
+    createResetAuthToken(req, res){
+        let params = req.allParams();
+
+        if (!params.email) {
+
+            return res.badRequest({
+                message: req.__('Email is not defined.')
+            });
+        }
+
+        AuthService.resetAuthToken(params.email)
+            .then(
+                (user) => {
+                    return MailerService.passwordResetRequest(user);
+                }
+            )
+            .then(
+                () => res.ok(true)
+            )
+            .catch(
+                (err) => {
+                    if (err) {
+                        sails.log.error(err);
+
+                        return res.serverError();
+                    }
+
+                    return res.badRequest({
+                        message: req.__('Email not found.')
+                    });
+                }
+            );
+    },
+    openPasswordResetPage(req, res) {
+        let params = req.allParams('token');
+
+        AuthService.validateToken(params)
+            .then(
+                (auth) => {
+                    req.session.resetToken = auth.resetToken;
+
+                    res.render('passwordReset', {
+                        user: auth.user,
+                    });
+                }
+            )
+            .catch(
+                (err) => {
+                    if (err.name === 'Error') {
+
+                        return res.serverError();
+                    }
+
+                    res.forbidden({
+                        message: req.__(err)
+                    });
+                }
+            );
+    },
+    resetPassword(req, res) {
+        let params = req.allParams();
+        let owner = req.session.resetToken.owner;
+
+        if (!params.password) {
+
+            return res.badRequest({
+                message: req.__('Password is not defined.')
+            });
+        }
+
+        AuthService.resetPassword(owner, params.password)
+            .then(
+                () => {
+                    req.session.resetToken = false;
+
+                    res.redirect(sails.config.homePage);
+                }
+            )
+            .catch(
+                (err) => {
+                    sails.log.error(err);
+
+                    return res.serverError();
+                }
+            );
+    }
 });
 
 module.exports = AuthController;

@@ -6,6 +6,18 @@ let authRoutes = {
     [`GET ${appConfig.application.urls.emailConfirmation}`]: {
         controller: 'AuthController',
         action: 'confirmEmail'
+    },
+    [`GET ${appConfig.application.urls.passwordResetRequest}/:token`]: {
+        controller: 'AuthController',
+        action: 'openPasswordResetPage'
+    },
+    'POST /auth/password/reset': {
+        controller: 'AuthController',
+        action: 'createResetAuthToken'
+    },
+    [`POST ${appConfig.application.urls.passwordResetRequest}/:token`]: {
+        controller: 'AuthController',
+        action: 'resetPassword'
     }
 };
 
