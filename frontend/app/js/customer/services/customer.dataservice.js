@@ -14,7 +14,6 @@
             getRequest: getRequest,
             getSpecialists: getSpecialists,
             createRequest: createRequest,
-            getUser: getUser,
             updateUser: updateUser
         };
 
@@ -60,14 +59,6 @@
                 return response.data;
             }
 
-        }
-
-        function getUser() {
-
-            return request.httpWithTimeout({
-                url: conf.BASE_URL + 'api/user',
-                method: 'GET'
-            });
         }
 
         function updateUser(updatedUser) {

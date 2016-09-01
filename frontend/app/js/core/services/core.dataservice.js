@@ -10,17 +10,26 @@
     /* @ngInject */
     function coreDataservice($http, request, conf) {
         var service = {
+            getUser: getUser,
             getServiceTypes: getServiceTypes,
             getLanguages: getLanguages,
             getStates: getStates,
             getCities: getCities,
             createUser: createUser,
-            loginUser: loginUser,
+            login: login,
             resetUserPassword: resetUserPassword,
             updateUser: updateUser
         };
 
         return service;
+
+        function getUser() {
+
+            return request.httpWithTimeout({
+                url: conf.BASE_URL + 'api/user',
+                method: 'GET'
+            });
+        }
 
         function getServiceTypes() {
 
@@ -75,7 +84,7 @@
             }
         }
 
-        function loginUser(user) {
+        function login(user) {
 
             return $http({
                 url: conf.BASE_URL + 'auth/login',
@@ -83,9 +92,9 @@
                 data: user,
                 withCredentials: false
             })
-                .then(loginUserComplete);
+                .then(loginComplete);
 
-            function loginUserComplete(response) {
+            function loginComplete(response) {
 
                 return response.data;
             }
