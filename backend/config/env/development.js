@@ -35,5 +35,6 @@ module.exports = {
     hookTimeout: 60000,
 
     port: 1338,
+    baseUrl: 'http://locksmith.i-deasoft.com',
     homePage: 'http://locksmith.i-deasoft.com/'
 };
