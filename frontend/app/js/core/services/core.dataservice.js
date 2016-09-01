@@ -36,8 +36,7 @@
 
             return request.httpWithTimeout({
                 url: conf.BASE_URL + 'api/lists/service-types',
-                method: 'GET',
-                withCredentials: false
+                method: 'GET'
             });
         }
 
@@ -45,8 +44,7 @@
 
             return request.httpWithTimeout({
                 url: conf.BASE_URL + 'api/lists/languages',
-                method: 'GET',
-                withCredentials: false
+                method: 'GET'
             });
         }
 
@@ -54,8 +52,7 @@
 
             return request.httpWithTimeout({
                 url: conf.BASE_URL + 'api/lists/states',
-                method: 'GET',
-                withCredentials: false
+                method: 'GET'
             });
         }
 
@@ -64,8 +61,7 @@
             return request.httpWithTimeout({
                 url: conf.BASE_URL + 'api/lists/states/' + stateId + '/cities',
                 method: 'GET',
-                params: params,
-                withCredentials: false
+                params: params
             });
         }
 
@@ -74,8 +70,7 @@
             return $http({
                 url: conf.BASE_URL + 'api/user',
                 method: 'POST',
-                data: newUser,
-                withCredentials: false
+                data: newUser
             })
                 .then(createUserComplete);
 
@@ -90,8 +85,7 @@
             return $http({
                 url: conf.BASE_URL + 'auth/login',
                 method: 'POST',
-                data: user,
-                withCredentials: false
+                data: user
             })
                 .then(loginComplete);
 
@@ -120,8 +114,7 @@
             return $http({
                 url: conf.BASE_URL + 'auth/password/reset',
                 method: 'POST',
-                data: user,
-                withCredentials: false
+                data: user
             })
                 .then(resetPasswordCompleted);
 

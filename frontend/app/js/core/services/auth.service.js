@@ -35,7 +35,7 @@
 
             return coreDataservice.login(user)
                 .then(function (auth) {
-                    localService.set('auth', auth);
+                    localService.set('auth', JSON.stringify(auth));
 
                     return auth;
                 });
