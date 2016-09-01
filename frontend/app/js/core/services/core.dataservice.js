@@ -17,6 +17,7 @@
             getCities: getCities,
             createUser: createUser,
             login: login,
+            logout: logout,
             resetUserPassword: resetUserPassword,
             updateUser: updateUser
         };
@@ -95,6 +96,20 @@
                 .then(loginComplete);
 
             function loginComplete(response) {
+
+                return response.data;
+            }
+        }
+
+        function logout() {
+
+            return $http({
+                url: conf.BASE_URL + 'auth/logout',
+                method: 'POST'
+            })
+                .then(logoutComplete);
+
+            function logoutComplete(response) {
 
                 return response.data;
             }
