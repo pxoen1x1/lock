@@ -119,7 +119,7 @@ module.exports.waterlock = {
             // obj - {controller: 'blog', action: 'post'}
             // string - 'custom json response string'
             // default - 'default'
-            failure: 'default'
+            failure: `{ "message": "You have successfully logged out." }`
         },
         // post register event
         register: {
