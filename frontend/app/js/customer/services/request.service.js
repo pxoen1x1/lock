@@ -38,7 +38,7 @@
         function getRequestFromHttp(selectedRequest) {
             if (getRequestFromHttpPromise) {
 
-                return getRequestFromHttpPromise.cancel();
+                getRequestFromHttpPromise.cancel();
             }
 
             getRequestFromHttpPromise = customerDataservice.getRequest(selectedRequest);
