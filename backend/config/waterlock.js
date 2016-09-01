@@ -15,7 +15,7 @@ module.exports.waterlock = {
     //
     // used by auth methods for callback URI's using oauth and for password
     // reset links.
-    baseUrl: 'http://localhost:1338/api',
+    baseUrl: 'http://locksmith.i-deasoft.com:1338',
 
     // Auth Method(s)
     //
@@ -27,24 +27,7 @@ module.exports.waterlock = {
         {
             name: 'waterlock-local-auth',
             passwordReset: {
-                tokens: false,
-                mail: {
-                    protocol: 'SMTP',
-                    options: {
-                        service: 'Gmail',
-                        auth: {
-                            user: 'gmail.user@gmail.com',
-                            pass: 'userpass'
-                        }
-                    },
-                    from: 'no-reply@domain.com',
-                    subject: 'Your password reset!',
-                    forwardUrl: 'http://localhost:1337'
-                },
-                template: {
-                    file: '../views/email.jade',
-                    vars: {}
-                }
+                tokens: false
             },
             createOnNotFound: false
         }
@@ -58,7 +41,7 @@ module.exports.waterlock = {
     jsonWebTokens: {
 
         // CHANGE THIS SECRET
-        secret: 'fgfwt2352323gfgf3242342fd',
+        secret: 'aEd128AdFB40e82b',
         expiry: {
             unit: 'days',
             length: '7'
@@ -86,7 +69,7 @@ module.exports.waterlock = {
         // configure whether or not to include
         // the user in the response - this is useful if
         // JWT is the default response for successful login
-        includeUserInJwtResponse: true
+        includeUserInJwtResponse: false
     },
 
     // Post Actions
@@ -136,7 +119,7 @@ module.exports.waterlock = {
             // obj - {controller: 'blog', action: 'post'}
             // string - 'custom json response string'
             // default - 'default'
-            failure: 'jwt'
+            failure: 'default'
         },
         // post register event
         register: {
