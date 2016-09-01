@@ -20,6 +20,8 @@ module.exports = function (req, res, next) {
         }
 
         // valid request
+        req.user = user;
+
         next();
     });
 };
