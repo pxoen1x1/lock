@@ -5,9 +5,6 @@
         .module('app.core')
         .factory('localService', localService);
 
-    localService.$inject = [''];
-
-    /* @ngInject */
     function localService() {
         var service = {
             get: get,
