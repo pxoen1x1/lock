@@ -5,10 +5,10 @@
         .module('app.core')
         .controller('LoginController', LoginController);
 
-    LoginController.$inject = ['$state', '$mdDialog', 'toastService', 'coreDataservice'];
+    LoginController.$inject = ['$state', '$mdDialog', 'toastService', 'coreDataservice', 'authService'];
 
     /* @ngInject */
-    function LoginController($state, $mdDialog, toastService, coreDataservice) {
+    function LoginController($state, $mdDialog, toastService, coreDataservice, authService) {
         var vm = this;
 
         vm.user = {};
@@ -18,9 +18,9 @@
         vm.submit = submit;
         vm.cancel = cancel;
 
-        function loginUser(user) {
+        function login(user) {
 
-            return coreDataservice.loginUser(user)
+            return authService.login(user)
                 .then(function (result) {
 
                     return result;
@@ -50,7 +50,7 @@
                     });
             }
 
-            loginUser(user)
+            login(user)
                 .then(function () {
                     $mdDialog.hide();
 
