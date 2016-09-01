@@ -6,8 +6,8 @@ let application = {
     emailVerificationEnabled: true,
     resetPasswordExpiresTime: 24*3600*1000,
     urls: {
-        emailConfirmation: '/user/email/confirm',
-        passwordResetRequest: '/user/password/reset'
+        emailConfirmation: '/auth/email/confirm',
+        passwordResetRequest: '/auth/password/reset'
     },
     mailer: {
         from: `LockSmith <no-reply@locksmith.local>`,
