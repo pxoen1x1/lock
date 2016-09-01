@@ -2,25 +2,29 @@
     'use strict';
 
     angular
-        .module('app.customer')
-        .controller('CustomerProfileController', CustomerProfileController);
+        .module('app.provider')
+        .controller('ProviderProfileController', ProviderProfileController);
 
-    CustomerProfileController.$inject = ['customerDataservice'];
+    ProviderProfileController.$inject = ['serviceProviderDataservice'];
 
     /* @ngInject */
-    function CustomerProfileController(customerDataservice) {
+    function ProviderProfileController(serviceProviderDataservice) {
         var promises = {
             getUser: null,
             updateUser: null
         };
-
+        
         var vm = this;
 
         vm.profileData = {};
-        vm.isEditing = false;
 
+        vm.datePickerOptions = {
+            maxDate: new Date()
+        };
+
+        vm.isEditing = false;
+        
         vm.updateUser = updateUser;
-        vm.getUser = getUser;
 
         activate();
 
@@ -29,7 +33,7 @@
                 promises.updateUser.cancel();
             }
 
-            promises.updateUser = customerDataservice.updateUser();
+            promises.updateUser = serviceProviderDataservice.updateUser();
 
             return promises.updateUser
                 .then(function (response) {
@@ -46,7 +50,7 @@
                 promises.getUser.cancel();
             }
 
-            promises.getUser = customerDataservice.getUser();
+            promises.getUser = serviceProviderDataservice.getUser();
 
             return promises.getUser
                 .then(function (response) {

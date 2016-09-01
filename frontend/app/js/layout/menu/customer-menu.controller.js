@@ -10,8 +10,9 @@
     /* @ngInject */
     function CustomerMenuController($mdSidenav, customerConstants) {
         var vm = this;
-
+        
         vm.menuItems = customerConstants.MENU_ITEMS;
+        vm.profileRoute = 'customer.profile';
         vm.toggleMenu = toggleMenu;
 
         vm.dataSource = {

@@ -1,0 +1,237 @@
+<div class="container profile-content"
+     ng-class="{'mobile': !$mdMedia('gt-xs')}">
+  <div class="container-title" layout="row">
+    <div flex>
+      <i class="material-icons">person</i> <span>Profile</span>
+    </div>
+    <div flex layout="row" layout-align="end center" class="title-actions">
+      <button class="md-button md-button-blue"
+              aria-label="Show public profile"
+              ui-sref="provider.profile.public({'profileId': vm.profileData.id})">
+        Show public profile
+      </button>
+    </div>
+  </div>
+  <div class="container-content">
+    <div layout="column"
+         layout-gt-xs="row"
+         layout-align-gt-xs="start start"
+         layout-align="start center">
+      <div class="profile-left"
+           layout="row"
+           layout-gt-xs="column"
+           layout-align="start center"
+           layout-align-gt-xs="start start"
+           flex-gt-xs="25">
+        <img class="avatar"
+             ng-src="{{conf.FRONT_URL + (vm.profileData.portrait || coreConstants.IMAGES.defaultPortrait)}}"
+             alt="photo"/>
+        <div flex="5"></div>
+        <div class="actions"
+             layout="column">
+          <md-button class="md-button-blue"
+                     aria-label="Change photo">
+            Change photo
+          </md-button>
+          <md-button ng-if="!vm.isEditing"
+                     class="md-button-blue"
+                     ng-click="vm.isEditing = true"
+                     aria-label="Edit profile">
+            Edit profile
+          </md-button>
+        </div>
+      </div>
+      <div flex-gt-xs="5"></div>
+      <div layout="row"
+           class="profile-right"
+           flex-gt-xs="70"
+           layout-align="start center"
+           layout-align-gt-xs="start start">
+        <div ng-hide="vm.isEditing" flex="100">
+          <div layout="column"
+               layout-gt-xs="row"
+               layout-align="center center"
+               layout-align-gt-xs="start center">
+            <div class="md-display-1">
+              <span class="vertical-middle" ng-bind="vm.profileData.fullName"></span>
+              <i class="material-icons vertical-middle verified"
+                 ng-if="vm.profileData.isEnabled">
+                verified_user
+              </i>
+            </div>
+            <div class="profile-rating"
+                 flex
+                 layout="row"
+                 layout-align="center center"
+                 layout-align-gt-xs="end center">
+              <star-rating value="vm.profileData.rating" readonly></star-rating>
+              <span class="divider-dot">⋅</span>
+              <span ng-bind="vm.profileData.rating"></span>
+            </div>
+          </div>
+          <div class="section first">
+            <span class="md-body-2">Email:</span>
+            <span class="md-body-1" ng-bind="vm.profileData.email"></span>
+          </div>
+          <div class="section">
+            <span class="md-body-2">Phone:</span>
+            <span class="md-body-1" ng-bind="vm.profileData.phoneNumber"></span>
+          </div>
+          <div class="section">
+            <span class="md-body-2">Credit card:</span>
+            <span class="md-body-1" ng-bind="vm.profileData.card"></span>
+          </div>
+          <div class="section">
+            <span class="md-body-2">License:</span>
+            <span class="md-body-1" ng-bind="vm.profileData.details.license.number"></span>
+            from <span class="md-body-1" ng-bind="vm.profileData.details.license.date | date: 'MM/dd/yyyy'">
+          </div>
+          <div class="section">
+            <span class="md-body-2">Working hours:</span>
+            from
+            <span class="md-body-1"
+                  ng-bind="vm.profileData.details.workingHours.from | date: 'hh:mm a'"></span>
+            to
+            <span class="md-body-1"
+                  ng-bind="vm.profileData.details.workingHours.to | date: 'hh:mm a'"></span>
+          </div>
+          <div class="section">
+            <span class="md-body-2">Services:</span>
+            <span class="md-body-1"
+                  ng-repeat="service in vm.profileData.details.services track by service.id"
+                  ng-bind="service.serviceName + ' (' + (service.price | currency:'$') + ')' + ($last ? '':', ')">
+            </span>
+          </div>
+          <div class="section">
+            <span class="md-body-2">Requests done:</span>
+            <span class="md-body-1" ng-bind="vm.profileData.requestsDone.total"></span>
+            <span class="md-body-1" ng-bind="'('+vm.profileData.requestsDone.month+' this month)'"></span>
+          </div>
+          <div class="section">
+            <span class="md-body-2">Earned:</span>
+            <span class="md-body-1" ng-bind="vm.profileData.earned.total | currency:'$'"></span>
+            <span class="md-body-1"
+                  ng-bind="'(' + (vm.profileData.earned.month | currency:'$') + ' this month)'"></span>
+          </div>
+        </div>
+        <div ng-show="vm.isEditing">
+          <form name="editForm"
+                novalidate
+                ng-submit="vm.updateUser(vm.profileData, editForm.$valid)">
+            <p>Full name: <sup>*</sup></p>
+            <md-input-container class="md-block" flex>
+              <label>Full name</label>
+              <input name="fullName"
+                     required
+                     ng-maxlength="40"
+                     ng-model="vm.profileData.fullName">
+            </md-input-container>
+            <p>Email: <sup>*</sup></p>
+            <md-input-container class="md-block" flex>
+              <label>Email</label>
+              <input name="email"
+                     required
+                     ng-model="vm.profileData.email">
+            </md-input-container>
+            <p>Credit card: <sup>*</sup></p>
+            <md-input-container class="md-block" flex>
+              <label>Credit card</label>
+              <input name="card"
+                     required
+                     ng-model="vm.profileData.card">
+            </md-input-container>
+            <p>Phone number: <sup>*</sup></p>
+            <md-input-container class="md-block" flex>
+              <label>Phone number</label>
+              <input type="tel"
+                     name="phoneNumber"
+                     ui-us-phone-number
+                     ng-model="vm.profileData.phone">
+              <div ng-messages="editForm.phoneNumber.$error">
+                <span ng-message="usPhoneNumber">That doesn't look like a valid phone number.</span>
+              </div>
+            </md-input-container>
+            <p>License information: <sup>*</sup></p>
+            <div layout="row">
+              <md-input-container class="md-block">
+                <label>License Number</label>
+                <input type="text"
+                       name="licenseNumber"
+                       required
+                       ng-model="vm.profileData.details.license.number">
+                <div ng-messages="editForm.licenseNumber.$error">
+                  <div ng-message="required">Please, enter a license number.</div>
+                </div>
+              </md-input-container>
+              <mdp-date-picker name="licenseDate"
+                               mdp-placeholder="License Date"
+                               mdp-max-date="vm.datePickerOptions.maxDate"
+                               date-formatter
+                               ng-required
+                               ng-model="vm.profileData.details.license.number">
+              </mdp-date-picker>
+            </div>
+            <div class="validation-messages"
+                 ng-messages="editForm.licenseDate.$error">
+              <div ng-message="valid">The entered value is not a date!</div>
+              <div ng-message="maxdate">Date is too late!</div>
+            </div>
+            <p>Services</p>
+            <div layout-gt-xs="row"
+                 layout="column"
+                 ng-repeat="service in vm.profileData.details.services track by service.id">
+              <input type="hidden" ng-model="service.id" ng-value="$index">
+              <md-input-container flex="100"
+                                  flex-gt-xs="65">
+                <label>Service procedure</label>
+                <input type="text"
+                       name="serviceName"
+                       ng-required="service.price || vm.profileData.services.length > 1"
+                       ng-model="service.serviceName">
+              </md-input-container>
+              <md-input-container class="md-block"
+                                  flex="100"
+                                  flex-gt-xs="30">
+                <label>Price $</label>
+                <input type="text"
+                       name="price"
+                       ng-required="service.name || vm.profileData.services.length > 1"
+                       ng-model="service.price">
+              </md-input-container>
+              <div class="service-price-remove"
+                   flex="100"
+                   flex-gt-xs="5"
+                   layout="column"
+                   layout-align="start center"
+                   ng-click="vm.profileData.details.services.splice($index, 1)"
+                   ng-if="vm.profileData.details.services.length > 1">
+                <i class="material-icons">indeterminate_check_box</i>
+              </div>
+            </div>
+            <md-button ng-click="vm.profileData.details.services.push({})">Add</md-button>
+            <p>Working hours:</p>
+            <div layout="row">
+              <mdp-time-picker name="timeFrom"
+                               mdp-placeholder="From"
+                               mdp-auto-switch="true"
+                               ng-model="vm.profileData.details.workingHours.from">
+              </mdp-time-picker>
+              <mdp-time-picker name="timeTo"
+                               mdp-placeholder="To"
+                               mdp-auto-switch="true"
+                               ng-model="vm.profileData.details.workingHours.to">
+              </mdp-time-picker>
+            </div>
+
+            <md-button type="submit"
+                       class="md-raised md-warn"
+                       aria-label="Save"
+                       ng-if="vm.isEditing">
+              Save
+            </md-button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

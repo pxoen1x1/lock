@@ -1,0 +1,84 @@
+<div class="container public-profile-content"
+     ng-class="{'mobile': $mdMedia('xs')}">
+  <div class="container-title"><i class="material-icons">person</i> <span>Profile</span></div>
+  <div class="container-content public-profile-overview"
+       layout="column"
+       layout-gt-xs="row"
+       layout-align="start center"
+       layout-align-gt-xs="start start">
+    <div flex-gt-xs="25">
+      <img class="avatar"
+           ng-src="{{vm.profileData.photo}}"
+           alt="photo"/>
+    </div>
+    <div flex-gt-xs="5"></div>
+    <div flex-gt-xs="70"
+         class="profile-right">
+      <div layout="column"
+           layout-gt-xs="row"
+           layout-align="center center"
+           layout-align-gt-xs="start center">
+        <div class="md-display-1">
+          <span class="vertical-middle" ng-bind="vm.profileData.name"></span>
+          <i class="material-icons vertical-middle verified"
+             ng-if="vm.profileData.verified">
+            verified_user
+          </i>
+        </div>
+        <div class="public-profile-rating"
+             flex
+             layout="row"
+             layout-align="center center"
+             layout-align-gt-xs="end center">
+          <star-rating value="vm.profileData.rating" readonly></star-rating>
+          <span class="divider-dot">⋅</span>
+          <span ng-bind="vm.profileData.rating"></span>
+        </div>
+      </div>
+      <div class="section first">
+        <span class="md-body-2">Requests done:</span>
+        <span class="md-body-1" ng-bind="vm.profileData.requestsDone"></span>
+      </div>
+      <div class="section">
+        <span class="md-body-2">Working hours:</span>
+        from
+            <span class="md-body-1"
+                  ng-bind="vm.profileData.workingHours.from | date: 'hh:mm a'"></span>
+        to
+            <span class="md-body-1"
+                  ng-bind="vm.profileData.workingHours.to | date: 'hh:mm a'"></span>
+      </div>
+      <div class="section">
+        <span class="md-body-2">Services:</span>
+            <span class="md-body-1"
+                  ng-repeat="service in vm.profileData.services track by service.id"
+                  ng-bind="service.name + ' (' + (service.price | currency:'$') + ')' + ($last ? '':', ')">
+            </span>
+      </div>
+    </div>
+  </div>
+  <div class="container-title">
+    <i class="material-icons">star</i>
+    <span>Feedbacks</span>
+    <span class="divider-dot">⋅</span>
+    <span class="md-title" ng-bind="vm.feedbackData.count"></span>
+  </div>
+  <div class="container-content public-profile-feedbacks"
+       layout="column">
+    <div class="feedback"
+         layout="row"
+         ng-repeat="feedback in vm.feedbackData.items track by feedback.id">
+      <div>
+        <img class="avatar" ng-src="{{feedback.photo}}" alt="photo"/>
+      </div>
+      <div class="divider"></div>
+      <div layout="column" flex>
+        <div class="md-subhead primary-color" ng-bind="feedback.name"></div>
+        <star-rating value="feedback.rate"
+                     readonly>
+        </star-rating>
+        <div class="md-body-1 text" ng-bind="feedback.text"></div>
+      </div>
+    </div>
+  </div>
+</div>

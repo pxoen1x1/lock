@@ -1,7 +1,22 @@
 <div class="provider" layout="row">
-  <div class="menu" ui-view="menu" layout="column" flex="0" flex-gt-xs="20"></div>
+  <md-sidenav ui-view="menu"
+              class="menu"
+              md-component-id="left"
+              md-is-locked-open="$mdMedia('gt-sm')"
+              md-disable-backdrop
+              md-whiteframe="4"
+              layout="column"
+              flex>
+
+  </md-sidenav>
   <div layout="column" flex>
     <div class="header" ui-view="header"></div>
-    <div class="content" ui-view="content" layout="column" flex></div>
+    <div class="content-wrapper" flex>
+      <md-content class="content anim-in-out anim-fade"
+                  ui-view="content"
+                  data-anim-speed="400">
+
+      </md-content>
+    </div>
   </div>
 </div>
