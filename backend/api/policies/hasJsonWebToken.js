@@ -1,4 +1,4 @@
-'use strict';
+/* global  waterlock */
 /* jshint unused:false */
 
 /**
@@ -9,13 +9,17 @@
  *
  * @docs        :: http://waterlock.ninja/documentation
  */
-module.exports = function(req, res, next) {
-  waterlock.validator.validateTokenRequest(req, function(err, user){
-    if(err){
-      return res.forbidden(err);  
-    }
 
-    // valid request
-    next();
-  });
+'use strict';
+
+module.exports = function (req, res, next) {
+    waterlock.validator.validateTokenRequest(req, function (err, user) {
+        if (err) {
+
+            return res.forbidden('You are not permitted to perform this action.');
+        }
+
+        // valid request
+        next();
+    });
 };
