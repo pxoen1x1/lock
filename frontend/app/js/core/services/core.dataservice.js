@@ -10,62 +10,67 @@
     /* @ngInject */
     function coreDataservice($http, request, conf) {
         var service = {
+            getUser: getUser,
             getServiceTypes: getServiceTypes,
             getLanguages: getLanguages,
             getStates: getStates,
             getCities: getCities,
             createUser: createUser,
-            loginUser: loginUser,
+            login: login,
+            logout: logout,
             resetUserPassword: resetUserPassword,
             updateUser: updateUser
         };
 
         return service;
 
+        function getUser() {
+
+            return request.httpWithTimeout({
+                url: conf.BASE_URL + 'api/user',
+                method: 'GET'
+            });
+        }
+
         function getServiceTypes() {
 
             return request.httpWithTimeout({
-                url: conf.URL + 'lists/service-types',
-                method: 'GET',
-                withCredentials: false
+                url: conf.BASE_URL + 'api/lists/service-types',
+                method: 'GET'
             });
         }
 
         function getLanguages() {
 
             return request.httpWithTimeout({
-                url: conf.URL + 'lists/languages',
-                method: 'GET',
-                withCredentials: false
+                url: conf.BASE_URL + 'api/lists/languages',
+                method: 'GET'
             });
         }
 
         function getStates() {
 
             return request.httpWithTimeout({
-                url: conf.URL + 'lists/states',
-                method: 'GET',
-                withCredentials: false
+                url: conf.BASE_URL + 'api/lists/states',
+                method: 'GET'
             });
         }
 
         function getCities(stateId, params) {
 
             return request.httpWithTimeout({
-                url: conf.URL + 'lists/states/' + stateId + '/cities',
+                url: conf.BASE_URL + 'api/lists/states/' + stateId + '/cities',
                 method: 'GET',
-                params: params,
-                withCredentials: false
+                params: params
             });
         }
 
         function createUser(newUser) {
 
             return $http({
-                url: conf.URL + 'user',
+                url: conf.BASE_URL + 'api/user',
                 method: 'POST',
-                data: newUser,
-                withCredentials: false
+                data: newUser
             })
                 .then(createUserComplete);
 
@@ -75,17 +80,31 @@
             }
         }
 
-        function loginUser(user) {
+        function login(user, type) {
+            var loginType = type || 'local';
 
             return $http({
-                url: conf.URL + 'login',
+                url: conf.BASE_URL + 'auth/login?type=' + loginType,
                 method: 'POST',
-                data: user,
-                withCredentials: false
+                data: user
             })
-                .then(loginUserComplete);
+                .then(loginComplete);
 
-            function loginUserComplete(response) {
+            function loginComplete(response) {
+
+                return response.data;
+            }
+        }
+
+        function logout() {
+
+            return $http({
+                url: conf.BASE_URL + 'auth/logout',
+                method: 'POST'
+            })
+                .then(logoutComplete);
+
+            function logoutComplete(response) {
 
                 return response.data;
             }
@@ -94,10 +113,9 @@
         function resetUserPassword(user) {
 
             return $http({
-                url: conf.URL + 'user/password/forgot',
+                url: conf.BASE_URL + 'auth/password/reset',
                 method: 'POST',
-                data: user,
-                withCredentials: false
+                data: user
             })
                 .then(resetPasswordCompleted);
 
@@ -110,7 +128,7 @@
         function updateUser(user) {
 
             return $http({
-                url: conf.URL + 'user/' + user.id,
+                url: conf.BASE_URL + 'api/user/' + user.id,
                 method: 'PUT',
                 data: user
             })

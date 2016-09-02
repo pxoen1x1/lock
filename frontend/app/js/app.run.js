@@ -5,18 +5,27 @@
         .module('app')
         .run(runApp);
 
-    runApp.$inject = ['$rootScope', '$state', '$mdDialog', '$mdMedia', 'cfpLoadingBar', 'coreConstants', 'conf'];
+    runApp.$inject = ['$rootScope', '$state', '$mdDialog', '$mdMedia', 'cfpLoadingBar', 'authService', 'toastService',
+        'coreConstants', 'conf'];
 
     /* @ngInject */
-    function runApp($rootScope, $state, $mdDialog, $mdMedia, cfpLoadingBar, coreConstants, conf) {
+    function runApp($rootScope, $state, $mdDialog, $mdMedia, cfpLoadingBar, authService, toastService,
+                    coreConstants, conf) {
 
         $rootScope.$state = $state;
         $rootScope.$mdMedia = $mdMedia;
         $rootScope.coreConstants = coreConstants;
         $rootScope.conf = conf;
-        
+
         $rootScope.$on('$stateChangeStart', function (event, toState) {
             cfpLoadingBar.start();
+
+            if (toState.data && !authService.authorize(toState.data.isPrivate)) {
+                cfpLoadingBar.complete();
+                event.preventDefault();
+
+                toastService.warning('Please log in.');
+            }
 
             if (toState.name === 'login') {
                 cfpLoadingBar.complete();
@@ -29,7 +38,7 @@
                 });
             }
 
-            if (toState.name === 'customer.invite') {
+            if (toState.name === 'customer.invite' && authService.authorize(toState.data.isPrivate)) {
                 cfpLoadingBar.complete();
                 event.preventDefault();
 

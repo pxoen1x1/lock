@@ -31,7 +31,7 @@
             <input name="firstName"
                    required
                    ng-maxlength="20"
-                   ng-model="vm.user.firstName">
+                   ng-model="vm.user.user.firstName">
             <div ng-messages="registrationForm.firstName.$error">
               <div ng-message="maxlength">Your first name is too long.</div>
             </div>
@@ -41,7 +41,7 @@
             <input name="lastName"
                    required
                    ng-maxlength="20"
-                   ng-model="vm.user.lastName">
+                   ng-model="vm.user.user.lastName">
             <div ng-messages="registrationForm.lastName.$error">
               <div ng-message="maxlength">Your last name is too long.</div>
             </div>
@@ -55,7 +55,7 @@
                    name="phoneNumber"
                    required
                    ui-us-phone-number
-                   ng-model="vm.user.phoneNumber">
+                   ng-model="vm.user.user.phoneNumber">
             <div ng-messages="registrationForm.phoneNumber.$error">
               <span ng-message="usPhoneNumber">That doesn't look like a valid phone number.</span>
             </div>
@@ -102,9 +102,11 @@
       <div class="social-button-wrapper"
            layout="column"
            layout-align="center start">
-        <md-button class="social-button facebook">Log in with Facebook</md-button>
-        <md-button class="social-button google">Log in with Google+</md-button>
-        <md-button class="social-button twitter">Log in with Twitter</md-button>
+        <md-button class="social-button facebook"
+                   ng-click="vm.loginWithFacebook()">Join in with Facebook
+        </md-button>
+        <md-button class="social-button google">Join in with Google+</md-button>
+        <md-button class="social-button twitter">Join in with Twitter</md-button>
       </div>
       <md-button class="social-button gray"
                  ng-click="vm.showSocialButtons = !vm.showSocialButtons">

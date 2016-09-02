@@ -2,13 +2,13 @@
   <p>Work details</p>
   <div layout-gt-xs="row"
        layout="column"
-       ng-repeat="servicePrice in vm.user.details.servicePrices track by $index">
+       ng-repeat="servicePrice in vm.user.user.details.servicePrices track by $index">
     <md-input-container flex="100"
                         flex-gt-xs="65">
       <label>Service procedure</label>
       <input type="text"
              name="serviceName"
-             ng-required="servicePrice.price || vm.user.details.servicePrices.length > 1"
+             ng-required="servicePrice.price || vm.user.user.details.servicePrices.length > 1"
              ng-model="servicePrice.serviceName">
     </md-input-container>
     <md-input-container class="md-block"
@@ -17,7 +17,7 @@
       <label>Price $</label>
       <input type="text"
              name="price"
-             ng-required="servicePrice.procedure || vm.user.details.servicePrices.length > 1"
+             ng-required="servicePrice.procedure || vm.user.user.details.servicePrices.length > 1"
              ng-model="servicePrice.price">
     </md-input-container>
     <div class="service-price-remove"
@@ -25,23 +25,23 @@
          flex-gt-xs="5"
          layout="column"
          layout-align="start center"
-         ng-click="vm.user.details.servicePrices.splice($index, 1)"
-         ng-if="vm.user.details.servicePrices.length > 1">
+         ng-click="vm.user.user.details.servicePrices.splice($index, 1)"
+         ng-if="vm.user.user.details.servicePrices.length > 1">
       <i class="material-icons">indeterminate_check_box</i>
     </div>
   </div>
-  <md-button ng-click="vm.user.details.servicePrices.push({})">Add</md-button>
+  <md-button ng-click="vm.user.user.details.servicePrices.push({})">Add</md-button>
   <p>Working hours</p>
   <div layout="row">
     <mdp-time-picker name="timeFrom"
                      mdp-placeholder="From"
                      mdp-auto-switch="vm.timePickerOptions.autoSwitch"
-                     ng-model="vm.user.details.workingHours.timeFrom">
+                     ng-model="vm.user.user.details.workingHours.timeFrom">
     </mdp-time-picker>
     <mdp-time-picker name="timeTo"
                      mdp-placeholder="To"
                      mdp-auto-switch="vm.timePickerOptions.autoSwitch"
-                     ng-model="vm.user.details.workingHours.timeTo">
+                     ng-model="vm.user.user.details.workingHours.timeTo">
     </mdp-time-picker>
   </div>
 </div>

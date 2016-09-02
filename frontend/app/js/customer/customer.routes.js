@@ -79,6 +79,7 @@
                 },
                 data: {
                     title: 'Requests',
+                    isPrivate: true,
                     menu: {
                         title: 'Requests',
                         icon: 'list'
@@ -97,7 +98,8 @@
                     }
                 },
                 data: {
-                    title: ''
+                    title: '',
+                    isPrivate: true
                 }
             })
             .state('customer.requests.request.view', {
@@ -177,6 +179,7 @@
                 url: '/settings',
                 data: {
                     title: 'Settings',
+                    isPrivate: true,
                     menu: {
                         title: 'Settings',
                         icon: 'settings'
@@ -194,12 +197,14 @@
                     }
                 },
                 data: {
+                    isPrivate: true,
                     title: 'Profile'
                 }
             })
             .state('customer.invite', {
                 reloadOnSearch: false,
                 data: {
+                    isPrivate: true,
                     menu: {
                         title: 'Invite a friend',
                         icon: 'message'

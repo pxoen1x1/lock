@@ -4,7 +4,7 @@
     angular
         .module('app')
         .constant('conf', {
-            URL: 'http://locksmith.i-deasoft.com:1338/api/',
+            BASE_URL: 'http://locksmith.i-deasoft.com:1338/',
             FRONT_URL: 'http://locksmith.i-deasoft.com:9000/'
         });
 })(); 

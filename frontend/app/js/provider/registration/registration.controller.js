@@ -6,20 +6,24 @@
         .controller('ProviderRegistrationController', ProviderRegistrationController);
 
     ProviderRegistrationController.$inject = ['$q', '$state', 'coreDataservice', 'coreConstants', 'coreDictionary',
-        'serviceProviderConstants', 'citiesLoader', 'geocoderService'];
+        'authService', 'serviceProviderConstants', 'citiesLoader', 'geocoderService'];
 
     /* @ngInject */
     function ProviderRegistrationController($q, $state, coreDataservice, coreConstants, coreDictionary,
-                                            serviceProviderConstants, citiesLoader, geocoderService) {
+                                            authService, serviceProviderConstants, citiesLoader, geocoderService) {
         var promises = {
             getState: null
         };
 
         var vm = this;
 
-        vm.user = {};
-        vm.user.details = {};
-        vm.user.details.servicePrices = [];
+        vm.user = {
+            user: {
+                details: {
+                    servicePrices: []
+                }
+            }
+        };
 
         vm.searchCity = '';
         vm.states = [];
@@ -91,7 +95,7 @@
         }
 
         function resetSelectedCity() {
-            vm.user.address.city = null;
+            vm.user.user.address.city = null;
             vm.searchCity = '';
 
             citiesLoader.resetSelectedCity();
@@ -99,7 +103,7 @@
 
         function createUser(user) {
 
-            return coreDataservice.createUser(user)
+            return authService.register(user)
                 .then(function () {
 
                     $state.go('home');
@@ -130,12 +134,12 @@
                 return;
             }
 
-            getAddressLocation(user.address)
+            getAddressLocation(user.user.address)
                 .then(function (location) {
-                    user.details.location = location;
+                    user.user.details.location = location;
                 })
                 .finally(function () {
-                    user.details.servicePrices = clearEmptyElements(user.details.servicePrices);
+                    user.user.details.servicePrices = clearEmptyElements(user.user.details.servicePrices);
 
                     createUser(user);
                 });
@@ -184,7 +188,7 @@
                 getStates()
             ])
                 .then(function () {
-                    vm.user.details.servicePrices.push({});
+                    vm.user.user.details.servicePrices.push({});
                 });
         }
     }

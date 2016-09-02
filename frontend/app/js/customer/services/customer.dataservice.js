@@ -14,7 +14,6 @@
             getRequest: getRequest,
             getSpecialists: getSpecialists,
             createRequest: createRequest,
-            getUser: getUser,
             updateUser: updateUser
         };
 
@@ -23,7 +22,7 @@
         function getAllRequests(params) {
 
             return request.httpWithTimeout({
-                url: conf.URL + 'client/requests',
+                url: conf.BASE_URL + 'api/client/requests',
                 method: 'GET',
                 params: params
             });
@@ -32,7 +31,7 @@
         function getRequest(selectedRequest) {
 
             return request.httpWithTimeout({
-                url: conf.URL + 'client/requests/' + selectedRequest.id,
+                url: conf.BASE_URL + 'api/client/requests/' + selectedRequest.id,
                 method: 'GET'
             });
         }
@@ -40,7 +39,7 @@
         function getSpecialists(params) {
 
             return request.httpWithTimeout({
-                url: conf.URL + 'specialists/find',
+                url: conf.BASE_URL + 'api/specialists/find',
                 method: 'GET',
                 params: params
             });
@@ -49,7 +48,7 @@
         function createRequest(newRequest) {
 
             return $http({
-                url: conf.URL + 'client/requests',
+                url: conf.BASE_URL + 'api/client/requests',
                 method: 'POST',
                 data: newRequest
             })
@@ -62,18 +61,10 @@
 
         }
 
-        function getUser() {
-
-            return request.httpWithTimeout({
-                url: conf.URL + 'user',
-                method: 'GET'
-            });
-        }
-
         function updateUser(updatedUser) {
 
             return $http({
-                url: conf.URL + 'user/' + updatedUser.id,
+                url: conf.BASE_URL + 'api/user/' + updatedUser.id,
                 method: 'PUT',
                 data: updatedUser
             })

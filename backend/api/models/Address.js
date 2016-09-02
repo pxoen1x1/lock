@@ -29,6 +29,7 @@ let Address = {
         },
         user: {
             model: 'user',
+            unique: true,
             columnName: 'user_id'
         }
     }

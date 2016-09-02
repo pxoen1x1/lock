@@ -6,7 +6,7 @@
     <div ng-repeat="serviceType in vm.serviceTypes track by serviceType.id">
       <md-checkbox aria-label="{{ serviceType.name }}"
                    checklist-value="serviceType.id"
-                   checklist-model="vm.user.details.serviceTypes">
+                   checklist-model="vm.user.user.details.serviceTypes">
         <span ng-bind="serviceType.name"></span>
       </md-checkbox>
     </div>
@@ -20,7 +20,7 @@
       <input type="text"
              name="licenseNumber"
              required
-             ng-model="vm.user.details.license.number">
+             ng-model="vm.user.user.details.license.number">
       <div ng-messages="registrationForm.licenseNumber.$error">
         <div ng-message="required">Please, enter a license number.</div>
       </div>
@@ -30,7 +30,7 @@
                      mdp-max-date="vm.datePickerOptions.maxDate"
                      date-formatter
                      ng-required
-                     ng-model="vm.user.details.license.date">
+                     ng-model="vm.user.user.details.license.date">
     </mdp-date-picker>
     <div class="validation-messages"
          ng-messages="registrationForm.licenseDate.$error">

@@ -8,33 +8,22 @@ let promise = require('bluebird');
 
 let UserService = {
     getUser(user) {
-        let promise = new Promise((resolve, reject) => {
-                User.findOneById(user.id)
-                    .populate('addresses')
-                    .exec(
-                        (err, foundUser) => {
-                            if (err) {
+        return User.findOneById(user.id)
+            .populate('address')
+            .populate('auth')
+            .then(
+                (foundUser) => {
 
-                                return reject(err);
+                   return  UserDetailService.getUserDetailByUser(foundUser)
+                        .then(
+                            (userDetails) => {
+                                foundUser.details = userDetails;
+
+                                return foundUser;
                             }
-
-                            UserDetailService.getUserDetailByUser(foundUser)
-                                .then(
-                                    (userDetails) => {
-                                        foundUser.details = userDetails;
-
-                                        return resolve(foundUser);
-                                    }
-                                )
-                                .catch(
-                                    (err) => reject(err)
-                                );
-                        }
-                    );
-            }
-        );
-
-        return promise;
+                        );
+                }
+            );
     },
     findServiceProviders(params) {
         let rawQuery = `
@@ -45,13 +34,14 @@ let UserService = {
                     users.phone_number AS 'phoneNumber',
                     users.gender,
                     users.birthday,
-                    users.email,
                     users.ssn,
                     users.is_enabled AS isEnabled,
                     users.is_email_confirmed AS isEmailConfirmed,
                     users.portrait,
                     users.createdAt,
                     users.updatedAt,
+                    auth.id AS authId,
+                    auth.email AS authEmail,
                     details.id AS detailsId,
                     details.is_available AS detailsIsAvailable,
                     details.is_pro AS detailsIsPro,
@@ -77,6 +67,7 @@ let UserService = {
                     working_hours.time_from AS workingHoursTimeFrom,
                     working_hours.time_to AS workingHoursTimeTo
             FROM users
+            LEFT JOIN auth ON auth.user = users.id
             LEFT JOIN addresses ON addresses.user_id = users.id
             LEFT JOIN cities ON cities.id = addresses.city_id
             LEFT JOIN states ON states.id = addresses.state_id
@@ -117,7 +108,14 @@ let UserService = {
                             updatedAt: user.updatedAt
                         };
 
-                        if(!user.detailsId) {
+                        if (user.authId) {
+                            result.auth = {
+                                id: user.authId,
+                                email: user.authEmail
+                            };
+                        }
+
+                        if (!user.detailsId) {
 
                             return result;
                         }
@@ -183,51 +181,34 @@ let UserService = {
             );
     },
     create(user) {
-        let promise = new Promise(
-            (resolve, reject) => {
-                User.create(user)
-                    .exec((err, createdUser) => {
-                        if (err) {
 
-                            return reject(err);
-                        }
-
-                        return resolve(createdUser);
-                    });
-            });
-
-        return promise;
+        return User.create(user)
+            .then(
+                (createdUser) => createdUser
+            );
     },
     update(queryKey, updatedUser) {
-        let promise = new Promise((resolve, reject) => {
-            User.findOne(queryKey)
-                .exec((err, user) => {
-                    if (err) {
 
-                        return reject(err);
-                    }
+        return User.findOne(queryKey)
+            .then((user) => {
+                if (!user) {
 
-                    if (!user) {
+                    return Promise.reject();
+                }
 
-                        return reject();
-                    }
+                user = Object.assign(user, updatedUser);
 
-                    user = Object.assign(user, updatedUser);
+                user.save(
+                    (err) => {
+                        if (err) {
 
-                    user.save(
-                        (err) => {
-                            if (err) {
-
-                                return reject(err);
-                            }
-
-                            return resolve(user);
+                            return Promise.reject(err);
                         }
-                    );
-                });
-        });
 
-        return promise;
+                        return user;
+                    }
+                );
+            });
     },
     encryptPassword(password) {
         let promise = new Promise(
