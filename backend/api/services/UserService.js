@@ -8,33 +8,22 @@ let promise = require('bluebird');
 
 let UserService = {
     getUser(user) {
-        let promise = new Promise((resolve, reject) => {
-                User.findOneById(user.id)
-                    .populate('addresses')
-                    .exec(
-                        (err, foundUser) => {
-                            if (err) {
+        return User.findOneById(user.id)
+            .populate('address')
+            .populate('auth')
+            .then(
+                (foundUser) => {
 
-                                return reject(err);
+                   return  UserDetailService.getUserDetailByUser(foundUser)
+                        .then(
+                            (userDetails) => {
+                                foundUser.details = userDetails;
+
+                                return foundUser;
                             }
-
-                            UserDetailService.getUserDetailByUser(foundUser)
-                                .then(
-                                    (userDetails) => {
-                                        foundUser.details = userDetails;
-
-                                        return resolve(foundUser);
-                                    }
-                                )
-                                .catch(
-                                    (err) => reject(err)
-                                );
-                        }
-                    );
-            }
-        );
-
-        return promise;
+                        );
+                }
+            );
     },
     findServiceProviders(params) {
         let rawQuery = `
@@ -119,7 +108,7 @@ let UserService = {
                             updatedAt: user.updatedAt
                         };
 
-                        if(user.authId) {
+                        if (user.authId) {
                             result.auth = {
                                 id: user.authId,
                                 email: user.authEmail
