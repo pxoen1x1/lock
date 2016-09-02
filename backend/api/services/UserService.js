@@ -45,13 +45,14 @@ let UserService = {
                     users.phone_number AS 'phoneNumber',
                     users.gender,
                     users.birthday,
-                    users.email,
                     users.ssn,
                     users.is_enabled AS isEnabled,
                     users.is_email_confirmed AS isEmailConfirmed,
                     users.portrait,
                     users.createdAt,
                     users.updatedAt,
+                    auth.id AS authId,
+                    auth.email AS authEmail,
                     details.id AS detailsId,
                     details.is_available AS detailsIsAvailable,
                     details.is_pro AS detailsIsPro,
@@ -77,6 +78,7 @@ let UserService = {
                     working_hours.time_from AS workingHoursTimeFrom,
                     working_hours.time_to AS workingHoursTimeTo
             FROM users
+            LEFT JOIN auth ON auth.user = users.id
             LEFT JOIN addresses ON addresses.user_id = users.id
             LEFT JOIN cities ON cities.id = addresses.city_id
             LEFT JOIN states ON states.id = addresses.state_id
@@ -116,6 +118,13 @@ let UserService = {
                             createdAt: user.createdAt,
                             updatedAt: user.updatedAt
                         };
+
+                        if(user.authId) {
+                            result.auth = {
+                                id: user.authId,
+                                email: user.authEmail
+                            };
+                        }
 
                         if (!user.detailsId) {
 
