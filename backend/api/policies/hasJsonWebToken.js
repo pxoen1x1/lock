@@ -20,7 +20,11 @@ module.exports = function (req, res, next) {
         }
 
         // valid request
-        req.user = user;
+
+        if(req.session && !req.session.user) {
+            req.session.user = user;
+            req.session.authenticated = true;
+        }
 
         next();
     });

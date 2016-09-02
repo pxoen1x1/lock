@@ -14,7 +14,7 @@ let RequestController = {
 
         let searchCriteria = {
             where: {
-                creator: req.user.id
+                creator: req.session.user.id
             }
         };
 
@@ -91,7 +91,7 @@ let RequestController = {
             );
         }
 
-        newRequest.creator = req.user.id;
+        newRequest.creator = req.session.user.id;
 
         RequestService.create(newRequest)
             .then(
