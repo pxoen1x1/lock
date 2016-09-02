@@ -80,10 +80,11 @@
             }
         }
 
-        function login(user) {
+        function login(user, type) {
+            var loginType = type || 'local';
 
             return $http({
-                url: conf.BASE_URL + 'auth/login',
+                url: conf.BASE_URL + 'auth/login?type=' + loginType,
                 method: 'POST',
                 data: user
             })
