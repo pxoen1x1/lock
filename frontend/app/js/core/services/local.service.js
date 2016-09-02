@@ -30,13 +30,28 @@
         }
 
         function getAuth() {
+            var auth = get(authKeyName);
 
-            return get(authKeyName);
+            try {
+                return angular.fromJson(auth);
+            }
+            catch (err) {
+
+                return auth;
+            }
         }
 
         function getUser() {
+            var user = get(userKeyName);
 
-            return get(userKeyName);
+            try {
+                return angular.fromJson(user);
+            }
+            catch (err) {
+
+                return user;
+            }
+
         }
 
         function set(key, value) {
@@ -46,12 +61,12 @@
 
         function setAuth(auth) {
 
-            return set(authKeyName, auth);
+            return set(authKeyName, JSON.stringify(auth));
         }
 
         function setUser(user) {
 
-            return set(userKeyName, user);
+            return set(userKeyName, JSON.stringify(user));
         }
 
         function remove(key) {

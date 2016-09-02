@@ -19,16 +19,19 @@
         return service;
 
         function getUser() {
-            $q.when(getUserFromLocalStorage || getUserFromHttp);
+
+            return $q.when(getUserFromLocalStorage() || getUserFromHttp());
         }
 
         function setUser(user) {
-            localService.setUser(user);
+
+            return localService.setUser(user);
         }
 
         function getUserFromLocalStorage() {
+            var user = localService.getUser();
 
-            return localService.getUser();
+            return user;
         }
 
         function getUserFromHttp() {

@@ -20,7 +20,6 @@
 
         function request(request) {
             var auth = localService.getAuth();
-            auth = angular.fromJson(auth);
 
             if (auth && auth.token) {
                 request.headers.Authorization = 'Bearer ' + auth.token;
