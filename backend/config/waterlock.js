@@ -30,6 +30,18 @@ module.exports.waterlock = {
                 tokens: false
             },
             createOnNotFound: false
+        },
+        {
+            name: 'waterlock-facebook-auth',
+            appId: '1145998722142066',
+            appSecret: 'f066cefe62f69fe9cba4d117675ffc16',
+            redirectUri: 'http://localhost:9000/',
+            fieldMap: {
+                // <model-field>: <facebook-field>,
+                'firstName': 'first_name',
+                'lastName': 'last_name',
+                'gender': 'gender'
+            }
         }
     ],
 
