@@ -29,14 +29,14 @@
 
         function isAuthenticated() {
 
-            return localService.get('auth');
+            return localService.getAuth();
         }
 
         function login(user) {
 
             return coreDataservice.login(user)
                 .then(function (auth) {
-                    localService.set('auth', JSON.stringify(auth));
+                    localService.setAuth(JSON.stringify(auth));
 
                     return auth;
                 });
@@ -57,7 +57,7 @@
                 .then(function (auth) {
                     localService.clear();
 
-                    localService.set('auth', JSON.stringify(auth));
+                    localService.setAuth(JSON.stringify(auth));
                 });
         }
     }

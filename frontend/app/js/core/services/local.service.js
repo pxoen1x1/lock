@@ -6,10 +6,19 @@
         .factory('localService', localService);
 
     function localService() {
+        var authKeyName = 'auth';
+        var userKeyName = 'user';
+
         var service = {
             get: get,
+            getAuth: getAuth,
+            getUser: getUser,
             set: set,
+            setAuth: setAuth,
+            setUser: setUser,
             remove: remove,
+            removeAuth: removeAuth,
+            removeUser: removeUser,
             clear: clear
         };
 
@@ -20,14 +29,44 @@
             return localStorage.getItem((key));
         }
 
+        function getAuth() {
+
+            return get(authKeyName);
+        }
+
+        function getUser() {
+
+            return get(userKeyName);
+        }
+
         function set(key, value) {
 
             return localStorage.setItem(key, value);
         }
 
+        function setAuth(auth) {
+
+            return set(authKeyName, auth);
+        }
+
+        function setUser(user) {
+
+            return set(userKeyName, user);
+        }
+
         function remove(key) {
 
             return localStorage.removeItem(key);
+        }
+
+        function removeAuth() {
+
+            return remove(authKeyName);
+        }
+
+        function removeUser() {
+
+            return remove(userKeyName);
         }
 
         function clear() {

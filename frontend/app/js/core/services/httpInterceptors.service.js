@@ -19,7 +19,7 @@
         return service;
 
         function request(request) {
-            var auth = localService.get('auth');
+            var auth = localService.getAuth();
             auth = angular.fromJson(auth);
 
             if (auth && auth.token) {
@@ -37,9 +37,7 @@
 
             if (response.status > 0 && !isStatusOk) {
                 if (response.status === 401 || response.status === 403) {
-                    localService.remove('auth');
-
-                    $injector.get('$state').go('home');
+                    localService.removeAuth();
                 }
 
                 toast.error('Server error' + message);

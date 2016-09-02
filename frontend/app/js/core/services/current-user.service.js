@@ -23,12 +23,12 @@
         }
 
         function setUser(user) {
-            localService.set('user', user);
+            localService.setUser(user);
         }
 
         function getUserFromLocalStorage() {
 
-            return localService.get('user');
+            return localService.getUser();
         }
 
         function getUserFromHttp() {
@@ -46,7 +46,7 @@
         function getUserFromHttpComplete(response) {
             var currentUser = response.data.user;
 
-            localService('user', currentUser);
+            localService.setUser(currentUser);
 
             return currentUser;
         }
