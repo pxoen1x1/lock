@@ -14,11 +14,33 @@
 
 let UserController = waterlock.actions.user({
     getCurrentUser(req, res) {
-        res.ok(
-            {
-                user: req.session.user
-            }
-        );
+        let user = req.session.user;
+
+        if(!user) {
+
+            return res.forbidden({
+                message: req.__('You are not permitted to perform this action.')
+            });
+        }
+
+        UserService.getUser(user)
+            .then(
+                (foundUser) => {
+
+                    return res.ok(
+                        {
+                            user: foundUser
+                        }
+                    );
+                }
+            )
+            .catch(
+                (err) => {
+                    sails.log.error(err);
+
+                    return res.serverError();
+                }
+            );
     },
     findServiceProviders(req, res) {
         let params = req.allParams();
