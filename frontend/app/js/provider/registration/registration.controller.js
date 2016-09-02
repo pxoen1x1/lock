@@ -6,11 +6,11 @@
         .controller('ProviderRegistrationController', ProviderRegistrationController);
 
     ProviderRegistrationController.$inject = ['$q', '$state', 'coreDataservice', 'coreConstants', 'coreDictionary',
-        'serviceProviderConstants', 'citiesLoader', 'geocoderService'];
+        'authService', 'serviceProviderConstants', 'citiesLoader', 'geocoderService'];
 
     /* @ngInject */
     function ProviderRegistrationController($q, $state, coreDataservice, coreConstants, coreDictionary,
-                                            serviceProviderConstants, citiesLoader, geocoderService) {
+                                            authService, serviceProviderConstants, citiesLoader, geocoderService) {
         var promises = {
             getState: null
         };
@@ -103,7 +103,7 @@
 
         function createUser(user) {
 
-            return coreDataservice.createUser(user)
+            return authService.register(user)
                 .then(function () {
 
                     $state.go('home');

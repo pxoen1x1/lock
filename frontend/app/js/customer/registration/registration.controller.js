@@ -5,10 +5,10 @@
         .module('app.customer')
         .controller('CustomerRegistrationController', CustomerRegistrationController);
 
-    CustomerRegistrationController.$inject = ['$state', 'coreDataservice'];
+    CustomerRegistrationController.$inject = ['$state', 'authService'];
 
     /* @ngInject */
-    function CustomerRegistrationController($state, coreDataservice) {
+    function CustomerRegistrationController($state, authService) {
         var vm = this;
 
         vm.user = {};
@@ -20,7 +20,7 @@
 
         function login(type) {
 
-            return coreDataservice.login(null, type)
+            return authService.login(null, type)
                 .then(function (user) {
 
                     return user;
@@ -39,7 +39,7 @@
                 return;
             }
 
-            return coreDataservice.createUser(user)
+            return authService.register(user)
                 .then(function () {
                     $state.go('home');
                 });
