@@ -36,6 +36,12 @@
             var message = response.data && response.data.message ? ': ' + response.data.message : '';
 
             if (response.status > 0 && !isStatusOk) {
+                if (response.status === 401 || response.status === 403) {
+                    localService.remove('auth');
+
+                    $injector.get('$state').go('home');
+                }
+
                 toast.error('Server error' + message);
             }
 
