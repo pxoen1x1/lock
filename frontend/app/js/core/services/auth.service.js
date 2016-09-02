@@ -13,7 +13,8 @@
             authorize: authorize,
             isAuthenticated: isAuthenticated,
             login: login,
-            logout: logout
+            logout: logout,
+            register: register
         };
         return service;
 
@@ -47,6 +48,16 @@
                 .then(function () {
 
                     return localService.clear();
+                });
+        }
+
+        function register(user) {
+
+            return coreDataservice.createUser(user)
+                .then(function (auth) {
+                    localService.clear();
+
+                    localService.set('auth', JSON.stringify(auth));
                 });
         }
     }
