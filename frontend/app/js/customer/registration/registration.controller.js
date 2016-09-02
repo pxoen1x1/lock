@@ -15,7 +15,23 @@
 
         vm.showSocialButtons = false;
 
+        vm.loginWithFacebook = loginWithFacebook;
         vm.createUser = createUser;
+
+        function login(type) {
+
+            return coreDataservice.login(null, type)
+                .then(function (user) {
+
+                    return user;
+                });
+        }
+
+        function loginWithFacebook() {
+            var loginType = 'facebook';
+
+            login(loginType);
+        }
 
         function createUser(user, isFormValid) {
             if (!isFormValid) {

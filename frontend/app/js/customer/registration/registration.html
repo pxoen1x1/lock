@@ -102,9 +102,11 @@
       <div class="social-button-wrapper"
            layout="column"
            layout-align="center start">
-        <md-button class="social-button facebook">Log in with Facebook</md-button>
-        <md-button class="social-button google">Log in with Google+</md-button>
-        <md-button class="social-button twitter">Log in with Twitter</md-button>
+        <md-button class="social-button facebook"
+                   ng-click="vm.loginWithFacebook()">Join in with Facebook
+        </md-button>
+        <md-button class="social-button google">Join in with Google+</md-button>
+        <md-button class="social-button twitter">Join in with Twitter</md-button>
       </div>
       <md-button class="social-button gray"
                  ng-click="vm.showSocialButtons = !vm.showSocialButtons">
