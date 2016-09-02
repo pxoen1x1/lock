@@ -1,4 +1,4 @@
-/*global sails, waterlock, UserService, AuthService, MailerService*/
+/*global sails, waterlock, UserService, AuthService, MailerService, JwtService*/
 
 /**
  * UserController.js
@@ -16,7 +16,7 @@ let UserController = waterlock.actions.user({
     getCurrentUser(req, res) {
         res.ok(
             {
-                user: req.user
+                user: req.session.user
             }
         );
     },
@@ -81,9 +81,18 @@ let UserController = waterlock.actions.user({
                 (createdUser) => sendConfirmation(createdUser)
             )
             .then(
-                (createdUser) => res.created({
-                    user: createdUser
-                })
+                (createdUser) => {
+                    // store user in && authenticate the session
+                    req.session.user = createdUser;
+                    req.session.authenticated = true;
+
+                    let jwtData = waterlock._utils.createJwt(req, res, createdUser);
+
+                    return JwtService.create(jwtData, createdUser);
+                }
+            )
+            .then(
+                (createdJwt) => res.created(createdJwt)
             )
             .catch(
                 (err) => {
@@ -103,7 +112,7 @@ let UserController = waterlock.actions.user({
         let id = req.params.id;
         let user = req.body;
 
-        if (req.user.id !== req.params.id) {
+        if (req.session.user.id !== req.params.id) {
 
             return res.forbidden({
                 message: req.__('You are not permitted to perform this action.')
