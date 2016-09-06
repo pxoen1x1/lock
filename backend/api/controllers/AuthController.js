@@ -1,4 +1,4 @@
-/* global sails, waterlock, UserService, AuthService, MailerService*/
+/* global sails, waterlock, User, AuthService, MailerService*/
 /**
  * AuthController
  *
@@ -30,7 +30,7 @@ let AuthController = waterlock.waterlocked({
         user.isEmailConfirmed = true;
         user.isEnabled = true;
 
-        UserService.update({emailConfirmationToken: token}, user)
+        User.update({emailConfirmationToken: token}, user)
             .then(
                 () => res.redirect(sails.config.homePage)
             )

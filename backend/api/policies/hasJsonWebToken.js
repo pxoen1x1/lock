@@ -20,11 +20,12 @@ module.exports = function (req, res, next) {
         }
 
         // valid request
-
-        if(req.session && !req.session.user) {
-            req.session.user = user;
-            req.session.authenticated = true;
+        if (!req.session) {
+            req.session = {};
         }
+
+        req.session.user = user;
+        req.session.authenticated = true;
 
         next();
     });

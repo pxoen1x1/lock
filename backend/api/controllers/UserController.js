@@ -1,4 +1,4 @@
-/*global sails, waterlock, UserService, AuthService, MailerService, JwtService*/
+/*global sails, waterlock, User, UserService, AuthService, MailerService, JwtService*/
 
 /**
  * UserController.js
@@ -131,17 +131,17 @@ let UserController = waterlock.actions.user({
             );
     },
     updateUser(req, res) {
-        let id = req.params.id;
+        let userId = parseInt(req.params.id, 10);
         let user = req.body;
 
-        if (req.session.user.id !== req.params.id) {
+        if (req.session.user.id !== userId) {
 
             return res.forbidden({
                 message: req.__('You are not permitted to perform this action.')
             });
         }
 
-        if (!id || Object.keys(user).length === 0) {
+        if (!userId || Object.keys(user).length === 0) {
 
             return res.badRequest({
                 message: req.__('Please, check data.')
@@ -156,10 +156,10 @@ let UserController = waterlock.actions.user({
             delete user.id;
         }
 
-        UserService.update({id: id}, user)
-            .then((updatedUser) => res.ok(
+        User.update({id: userId}, user)
+            .then((updatedUsers) => res.ok(
                 {
-                    user: updatedUser
+                    user: updatedUsers[0]
                 }
             ))
             .catch(
