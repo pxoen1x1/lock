@@ -16,7 +16,7 @@ let UserController = waterlock.actions.user({
     getCurrentUser(req, res) {
         let user = req.session.user;
 
-        if(!user) {
+        if (!user) {
 
             return res.forbidden({
                 message: req.__('You are not permitted to perform this action.')
@@ -157,11 +157,27 @@ let UserController = waterlock.actions.user({
         }
 
         User.update({id: userId}, user)
-            .then((updatedUsers) => res.ok(
-                {
-                    user: updatedUsers[0]
+            .then(
+                (updatedUsers) => {
+                    UserService.getUser(updatedUsers[0])
+                        .then(
+                            (foundUser) => {
+
+                                return res.ok(
+                                    {
+                                        user: foundUser
+                                    }
+                                );
+                            }
+                        )
+                        .catch((err) => {
+                                sails.log.error(err);
+
+                                return res.serverError();
+                            }
+                        )
                 }
-            ))
+            )
             .catch(
                 (err) => {
                     if (err) {

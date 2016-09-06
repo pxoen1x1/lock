@@ -10,6 +10,7 @@
     /* @ngInject */
     function currentUserService($q, coreDataservice, localService) {
         var getUserPromise;
+        var setUserPromise;
 
         var service = {
             getUser: getUser,
@@ -20,12 +21,7 @@
 
         function getUser() {
 
-            return $q.when(getUserFromLocalStorage() || getUserFromHttp());
-        }
-
-        function setUser(user) {
-
-            return localService.setUser(user);
+            return $q.when(/*getUserFromLocalStorage() || */getUserFromHttp());
         }
 
         function getUserFromLocalStorage() {
@@ -47,6 +43,7 @@
         }
 
         function getUserFromHttpComplete(response) {
+
             var currentUser = response.data.user;
 
             localService.setUser(currentUser);
@@ -55,6 +52,37 @@
         }
 
         function getUserFromHttpFailed(error) {
+
+            return error;
+        }
+
+        function setUser(user) {
+
+            return $q.when(setUserToHttp(user));
+        }
+
+        function setUserToHttp(user) {
+            if (setUserPromise) {
+                setUserPromise.cancel();
+            }
+
+            setUserPromise = coreDataservice.updateUser(user);
+
+            return setUserPromise
+                .then(setUserToHttpComplete)
+                .catch(setUserToHttpFailed);
+        }
+
+        function setUserToHttpComplete(response) {
+
+            var currentUser = response.data.user;
+
+            localService.setUser(currentUser);
+
+            return currentUser;
+        }
+
+        function setUserToHttpFailed(error) {
 
             return error;
         }

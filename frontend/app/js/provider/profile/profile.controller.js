@@ -5,15 +5,10 @@
         .module('app.provider')
         .controller('ProviderProfileController', ProviderProfileController);
 
-    ProviderProfileController.$inject = ['serviceProviderDataservice'];
+    ProviderProfileController.$inject = ['currentUserService'];
 
     /* @ngInject */
-    function ProviderProfileController(serviceProviderDataservice) {
-        var promises = {
-            getUser: null,
-            updateUser: null
-        };
-        
+    function ProviderProfileController(currentUserService) {
         var vm = this;
 
         vm.profileData = {};
@@ -28,17 +23,16 @@
 
         activate();
 
-        function updateUser() {
-            if (promises.updateUser) {
-                promises.updateUser.cancel();
+        function updateUser(user, isFormValid) {
+            if (!isFormValid) {
+
+                return;
             }
 
-            promises.updateUser = serviceProviderDataservice.updateUser();
-
-            return promises.updateUser
+            return currentUserService.setUser(user)
                 .then(function (response) {
 
-                    vm.profileData = response.data.user;
+                    vm.profileData = response;
                     vm.isEditing = false;
 
                     return vm.profileData;
@@ -46,16 +40,11 @@
         }
 
         function getUser() {
-            if (promises.getUser) {
-                promises.getUser.cancel();
-            }
 
-            promises.getUser = serviceProviderDataservice.getUser();
-
-            return promises.getUser
+            return currentUserService.getUser()
                 .then(function (response) {
 
-                    vm.profileData = response.data.user;
+                    vm.profileData = response;
 
                     return vm.profileData;
                 });

@@ -49,7 +49,7 @@
           </div>
           <div class="section first">
             <span class="md-body-2">Email:</span>
-            <span class="md-body-1" ng-bind="vm.profileData.email"></span>
+            <span class="md-body-1" ng-bind="vm.profileData.auth.email"></span>
           </div>
           <div class="section">
             <span class="md-body-2">Phone:</span>
@@ -68,6 +68,7 @@
             <span class="md-body-1" ng-bind=""></span>
           </div>
         </div>
+
         <div ng-show="vm.isEditing">
           <form name="editForm"
                 novalidate
@@ -85,14 +86,13 @@
               <label>Email</label>
               <input name="email"
                      required
-                     ng-model="vm.profileData.email">
+                     ng-model="vm.profileData.auth.email">
             </md-input-container>
-            <p>Credit card: <sup>*</sup></p>
+            <p>Credit card:</p>
             <md-input-container class="md-block" flex>
               <label>Credit card</label>
               <input name="card"
-                     required
-                     ng-model="vm.profileData.card">
+                     ng-model="">
             </md-input-container>
             <p>Phone number:</p>
             <md-input-container class="md-block" flex>
