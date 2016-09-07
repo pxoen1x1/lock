@@ -21,7 +21,7 @@
 
         function getUser() {
 
-            return $q.when(/*getUserFromLocalStorage() || */getUserFromHttp());
+            return $q.when(getUserFromLocalStorage() || getUserFromHttp());
         }
 
         function getUserFromLocalStorage() {
