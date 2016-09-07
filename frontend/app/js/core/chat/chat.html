@@ -1,0 +1,139 @@
+<div class="container request-content chat-app">
+  <div class="center">
+    <div class="content-card"
+         flex
+         layout="row">
+
+      <md-sidenav class="sidenav left-sidenav md-sidenav-left"
+                  layout="column"
+                  md-is-locked-open="$mdMedia('gt-md')"
+                  md-component-id="left-sidenav">
+
+        <div class="view chats-view animate-slide-right"
+             layout="column"
+             flex
+             ng-include="'core/chat/chats-view.html'">
+        </div>
+      </md-sidenav>
+      <div class="start-point"
+           ng-if="vm.chat.length === 0"
+           flex
+           layout="column"
+           layout-align="center center">
+        <div class="big-circle md-whiteframe-4dp">
+          <i class="material-icons s128 md-accent">textsms</i>
+        </div>
+        <span class="app-title">Chat App</span>
+        <span class="hide show-gt-md secondary-text">Select contact to start the chat!..</span>
+        <md-button class="md-raised hide-gt-md"
+                   ng-click="vm.toggleSidenav('left-sidenav')">Select contact to start the chat!..
+        </md-button>
+      </div>
+      <div class="chat"
+           flex
+           layout="column"
+           ng-if="vm.chat.length !== 0">
+        <md-toolbar class="chat-toolbar">
+          <div class="md-toolbar-tools">
+            <md-button class="hide-gt-md responsive-chats-button md-icon-button"
+                       aria-label="chats button"
+                       ng-click="vm.toggleSidenav('left-sidenav')">
+              <i class="material-icons s28">textsms</i>
+            </md-button>
+            <div class="chat-contact"
+                 layout="row"
+                 layout-align="start center"
+                 ng-if="vm.selectedContact.id"
+                 ng-click="vm.toggleSidenav('right-sidenav')">
+              <div class="avatar-wrapper">
+                <div class="avatar"
+                     ng-style="{ 'background-image': 'url(' + (vm.selectedContact.portrait || vm.defaultPortrait) + ')' }">
+                </div>
+                <i class="material-icons s14 status"
+                   ng-if="vm.selectedContact.details.isAvailable">check_circle
+                </i>
+                <i class="material-icons s14 status unavailable"
+                   ng-if="!vm.selectedContact.details.isAvailable">schedule
+                </i>
+              </div>
+              <div class="chat-contact-name">
+                <span ng-bind="vm.selectedContact.fullName"></span>
+              </div>
+            </div>
+            <md-menu md-position-mode="target-right target">
+              <md-button class="md-icon-button"
+                         aria-label="more"
+                         ng-click="$mdOpenMenu()">
+                <i class="material-icons">more_vert</i>
+              </md-button>
+              <md-menu-content width="3">
+                <md-menu-item>
+                  <md-button ng-click="vm.toggleSidenav('right-sidenav')">Contact Info</md-button>
+                </md-menu-item>
+                <md-menu-item>
+                  <md-button ng-click="vm.clearMessages()">Clear Messages</md-button>
+                </md-menu-item>
+              </md-menu-content>
+            </md-menu>
+          </div>
+        </md-toolbar>
+        <md-content class="chat-content"
+                    scrolling-down
+                    flex>
+          <div class="chat-messages"
+               ng-if="vm.chat">
+            <div class="md-padding message-row"
+                 layout="row"
+                 ng-class="dialog.who"
+                 ng-repeat="dialog in vm.chat track by $index">
+              <div class="avatar"
+                   ng-if="dialog.who === 'contact'"
+                   ng-style="{ 'background-image': 'url(' + (vm.selectedContact.portrait || vm.defaultPortrait) + ')' }">
+              </div>
+              <div class="avatar"
+                   ng-if="dialog.who ==='user'"
+                   ng-style="{ 'background-image': 'url(' + (vm.user.portrait || vm.defaultPortrait) + ')' }">
+              </div>
+              <div class="bubble">
+                <div class="message">
+                  <span ng-bind="dialog.message"></span>
+                </div>
+                <div class="time secondary-text">
+                  <span ng-bind="dialog.time | altDate : vm.dateFormat"></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </md-content>
+        <div class="chat-footer flex-noshrink"
+             layout="row"
+             layout-align="center center">
+          <form class="reply-form"
+                flex
+                layout="row"
+                layout-align="start center"
+                ng-submit="vm.reply(null, vm.replyMessage)">
+            <md-input-container flex md-no-float>
+              <textarea placeholder="Type and hit enter to send message"
+                        md-no-autogrow
+                        ng-class="{ 'grow': vm.textareaGrow }"
+                        ng-keydown="vm.reply($event, vm.replyMessage)"
+                        ng-model="vm.replyMessage">
+              </textarea>
+            </md-input-container>
+            <md-button type="submit"
+                       class="md-button-blue md-fab"
+                       aria-label="Send message">
+              <i class="material-icons">send</i>
+            </md-button>
+          </form>
+        </div>
+      </div>
+      <md-sidenav class="sidenav right-sidenav md-sidenav-right"
+                  layout="column"
+                  md-component-id="right-sidenav"
+                  ng-include="'core/chat/contact-view.html'">
+      </md-sidenav>
+    </div>
+  </div>
+</div>

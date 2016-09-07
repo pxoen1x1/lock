@@ -36,6 +36,7 @@
 
             return coreDataservice.login(user)
                 .then(function (auth) {
+                    localService.clear();
                     localService.setAuth(auth);
 
                     return auth;

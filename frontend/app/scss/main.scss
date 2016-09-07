@@ -1,10 +1,9 @@
-@import 'toast';
-@import 'md-select';
-@import 'reset';
-@import 'provider';
-@import 'customer';
-
+$success-color: #66BB6A;
+$warning-color: #FFB74D;
+$error-color: #EF5350;
 $primary-color: rgb(3, 155, 229);
+$text-color: rgba(0, 0, 0, .87);
+$panel-background-color: rgb(245, 245, 245);
 
 h2.page-name {
   text-align: center;
@@ -82,11 +81,69 @@ h2.page-name {
   .button-login,
   .button-login:hover {
     background-color: $primary-color;
-    color: #fff;
+    color: #FFF;
   }
   .md-input-message-animation {
     width: 195px;
   }
+}
+
+md-input-container {
+  &.md-default-theme:not(.md-input-invalid),
+  &:not(.md-input-invalid) {
+    &.md-input-focused {
+      .md-input {
+        border-color: rgb(45, 50, 62);
+      }
+    }
+  }
+}
+
+.md-accent-bg {
+  background-color: $primary-color;
+  color: #FFF;
+}
+
+md-content.md-hue-2 {
+  color: $text-color;
+  background-color: $panel-background-color;
+}
+
+.secondary-text {
+  color: rgba(0, 0, 0, 0.54);
+}
+
+.text-truncate {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/*scroll*/
+
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+  cursor: pointer;
+}
+
+::-webkit-scrollbar-track {
+  background-color: #ccc;
+}
+
+::-webkit-scrollbar-track-piece {
+  background-color: #F3F4F5;
+}
+
+::-webkit-scrollbar-thumb {
+  height: 50px;
+  background-color: #ccc;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-corner {
+  background-color: #F3F4F5;
 }
 
 @media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
@@ -94,3 +151,11 @@ h2.page-name {
     font-size: 19px;
   }
 }
+
+@import 'toast';
+@import 'icons';
+@import 'md-select';
+@import 'reset';
+@import 'provider';
+@import 'customer';
+@import 'chat';
