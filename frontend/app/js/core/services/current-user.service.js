@@ -69,7 +69,7 @@
 
         function setUserToHttpComplete(response) {
 
-            var currentUser = response.data.user;
+            var currentUser = response.user;
 
             localService.setUser(currentUser);
 
