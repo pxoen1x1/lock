@@ -43,7 +43,7 @@
 
         function getUserFromHttpComplete(response) {
 
-            var currentUser = response.user;
+            var currentUser = response.data.user;
 
             localService.setUser(currentUser);
 
