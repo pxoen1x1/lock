@@ -5,15 +5,10 @@
         .module('app.customer')
         .controller('CustomerProfileController', CustomerProfileController);
 
-    CustomerProfileController.$inject = ['customerDataservice'];
+    CustomerProfileController.$inject = ['currentUserService'];
 
     /* @ngInject */
-    function CustomerProfileController(customerDataservice) {
-        var promises = {
-            getUser: null,
-            updateUser: null
-        };
-
+    function CustomerProfileController(currentUserService) {
         var vm = this;
 
         vm.profileData = {};
@@ -24,17 +19,16 @@
 
         activate();
 
-        function updateUser() {
-            if (promises.updateUser) {
-                promises.updateUser.cancel();
+        function updateUser(user, isFormValid) {
+            if (!isFormValid) {
+
+                return;
             }
 
-            promises.updateUser = customerDataservice.updateUser();
-
-            return promises.updateUser
-                .then(function (response) {
-
-                    vm.profileData = response.data.user;
+            return currentUserService.setUser(user)
+                .then(function (user) {
+                    
+                    vm.profileData = user;
                     vm.isEditing = false;
 
                     return vm.profileData;
@@ -42,16 +36,11 @@
         }
 
         function getUser() {
-            if (promises.getUser) {
-                promises.getUser.cancel();
-            }
 
-            promises.getUser = customerDataservice.getUser();
+            return currentUserService.getUser()
+                .then(function (user) {
 
-            return promises.getUser
-                .then(function (response) {
-
-                    vm.profileData = response.data.user;
+                    vm.profileData = user;
 
                     return vm.profileData;
                 });
