@@ -56,7 +56,7 @@
       </div>
       <div layout="column" layout-align="center end">
         <div class="last-message-time">
-          <span ng-bind="contact.lastMessage.time | date: vm.dateFormat"></span>
+          <span ng-bind="contact.lastMessage.time | altDate : vm.dateFormat"></span>
         </div>
         <div class="md-accent-bg unread-message-count"
              ng-if="contact.unread">

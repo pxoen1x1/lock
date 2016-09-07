@@ -40,15 +40,15 @@
             }
         }
 
-        function reply(event, replyMessage){
-            if(event && event.shiftKey && event.keyCode === 13) {
+        function reply(event, replyMessage) {
+            if (event && event.shiftKey && event.keyCode === 13) {
                 vm.textareaGrow = true;
 
                 return;
             }
 
-            if(!event || event.keyCode === 13) {
-                if(!replyMessage) {
+            if (!event || event.keyCode === 13) {
+                if (!replyMessage) {
                     clearReplyMessage();
 
                     return;
