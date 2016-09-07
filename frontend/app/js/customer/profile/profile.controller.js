@@ -38,9 +38,9 @@
         function getUser() {
 
             return currentUserService.getUser()
-                .then(function (response) {
+                .then(function (user) {
 
-                    vm.profileData = response;
+                    vm.profileData = user;
 
                     return vm.profileData;
                 });
