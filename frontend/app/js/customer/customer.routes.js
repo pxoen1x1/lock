@@ -143,8 +143,8 @@
                 url: '/chat',
                 views: {
                     'content@customer.requests.request': {
-                        templateUrl: 'customer/request-chat/request-chat.html',
-                        controller: 'CustomerRequestChatController',
+                        templateUrl: 'core/chat/chat.html',
+                        controller: 'ChatController',
                         controllerAs: 'vm'
                     }
                 },

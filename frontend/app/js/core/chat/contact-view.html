@@ -1,0 +1,41 @@
+<div class="view contact-view"
+     flex
+     layout="column">
+  <md-toolbar class="md-tall md-accent">
+    <div class="md-toolbar-tools md-toolbar-tools-top">
+      <div>Contact Info</div>
+      <div flex></div>
+      <md-button class="md-icon-button"
+                 aria-label="back"
+                 ng-click="vm.toggleSidenav('right-sidenav')">
+        <i class="material-icons">close</i>
+      </md-button>
+    </div>
+    <div class="md-toolbar-tools md-toolbar-tools-bottom"
+         flex
+         layout="column"
+         layout-align="center center">
+      <div layout="column"
+           layout-align="center center">
+        <div class="md-avatar avatar contact-avatar huge"
+             ng-style="{ 'background-image': 'url(' + (vm.selectedContact.portrait || vm.defaultPortrait) + ')' }">
+        </div>
+        <div class="contact-name">
+          <span ng-bind="vm.selectedContact.fullName"></span>
+        </div>
+      </div>
+    </div>
+  </md-toolbar>
+  <md-content class="md-hue-2"
+              flex>
+    <md-card>
+      <md-card-title>Rating</md-card-title>
+      <md-card-content>
+        <span class="mood"
+              ng-if="vm.selectedContact.details.rating"
+              ng-bind="vm.selectedContact.details.rating">
+        </span>
+      </md-card-content>
+    </md-card>
+  </md-content>
+</div>
