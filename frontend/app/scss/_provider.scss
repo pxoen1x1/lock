@@ -1,7 +1,5 @@
 @import 'provider-registration';
 
-$primary-color: rgb(3, 155, 229);
-
 *:focus {
   outline: none;
   border: 0;
@@ -211,16 +209,16 @@ $primary-color: rgb(3, 155, 229);
   .content {
     background: transparent;
     position: absolute;
-    top: 0px;
-    left: 0px;
-    right: 0px;
+    top: 0;
+    left: 0;
+    right: 0;
     height: 100%;
   }
   .content._content {
     min-height: 100%;
   }
   .content-wrapper {
-    background-color: rgb(245, 245, 245);
+    background-color: $panel-background-color;
     position: relative;
   }
   .content {
