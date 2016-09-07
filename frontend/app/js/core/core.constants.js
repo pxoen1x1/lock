@@ -2,8 +2,8 @@
     'use strict';
 
     angular.module('app.core')
-        .constant('coreConstants',{
-            MD_PICKERS_OPTIONS:{
+        .constant('coreConstants', {
+            MD_PICKERS_OPTIONS: {
                 timePicker: {
                     autoSwitch: true
                 }
@@ -12,6 +12,7 @@
                 limit: 10,
                 limitOptions: [5, 10, 20]
             },
+            DATE_FORMAT: 'MM/dd/yyyy',
             REQUEST_STATUSES: {
                 1: 'new',
                 2: 'in progress',
