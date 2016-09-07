@@ -10,7 +10,6 @@
     /* @ngInject */
     function currentUserService($q, coreDataservice, localService) {
         var getUserPromise;
-        var setUserPromise;
 
         var service = {
             getUser: getUser,
