@@ -44,7 +44,7 @@
 
         function getUserFromHttpComplete(response) {
 
-            var currentUser = response.data.user;
+            var currentUser = response.user;
 
             localService.setUser(currentUser);
 
@@ -58,17 +58,12 @@
 
         function setUser(user) {
 
-            return $q.when(setUserToHttp(user));
+            return setUserToHttp(user);
         }
 
         function setUserToHttp(user) {
-            if (setUserPromise) {
-                setUserPromise.cancel();
-            }
 
-            setUserPromise = coreDataservice.updateUser(user);
-
-            return setUserPromise
+            return coreDataservice.updateUser(user)
                 .then(setUserToHttpComplete)
                 .catch(setUserToHttpFailed);
         }

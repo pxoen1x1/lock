@@ -159,23 +159,18 @@ let UserController = waterlock.actions.user({
         User.update({id: userId}, user)
             .then(
                 (updatedUsers) => {
-                    UserService.getUser(updatedUsers[0])
-                        .then(
-                            (foundUser) => {
 
-                                return res.ok(
-                                    {
-                                        user: foundUser
-                                    }
-                                );
-                            }
-                        )
-                        .catch((err) => {
-                                sails.log.error(err);
+                    return UserService.getUser(updatedUsers[0]);
+                }
+            )
+            .then(
+                (foundUser) => {
 
-                                return res.serverError();
-                            }
-                        )
+                    return res.ok(
+                        {
+                            user: foundUser
+                        }
+                    );
                 }
             )
             .catch(
