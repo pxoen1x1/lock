@@ -30,9 +30,9 @@
             }
 
             return currentUserService.setUser(user)
-                .then(function (response) {
+                .then(function (user) {
 
-                    vm.profileData = response;
+                    vm.profileData = user;
                     vm.isEditing = false;
 
                     return vm.profileData;
