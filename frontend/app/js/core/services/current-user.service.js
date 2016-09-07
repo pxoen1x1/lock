@@ -23,11 +23,6 @@
             return $q.when(getUserFromLocalStorage() || getUserFromHttp());
         }
 
-        function setUser(user) {
-
-            return localService.setUser(user);
-        }
-
         function getUserFromLocalStorage() {
             var user = localService.getUser();
 
@@ -47,6 +42,7 @@
         }
 
         function getUserFromHttpComplete(response) {
+
             var currentUser = response.data.user;
 
             localService.setUser(currentUser);
@@ -55,6 +51,32 @@
         }
 
         function getUserFromHttpFailed(error) {
+
+            return error;
+        }
+
+        function setUser(user) {
+
+            return setUserToHttp(user);
+        }
+
+        function setUserToHttp(user) {
+
+            return coreDataservice.updateUser(user)
+                .then(setUserToHttpComplete)
+                .catch(setUserToHttpFailed);
+        }
+
+        function setUserToHttpComplete(response) {
+
+            var currentUser = response.user;
+
+            localService.setUser(currentUser);
+
+            return currentUser;
+        }
+
+        function setUserToHttpFailed(error) {
 
             return error;
         }
