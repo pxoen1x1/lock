@@ -26,7 +26,7 @@ module.exports.policies = {
      *                                                                          *
      ***************************************************************************/
 
-    '*': ['hasJsonWebToken'],
+    '*': ['hasJsonWebToken', 'isUserEnabled'],
 
     /***************************************************************************
      *                                                                          *
@@ -53,32 +53,23 @@ module.exports.policies = {
         '*': true
     },
 
-    UserController: {
-        '*': ['hasJsonWebToken'],
-        'createUser': true
-    },
+    UserController: {},
 
     StateController: {
-        '*': ['hasJsonWebToken'],
         'getStates': true
     },
 
     CityController: {
-        '*': ['hasJsonWebToken'],
         'getCitiesByState': true
     },
 
     ServiceTypeController: {
-        '*': ['hasJsonWebToken'],
         'getServiceTypes': true
     },
 
     LanguageController: {
-        '*': ['hasJsonWebToken'],
         'getLanguages': true
     },
 
-    RequestController: {
-        '*': ['hasJsonWebToken']
-    }
+    RequestController: {}
 };
