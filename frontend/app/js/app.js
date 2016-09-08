@@ -18,6 +18,7 @@
 
         'app.core',
         'app.home',
+        'app.chat',
         'app.customer',
         'app.provider'
     ]);

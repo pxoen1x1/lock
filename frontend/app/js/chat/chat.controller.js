@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('app.core')
+        .module('app.chat')
         .controller('ChatController', ChatController);
 
     ChatController.$inject = ['$mdSidenav', '$mdMedia', 'conf', 'coreConstants', 'currentUserService'];
