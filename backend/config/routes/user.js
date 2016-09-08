@@ -6,8 +6,8 @@ let userRoutes = {
         action: 'getCurrentUser'
     },
     'POST /api/user': {
-        controller: 'UserController',
-        action: 'createUser'
+        controller: 'AuthController',
+        action: 'register'
     },
     'PUT /api/user/:id': {
         controller: 'UserController',

@@ -53,9 +53,7 @@ module.exports.policies = {
         '*': true
     },
 
-    UserController: {
-        'createUser': true
-    },
+    UserController: {},
 
     StateController: {
         'getStates': true

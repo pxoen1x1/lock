@@ -1,4 +1,4 @@
-/* global sails, waterlock, User, AuthService, MailerService*/
+/* global sails, waterlock, User, AuthService, MailerService, JwtService*/
 /**
  * AuthController
  *
@@ -12,6 +12,69 @@
 'use strict';
 
 let AuthController = waterlock.waterlocked({
+    register(req, res) {
+        let params = req.allParams();
+
+        if ((!params.password || !params.email) ||
+            (!params.user || !params.user.firstName || !params.user.lastName || !params.user.phoneNumber)) {
+
+            return res.badRequest({
+                message: req.__('Submitted data is invalid.')
+            });
+        }
+
+        let criteria = {};
+
+        criteria.email = params.email;
+
+        if (params.user.details) {
+            params.user.userDetail = params.user.details;
+
+            delete params.user.details;
+        }
+
+        AuthService.findAuth(criteria)
+            .then(
+                (user) => {
+                    if (user) {
+
+                        return Promise.reject();
+                    }
+
+                    return AuthService.findOrCreateAuth(criteria, params);
+                }
+            )
+            .then(
+                (createdUser) => sendConfirmation(createdUser)
+            )
+            .then(
+                (createdUser) => {
+                    // store user in && authenticate the session
+                    req.session.user = createdUser;
+                    req.session.authenticated = true;
+
+                    let jwtData = waterlock._utils.createJwt(req, res, createdUser);
+
+                    return JwtService.create(jwtData, createdUser);
+                }
+            )
+            .then(
+                (createdJwt) => res.created(createdJwt)
+            )
+            .catch(
+                (err) => {
+                    if (err) {
+                        sails.log.err(err);
+
+                        return res.serverError();
+                    }
+
+                    return res.badRequest({
+                        message: req.__('User already exists.')
+                    });
+                }
+            );
+    },
     confirmEmail(req, res) {
         let token = req.param('token');
 
@@ -139,3 +202,13 @@ let AuthController = waterlock.waterlocked({
 });
 
 module.exports = AuthController;
+
+function sendConfirmation(createdUser) {
+    if (sails.config.application.emailVerificationEnabled) {
+
+        return MailerService.confirmRegistration(createdUser);
+    } else {
+
+        return MailerService.successRegistration(createdUser);
+    }
+}
