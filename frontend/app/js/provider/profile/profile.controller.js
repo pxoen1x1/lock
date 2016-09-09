@@ -20,6 +20,8 @@
         vm.isEditing = false;
         
         vm.updateUser = updateUser;
+        vm.getUser = getUser;
+        vm.selectFile = selectFile;
 
         activate();
 
@@ -50,6 +52,10 @@
                 });
         }
 
+        function selectFile() {
+            return document.getElementsByClassName('select-file-hidden')[0].click();
+        }
+        
         function activate() {
             getUser();
         }

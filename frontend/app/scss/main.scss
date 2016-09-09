@@ -15,6 +15,10 @@ h2.page-name {
   color: $primary-color;
 }
 
+.select-file-hidden {
+  display: none;
+}
+
 .text-capitalize {
   text: {
     transform: capitalize;

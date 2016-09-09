@@ -1,4 +1,4 @@
-/*global sails, waterlock, User, UserService*/
+/*global sails, waterlock, User, UserService, FileService*/
 
 /**
  * UserController.js
@@ -68,7 +68,7 @@ let UserController = waterlock.actions.user({
             );
     },
     updateUser(req, res) {
-        let userId = parseInt(req.params.id, 10);
+        let userId = req.params.id ? parseInt(req.params.id, 10) : req.session.user.id;
         let user = req.body;
 
         if (req.session.user.id !== userId) {
@@ -93,7 +93,33 @@ let UserController = waterlock.actions.user({
             delete user.id;
         }
 
-        User.update({id: userId}, user)
+        let uploadPromise = new Promise((resolve, reject) => {
+            if (!user.portrait || (user.portrait && !user.portrait.base64)) {
+
+                return resolve();
+            }
+
+            let filename = UserService.generateToken() + '.jpg';
+            let path = '../frontend/app/images/avatars/';
+
+            return FileService.savePhoto(user.portrait.base64, path, filename)
+                .then(
+                    (filename) => {
+                        user.portrait = filename;
+
+                        return resolve();
+                    }
+                )
+                .catch(reject);
+        });
+
+        uploadPromise
+            .then(
+                () => {
+
+                    return User.update({id: userId}, user);
+                }
+            )
             .then(
                 (updatedUsers) => {
 

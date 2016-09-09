@@ -12,16 +12,23 @@
            layout-align="start center"
            layout-align-gt-xs="start start"
            flex-gt-xs="25">
-        <img class="avatar"
-             ng-src="{{conf.FRONT_URL + (vm.profileData.portrait || coreConstants.IMAGES.defaultPortrait)}}"
+        <img class="profile-avatar"
+             ng-src="{{conf.FRONT_URL + 'images/avatars/' + (vm.profileData.portrait || coreConstants.IMAGES.defaultPortrait)}}"
              alt="photo"/>
         <div flex="5"></div>
         <div class="actions"
              layout="column">
           <md-button class="md-button-blue"
-                     aria-label="Change photo">
+                     aria-label="Change photo"
+                     ng-click="vm.selectFile()">
             Change photo
           </md-button>
+          <input type="file"
+                 class="select-file-hidden"
+                 ng-model="vm.profileData.portrait"
+                 base-sixty-four-input
+                 accept="image/*"
+                 ng-change="vm.updateUser(vm.profileData, true)"/>
           <md-button flex="100"
                      ng-if="!vm.isEditing"
                      class="md-button-blue"

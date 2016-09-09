@@ -21,7 +21,7 @@
             IMAGES: {
                 'currentLocationMarker': 'images/map-marker-current.png',
                 'locksmithLocationMarker': 'images/map-marker-locksmith.png',
-                'defaultPortrait': 'images/default-portrait.jpg'
+                'defaultPortrait': 'default-portrait.jpg'
             },
             DISTANCE: {
                 maxSearchDistance: 100, //mile
