@@ -30,5 +30,6 @@
   "Invalid password.": "Invalid password.",
   "State is not defined.": "State is not defined.",
   "Submitted data is invalid.": "Submitted data is invalid.",
+  "This is not a socket request.": "This is not a socket request.",
   "Please, check data.": "Please, check data."
 }
