@@ -74,6 +74,11 @@ let Request = {
         executor: {
             model: 'User',
             columnName: 'executor_id'
+        },
+
+        chat: {
+            collection: 'Chat',
+            via: 'request'
         }
     },
 
