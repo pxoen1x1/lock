@@ -12,6 +12,11 @@
 'use strict';
 
 let AuthController = waterlock.waterlocked({
+    _config: {
+        actions: true,
+        rest: true
+    },
+
     register(req, res) {
         let params = req.allParams();
 
