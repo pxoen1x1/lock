@@ -90,6 +90,18 @@ let User = {
             collection: 'Request',
             via: 'executor'
         },
+        chatOwners: {
+            collection: 'Chat',
+            via: 'owner'
+        },
+        chatGuests: {
+            collection: 'Chat',
+            via: 'guest'
+        },
+        messageSenders: {
+            collection: 'Message',
+            via: 'sender'
+        },
 
         fullName() {
 
