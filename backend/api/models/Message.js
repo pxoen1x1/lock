@@ -23,6 +23,10 @@ let Message = {
             type: 'boolean',
             defaultsTo: false
         },
+        isRead: {
+            type: 'boolean',
+            defaultsTo: false
+        },
 
         sender: {
             model: 'User',
