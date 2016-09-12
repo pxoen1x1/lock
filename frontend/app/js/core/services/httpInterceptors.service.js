@@ -22,7 +22,13 @@
             var auth = localService.getAuth();
 
             if (auth && auth.token) {
-                request.headers.Authorization = 'Bearer ' + auth.token;
+                if (request.socket && !request.socket.headers) {
+                    request.socket.headers = {
+                        Authorization: 'Bearer ' + auth.token
+                    };
+                } else {
+                    request.headers.Authorization = 'Bearer ' + auth.token;
+                }
             }
 
             return request;
