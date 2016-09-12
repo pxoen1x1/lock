@@ -25,9 +25,9 @@ let Chat = {
             required: true,
             columnName: 'owner_id'
         },
-        guest: {
+        contact: {
             model: 'User',
-            columnName: 'guest_id'
+            columnName: 'contact_id'
         },
         request: {
             model: 'Request',

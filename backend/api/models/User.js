@@ -94,9 +94,9 @@ let User = {
             collection: 'Chat',
             via: 'owner'
         },
-        chatGuests: {
+        chatContacts: {
             collection: 'Chat',
-            via: 'guest'
+            via: 'contact'
         },
         messageSenders: {
             collection: 'Message',
