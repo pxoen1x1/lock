@@ -74,6 +74,11 @@ let Request = {
         executor: {
             model: 'User',
             columnName: 'executor_id'
+        },
+
+        feedbacks: {
+            collection: 'Feedback',
+            via: 'request'
         }
     },
 
