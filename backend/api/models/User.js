@@ -90,6 +90,14 @@ let User = {
             collection: 'Request',
             via: 'executor'
         },
+        feedbackCreator: {
+            collection: 'Feedback',
+            via: 'creator'
+        },
+        feedbackExecutor: {
+            collection: 'Feedback',
+            via: 'executor'
+        },
 
         fullName() {
 
