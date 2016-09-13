@@ -1,4 +1,4 @@
-/* global sails, RequestService */
+/* global sails, RequestService, Feedback */
 /**
  * RequestController
  *
@@ -50,7 +50,7 @@ let RequestController = {
     getClientRequestById(req, res) {
         let requestId = req.params.request;
 
-        if(!requestId){
+        if (!requestId) {
 
             return res.badRequest({
                 message: req.__('Request is not defined.')
@@ -60,7 +60,7 @@ let RequestController = {
         RequestService.getRequestById(requestId)
             .then(
                 (foundRequest) => {
-                    if(!foundRequest) {
+                    if (!foundRequest) {
 
                         return res.notFound({
                             message: req.__('Request is not found.')
@@ -106,6 +106,35 @@ let RequestController = {
                     sails.log.error(err);
 
                     res.serverError();
+                }
+            );
+    },
+    createFeedback(req, res) {
+        let feedback = req.allParams();
+
+        if (!feedback.request || !feedback.text || !feedback.executor) {
+
+            res.badRequest(
+                {
+                    message: req.__('Submitted data is invalid.')
+                }
+            );
+        }
+
+        feedback.creator = req.session.user.id;
+
+        Feedback.create(feedback)
+            .then(
+                (createdFeedback) => res.created(
+                    {
+                        feedback: createdFeedback
+                    })
+            )
+            .catch(
+                (err) => {
+                    sails.log.error(err);
+
+                    return res.serverError();
                 }
             );
     }
