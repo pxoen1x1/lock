@@ -80,11 +80,34 @@ h2.page-name {
   }
   .button-login,
   .button-login:hover {
+    width: 100%;
     background-color: $primary-color;
     color: #FFF;
   }
   .md-input-message-animation {
     width: 195px;
+  }
+  .social-buttons {
+    width: 100%;
+  }
+  .social-button {
+    width: 100%;
+    font-weight: 500;
+    font-size: 12px;
+    text-transform: none;
+    color: #fff;
+    margin-top: 0;
+    margin-left: 4px;
+    margin-bottom: 3px;
+  }
+  .social-button.facebook, .social-button.facebook:hover {
+    background-color: rgba(60, 91, 152, 1);
+  }
+  .social-button.google, .social-button.google:hover {
+    background-color: rgba(240, 87, 67, 1);
+  }
+  .social-button.twitter, .social-button.twitter:hover {
+    background-color: rgba(29, 169, 251, 1);
   }
 }
 

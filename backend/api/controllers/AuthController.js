@@ -69,7 +69,7 @@ let AuthController = waterlock.waterlocked({
             .catch(
                 (err) => {
                     if (err) {
-                        sails.log.err(err);
+                        sails.log.error(err);
 
                         return res.serverError();
                     }
