@@ -66,7 +66,7 @@ let Request = {
             unique: true,
             columnName: 'location_id'
         },
-        creator: {
+        owner: {
             model: 'User',
             required: true,
             columnName: 'owner_id'
