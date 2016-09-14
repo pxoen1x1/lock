@@ -13,11 +13,13 @@ let Chat = {
     attributes: {
         isAcceptedByClient: {
             type: 'boolean',
-            defaultsTo: false
+            defaultsTo: false,
+            columnName: 'is_accepted_by_client'
         },
         isAcceptedBySpecialist: {
             type: 'boolean',
-            defaultsTo: false
+            defaultsTo: false,
+            columnName: 'is_accepted_by_specialist'
         },
 
         owner: {
