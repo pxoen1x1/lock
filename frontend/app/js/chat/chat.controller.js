@@ -5,22 +5,26 @@
         .module('app.chat')
         .controller('ChatController', ChatController);
 
-    ChatController.$inject = ['$mdSidenav', '$mdMedia', 'conf', 'coreConstants', 'currentUserService'];
+    ChatController.$inject = ['$sails', '$stateParams', '$mdSidenav', '$mdMedia', 'conf',
+        'coreConstants', 'currentUserService', 'chatSocketservice'];
 
     /* @ngInject */
-    function ChatController($mdSidenav, $mdMedia, conf, coreConstants, currentUserService) {
+    function ChatController($sails, $stateParams, $mdSidenav, $mdMedia, conf,
+                            coreConstants, currentUserService, chatSocketservice) {
         var vm = this;
 
         vm.contacts = [];
-        vm.chat = [];
+        vm.chats = [];
+        vm.user = {};
         vm.selectedContact = {};
+
+        vm.selectedRequestId = $stateParams.requestId;
 
         vm.replyMessage = '';
         vm.chatSearch = '';
         vm.textareaGrow = false;
         vm.leftSidenavView = false;
 
-        vm.user = currentUserService.getUser();
         vm.defaultPortrait = conf.FRONT_URL + coreConstants.IMAGES.defaultPortrait;
         vm.dateFormat = coreConstants.DATE_FORMAT;
 
@@ -30,6 +34,16 @@
 
         activate();
 
+        function getCurrentUser() {
+
+            return currentUserService.getUser()
+                .then(function (currentUser) {
+                    vm.user = currentUser;
+
+                    return vm.user;
+                });
+        }
+
         function getChat(contact) {
             vm.selectedContact = contact;
 
@@ -38,6 +52,36 @@
             if (!$mdMedia('gt-md')) {
                 $mdSidenav('left-sidenav').close();
             }
+        }
+
+        function getChatContacts(selectedRequestId, curentUser) {
+
+            return chatSocketservice.getChats(selectedRequestId)
+                .then(function (chats) {
+                    vm.contacts = getContacts(chats, curentUser);
+
+                    return vm.contacts;
+                });
+        }
+
+        function getContacts(chats, curentUser) {
+            if (!angular.isArray(chats)) {
+
+                return chats;
+            }
+
+            var contacts;
+
+            contacts = chats.map(function (chat) {
+                if (chat.owner.id === curentUser.id) {
+
+                    return chat.contact;
+                }
+
+                return chat.owner;
+            });
+
+            return contacts;
         }
 
         function reply(event, replyMessage) {
@@ -80,6 +124,11 @@
         }
 
         function activate() {
+            getCurrentUser()
+                .then(function (currentUser) {
+
+                    return getChatContacts(vm.selectedRequestId, currentUser);
+                });
         }
     }
 })();
