@@ -16,7 +16,7 @@
         </div>
       </md-sidenav>
       <div class="start-point"
-           ng-if="vm.chat.length === 0"
+           ng-if="vm.chats.length === 0"
            flex
            layout="column"
            layout-align="center center">
@@ -32,7 +32,7 @@
       <div class="chat"
            flex
            layout="column"
-           ng-if="vm.chat.length !== 0">
+           ng-if="vm.chats.length !== 0">
         <md-toolbar class="chat-toolbar">
           <div class="md-toolbar-tools">
             <md-button class="hide-gt-md responsive-chats-button md-icon-button"
@@ -81,11 +81,11 @@
                     scrolling-down
                     flex>
           <div class="chat-messages"
-               ng-if="vm.chat">
+               ng-if="vm.chats">
             <div class="md-padding message-row"
                  layout="row"
                  ng-class="dialog.who"
-                 ng-repeat="dialog in vm.chat track by $index">
+                 ng-repeat="dialog in vm.chats track by $index">
               <div class="avatar"
                    ng-if="dialog.who === 'contact'"
                    ng-style="{ 'background-image': 'url(' + (vm.selectedContact.portrait || vm.defaultPortrait) + ')' }">
