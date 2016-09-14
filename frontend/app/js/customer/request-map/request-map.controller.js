@@ -5,12 +5,12 @@
         .module('app.customer')
         .controller('CustomerRequestMapController', CustomerRequestMapController);
 
-    CustomerRequestMapController.$inject = ['$timeout', '$stateParams', 'uiGmapIsReady', 'coreConstants',
-        'customerDataservice', 'requestService', 'geocoderService'];
+    CustomerRequestMapController.$inject = ['$state', '$timeout', '$stateParams', 'uiGmapIsReady', 'coreConstants',
+        'chatSocketservice', 'customerDataservice', 'requestService', 'geocoderService'];
 
     /* @ngInject */
-    function CustomerRequestMapController($timeout, $stateParams, uiGmapIsReady, coreConstants,
-                                          customerDataservice, requestService, geocoderService) {
+    function CustomerRequestMapController($state, $timeout, $stateParams, uiGmapIsReady, coreConstants,
+                                          chatSocketservice, customerDataservice, requestService, geocoderService) {
         var promises = {
             findSpecialists: null
         };
@@ -81,6 +81,7 @@
         };
 
         vm.showSelectedSpecialistInfo = showSelectedSpecialistInfo;
+        vm.createChat = createChat;
 
         activate();
 
@@ -164,6 +165,17 @@
 
                 vm.isSpecialistCardShown = true;
             }, 200);
+        }
+
+        function createChat(selectedSpecialist) {
+            var contact = {
+                contact: selectedSpecialist
+            };
+
+            return chatSocketservice.createChat(vm.request, contact)
+                .then(function () {
+                    $state.go('customer.requests.request.chat');
+                });
         }
 
         function activate() {
