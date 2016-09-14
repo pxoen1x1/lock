@@ -5,6 +5,10 @@ let userRoutes = {
         controller: 'UserController',
         action: 'getCurrentUser'
     },
+    'GET /api/users/:user/feedbacks': {
+        controller: 'FeedbackController',
+        action: 'getUserFeedbacks'
+    },
     'POST /api/user': {
         controller: 'AuthController',
         action: 'register'

@@ -16,6 +16,10 @@ let requestRoutes = {
     'POST /api/client/requests': {
         controller: 'RequestController',
         action: 'create'
+    },
+    'POST /api/client/requests/:request/feedback': {
+        controller: 'RequestController',
+        action: 'createFeedback'
     }
 };
 

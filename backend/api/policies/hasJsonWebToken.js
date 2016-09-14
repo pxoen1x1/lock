@@ -16,7 +16,11 @@ module.exports = function (req, res, next) {
         (err, user) => {
             if (err) {
 
-                return res.forbidden('You are not permitted to perform this action.');
+                return res.forbidden(
+                    {
+                        message: req.__('You are not permitted to perform this action.')
+                    }
+                );
             }
 
             // valid request

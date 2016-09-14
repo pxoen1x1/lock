@@ -66,14 +66,19 @@ let Request = {
             unique: true,
             columnName: 'location_id'
         },
-        creator: {
+        owner: {
             model: 'User',
             required: true,
-            columnName: 'creator_id'
+            columnName: 'owner_id'
         },
         executor: {
             model: 'User',
             columnName: 'executor_id'
+        },
+
+        feedbacks: {
+            collection: 'Feedback',
+            via: 'request'
         }
     },
 
