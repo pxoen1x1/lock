@@ -1,3 +1,5 @@
+/* global sails, Chat, ChatService */
+
 /**
  * ChatController
  *
@@ -13,7 +15,7 @@ let ChatController = {
         rest: true
     },
 
-    getChats(req, res) {
+    getClientChats(req, res) {
         if (!req.isSocket) {
 
             return res.badRequest(
@@ -33,21 +35,11 @@ let ChatController = {
             );
         }
 
-        Chat.find({
-            owner: req.session.user.id,
-            request: request
-        })
-            .populateAll()
+        ChatService.getChats({request: request})
             .then(
-                (chats) => {
-                    Chat.watch(req.socket);
-
-                    res.ok(
-                        {
-                            chats: chats
-                        }
-                    );
-                }
+                (chats) => res.ok({
+                    chats: chats
+                })
             )
             .catch(
                 (err) => {
@@ -57,10 +49,10 @@ let ChatController = {
                 }
             );
     },
-    create(req, res) {
-        let request = req.params.request;
+    createChat(req, res) {
+        let params = req.allParams();
 
-        if (!request) {
+        if (!params.request || !params.contact || !params.contact.id) {
 
             return res.badRequest(
                 {
@@ -69,7 +61,30 @@ let ChatController = {
             );
         }
 
-        res.ok({message: 'socket'});
+        let user = req.session.user.id;
+        let contact = parseInt(params.contact.id, 10);
+        let request = params.request;
+
+        Chat.create({
+            owner: user,
+            contact: contact,
+            request: request
+        })
+            .then(
+                (createdChat) => {
+
+                    return res.ok({
+                        chat: createdChat
+                    });
+                }
+            )
+            .catch(
+                (err) => {
+                    sails.log.error(err);
+
+                    return res.serverError();
+                }
+            );
     }
 };
 
