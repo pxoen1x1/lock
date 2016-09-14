@@ -73,7 +73,7 @@ let UserService = {
             LEFT JOIN states ON states.id = addresses.state_id
             LEFT JOIN user_details AS details ON details.user_id = users.id
             LEFT JOIN locations ON locations.id = details.location_id
-            LEFT JOIN licenses ON licenses.id = details.location_id
+            LEFT JOIN licenses ON licenses.user_details_id = details.id
             LEFT JOIN working_hours ON working_hours.id = details.location_id
             WHERE details.user_id IS NOT NULL
             AND users.is_enabled = true
