@@ -82,9 +82,9 @@ let User = {
             collection: 'UserDetail',
             via: 'user'
         },
-        requestCreators: {
+        requestOwner: {
             collection: 'Request',
-            via: 'creator'
+            via: 'owner'
         },
         requestExecutors: {
             collection: 'Request',

@@ -14,7 +14,7 @@ let RequestController = {
 
         let searchCriteria = {
             where: {
-                creator: req.session.user.id
+                owner: req.session.user.id
             }
         };
 
@@ -91,7 +91,7 @@ let RequestController = {
             );
         }
 
-        newRequest.creator = req.session.user.id;
+        newRequest.owner = req.session.user.id;
 
         RequestService.create(newRequest)
             .then(
@@ -112,7 +112,7 @@ let RequestController = {
     createFeedback(req, res) {
         let feedback = req.allParams();
 
-        if (!feedback.request || !feedback.text || !feedback.executor) {
+        if (!feedback.request || !feedback.message || !feedback.executor) {
 
             res.badRequest(
                 {
@@ -121,7 +121,7 @@ let RequestController = {
             );
         }
 
-        feedback.creator = req.session.user.id;
+        feedback.author = req.session.user.id;
 
         Feedback.create(feedback)
             .then(

@@ -66,10 +66,10 @@ let Request = {
             unique: true,
             columnName: 'location_id'
         },
-        creator: {
+        owner: {
             model: 'User',
             required: true,
-            columnName: 'creator_id'
+            columnName: 'owner_id'
         },
         executor: {
             model: 'User',
