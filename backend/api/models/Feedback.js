@@ -11,24 +11,23 @@ let Feedback = {
     tableName: 'feedbacks',
 
     attributes: {
-        text: {
+        message: {
             type: 'string',
             required: true
         },
 
-        creator: {
+        author: {
             model: 'User',
             required: true,
-            columnName: 'creator_id'
+            columnName: 'author_id'
         },
         executor: {
             model: 'User',
             required: true,
-            columnName: 'creator_id'
+            columnName: 'executor_id'
         },
         request: {
             model: 'Request',
-            unique: true,
             required: true,
             columnName: 'request_id'
         }

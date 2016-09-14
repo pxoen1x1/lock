@@ -90,11 +90,11 @@ let User = {
             collection: 'Request',
             via: 'executor'
         },
-        feedbackCreator: {
+        feedbackAuthors: {
             collection: 'Feedback',
-            via: 'creator'
+            via: 'author'
         },
-        feedbackExecutor: {
+        feedbackExecutors: {
             collection: 'Feedback',
             via: 'executor'
         },
