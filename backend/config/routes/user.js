@@ -6,7 +6,7 @@ let userRoutes = {
         action: 'getCurrentUser'
     },
     'GET /api/users/:user/feedbacks': {
-        controller: 'FeedbackController',
+        controller: 'UserController',
         action: 'getUserFeedbacks'
     },
     'POST /api/user': {
