@@ -75,13 +75,26 @@
             contacts = chats.map(function (chat) {
                 if (chat.owner.id === curentUser.id) {
 
+                    chat.contact.chat = chat;
+
                     return chat.contact;
                 }
+
+                chat.owner.chat = chat;
 
                 return chat.owner;
             });
 
             return contacts;
+        }
+
+        function sendMessage(chat, message) {
+
+            return chatSocketservice.sendMessage(chat, message)
+                .then(function (message) {
+
+                    return message;
+                });
         }
 
         function reply(event, replyMessage) {
@@ -98,18 +111,20 @@
                     return;
                 }
 
-                var now = new Date();
-
+                var chat = vm.selectedContact.chat;
                 var message = {
-                    who: 'user',
                     message: replyMessage,
-                    updatedAt: now.toISOString()
+                    recipient: vm.selectedContact.id
                 };
 
-                vm.chat.push(message);
-                vm.selectedContact.lastMessage = message;
+                return sendMessage(chat, message)
+                    .then(function(message) {
+                        message.who = 'user';
 
-                clearReplyMessage();
+                        vm.chats.push(message);
+
+                        clearReplyMessage();
+                    });
             }
         }
 
