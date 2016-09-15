@@ -13,7 +13,7 @@ let HelperService = {
                     }
 
 
-                    this.convertKeyToObject(result, key, object[key]);
+                    this._convertKeyToObject(result, key, object[key]);
                 }
 
                 return result;
@@ -22,7 +22,7 @@ let HelperService = {
 
         return objects;
     },
-    convertKeyToObject(result, keys, value) {
+    _convertKeyToObject(result, keys, value) {
         let splitKeys = keys.split('.');
 
         result = result || {};
