@@ -106,9 +106,9 @@ let User = {
             collection: 'Chat',
             via: 'contact'
         },
-        messageSenders: {
+        messageOwners: {
             collection: 'Message',
-            via: 'sender'
+            via: 'owner'
         },
 
         fullName() {

@@ -28,10 +28,10 @@ let Message = {
             defaultsTo: false
         },
 
-        sender: {
+        owner: {
             model: 'User',
             required: true,
-            columnName: 'sender_id'
+            columnName: 'owner_id'
         },
         chat: {
             model: 'Chat',
