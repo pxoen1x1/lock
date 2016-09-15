@@ -169,7 +169,7 @@
 
         function createChat(selectedSpecialist) {
             var contact = {
-                contact: selectedSpecialist
+                contact: selectedSpecialist.id
             };
 
             return chatSocketservice.createChat(vm.request, contact)
