@@ -15,7 +15,7 @@ let ChatController = {
 
             return res.badRequest(
                 {
-                    message: 'This is not a socket request.'
+                    message: req.__('This is not a socket request.')
                 });
         }
 
@@ -47,7 +47,11 @@ let ChatController = {
     createChat(req, res) {
         let params = req.allParams();
 
-        if (!params.request || !params.contact || !params.contact.id) {
+        let request = params.request;
+        let contact = params.contact;
+        let user = req.session.user.id;
+
+        if (!request || !contact) {
 
             return res.badRequest(
                 {
@@ -55,10 +59,6 @@ let ChatController = {
                 }
             );
         }
-
-        let user = req.session.user.id;
-        let contact = parseInt(params.contact.id, 10);
-        let request = params.request;
 
         Chat.create({
             owner: user,
