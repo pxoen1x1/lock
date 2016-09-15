@@ -103,7 +103,7 @@
                 var message = {
                     who: 'user',
                     message: replyMessage,
-                    time: now.toISOString()
+                    updatedAt: now.toISOString()
                 };
 
                 vm.chat.push(message);
