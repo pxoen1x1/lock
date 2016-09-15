@@ -110,6 +110,10 @@ let User = {
             collection: 'Message',
             via: 'owner'
         },
+        messageRecipient: {
+            collection: 'Message',
+            via: 'recipient'
+        },
 
         fullName() {
 
