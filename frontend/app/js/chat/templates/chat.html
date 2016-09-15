@@ -16,7 +16,7 @@
         </div>
       </md-sidenav>
       <div class="start-point"
-           ng-if="vm.chats.length === 0"
+           ng-if="!vm.selectedContact.id"
            flex
            layout="column"
            layout-align="center center">
@@ -32,7 +32,7 @@
       <div class="chat"
            flex
            layout="column"
-           ng-if="vm.chats.length !== 0">
+           ng-if="vm.selectedContact.id">
         <md-toolbar class="chat-toolbar">
           <div class="md-toolbar-tools">
             <md-button class="hide-gt-md responsive-chats-button md-icon-button"
