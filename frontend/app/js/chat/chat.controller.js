@@ -73,16 +73,16 @@
             var contacts;
 
             contacts = chats.map(function (chat) {
-                if (chat.owner.id === curentUser.id) {
+                var result = (chat.owner.id === curentUser.id) ? chat.contact : chat.owner;
 
-                    chat.contact.chat = chat;
+                if (!result) {
 
-                    return chat.contact;
+                    return chat;
                 }
 
-                chat.owner.chat = chat;
+                result.chat = chat;
 
-                return chat.owner;
+                return result;
             });
 
             return contacts;
@@ -118,7 +118,7 @@
                 };
 
                 return sendMessage(chat, message)
-                    .then(function(message) {
+                    .then(function (message) {
                         message.who = 'user';
 
                         vm.chats.push(message);
