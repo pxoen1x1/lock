@@ -11,7 +11,7 @@ let Message = {
     tableName: 'messages',
 
     attributes: {
-        text: {
+        message: {
             type: 'string',
             required: true
         },
