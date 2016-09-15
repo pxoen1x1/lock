@@ -10,11 +10,6 @@
 'use strict';
 
 let ChatController = {
-    _config: {
-        actions: true,
-        rest: true
-    },
-
     getClientChats(req, res) {
         if (!req.isSocket) {
 
