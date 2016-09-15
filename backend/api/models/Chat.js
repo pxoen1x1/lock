@@ -11,12 +11,12 @@ let Chat = {
     tableName: 'chats',
 
     attributes: {
-        isAcceptedByClient: {
+        isAcceptedByOwner: {
             type: 'boolean',
             defaultsTo: false,
             columnName: 'is_accepted_by_client'
         },
-        isAcceptedBySpecialist: {
+        isAcceptedByContact: {
             type: 'boolean',
             defaultsTo: false,
             columnName: 'is_accepted_by_specialist'
@@ -29,6 +29,7 @@ let Chat = {
         },
         contact: {
             model: 'User',
+            required: true,
             columnName: 'contact_id'
         },
         request: {
