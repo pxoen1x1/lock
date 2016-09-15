@@ -41,7 +41,7 @@ let Message = {
         chat: {
             model: 'Chat',
             required: true,
-            columnName: ' chat_id'
+            columnName: 'chat_id'
         }
     }
 };
