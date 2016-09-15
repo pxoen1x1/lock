@@ -11,7 +11,8 @@
     function chatSocketservice($sails, conf) {
         var service = {
             getChats: getChats,
-            createChat: createChat
+            createChat: createChat,
+            sendMessage: sendMessage
         };
 
         return service;
@@ -35,6 +36,17 @@
             function createChatCompleted(response) {
 
                 return response.data.chat;
+            }
+        }
+
+        function sendMessage(chat, message) {
+
+            return $sails.post(conf.BASE_URL + 'api/chats/' + chat.id + '/messages', message)
+                .then(sendMessageCompleted);
+
+            function sendMessageCompleted(response) {
+
+                return response.data.message;
             }
         }
     }
