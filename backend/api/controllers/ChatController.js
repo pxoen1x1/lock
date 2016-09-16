@@ -48,10 +48,10 @@ let ChatController = {
         let params = req.allParams();
 
         let request = params.request;
-        let contact = params.contact;
+        let specialist = params.specialist;
         let user = req.session.user.id;
 
-        if (!request || !contact) {
+        if (!request || !specialist) {
 
             return res.badRequest(
                 {
@@ -62,7 +62,7 @@ let ChatController = {
 
         Chat.create({
             client: user,
-            contact: contact,
+            specialist: specialist,
             request: request
         })
             .then(

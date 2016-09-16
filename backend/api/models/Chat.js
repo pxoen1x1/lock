@@ -27,10 +27,10 @@ let Chat = {
             required: true,
             columnName: 'client_id'
         },
-        contact: {
+        specialist: {
             model: 'User',
             required: true,
-            columnName: 'contact_id'
+            columnName: 'specialist_id'
         },
         request: {
             model: 'Request',

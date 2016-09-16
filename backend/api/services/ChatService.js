@@ -80,54 +80,54 @@ let ChatService = {
                                client_lastMessage.chat_id AS 'client.lastMessage.chatId',
                                client_lastMessage.createdAt AS 'client.lastMessage.createdAt',
                                client_lastMessage.updatedAt AS 'client.lastMessage.updatedAt',
-                               contact.id AS 'contact.id',
-                               contact.first_name AS 'contact.firstName',
-                               contact.last_name AS 'contact.lastName',
-                               CONCAT_WS(' ', contact.first_name, contact.last_name) AS 'contact.fullName',
-                               contact.phone_number AS 'contact.phoneNumber',
-                               contact.gender AS 'contact.gender',
-                               contact.birthday AS 'contact.birthday',
-                               contact.ssn AS 'contact.ssn',
-                               contact.is_enabled AS 'contact.isEnabled',
-                               contact.is_email_confirmed AS 'contact.isEmailConfirmed',
-                               contact.portrait AS 'contact.portrait',
-                               contact.createdAt AS 'contact.createdAt',
-                               contact.updatedAt AS'contact.updatedAt',
-                               contact_auth.id AS 'contact.auth.id',
-                               contact_auth.email AS 'contact.auth.email',
-                               contact_address.id AS 'contact.address.id',
-                               contact_address.address AS 'contact.address.address',
-                               contact_address.zip AS 'contact.address.zip',
-                               contact_address_city.id AS 'contact.address.city.id',
-                               contact_address_city.city AS 'contact.address.city.city',
-                               contact_address_city.zip AS 'contact.address.city.zip',
-                               contact_address_city.lat AS 'contact.address.city.lat',
-                               contact_address_city.lng AS 'contact.address.city.lng',
-                               contact_address_state.id AS 'contact.address.state.id',
-                               contact_address_state.state AS 'contact.address.state.state',
-                               contact_address_state.code AS 'contact.address.state.code',
-                               contact_details.id AS 'contact.details.id',
-                               contact_details.is_available AS 'contact.details.isAvailable',
-                               contact_details.is_pro AS 'contact.details.isPro',
-                               contact_details_location.id AS 'contact.details.location.id',
-                               contact_details_location.address AS 'contact.details.location.address',
-                               contact_details_location.latitude AS 'contact.details.location.latitude',
-                               contact_details_location.longitude AS 'contact.details.location.longitude',
-                               contact_details_license.id AS 'contact.details.license.id',
-                               contact_details_license.number AS 'contact.details.license.number',
-                               contact_details_license.date AS 'contact.details.license.date',
-                               contact_details_workingHours.id AS 'contact.details.workingHours.id',
-                               contact_details_workingHours.time_from AS 'contact.details.workingHours.timeFrom',
-                               contact_details_workingHours.time_to AS 'contact.details.workingHours.timeTo',
-                               contact_lastMessage.id AS 'contact.lastMessage.id',
-                               contact_lastMessage.message AS 'contact.lastMessage.message',
-                               contact_lastMessage.type AS 'contact.lastMessage.type',
-                               contact_lastMessage.is_read AS 'contact.lastMessage.isRead',
-                               contact_lastMessage.sender_id AS 'contact.lastMessage.senderId',
-                               contact_lastMessage.recipient_id AS 'contact.lastMessage.recipientId',
-                               contact_lastMessage.chat_id AS 'contact.lastMessage.chatId',
-                               contact_lastMessage.createdAt AS 'contact.lastMessage.createdAt',
-                               contact_lastMessage.updatedAt AS 'contact.lastMessage.updatedAt'
+                               specialist.id AS 'specialist.id',
+                               specialist.first_name AS 'specialist.firstName',
+                               specialist.last_name AS 'specialist.lastName',
+                               CONCAT_WS(' ', specialist.first_name, specialist.last_name) AS 'specialist.fullName',
+                               specialist.phone_number AS 'specialist.phoneNumber',
+                               specialist.gender AS 'specialist.gender',
+                               specialist.birthday AS 'specialist.birthday',
+                               specialist.ssn AS 'specialist.ssn',
+                               specialist.is_enabled AS 'specialist.isEnabled',
+                               specialist.is_email_confirmed AS 'specialist.isEmailConfirmed',
+                               specialist.portrait AS 'specialist.portrait',
+                               specialist.createdAt AS 'specialist.createdAt',
+                               specialist.updatedAt AS'specialist.updatedAt',
+                               specialist_auth.id AS 'specialist.auth.id',
+                               specialist_auth.email AS 'specialist.auth.email',
+                               specialist_address.id AS 'specialist.address.id',
+                               specialist_address.address AS 'specialist.address.address',
+                               specialist_address.zip AS 'specialist.address.zip',
+                               specialist_address_city.id AS 'specialist.address.city.id',
+                               specialist_address_city.city AS 'specialist.address.city.city',
+                               specialist_address_city.zip AS 'specialist.address.city.zip',
+                               specialist_address_city.lat AS 'specialist.address.city.lat',
+                               specialist_address_city.lng AS 'specialist.address.city.lng',
+                               specialist_address_state.id AS 'specialist.address.state.id',
+                               specialist_address_state.state AS 'specialist.address.state.state',
+                               specialist_address_state.code AS 'specialist.address.state.code',
+                               specialist_details.id AS 'specialist.details.id',
+                               specialist_details.is_available AS 'specialist.details.isAvailable',
+                               specialist_details.is_pro AS 'specialist.details.isPro',
+                               specialist_details_location.id AS 'specialist.details.location.id',
+                               specialist_details_location.address AS 'specialist.details.location.address',
+                               specialist_details_location.latitude AS 'specialist.details.location.latitude',
+                               specialist_details_location.longitude AS 'specialist.details.location.longitude',
+                               specialist_details_license.id AS 'specialist.details.license.id',
+                               specialist_details_license.number AS 'specialist.details.license.number',
+                               specialist_details_license.date AS 'specialist.details.license.date',
+                               specialist_details_workingHours.id AS 'specialist.details.workingHours.id',
+                               specialist_details_workingHours.time_from AS 'specialist.details.workingHours.timeFrom',
+                               specialist_details_workingHours.time_to AS 'specialist.details.workingHours.timeTo',
+                               specialist_lastMessage.id AS 'specialist.lastMessage.id',
+                               specialist_lastMessage.message AS 'specialist.lastMessage.message',
+                               specialist_lastMessage.type AS 'specialist.lastMessage.type',
+                               specialist_lastMessage.is_read AS 'specialist.lastMessage.isRead',
+                               specialist_lastMessage.sender_id AS 'specialist.lastMessage.senderId',
+                               specialist_lastMessage.recipient_id AS 'specialist.lastMessage.recipientId',
+                               specialist_lastMessage.chat_id AS 'specialist.lastMessage.chatId',
+                               specialist_lastMessage.createdAt AS 'specialist.lastMessage.createdAt',
+                               specialist_lastMessage.updatedAt AS 'specialist.lastMessage.updatedAt'
         FROM chats AS chat
         LEFT JOIN requests AS request ON request.id = chat.request_id
         LEFT JOIN languages AS request_language ON request_language.id = request.language_id
@@ -142,27 +142,29 @@ let ChatService = {
         LEFT JOIN locations AS client_details_location ON client_details_location.id = client_details.location_id
         LEFT JOIN licenses AS client_details_license ON client_details_license.user_details_id = client_details.id
         LEFT JOIN working_hours AS client_details_workingHours
-                                                      ON client_details_workingHours.user_details_id = client_details.id
+                  ON client_details_workingHours.user_details_id = client_details.id
         LEFT JOIN (SELECT * FROM messages
                     WHERE updatedAt IN (
                       SELECT MAX(updatedAt) FROM messages GROUP BY sender_id
                     )
                   ) AS client_lastMessage ON client_lastMessage.sender_id = client.id
-        LEFT JOIN users AS contact ON contact.id = chat.contact_id
-        LEFT JOIN auth AS contact_auth ON contact_auth.user = contact.id
-        LEFT JOIN addresses AS contact_address ON contact_address.user_id = contact.id
-        LEFT JOIN cities AS contact_address_city ON contact_address_city.id = contact_address.city_id
-        LEFT JOIN states AS contact_address_state ON contact_address_state.id = contact_address.state_id
-        LEFT JOIN user_details AS contact_details ON contact_details.user_id = contact.id
-        LEFT JOIN locations AS contact_details_location ON contact_details_location.id = contact_details.location_id
-        LEFT JOIN licenses AS contact_details_license ON contact_details_license.user_details_id = contact_details.id
-        LEFT JOIN working_hours AS contact_details_workingHours
-                                                    ON contact_details_workingHours.user_details_id = contact_details.id
+        LEFT JOIN users AS specialist ON specialist.id = chat.specialist_id
+        LEFT JOIN auth AS specialist_auth ON specialist_auth.user = specialist.id
+        LEFT JOIN addresses AS specialist_address ON specialist_address.user_id = specialist.id
+        LEFT JOIN cities AS specialist_address_city ON specialist_address_city.id = specialist_address.city_id
+        LEFT JOIN states AS specialist_address_state ON specialist_address_state.id = specialist_address.state_id
+        LEFT JOIN user_details AS specialist_details ON specialist_details.user_id = specialist.id
+        LEFT JOIN locations AS specialist_details_location
+                  ON specialist_details_location.id = specialist_details.location_id
+        LEFT JOIN licenses AS specialist_details_license
+                  ON specialist_details_license.user_details_id = specialist_details.id
+        LEFT JOIN working_hours AS specialist_details_workingHours
+                  ON specialist_details_workingHours.user_details_id = specialist_details.id
         LEFT JOIN (SELECT * FROM messages
                     WHERE updatedAt IN (
                       SELECT MAX(updatedAt) FROM messages GROUP BY sender_id
                     )
-                  ) AS contact_lastMessage ON contact_lastMessage.sender_id = contact.id
+                  ) AS specialist_lastMessage ON specialist_lastMessage.sender_id = specialist.id
         WHERE chat.request_id = ?`;
 
         let chatQueryAsync = promise.promisify(Chat.query);

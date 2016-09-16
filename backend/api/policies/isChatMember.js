@@ -32,7 +32,7 @@ module.exports = function (req, res, next) {
                     });
                 }
 
-                let isUserChatMember = user === foundChat.client  || user === foundChat.contact;
+                let isUserChatMember = user === foundChat.client  || user === foundChat.specialist;
 
                 if (!isUserChatMember) {
 

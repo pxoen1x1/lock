@@ -102,9 +102,9 @@ let User = {
             collection: 'Chat',
             via: 'client'
         },
-        chatContacts: {
+        chatSpecialists: {
             collection: 'Chat',
-            via: 'contact'
+            via: 'specialist'
         },
         messageSenders: {
             collection: 'Message',
