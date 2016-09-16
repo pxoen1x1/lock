@@ -9,7 +9,7 @@ let userRoutes = {
         controller: 'UserController',
         action: 'getUserFeedbacks'
     },
-    'PUT /api/user/:id': {
+    'PUT /api/user': {
         controller: 'UserController',
         action: 'updateUser'
     }

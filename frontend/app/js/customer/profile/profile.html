@@ -12,15 +12,22 @@
            layout-align="start center"
            layout-align-gt-xs="start start"
            flex-gt-xs="25">
-        <img class="avatar"
-             ng-src="{{conf.FRONT_URL + (vm.profileData.portrait || coreConstants.IMAGES.defaultPortrait)}}"
+        <img class="profile-avatar"
+             ng-src="{{vm.newPortrait || vm.profileData.portrait || coreConstants.IMAGES.defaultPortrait}}"
              alt="photo"/>
         <div flex="5"></div>
         <div class="actions"
              layout="column">
           <md-button class="md-button-blue"
-                     aria-label="Change photo">
-            Change photo
+                     ng-if="vm.isEditing"
+                     aria-label="Change photo"
+                     file-uploader
+                     is-single-file="true"
+                     allowed-extensions="{{ vm.fileUploaderOptions.allowedFileExtensions.images }}"
+                     max-size="{{ vm.fileUploaderOptions.maxFileSize }}"
+                     selected-file-src="vm.newPortrait">
+            <i class="material-icons vertical-middle">photo_camera</i>
+            <span class="verical-middle">Change photo</span>
           </md-button>
           <md-button flex="100"
                      ng-if="!vm.isEditing"

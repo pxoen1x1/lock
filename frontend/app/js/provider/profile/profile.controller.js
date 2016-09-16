@@ -5,10 +5,10 @@
         .module('app.provider')
         .controller('ProviderProfileController', ProviderProfileController);
 
-    ProviderProfileController.$inject = ['currentUserService'];
+    ProviderProfileController.$inject = ['currentUserService', 'coreConstants', 'conf'];
 
     /* @ngInject */
-    function ProviderProfileController(currentUserService) {
+    function ProviderProfileController(currentUserService, coreConstants, conf) {
         var vm = this;
 
         vm.profileData = {};
@@ -18,8 +18,11 @@
         };
 
         vm.isEditing = false;
+        vm.fileUploaderOptions = coreConstants.FILE_UPLOADER_OPTIONS;
+        vm.newPortrait = '';
         
         vm.updateUser = updateUser;
+        vm.getUser = getUser;
 
         activate();
 
@@ -29,10 +32,18 @@
                 return;
             }
 
+            if (vm.newPortrait) {
+                user.portrait = {
+                    base64: vm.newPortrait
+                };
+            }
+
             return currentUserService.setUser(user)
                 .then(function (user) {
 
                     vm.profileData = user;
+                    vm.profileData.portrait = user.portrait ? conf.BASE_URL + user.portrait : '';
+                    vm.newPortrait = '';
                     vm.isEditing = false;
 
                     return vm.profileData;
@@ -45,11 +56,12 @@
                 .then(function (user) {
 
                     vm.profileData = user;
+                    vm.profileData.portrait = user.portrait ? conf.BASE_URL + user.portrait : '';
 
                     return vm.profileData;
                 });
         }
-
+        
         function activate() {
             getUser();
         }

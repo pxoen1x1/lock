@@ -30,6 +30,7 @@
     "checklist-model": "^0.10.0",
     "mdPickers": "^0.7.5",
     "angular-moment": "^0.10.3",
+    "angular-file-upload": "^2.3.4",
     "angular-sails": "^1.1.4"
   },
   "devDependencies": {},
