@@ -97,17 +97,17 @@ let UserController = waterlock.actions.user({
             );
     },
     updateUser(req, res) {
-        let userId = req.params.id ? parseInt(req.params.id, 10) : req.session.user.id;
+        let userId = req.session.user.id;
         let user = req.body;
 
-        if (req.session.user.id !== userId) {
+        if (!userId) {
 
             return res.forbidden({
                 message: req.__('You are not permitted to perform this action.')
             });
         }
 
-        if (!userId || Object.keys(user).length === 0) {
+        if (Object.keys(user).length === 0) {
 
             return res.badRequest({
                 message: req.__('Please, check data.')

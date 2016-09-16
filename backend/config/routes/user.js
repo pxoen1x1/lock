@@ -16,10 +16,6 @@ let userRoutes = {
     'PUT /api/user': {
         controller: 'UserController',
         action: 'updateUser'
-    },
-    'PUT /api/user/:id': {
-        controller: 'UserController',
-        action: 'updateUser'
     }
 };
 
