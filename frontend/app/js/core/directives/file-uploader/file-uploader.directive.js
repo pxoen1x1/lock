@@ -65,7 +65,7 @@
         vm.uploader.method = vm.method || 'POST';
         vm.uploader.url = vm.uploadFileUrl;
         vm.uploader.formData = [vm.formData];
-        vm.uploader.autoUpload = vm.autoUpload !== 'false';
+        vm.uploader.autoUpload = vm.autoUpload === 'true';
 
         vm.uploader.filters = [
             {

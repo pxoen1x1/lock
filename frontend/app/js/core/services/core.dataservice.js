@@ -128,7 +128,7 @@
         function updateUser(user) {
 
             return $http({
-                url: conf.BASE_URL + 'api/user/' + user.id,
+                url: conf.BASE_URL + 'api/user',
                 method: 'PUT',
                 data: user
             })
