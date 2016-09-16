@@ -13,7 +13,7 @@ let userRoutes = {
         controller: 'AuthController',
         action: 'register'
     },
-    'PUT /api/user/:id': {
+    'PUT /api/user': {
         controller: 'UserController',
         action: 'updateUser'
     }

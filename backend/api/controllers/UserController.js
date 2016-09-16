@@ -1,4 +1,4 @@
-/* global sails, waterlock, User, UserService, Feedback */
+/*global sails, waterlock, User, UserService, FileService, Feedback*/
 
 /**
  * UserController.js
@@ -97,17 +97,17 @@ let UserController = waterlock.actions.user({
             );
     },
     updateUser(req, res) {
-        let userId = parseInt(req.params.id, 10);
+        let userId = req.session.user.id;
         let user = req.body;
 
-        if (req.session.user.id !== userId) {
+        if (!userId) {
 
             return res.forbidden({
                 message: req.__('You are not permitted to perform this action.')
             });
         }
 
-        if (!userId || Object.keys(user).length === 0) {
+        if (Object.keys(user).length === 0) {
 
             return res.badRequest({
                 message: req.__('Please, check data.')
@@ -122,7 +122,17 @@ let UserController = waterlock.actions.user({
             delete user.id;
         }
 
-        User.update({id: userId}, user)
+        FileService.saveAvatar(userId, user.portrait)
+            .then(
+                (file) => {
+
+                    if (file) {
+                        user.portrait = file;
+                    }
+
+                    return User.update({id: userId}, user);
+                }
+            )
             .then(
                 (updatedUsers) => {
 
