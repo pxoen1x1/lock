@@ -48,28 +48,32 @@ let FileService = {
         }
 
         let filename = this.generateFileName(image.base64);
-        var path = this.getFilePath(userId, 'avatars', filename);
+        let path = this.getFilePath(userId, 'avatars', filename);
 
         return this.uploadBase64File(image.base64, path);
     },
     getFilePath(userId, dir, filename) {
-        var path = require('util').format('assets/uploads/users/%s/%s/', userId, dir);
+        let path = `assets/uploads/users/${userId}/${dir}/`;
+        
         path = this.prepareDirectory(path);
 
         return path + filename;
     },
     generateFileName(base64) {
         let buffer = crypto.randomBytes(sails.config.application.tokenLength);
+        let filename = buffer.toString('hex');
         let matches = base64.match(/^data:image\/([A-Za-z-+\/]+);base64,(.+)$/);
         let extension = matches[1];
 
-        return require('util').format('%s.%s', buffer.toString('hex'), extension);
+        return `${filename}.${extension}`;
     },
     prepareDirectory(path) {
         try {
             mkdirp.sync(path, 0o755);
-        } catch (e) {
-            console.log(e);
+        } catch (err) {
+            sails.log.error(err);
+
+            return false;
         }
 
         return path;
