@@ -3,9 +3,9 @@
 'use strict';
 
 let RequestService = {
-    getAll(searchCriteria, sorting, pagination) {
+    getAll(criteria, sorting, pagination) {
 
-        return Request.find(searchCriteria)
+        return Request.find(criteria)
             .sort(sorting)
             .populateAll()
             .paginate(pagination)
@@ -41,9 +41,9 @@ let RequestService = {
                 }
             );
     },
-    getRequestCount(searchCriteria) {
+    getRequestsCount(criteria) {
 
-        return Request.count(searchCriteria)
+        return Request.count(criteria)
             .then(
                 (count) => count
             );
