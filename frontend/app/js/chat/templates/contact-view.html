@@ -18,10 +18,10 @@
       <div layout="column"
            layout-align="center center">
         <div class="md-avatar avatar contact-avatar huge"
-             ng-style="{ 'background-image': 'url(' + (vm.selectedContact.portrait || vm.defaultPortrait) + ')' }">
+             ng-style="{ 'background-image': 'url(' + (vm.selectedChat.portrait || vm.defaultPortrait) + ')' }">
         </div>
         <div class="contact-name">
-          <span ng-bind="vm.selectedContact.fullName"></span>
+          <span ng-bind="vm.selectedChat.fullName"></span>
         </div>
       </div>
     </div>
@@ -32,8 +32,8 @@
       <md-card-title>Rating</md-card-title>
       <md-card-content>
         <span class="mood"
-              ng-if="vm.selectedContact.details.rating"
-              ng-bind="vm.selectedContact.details.rating">
+              ng-if="vm.selectedChat.details.rating"
+              ng-bind="vm.selectedChat.details.rating">
         </span>
       </md-card-content>
     </md-card>

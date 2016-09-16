@@ -13,10 +13,10 @@
                             coreConstants, currentUserService, chatSocketservice) {
         var vm = this;
 
-        vm.contacts = [];
         vm.chats = [];
+        vm.messages = [];
         vm.user = {};
-        vm.selectedContact = {};
+        vm.selectedChat = {};
 
         vm.selectedRequestId = $stateParams.requestId;
 
@@ -44,8 +44,8 @@
                 });
         }
 
-        function getChat(contact) {
-            vm.selectedContact = contact;
+        function getChat(chat) {
+            vm.selectedChat = chat;
 
             clearReplyMessage();
 
@@ -54,38 +54,14 @@
             }
         }
 
-        function getChatContacts(selectedRequestId, curentUser) {
+        function getChatContacts(selectedRequestId) {
 
             return chatSocketservice.getChats(selectedRequestId)
                 .then(function (chats) {
-                    vm.contacts = getContacts(chats, curentUser);
+                    vm.chats = chats;
 
-                    return vm.contacts;
+                    return vm.chats;
                 });
-        }
-
-        function getContacts(chats, curentUser) {
-            if (!angular.isArray(chats)) {
-
-                return chats;
-            }
-
-            var contacts;
-
-            contacts = chats.map(function (chat) {
-                var result = (chat.owner.id === curentUser.id) ? chat.contact : chat.owner;
-
-                if (!result) {
-
-                    return chat;
-                }
-
-                result.chat = chat;
-
-                return result;
-            });
-
-            return contacts;
         }
 
         function sendMessage(chat, message) {
@@ -111,17 +87,17 @@
                     return;
                 }
 
-                var chat = vm.selectedContact.chat;
+                var chat = vm.selectedChat;
                 var message = {
                     message: replyMessage,
-                    recipient: vm.selectedContact.id
+                    recipient: vm.selectedChat.specialist.id
                 };
 
                 return sendMessage(chat, message)
                     .then(function (message) {
                         message.who = 'user';
 
-                        vm.chats.push(message);
+                        vm.messages.push(message);
 
                         clearReplyMessage();
                     });
@@ -139,11 +115,8 @@
         }
 
         function activate() {
-            getCurrentUser()
-                .then(function (currentUser) {
-
-                    return getChatContacts(vm.selectedRequestId, currentUser);
-                });
+            getCurrentUser();
+            getChatContacts(vm.selectedRequestId);
         }
     }
 })();

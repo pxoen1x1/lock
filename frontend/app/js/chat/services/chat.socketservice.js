@@ -28,9 +28,9 @@
             }
         }
 
-        function createChat(request, contact) {
+        function createChat(request, specialist) {
 
-            return $sails.post(conf.BASE_URL + 'api/request/' + request.id + '/chats', contact)
+            return $sails.post(conf.BASE_URL + 'api/request/' + request.id + '/chats', specialist)
                 .then(createChatCompleted);
 
             function createChatCompleted(response) {

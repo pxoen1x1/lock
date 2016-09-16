@@ -16,7 +16,7 @@
         </div>
       </md-sidenav>
       <div class="start-point"
-           ng-if="!vm.selectedContact.id"
+           ng-if="!vm.selectedChat.id"
            flex
            layout="column"
            layout-align="center center">
@@ -32,7 +32,7 @@
       <div class="chat"
            flex
            layout="column"
-           ng-if="vm.selectedContact.id">
+           ng-if="vm.selectedChat.specialist.id">
         <md-toolbar class="chat-toolbar">
           <div class="md-toolbar-tools">
             <md-button class="hide-gt-md responsive-chats-button md-icon-button"
@@ -43,21 +43,21 @@
             <div class="chat-contact"
                  layout="row"
                  layout-align="start center"
-                 ng-if="vm.selectedContact.id"
+                 ng-if="vm.selectedChat.specialist.id"
                  ng-click="vm.toggleSidenav('right-sidenav')">
               <div class="avatar-wrapper">
                 <div class="avatar"
-                     ng-style="{ 'background-image': 'url(' + (vm.selectedContact.portrait || vm.defaultPortrait) + ')' }">
+                     ng-style="{ 'background-image': 'url(' + (vm.selectedChat.specialist.portrait || vm.defaultPortrait) + ')' }">
                 </div>
                 <i class="material-icons s14 status"
-                   ng-if="vm.selectedContact.details.isAvailable">check_circle
+                   ng-if="vm.selectedChat.specialist.details.isAvailable">check_circle
                 </i>
                 <i class="material-icons s14 status unavailable"
-                   ng-if="!vm.selectedContact.details.isAvailable">schedule
+                   ng-if="!vm.selectedChat.specialist.details.isAvailable">schedule
                 </i>
               </div>
               <div class="chat-contact-name">
-                <span ng-bind="vm.selectedContact.fullName"></span>
+                <span ng-bind="vm.selectedChat.specialist.fullName"></span>
               </div>
             </div>
             <md-menu md-position-mode="target-right target">
@@ -81,25 +81,25 @@
                     scrolling-down
                     flex>
           <div class="chat-messages"
-               ng-if="vm.chats">
+               ng-if="vm.messages.length > 0">
             <div class="md-padding message-row"
                  layout="row"
-                 ng-class="dialog.who"
-                 ng-repeat="dialog in vm.chats track by $index">
+                 ng-class="message.who"
+                 ng-repeat="message in vm.messages track by $index">
               <div class="avatar"
-                   ng-if="dialog.who === 'contact'"
-                   ng-style="{ 'background-image': 'url(' + (vm.selectedContact.portrait || vm.defaultPortrait) + ')' }">
+                   ng-if="message.who === 'contact'"
+                   ng-style="{ 'background-image': 'url(' + (vm.selectedChat.specialist.portrait || vm.defaultPortrait) + ')' }">
               </div>
               <div class="avatar"
-                   ng-if="dialog.who ==='user'"
+                   ng-if="message.who ==='user'"
                    ng-style="{ 'background-image': 'url(' + (vm.user.portrait || vm.defaultPortrait) + ')' }">
               </div>
               <div class="bubble">
                 <div class="message">
-                  <span ng-bind="dialog.message"></span>
+                  <span ng-bind="message.message"></span>
                 </div>
                 <div class="time secondary-text">
-                  <span ng-bind="dialog.updatedAt | altDate : vm.dateFormat"></span>
+                  <span ng-bind="message.updatedAt | altDate : vm.dateFormat"></span>
                 </div>
               </div>
             </div>

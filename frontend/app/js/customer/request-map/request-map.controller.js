@@ -168,11 +168,11 @@
         }
 
         function createChat(selectedSpecialist) {
-            var contact = {
-                contact: selectedSpecialist.id
+            var specialist = {
+                specialist: selectedSpecialist.id
             };
 
-            return chatSocketservice.createChat(vm.request, contact)
+            return chatSocketservice.createChat(vm.request, specialist)
                 .then(function () {
                     $state.go('customer.requests.request.chat');
                 });
