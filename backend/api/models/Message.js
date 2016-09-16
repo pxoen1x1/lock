@@ -15,23 +15,20 @@ let Message = {
             type: 'string',
             required: true
         },
-        isOffer: {
-            type: 'boolean',
-            defaultsTo: false
-        },
-        isAgreement: {
-            type: 'boolean',
-            defaultsTo: false
+        type: {
+            type: 'integer',
+            defaultsTo: 0
         },
         isRead: {
             type: 'boolean',
-            defaultsTo: false
+            defaultsTo: false,
+            columnName: 'is_read'
         },
 
-        owner: {
+        sender: {
             model: 'User',
             required: true,
-            columnName: 'owner_id'
+            columnName: 'sender_id'
         },
         recipient: {
             model: 'User',

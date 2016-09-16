@@ -106,11 +106,11 @@ let User = {
             collection: 'Chat',
             via: 'contact'
         },
-        messageOwners: {
+        messageSenders: {
             collection: 'Message',
-            via: 'owner'
+            via: 'sender'
         },
-        messageRecipient: {
+        messageRecipients: {
             collection: 'Message',
             via: 'recipient'
         },
