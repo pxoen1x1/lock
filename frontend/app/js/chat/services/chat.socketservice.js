@@ -5,12 +5,13 @@
         .module('app.chat')
         .factory('chatSocketservice', chatSocketservice);
 
-    chatSocketservice.$inject = ['$sails', 'conf'];
+    chatSocketservice.$inject = ['$sails'];
 
     /* @ngInject */
-    function chatSocketservice($sails, conf) {
+    function chatSocketservice($sails) {
         var service = {
             getChats: getChats,
+            getMessages: getMessages,
             createChat: createChat,
             sendMessage: sendMessage
         };
@@ -19,7 +20,7 @@
 
         function getChats(request) {
 
-            return $sails.get(conf.BASE_URL + 'api/client/request/' + request + '/chats')
+            return $sails.get('/api/client/request/' + request + '/chats')
                 .then(getChatsCompleted);
 
             function getChatsCompleted(message) {
@@ -28,9 +29,20 @@
             }
         }
 
+        function getMessages(chat, params){
+
+            return $sails.get('/api/chats/' + chat.id + '/messages', params)
+                .then(getMessagesCompleted);
+
+            function getMessagesCompleted(response) {
+
+                return response.data;
+            }
+        }
+
         function createChat(request, specialist) {
 
-            return $sails.post(conf.BASE_URL + 'api/request/' + request.id + '/chats', specialist)
+            return $sails.post('/api/request/' + request.id + '/chats', specialist)
                 .then(createChatCompleted);
 
             function createChatCompleted(response) {
@@ -41,7 +53,7 @@
 
         function sendMessage(chat, message) {
 
-            return $sails.post(conf.BASE_URL + 'api/chats/' + chat.id + '/messages', message)
+            return $sails.post('/api/chats/' + chat.id + '/messages', message)
                 .then(sendMessageCompleted);
 
             function sendMessageCompleted(response) {

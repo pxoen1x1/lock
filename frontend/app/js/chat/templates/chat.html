@@ -16,7 +16,7 @@
         </div>
       </md-sidenav>
       <div class="start-point"
-           ng-if="!vm.selectedChat.id"
+           ng-if="!vm.currentChat"
            flex
            layout="column"
            layout-align="center center">
@@ -32,7 +32,7 @@
       <div class="chat"
            flex
            layout="column"
-           ng-if="vm.selectedChat.specialist.id">
+           ng-if="vm.currentChat.specialist.id">
         <md-toolbar class="chat-toolbar">
           <div class="md-toolbar-tools">
             <md-button class="hide-gt-md responsive-chats-button md-icon-button"
@@ -43,21 +43,21 @@
             <div class="chat-contact"
                  layout="row"
                  layout-align="start center"
-                 ng-if="vm.selectedChat.specialist.id"
+                 ng-if="vm.currentChat.specialist.id"
                  ng-click="vm.toggleSidenav('right-sidenav')">
               <div class="avatar-wrapper">
                 <div class="avatar"
-                     ng-style="{ 'background-image': 'url(' + (vm.selectedChat.specialist.portrait || vm.defaultPortrait) + ')' }">
+                     ng-style="{ 'background-image': 'url(' + (vm.currentChat.specialist.portrait || vm.defaultPortrait) + ')' }">
                 </div>
                 <i class="material-icons s14 status"
-                   ng-if="vm.selectedChat.specialist.details.isAvailable">check_circle
+                   ng-if="vm.currentChat.specialist.details.isAvailable">check_circle
                 </i>
                 <i class="material-icons s14 status unavailable"
-                   ng-if="!vm.selectedChat.specialist.details.isAvailable">schedule
+                   ng-if="!vm.currentChat.specialist.details.isAvailable">schedule
                 </i>
               </div>
               <div class="chat-contact-name">
-                <span ng-bind="vm.selectedChat.specialist.fullName"></span>
+                <span ng-bind="vm.currentChat.specialist.fullName"></span>
               </div>
             </div>
             <md-menu md-position-mode="target-right target">
@@ -84,15 +84,18 @@
                ng-if="vm.messages.length > 0">
             <div class="md-padding message-row"
                  layout="row"
-                 ng-class="message.who"
-                 ng-repeat="message in vm.messages track by $index">
+                 ng-class="{
+                             'user': message.sender.id === vm.currentUser.id,
+                             'contact': message.sender.id === vm.currentUser.id,
+                  }"
+                 ng-repeat="message in vm.messages | orderBy : 'updatedAt' track by $index">
               <div class="avatar"
-                   ng-if="message.who === 'contact'"
-                   ng-style="{ 'background-image': 'url(' + (vm.selectedChat.specialist.portrait || vm.defaultPortrait) + ')' }">
+                   ng-if="message.sender.id !== vm.currentUser.id"
+                   ng-style="{ 'background-image': 'url(' + (vm.currentChat.specialist.portrait || vm.defaultPortrait) + ')' }">
               </div>
               <div class="avatar"
-                   ng-if="message.who ==='user'"
-                   ng-style="{ 'background-image': 'url(' + (vm.user.portrait || vm.defaultPortrait) + ')' }">
+                   ng-if="message.sender.id === vm.currentUser.id"
+                   ng-style="{ 'background-image': 'url(' + (vm.currentUser.portrait || vm.defaultPortrait) + ')' }">
               </div>
               <div class="bubble">
                 <div class="message">

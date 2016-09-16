@@ -31,7 +31,7 @@
                             }"
                   ng-repeat="chat in vm.chats |
                   filter: { specialist: { fullName: vm.chatSearch } } as filteredChat track by chat.id"
-                  ng-click="vm.getChat(chat)">
+                  ng-click="vm.changeCurrentChat(chat)">
       <div class="avatar-wrapper">
         <div class="md-avatar avatar"
              ng-style="{ 'background-image': 'url(' + (chat.specialist.portrait || vm.defaultPortrait) + ')' }">

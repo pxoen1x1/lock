@@ -5,20 +5,24 @@
         .module('app.chat')
         .controller('ChatController', ChatController);
 
-    ChatController.$inject = ['$sails', '$stateParams', '$mdSidenav', '$mdMedia', 'conf',
+    ChatController.$inject = ['$timeout', '$stateParams', '$mdSidenav', '$mdMedia', 'conf',
         'coreConstants', 'currentUserService', 'chatSocketservice'];
 
     /* @ngInject */
-    function ChatController($sails, $stateParams, $mdSidenav, $mdMedia, conf,
+    function ChatController($timeout, $stateParams, $mdSidenav, $mdMedia, conf,
                             coreConstants, currentUserService, chatSocketservice) {
         var vm = this;
 
         vm.chats = [];
         vm.messages = [];
-        vm.user = {};
-        vm.selectedChat = {};
+        vm.currentUser = {};
+        vm.currentChat = null;
 
         vm.selectedRequestId = $stateParams.requestId;
+        vm.pagination = {
+            totalCount: 0,
+            currentPageNumber: 0
+        };
 
         vm.replyMessage = '';
         vm.chatSearch = '';
@@ -28,7 +32,7 @@
         vm.defaultPortrait = conf.FRONT_URL + coreConstants.IMAGES.defaultPortrait;
         vm.dateFormat = coreConstants.DATE_FORMAT;
 
-        vm.getChat = getChat;
+        vm.changeCurrentChat = changeCurrentChat;
         vm.toggleSidenav = toggleSidenav;
         vm.reply = reply;
 
@@ -38,23 +42,13 @@
 
             return currentUserService.getUser()
                 .then(function (currentUser) {
-                    vm.user = currentUser;
+                    vm.currentUser = currentUser;
 
-                    return vm.user;
+                    return vm.currentUser;
                 });
         }
 
-        function getChat(chat) {
-            vm.selectedChat = chat;
-
-            clearReplyMessage();
-
-            if (!$mdMedia('gt-md')) {
-                $mdSidenav('left-sidenav').close();
-            }
-        }
-
-        function getChatContacts(selectedRequestId) {
+        function getChats(selectedRequestId) {
 
             return chatSocketservice.getChats(selectedRequestId)
                 .then(function (chats) {
@@ -64,12 +58,58 @@
                 });
         }
 
+        function loadMessages(chat) {
+            var params = {
+                page: vm.pagination.currentPageNumber
+            };
+
+            return chatSocketservice.getMessages(chat, params)
+                .then(function (messages) {
+
+
+                    return messages;
+                });
+        }
+
         function sendMessage(chat, message) {
 
             return chatSocketservice.sendMessage(chat, message)
                 .then(function (message) {
 
                     return message;
+                });
+        }
+
+        function changeCurrentChat(chat) {
+            if (chat === null) {
+                vm.currentChat = null;
+
+                return;
+            }
+
+            if (vm.currentChat && vm.currentChat.id === chat.id) {
+
+                return;
+            }
+
+            vm.currentChat = chat;
+
+            vm.messages = [];
+
+            clearReplyMessage();
+
+            if (!$mdMedia('gt-md')) {
+                $mdSidenav('left-sidenav').close();
+            }
+
+            return loadMessages(chat)
+                .then(function (messages) {
+                    vm.messages = messages.items;
+
+                    vm.pagination.currentPageNumber = messages.currentPageNumber;
+                    vm.pagination.totalCount = messages.totalCount;
+
+                    return vm.messages;
                 });
         }
 
@@ -87,16 +127,14 @@
                     return;
                 }
 
-                var chat = vm.selectedChat;
+                var chat = vm.currentChat;
                 var message = {
                     message: replyMessage,
-                    recipient: vm.selectedChat.specialist.id
+                    recipient: vm.currentChat.specialist.id
                 };
 
                 return sendMessage(chat, message)
                     .then(function (message) {
-                        message.who = 'user';
-
                         vm.messages.push(message);
 
                         clearReplyMessage();
@@ -116,7 +154,7 @@
 
         function activate() {
             getCurrentUser();
-            getChatContacts(vm.selectedRequestId);
+            getChats(vm.selectedRequestId);
         }
     }
 })();
