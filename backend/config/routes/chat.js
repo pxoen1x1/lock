@@ -8,10 +8,6 @@ let chatRoutes = {
     'POST /api/request/:request/chats': {
         controller: 'ChatController',
         action: 'createChat'
-    },
-    'POST /api/chats/:chat/messages': {
-        controller: 'MessageController',
-        action: 'create'
     }
 };
 
