@@ -60,6 +60,7 @@ let MessageController = {
 
         let chat = params.chat;
         let message = params.message;
+        let type = params.type || 0;
         let recipient = params.recipient;
         let sender = req.session.user.id;
 
@@ -75,6 +76,7 @@ let MessageController = {
         Message.create({
             chat: chat,
             message: message,
+            type: type,
             recipient: recipient,
             sender: sender
         })
