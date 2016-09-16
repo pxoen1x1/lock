@@ -47,7 +47,7 @@
 
             element.after(inputElement);
 
-            element.bind('click', function () {
+            element.on('click', function () {
                 element.next()[0].click();
             });
         }
