@@ -12,7 +12,7 @@ let RequestController = {
     getAllClientRequests(req, res) {
         let params = req.allParams();
 
-        let searchCriteria = {
+        let criteria = {
             where: {
                 owner: req.session.user.id
             }
@@ -24,20 +24,19 @@ let RequestController = {
         pagination.limit = params.limit || sails.config.application.queryLimit;
         pagination.page = params.page || 1;
 
-        RequestService.getAll(searchCriteria, sorting, pagination)
+        RequestService.getAll(criteria, sorting, pagination)
             .then(
-                (foundRequests) => {
+                (requests) => {
 
-                    return RequestService.getRequestCount(searchCriteria)
-                        .then(
-                            (totalCount) =>
-                                res.ok({
-                                    items: foundRequests,
-                                    currentPageNumber: pagination.page,
-                                    totalCount: totalCount
-                                })
-                        );
+                    return [RequestService.getRequestsCount(criteria), requests];
                 }
+            )
+            .spread(
+                (totalCount, requests) => res.ok({
+                    items: requests,
+                    currentPageNumber: pagination.page,
+                    totalCount: totalCount
+                })
             )
             .catch(
                 (err) => {
