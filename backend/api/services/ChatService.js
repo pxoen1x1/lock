@@ -73,10 +73,9 @@ let ChatService = {
                                owner_details_workingHours.time_to AS 'owner.details.workingHours.timeTo',
                                owner_lastMessage.id AS 'owner.lastMessage.id',
                                owner_lastMessage.message AS 'owner.lastMessage.message',
-                               owner_lastMessage.isOffer AS 'owner.lastMessage.isOffer',
-                               owner_lastMessage.isAgreement AS 'owner.lastMessage.isAgreement',
-                               owner_lastMessage.isRead AS 'owner.lastMessage.isRead',
-                               owner_lastMessage.owner_id AS 'owner.lastMessage.ownerId',
+                               owner_lastMessage.type AS 'owner.lastMessage.type',
+                               owner_lastMessage.is_read AS 'owner.lastMessage.isRead',
+                               owner_lastMessage.sender_id AS 'owner.lastMessage.senderId',
                                owner_lastMessage.recipient_id AS 'owner.lastMessage.recipientId',
                                owner_lastMessage.chat_id AS 'owner.lastMessage.chatId',
                                owner_lastMessage.createdAt AS 'owner.lastMessage.createdAt',
@@ -122,10 +121,9 @@ let ChatService = {
                                contact_details_workingHours.time_to AS 'contact.details.workingHours.timeTo',
                                contact_lastMessage.id AS 'contact.lastMessage.id',
                                contact_lastMessage.message AS 'contact.lastMessage.message',
-                               contact_lastMessage.isOffer AS 'contact.lastMessage.isOffer',
-                               contact_lastMessage.isAgreement AS 'contact.lastMessage.isAgreement',
-                               contact_lastMessage.isRead AS 'contact.lastMessage.isRead',
-                               contact_lastMessage.owner_id AS 'contact.lastMessage.ownerId',
+                               contact_lastMessage.type AS 'contact.lastMessage.type',
+                               contact_lastMessage.is_read AS 'contact.lastMessage.isRead',
+                               contact_lastMessage.sender_id AS 'contact.lastMessage.senderId',
                                contact_lastMessage.recipient_id AS 'contact.lastMessage.recipientId',
                                contact_lastMessage.chat_id AS 'contact.lastMessage.chatId',
                                contact_lastMessage.createdAt AS 'contact.lastMessage.createdAt',
@@ -147,9 +145,9 @@ let ChatService = {
                                                         ON owner_details_workingHours.user_details_id = owner_details.id
         LEFT JOIN (SELECT * FROM messages
                     WHERE updatedAt IN (
-                      SELECT MAX(updatedAt) FROM messages GROUP BY owner_id
+                      SELECT MAX(updatedAt) FROM messages GROUP BY sender_id
                     )
-                  ) AS owner_lastMessage ON owner_lastMessage.owner_id = owner.id
+                  ) AS owner_lastMessage ON owner_lastMessage.sender_id = owner.id
         LEFT JOIN users AS contact ON contact.id = chat.contact_id
         LEFT JOIN auth AS contact_auth ON contact_auth.user = contact.id
         LEFT JOIN addresses AS contact_address ON contact_address.user_id = contact.id
@@ -162,9 +160,9 @@ let ChatService = {
                                                     ON contact_details_workingHours.user_details_id = contact_details.id
         LEFT JOIN (SELECT * FROM messages
                     WHERE updatedAt IN (
-                      SELECT MAX(updatedAt) FROM messages GROUP BY owner_id
+                      SELECT MAX(updatedAt) FROM messages GROUP BY sender_id
                     )
-                  ) AS contact_lastMessage ON contact_lastMessage.owner_id = contact.id
+                  ) AS contact_lastMessage ON contact_lastMessage.sender_id = contact.id
         WHERE chat.request_id = ?`;
 
         let chatQueryAsync = promise.promisify(Chat.query);
