@@ -61,7 +61,7 @@ let ChatController = {
         }
 
         Chat.create({
-            owner: user,
+            client: user,
             contact: contact,
             request: request
         })

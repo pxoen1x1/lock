@@ -98,9 +98,9 @@ let User = {
             collection: 'Feedback',
             via: 'executor'
         },
-        chatOwners: {
+        chatClients: {
             collection: 'Chat',
-            via: 'owner'
+            via: 'client'
         },
         chatContacts: {
             collection: 'Chat',

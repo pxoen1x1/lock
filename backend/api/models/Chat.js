@@ -22,10 +22,10 @@ let Chat = {
             columnName: 'is_accepted_by_specialist'
         },
 
-        owner: {
+        client: {
             model: 'User',
             required: true,
-            columnName: 'owner_id'
+            columnName: 'client_id'
         },
         contact: {
             model: 'User',
