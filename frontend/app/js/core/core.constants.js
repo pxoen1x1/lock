@@ -27,6 +27,13 @@
                 maxSearchDistance: 100, //mile
                 earthRadius: 6371, //km
                 toMile: 0.62137
+            },
+            FILE_UPLOADER_OPTIONS: {
+                allowedFileExtensions: {
+                    documents: 'txt doc docx jpg jpeg png pdf odt ods odp csv xls xlsx',
+                    images: 'jpg jpeg png gif'
+                },
+                maxFileSize: 2000000
             }
         });
 })();

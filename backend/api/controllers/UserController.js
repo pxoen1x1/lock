@@ -122,29 +122,13 @@ let UserController = waterlock.actions.user({
             delete user.id;
         }
 
-        let uploadPromise = new Promise((resolve, reject) => {
-            if (!user.portrait || (user.portrait && !user.portrait.base64)) {
-
-                return resolve();
-            }
-
-            let filename = UserService.generateToken() + '.jpg';
-            let path = '../frontend/app/images/avatars/';
-
-            return FileService.savePhoto(user.portrait.base64, path, filename)
-                .then(
-                    (filename) => {
-                        user.portrait = filename;
-
-                        return resolve();
-                    }
-                )
-                .catch(reject);
-        });
-
-        uploadPromise
+        FileService.saveAvatar(userId, user.portrait)
             .then(
-                () => {
+                (file) => {
+
+                    if (file) {
+                        user.portrait = file;
+                    }
 
                     return User.update({id: userId}, user);
                 }

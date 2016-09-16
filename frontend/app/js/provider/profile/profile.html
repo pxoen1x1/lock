@@ -24,22 +24,22 @@
            layout-align-gt-xs="start start"
            flex-gt-xs="25">
         <img class="profile-avatar"
-             ng-src="{{conf.FRONT_URL + 'images/avatars/' + (vm.profileData.portrait || coreConstants.IMAGES.defaultPortrait)}}"
+             ng-src="{{vm.newPortrait || vm.profileData.portrait || coreConstants.IMAGES.defaultPortrait}}"
              alt="photo"/>
         <div flex="5"></div>
         <div class="actions"
              layout="column">
           <md-button class="md-button-blue"
+                     ng-if="vm.isEditing"
                      aria-label="Change photo"
-                     ng-click="vm.selectFile()">
-            Change photo
+                     file-uploader
+                     is-single-file="true"
+                     allowed-extensions="{{ vm.fileUploaderOptions.allowedFileExtensions.images }}"
+                     max-size="{{ vm.fileUploaderOptions.maxFileSize }}"
+                     selected-file-src="vm.newPortrait">
+            <i class="material-icons vertical-middle">photo_camera</i>
+            <span class="verical-middle">Change photo</span>
           </md-button>
-          <input type="file"
-                 class="select-file-hidden"
-                 ng-model="vm.profileData.portrait"
-                 base-sixty-four-input
-                 accept="image/*"
-                 ng-change="vm.updateUser(vm.profileData, true)"/>
           <md-button ng-if="!vm.isEditing"
                      class="md-button-blue"
                      ng-click="vm.isEditing = true"
@@ -138,13 +138,12 @@
               <label>Email</label>
               <input name="email"
                      required
-                     ng-model="vm.profileData.email">
+                     ng-model="vm.profileData.auth.email">
             </md-input-container>
-            <p>Credit card: <sup>*</sup></p>
+            <p>Credit card:</p>
             <md-input-container class="md-block" flex>
               <label>Credit card</label>
               <input name="card"
-                     required
                      ng-model="vm.profileData.card">
             </md-input-container>
             <p>Phone number: <sup>*</sup></p>
@@ -153,7 +152,7 @@
               <input type="tel"
                      name="phoneNumber"
                      ui-us-phone-number
-                     ng-model="vm.profileData.phone">
+                     ng-model="vm.profileData.phoneNumber">
               <div ng-messages="editForm.phoneNumber.$error">
                 <span ng-message="usPhoneNumber">That doesn't look like a valid phone number.</span>
               </div>
@@ -175,7 +174,7 @@
                                mdp-max-date="vm.datePickerOptions.maxDate"
                                date-formatter
                                ng-required
-                               ng-model="vm.profileData.details.license.number">
+                               ng-model="vm.profileData.details.license.date">
               </mdp-date-picker>
             </div>
             <div class="validation-messages"

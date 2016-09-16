@@ -16,7 +16,6 @@
         'checklist-model',          // AngularJS directive for list of checkboxes.
         'mdPickers',                // Material Design date/time pickers built with Angular Material and Moment.js.
         'angularFileUpload',
-        'naif.base64',
 
         'app.core',
         'app.home',

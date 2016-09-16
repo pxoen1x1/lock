@@ -21,7 +21,7 @@ module.exports.http = {
      *                                                                           *
      ****************************************************************************/
     bodyParser() {
-        let opts = {limit:'50mb'};
+        let opts = {limit:'6mb'};
         let fn;
 
         // Default to built-in bodyParser:

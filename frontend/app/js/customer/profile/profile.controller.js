@@ -5,18 +5,19 @@
         .module('app.customer')
         .controller('CustomerProfileController', CustomerProfileController);
 
-    CustomerProfileController.$inject = ['currentUserService'];
+    CustomerProfileController.$inject = ['currentUserService', 'coreConstants', 'conf'];
 
     /* @ngInject */
-    function CustomerProfileController(currentUserService) {
+    function CustomerProfileController(currentUserService, coreConstants, conf) {
         var vm = this;
 
         vm.profileData = {};
         vm.isEditing = false;
+        vm.fileUploaderOptions = coreConstants.FILE_UPLOADER_OPTIONS;
+        vm.newPortrait = '';
         
         vm.updateUser = updateUser;
         vm.getUser = getUser;
-        vm.selectFile = selectFile;
 
         activate();
 
@@ -25,11 +26,19 @@
 
                 return;
             }
+            
+            if (vm.newPortrait) {
+                user.portrait = {
+                    base64: vm.newPortrait
+                };
+            }
 
             return currentUserService.setUser(user)
                 .then(function (user) {
                     
                     vm.profileData = user;
+                    vm.profileData.portrait = user.portrait ? conf.BASE_URL + user.portrait : '';
+                    vm.newPortrait = '';
                     vm.isEditing = false;
 
                     return vm.profileData;
@@ -42,13 +51,10 @@
                 .then(function (user) {
 
                     vm.profileData = user;
+                    vm.profileData.portrait = user.portrait ? conf.BASE_URL + user.portrait : '';
 
                     return vm.profileData;
                 });
-        }
-        
-        function selectFile() {
-            return document.getElementsByClassName('select-file-hidden')[0].click();
         }
 
         function activate() {
