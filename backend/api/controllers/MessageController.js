@@ -1,4 +1,4 @@
-/* global sails, User, Message, MessageService */
+/* global sails, JwtService, Message, MessageService */
 /**
  * MessageController
  *
@@ -101,18 +101,21 @@ let MessageController = {
             )
             .then(
                 (message) => {
-                    User.message(recipient,
-                        {
-                            type: 'message',
-                            message: message
-                        });
-
                     res.created(
                         {
                             message: message
                         }
                     );
+
+                    return [JwtService.getTokenByOwner({id: recipient}), message];
                 }
+            )
+            .spread(
+                (token, message) => sails.sockets.broadcast(token, 'message',
+                    {
+                        message: message
+                    }
+                )
             )
             .catch(
                 (err) => {

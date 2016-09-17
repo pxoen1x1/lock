@@ -15,6 +15,7 @@ let JwtService = {
             );
     },
     create(jwtData, user) {
+
         return Jwt.create({token: jwtData.token, uses: 0, owner: user.id})
             .then(
                 () => {
