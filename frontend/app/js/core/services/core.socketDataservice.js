@@ -10,23 +10,32 @@
     /* @ngInject */
     function coreSocketDataservice($sails) {
         var service = {
-            subscribeToUserEvents: subscribeToUserEvents,
+            subscribeSocket: subscribeSocket,
+            unsubscribeSocket: unsubscribeSocket,
             listenUserEvents: listenUserEvents
         };
 
         return service;
 
-        function subscribeToUserEvents(){
+        function subscribeSocket() {
             $sails.post('/socket/subscribe')
-                .then(function(message){
+                .then(function (message) {
 
-                    return message.data.jwt;
+                    return message.data;
+                });
+        }
+
+        function unsubscribeSocket() {
+            $sails.post('/socket/unsubscribe')
+                .then(function (message) {
+
+                    return message.data;
                 });
         }
 
         function listenUserEvents() {
 
-            $sails.on('user', function(message) {
+            $sails.on('message', function (message) {
 
                 return message;
             });
