@@ -1,4 +1,4 @@
-/* global sails, Message, MessageService */
+/* global sails, User, Message, MessageService */
 /**
  * MessageController
  *
@@ -84,11 +84,19 @@ let MessageController = {
                 (createdMessage) => Message.findOneById(createdMessage.id).populateAll()
             )
             .then(
-                (message) => res.created(
-                    {
-                        message: message
-                    }
-                )
+                (message) => {
+                    User.message(recipient,
+                        {
+                            type: 'message',
+                            message: message
+                        });
+
+                    res.created(
+                        {
+                            message: message
+                        }
+                    );
+                }
             )
             .catch(
                 (err) => {
