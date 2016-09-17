@@ -5,10 +5,10 @@
         .module('app.core')
         .factory('authService', authService);
 
-    authService.$inject = ['coreDataservice', 'localService'];
+    authService.$inject = ['coreDataservice', 'coreSocketDataservice', 'localService'];
 
     /* @ngInject */
-    function authService(coreDataservice, localService) {
+    function authService(coreDataservice, coreSocketDataservice, localService) {
         var service = {
             authorize: authorize,
             isAuthenticated: isAuthenticated,
@@ -40,7 +40,12 @@
                     localService.setAuth(auth);
 
                     return auth;
-                });
+                })
+                .then(function () {
+
+                        return coreSocketDataservice.subscribeToUserEvents();
+                    }
+                );
         }
 
         function logout() {
@@ -59,6 +64,12 @@
                     localService.clear();
 
                     localService.setAuth(auth);
+
+                    return auth;
+                })
+                .then(function() {
+
+                    return coreSocketDataservice.subscribeToUserEvents();
                 });
         }
     }
