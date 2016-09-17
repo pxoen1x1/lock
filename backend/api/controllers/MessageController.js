@@ -10,6 +10,14 @@
 
 let MessageController = {
     getMessages(req, res) {
+        if (!req.isSocket) {
+
+            return res.badRequest(
+                {
+                    message: req.__('This is not a socket request.')
+                });
+        }
+
         let params = req.allParams();
         let chat = params.chat;
 
@@ -56,6 +64,14 @@ let MessageController = {
             );
     },
     create(req, res) {
+        if (!req.isSocket) {
+
+            return res.badRequest(
+                {
+                    message: req.__('This is not a socket request.')
+                });
+        }
+
         let params = req.allParams();
 
         let chat = params.chat;
