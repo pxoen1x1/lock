@@ -5,11 +5,11 @@
         .module('app.chat')
         .controller('ChatController', ChatController);
 
-    ChatController.$inject = ['$timeout', '$stateParams', '$mdSidenav', '$mdMedia', 'conf',
-        'coreConstants', 'currentUserService', 'chatSocketservice'];
+    ChatController.$inject = ['$q', '$stateParams', '$mdSidenav', '$mdMedia', 'conf',
+        'coreConstants', 'currentUserService', 'chatSocketservice', '$sails'];
 
     /* @ngInject */
-    function ChatController($timeout, $stateParams, $mdSidenav, $mdMedia, conf,
+    function ChatController($q, $stateParams, $mdSidenav, $mdMedia, conf,
                             coreConstants, currentUserService, chatSocketservice) {
         var vm = this;
 
@@ -153,8 +153,10 @@
         }
 
         function activate() {
-            getCurrentUser();
-            getChats(vm.selectedRequestId);
+            $q.all([
+                getCurrentUser(),
+                getChats(vm.selectedRequestId)
+            ]);
         }
     }
 })();
