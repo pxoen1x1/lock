@@ -77,5 +77,9 @@ module.exports.policies = {
 
     MessageController: {
         'getMessages': ['hasJsonWebToken', 'isUserEnabled', 'isChatMember']
+    },
+
+    SocketController: {
+        'subscribe': ['hasJsonWebToken']
     }
 };
