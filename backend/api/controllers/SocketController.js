@@ -1,4 +1,4 @@
-/* global User */
+/* global sails, User */
 
 /**
  * SocketController
@@ -11,11 +11,48 @@
 
 let SocketController = {
     subscribe(req, res) {
-        let user = req.session.user;
+        if (!req.isSocket) {
 
-        User.subscribe(req, user.id);
+            return res.badRequest(
+                {
+                    message: req.__('This is not a socket request.')
+                });
+        }
 
-        return res.ok(true);
+        try {
+            let user = req.session.user;
+
+            User.subscribe(req, user.id);
+
+            return res.ok();
+        }
+        catch (err) {
+            sails.log.error(err);
+
+            return res.serverError();
+        }
+    },
+    unsubscribe(req, res) {
+        if (!req.isSocket) {
+
+            return res.badRequest(
+                {
+                    message: req.__('This is not a socket request.')
+                });
+        }
+
+        try {
+            let user = req.session.user;
+
+            User.unsubscribe(req, user.id);
+
+            return res.ok();
+        }
+        catch (err) {
+            sails.log.error(err);
+
+            return res.serverError();
+        }
     }
 };
 
