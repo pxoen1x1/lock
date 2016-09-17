@@ -1,4 +1,4 @@
-/* global sails, User */
+/* global sails, JwtService, SocketService */
 
 /**
  * SocketController
@@ -19,18 +19,24 @@ let SocketController = {
                 });
         }
 
-        try {
-            let user = req.session.user;
+        let user = req.session.user;
 
-            User.subscribe(req, user.id);
+        JwtService.getTokenByOwner(user)
+            .then(
+                (token) => SocketService.subscribe(req, token)
+            )
+            .then(
+                ()=> res.ok(
+                    {
+                        message: req.__('Subscribed successfully.')
+                    }
+                )
+            )
+            .catch(function (err) {
+                sails.log.error(err);
 
-            return res.ok();
-        }
-        catch (err) {
-            sails.log.error(err);
-
-            return res.serverError();
-        }
+                res.serverError();
+            });
     },
     unsubscribe(req, res) {
         if (!req.isSocket) {
@@ -41,18 +47,24 @@ let SocketController = {
                 });
         }
 
-        try {
-            let user = req.session.user;
+        let user = req.session.user;
 
-            User.unsubscribe(req, user.id);
+        JwtService.getTokenByOwner(user)
+            .then(
+                (token) => SocketService.unsubscribe(req, token)
+            )
+            .then(
+                ()=> res.ok(
+                    {
+                        message: req.__('Unsubscribed successfully.')
+                    }
+                )
+            )
+            .catch(function (err) {
+                sails.log.error(err);
 
-            return res.ok();
-        }
-        catch (err) {
-            sails.log.error(err);
-
-            return res.serverError();
-        }
+                res.serverError();
+            });
     }
 };
 
