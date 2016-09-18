@@ -27,10 +27,13 @@
   "Email not found.": "Email not found.",
   "Request is not defined.": "Request is not defined.",
   "Request is not found.": "Request is not found.",
+  "Request is not completed.": "Request is not completed.",
   "Chat is not found.": "Chat is not found.",
   "Invalid password.": "Invalid password.",
   "State is not defined.": "State is not defined.",
   "Submitted data is invalid.": "Submitted data is invalid.",
+  "Subscribed successfully.": "Subscribed successfully.",
+  "Unsubscribed successfully.": "Unsubscribed successfully.",
   "This is not a socket request.": "This is not a socket request.",
   "Please, check data.": "Please, check data."
 }
