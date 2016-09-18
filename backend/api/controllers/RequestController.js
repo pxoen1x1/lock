@@ -1,4 +1,4 @@
-/* global sails, RequestService, Feedback */
+/* global sails, RequestService */
 /**
  * RequestController
  *
@@ -111,9 +111,9 @@ let RequestController = {
     createFeedback(req, res) {
         let feedback = req.allParams();
 
-        if (!feedback.request || !feedback.message || !feedback.executor) {
+        if (!feedback.request || !feedback.message) {
 
-            res.badRequest(
+            return res.badRequest(
                 {
                     message: req.__('Submitted data is invalid.')
                 }
@@ -122,7 +122,7 @@ let RequestController = {
 
         feedback.author = req.session.user.id;
 
-        Feedback.create(feedback)
+        RequestService.createFeedback(feedback)
             .then(
                 (createdFeedback) => res.created(
                     {
@@ -131,9 +131,17 @@ let RequestController = {
             )
             .catch(
                 (err) => {
-                    sails.log.error(err);
+                    if (err) {
+                        sails.log.error(err);
 
-                    return res.serverError();
+                        return res.serverError();
+                    }
+
+                    return res.badRequest(
+                        {
+                            message: req.__('Request is not completed.')
+                        }
+                    );
                 }
             );
     }
