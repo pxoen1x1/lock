@@ -77,7 +77,7 @@ let MessageController = {
         let chat = params.chat;
         let message = params.message;
         let type = params.type || 0;
-        let recipient = params.recipient;
+        let recipient = params.recipient && params.recipient.id ? params.recipient.id : null;
         let sender = req.session.user.id;
 
         if (!message || !chat || !recipient) {

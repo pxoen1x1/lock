@@ -169,7 +169,7 @@
 
         function createChat(selectedSpecialist) {
             var specialist = {
-                specialist: selectedSpecialist.id
+                specialist: selectedSpecialist
             };
 
             return chatSocketservice.createChat(vm.request, specialist)

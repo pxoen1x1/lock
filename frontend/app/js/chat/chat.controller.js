@@ -130,7 +130,7 @@
                 var chat = vm.currentChat;
                 var message = {
                     message: replyMessage,
-                    recipient: vm.currentChat.specialist.id
+                    recipient: vm.currentChat.specialist
                 };
 
                 return sendMessage(chat, message)

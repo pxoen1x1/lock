@@ -56,7 +56,7 @@ let ChatController = {
         let params = req.allParams();
 
         let request = params.request;
-        let specialist = params.specialist;
+        let specialist = params.specialist && params.specialist.id ? params.specialist.id : null;
         let user = req.session.user.id;
 
         if (!request || !specialist) {
