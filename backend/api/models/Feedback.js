@@ -13,7 +13,9 @@ let Feedback = {
     attributes: {
         message: {
             type: 'string',
-            required: true
+        },
+        rating: {
+            type: 'integer',
         },
 
         author: {
