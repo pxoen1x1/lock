@@ -75,6 +75,10 @@ module.exports.policies = {
         'createFeedback': ['hasJsonWebToken', 'isUserEnabled', 'isRequestOwner']
     },
 
+    ChatController: {
+        'createChat': ['hasJsonWebToken', 'isUserEnabled', 'isRequestOwner', 'isChatUnique']
+    },
+
     MessageController: {
         'getMessages': ['hasJsonWebToken', 'isUserEnabled', 'isChatMember']
     },
