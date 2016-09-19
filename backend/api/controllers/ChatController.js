@@ -57,7 +57,7 @@ let ChatController = {
 
         let request = params.request;
         let specialist = params.specialist && params.specialist.id ? params.specialist.id : null;
-        let user = req.session.user.id;
+        let client = req.session.user.id;
 
         if (!request || !specialist) {
 
@@ -69,7 +69,7 @@ let ChatController = {
         }
 
         Chat.create({
-            client: user,
+            client: client,
             specialist: specialist,
             request: request
         })
