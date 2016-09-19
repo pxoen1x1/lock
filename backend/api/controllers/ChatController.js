@@ -11,14 +11,6 @@
 
 let ChatController = {
     getClientChats(req, res) {
-        if (!req.isSocket) {
-
-            return res.badRequest(
-                {
-                    message: req.__('This is not a socket request.')
-                });
-        }
-
         let request = req.params.request;
 
         if (!request) {
@@ -45,14 +37,6 @@ let ChatController = {
             );
     },
     createChat(req, res) {
-        if (!req.isSocket) {
-
-            return res.badRequest(
-                {
-                    message: req.__('This is not a socket request.')
-                });
-        }
-
         let params = req.allParams();
 
         let request = params.request;

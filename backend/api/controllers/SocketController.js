@@ -11,14 +11,6 @@
 
 let SocketController = {
     subscribe(req, res) {
-        if (!req.isSocket) {
-
-            return res.badRequest(
-                {
-                    message: req.__('This is not a socket request.')
-                });
-        }
-
         let user = req.session.user;
 
         JwtService.getTokenByOwner(user)
@@ -39,14 +31,6 @@ let SocketController = {
             });
     },
     unsubscribe(req, res) {
-        if (!req.isSocket) {
-
-            return res.badRequest(
-                {
-                    message: req.__('This is not a socket request.')
-                });
-        }
-
         let user = req.session.user;
 
         JwtService.getTokenByOwner(user)
