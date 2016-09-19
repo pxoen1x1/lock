@@ -1,26 +1,26 @@
 'use strict';
 
 let HelperService = {
-    formatObject(objects){
-        objects = objects.map(
-            (object) => {
+    formatQueryResult(queryResult){
+        queryResult = queryResult.map(
+            (queryResultItem) => {
                 let result = {};
 
-                for (let key in object) {
-                    if (!object.hasOwnProperty(key) || !object[key]) {
+                for (let key in queryResultItem) {
+                    if (!queryResultItem.hasOwnProperty(key) || !queryResultItem[key]) {
 
                         continue;
                     }
 
 
-                    this._convertKeyToObject(result, key, object[key]);
+                    this._convertKeyToObject(result, key, queryResultItem[key]);
                 }
 
                 return result;
             }
         );
 
-        return objects;
+        return queryResult;
     },
     _convertKeyToObject(result, keys, value) {
         let splitKeys = keys.split('.');
