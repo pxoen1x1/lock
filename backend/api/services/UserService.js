@@ -1,4 +1,4 @@
-/* global sails, User, UserDetailService */
+/* global sails, User, UserDetailService, HelperService */
 
 'use strict';
 
@@ -27,61 +27,58 @@ let UserService = {
     },
     findServiceProviders(params) {
         let rawQuery = `
-            SELECT  users.id,
-                    users.first_name AS 'firstName',
-                    users.last_name AS 'lastName',
-                    CONCAT_WS(' ', users.first_name, users.last_name) AS fullName,
-                    users.phone_number AS 'phoneNumber',
-                    users.gender,
-                    users.birthday,
-                    users.ssn,
-                    users.is_enabled AS isEnabled,
-                    users.is_email_confirmed AS isEmailConfirmed,
-                    users.portrait,
-                    users.createdAt,
-                    users.updatedAt,
-                    auth.id AS authId,
-                    auth.email AS authEmail,
-                    details.id AS detailsId,
-                    details.is_available AS detailsIsAvailable,
-                    details.is_pro AS detailsIsPro,
-                    addresses.id AS addressId,
-                    addresses.address AS addressAddress,
-                    addresses.zip AS addressZip,
-                    cities.id AS cityId,
-                    cities.city AS cityCity,
-                    cities.zip AS cityZip,
-                    cities.lat AS cityLat,
-                    cities.lng AS cityLng,
-                    states.id AS stateId,
-                    states.state AS stateState,
-                    states.code AS stateCode,
-                    locations.id AS locationId,
-                    locations.address AS locationAddress,
-                    locations.latitude AS locationLatitude,
-                    locations.longitude AS locationLongitude,
-                    licenses.id AS licensesId,
-                    licenses.number AS licensesNumber,
-                    licenses.date AS licensesDate,
-                    working_hours.id AS workingHoursId,
-                    working_hours.time_from AS workingHoursTimeFrom,
-                    working_hours.time_to AS workingHoursTimeTo
-            FROM users
-            LEFT JOIN auth ON auth.user = users.id
-            LEFT JOIN addresses ON addresses.user_id = users.id
-            LEFT JOIN cities ON cities.id = addresses.city_id
-            LEFT JOIN states ON states.id = addresses.state_id
-            LEFT JOIN user_details AS details ON details.user_id = users.id
-            LEFT JOIN locations ON locations.id = details.location_id
-            LEFT JOIN licenses ON licenses.user_details_id = details.id
-            LEFT JOIN working_hours ON working_hours.id = details.location_id
+            SELECT  user.id,
+                    user.first_name ,
+                    user.last_name,
+                    CONCAT_WS(' ', user.first_name, user.last_name) AS fullName,
+                    user.phone_number,
+                    user.gender,
+                    user.birthday,
+                    user.ssn,
+                    user.is_enabled AS isEnabled,
+                    user.is_email_confirmed AS isEmailConfirmed,
+                    user.portrait,
+                    user.createdAt,
+                    user.updatedAt,
+                    auth.id AS 'auth.id',
+                    auth.email AS 'auth.email',
+                    address.id AS 'address.id',
+                    address.address AS 'address.address',
+                    address.zip AS 'address.zip',
+                    address_city.id AS 'address.city.id',
+                    address_city.city AS 'address.city.city',
+                    address_city.zip AS 'address.city.zip',
+                    address_city.lat AS 'address.city.lat',
+                    address_city.lng AS 'address.city.lng',
+                    address_state.id AS 'address.state.id',
+                    address_state.state AS 'address.state.state',
+                    address_state.code AS 'address.state.code',
+                    details.id AS 'details.id',
+                    details.is_available AS 'details.isAvailable',
+                    details.is_pro AS 'details.isPro',
+                    details.latitude AS 'details.latitude',
+                    details.longitude AS 'details.longitude',
+                    details_license.id AS 'details.license.id',
+                    details_license.number AS 'details.license.number',
+                    details_license.date AS 'details.license.date',
+                    details_workingHours.id AS 'details.workingHours.id',
+                    details_workingHours.time_from AS 'details.workingHours.timeFrom',
+                    details_workingHours.time_to AS 'details.workingHours.timeTo'
+            FROM users as user
+            LEFT JOIN auth ON auth.user = user.id
+            LEFT JOIN addresses AS address ON address.user_id = user.id
+            LEFT JOIN cities AS address_city ON address_city.id = address.city_id
+            LEFT JOIN states AS address_state ON address_state.id = address.state_id
+            LEFT JOIN user_details AS details ON details.user_id = user.id
+            LEFT JOIN licenses AS details_license ON details_license.user_details_id = details.id
+            LEFT JOIN working_hours AS details_workingHours ON details_workingHours.id = details.id
             WHERE details.user_id IS NOT NULL
-            AND users.is_enabled = true
+            AND user.is_enabled = true
             AND (
-                     locations.latitude >= ${params.southWestLatitude}
-                 AND locations.longitude >= ${params.southWestLongitude}
-                 AND locations.latitude <= ${params.northEastLatitude}
-                 AND locations.longitude <= ${params.northEastLongitude}
+                 details.latitude >= ${params.southWestLatitude}
+                 AND details.longitude >= ${params.southWestLongitude}
+                 AND details.latitude <= ${params.northEastLatitude}
+                 AND details.longitude <= ${params.northEastLongitude}
                  )`;
         rawQuery += !params.isAllShown || !JSON.parse(params.isAllShown) ?
             ` AND details.is_available = true` : '';
@@ -91,92 +88,8 @@ let UserService = {
         return userQueryAsync(rawQuery)
             .then(
                 (users) => {
-                    users = users.map(function (user) {
-                        let result = {
-                            id: user.id,
-                            firstName: user.firstName,
-                            lastName: user.lastName,
-                            fullName: user.fullName,
-                            phoneNumber: user.phoneNumber,
-                            gender: user.gender,
-                            birthday: user.birthday,
-                            ssn: user.ssn,
-                            isEnabled: user.isEnabled,
-                            isEmailConfirmed: user.isEmailConfirmed,
-                            portrait: user.portrait,
-                            createdAt: user.createdAt,
-                            updatedAt: user.updatedAt
-                        };
 
-                        if (user.authId) {
-                            result.auth = {
-                                id: user.authId,
-                                email: user.authEmail
-                            };
-                        }
-
-                        if (!user.detailsId) {
-
-                            return result;
-                        }
-
-                        result.details = {
-                            id: user.detailsId,
-                            isAvailable: user.detailsIsAvailable,
-                            isPro: user.detailsIsPro
-                        };
-
-                        if (user.addressId) {
-                            result.details.addresses = {
-                                id: user.addressId,
-                                address: user.addressAddress,
-                                zip: user.addressZip
-                            };
-
-                            result.details.addresses.city = {
-                                id: user.cityId,
-                                city: user.cityCity,
-                                zip: user.cityZip,
-                                lat: user.cityLat,
-                                lng: user.cityLng
-                            };
-
-                            result.details.addresses.state = {
-                                id: user.stateId,
-                                state: user.stateState,
-                                code: user.stateCode
-                            };
-                        }
-
-                        if (user.locationId) {
-                            result.details.location = {
-                                id: user.locationId,
-                                address: user.locationAddress,
-                                latitude: user.locationLatitude,
-                                longitude: user.locationLongitude
-                            };
-                        }
-
-                        if (user.licensesId) {
-                            result.details.license = {
-                                id: user.licensesId,
-                                number: user.licensesNumber,
-                                date: user.licensesDate
-                            };
-                        }
-
-                        if (user.workingHoursId) {
-                            result.details.workingHours = {
-                                id: user.workingHoursId,
-                                timeFrom: user.workingHoursTimeFrom,
-                                timeTo: user.workingHoursTimeTo
-                            };
-                        }
-
-                        return result;
-                    });
-
-                    return users;
+                    return HelperService.formatQueryResult(users);
                 }
             );
     },
