@@ -153,8 +153,8 @@
             var distance = geocoderService.getDistance(
                 vm.request.location.latitude,
                 vm.request.location.longitude,
-                model.control.details.location.latitude,
-                model.control.details.location.longitude
+                model.control.details.latitude,
+                model.control.details.longitude
             );
 
             vm.isSpecialistCardShown = false;

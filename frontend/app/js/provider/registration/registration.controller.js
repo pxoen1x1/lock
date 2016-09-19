@@ -136,7 +136,8 @@
 
             getAddressLocation(user.user.address)
                 .then(function (location) {
-                    user.user.details.location = location;
+                    user.user.details.latitude = location.latitude;
+                    user.user.details.longitude = location.longitude;
                 })
                 .finally(function () {
                     user.user.details.servicePrices = clearEmptyElements(user.user.details.servicePrices);
