@@ -21,18 +21,24 @@ let UserDetail = {
         isPro: {
             type: 'boolean',
             required: true,
+            defaultsTo: false,
             columnName: 'is_pro'
+        },
+        latitude: {
+            type: 'float',
+            required: true,
+            is: /^(\+|-)?(?:90(?:(?:\.0{1,6})?)|(?:[0-9]|[1-8][0-9])(?:(?:\.[0-9]*)?))$/
+        },
+        longitude: {
+            type: 'float',
+            required: true,
+            is: /^(-?(?:1[0-7]|[1-9])?\d(?:\.\d{1,18})?|180(?:\.0{1,18})?)$/
         },
 
         user: {
             model: 'User',
             unique: true,
             columnName: 'user_id'
-        },
-        location: {
-            model: 'Location',
-            unique: true,
-            columnName: 'location_id'
         },
 
         license: {

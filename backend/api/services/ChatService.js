@@ -6,11 +6,11 @@ let promise = require('bluebird');
 
 let ChatService = {
     getChats(params) {
-        let rawQuery = `SELECT chat.id AS 'id',
+        let rawQuery = `SELECT chat.id,
                                chat.is_accepted_by_client AS 'isAcceptedByClient',
                                chat.is_accepted_by_specialist AS 'isAcceptedBySpecialist',
-                               chat.createdAt AS 'createdAt',
-                               chat.updatedAt AS 'updatedAt',
+                               chat.createdAt,
+                               chat.updatedAt,
                                request.id AS 'request.id',
                                request.forDate AS 'request.forDate',
                                request.distance AS 'request.distance',
@@ -61,10 +61,8 @@ let ChatService = {
                                client_details.id AS 'client.details.id',
                                client_details.is_available AS 'client.details.isAvailable',
                                client_details.is_pro AS 'client.details.isPro',
-                               client_details_location.id AS 'client.details.location.id',
-                               client_details_location.address AS 'client.details.location.address',
-                               client_details_location.latitude AS 'client.details.location.latitude',
-                               client_details_location.longitude AS 'client.details.location.longitude',
+                               client_details.latitude AS 'client.details.latitude',
+                               client_details.longitude AS 'client.details.longitude',
                                client_details_license.id AS 'client.details.license.id',
                                client_details_license.number AS 'client.details.license.number',
                                client_details_license.date AS 'client.details.license.date',
@@ -109,10 +107,8 @@ let ChatService = {
                                specialist_details.id AS 'specialist.details.id',
                                specialist_details.is_available AS 'specialist.details.isAvailable',
                                specialist_details.is_pro AS 'specialist.details.isPro',
-                               specialist_details_location.id AS 'specialist.details.location.id',
-                               specialist_details_location.address AS 'specialist.details.location.address',
-                               specialist_details_location.latitude AS 'specialist.details.location.latitude',
-                               specialist_details_location.longitude AS 'specialist.details.location.longitude',
+                               specialist_details.latitude AS 'specialist.details.latitude',
+                               specialist_details.longitude AS 'specialist.details.longitude',
                                specialist_details_license.id AS 'specialist.details.license.id',
                                specialist_details_license.number AS 'specialist.details.license.number',
                                specialist_details_license.date AS 'specialist.details.license.date',
@@ -139,7 +135,6 @@ let ChatService = {
         LEFT JOIN cities AS client_address_city ON client_address_city.id = client_address.city_id
         LEFT JOIN states AS client_address_state ON client_address_state.id = client_address.state_id
         LEFT JOIN user_details AS client_details ON client_details.user_id = client.id
-        LEFT JOIN locations AS client_details_location ON client_details_location.id = client_details.location_id
         LEFT JOIN licenses AS client_details_license ON client_details_license.user_details_id = client_details.id
         LEFT JOIN working_hours AS client_details_workingHours
                   ON client_details_workingHours.user_details_id = client_details.id
@@ -154,8 +149,6 @@ let ChatService = {
         LEFT JOIN cities AS specialist_address_city ON specialist_address_city.id = specialist_address.city_id
         LEFT JOIN states AS specialist_address_state ON specialist_address_state.id = specialist_address.state_id
         LEFT JOIN user_details AS specialist_details ON specialist_details.user_id = specialist.id
-        LEFT JOIN locations AS specialist_details_location
-                  ON specialist_details_location.id = specialist_details.location_id
         LEFT JOIN licenses AS specialist_details_license
                   ON specialist_details_license.user_details_id = specialist_details.id
         LEFT JOIN working_hours AS specialist_details_workingHours
@@ -173,7 +166,7 @@ let ChatService = {
             .then(
                 (chats) => {
 
-                    return HelperService.formatObject(chats);
+                    return HelperService.formatQueryResult(chats);
                 }
             );
     }
