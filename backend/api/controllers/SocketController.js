@@ -12,11 +12,9 @@
 let SocketController = {
     subscribe(req, res) {
         let user = req.session.user;
+        let roomName = `user_${user.id}`;
 
-        JwtService.getTokenByOwner(user)
-            .then(
-                (token) => SocketService.subscribe(req, token)
-            )
+        SocketService.subscribe(req.socket, roomName)
             .then(
                 ()=> res.ok(
                     {

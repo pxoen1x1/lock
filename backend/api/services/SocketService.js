@@ -3,9 +3,9 @@
 'use strict';
 
 let SocketService = {
-    subscribe(req, roomName) {
+    subscribe(socket, roomName) {
         let promise = new Promise((resolve, reject) => {
-            sails.sockets.join(req, roomName,
+            sails.sockets.join(socket, roomName,
                 (err) => {
                     if(err) {
 
