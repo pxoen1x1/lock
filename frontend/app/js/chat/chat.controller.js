@@ -11,29 +11,31 @@
     /* @ngInject */
     function ChatController($q, $stateParams, $mdSidenav, $mdMedia, conf,
                             coreConstants, currentUserService, chatSocketservice) {
+        var chatPaginationOptions = coreConstants.CHAT_PAGINATION_OPTIONS;
         var vm = this;
 
         vm.chats = [];
-        vm.messages = [];
+        vm.messages = {};
         vm.currentUser = {};
         vm.currentChat = null;
 
         vm.selectedRequestId = $stateParams.requestId;
-        vm.pagination = {
-            totalCount: 0,
-            currentPageNumber: 0
-        };
+        vm.pagination = {};
+        vm.isAllMessagesLoaded = {};
 
-        vm.replyMessage = '';
+        vm.replyMessage = {};
+        vm.textareaGrow = {};
+
         vm.chatSearch = '';
-        vm.textareaGrow = false;
         vm.leftSidenavView = false;
+        vm.isScrollToBottomEnabled = true;
 
-        vm.defaultPortrait = conf.FRONT_URL + coreConstants.IMAGES.defaultPortrait;
+        vm.defaultPortrait = coreConstants.IMAGES.defaultPortrait;
         vm.dateFormat = coreConstants.DATE_FORMAT;
 
         vm.changeCurrentChat = changeCurrentChat;
         vm.toggleSidenav = toggleSidenav;
+        vm.loadPrevMessages = loadPrevMessages;
         vm.reply = reply;
 
         activate();
@@ -58,16 +60,40 @@
                 });
         }
 
-        function loadMessages(chat) {
-            var params = {
-                page: vm.pagination.currentPageNumber
-            };
+        function loadMessages(chat, params) {
 
             return chatSocketservice.getMessages(chat, params)
                 .then(function (messages) {
 
-
                     return messages;
+                });
+        }
+
+        function loadPrevMessages() {
+            if (!vm.currentChat.id || vm.isAllMessagesLoaded[vm.currentChat.id]) {
+
+                return;
+            }
+
+            var params = {
+                limit: chatPaginationOptions.limit,
+                page: vm.pagination[vm.currentChat.id].currentPageNumber
+            };
+
+            return loadMessages(vm.currentChat, params)
+                .then(function (messages) {
+                    vm.messages[vm.currentChat.id] = vm.messages[vm.currentChat.id].concat(messages.items);
+
+                    vm.pagination[vm.currentChat.id].totalCount = messages.totalCount;
+                    vm.isAllMessagesLoaded[vm.currentChat.id] =
+                        vm.pagination[vm.currentChat.id].currentPageNumber * chatPaginationOptions.limit >=
+                        vm.pagination[vm.currentChat.id].totalCount;
+
+                    vm.pagination[vm.currentChat.id].currentPageNumber++;
+
+                    vm.isScrollDisabled = false;
+
+                    return vm.messages[vm.currentChat.id];
                 });
         }
 
@@ -80,71 +106,73 @@
                 });
         }
 
-        function changeCurrentChat(chat) {
-            if (chat === null) {
+        function changeCurrentChat(currentChat) {
+            if (currentChat === null) {
                 vm.currentChat = null;
 
                 return;
             }
 
-            if (vm.currentChat && vm.currentChat.id === chat.id) {
+            if (vm.currentChat && vm.currentChat.id === currentChat.id) {
 
                 return;
             }
 
-            vm.currentChat = chat;
+            vm.currentChat = currentChat;
 
-            vm.messages = [];
+            if (!vm.pagination[currentChat.id]) {
+                vm.pagination[currentChat.id] = {
+                    currentPageNumber: 1,
+                    totalCount: 0
+                };
+            }
 
-            clearReplyMessage();
+            // vm.isAllMessagesLoaded[currentChat.id] = false;
+            vm.isScrollDisabled = true;
+            vm.isScrollToBottomEnabled = true;
 
             if (!$mdMedia('gt-md')) {
                 $mdSidenav('left-sidenav').close();
             }
 
-            return loadMessages(chat)
-                .then(function (messages) {
-                    vm.messages = messages.items;
+            if (!vm.messages[currentChat.id]) {
+                vm.messages[currentChat.id] = [];
 
-                    vm.pagination.currentPageNumber = messages.currentPageNumber;
-                    vm.pagination.totalCount = messages.totalCount;
-
-                    return vm.messages;
-                });
+                loadPrevMessages(currentChat);
+            }
         }
 
-        function reply(event, replyMessage) {
+        function reply(event, replyMessage, currentChat) {
             if (event && event.shiftKey && event.keyCode === 13) {
-                vm.textareaGrow = true;
+                vm.textareaGrow[currentChat.id] = true;
 
                 return;
             }
 
             if (!event || event.keyCode === 13) {
                 if (!replyMessage) {
-                    clearReplyMessage();
+                    clearReplyMessage(currentChat);
 
                     return;
                 }
 
-                var chat = vm.currentChat;
                 var message = {
                     message: replyMessage,
-                    recipient: vm.currentChat.specialist
+                    recipient: currentChat.specialist
                 };
 
-                return sendMessage(chat, message)
+                return sendMessage(currentChat, message)
                     .then(function (message) {
-                        vm.messages.push(message);
+                        vm.messages[currentChat.id].push(message);
 
-                        clearReplyMessage();
+                        clearReplyMessage(currentChat);
                     });
             }
         }
 
-        function clearReplyMessage() {
-            vm.replyMessage = '';
-            vm.textareaGrow = false;
+        function clearReplyMessage(currentChat) {
+            vm.replyMessage[currentChat.id] = '';
+            vm.textareaGrow[currentChat.id] = false;
         }
 
 

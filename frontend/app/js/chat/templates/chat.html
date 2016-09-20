@@ -71,38 +71,45 @@
                   <md-button ng-click="vm.toggleSidenav('right-sidenav')">Contact Info</md-button>
                 </md-menu-item>
                 <md-menu-item>
-                  <md-button ng-click="vm.clearMessages()">Clear Messages</md-button>
+                  <md-button ng-click="vm.closeChat()">Close Chat</md-button>
                 </md-menu-item>
               </md-menu-content>
             </md-menu>
           </div>
         </md-toolbar>
         <md-content class="chat-content"
-                    scrolling-down
-                    flex>
+                    flex
+                    layout="column"
+                    layout-align="end end"
+                    scroll-chat="vm.loadPrevMessages()"
+                    scroll-chat-disabled="vm.isScrollDisabled"
+                    scroll-chat-to-bottom="vm.isScrollToBottomEnabled">
           <div class="chat-messages"
-               ng-if="vm.messages.length > 0">
-            <div class="md-padding message-row"
-                 layout="row"
-                 ng-class="{
+               layout="column"
+               ng-if="vm.messages[vm.currentChat.id].length > 0">
+            <div class="chat-message"
+                 ng-repeat="message in vm.messages[vm.currentChat.id] | orderBy : 'updatedAt' track by message.id">
+              <div class="md-padding message-row"
+                   layout="row"
+                   ng-class="{
                              'user': message.sender.id === vm.currentUser.id,
                              'contact': message.sender.id === vm.currentUser.id,
-                  }"
-                 ng-repeat="message in vm.messages | orderBy : 'updatedAt' track by $index">
-              <div class="avatar"
-                   ng-if="message.sender.id !== vm.currentUser.id"
-                   ng-style="{ 'background-image': 'url(' + (vm.currentChat.specialist.portrait || vm.defaultPortrait) + ')' }">
-              </div>
-              <div class="avatar"
-                   ng-if="message.sender.id === vm.currentUser.id"
-                   ng-style="{ 'background-image': 'url(' + (vm.currentUser.portrait || vm.defaultPortrait) + ')' }">
-              </div>
-              <div class="bubble">
-                <div class="message">
-                  <span ng-bind="message.message"></span>
+                  }">
+                <div class="avatar"
+                     ng-if="message.sender.id !== vm.currentUser.id"
+                     ng-style="{ 'background-image': 'url(' + (vm.currentChat.specialist.portrait || vm.defaultPortrait) + ')' }">
                 </div>
-                <div class="time secondary-text">
-                  <span ng-bind="message.updatedAt | altDate : vm.dateFormat"></span>
+                <div class="avatar"
+                     ng-if="message.sender.id === vm.currentUser.id"
+                     ng-style="{ 'background-image': 'url(' + (vm.currentUser.portrait || vm.defaultPortrait) + ')' }">
+                </div>
+                <div class="bubble">
+                  <div class="message">
+                    <span ng-bind="message.message"></span>
+                  </div>
+                  <div class="time secondary-text">
+                    <span ng-bind="message.updatedAt | altDate : vm.dateFormat"></span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -115,13 +122,13 @@
                 flex
                 layout="row"
                 layout-align="start center"
-                ng-submit="vm.reply(null, vm.replyMessage)">
+                ng-submit="vm.reply(null, vm.replyMessage[vm.currentChat.id], vm.currentChat)">
             <md-input-container flex md-no-float>
               <textarea placeholder="Type and hit enter to send message"
                         md-no-autogrow
-                        ng-class="{ 'grow': vm.textareaGrow }"
-                        ng-keydown="vm.reply($event, vm.replyMessage)"
-                        ng-model="vm.replyMessage">
+                        ng-class="{ 'grow': vm.textareaGrow[vm.currentChat.id] }"
+                        ng-keydown="vm.reply($event, vm.replyMessage[vm.currentChat.id], vm.currentChat)"
+                        ng-model="vm.replyMessage[vm.currentChat.id]">
               </textarea>
             </md-input-container>
             <md-button type="submit"
