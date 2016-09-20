@@ -91,15 +91,19 @@ let MessageController = {
                         }
                     );
 
-                    return [JwtService.getTokenByOwner({id: recipient}), message];
+                    return message;
                 }
             )
-            .spread(
-                (token, message) => sails.sockets.broadcast(token, 'message',
-                    {
-                        message: message
-                    }
-                )
+            .then(
+                (message) => {
+                    let roomName = `user_${recipient}`;
+
+                    sails.sockets.broadcast(roomName, 'message',
+                        {
+                            message: message
+                        }
+                    );
+                }
             )
             .catch(
                 (err) => {
