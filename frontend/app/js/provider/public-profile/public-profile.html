@@ -7,8 +7,8 @@
        layout-align="start center"
        layout-align-gt-xs="start start">
     <div flex-gt-xs="25">
-      <img class="avatar"
-           ng-src="{{vm.profileData.photo}}"
+      <img class="profile-avatar"
+           ng-src="{{vm.profileData.portrait || coreConstants.IMAGES.defaultPortrait}}"
            alt="photo"/>
     </div>
     <div flex-gt-xs="5"></div>
@@ -19,9 +19,9 @@
            layout-align="center center"
            layout-align-gt-xs="start center">
         <div class="md-display-1">
-          <span class="vertical-middle" ng-bind="vm.profileData.name"></span>
+          <span class="vertical-middle" ng-bind="vm.profileData.fullName"></span>
           <i class="material-icons vertical-middle verified"
-             ng-if="vm.profileData.verified">
+             ng-if="vm.profileData.isPro">
             verified_user
           </i>
         </div>
@@ -43,16 +43,16 @@
         <span class="md-body-2">Working hours:</span>
         from
             <span class="md-body-1"
-                  ng-bind="vm.profileData.workingHours.from | date: 'hh:mm a'"></span>
+                  ng-bind="vm.profileData.details.workingHours.from | date: 'hh:mm a'"></span>
         to
             <span class="md-body-1"
-                  ng-bind="vm.profileData.workingHours.to | date: 'hh:mm a'"></span>
+                  ng-bind="vm.profileData.details.workingHours.to | date: 'hh:mm a'"></span>
       </div>
       <div class="section">
         <span class="md-body-2">Services:</span>
             <span class="md-body-1"
-                  ng-repeat="service in vm.profileData.services track by service.id"
-                  ng-bind="service.name + ' (' + (service.price | currency:'$') + ')' + ($last ? '':', ')">
+                  ng-repeat="service in vm.profileData.details.services track by service.id"
+                  ng-bind="service.serviceName + ' (' + (service.price | currency:'$') + ')' + ($last ? '':', ')">
             </span>
       </div>
     </div>
