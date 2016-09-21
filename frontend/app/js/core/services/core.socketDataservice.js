@@ -10,14 +10,15 @@
     /* @ngInject */
     function coreSocketDataservice($sails) {
         var service = {
-            subscribeSocket: subscribeSocket,
-            unsubscribeSocket: unsubscribeSocket,
-            listenUserEvents: listenUserEvents
+            subscribe: subscribe,
+            unsubscribe: unsubscribe,
+            onConnect: onConnect,
+            onMessages: onMessages
         };
 
         return service;
 
-        function subscribeSocket() {
+        function subscribe() {
             $sails.post('/socket/subscribe')
                 .then(function (message) {
 
@@ -25,7 +26,7 @@
                 });
         }
 
-        function unsubscribeSocket() {
+        function unsubscribe() {
             $sails.post('/socket/unsubscribe')
                 .then(function (message) {
 
@@ -33,11 +34,19 @@
                 });
         }
 
-        function listenUserEvents() {
+        function onConnect(next) {
+            listener('connect', next);
+        }
 
-            $sails.on('message', function (message) {
+        function onMessages(next) {
+            listener('message', next);
+        }
 
-                return message;
+        function listener(eventIdentity, next) {
+
+            return $sails.on(eventIdentity, function () {
+
+                next.apply($sails, arguments);
             });
         }
     }
