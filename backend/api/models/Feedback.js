@@ -16,6 +16,8 @@ let Feedback = {
         },
         rating: {
             type: 'integer',
+            min: 1,
+            max: 5
         },
 
         author: {
