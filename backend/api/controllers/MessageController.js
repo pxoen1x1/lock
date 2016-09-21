@@ -98,10 +98,13 @@ let MessageController = {
                 (message) => {
                     let roomName = `user_${recipient}`;
 
-                    sails.sockets.broadcast(roomName, 'message',
+                    sails.sockets.broadcast(
+                        roomName,
+                        'message',
                         {
                             message: message
-                        }
+                        },
+                        req
                     );
                 }
             )
