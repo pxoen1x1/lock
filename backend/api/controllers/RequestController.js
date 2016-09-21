@@ -1,4 +1,4 @@
-/* global sails, RequestService */
+/* global sails, RequestService, UserDetailService */
 /**
  * RequestController
  *
@@ -110,8 +110,10 @@ let RequestController = {
     },
     createFeedback(req, res) {
         let feedback = req.allParams();
+        feedback.rating = feedback.rating ? parseInt(feedback.rating, 10) : undefined;
 
-        if (!feedback.request || !feedback.message) {
+        if (!feedback.request || !feedback.message ||
+            (typeof feedback.rating !== 'undefined' && (feedback.rating < 1 || feedback.rating > 5))) {
 
             return res.badRequest(
                 {
@@ -124,10 +126,21 @@ let RequestController = {
 
         RequestService.createFeedback(feedback)
             .then(
-                (createdFeedback) => res.created(
-                    {
-                        feedback: createdFeedback
-                    })
+                (createdFeedback) => {
+                    res.created(
+                        {
+                            feedback: createdFeedback
+                        });
+
+                    return createdFeedback;
+                }
+            )
+            .then(
+                (feedback)=> {
+                    let executor = feedback.executor;
+
+                    return UserDetailService.updateRating({id: executor});
+                }
             )
             .catch(
                 (err) => {
