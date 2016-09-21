@@ -34,7 +34,7 @@
                 getUserPromise.cancel();
             }
 
-            getUserPromise = coreDataservice.getUser();
+            getUserPromise = coreDataservice.getCurrentUser();
 
             return getUserPromise
                 .then(getUserFromHttpComplete)
