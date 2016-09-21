@@ -64,7 +64,9 @@
         }
 
         function onMessage(next) {
-            socketService.listener('message', next);
+            socketService.listener('message', function (event) {
+                next(event.message);
+            });
         }
     }
 })();

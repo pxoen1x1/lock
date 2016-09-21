@@ -142,6 +142,17 @@
             }
         }
 
+        function listenMessageEvent() {
+            chatSocketservice.onMessage(function (message) {
+                if(!message || !message.chat || !message.chat.id || !angular.isArray(vm.messages[message.chat.id])) {
+
+                    return;
+                }
+
+                vm.messages[message.chat.id].push(message);
+            });
+        }
+
         function reply(event, replyMessage, currentChat) {
             if (event && event.shiftKey && event.keyCode === 13) {
                 vm.textareaGrow[currentChat.id] = true;
@@ -184,7 +195,10 @@
             $q.all([
                 getCurrentUser(),
                 getChats(vm.selectedRequestId)
-            ]);
+            ])
+                .then(function () {
+                    listenMessageEvent();
+                });
         }
     }
 })();
