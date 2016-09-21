@@ -43,7 +43,7 @@
                 })
                 .then(function () {
 
-                        return coreSocketDataservice.subscribeSocket();
+                        return coreSocketDataservice.subscribe();
                     }
                 );
         }
@@ -57,7 +57,7 @@
                 })
                 .then(function() {
 
-                    return coreSocketDataservice.unsubscribeSocket();
+                    return coreSocketDataservice.unsubscribe();
                 });
         }
 
@@ -73,7 +73,7 @@
                 })
                 .then(function() {
 
-                    return coreSocketDataservice.subscribeSocket();
+                    return coreSocketDataservice.subscribe();
                 });
         }
     }
