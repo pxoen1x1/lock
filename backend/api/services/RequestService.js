@@ -1,11 +1,11 @@
-/* global Request, UserDetailService */
+/* global Request, Feedback, UserDetailService */
 
 'use strict';
 
 let RequestService = {
-    getAll(searchCriteria, sorting, pagination) {
+    getAll(criteria, sorting, pagination) {
 
-        return Request.find(searchCriteria)
+        return Request.find(criteria)
             .sort(sorting)
             .populateAll()
             .paginate(pagination)
@@ -41,9 +41,9 @@ let RequestService = {
                 }
             );
     },
-    getRequestCount(searchCriteria) {
+    getRequestsCount(criteria) {
 
-        return Request.count(searchCriteria)
+        return Request.count(criteria)
             .then(
                 (count) => count
             );
@@ -53,6 +53,25 @@ let RequestService = {
         return Request.create(request)
             .then(
                 (createdRequest) => createdRequest
+            );
+    },
+    createFeedback(feedback) {
+
+        return Request.findOneById(feedback.request)
+            .then(
+                (request) => {
+                    if (!request.executed || !request.executor) {
+
+                        return Promise.reject();
+                    }
+
+                    feedback.executor = request.executor;
+
+                    return Feedback.create(feedback);
+                }
+            )
+            .then(
+                (createdFeedback) => createdFeedback
             );
     }
 };

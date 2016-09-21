@@ -5,12 +5,17 @@
         .module('app')
         .run(runApp);
 
-    runApp.$inject = ['$rootScope', '$state', '$mdDialog', '$mdMedia', 'cfpLoadingBar', 'authService', 'toastService',
-        'coreConstants', 'conf'];
+    runApp.$inject = ['$rootScope', '$state', '$mdDialog', '$mdMedia', 'cfpLoadingBar',
+        'socketService', 'authService', 'toastService', 'coreConstants', 'conf'];
 
     /* @ngInject */
-    function runApp($rootScope, $state, $mdDialog, $mdMedia, cfpLoadingBar, authService, toastService,
-                    coreConstants, conf) {
+    function runApp($rootScope, $state, $mdDialog, $mdMedia, cfpLoadingBar,
+                    socketService, authService, toastService, coreConstants, conf) {
+        socketService.onConnect(function () {
+            if (authService.isAuthenticated()) {
+                socketService.subscribe();
+            }
+        });
 
         $rootScope.$state = $state;
         $rootScope.$mdMedia = $mdMedia;
@@ -49,6 +54,7 @@
                 });
             }
         });
+
         $rootScope.$on('$stateChangeError', function () {
             cfpLoadingBar.complete();
         });

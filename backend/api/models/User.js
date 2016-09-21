@@ -98,6 +98,22 @@ let User = {
             collection: 'Feedback',
             via: 'executor'
         },
+        chatClients: {
+            collection: 'Chat',
+            via: 'client'
+        },
+        chatSpecialists: {
+            collection: 'Chat',
+            via: 'specialist'
+        },
+        messageSenders: {
+            collection: 'Message',
+            via: 'sender'
+        },
+        messageRecipients: {
+            collection: 'Message',
+            via: 'recipient'
+        },
 
         fullName() {
 

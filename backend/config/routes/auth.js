@@ -11,6 +11,10 @@ let authRoutes = {
         controller: 'AuthController',
         action: 'openPasswordResetPage'
     },
+    'POST /api/user': {
+        controller: 'AuthController',
+        action: 'register'
+    },
     'POST /auth/password/reset': {
         controller: 'AuthController',
         action: 'createResetAuthToken'

@@ -1,5 +1,5 @@
 /**
- * Feedback.js
+ * Message.js
  *
  * @description :: TODO: You might write a short summary of how this model works and what it represents here.
  * @docs        :: http://sailsjs.org/documentation/concepts/models-and-orm/models
@@ -7,36 +7,41 @@
 
 'use strict';
 
-let Feedback = {
-    tableName: 'feedbacks',
+let Message = {
+    tableName: 'messages',
 
     attributes: {
         message: {
             type: 'string',
+            required: true
         },
-        rating: {
+        type: {
             type: 'integer',
-            min: 1,
-            max: 5
+            defaultsTo: 0
+        },
+        isRead: {
+            type: 'boolean',
+            defaultsTo: false,
+            columnName: 'is_read'
         },
 
-        author: {
+        sender: {
             model: 'User',
             required: true,
-            columnName: 'author_id'
+            columnName: 'sender_id'
         },
-        executor: {
+        recipient: {
             model: 'User',
             required: true,
-            columnName: 'executor_id'
+            columnName: 'recipient_id'
         },
-        request: {
-            model: 'Request',
+        chat: {
+            model: 'Chat',
             required: true,
-            columnName: 'request_id'
+            columnName: 'chat_id'
         }
     }
 };
 
-module.exports = Feedback;
+module.exports = Message;
 

@@ -79,6 +79,11 @@ let Request = {
         feedbacks: {
             collection: 'Feedback',
             via: 'request'
+        },
+
+        chat: {
+            collection: 'Chat',
+            via: 'request'
         }
     },
 

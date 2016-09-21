@@ -153,6 +153,11 @@ $search-text-color: rgba(0, 0, 0, .54);
         }
 
         .chat-content {
+          .chat-messages {
+            width: 100%;
+            overflow: visible;
+          }
+
           .message-row {
             .bubble {
               position: relative;

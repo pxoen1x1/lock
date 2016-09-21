@@ -25,9 +25,11 @@
 <div ui-view autoscroll="true"></div>
 
 <!-- build:vendorjs(.) /js/vendor.js -->
+<script src="/vendor/sails.io.js/dist/sails.io.js"></script>
 <script src="/vendor/moment/min/moment-with-locales.min.js"></script>
 <script src="/vendor/angular/angular.min.js"></script>
 <script src="/vendor/angular-ui-router/release/angular-ui-router.min.js"></script>
+<script src="/vendor/angular-sails/dist/angular-sails.min.js"></script>
 <script src="/vendor/angular-aria/angular-aria.min.js"></script>
 <script src="/vendor/angular-animate/angular-animate.min.js"></script>
 <script src="/vendor/angular-material/angular-material.min.js"></script>
@@ -65,10 +67,11 @@
 <script src="/js/core/services/request.dataservice.js"></script>
 <script src="/js/core/services/core.dataservice.js"></script>
 <script src="/js/core/services/core.dictionary.js"></script>
+<script src="/js/core/services/socket.service.js"></script>
 <script src="/js/core/services/auth.service.js"></script>
 <script src="/js/core/services/local.service.js"></script>
 <script src="/js/core/services/current-user.service.js"></script>
-<script src="/js/core/services/toastService.js"></script>
+<script src="/js/core/services/toast.service.js"></script>
 <script src="/js/core/services/httpInterceptors.service.js"></script>
 <script src="/js/core/services/geocoder.service.js"></script>
 <script src="/js/core/services/cities-loader.service.js"></script>
@@ -78,7 +81,6 @@
 <script src="/js/core/directives/star-rating.directive.js"></script>
 <script src="/js/core/directives/date-formatter/date-formatter.directive.js"></script>
 <script src="/js/core/directives/md-select-infinite-scroll/md-select-infinite-scroll.directive.js"></script>
-<script src="/js/core/directives/scrolling-down/scrolling-down.directive.js"></script>
 <script src="/js/core/directives/file-uploader/file-uploader.directive.js"></script>
 <script src="/js/core/filters/alt-date.js"></script>
 <script src="/js/core/login/login.controller.js"></script>
@@ -88,6 +90,8 @@
 
 <script src="/js/chat/chat.module.js"></script>
 <script src="/js/chat/chat.controller.js"></script>
+<script src="/js/chat/services/chat.socket.service.js"></script>
+<script src="/js/chat/directives/scroll-chat/scroll-chat.directive.js"></script>
 
 <script src="/js/customer/customer.module.js"></script>
 <script src="/js/customer/customer.routes.js"></script>

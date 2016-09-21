@@ -30,10 +30,6 @@ let Location = {
         request: {
             collection: 'Request',
             via: 'location'
-        },
-        userDetail: {
-            collection: 'UserDetail',
-            via: 'location'
         }
     }
 };

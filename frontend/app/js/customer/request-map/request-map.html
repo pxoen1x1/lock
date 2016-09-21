@@ -13,7 +13,7 @@
                           events="vm.map.events">
 
         <ui-gmap-marker idkey="'specialist' + specialist.id"
-                        coords="specialist.details.location"
+                        coords="specialist.details"
                         options="vm.map.specialistMarker.options"
                         fit="false"
                         control="specialist"
@@ -72,7 +72,8 @@
           <div class="message"
                layout="row"
                layout-align="start center">
-            <md-button class="md-fab">
+            <md-button class="md-fab"
+                       ng-click="vm.createChat(vm.selectedSpecialist)">
               <md-icon>chat</md-icon>
             </md-button>
           </div>

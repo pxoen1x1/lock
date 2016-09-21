@@ -12,6 +12,11 @@
 'use strict';
 
 let AuthController = waterlock.waterlocked({
+    _config: {
+        actions: true,
+        rest: true
+    },
+
     register(req, res) {
         let params = req.allParams();
 
@@ -28,6 +33,10 @@ let AuthController = waterlock.waterlocked({
         criteria.email = params.email;
 
         if (params.user.details) {
+            if (params.user.details.rating) {
+                delete params.user.details.rating;
+            }
+
             params.user.userDetail = params.user.details;
 
             delete params.user.details;

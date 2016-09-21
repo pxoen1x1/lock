@@ -7,7 +7,15 @@
 'use strict';
 
 let JwtService = {
+    getTokenByOwner(user) {
+
+        return Jwt.findOne({ owner: user.id })
+            .then(
+                (jwt) => jwt.token
+            );
+    },
     create(jwtData, user) {
+
         return Jwt.create({token: jwtData.token, uses: 0, owner: user.id})
             .then(
                 () => {

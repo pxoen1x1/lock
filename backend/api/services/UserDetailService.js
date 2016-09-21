@@ -1,4 +1,4 @@
-/* global UserDetail */
+/* global UserDetail, FeedbackService */
 
 'use strict';
 
@@ -12,9 +12,18 @@ let UserDetailService = {
 
                     return foundUserDetail;
                 }
-            )
-            .catch(
-                (err) => err
+            );
+    },
+    updateRating(executor) {
+
+        return FeedbackService.getAverageRating(executor)
+            .then(
+                (rating) => {
+                    return UserDetail.update({user: executor.id}, {rating: rating})
+                        .then(
+                            (updatedUserDetails) => updatedUserDetails[0]
+                        );
+                }
             );
     }
 };

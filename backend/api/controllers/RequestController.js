@@ -1,4 +1,4 @@
-/* global sails, RequestService, Feedback */
+/* global sails, RequestService, UserDetailService */
 /**
  * RequestController
  *
@@ -12,7 +12,7 @@ let RequestController = {
     getAllClientRequests(req, res) {
         let params = req.allParams();
 
-        let searchCriteria = {
+        let criteria = {
             where: {
                 owner: req.session.user.id
             }
@@ -24,20 +24,19 @@ let RequestController = {
         pagination.limit = params.limit || sails.config.application.queryLimit;
         pagination.page = params.page || 1;
 
-        RequestService.getAll(searchCriteria, sorting, pagination)
+        RequestService.getAll(criteria, sorting, pagination)
             .then(
-                (foundRequests) => {
+                (requests) => {
 
-                    return RequestService.getRequestCount(searchCriteria)
-                        .then(
-                            (totalCount) =>
-                                res.ok({
-                                    items: foundRequests,
-                                    currentPageNumber: pagination.page,
-                                    totalCount: totalCount
-                                })
-                        );
+                    return [RequestService.getRequestsCount(criteria), requests];
                 }
+            )
+            .spread(
+                (totalCount, requests) => res.ok({
+                    items: requests,
+                    currentPageNumber: pagination.page,
+                    totalCount: totalCount
+                })
             )
             .catch(
                 (err) => {
@@ -111,10 +110,12 @@ let RequestController = {
     },
     createFeedback(req, res) {
         let feedback = req.allParams();
+        feedback.rating = feedback.rating ? parseInt(feedback.rating, 10) : undefined;
 
-        if (!feedback.request || !feedback.message || !feedback.executor) {
+        if (!feedback.request || !feedback.message ||
+            (typeof feedback.rating !== 'undefined' && (feedback.rating < 1 || feedback.rating > 5))) {
 
-            res.badRequest(
+            return res.badRequest(
                 {
                     message: req.__('Submitted data is invalid.')
                 }
@@ -123,18 +124,37 @@ let RequestController = {
 
         feedback.author = req.session.user.id;
 
-        Feedback.create(feedback)
+        RequestService.createFeedback(feedback)
             .then(
-                (createdFeedback) => res.created(
-                    {
-                        feedback: createdFeedback
-                    })
+                (createdFeedback) => {
+                    res.created(
+                        {
+                            feedback: createdFeedback
+                        });
+
+                    return createdFeedback;
+                }
+            )
+            .then(
+                (feedback)=> {
+                    let executor = feedback.executor;
+
+                    return UserDetailService.updateRating({id: executor});
+                }
             )
             .catch(
                 (err) => {
-                    sails.log.error(err);
+                    if (err) {
+                        sails.log.error(err);
 
-                    return res.serverError();
+                        return res.serverError();
+                    }
+
+                    return res.badRequest(
+                        {
+                            message: req.__('Request is not completed.')
+                        }
+                    );
                 }
             );
     }
