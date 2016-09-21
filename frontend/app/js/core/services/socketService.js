@@ -13,7 +13,7 @@
             subscribe: subscribe,
             unsubscribe: unsubscribe,
             onConnect: onConnect,
-            onMessages: onMessages
+            listener: listener
         };
 
         return service;
@@ -36,10 +36,6 @@
 
         function onConnect(next) {
             listener('connect', next);
-        }
-
-        function onMessages(next) {
-            listener('message', next);
         }
 
         function listener(eventIdentity, next) {

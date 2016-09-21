@@ -5,15 +5,16 @@
         .module('app.chat')
         .factory('chatSocketservice', chatSocketservice);
 
-    chatSocketservice.$inject = ['$sails'];
+    chatSocketservice.$inject = ['$sails', 'socketService'];
 
     /* @ngInject */
-    function chatSocketservice($sails) {
+    function chatSocketservice($sails, socketService) {
         var service = {
             getChats: getChats,
             getMessages: getMessages,
             createChat: createChat,
-            sendMessage: sendMessage
+            sendMessage: sendMessage,
+            onMessage: onMessage
         };
 
         return service;
@@ -29,7 +30,7 @@
             }
         }
 
-        function getMessages(chat, params){
+        function getMessages(chat, params) {
 
             return $sails.get('/api/chats/' + chat.id + '/messages', params)
                 .then(getMessagesCompleted);
@@ -60,6 +61,10 @@
 
                 return response.data.message;
             }
+        }
+
+        function onMessage(next) {
+            socketService.listener('message', next);
         }
     }
 })();
