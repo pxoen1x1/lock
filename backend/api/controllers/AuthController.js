@@ -33,6 +33,10 @@ let AuthController = waterlock.waterlocked({
         criteria.email = params.email;
 
         if (params.user.details) {
+            if (params.user.details.rating) {
+                delete params.user.details.rating;
+            }
+
             params.user.userDetail = params.user.details;
 
             delete params.user.details;
