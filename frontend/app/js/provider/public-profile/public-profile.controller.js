@@ -5,37 +5,15 @@
         .module('app.provider')
         .controller('ProviderPublicProfileController', ProviderPublicProfileController);
 
-    ProviderPublicProfileController.$inject = ['$stateParams'];
+    ProviderPublicProfileController.$inject = ['$stateParams', 'coreDataservice', 'conf'];
 
     /* @ngInject */
-    function ProviderPublicProfileController($stateParams) {
+    function ProviderPublicProfileController($stateParams, coreDataservice, conf) {
         var vm = this;
 
         vm.profileId = $stateParams.profileId;
 
-        vm.profileData = {
-            name: 'Tony Stark',
-            photo: 'https://s-media-cache-ak0.pinimg.com/736x/38/fd/d2/38fdd224b7674128ae34ed9138fa730f.jpg',
-            verified: 1,
-            rating: 4.5,
-            requestsDone: 20,
-            workingHours: {
-                from: '2016-08-26T10:00:00.000Z',
-                to: '2016-08-26T18:00:00.000Z'
-            },
-            services: [
-                {
-                    id: 1,
-                    name: 'Car',
-                    price: 40
-                },
-                {
-                    id: 2,
-                    name: 'House',
-                    price: 60
-                }
-            ]
-        };
+        vm.profileData = {};
 
         vm.feedbackData = {
             count: 12,
@@ -79,6 +57,26 @@
 
         };
 
+        vm.getUser = getUser;
+
+        activate();
+
+        function getUser() {
+
+            return coreDataservice.getUser(vm.profileId)
+                .then(function (response) {
+                    var user = response.data.user;
+
+                    vm.profileData = user;
+                    vm.profileData.portrait = user.portrait ? conf.BASE_URL + user.portrait : '';
+
+                    return vm.profileData;
+                });
+        }
+
+        function activate() {
+            getUser();
+        }
 
     }
 })();
