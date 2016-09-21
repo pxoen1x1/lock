@@ -6,14 +6,14 @@
         .run(runApp);
 
     runApp.$inject = ['$rootScope', '$state', '$mdDialog', '$mdMedia', 'cfpLoadingBar',
-        'coreSocketDataservice', 'authService', 'toastService', 'coreConstants', 'conf'];
+        'socketService', 'authService', 'toastService', 'coreConstants', 'conf'];
 
     /* @ngInject */
     function runApp($rootScope, $state, $mdDialog, $mdMedia, cfpLoadingBar,
-                    coreSocketDataservice, authService, toastService, coreConstants, conf) {
-        coreSocketDataservice.onConnect(function () {
+                    socketService, authService, toastService, coreConstants, conf) {
+        socketService.onConnect(function () {
             if (authService.isAuthenticated()) {
-                coreSocketDataservice.subscribe();
+                socketService.subscribe();
             }
         });
 

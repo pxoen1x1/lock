@@ -3,12 +3,12 @@
 
     angular
         .module('app.core')
-        .factory('coreSocketDataservice', coreSocketDataservice);
+        .factory('socketService', socketService);
 
-    coreSocketDataservice.$inject = ['$sails'];
+    socketService.$inject = ['$sails'];
 
     /* @ngInject */
-    function coreSocketDataservice($sails) {
+    function socketService($sails) {
         var service = {
             subscribe: subscribe,
             unsubscribe: unsubscribe,
