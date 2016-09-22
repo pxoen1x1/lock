@@ -51,19 +51,19 @@
             })
             .state('provider.requests', {
                 parent: 'provider',
-                url: '/requests',
+                url: '/dashboard',
                 views: {
                     'content@provider': {
-                        templateUrl: 'provider/requests/requests.html',
-                        controller: 'ProviderRequestsController',
+                        templateUrl: 'provider/dashboard/dashboard.html',
+                        controller: 'ProviderDashboardController',
                         controllerAs: 'vm'
                     }
                 },
                 data: {
-                    title: 'Requests',
+                    title: 'Dashboard',
                     menu: {
                         icon: 'list',
-                        title: 'Requests'
+                        title: 'Dashboard'
                     }
                 }
             })
