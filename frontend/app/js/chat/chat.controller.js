@@ -29,6 +29,7 @@
         vm.chatSearch = '';
         vm.leftSidenavView = false;
         vm.isScrollToBottomEnabled = true;
+        vm.selectedTab = 'chats';
 
         vm.defaultPortrait = coreConstants.IMAGES.defaultPortrait;
         vm.dateFormat = coreConstants.DATE_FORMAT;

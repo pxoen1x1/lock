@@ -7,13 +7,8 @@
       <md-sidenav class="sidenav left-sidenav md-sidenav-left"
                   layout="column"
                   md-is-locked-open="$mdMedia('gt-md')"
-                  md-component-id="left-sidenav">
-
-        <div class="view chats-view animate-slide-right"
-             layout="column"
-             flex
-             ng-include="'chat/templates/chats-view.html'">
-        </div>
+                  md-component-id="left-sidenav"
+                  ng-include="'chat/templates/left-sidenav.html'">
       </md-sidenav>
       <div class="start-point"
            ng-if="!vm.currentChat"

@@ -26,9 +26,11 @@ $search-text-color: rgba(0, 0, 0, .54);
 
       .sidenav {
         md-toolbar {
-          border-bottom: 1px solid rgba(0, 0, 0, .08);
+          &, .md-toolbar-tools-top {
+            border-bottom: 1px solid rgba(0, 0, 0, .08);
+          }
 
-          .md-toolbar-tools-bottom {
+          .md-toolbar-tools-top {
             .search {
               height: 36px;
               line-height: 36px;
@@ -46,6 +48,37 @@ $search-text-color: rgba(0, 0, 0, .54);
                 height: 36px;
                 color: $search-text-color;
                 border: none;
+              }
+            }
+          }
+
+          .md-toolbar-tools-bottom {
+            background-color: #FAFAFA;
+
+            md-nav-bar {
+              .md-nav-bar {
+                border: none;
+
+                .md-nav-item:first-of-type {
+                  margin-left: 0;
+                }
+
+                .md-button {
+                  &._md-nav-button {
+                    &.md-unselected {
+                      color: $search-text-color;
+                    }
+                  }
+
+                  &.md-accent {
+                    color: $primary-color;
+                  }
+                }
+              }
+
+              md-nav-ink-bar {
+                color: $primary-color;
+                background-color: $primary-color;
               }
             }
           }
@@ -133,7 +166,7 @@ $search-text-color: rgba(0, 0, 0, .54);
       .chat {
         .chat-toolbar {
           min-height: 64px;
-          background-color: #F3F4F5;
+          background-color: #FAFAFA;;
           color: rgba(0, 0, 0, .87);
           border-bottom: 1px solid rgba(0, 0, 0, .08);
 
@@ -253,7 +286,6 @@ $search-text-color: rgba(0, 0, 0, .54);
   .right-sidenav {
     .view {
       z-index: 9999999;
-      position: absolute;
       height: 100%;
       opacity: 1 !important;
       bottom: 0;
@@ -266,6 +298,12 @@ $search-text-color: rgba(0, 0, 0, .54);
   .left-sidenav {
     overflow: hidden;
     width: 400px;
+    border-right: 1px solid rgba(0, 0, 0, .12);
+
+    md-toolbar {
+      background-color: #F3F4F5;
+      color: $text-color;
+    }
 
     .view {
       overflow: hidden;
@@ -273,15 +311,9 @@ $search-text-color: rgba(0, 0, 0, .54);
       background: #FFF;
       -webkit-transition-duration: .3s;
       transition-duration: .3s;
-      border-right: 1px solid rgba(0, 0, 0, .12);
     }
 
     .chats-view {
-      md-toolbar {
-        background-color: #F3F4F5;
-        color: $text-color;
-      }
-
       md-content {
         overflow: hidden;
 
@@ -317,6 +349,7 @@ $search-text-color: rgba(0, 0, 0, .54);
 
   .right-sidenav {
     overflow: hidden;
+    position: absolute;
     width: 400px;
 
     .view {
