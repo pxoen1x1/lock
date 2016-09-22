@@ -127,7 +127,6 @@
                 };
             }
 
-            // vm.isAllMessagesLoaded[currentChat.id] = false;
             vm.isScrollDisabled = true;
             vm.isScrollToBottomEnabled = true;
 
