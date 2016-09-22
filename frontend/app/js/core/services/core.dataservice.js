@@ -10,6 +10,7 @@
     /* @ngInject */
     function coreDataservice($http, request, conf) {
         var service = {
+            getCurrentUser: getCurrentUser,
             getUser: getUser,
             getServiceTypes: getServiceTypes,
             getLanguages: getLanguages,
@@ -24,10 +25,18 @@
 
         return service;
 
-        function getUser() {
+        function getCurrentUser() {
 
             return request.httpWithTimeout({
                 url: conf.BASE_URL + 'api/user',
+                method: 'GET'
+            });
+        }
+
+        function getUser(userId) {
+
+            return request.httpWithTimeout({
+                url: conf.BASE_URL + 'api/users/' + userId,
                 method: 'GET'
             });
         }
