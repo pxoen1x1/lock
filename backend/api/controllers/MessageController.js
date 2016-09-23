@@ -1,4 +1,4 @@
-/* global sails, JwtService, Message, MessageService */
+/* global sails, MessageService */
 /**
  * MessageController
  *
