@@ -17,7 +17,8 @@ let Bid = {
         message: {
             type: 'string',
             defaultsTo() {
-                sails.__(sails.config.application.chat.bidDefaultMessage);
+
+                return sails.__(sails.config.application.chat.bidDefaultMessage);
             }
         },
         cost: {
