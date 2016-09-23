@@ -5,7 +5,7 @@ let chatRoutes = {
         controller: 'ChatController',
         action: 'getClientChats'
     },
-    'POST /api/request/:request/chats': {
+    'POST /api/client/request/:request/chats': {
         controller: 'ChatController',
         action: 'createChat'
     }

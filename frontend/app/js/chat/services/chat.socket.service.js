@@ -43,7 +43,7 @@
 
         function createChat(request, specialist) {
 
-            return $sails.post('/api/request/' + request.id + '/chats', specialist)
+            return $sails.post('/api/client/request/' + request.id + '/chats', specialist)
                 .then(createChatCompleted);
 
             function createChatCompleted(response) {
