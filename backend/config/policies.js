@@ -80,6 +80,11 @@ module.exports.policies = {
         'createChat': ['isSocketRequest', 'hasJsonWebToken', 'isUserEnabled', 'isRequestOwner', 'isChatUnique']
     },
 
+    BidController: {
+        '*': ['isSocketRequest', 'hasJsonWebToken', 'isUserEnabled', 'isRequestOwner'],
+        'create': ['isSocketRequest', 'hasJsonWebToken', 'isUserEnabled', 'isBidUnique']
+    },
+
     MessageController: {
         '*': ['isSocketRequest', 'hasJsonWebToken', 'isUserEnabled', 'isChatMember']
     },
