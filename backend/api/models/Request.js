@@ -80,9 +80,12 @@ let Request = {
             collection: 'Feedback',
             via: 'request'
         },
-
-        chat: {
+        chats: {
             collection: 'Chat',
+            via: 'request'
+        },
+        bids : {
+            collection: 'Bid',
             via: 'request'
         }
     },
