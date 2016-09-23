@@ -1,3 +1,4 @@
+/* global sails, BidService */
 /**
  * BidController
  *
@@ -7,7 +8,39 @@
 
 'use strict';
 
-let BidController = {};
+let BidController = {
+    create(req, res) {
+        let bid = req.allParams();
+        let specialist = req.session.user.id;
+
+        if (!bid.request) {
+
+            return res.badRequest(
+                {
+                    message: req.__('Submitted data is invalid.')
+                }
+            );
+        }
+
+        bid.specialist = specialist;
+
+        BidService.create(bid)
+            .then(
+                (createdBid) => res.created(
+                    {
+                        bid: createdBid
+                    }
+                )
+            )
+            .catch(
+                (err) => {
+                    sails.log.error(err);
+
+                    return res.serverError();
+                }
+            );
+    }
+};
 
 module.exports = BidController;
 
