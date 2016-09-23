@@ -16,7 +16,6 @@ module.exports = function (req, res, next) {
 
     let request = params.request;
     let specialist = params.specialist && params.specialist.id ? params.specialist.id : null;
-    let client = req.session.user.id;
 
     if (!request || !specialist) {
 
@@ -27,14 +26,13 @@ module.exports = function (req, res, next) {
         );
     }
 
-
     Chat.findByRequest(request)
         .then(
             (chats) => {
                 let chatExists = chats.some(
                     (chat) => {
 
-                        return chat.client === client && chat.specialist === specialist;
+                        return chat.specialist === specialist;
                     }
                 );
 
