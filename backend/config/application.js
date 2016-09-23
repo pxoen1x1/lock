@@ -5,7 +5,7 @@ let application = {
     queryLimit: 10,
     chat: {
         messagesLimit: 50,
-        bidDefaultMessage: 'Please, add me to chat.'
+        bidDefaultMessage: 'Please, start a chat with me.'
     },
     emailVerificationEnabled: true,
     resetPasswordExpiresTime: 24*3600*1000,
