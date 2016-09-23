@@ -32,7 +32,7 @@ let MessageController = {
 
         let pagination = {};
         pagination.page = params.page || 1;
-        pagination.limit = params.limit || sails.config.application.chatMessagesLimit;
+        pagination.limit = params.limit || sails.config.application.chat.messagesLimit;
 
         MessageService.getMessages(criteria, sorting, pagination)
             .then(
