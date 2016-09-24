@@ -47,6 +47,9 @@
 <div class="view chats-view animate-slide-right"
      layout="column"
      flex
-     ng-show="vm.selectedTab === 'bids'"
-     ng-include="'chat/templates/bids-list.html'">
+     ng-show="vm.selectedTab === 'bids'">
+  <bid-list
+      bids="vm.bids"
+      selected-request="vm.selectedRequestId">
+  </bid-list>
 </div>
