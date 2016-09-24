@@ -100,6 +100,11 @@ module.exports.policies = {
         '*': [
             'isSocketRequest',
             'hasJsonWebToken',
+            'isUserEnabled'
+        ],
+        'getClientBids': [
+            'isSocketRequest',
+            'hasJsonWebToken',
             'isUserEnabled',
             'isRequestOwner'
         ],
