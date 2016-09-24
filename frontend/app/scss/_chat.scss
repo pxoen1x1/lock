@@ -51,9 +51,6 @@ $search-text-color: rgba(0, 0, 0, .54);
           }
 
           .md-toolbar-tools-bottom {
-            background-color: #FAFAFA;
-            border-top: 1px solid rgba(0, 0, 0, .08);
-
             md-nav-bar {
               .md-nav-bar {
                 border: none;
@@ -318,6 +315,11 @@ $search-text-color: rgba(0, 0, 0, .54);
     md-toolbar {
       background-color: #F3F4F5;
       color: $text-color;
+
+      .md-toolbar-tools-bottom {
+        background-color: #FAFAFA;
+        border-top: 1px solid rgba(0, 0, 0, .08);
+      }
     }
 
     .view {
