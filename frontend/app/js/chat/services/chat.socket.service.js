@@ -11,6 +11,7 @@
     function chatSocketservice($sails, socketService) {
         var service = {
             getChats: getChats,
+            getRequestBids: getRequestBids,
             getMessages: getMessages,
             createChat: createChat,
             sendMessage: sendMessage,
@@ -27,6 +28,17 @@
             function getChatsCompleted(message) {
 
                 return message.data.chats;
+            }
+        }
+
+        function getRequestBids(request) {
+
+            return $sails.get('/api/client/request/' + request + '/bids')
+                .then(getRequestBidsCompleted);
+
+            function getRequestBidsCompleted(message) {
+
+                return message.data.bids;
             }
         }
 
