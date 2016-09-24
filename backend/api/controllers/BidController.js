@@ -38,6 +38,26 @@ let BidController = {
                 }
             );
     },
+    getSpecialistBids(req, res) {
+        let specialist = req.session.user.id;
+
+        Bid.findBySpecialist(specialist)
+            .populateAll()
+            .then(
+                (bids) => res.ok(
+                    {
+                        bids: bids
+                    }
+                )
+            )
+            .catch(
+                (err) => {
+                    sails.log.error(err);
+
+                    return res.serverError();
+                }
+            );
+    },
     create(req, res) {
         let bid = req.allParams();
         let specialist = req.session.user.id;
