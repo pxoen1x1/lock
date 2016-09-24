@@ -1,5 +1,14 @@
 /* global sails, Request, Chat */
 
+/**
+ * isRequestAllowed
+ *
+ * @module      :: Policy
+ * @description :: Assumes that request wasn't executed or wasn't closed;
+ *
+ * @docs        :: http://waterlock.ninja/documentation
+ */
+
 'use strict';
 
 module.exports = function (req, res, next) {
