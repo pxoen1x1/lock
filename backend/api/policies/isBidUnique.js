@@ -27,20 +27,23 @@ module.exports = function (req, res, next) {
     Bid.findByRequest(request)
         .then(
             (bids) => {
-                let bidExists = bids.some(
-                    (bid) => {
+                if (bids && bids.length > 0) {
+                    let bidExists = bids.some(
+                        (bid) => {
 
-                        return bid.specialist === specialist;
-                    }
-                );
-
-                if (bidExists) {
-
-                    return res.badRequest(
-                        {
-                            message: req.__('Bid has been sent already.')
+                            return bid.specialist === specialist;
                         }
                     );
+
+                    if (bidExists) {
+                        res.badRequest(
+                            {
+                                message: req.__('Bid has been sent already.')
+                            }
+                        );
+
+                        return Promise.reject();
+                    }
                 }
 
                 return Chat.findByRequest(request);
@@ -48,20 +51,23 @@ module.exports = function (req, res, next) {
         )
         .then(
             (chats) => {
-                let chatExists = chats.some(
-                    (chat) => {
+                if (chats && chats.length > 0) {
+                    let chatExists = chats.some(
+                        (chat) => {
 
-                        return chat.specialist === specialist;
-                    }
-                );
-
-                if (chatExists) {
-
-                    return res.badRequest(
-                        {
-                            message: req.__('Chat already exists.')
+                            return chat.specialist === specialist;
                         }
                     );
+
+                    if (chatExists) {
+                        res.badRequest(
+                            {
+                                message: req.__('Chat already exists.')
+                            }
+                        );
+
+                        return Promise.reject();
+                    }
                 }
 
                 next();
@@ -69,9 +75,11 @@ module.exports = function (req, res, next) {
         )
         .catch(
             (err) => {
-                sails.log.error(err);
+                if (err) {
+                    sails.log.error(err);
 
-                return res.serverError();
+                    return res.serverError();
+                }
             }
         );
 };
