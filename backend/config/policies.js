@@ -77,16 +77,23 @@ module.exports.policies = {
 
     ChatController: {
         '*': ['isSocketRequest', 'hasJsonWebToken', 'isUserEnabled', 'isRequestOwner'],
-        'createChat': ['isSocketRequest', 'hasJsonWebToken', 'isUserEnabled', 'isRequestOwner', 'isChatUnique']
+        'createChat': [
+            'isSocketRequest',
+            'hasJsonWebToken',
+            'isUserEnabled',
+            'isRequestAllowed',
+            'isRequestOwner',
+            'isChatUnique'
+        ]
     },
 
     BidController: {
         '*': ['isSocketRequest', 'hasJsonWebToken', 'isUserEnabled', 'isRequestOwner'],
-        'create': ['isSocketRequest', 'hasJsonWebToken', 'isUserEnabled', 'isBidUnique']
+        'create': ['isSocketRequest', 'hasJsonWebToken', 'isUserEnabled', 'isRequestAllowed', 'isBidUnique']
     },
 
     MessageController: {
-        '*': ['isSocketRequest', 'hasJsonWebToken', 'isUserEnabled', 'isChatMember']
+        '*': ['isSocketRequest', 'hasJsonWebToken', 'isUserEnabled', 'isRequestAllowed', 'isChatMember']
     },
 
     SocketController: {
