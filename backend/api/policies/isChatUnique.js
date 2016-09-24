@@ -29,20 +29,22 @@ module.exports = function (req, res, next) {
     Chat.findByRequest(request)
         .then(
             (chats) => {
-                let chatExists = chats.some(
-                    (chat) => {
+                if (chats && chats.length > 0) {
+                    let chatExists = chats.some(
+                        (chat) => {
 
-                        return chat.specialist === specialist;
-                    }
-                );
-
-                if (chatExists) {
-
-                    return res.badRequest(
-                        {
-                            message: req.__('Chat already exists.')
+                            return chat.specialist === specialist;
                         }
                     );
+
+                    if (chatExists) {
+
+                        return res.badRequest(
+                            {
+                                message: req.__('Chat already exists.')
+                            }
+                        );
+                    }
                 }
 
                 next();
