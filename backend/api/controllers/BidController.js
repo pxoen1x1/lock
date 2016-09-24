@@ -75,11 +75,29 @@ let BidController = {
 
         BidService.create(bid)
             .then(
-                (createdBid) => res.created(
-                    {
-                        bid: createdBid
-                    }
-                )
+                (createdBid) => {
+                    res.created(
+                        {
+                            bid: createdBid
+                        }
+                    );
+
+                    return createdBid;
+                }
+            )
+            .then(
+                (bid) => {
+                    let roomName = `user_${bid.client}`;
+
+                    sails.sockets.broadcast(
+                        roomName,
+                        'bids',
+                        {
+                            bid: bid
+                        },
+                        req
+                    );
+                }
             )
             .catch(
                 (err) => {
