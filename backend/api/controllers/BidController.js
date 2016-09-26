@@ -75,13 +75,8 @@ let BidController = {
         BidService.create(bid)
             .then(
                 (createdBid) => {
-                    res.created(
-                        {
-                            bid: createdBid
-                        }
-                    );
 
-                    return createdBid;
+                    return BidService.getBid(createdBid.id);
                 }
             )
             .then(
@@ -96,7 +91,16 @@ let BidController = {
                         },
                         req
                     );
+
+                    return bid;
                 }
+            )
+            .then(
+                (bid) => res.created(
+                    {
+                        bid: bid
+                    }
+                )
             )
             .catch(
                 (err) => {
