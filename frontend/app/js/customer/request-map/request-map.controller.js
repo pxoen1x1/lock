@@ -80,7 +80,6 @@
             zoom: 16,
         };
 
-        vm.showSelectedSpecialistInfo = showSelectedSpecialistInfo;
         vm.createChat = createChat;
 
         activate();

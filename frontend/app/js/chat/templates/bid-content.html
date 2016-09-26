@@ -1,0 +1,34 @@
+<md-toolbar class="chat-toolbar">
+  <div class="md-toolbar-tools">
+    <md-button class="hide-gt-md responsive-chats-button md-icon-button"
+               aria-label="chats button"
+               ng-click="vm.toggleSidenav('left-sidenav')">
+      <i class="material-icons s28">textsms</i>
+    </md-button>
+    <md-menu md-position-mode="target-right target">
+      <md-button class="md-icon-button"
+                 aria-label="more"
+                 ng-click="$mdOpenMenu()">
+        <i class="material-icons">more_vert</i>
+      </md-button>
+      <md-menu-content width="3">
+        <md-menu-item>
+          <md-button ng-click="vm.toggleSidenav('right-sidenav')">Contact Info</md-button>
+        </md-menu-item>
+        <md-menu-item>
+          <md-button ng-click="vm.closeChat()">Close Chat</md-button>
+        </md-menu-item>
+      </md-menu-content>
+    </md-menu>
+  </div>
+</md-toolbar>
+<md-content class="chat-content"
+            flex
+            layout="row"
+            layout-align="start end">
+  <message-bid flex
+               messages="vm.messages"
+               bids="vm.bids"
+               current-bid="vm.currentBid">
+  </message-bid>
+</md-content>

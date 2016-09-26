@@ -106,6 +106,14 @@ let User = {
             collection: 'Chat',
             via: 'specialist'
         },
+        bidClients: {
+            collection: 'Bid',
+            via: 'client'
+        },
+        bidSpecialists: {
+            collection: 'Bid',
+            via: 'specialist'
+        },
         messageSenders: {
             collection: 'Message',
             via: 'sender'

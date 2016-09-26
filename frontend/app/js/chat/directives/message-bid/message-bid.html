@@ -1,0 +1,42 @@
+<md-card class="bids-message" flex>
+  <md-card-header>
+    <md-card-avatar>
+      <div class="avatar-wrapper">
+        <div class="md-avatar avatar"
+             ng-style="{ 'background-image': 'url(' + (vm.currentBid.specialist.portrait || vm.defaultPortrait) + ')' }">
+        </div>
+        <i class="material-icons s14 status"
+           ng-if="vm.currentBid.specialist.details.isAvailable">check_circle
+        </i>
+        <i class="material-icons s14 status unavailable"
+           ng-if="!vm.currentBid.specialist.details.isAvailable">schedule
+        </i>
+      </div>
+    </md-card-avatar>
+    <md-card-header-text  flex lauot="row">
+      <div class="md-title"
+           ng-bind="vm.currentBid.specialist.fullName">
+      </div>
+      <star-rating value="vm.currentBid.specialist.rating" readonly></star-rating>
+    </md-card-header-text>
+  </md-card-header>
+  <md-card-title>
+    <md-card-title-text>
+      <div class="md-headline"
+           ng-if="vm.currentBid.cost">
+        Cost: <span ng-bind="vm.currentBid.cost"></span>
+      </div>
+    </md-card-title-text>
+  </md-card-title>
+  <md-card-content>
+    <p ng-bind="vm.currentBid.message"></p>
+  </md-card-content>
+  <md-card-actions
+      flex
+      layout="row"
+      layout-align="end center">
+    <md-button>Start Chat</md-button>
+    <md-button class="md-button-blue">Accept</md-button>
+    <md-button>Decline</md-button>
+  </md-card-actions>
+</md-card>

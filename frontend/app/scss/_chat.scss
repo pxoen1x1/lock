@@ -28,7 +28,7 @@ $search-text-color: rgba(0, 0, 0, .54);
         md-toolbar {
           border-bottom: 1px solid rgba(0, 0, 0, .08);
 
-          .md-toolbar-tools-bottom {
+          .md-toolbar-tools-top {
             .search {
               height: 36px;
               line-height: 36px;
@@ -49,19 +49,60 @@ $search-text-color: rgba(0, 0, 0, .54);
               }
             }
           }
+
+          .md-toolbar-tools-bottom {
+            md-nav-bar {
+              .md-nav-bar {
+                border: none;
+
+                .md-nav-item:first-of-type {
+                  margin-left: 0;
+                }
+
+                .md-button {
+                  &._md-nav-button {
+                    font-weight: normal;
+
+                    &.md-unselected {
+                      color: $search-text-color;
+                    }
+                  }
+
+                  &.md-accent {
+                    color: $primary-color;
+                  }
+                }
+              }
+
+              md-nav-ink-bar {
+                color: $primary-color;
+                background-color: $primary-color;
+              }
+            }
+          }
         }
 
         md-list {
+          padding: 0;
+
           &.chat-list {
             position: relative;
             -webkit-transition: all .2s ease-out;
             transition: all .2s ease-out;
 
+            .subheader {
+              padding-left: 16px;
+              font-size: 20px;
+              font-weight: 300;
+              height: 88px;
+              line-height: 88px;
+            }
+
+            .subheader,
             md-list-item {
               position: absolute;
               right: 0;
               left: 0;
-              width: 100%;
               -webkit-transition: -webkit-transform .2s ease-out;
               transition: -webkit-transform .2s ease-out;
               transition: transform .2s ease-out;
@@ -133,7 +174,7 @@ $search-text-color: rgba(0, 0, 0, .54);
       .chat {
         .chat-toolbar {
           min-height: 64px;
-          background-color: #F3F4F5;
+          background-color: #FAFAFA;;
           color: rgba(0, 0, 0, .87);
           border-bottom: 1px solid rgba(0, 0, 0, .08);
 
@@ -210,6 +251,27 @@ $search-text-color: rgba(0, 0, 0, .54);
               }
             }
           }
+
+          .bids-message {
+            min-width: 200px;
+            max-width: 600px;
+            margin: 30px;
+
+            md-card-header {
+              background-color: $primary-color;
+              color: #FFF;
+
+              ul {
+                &.rating {
+                  padding-top: 5px;
+                  i {
+                    min-width: 16px;
+                    min-height: 16px;
+                  }
+                }
+              }
+            }
+          }
         }
 
         .chat-footer {
@@ -254,7 +316,6 @@ $search-text-color: rgba(0, 0, 0, .54);
     .view {
       z-index: 9999999;
       position: absolute;
-      height: 100%;
       opacity: 1 !important;
       bottom: 0;
       left: 0;
@@ -267,21 +328,36 @@ $search-text-color: rgba(0, 0, 0, .54);
     overflow: hidden;
     width: 400px;
 
+    md-toolbar,
+    .view {
+      border-right: 1px solid rgba(0, 0, 0, 0.12);
+    }
+
+    md-toolbar {
+      background-color: #F3F4F5;
+      color: $text-color;
+
+      .md-toolbar-tools-bottom {
+        background-color: #FAFAFA;
+        border-top: 1px solid rgba(0, 0, 0, .08);
+      }
+    }
+
     .view {
       overflow: hidden;
+      margin-top: 114px;
       width: 100%;
       background: #FFF;
-      -webkit-transition-duration: .3s;
-      transition-duration: .3s;
-      border-right: 1px solid rgba(0, 0, 0, .12);
+      -webkit-transition-duration: 0.5s;
+      transition-duration: 0.5s;
+      opacity: 1 !important;
+
+      &.nav-bar-disabled {
+        margin-top: 65px;
+      }
     }
 
     .chats-view {
-      md-toolbar {
-        background-color: #F3F4F5;
-        color: $text-color;
-      }
-
       md-content {
         overflow: hidden;
 
@@ -322,6 +398,7 @@ $search-text-color: rgba(0, 0, 0, .54);
     .view {
       overflow: hidden;
       width: 100%;
+      height: 100%;
       -webkit-transition-duration: .3s;
       transition-duration: .3s;
     }
