@@ -251,6 +251,27 @@ $search-text-color: rgba(0, 0, 0, .54);
               }
             }
           }
+
+          .bids-message {
+            min-width: 200px;
+            max-width: 600px;
+            margin: 30px;
+
+            md-card-header {
+              background-color: $primary-color;
+              color: #FFF;
+
+              ul {
+                &.rating {
+                  padding-top: 5px;
+                  i {
+                    min-width: 16px;
+                    min-height: 16px;
+                  }
+                }
+              }
+            }
+          }
         }
 
         .chat-footer {
