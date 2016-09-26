@@ -5,12 +5,10 @@
         .module('app.chat')
         .controller('ChatController', ChatController);
 
-    ChatController.$inject = ['$q', '$stateParams', '$mdSidenav', '$mdMedia', 'conf',
-        'coreConstants', 'currentUserService', 'chatSocketservice', '$sails'];
+    ChatController.$inject = ['$stateParams', '$mdSidenav', 'coreConstants', 'currentUserService', 'chatSocketservice'];
 
     /* @ngInject */
-    function ChatController($q, $stateParams, $mdSidenav, $mdMedia, conf,
-                            coreConstants, currentUserService, chatSocketservice) {
+    function ChatController($stateParams, $mdSidenav, coreConstants, currentUserService, chatSocketservice) {
         var chatPaginationOptions = coreConstants.CHAT_PAGINATION_OPTIONS;
         var vm = this;
 
