@@ -21,8 +21,7 @@ let BidController = {
             );
         }
 
-        Bid.findByRequest(request)
-            .populateAll()
+        BidService.getBids({request: request})
             .then(
                 (bids) => res.ok(
                     {
