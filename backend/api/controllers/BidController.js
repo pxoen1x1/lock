@@ -91,7 +91,7 @@ let BidController = {
 
                     sails.sockets.broadcast(
                         roomName,
-                        'bids',
+                        'bid',
                         {
                             bid: bid
                         },

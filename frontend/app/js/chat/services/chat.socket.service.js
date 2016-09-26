@@ -15,7 +15,8 @@
             getMessages: getMessages,
             createChat: createChat,
             sendMessage: sendMessage,
-            onMessage: onMessage
+            onMessage: onMessage,
+            onBid: onBid
         };
 
         return service;
@@ -78,6 +79,12 @@
         function onMessage(next) {
             socketService.listener('message', function (event) {
                 next(event.message);
+            });
+        }
+
+        function onBid(next) {
+            socketService.listener('bid', function (event) {
+                next(event.bid);
             });
         }
     }

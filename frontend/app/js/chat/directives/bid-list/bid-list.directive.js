@@ -23,10 +23,10 @@
         return directive;
     }
 
-    BidListController.$inject = ['chatSocketservice'];
+    BidListController.$inject = ['$q', 'chatSocketservice'];
 
     /* @ngInject */
-    function BidListController(chatSocketservice) {
+    function BidListController($q, chatSocketservice) {
         var vm = this;
 
         vm.bids = vm.bids || [];
@@ -36,7 +36,7 @@
         function getBids(request) {
             if (!request) {
 
-                return;
+                $q.request();
             }
 
             return chatSocketservice.getRequestBids(request)
@@ -47,8 +47,15 @@
                 });
         }
 
+        function listenBidEvent() {
+            chatSocketservice.onBid(function (bid) {
+                vm.bids.push(bid);
+            });
+        }
+
         function activate() {
-            getBids(vm.selectedRequest);
+            getBids(vm.selectedRequest)
+                .then(listenBidEvent);
         }
     }
 })();
