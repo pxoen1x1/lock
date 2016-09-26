@@ -11,10 +11,10 @@
     function providerRun($rootScope, serviceProviderConstants) {
 
         $rootScope.$on('$stateChangeStart',
-            function (event, toState, toParams, fromState, fromParams) {
+            function (event, toState, toParams, fromState) {
 
                 var elem = angular.element(document.getElementsByClassName('content'));
-                var statesFlow = serviceProviderConstants.MENU_ITEMS;//.concat(serviceProviderConstants.REQUEST_TABBAR_ITEMS);
+                var statesFlow = serviceProviderConstants.MENU_ITEMS;
 
                 if (statesFlow.indexOf(fromState.name) < statesFlow.indexOf(toState.name)) {
                     elem.addClass('anim-slide-left');
