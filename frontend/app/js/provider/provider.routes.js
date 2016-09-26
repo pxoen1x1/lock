@@ -30,7 +30,8 @@
                     }
                 },
                 data: {
-                    title: 'Specialist'
+                    title: 'Specialist',
+                    isPrivate: true
                 }
             })
             .state('provider.registration', {
@@ -64,7 +65,8 @@
                     menu: {
                         icon: 'list',
                         title: 'Dashboard'
-                    }
+                    },
+                    isPrivate: true
                 }
             })
             .state('provider.profile', {
@@ -78,7 +80,8 @@
                     }
                 },
                 data: {
-                    title: 'Profile'
+                    title: 'Profile',
+                    isPrivate: true
                 }
             })
             .state('provider.profile.public', {
@@ -92,7 +95,8 @@
                     }
                 },
                 data: {
-                    title: 'Public'
+                    title: 'Public',
+                    isPrivate: true
                 }
             });
     }
