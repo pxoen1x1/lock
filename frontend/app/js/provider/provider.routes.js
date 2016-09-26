@@ -30,7 +30,8 @@
                     }
                 },
                 data: {
-                    title: 'Specialist'
+                    title: 'Specialist',
+                    isPrivate: true
                 }
             })
             .state('provider.registration', {
@@ -51,20 +52,21 @@
             })
             .state('provider.requests', {
                 parent: 'provider',
-                url: '/requests',
+                url: '/dashboard',
                 views: {
                     'content@provider': {
-                        templateUrl: 'provider/requests/requests.html',
-                        controller: 'ProviderRequestsController',
+                        templateUrl: 'provider/dashboard/dashboard.html',
+                        controller: 'ProviderDashboardController',
                         controllerAs: 'vm'
                     }
                 },
                 data: {
-                    title: 'Requests',
+                    title: 'Dashboard',
                     menu: {
                         icon: 'list',
-                        title: 'Requests'
-                    }
+                        title: 'Dashboard'
+                    },
+                    isPrivate: true
                 }
             })
             .state('provider.profile', {
@@ -78,7 +80,8 @@
                     }
                 },
                 data: {
-                    title: 'Profile'
+                    title: 'Profile',
+                    isPrivate: true
                 }
             })
             .state('provider.profile.public', {
@@ -92,7 +95,8 @@
                     }
                 },
                 data: {
-                    title: 'Public'
+                    title: 'Public',
+                    isPrivate: true
                 }
             });
     }
