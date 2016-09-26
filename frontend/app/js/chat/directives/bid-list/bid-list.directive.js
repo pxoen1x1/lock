@@ -23,13 +23,17 @@
         return directive;
     }
 
-    BidListController.$inject = ['$q', 'chatSocketservice'];
+    BidListController.$inject = ['$q', '$mdMedia', '$mdSidenav', 'chatSocketservice', 'coreConstants'];
 
     /* @ngInject */
-    function BidListController($q, chatSocketservice) {
+    function BidListController($q, $mdMedia, $mdSidenav, chatSocketservice, coreConstants) {
         var vm = this;
 
         vm.bids = vm.bids || [];
+
+        vm.defaultPortrait = coreConstants.IMAGES.defaultPortrait;
+
+        vm.changeCurrentBid = changeCurrentBid;
 
         activate();
 
@@ -51,6 +55,25 @@
             chatSocketservice.onBid(function (bid) {
                 vm.bids.push(bid);
             });
+        }
+
+        function changeCurrentBid(currentBid) {
+            if (currentBid === null) {
+                vm.currentBid = null;
+
+                return;
+            }
+
+            if (vm.currentBid && vm.currentBid.id === currentBid.id) {
+
+                return;
+            }
+
+            vm.currentBid = currentBid;
+
+            if (!$mdMedia('gt-md')) {
+                $mdSidenav('left-sidenav').close();
+            }
         }
 
         function activate() {
