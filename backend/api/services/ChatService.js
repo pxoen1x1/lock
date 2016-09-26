@@ -109,6 +109,7 @@ let ChatService = {
                                specialist_details.is_pro AS 'specialist.details.isPro',
                                specialist_details.latitude AS 'specialist.details.latitude',
                                specialist_details.longitude AS 'specialist.details.longitude',
+                               specialist_details.rating AS 'specialist.details.rating',
                                specialist_details_license.id AS 'specialist.details.license.id',
                                specialist_details_license.number AS 'specialist.details.license.number',
                                specialist_details_license.date AS 'specialist.details.license.date',
