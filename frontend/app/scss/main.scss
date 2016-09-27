@@ -131,9 +131,18 @@ md-input-container {
   color: $primary-color;
 }
 
-md-content.md-hue-2 {
-  color: $text-color;
-  background-color: $panel-background-color;
+.md-primary-bg {
+  &.md-hue-3 {
+    background-color: rgb(92, 97, 111);
+    color: rgba(255, 255, 255, 1);
+  }
+}
+
+md-content {
+  &.md-hue-2 {
+    color: $text-color;
+    background-color: $panel-background-color;
+  }
 }
 
 .secondary-text {
