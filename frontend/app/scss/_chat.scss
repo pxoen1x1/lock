@@ -264,6 +264,14 @@ $search-text-color: rgba(0, 0, 0, .54);
           .service-message {
             max-width: 500px;
 
+            .message-head {
+              .subtitle {
+                font-size: 17px;
+                color: rgba(0, 0, 0, .54);
+                font-weight: 500
+              }
+            }
+
             .message-content {
               padding: 16px 0;
               text-align: center;

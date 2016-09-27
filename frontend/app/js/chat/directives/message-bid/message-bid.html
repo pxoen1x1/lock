@@ -1,4 +1,11 @@
 <md-card>
+  <md-card-header class="message-head"
+                  layout="row"
+                  layout-align="center center">
+    <span class="subtitle"
+          ng-bind="vm.currentBid.createdAt | altDate : vm.dateFormat">
+    </span>
+  </md-card-header>
   <md-card-content class="message-content">
     <div class="message" ng-bind="vm.currentBid.message"></div>
     <div class="price md-primary-bg md-hue-3"

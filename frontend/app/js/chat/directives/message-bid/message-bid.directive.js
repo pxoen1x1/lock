@@ -30,5 +30,6 @@
         var vm = this;
 
         vm.defaultPortrait = coreConstants.IMAGES.defaultPortrait;
+        vm.dateFormat = coreConstants.DATE_FORMAT;
     }
 })();
