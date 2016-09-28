@@ -1,13 +1,16 @@
 <md-card>
-  <md-card-header class="message-head"
-                  layout="row"
-                  layout-align="center center">
-    <span class="subtitle"
-          ng-bind="vm.currentBid.createdAt | altDate : vm.dateFormat">
-    </span>
-  </md-card-header>
   <md-card-content class="message-content">
-    <div class="message" ng-bind="vm.currentBid.message"></div>
+    <div class="message"
+         layout="row"
+         layout-align="start center">
+      <div flex
+           ng-bind="vm.currentBid.message">
+      </div>
+      <div class="subtitle"
+           ng-bind="vm.currentBid.createdAt | altDate : vm.dateFormat">
+      </div>
+    </div>
+
     <div class="price md-primary-bg md-hue-3"
          layout="row"
          layout-align="center start"
@@ -21,7 +24,7 @@
       </div>
     </div>
   </md-card-content>
-  <md-card-actions layout="row" layout-align="center center">
+  <md-card-actions layout="row" layout-align="end center">
     <md-button class="md-button-blue"
                ng-click="vm.startChat(vm.currentBid)">Start Chat
     </md-button>
