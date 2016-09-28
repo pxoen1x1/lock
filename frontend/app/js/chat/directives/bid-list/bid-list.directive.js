@@ -36,7 +36,7 @@
         activate();
 
         function getBids(request) {
-            if (!request) {
+            if (!request || !request.id) {
 
                 return $q.reject();
             }
