@@ -15,7 +15,8 @@ let Request = {
 
     attributes: {
         forDate: {
-            type: 'datetime'
+            type: 'datetime',
+            columnName: 'for_date'
         },
         distance: {
             type: 'integer',
@@ -30,23 +31,17 @@ let Request = {
         description: {
             type: 'string'
         },
-        confirmedByCustomer: {
+        isExecuted: {
             type: 'boolean',
-            columnName: 'confirmed_by_customer'
-        },
-        confirmedBySpecialist: {
-            type: 'boolean',
-            columnName: 'confirmed_by_specialist'
-        },
-        executed: {
-            type: 'boolean'
+            columnName: 'is_executed'
         },
         cost: {
             type: 'float',
-            is: /^\d+(\.\d{1,2})$/
+            is: /^\d*(\.\d{1,2})?$/
         },
-        closed: {
-            type: 'boolean'
+        isClosed: {
+            type: 'boolean',
+            columnName: 'is_closed'
         },
         status: {
             type: 'integer'
@@ -97,7 +92,7 @@ let Request = {
     },
 
     beforeUpdate(request, next) {
-        if (request.closed) {
+        if (request.isClosed) {
             request.status = STATUSES.CLOSED;
 
             return next(null, request);

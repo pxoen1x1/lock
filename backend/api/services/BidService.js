@@ -9,16 +9,14 @@ let getBidRawQuery = `SELECT bid.id,
                                bid.createdAt,
                                bid.updatedAt,
                                request.id AS 'request.id',
-                               request.forDate AS 'request.forDate',
+                               request.for_date AS 'request.forDate',
                                request.distance AS 'request.distance',
                                request.description AS 'request.description',
-                               request.executed AS 'request.executed',
+                               request.is_executed AS 'request.isExecuted',
                                request.cost AS 'request.cost',
-                               request.closed AS 'request.closed',
+                               request.is_closed AS 'request.isClosed',
                                request.status AS 'request.status',
                                request.is_public AS 'request.isPublic',
-                               request.confirmed_by_customer AS 'request.confirmedByCustomer',
-                               request.confirmed_by_specialist AS 'request.confirmedBySpecialist',
                                request.createdAt AS 'request.createdAt',
                                request.updatedAt AS 'request.updatedAt',
                                request_language.id AS 'request.language.id',
@@ -55,17 +53,6 @@ let getBidRawQuery = `SELECT bid.id,
                                client_address_state.id AS 'client.address.state.id',
                                client_address_state.state AS 'client.address.state.state',
                                client_address_state.code AS 'client.address.state.code',
-                               client_details.id AS 'client.details.id',
-                               client_details.is_available AS 'client.details.isAvailable',
-                               client_details.is_pro AS 'client.details.isPro',
-                               client_details.latitude AS 'client.details.latitude',
-                               client_details.longitude AS 'client.details.longitude',
-                               client_details_license.id AS 'client.details.license.id',
-                               client_details_license.number AS 'client.details.license.number',
-                               client_details_license.date AS 'client.details.license.date',
-                               client_details_workingHours.id AS 'client.details.workingHours.id',
-                               client_details_workingHours.time_from AS 'client.details.workingHours.timeFrom',
-                               client_details_workingHours.time_to AS 'client.details.workingHours.timeTo',
                                specialist.id AS 'specialist.id',
                                specialist.first_name AS 'specialist.firstName',
                                specialist.last_name AS 'specialist.lastName',
@@ -114,10 +101,6 @@ let getBidRawQuery = `SELECT bid.id,
         LEFT JOIN addresses AS client_address ON client_address.user_id = client.id
         LEFT JOIN cities AS client_address_city ON client_address_city.id = client_address.city_id
         LEFT JOIN states AS client_address_state ON client_address_state.id = client_address.state_id
-        LEFT JOIN user_details AS client_details ON client_details.user_id = client.id
-        LEFT JOIN licenses AS client_details_license ON client_details_license.user_details_id = client_details.id
-        LEFT JOIN working_hours AS client_details_workingHours
-                  ON client_details_workingHours.user_details_id = client_details.id
         LEFT JOIN users AS specialist ON specialist.id = bid.specialist_id
         LEFT JOIN auth AS specialist_auth ON specialist_auth.user = specialist.id
         LEFT JOIN addresses AS specialist_address ON specialist_address.user_id = specialist.id
@@ -135,7 +118,7 @@ let BidService = {
 
         let bidQueryAsync = promise.promisify(Bid.query);
 
-        return bidQueryAsync(rawQuery, [bid])
+        return bidQueryAsync(rawQuery, [bid.id])
             .then(
                 (bids) => {
 

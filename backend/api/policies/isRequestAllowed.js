@@ -39,7 +39,7 @@ module.exports = function (req, res, next) {
     requestPromise
         .then(
             (request) => {
-                if (!request || request.closed || request.executor) {
+                if (!request || request.isClosed || request.executor) {
 
                     return res.forbidden(
                         {
