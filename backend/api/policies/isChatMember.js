@@ -12,7 +12,9 @@
 'use strict';
 
 module.exports = function (req, res, next) {
-    let chat = req.params.chat;
+    let params = req.allParams();
+
+    let chat = params.chat;
     let user = req.session.user.id;
 
     if (!chat) {
