@@ -58,6 +58,9 @@ let ChatController = {
             request: request
         })
             .then(
+                (chat) => ChatService.getChat(chat.id)
+            )
+            .then(
                 (createdChat) => {
                     res.ok({
                         chat: createdChat
@@ -75,7 +78,8 @@ let ChatController = {
                         'chat',
                         {
                             chat: chat
-                        }
+                        },
+                        req
                     );
                 }
             )

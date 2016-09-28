@@ -3,10 +3,7 @@
 'use strict';
 
 let promise = require('bluebird');
-
-let ChatService = {
-    getChats(params) {
-        let rawQuery = `SELECT chat.id,
+let getChatsRawQuery = `SELECT chat.id,
                                chat.is_accepted_by_client AS 'isAcceptedByClient',
                                chat.is_accepted_by_specialist AS 'isAcceptedBySpecialist',
                                chat.createdAt,
@@ -158,8 +155,24 @@ let ChatService = {
                     WHERE updatedAt IN (
                       SELECT MAX(updatedAt) FROM messages GROUP BY sender_id
                     )
-                  ) AS specialist_lastMessage ON specialist_lastMessage.sender_id = specialist.id
-        WHERE chat.request_id = ?`;
+                  ) AS specialist_lastMessage ON specialist_lastMessage.sender_id = specialist.id`;
+
+let ChatService = {
+    getChat(chat) {
+        let rawQuery = `${getChatsRawQuery} WHERE chat.id = ?`;
+
+        let chatQueryAsync = promise.promisify(Chat.query);
+
+        return chatQueryAsync(rawQuery, [chat])
+            .then(
+                (chats) => {
+
+                    return HelperService.formatQueryResult(chats)[0];
+                }
+            );
+    },
+    getChats(params) {
+        let rawQuery = `${getChatsRawQuery} WHERE chat.request_id = ?`;
 
         let chatQueryAsync = promise.promisify(Chat.query);
 
