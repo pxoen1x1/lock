@@ -46,10 +46,15 @@
     </md-menu>
   </div>
 </md-toolbar>
-<md-content class="chat-content" flex layout="column" layout-align="end center">
+<md-content class="chat-content"
+            flex
+            layout="column"
+            layout-align="end center">
   <message-bid class="service-message"
-               messages="vm.messages"
+               chats="vm.chats"
                bids="vm.bids"
-               current-bid="vm.currentBid">
+               current-bid="vm.currentBid"
+               current-chat="vm.currentChat"
+               selected-tab="vm.selectedTab">
   </message-bid>
 </md-content>
