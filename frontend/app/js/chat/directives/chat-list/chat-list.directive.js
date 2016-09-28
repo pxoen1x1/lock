@@ -12,13 +12,14 @@
             controllerAs: 'vm',
             restrict: 'E',
             scope: {
+                chats: '=',
                 messages: '=',
                 pagination: '=',
                 selectedRequest: '=',
                 currentChat: '=',
-                loadPrevMessages: '&',
                 isScrollDisabled: '=?scrollChatDisabled',
-                isScrollToBottomEnabled: '=?scrollChatToBottom'
+                isScrollToBottomEnabled: '=?scrollChatToBottom',
+                loadPrevMessages: '&'
             },
             replace: true,
             templateUrl: 'chat/directives/chat-list/chat-list.html'
@@ -32,12 +33,6 @@
     /* @ngInject */
     function ChatListController(chatSocketservice, $mdSidenav, $mdMedia, coreConstants) {
         var vm = this;
-
-        vm.chats = [];
-        vm.message = vm.message || {};
-        vm.pagination = vm.pagination || {};
-        vm.isScrollDisabled = vm.isScrollDisabled || true;
-        vm.isScrollToBottomEnabled = vm.isScrollToBottomEnabled || true;
 
         vm.chatSearch = '';
 

@@ -35,7 +35,8 @@
      flex
      ng-show="vm.selectedTab === 'chats'"
      ng-class="{ 'nav-bar-disabled' : vm.bids.length === 0 }">
-  <chat-list messages="vm.messages"
+  <chat-list chats="vm.chats"
+             messages="vm.messages"
              pagination="vm.pagination"
              selected-request="vm.selectedRequestId"
              current-chat="vm.currentChat"
