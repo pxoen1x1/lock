@@ -60,7 +60,7 @@
         }
 
         function activate() {
-            //getRequests();
+            getRequests();
         }
     }
 })();

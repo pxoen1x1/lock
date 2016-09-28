@@ -10,11 +10,21 @@
     /* @ngInject */
     function serviceProviderDataservice($http, request, conf) {
         var service = {
+            getAllRequests: getAllRequests,
             getUser: getUser,
             updateUser: updateUser
         };
 
         return service;
+
+        function getAllRequests(params) {
+
+            return request.httpWithTimeout({
+                url: conf.BASE_URL + 'api/specialist/requests',
+                method: 'GET',
+                params: params
+            });
+        }
 
         function getUser() {
 
