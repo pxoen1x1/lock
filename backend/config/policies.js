@@ -114,6 +114,12 @@ module.exports.policies = {
             'isUserEnabled',
             'isRequestAllowed',
             'isBidUnique'
+        ],
+        'deleteBid': [
+            'isSocketRequest',
+            'hasJsonWebToken',
+            'isUserEnabled',
+            'isBidParticipant'
         ]
     },
 
