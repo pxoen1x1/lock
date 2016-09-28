@@ -11,10 +11,12 @@
     function chatSocketservice($sails, socketService) {
         var service = {
             getChats: getChats,
+            getRequestBids: getRequestBids,
             getMessages: getMessages,
             createChat: createChat,
             sendMessage: sendMessage,
-            onMessage: onMessage
+            onMessage: onMessage,
+            onBid: onBid
         };
 
         return service;
@@ -27,6 +29,17 @@
             function getChatsCompleted(message) {
 
                 return message.data.chats;
+            }
+        }
+
+        function getRequestBids(request) {
+
+            return $sails.get('/api/client/request/' + request + '/bids')
+                .then(getRequestBidsCompleted);
+
+            function getRequestBidsCompleted(message) {
+
+                return message.data.bids;
             }
         }
 
@@ -43,7 +56,7 @@
 
         function createChat(request, specialist) {
 
-            return $sails.post('/api/request/' + request.id + '/chats', specialist)
+            return $sails.post('/api/client/request/' + request.id + '/chats', specialist)
                 .then(createChatCompleted);
 
             function createChatCompleted(response) {
@@ -66,6 +79,12 @@
         function onMessage(next) {
             socketService.listener('message', function (event) {
                 next(event.message);
+            });
+        }
+
+        function onBid(next) {
+            socketService.listener('bid', function (event) {
+                next(event.bid);
             });
         }
     }

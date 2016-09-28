@@ -1,4 +1,4 @@
-/* global sails, JwtService, Message, MessageService */
+/* global sails, MessageService */
 /**
  * MessageController
  *
@@ -32,7 +32,7 @@ let MessageController = {
 
         let pagination = {};
         pagination.page = params.page || 1;
-        pagination.limit = params.limit || sails.config.application.chatMessagesLimit;
+        pagination.limit = params.limit || sails.config.application.chat.messagesLimit;
 
         MessageService.getMessages(criteria, sorting, pagination)
             .then(
@@ -59,12 +59,11 @@ let MessageController = {
         let params = req.allParams();
 
         let chat = params.chat;
-        let message = params.message;
+        let messageText = params.message;
         let type = params.type || 0;
-        let recipient = params.recipient && params.recipient.id ? params.recipient.id : null;
         let sender = req.session.user.id;
 
-        if (!message || !chat || !recipient) {
+        if (!messageText || !chat) {
 
             return res.badRequest(
                 {
@@ -73,16 +72,14 @@ let MessageController = {
             );
         }
 
-        Message.create({
+        let message = {
             chat: chat,
-            message: message,
+            message: messageText,
             type: type,
-            recipient: recipient,
             sender: sender
-        })
-            .then(
-                (createdMessage) => Message.findOneById(createdMessage.id).populateAll()
-            )
+        };
+
+        MessageService.create({id: chat}, message)
             .then(
                 (message) => {
                     res.created(
@@ -96,7 +93,7 @@ let MessageController = {
             )
             .then(
                 (message) => {
-                    let roomName = `user_${recipient}`;
+                    let roomName = `user_${message.recipient.id}`;
 
                     sails.sockets.broadcast(
                         roomName,

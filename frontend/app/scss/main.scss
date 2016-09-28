@@ -157,6 +157,10 @@ md-input-container {
   color: #FFF;
 }
 
+.md-accent-fg {
+  color: $primary-color;
+}
+
 md-content.md-hue-2 {
   color: $text-color;
   background-color: $panel-background-color;
@@ -326,6 +330,7 @@ md-content.md-hue-2 {
 @import 'provider';
 @import 'customer';
 @import 'chat';
+@import 'animation';
 @import 'public-profile';
 @import 'profile';
 @import 'user-header';

@@ -1,0 +1,82 @@
+<md-toolbar class="chat-toolbar">
+  <div class="md-toolbar-tools">
+    <md-button class="hide-gt-md responsive-chats-button md-icon-button"
+               aria-label="chats button"
+               ng-click="vm.toggleSidenav('left-sidenav')">
+      <i class="material-icons s28">textsms</i>
+    </md-button>
+    <div class="chat-contact"
+         layout="row"
+         layout-align="start center"
+         ng-if="vm.currentChat.specialist.id"
+         ng-click="vm.toggleSidenav('right-sidenav')">
+      <div class="avatar-wrapper">
+        <div class="avatar"
+             ng-style="{ 'background-image': 'url(' + (vm.currentChat.specialist.portrait || vm.defaultPortrait) + ')' }">
+        </div>
+        <i class="material-icons s14 status"
+           ng-if="vm.currentChat.specialist.details.isAvailable">check_circle
+        </i>
+        <i class="material-icons s14 status unavailable"
+           ng-if="!vm.currentChat.specialist.details.isAvailable">schedule
+        </i>
+      </div>
+      <div class="chat-contact-name">
+        <span ng-bind="vm.currentChat.specialist.fullName"></span>
+      </div>
+    </div>
+    <md-menu md-position-mode="target-right target">
+      <md-button class="md-icon-button"
+                 aria-label="more"
+                 ng-click="$mdOpenMenu()">
+        <i class="material-icons">more_vert</i>
+      </md-button>
+      <md-menu-content width="3">
+        <md-menu-item>
+          <md-button ng-click="vm.toggleSidenav('right-sidenav')">Contact Info</md-button>
+        </md-menu-item>
+        <md-menu-item>
+          <md-button ng-click="vm.closeChat()">Close Chat</md-button>
+        </md-menu-item>
+      </md-menu-content>
+    </md-menu>
+  </div>
+</md-toolbar>
+<md-content class="chat-content"
+            flex
+            layout="column"
+            layout-align="end end"
+            scroll-chat="vm.loadPrevMessages()"
+            scroll-chat-disabled="vm.isScrollDisabled"
+            scroll-chat-to-bottom="vm.isScrollToBottomEnabled">
+  <div class="chat-messages"
+       layout="column"
+       ng-if="vm.messages[vm.currentChat.id].length > 0">
+    <div class="chat-message"
+         ng-repeat="message in vm.messages[vm.currentChat.id] | orderBy : 'updatedAt' track by message.id">
+      <div class="md-padding message-row"
+           layout="row"
+           ng-class="{
+                     'user': message.sender.id === vm.currentUser.id,
+                     'contact': message.sender.id === vm.currentUser.id,
+                     }">
+        <div class="avatar"
+             ng-if="message.sender.id !== vm.currentUser.id"
+             ng-style="{ 'background-image': 'url(' + (vm.currentChat.specialist.portrait || vm.defaultPortrait) + ')' }">
+        </div>
+        <div class="avatar"
+             ng-if="message.sender.id === vm.currentUser.id"
+             ng-style="{ 'background-image': 'url(' + (vm.currentUser.portrait || vm.defaultPortrait) + ')' }">
+        </div>
+        <div class="bubble">
+          <div class="message">
+            <span ng-bind="message.message"></span>
+          </div>
+          <div class="time secondary-text">
+            <span ng-bind="message.updatedAt | altDate : vm.dateFormat"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</md-content>

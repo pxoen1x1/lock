@@ -1,4 +1,4 @@
-/* global Message */
+/* global Message, Chat */
 
 'use strict';
 
@@ -18,6 +18,20 @@ let MessageService = {
         return Message.count(criteria)
             .then(
                 (count) => count
+            );
+    },
+    create(chat, message) {
+
+        return Chat.findOneById(chat.id)
+            .then(
+                (chat) => {
+                    message.recipient = message.sender !== chat.client ? chat.client : chat.specialist;
+
+                    return Message.create(message);
+                }
+            )
+            .then(
+                (createdMessage) => Message.findOneById(createdMessage.id).populateAll()
             );
     }
 };

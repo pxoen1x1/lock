@@ -1,0 +1,93 @@
+.animate-slide-left {
+  -webkit-transition-property: none;
+  transition-property: none;
+  transition-duration: .4s;
+  transition-timing-function: cubic-bezier(.25, .46, .45, .94);
+  opacity: 1
+}
+
+.animate-slide-left.ng-enter {
+  -webkit-transform: translateX(100%);
+  transform: translateX(100%);
+  opacity: 0
+}
+
+.animate-slide-left.ng-enter.ng-enter-active {
+  -webkit-transition-property: all;
+  transition-property: all;
+  -webkit-transform: translateX(0);
+  transform: translateX(0);
+  opacity: 1
+}
+
+.animate-slide-left.ng-leave {
+  -webkit-transform: translateX(0);
+  transform: translateX(0);
+  opacity: 1
+}
+
+.animate-slide-left.ng-leave.ng-leave-active {
+  -webkit-transition-property: all;
+  transition-property: all;
+  -webkit-transform: translateX(-100%);
+  transform: translateX(-100%);
+  opacity: 0
+}
+
+.animate-slide-left.ng-hide {
+  -webkit-transform: translateX(-100%);
+  transform: translateX(-100%);
+  opacity: 0
+}
+
+.animate-slide-left.ng-hide-add-active, .animate-slide-left.ng-hide-remove-active {
+  -webkit-transition-property: all;
+  transition-property: all
+}
+
+.animate-slide-right {
+  -webkit-transition-property: none;
+  transition-property: none;
+  transition-duration: .4s;
+  transition-timing-function: cubic-bezier(.25, .46, .45, .94);
+  opacity: 1
+}
+
+.animate-slide-right.ng-enter {
+  -webkit-transform: translateX(-100%);
+  transform: translateX(-100%);
+  opacity: 0
+}
+
+.animate-slide-right.ng-enter.ng-enter-active {
+  -webkit-transition-property: all;
+  transition-property: all;
+  -webkit-transform: translateX(0);
+  transform: translateX(0);
+  opacity: 1
+}
+
+.animate-slide-right.ng-leave {
+  -webkit-transform: translateX(0);
+  transform: translateX(0);
+  opacity: 1
+}
+
+.animate-slide-right.ng-leave.ng-leave-active {
+  -webkit-transition-property: all;
+  transition-property: all;
+  -webkit-transform: translateX(100%);
+  transform: translateX(100%);
+  opacity: 0
+}
+
+.animate-slide-right.ng-hide {
+  -webkit-transform: translateX(100%);
+  transform: translateX(100%);
+  opacity: 0
+}
+
+.animate-slide-right.ng-hide-add-active, .animate-slide-right.ng-hide-remove-active {
+  -webkit-transition-property: all;
+  transition-property: all
+}

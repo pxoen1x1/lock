@@ -72,20 +72,66 @@ module.exports.policies = {
     },
 
     RequestController: {
-        'createFeedback': ['hasJsonWebToken', 'isUserEnabled', 'isRequestOwner']
+        'createFeedback': [
+            'hasJsonWebToken',
+            'isUserEnabled',
+            'isRequestOwner'
+        ]
     },
 
     ChatController: {
-        '*': ['isSocketRequest', 'hasJsonWebToken', 'isUserEnabled', 'isRequestOwner'],
-        'createChat': ['isSocketRequest', 'hasJsonWebToken', 'isUserEnabled', 'isRequestOwner', 'isChatUnique']
+        '*': [
+            'isSocketRequest',
+            'hasJsonWebToken',
+            'isUserEnabled',
+            'isRequestOwner'
+        ],
+        'createChat': [
+            'isSocketRequest',
+            'hasJsonWebToken',
+            'isUserEnabled',
+            'isRequestAllowed',
+            'isRequestOwner',
+            'isChatUnique'
+        ]
+    },
+
+    BidController: {
+        '*': [
+            'isSocketRequest',
+            'hasJsonWebToken',
+            'isUserEnabled'
+        ],
+        'getClientBids': [
+            'isSocketRequest',
+            'hasJsonWebToken',
+            'isUserEnabled',
+            'isRequestOwner'
+        ],
+        'create': [
+            'isSocketRequest',
+            'hasJsonWebToken',
+            'isUserEnabled',
+            'isRequestAllowed',
+            'isBidUnique'
+        ]
     },
 
     MessageController: {
-        '*': ['isSocketRequest', 'hasJsonWebToken', 'isUserEnabled', 'isChatMember']
+        '*': [
+            'isSocketRequest',
+            'hasJsonWebToken',
+            'isUserEnabled',
+            'isRequestAllowed',
+            'isChatMember'
+        ]
     },
 
     SocketController: {
         '*': ['isSocketRequest'],
-        'subscribe': ['isSocketRequest', 'hasJsonWebToken']
+        'subscribe': [
+            'isSocketRequest',
+            'hasJsonWebToken'
+        ]
     }
 };
