@@ -76,7 +76,7 @@ let BidController = {
             .then(
                 (createdBid) => {
 
-                    return BidService.getBid(createdBid.id);
+                    return BidService.getBid(createdBid);
                 }
             )
             .then(
