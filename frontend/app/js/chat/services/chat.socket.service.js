@@ -16,6 +16,7 @@
             createChat: createChat,
             sendMessage: sendMessage,
             deleteBid: deleteBid,
+            updateRequest: updateRequest,
             onChat: onChat,
             onBid: onBid,
             onMessage: onMessage
@@ -25,7 +26,7 @@
 
         function getChats(request) {
 
-            return $sails.get('/api/client/request/' + request + '/chats')
+            return $sails.get('/api/client/request/' + request.id + '/chats')
                 .then(getChatsCompleted);
 
             function getChatsCompleted(message) {
@@ -36,7 +37,7 @@
 
         function getRequestBids(request) {
 
-            return $sails.get('/api/client/request/' + request + '/bids')
+            return $sails.get('/api/client/request/' + request.id + '/bids')
                 .then(getRequestBidsCompleted);
 
             function getRequestBidsCompleted(message) {
@@ -75,6 +76,17 @@
             function sendMessageCompleted(response) {
 
                 return response.data.message;
+            }
+        }
+
+        function updateRequest(requestId, request) {
+
+            return $sails.put('/api/client/requests/' + requestId, request)
+                .then(updateRequestCompleted);
+
+            function updateRequestCompleted(response) {
+
+                return response.data.request;
             }
         }
 
