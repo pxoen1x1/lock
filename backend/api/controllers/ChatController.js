@@ -58,7 +58,7 @@ let ChatController = {
             request: request
         })
             .then(
-                (chat) => ChatService.getChat(chat.id)
+                (chat) => ChatService.getChat(chat)
             )
             .then(
                 (createdChat) => {
