@@ -43,9 +43,9 @@
 
         activate();
 
-        function getChats(selectedRequestId) {
+        function getChats(selectedRequest) {
 
-            return chatSocketservice.getChats(selectedRequestId)
+            return chatSocketservice.getChats(selectedRequest)
                 .then(function (chats) {
                     vm.chats = chats;
 
