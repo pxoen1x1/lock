@@ -27,7 +27,7 @@
                 }
             ],
             MENU_ITEMS: [
-                'provider.requests'
+                'provider.dashboard'
             ]
         });
 })();
