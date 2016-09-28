@@ -172,6 +172,13 @@ let RequestService = {
             .then(
                 (createdFeedback) => createdFeedback
             );
+    },
+    updateRequest(request) {
+
+        return Request.update({id: request.id}, request)
+            .then(
+                (updatedRequests) => this.getRequestById(updatedRequests[0])
+            );
     }
 };
 
