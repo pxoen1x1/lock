@@ -15,8 +15,10 @@
             getMessages: getMessages,
             createChat: createChat,
             sendMessage: sendMessage,
-            onMessage: onMessage,
-            onBid: onBid
+            deleteBid: deleteBid,
+            onChat: onChat,
+            onBid: onBid,
+            onMessage: onMessage
         };
 
         return service;
@@ -76,15 +78,32 @@
             }
         }
 
-        function onMessage(next) {
-            socketService.listener('message', function (event) {
-                next(event.message);
+        function deleteBid(bid) {
+
+            return $sails.delete('/api/bids/' + bid.id)
+                .then(deleteBidCompleted);
+
+            function deleteBidCompleted(response) {
+
+                return response.data.bid;
+            }
+        }
+
+        function onChat(next) {
+            socketService.listener('chat', function (event) {
+                next(event.chat);
             });
         }
 
         function onBid(next) {
             socketService.listener('bid', function (event) {
                 next(event.bid);
+            });
+        }
+
+        function onMessage(next) {
+            socketService.listener('message', function (event) {
+                next(event.message);
             });
         }
     }
