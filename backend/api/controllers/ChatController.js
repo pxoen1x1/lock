@@ -59,10 +59,24 @@ let ChatController = {
         })
             .then(
                 (createdChat) => {
-
-                    return res.ok({
+                    res.ok({
                         chat: createdChat
                     });
+
+                    return createdChat;
+                }
+            )
+            .then(
+                (chat) => {
+                    let specialistRoom = `user_${chat.specialist.id}`;
+
+                    sails.sockets.broadcast(
+                        specialistRoom,
+                        'chat',
+                        {
+                            chat: chat
+                        }
+                    );
                 }
             )
             .catch(
