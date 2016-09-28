@@ -12,8 +12,9 @@
         var chatPaginationOptions = coreConstants.CHAT_PAGINATION_OPTIONS;
         var vm = this;
 
-        vm.messages = {};
+        vm.chats = [];
         vm.bids = [];
+        vm.messages = {};
 
         vm.currentUser = {};
         vm.currentChat = null;
@@ -113,8 +114,7 @@
                 }
 
                 var message = {
-                    message: replyMessage,
-                    recipient: currentChat.specialist
+                    message: replyMessage
                 };
 
                 return sendMessage(currentChat, message)
