@@ -109,6 +109,25 @@ let BidController = {
                     return res.serverError();
                 }
             );
+    },
+    deleteBid(req, res) {
+        let bid = req.params.bid;
+
+        Bid.destroy({id: bid})
+            .then(
+                (bids) => res.ok(
+                    {
+                        bid: bids[0]
+                    }
+                )
+            )
+            .catch(
+                (err) => {
+                    sails.log.error(err);
+
+                    return res.serverError();
+                }
+            );
     }
 };
 
