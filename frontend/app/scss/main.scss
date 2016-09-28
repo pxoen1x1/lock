@@ -5,12 +5,6 @@ $primary-color: rgb(3, 155, 229);
 $text-color: rgba(0, 0, 0, .87);
 $panel-background-color: rgb(245, 245, 245);
 
-h2.page-name {
-  text-align: center;
-  font-weight: 300;
-  font-size: 26px;
-}
-
 .primary-color {
   color: $primary-color;
 }
@@ -19,6 +13,42 @@ h2.page-name {
   text: {
     transform: capitalize;
   }
+}
+
+.md-button-blue, .md-button-blue:hover {
+  background-color: $primary-color !important;
+  color: #fff;
+}
+
+.block-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+}
+
+.vertical-top {
+  vertical-align: top;
+}
+
+.vertical-middle {
+  vertical-align: middle;
+}
+
+.vertical-bottom {
+  vertical-align: bottom;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.inline-block {
+  display: inline-block;
 }
 
 .m-w-xs {
@@ -169,10 +199,124 @@ md-content.md-hue-2 {
   background-color: #F3F4F5;
 }
 
-@media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
-  h2.page-name {
-    font-size: 19px;
+/* common */
+
+*:focus {
+  outline: none;
+  border: 0;
+}
+
+.customer, .provider, .group {
+  height: 100vh;
+  overflow-x: hidden;
+
+  a {
+    text-decoration: none;
   }
+
+  .content {
+    background: transparent;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+
+    .container {
+      background: #fff;
+      margin: 30px;
+      margin-bottom: 84px;
+      box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .2), 0 1px 1px 0 rgba(0, 0, 0, .14), 0 2px 1px -1px rgba(0, 0, 0, .12);
+    }
+
+    .container-title {
+      padding: 24px 24px 0 24px;
+      font-size: 20px;
+
+      i.material-icons {
+        vertical-align: middle;
+      }
+
+      span {
+        vertical-align: middle;
+      }
+
+    }
+
+    .container-content {
+      padding: 24px;
+
+      p {
+        font-weight: 600;
+      }
+
+    }
+
+  }
+
+  .content._content {
+    min-height: 100%;
+  }
+
+  .content-wrapper {
+    background-color: $panel-background-color;
+    position: relative;
+  }
+
+}
+
+.star-rating {
+  cursor: pointer;
+
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  li {
+    display: inline;
+  }
+
+  li i {
+    font-size: inherit;
+  }
+
+}
+
+@media only screen and (min-device-width: 320px) and (max-device-width: 600px) {
+
+  .customer, .provider, .group {
+
+    .content-wrapper {
+      background-color: #fff;
+    }
+
+    .content {
+
+      .container {
+        background: #fff;
+        margin: 0;
+        box-shadow: none;
+      }
+
+      .container-title {
+        display: none;
+      }
+
+      .container-content {
+        padding: 20px;
+
+        p {
+          font-weight: 600;
+        }
+
+      }
+
+    }
+
+  }
+
 }
 
 @import 'toast';
@@ -182,3 +326,8 @@ md-content.md-hue-2 {
 @import 'provider';
 @import 'customer';
 @import 'chat';
+@import 'public-profile';
+@import 'profile';
+@import 'user-header';
+@import 'user-menu';
+@import 'requests-list';

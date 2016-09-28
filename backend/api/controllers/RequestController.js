@@ -46,6 +46,43 @@ let RequestController = {
                 }
             );
     },
+    getAllSpecialistRequests(req, res) {
+        let params = req.allParams();
+
+        let criteria = {
+            where: {
+                executor: req.session.user.id
+            }
+        };
+
+        let sorting = params.order || 'updatedAt DESC';
+
+        let pagination = {};
+        pagination.limit = params.limit || sails.config.application.queryLimit;
+        pagination.page = params.page || 1;
+
+        RequestService.getAll(criteria, sorting, pagination)
+            .then(
+                (requests) => {
+
+                    return [RequestService.getRequestsCount(criteria), requests];
+                }
+            )
+            .spread(
+                (totalCount, requests) => res.ok({
+                    items: requests,
+                    currentPageNumber: pagination.page,
+                    totalCount: totalCount
+                })
+            )
+            .catch(
+                (err) => {
+                    sails.log.error(err);
+
+                    res.serverError();
+                }
+            );
+    },
     getClientRequestById(req, res) {
         let requestId = req.params.request;
 
