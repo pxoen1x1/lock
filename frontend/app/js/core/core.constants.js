@@ -19,7 +19,12 @@
             REQUEST_STATUSES: {
                 1: 'new',
                 2: 'in progress',
-                3: 'closed'
+                3: 'done',
+                4: 'closed',
+                'NEW': 1,
+                'IN_PROGGRESS': 2,
+                'DONE': 3,
+                'CLOSED': 4
             },
             IMAGES: {
                 'currentLocationMarker': '/images/map-marker-current.png',
