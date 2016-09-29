@@ -8,7 +8,7 @@
 
 'use strict';
 
-const STATUSES = sails.config.requests.STATUSES;
+const STATUS = sails.config.requests.STATUSES;
 
 let Request = {
     tableName: 'requests',
@@ -86,20 +86,26 @@ let Request = {
     },
 
     beforeCreate (request, next) {
-        request.status = STATUSES.NEW;
+        request.status = STATUS.NEW;
 
         next(null, request);
     },
 
     beforeUpdate(request, next) {
         if (request.isClosed) {
-            request.status = STATUSES.CLOSED;
+            request.status = STATUS.CLOSED;
+
+            return next(null, request);
+        }
+
+        if(request.isExecuted) {
+            request.status = STATUS.DONE;
 
             return next(null, request);
         }
 
         if (request.executor) {
-            request.status = STATUSES.IN_PROGRESS;
+            request.status = STATUS.IN_PROGRESS;
 
             return next(null, request);
         }
