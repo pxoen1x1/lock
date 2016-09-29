@@ -15,15 +15,18 @@
             getMessages: getMessages,
             createChat: createChat,
             sendMessage: sendMessage,
-            onMessage: onMessage,
-            onBid: onBid
+            deleteBid: deleteBid,
+            updateRequest: updateRequest,
+            onChat: onChat,
+            onBid: onBid,
+            onMessage: onMessage
         };
 
         return service;
 
         function getChats(request) {
 
-            return $sails.get('/api/client/request/' + request + '/chats')
+            return $sails.get('/api/client/request/' + request.id + '/chats')
                 .then(getChatsCompleted);
 
             function getChatsCompleted(message) {
@@ -34,7 +37,7 @@
 
         function getRequestBids(request) {
 
-            return $sails.get('/api/client/request/' + request + '/bids')
+            return $sails.get('/api/client/request/' + request.id + '/bids')
                 .then(getRequestBidsCompleted);
 
             function getRequestBidsCompleted(message) {
@@ -76,15 +79,43 @@
             }
         }
 
-        function onMessage(next) {
-            socketService.listener('message', function (event) {
-                next(event.message);
+        function updateRequest(requestId, request) {
+
+            return $sails.put('/api/client/requests/' + requestId, request)
+                .then(updateRequestCompleted);
+
+            function updateRequestCompleted(response) {
+
+                return response.data.request;
+            }
+        }
+
+        function deleteBid(bid) {
+
+            return $sails.delete('/api/bids/' + bid.id)
+                .then(deleteBidCompleted);
+
+            function deleteBidCompleted(response) {
+
+                return response.data.bid;
+            }
+        }
+
+        function onChat(next) {
+            socketService.listener('chat', function (event) {
+                next(event.chat);
             });
         }
 
         function onBid(next) {
             socketService.listener('bid', function (event) {
                 next(event.bid);
+            });
+        }
+
+        function onMessage(next) {
+            socketService.listener('message', function (event) {
+                next(event.message);
             });
         }
     }

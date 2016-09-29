@@ -90,7 +90,7 @@ module.exports.policies = {
             'isSocketRequest',
             'hasJsonWebToken',
             'isUserEnabled',
-            'isRequestAllowed',
+            'isChatAllowed',
             'isRequestOwner',
             'isChatUnique'
         ]
@@ -112,8 +112,14 @@ module.exports.policies = {
             'isSocketRequest',
             'hasJsonWebToken',
             'isUserEnabled',
-            'isRequestAllowed',
+            'isChatAllowed',
             'isBidUnique'
+        ],
+        'deleteBid': [
+            'isSocketRequest',
+            'hasJsonWebToken',
+            'isUserEnabled',
+            'isBidParticipant'
         ]
     },
 
@@ -122,7 +128,13 @@ module.exports.policies = {
             'isSocketRequest',
             'hasJsonWebToken',
             'isUserEnabled',
-            'isRequestAllowed',
+            'isChatMember'
+        ],
+        'create': [
+            'isSocketRequest',
+            'hasJsonWebToken',
+            'isUserEnabled',
+            'isChatAllowed',
             'isChatMember'
         ]
     },

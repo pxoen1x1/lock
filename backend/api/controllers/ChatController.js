@@ -52,17 +52,34 @@ let ChatController = {
             );
         }
 
-        Chat.create({
+        let chat = {
             client: client,
             specialist: specialist,
             request: request
-        })
+        };
+
+        ChatService.createChat(chat)
             .then(
                 (createdChat) => {
-
-                    return res.ok({
+                    res.ok({
                         chat: createdChat
                     });
+
+                    return createdChat;
+                }
+            )
+            .then(
+                (chat) => {
+                    let specialistRoom = `user_${chat.specialist.id}`;
+
+                    sails.sockets.broadcast(
+                        specialistRoom,
+                        'chat',
+                        {
+                            chat: chat
+                        },
+                        req
+                    );
                 }
             )
             .catch(

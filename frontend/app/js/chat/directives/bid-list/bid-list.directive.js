@@ -29,8 +29,6 @@
     function BidListController($q, $mdMedia, $mdSidenav, chatSocketservice, coreConstants) {
         var vm = this;
 
-        vm.bids = vm.bids || [];
-
         vm.defaultPortrait = coreConstants.IMAGES.defaultPortrait;
 
         vm.changeCurrentBid = changeCurrentBid;
@@ -38,9 +36,9 @@
         activate();
 
         function getBids(request) {
-            if (!request) {
+            if (!request || !request.id) {
 
-                $q.request();
+                return $q.reject();
             }
 
             return chatSocketservice.getRequestBids(request)

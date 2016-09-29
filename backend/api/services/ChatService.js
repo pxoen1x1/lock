@@ -3,25 +3,20 @@
 'use strict';
 
 let promise = require('bluebird');
-
-let ChatService = {
-    getChats(params) {
-        let rawQuery = `SELECT chat.id,
+let getChatsRawQuery = `SELECT chat.id,
                                chat.is_accepted_by_client AS 'isAcceptedByClient',
                                chat.is_accepted_by_specialist AS 'isAcceptedBySpecialist',
                                chat.createdAt,
                                chat.updatedAt,
                                request.id AS 'request.id',
-                               request.forDate AS 'request.forDate',
+                               request.for_date AS 'request.forDate',
                                request.distance AS 'request.distance',
                                request.description AS 'request.description',
-                               request.executed AS 'request.executed',
+                               request.is_executed AS 'request.isExecuted',
                                request.cost AS 'request.cost',
-                               request.closed AS 'request.closed',
+                               request.is_closed AS 'request.isClosed',
                                request.status AS 'request.status',
                                request.is_public AS 'request.isPublic',
-                               request.confirmed_by_customer AS 'request.confirmedByCustomer',
-                               request.confirmed_by_specialist AS 'request.confirmedBySpecialist',
                                request.createdAt AS 'request.createdAt',
                                request.updatedAt AS 'request.updatedAt',
                                request_language.id AS 'request.language.id',
@@ -58,17 +53,6 @@ let ChatService = {
                                client_address_state.id AS 'client.address.state.id',
                                client_address_state.state AS 'client.address.state.state',
                                client_address_state.code AS 'client.address.state.code',
-                               client_details.id AS 'client.details.id',
-                               client_details.is_available AS 'client.details.isAvailable',
-                               client_details.is_pro AS 'client.details.isPro',
-                               client_details.latitude AS 'client.details.latitude',
-                               client_details.longitude AS 'client.details.longitude',
-                               client_details_license.id AS 'client.details.license.id',
-                               client_details_license.number AS 'client.details.license.number',
-                               client_details_license.date AS 'client.details.license.date',
-                               client_details_workingHours.id AS 'client.details.workingHours.id',
-                               client_details_workingHours.time_from AS 'client.details.workingHours.timeFrom',
-                               client_details_workingHours.time_to AS 'client.details.workingHours.timeTo',
                                client_lastMessage.id AS 'client.lastMessage.id',
                                client_lastMessage.message AS 'client.lastMessage.message',
                                client_lastMessage.type AS 'client.lastMessage.type',
@@ -135,10 +119,6 @@ let ChatService = {
         LEFT JOIN addresses AS client_address ON client_address.user_id = client.id
         LEFT JOIN cities AS client_address_city ON client_address_city.id = client_address.city_id
         LEFT JOIN states AS client_address_state ON client_address_state.id = client_address.state_id
-        LEFT JOIN user_details AS client_details ON client_details.user_id = client.id
-        LEFT JOIN licenses AS client_details_license ON client_details_license.user_details_id = client_details.id
-        LEFT JOIN working_hours AS client_details_workingHours
-                  ON client_details_workingHours.user_details_id = client_details.id
         LEFT JOIN (SELECT * FROM messages
                     WHERE updatedAt IN (
                       SELECT MAX(updatedAt) FROM messages GROUP BY sender_id
@@ -158,8 +138,24 @@ let ChatService = {
                     WHERE updatedAt IN (
                       SELECT MAX(updatedAt) FROM messages GROUP BY sender_id
                     )
-                  ) AS specialist_lastMessage ON specialist_lastMessage.sender_id = specialist.id
-        WHERE chat.request_id = ?`;
+                  ) AS specialist_lastMessage ON specialist_lastMessage.sender_id = specialist.id`;
+
+let ChatService = {
+    getChat(chat) {
+        let rawQuery = `${getChatsRawQuery} WHERE chat.id = ?`;
+
+        let chatQueryAsync = promise.promisify(Chat.query);
+
+        return chatQueryAsync(rawQuery, [chat.id])
+            .then(
+                (chats) => {
+
+                    return HelperService.formatQueryResult(chats)[0];
+                }
+            );
+    },
+    getChats(params) {
+        let rawQuery = `${getChatsRawQuery} WHERE chat.request_id = ?`;
 
         let chatQueryAsync = promise.promisify(Chat.query);
 
@@ -169,6 +165,13 @@ let ChatService = {
 
                     return HelperService.formatQueryResult(chats);
                 }
+            );
+    },
+    createChat(chat) {
+
+        return Chat.create(chat)
+            .then(
+                (chat) => this.getChat(chat)
             );
     }
 };

@@ -22,7 +22,8 @@ let Bid = {
             }
         },
         cost: {
-            type: 'integer'
+            type: 'float',
+            is: /^\d*(\.\d{1,2})?$/
         },
 
         client: {

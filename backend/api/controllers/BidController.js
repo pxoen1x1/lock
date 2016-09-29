@@ -76,7 +76,7 @@ let BidController = {
             .then(
                 (createdBid) => {
 
-                    return BidService.getBid(createdBid.id);
+                    return BidService.getBid(createdBid);
                 }
             )
             .then(
@@ -99,6 +99,25 @@ let BidController = {
                 (bid) => res.created(
                     {
                         bid: bid
+                    }
+                )
+            )
+            .catch(
+                (err) => {
+                    sails.log.error(err);
+
+                    return res.serverError();
+                }
+            );
+    },
+    deleteBid(req, res) {
+        let bid = req.params.bid;
+
+        Bid.destroy({id: bid})
+            .then(
+                (bids) => res.ok(
+                    {
+                        bid: bids[0]
                     }
                 )
             )

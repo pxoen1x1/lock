@@ -12,6 +12,10 @@ let bidsRoutes = {
     'POST /api/specialist/request/:request/bids': {
         controller: 'BidController',
         action: 'create'
+    },
+    'DELETE /api/bids/:bid': {
+        controller: 'BidController',
+        action: 'deleteBid'
     }
 };
 
