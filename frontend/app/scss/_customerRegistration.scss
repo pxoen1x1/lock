@@ -61,10 +61,6 @@
     color: #fff;
   }
 
-  .md-button[disabled] {
-    background-color: rgba(0, 0, 0, 0.12) !important;
-  }
-
   md-checkbox.md-default-theme.md-checked .md-icon, md-checkbox.md-checked .md-icon {
     background-color: $primary-color;
   }
