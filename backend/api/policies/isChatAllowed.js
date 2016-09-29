@@ -1,7 +1,7 @@
 /* global sails, Request, Chat */
 
 /**
- * isRequestAllowed
+ * isChatAllowed
  *
  * @module      :: Policy
  * @description :: Assumes that request wasn't executed or wasn't closed;
@@ -10,6 +10,8 @@
  */
 
 'use strict';
+
+const STATUS = sails.config.requests.STATUSES;
 
 module.exports = function (req, res, next) {
     let params = req.allParams();
@@ -39,7 +41,7 @@ module.exports = function (req, res, next) {
     requestPromise
         .then(
             (request) => {
-                if (!request || request.status !== 1) {
+                if (!request || request.status !== STATUS.NEW) {
 
                     return res.forbidden(
                         {
