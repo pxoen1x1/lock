@@ -201,9 +201,10 @@ let RequestController = {
                     let clientRoomName = request.owner.id;
                     let specialistRoomName = request.executor.id;
 
-                    sails.socket.broadcast(
+                    sails.sockets.broadcast(
                         [clientRoomName, specialistRoomName],
                         'request',
+                        request,
                         req
                     );
 
