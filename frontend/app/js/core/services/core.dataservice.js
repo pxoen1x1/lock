@@ -20,7 +20,8 @@
             login: login,
             logout: logout,
             resetUserPassword: resetUserPassword,
-            updateUser: updateUser
+            updateUser: updateUser,
+            updateRequest: updateRequest
         };
 
         return service;
@@ -146,6 +147,21 @@
             function updateUserComplete(response) {
 
                 return response.data;
+            }
+        }
+
+        function updateRequest(request) {
+
+            return $http({
+                url: conf.BASE_URL + 'api/client/requests/' + request.id,
+                method: 'PUT',
+                data: request
+            })
+                .then(updateRequestCompleted);
+
+            function updateRequestCompleted(response) {
+
+                return response.data.request;
             }
         }
     }

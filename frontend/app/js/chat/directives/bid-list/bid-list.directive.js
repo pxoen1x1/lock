@@ -14,7 +14,7 @@
             scope: {
                 bids: '=',
                 currentBid: '=',
-                selectedRequest: '='
+                currentRequest: '='
             },
             replace: true,
             templateUrl: 'chat/directives/bid-list/bid-list.html'
@@ -29,8 +29,6 @@
     function BidListController($q, $mdMedia, $mdSidenav, chatSocketservice, coreConstants) {
         var vm = this;
 
-        vm.bids = vm.bids || [];
-
         vm.defaultPortrait = coreConstants.IMAGES.defaultPortrait;
 
         vm.changeCurrentBid = changeCurrentBid;
@@ -38,9 +36,9 @@
         activate();
 
         function getBids(request) {
-            if (!request) {
+            if (!request || !request.id) {
 
-                $q.request();
+                return $q.reject();
             }
 
             return chatSocketservice.getRequestBids(request)
@@ -77,7 +75,7 @@
         }
 
         function activate() {
-            getBids(vm.selectedRequest)
+            getBids(vm.currentRequest)
                 .then(listenBidEvent);
         }
     }

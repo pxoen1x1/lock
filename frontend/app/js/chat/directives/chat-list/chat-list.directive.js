@@ -12,13 +12,14 @@
             controllerAs: 'vm',
             restrict: 'E',
             scope: {
+                chats: '=',
                 messages: '=',
                 pagination: '=',
-                selectedRequest: '=',
+                currentRequest: '=',
                 currentChat: '=',
-                loadPrevMessages: '&',
                 isScrollDisabled: '=?scrollChatDisabled',
-                isScrollToBottomEnabled: '=?scrollChatToBottom'
+                isScrollToBottomEnabled: '=?scrollChatToBottom',
+                loadPrevMessages: '&'
             },
             replace: true,
             templateUrl: 'chat/directives/chat-list/chat-list.html'
@@ -33,12 +34,6 @@
     function ChatListController(chatSocketservice, $mdSidenav, $mdMedia, coreConstants) {
         var vm = this;
 
-        vm.chats = [];
-        vm.message = vm.message || {};
-        vm.pagination = vm.pagination || {};
-        vm.isScrollDisabled = vm.isScrollDisabled || true;
-        vm.isScrollToBottomEnabled = vm.isScrollToBottomEnabled || true;
-
         vm.chatSearch = '';
 
         vm.defaultPortrait = coreConstants.IMAGES.defaultPortrait;
@@ -48,9 +43,9 @@
 
         activate();
 
-        function getChats(selectedRequestId) {
+        function getChats(currentRequest) {
 
-            return chatSocketservice.getChats(selectedRequestId)
+            return chatSocketservice.getChats(currentRequest)
                 .then(function (chats) {
                     vm.chats = chats;
 
@@ -105,7 +100,7 @@
         }
 
         function activate() {
-            getChats(vm.selectedRequest)
+            getChats(vm.currentRequest)
                 .then(listenMessageEvent);
         }
     }

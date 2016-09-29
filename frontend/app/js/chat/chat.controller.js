@@ -5,20 +5,24 @@
         .module('app.chat')
         .controller('ChatController', ChatController);
 
-    ChatController.$inject = ['$stateParams', '$mdSidenav', 'coreConstants', 'currentUserService', 'chatSocketservice'];
+    ChatController.$inject = ['$q', '$state', '$stateParams', '$mdSidenav', 'coreConstants', 'currentUserService',
+        'chatSocketservice', 'requestService'];
 
     /* @ngInject */
-    function ChatController($stateParams, $mdSidenav, coreConstants, currentUserService, chatSocketservice) {
+    function ChatController($q, $state, $stateParams, $mdSidenav, coreConstants, currentUserService,
+                            chatSocketservice, requestService) {
+        var currentRequestId = $stateParams.requestId;
         var chatPaginationOptions = coreConstants.CHAT_PAGINATION_OPTIONS;
         var vm = this;
 
-        vm.messages = {};
+        vm.chats = [];
         vm.bids = [];
+        vm.messages = {};
 
         vm.currentUser = {};
         vm.currentChat = null;
 
-        vm.selectedRequestId = $stateParams.requestId;
+        vm.currentRequest = {};
         vm.pagination = {};
         vm.isAllMessagesLoaded = {};
 
@@ -33,9 +37,11 @@
 
         vm.defaultPortrait = coreConstants.IMAGES.defaultPortrait;
         vm.dateFormat = coreConstants.DATE_FORMAT;
+        vm.status = coreConstants.REQUEST_STATUSES;
 
         vm.toggleSidenav = toggleSidenav;
         vm.loadPrevMessages = loadPrevMessages;
+        vm.changeRequestStatus = changeRequestStatus;
         vm.reply = reply;
 
         activate();
@@ -47,6 +53,14 @@
                     vm.currentUser = currentUser;
 
                     return vm.currentUser;
+                });
+        }
+
+        function getRequest(request) {
+
+            return requestService.getRequest(request)
+                .then(function (request) {
+                    vm.currentRequest = request;
                 });
         }
 
@@ -98,8 +112,29 @@
                 });
         }
 
-        function reply(event, replyMessage, currentChat) {
-            if (event && event.shiftKey && event.keyCode === 13) {
+        function changeRequestStatus(offer) {
+            if ((!vm.currentRequest || !vm.currentRequest.id) || (!offer || !offer.executor)) {
+
+                return $q.reject();
+            }
+
+            var request = {
+                request: offer
+            };
+
+            return chatSocketservice.updateRequest(vm.currentRequest.id, request)
+                .then(function (updatedRequest) {
+                    vm.currentRequest = updatedRequest;
+                    requestService.setRequest(updatedRequest);
+
+                    $state.go('customer.requests.request.view');
+
+                    return vm.currentRequest;
+                });
+        }
+
+        function reply(event, replyMessage, currentChat, currentRequest) {
+            if ((event && event.shiftKey && event.keyCode === 13) || currentRequest.status !== 1) {
                 vm.textareaGrow[currentChat.id] = true;
 
                 return;
@@ -113,8 +148,7 @@
                 }
 
                 var message = {
-                    message: replyMessage,
-                    recipient: currentChat.specialist
+                    message: replyMessage
                 };
 
                 return sendMessage(currentChat, message)
@@ -137,7 +171,10 @@
         }
 
         function activate() {
-            getCurrentUser();
+            $q.all([
+                getCurrentUser(),
+                getRequest(currentRequestId)
+            ]);
         }
     }
 })();

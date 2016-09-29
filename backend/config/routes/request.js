@@ -15,7 +15,7 @@ let requestRoutes = {
     },
     'POST /api/client/requests': {
         controller: 'RequestController',
-        action: 'create'
+        action: 'createRequest'
     },
     'POST /api/client/requests/:request/feedback': {
         controller: 'RequestController',
@@ -25,6 +25,11 @@ let requestRoutes = {
         controller: 'RequestController',
         action: 'getAllSpecialistRequests'
     },
+    },
+    'PUT /api/client/requests/:requestId': {
+        controller: 'RequestController',
+        action: 'updateRequest'
+    }
 };
 
 module.exports.routes = requestRoutes;

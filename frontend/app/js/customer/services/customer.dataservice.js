@@ -28,10 +28,10 @@
             });
         }
 
-        function getRequest(selectedRequest) {
+        function getRequest(currentRequest) {
 
             return request.httpWithTimeout({
-                url: conf.BASE_URL + 'api/client/requests/' + selectedRequest.id,
+                url: conf.BASE_URL + 'api/client/requests/' + currentRequest.id,
                 method: 'GET'
             });
         }
@@ -74,7 +74,6 @@
 
                 return response;
             }
-
         }
     }
 })();

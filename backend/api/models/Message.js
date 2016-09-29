@@ -12,7 +12,7 @@ let Message = {
 
     attributes: {
         message: {
-            type: 'string',
+            type: 'text',
             required: true
         },
         type: {

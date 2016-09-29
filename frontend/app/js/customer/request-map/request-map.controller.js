@@ -11,6 +11,7 @@
     /* @ngInject */
     function CustomerRequestMapController($state, $timeout, $stateParams, uiGmapIsReady, coreConstants,
                                           chatSocketservice, customerDataservice, requestService, geocoderService) {
+        var currentRequestId = $stateParams.requestId;
         var promises = {
             findSpecialists: null
         };
@@ -40,11 +41,11 @@
         var vm = this;
 
         vm.request = {};
+        vm.currentRequest = {};
         vm.selectedSpecialist = {};
         vm.specialists = [];
 
         vm.boundsOfDistance = {};
-        vm.selectedRequestId = $stateParams.requestId;
 
         vm.isSpecialistCardShown = false;
 
@@ -80,9 +81,22 @@
             zoom: 16,
         };
 
+        vm.status = coreConstants.REQUEST_STATUSES;
+
         vm.createChat = createChat;
 
         activate();
+
+        function getRequest(requestId) {
+
+            return requestService.getRequest(requestId)
+                .then(function (request) {
+
+                    vm.currentRequest = request;
+
+                    return vm.currentRequest;
+                });
+        }
 
         function findSpecialistsByParams(params) {
             if (promises.findSpecialists) {
@@ -166,7 +180,12 @@
             }, 200);
         }
 
-        function createChat(selectedSpecialist) {
+        function createChat(selectedSpecialist, currentRequest) {
+            if (currentRequest) {
+
+                return;
+            }
+
             var specialist = {
                 specialist: selectedSpecialist
             };
@@ -181,7 +200,7 @@
             uiGmapIsReady.promise()
                 .then(function () {
 
-                    return requestService.getRequest(vm.selectedRequestId);
+                    return getRequest(currentRequestId);
                 })
                 .then(function (request) {
                     vm.request = request;

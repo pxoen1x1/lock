@@ -3,6 +3,8 @@ $warning-color: #FFB74D;
 $error-color: #EF5350;
 $primary-color: rgb(3, 155, 229);
 $text-color: rgba(0, 0, 0, .87);
+$disabled-color: rgba(0, 0, 0, 0.38);
+$disabled-background-color: rgba(0, 0, 0, 0.12);
 $panel-background-color: rgb(245, 245, 245);
 
 .primary-color {
@@ -88,6 +90,23 @@ $panel-background-color: rgb(245, 245, 245);
   margin-left: 0;
 }
 
+.md-button {
+  .disabled &, .disabled &:hover,
+  &[disabled], &[disabled]:hover,
+  &.disabled, &.disabled:hover,
+  .disabled &.md-button-blue, .disabled &.md-button-blue:hover,
+  &.md-button-blue[disabled], &.md-button-blue[disabled]:hover,
+  &.md-button-blue.disabled, &.md-button-blue.disabled:hover {
+    cursor: default;
+    background-color: $disabled-background-color;
+    color: $disabled-color;
+
+    .md-ripple-container {
+      display: none;
+    }
+  }
+}
+
 .disabled {
   md-input-container .md-input,
   md-select .md-select-value {
@@ -161,9 +180,18 @@ md-input-container {
   color: $primary-color;
 }
 
-md-content.md-hue-2 {
-  color: $text-color;
-  background-color: $panel-background-color;
+.md-primary-bg {
+  &.md-hue-3 {
+    background-color: rgb(92, 97, 111);
+    color: rgba(255, 255, 255, 1);
+  }
+}
+
+md-content {
+  &.md-hue-2 {
+    color: $text-color;
+    background-color: $panel-background-color;
+  }
 }
 
 .secondary-text {
@@ -177,7 +205,7 @@ md-content.md-hue-2 {
   white-space: nowrap;
 }
 
-/*scroll*/
+/* start scroll */
 
 ::-webkit-scrollbar {
   width: 5px;

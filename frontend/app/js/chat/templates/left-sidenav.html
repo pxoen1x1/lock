@@ -20,7 +20,7 @@
        flex
        layout="row"
        layout-align="end end"
-       ng-if="vm.bids.length > 0">
+       ng-if="vm.bids.length > 0 && vm.currentRequest.status === vm.status.NEW">
     <md-nav-bar
         flex
         md-selected-nav-item="vm.selectedTab"
@@ -34,10 +34,12 @@
      layout="column"
      flex
      ng-show="vm.selectedTab === 'chats'"
-     ng-class="{ 'nav-bar-disabled' : vm.bids.length === 0 }">
-  <chat-list messages="vm.messages"
+     ng-class="{ 'nav-bar-disabled' : vm.bids.length === 0 || vm.currentRequest.status !== vm.status.NEW }">
+  <chat-list ng-if="vm.currentRequest.id"
+             chats="vm.chats"
+             messages="vm.messages"
              pagination="vm.pagination"
-             selected-request="vm.selectedRequestId"
+             current-request="vm.currentRequest"
              current-chat="vm.currentChat"
              scroll-chat-disabled="vm.isScrollDisabled"
              scroll-chat-to-bottom="vm.isScrollToBottomEnabled"
@@ -48,9 +50,9 @@
      layout="column"
      flex
      ng-show="vm.selectedTab === 'bids'">
-  <bid-list
-      bids="vm.bids"
-      selected-request="vm.selectedRequestId"
-      current-bid="vm.currentBid">
+  <bid-list ng-if="vm.currentRequest.id"
+            bids="vm.bids"
+            current-request="vm.currentRequest"
+            current-bid="vm.currentBid">
   </bid-list>
 </div>

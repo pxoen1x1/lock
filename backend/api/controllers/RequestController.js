@@ -84,16 +84,16 @@ let RequestController = {
             );
     },
     getClientRequestById(req, res) {
-        let requestId = req.params.request;
+        let request = req.params.request;
 
-        if (!requestId) {
+        if (!request) {
 
             return res.badRequest({
                 message: req.__('Request is not defined.')
             });
         }
 
-        RequestService.getRequestById(requestId)
+        RequestService.getRequestById({id: request})
             .then(
                 (foundRequest) => {
                     if (!foundRequest) {
@@ -116,7 +116,7 @@ let RequestController = {
                 }
             );
     },
-    create(req, res) {
+    createRequest(req, res) {
         let newRequest = req.body.request;
 
         if (!newRequest) {
@@ -129,7 +129,7 @@ let RequestController = {
 
         newRequest.owner = req.session.user.id;
 
-        RequestService.create(newRequest)
+        RequestService.createRequest(newRequest)
             .then(
                 (createdRequest) => res.created(
                     {
@@ -192,6 +192,67 @@ let RequestController = {
                             message: req.__('Request is not completed.')
                         }
                     );
+                }
+            );
+    },
+    updateRequest(req, res) {
+        let requestId = req.params.requestId;
+        let params = req.allParams();
+
+        let request = params.request;
+
+        if (!requestId || !request) {
+
+            return res.badRequest(
+                {
+                    message: req.__('Submitted data is invalid.')
+                }
+            );
+        }
+
+        request.id = requestId;
+
+        if (request.cost) {
+            request.cost = parseFloat(request.cost).toFixed(2);
+        }
+
+        if (request.executor) {
+            request.executor = request.executor.id;
+            request.isPublic = false;
+        }
+
+        delete request.owner;
+
+        RequestService.updateRequest(request)
+            .then(
+                (request) => {
+                    res.ok({
+                        request: request
+                    });
+
+                    return request;
+                }
+            )
+            .then(
+                (request) => {
+                    let clientRoomName = request.owner.id;
+                    let specialistRoomName = request.executor.id;
+
+                    sails.sockets.broadcast(
+                        [clientRoomName, specialistRoomName],
+                        'request',
+                        request,
+                        req
+                    );
+
+                    return request;
+                }
+            )
+            .catch(
+                (err) => {
+                    sails.log.error(err);
+
+                    return res.serverError();
                 }
             );
     }

@@ -1,10 +1,10 @@
-/* global sails, Chat */
+/* global sails, Bid */
 
 /**
  * isChatMember
  *
  * @module      :: Policy
- * @description :: Assumes that you are a participant in a chat;
+ * @description :: Assumes that you are a participant of a bid;
  *
  * @docs        :: http://waterlock.ninja/documentation
  */
@@ -14,29 +14,29 @@
 module.exports = function (req, res, next) {
     let params = req.allParams();
 
-    let chat = params.chat;
+    let bid = params.bid;
     let user = req.session.user.id;
 
-    if (!chat) {
+    if (!bid) {
 
         return res.badRequest({
             message: req.__('Submitted data is invalid.')
         });
     }
 
-    Chat.findOneById(chat)
+    Bid.findOneById(bid)
         .then(
-            (foundChat) => {
-                if (!foundChat) {
+            (foundBid) => {
+                if (!foundBid) {
 
                     return res.notFound({
-                        message: req.__('Chat is not found.')
+                        message: req.__('Bid is not found.')
                     });
                 }
 
-                let isChatMember = user === foundChat.client  || user === foundChat.specialist;
+                let isBidParticipant = (user === foundBid.client) || (user === foundBid.specialist);
 
-                if (!isChatMember) {
+                if (!isBidParticipant) {
 
                     return res.forbidden(
                         {

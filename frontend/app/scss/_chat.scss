@@ -1,7 +1,6 @@
 $search-text-color: rgba(0, 0, 0, .54);
 
 .chat-app {
-  min-height: 85%;
   height: 85%;
   max-width: 1600px;
 
@@ -190,13 +189,22 @@ $search-text-color: rgba(0, 0, 0, .54);
             .avatar {
               margin-right: 16px;
             }
+
+            .star-rating {
+              font-size: 16px;
+              margin-top: 5px;
+
+              i {
+                min-width: 16px;
+                min-height: 16px;
+              }
+            }
           }
         }
 
         .chat-content {
           .chat-messages {
             width: 100%;
-            overflow: visible;
           }
 
           .message-row {
@@ -252,22 +260,39 @@ $search-text-color: rgba(0, 0, 0, .54);
             }
           }
 
-          .bids-message {
-            min-width: 200px;
-            max-width: 600px;
-            margin: 30px;
+          .service-message {
+            min-width: 316px;
+            max-width: 500px;
 
-            md-card-header {
-              background-color: $primary-color;
-              color: #FFF;
+            .message-content {
+              padding: 16px 0;
+              overflow: auto;
 
-              ul {
-                &.rating {
-                  padding-top: 5px;
-                  i {
-                    min-width: 16px;
-                    min-height: 16px;
-                  }
+              .message {
+                padding: 16px;
+                font-size: 17px;
+                color: rgba(0, 0, 0, .54);
+                font-weight: 500;
+
+                .subtitle {
+                  font-size: 13px;
+                  margin-left: 10px;
+                }
+              }
+
+              .price {
+                padding: 16px 32px;
+
+                .value {
+                  margin-right: 15px;
+                  font-size: 34px;
+                  font-weight: 300;
+                  line-height: 1;
+                }
+
+                .period {
+                  padding-left: 4px;
+                  text-align: center;
                 }
               }
             }
