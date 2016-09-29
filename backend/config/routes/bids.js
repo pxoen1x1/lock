@@ -13,6 +13,10 @@ let bidsRoutes = {
         controller: 'BidController',
         action: 'create'
     },
+    'PUT /api/client/bids/:bid/refuse': {
+        controller: 'BidController',
+        action: 'refuseBidByClient'
+    },
     'DELETE /api/bids/:bid': {
         controller: 'BidController',
         action: 'deleteBid'

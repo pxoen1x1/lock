@@ -39,6 +39,7 @@
 
         vm.startChat = startChat;
         vm.acceptBid = acceptBid;
+        vm.declineBid = declineBid;
 
         function createChat(bid) {
             var request = bid.request;
@@ -87,21 +88,39 @@
                 });
         }
 
-        function acceptBid(bid, currentRequest) {
+        function acceptBid(currentBid, currentRequest) {
             if (currentRequest.status !== vm.status.NEW) {
 
                 return;
             }
 
             var offer = {
-                cost: bid.cost,
-                executor: bid.specialist
+                cost: currentBid.cost,
+                executor: currentBid.specialist
             };
 
             return vm.changeRequestStatus({offer: offer})
                 .then(function (request) {
 
                     return request;
+                });
+        }
+
+        function declineBid(currentBid, currentRequest) {
+            if (currentRequest.status !== vm.status.NEW) {
+
+                return;
+            }
+
+            return chatSocketservice.declineBid(currentBid)
+                .then(function(updatedBid){
+                    vm.bids = vm.bids.filter(function (bid) {
+
+                        return bid.id !== updatedBid.id;
+                    });
+
+                    vm.currentBid = null;
+                    vm.selectedTab = vm.bids.length > 0 ? vm.selectedTab : 'chats';
                 });
         }
     }

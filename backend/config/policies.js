@@ -115,6 +115,12 @@ module.exports.policies = {
             'isChatAllowed',
             'isBidUnique'
         ],
+        'refuseBidByClient': [
+            'isSocketRequest',
+            'hasJsonWebToken',
+            'isUserEnabled',
+            'isBidParticipant'
+        ],
         'deleteBid': [
             'isSocketRequest',
             'hasJsonWebToken',

@@ -198,8 +198,8 @@ let RequestController = {
             )
             .then(
                 (request) => {
-                    let clientRoomName = request.owner.id;
-                    let specialistRoomName = request.executor.id;
+                    let clientRoomName = `user_${request.owner.id}`;
+                    let specialistRoomName = `user_${request.executor.id}`;
 
                     sails.sockets.broadcast(
                         [clientRoomName, specialistRoomName],

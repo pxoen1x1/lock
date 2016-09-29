@@ -25,6 +25,11 @@ let Bid = {
             type: 'float',
             is: /^\d*(\.\d{1,2})?$/
         },
+        isRefused: {
+            type: 'boolean',
+            defaultsTo: false,
+            columnName: 'is_refused'
+        },
 
         client: {
             model: 'User',
