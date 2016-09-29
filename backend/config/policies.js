@@ -128,6 +128,12 @@ module.exports.policies = {
             'isSocketRequest',
             'hasJsonWebToken',
             'isUserEnabled',
+            'isChatMember'
+        ],
+        'create': [
+            'isSocketRequest',
+            'hasJsonWebToken',
+            'isUserEnabled',
             'isRequestAllowed',
             'isChatMember'
         ]
