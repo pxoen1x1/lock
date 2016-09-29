@@ -110,6 +110,58 @@ let BidController = {
                 }
             );
     },
+    refuseBidByClient(req, res) {
+        let bid = req.params.bid;
+
+        if (!bid) {
+
+            return res.badRequest(
+                {
+                    message: req.__('Submitted data is invalid.')
+                }
+            );
+        }
+
+        let updatedBid = {
+            isRefused: true
+        };
+
+        Bid.update({id: bid}, updatedBid)
+            .then(
+                (updatedBids) => {
+                    let updatedBid = updatedBids[0];
+
+                    res.ok(
+                        {
+                            bid: updatedBid
+                        }
+                    );
+
+                    return updatedBid;
+                }
+            )
+            .then(
+                (bid) => {
+                    let specialistRoomName = `user_${bid.specialist}`;
+
+                    sails.sockets.broadcast(
+                        specialistRoomName,
+                        'bid',
+                        bid,
+                        req
+                    );
+
+                    return bid;
+                }
+            )
+            .catch(
+                (err) => {
+                    sails.log.error(err);
+
+                    return res.serverError();
+                }
+            );
+    },
     deleteBid(req, res) {
         let bid = req.params.bid;
 

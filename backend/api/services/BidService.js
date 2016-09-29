@@ -4,10 +4,11 @@
 
 let promise = require('bluebird');
 let getBidRawQuery = `SELECT bid.id,
-                               bid.message AS 'message',
-                               bid.cost AS 'cost',
+                               bid.message,
+                               bid.cost,
                                bid.createdAt,
                                bid.updatedAt,
+                               bid.is_refused AS 'isRefused',
                                request.id AS 'request.id',
                                request.for_date AS 'request.forDate',
                                request.distance AS 'request.distance',
@@ -127,7 +128,7 @@ let BidService = {
             );
     },
     getBids(params) {
-        let rawQuery = `${getBidRawQuery} WHERE bid.request_id = ?`;
+        let rawQuery = `${getBidRawQuery} WHERE bid.request_id = ? AND bid.is_refused <> true`;
 
         let bidQueryAsync = promise.promisify(Bid.query);
 
