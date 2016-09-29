@@ -57,9 +57,9 @@
           <td class="td-status"
               md-cell
               ng-class="{
-              'new': request.status === 1,
-              'pending': request.status === 2,
-              'closed': request.status === 3
+              'new': request.status === vm.status.NEW,
+              'pending': request.status === vm.status.IN_PROGGRESS || request.status === vm.status.DONE,
+              'closed': request.status === vm.status.CLOSED
               }">
             <span ng-bind="vm.requestStatuses[request.status]"></span>
           </td>
@@ -102,9 +102,9 @@
       <div flex="50" layout="column" layout-align="start end">
         <div class="td-status"
              ng-class="{
-             'new': request.status === 0,
-             'pending': request.status === 1,
-             'closed': request.status === 2
+             'new': request.status === vm.status.NEW,
+             'pending': request.status === vm.status.IN_PROGGRESS || request.status === vm.status.DONE,
+             'closed': request.status === vm.status.CLOSED
              }">
           <span ng-bind="vm.status[request.status]"></span>
         </div>
