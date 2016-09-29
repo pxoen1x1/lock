@@ -34,9 +34,9 @@ module.exports = function (req, res, next) {
                     });
                 }
 
-                let isUserChatMember = user === foundChat.client  || user === foundChat.specialist;
+                let isChatMember = user === foundChat.client  || user === foundChat.specialist;
 
-                if (!isUserChatMember) {
+                if (!isChatMember) {
 
                     return res.forbidden(
                         {
