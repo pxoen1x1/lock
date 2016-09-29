@@ -17,6 +17,7 @@
             sendMessage: sendMessage,
             deleteBid: deleteBid,
             updateRequest: updateRequest,
+            declineBid: declineBid,
             onChat: onChat,
             onBid: onBid,
             onMessage: onMessage
@@ -87,6 +88,17 @@
             function updateRequestCompleted(response) {
 
                 return response.data.request;
+            }
+        }
+
+        function declineBid(bid) {
+
+            return $sails.put('/api/client/bids/' + bid.id + '/refuse')
+                .then(updateBidCompleted);
+
+            function updateBidCompleted(response) {
+
+                return response.data.bid;
             }
         }
 

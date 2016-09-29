@@ -32,6 +32,6 @@
     <md-button ng-if="vm.currentBid.cost"
                ng-click="vm.acceptBid(vm.currentBid, vm.currentRequest)">Accept
     </md-button>
-    <md-button>Decline</md-button>
+    <md-button ng-click="vm.declineBid(vm.currentBid, vm.currentRequest)">Decline</md-button>
   </md-card-actions>
 </md-card>
