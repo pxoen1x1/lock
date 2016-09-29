@@ -5,22 +5,24 @@
         .module('app.group')
         .controller('GroupMenuController', GroupMenuController);
 
-    GroupMenuController.$inject = ['$mdSidenav', 'groupConstants'];
+    GroupMenuController.$inject = ['$mdSidenav', 'groupConstants', 'currentUserService', 'conf'];
 
     /* @ngInject */
-    function GroupMenuController($mdSidenav, groupConstants) {
+    function GroupMenuController($mdSidenav, groupConstants, currentUserService, conf) {
         var vm = this;
 
         vm.menuItems = groupConstants.MENU_ITEMS;
         vm.profileRoute = 'group.profile';
         vm.toggleMenu = toggleMenu;
 
-        vm.dataSource = {
-            photo: 'http://i-deasoft.com/system/logos/1/logoTop_original.png?1461230167',
-            name: 'Ideasoft',
-            verified: 1,
-            email: 'admin@i-deasoft.com'
-        };
+        currentUserService.getUser()
+            .then(function (user) {
+
+                vm.profileData = user;
+                vm.profileData.portrait = user.portrait ? conf.BASE_URL + user.portrait : '';
+
+                return vm.profileData;
+            });
 
         function toggleMenu() {
             $mdSidenav('left').toggle();

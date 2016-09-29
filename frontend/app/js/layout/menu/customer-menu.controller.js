@@ -5,22 +5,24 @@
         .module('app.customer')
         .controller('CustomerMenuController', CustomerMenuController);
 
-    CustomerMenuController.$inject = ['$mdSidenav', 'customerConstants'];
+    CustomerMenuController.$inject = ['$mdSidenav', 'customerConstants', 'currentUserService', 'conf'];
 
     /* @ngInject */
-    function CustomerMenuController($mdSidenav, customerConstants) {
+    function CustomerMenuController($mdSidenav, customerConstants, currentUserService, conf) {
         var vm = this;
         
         vm.menuItems = customerConstants.MENU_ITEMS;
         vm.profileRoute = 'customer.profile';
         vm.toggleMenu = toggleMenu;
 
-        vm.dataSource = {
-            photo: "https://pp.vk.me/c604329/v604329073/1a33c/XhTVHpUbzGU.jpg",
-            name: "Elliot Alderson",
-            verified: 1,
-            email: "mrrobot@fsociety.org"
-        };
+        currentUserService.getUser()
+            .then(function (user) {
+                
+                vm.profileData = user;
+                vm.profileData.portrait = user.portrait ? conf.BASE_URL + user.portrait : '';
+
+                return vm.profileData;
+            });
 
         function toggleMenu() {
             $mdSidenav('left').toggle();
