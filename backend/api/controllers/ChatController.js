@@ -52,14 +52,13 @@ let ChatController = {
             );
         }
 
-        Chat.create({
+        let chat = {
             client: client,
             specialist: specialist,
             request: request
-        })
-            .then(
-                (chat) => ChatService.getChat(chat)
-            )
+        };
+
+        ChatService.createChat(chat)
             .then(
                 (createdChat) => {
                     res.ok({

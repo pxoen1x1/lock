@@ -166,6 +166,13 @@ let ChatService = {
                     return HelperService.formatQueryResult(chats);
                 }
             );
+    },
+    createChat(chat) {
+
+        return Chat.create(chat)
+            .then(
+                (chat) => this.getChat(chat)
+            );
     }
 };
 
