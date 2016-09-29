@@ -23,12 +23,14 @@
       </div>
     </div>
   </md-card-content>
-  <md-card-actions layout="row" layout-align="end center">
+  <md-card-actions layout="row"
+                   layout-align="end center"
+                   ng-class="{ 'disabled': vm.currentRequest.status !== vm.status.NEW }">
     <md-button class="md-button-blue"
-               ng-click="vm.startChat(vm.currentBid)">Start Chat
+               ng-click="vm.startChat(vm.currentBid, vm.currentRequest)">Start Chat
     </md-button>
     <md-button ng-if="vm.currentBid.cost"
-               ng-click="vm.acceptBid(vm.currentBid)">Accept
+               ng-click="vm.acceptBid(vm.currentBid, vm.currentRequest)">Accept
     </md-button>
     <md-button>Decline</md-button>
   </md-card-actions>

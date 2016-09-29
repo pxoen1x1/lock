@@ -73,8 +73,8 @@
                layout="row"
                layout-align="start center">
             <md-button class="md-fab"
-                       ng-disabled="vm.selectedRequest.status !== vm.status.NEW"
-                       ng-click="vm.createChat(vm.selectedSpecialist, vm.selectedRequest)">
+                       ng-disabled="vm.currentRequest.status !== vm.status.NEW"
+                       ng-click="vm.createChat(vm.selectedSpecialist, vm.currentRequest)">
               <md-icon>chat</md-icon>
             </md-button>
           </div>

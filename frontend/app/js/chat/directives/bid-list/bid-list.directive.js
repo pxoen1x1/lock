@@ -14,7 +14,7 @@
             scope: {
                 bids: '=',
                 currentBid: '=',
-                selectedRequest: '='
+                currentRequest: '='
             },
             replace: true,
             templateUrl: 'chat/directives/bid-list/bid-list.html'
@@ -75,7 +75,7 @@
         }
 
         function activate() {
-            getBids(vm.selectedRequest)
+            getBids(vm.currentRequest)
                 .then(listenBidEvent);
         }
     }

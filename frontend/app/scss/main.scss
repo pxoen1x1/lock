@@ -3,6 +3,8 @@ $warning-color: #FFB74D;
 $error-color: #EF5350;
 $primary-color: rgb(3, 155, 229);
 $text-color: rgba(0, 0, 0, .87);
+$disabled-color: rgba(0, 0, 0, 0.38);
+$disabled-background-color: rgba(0, 0, 0, 0.12);
 $panel-background-color: rgb(245, 245, 245);
 
 h2.page-name {
@@ -56,6 +58,23 @@ h2.page-name {
 
 .m-l-none {
   margin-left: 0;
+}
+
+.md-button {
+  .disabled &, .disabled &:hover,
+  &[disabled], &[disabled]:hover,
+  &.disabled, &.disabled:hover,
+  .disabled &.md-button-blue, .disabled &.md-button-blue:hover,
+  &.md-button-blue[disabled], &.md-button-blue[disabled]:hover,
+  &.md-button-blue.disabled, &.md-button-blue.disabled:hover {
+    cursor: default;
+    background-color: $disabled-background-color;
+    color: $disabled-color;
+
+    .md-ripple-container {
+      display: none;
+    }
+  }
 }
 
 .disabled {
@@ -156,7 +175,7 @@ md-content {
   white-space: nowrap;
 }
 
-/*scroll*/
+/* start scroll */
 
 ::-webkit-scrollbar {
   width: 5px;
@@ -181,6 +200,8 @@ md-content {
 ::-webkit-scrollbar-corner {
   background-color: #F3F4F5;
 }
+
+/* end scroll */
 
 @media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
   h2.page-name {

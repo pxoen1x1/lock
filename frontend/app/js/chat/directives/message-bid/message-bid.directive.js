@@ -16,6 +16,7 @@
                 bids: '=',
                 currentBid: '=',
                 currentChat: '=',
+                currentRequest: '=',
                 selectedTab: '=',
                 changeRequestStatus: '&'
             },
@@ -34,6 +35,7 @@
 
         vm.defaultPortrait = coreConstants.IMAGES.defaultPortrait;
         vm.dateFormat = coreConstants.DATE_FORMAT;
+        vm.status = coreConstants.REQUEST_STATUSES;
 
         vm.startChat = startChat;
         vm.acceptBid = acceptBid;
@@ -60,7 +62,11 @@
                 });
         }
 
-        function startChat(currentBid) {
+        function startChat(currentBid, currentRequest) {
+            if (currentRequest.status !== vm.status.NEW) {
+
+                return;
+            }
 
             return createChat(currentBid)
                 .then(function (createdChat) {
@@ -81,10 +87,15 @@
                 });
         }
 
-        function acceptBid(bid) {
+        function acceptBid(bid, currentRequest) {
+            if (currentRequest.status !== vm.status.NEW) {
+
+                return;
+            }
+
             var offer = {
-                    cost: bid.cost,
-                    executor: bid.specialist
+                cost: bid.cost,
+                executor: bid.specialist
             };
 
             return vm.changeRequestStatus({offer: offer})
