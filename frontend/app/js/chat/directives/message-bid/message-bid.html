@@ -1,8 +1,7 @@
 <md-card>
   <md-card-content class="message-content">
     <div class="message"
-         layout="row"
-         layout-align="start center">
+         layout="row">
       <div flex
            ng-bind="vm.currentBid.message">
       </div>
@@ -16,7 +15,7 @@
          layout-align="center start"
          ng-if="vm.currentBid.cost">
       <div class="value">
-        Cost:
+        cost:
       </div>
       <div class="currency">$</div>
       <div layout="row" layout-align="center end">
@@ -28,7 +27,9 @@
     <md-button class="md-button-blue"
                ng-click="vm.startChat(vm.currentBid)">Start Chat
     </md-button>
-    <md-button>Accept</md-button>
+    <md-button ng-if="vm.currentBid.cost"
+               ng-click="vm.acceptBid(vm.currentBid)">Accept
+    </md-button>
     <md-button>Decline</md-button>
   </md-card-actions>
 </md-card>

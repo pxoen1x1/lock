@@ -5,10 +5,13 @@
         .module('app.chat')
         .controller('ChatController', ChatController);
 
-    ChatController.$inject = ['$stateParams', '$mdSidenav', 'coreConstants', 'currentUserService', 'chatSocketservice'];
+    ChatController.$inject = ['$q', '$state', '$stateParams', '$mdSidenav', 'coreConstants', 'currentUserService',
+        'chatSocketservice', 'requestService'];
 
     /* @ngInject */
-    function ChatController($stateParams, $mdSidenav, coreConstants, currentUserService, chatSocketservice) {
+    function ChatController($q, $state, $stateParams, $mdSidenav, coreConstants, currentUserService,
+                            chatSocketservice, requestService) {
+        var selectedRequestId = $stateParams.requestId;
         var chatPaginationOptions = coreConstants.CHAT_PAGINATION_OPTIONS;
         var vm = this;
 
@@ -19,7 +22,7 @@
         vm.currentUser = {};
         vm.currentChat = null;
 
-        vm.selectedRequestId = $stateParams.requestId;
+        vm.selectedRequest = {};
         vm.pagination = {};
         vm.isAllMessagesLoaded = {};
 
@@ -37,6 +40,7 @@
 
         vm.toggleSidenav = toggleSidenav;
         vm.loadPrevMessages = loadPrevMessages;
+        vm.changeRequestStatus = changeRequestStatus;
         vm.reply = reply;
 
         activate();
@@ -48,6 +52,14 @@
                     vm.currentUser = currentUser;
 
                     return vm.currentUser;
+                });
+        }
+
+        function getRequest(request) {
+
+            return requestService.getRequest(request)
+                .then(function (request) {
+                    vm.selectedRequest = request;
                 });
         }
 
@@ -99,6 +111,27 @@
                 });
         }
 
+        function changeRequestStatus(offer) {
+            if ((!vm.selectedRequest || !vm.selectedRequest.id) || (!offer || !offer.executor)) {
+
+                return $q.reject();
+            }
+
+            var request = {
+                request: offer
+            };
+
+            return chatSocketservice.updateRequest(vm.selectedRequest.id, request)
+                .then(function (updatedRequest) {
+                    vm.selectedRequest = updatedRequest;
+                    requestService.setRequest(updatedRequest);
+
+                    $state.go('customer.requests.request.view');
+
+                    return vm.selectedRequest;
+                });
+        }
+
         function reply(event, replyMessage, currentChat) {
             if (event && event.shiftKey && event.keyCode === 13) {
                 vm.textareaGrow[currentChat.id] = true;
@@ -137,7 +170,10 @@
         }
 
         function activate() {
-            getCurrentUser();
+            $q.all([
+                getCurrentUser(),
+                getRequest(selectedRequestId)
+            ]);
         }
     }
 })();

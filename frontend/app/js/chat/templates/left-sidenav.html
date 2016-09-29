@@ -35,10 +35,11 @@
      flex
      ng-show="vm.selectedTab === 'chats'"
      ng-class="{ 'nav-bar-disabled' : vm.bids.length === 0 }">
-  <chat-list chats="vm.chats"
+  <chat-list ng-if="vm.selectedRequest.id"
+             chats="vm.chats"
              messages="vm.messages"
              pagination="vm.pagination"
-             selected-request="vm.selectedRequestId"
+             selected-request="vm.selectedRequest"
              current-chat="vm.currentChat"
              scroll-chat-disabled="vm.isScrollDisabled"
              scroll-chat-to-bottom="vm.isScrollToBottomEnabled"
@@ -49,9 +50,9 @@
      layout="column"
      flex
      ng-show="vm.selectedTab === 'bids'">
-  <bid-list
-      bids="vm.bids"
-      selected-request="vm.selectedRequestId"
-      current-bid="vm.currentBid">
+  <bid-list ng-if="vm.selectedRequest.id"
+            bids="vm.bids"
+            selected-request="vm.selectedRequest"
+            current-bid="vm.currentBid">
   </bid-list>
 </div>

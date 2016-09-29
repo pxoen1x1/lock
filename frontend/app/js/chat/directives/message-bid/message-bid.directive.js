@@ -16,7 +16,8 @@
                 bids: '=',
                 currentBid: '=',
                 currentChat: '=',
-                selectedTab: '='
+                selectedTab: '=',
+                changeRequestStatus: '&'
             },
             replace: true,
             templateUrl: 'chat/directives/message-bid/message-bid.html'
@@ -35,6 +36,7 @@
         vm.dateFormat = coreConstants.DATE_FORMAT;
 
         vm.startChat = startChat;
+        vm.acceptBid = acceptBid;
 
         function createChat(bid) {
             var request = bid.request;
@@ -76,6 +78,19 @@
                             vm.currentChat = createdChat;
                             vm.selectedTab = 'chats';
                         });
+                });
+        }
+
+        function acceptBid(bid) {
+            var offer = {
+                    cost: bid.cost,
+                    executor: bid.specialist
+            };
+
+            return vm.changeRequestStatus({offer: offer})
+                .then(function (request) {
+
+                    return request;
                 });
         }
     }
