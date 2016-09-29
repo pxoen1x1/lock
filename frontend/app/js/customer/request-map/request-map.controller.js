@@ -11,7 +11,7 @@
     /* @ngInject */
     function CustomerRequestMapController($state, $timeout, $stateParams, uiGmapIsReady, coreConstants,
                                           chatSocketservice, customerDataservice, requestService, geocoderService) {
-        var selectedRequestId = $stateParams.requestId;
+        var currentRequestId = $stateParams.requestId;
         var promises = {
             findSpecialists: null
         };
@@ -41,7 +41,7 @@
         var vm = this;
 
         vm.request = {};
-        vm.selectedRequest = {};
+        vm.currentRequest = {};
         vm.selectedSpecialist = {};
         vm.specialists = [];
 
@@ -92,9 +92,9 @@
             return requestService.getRequest(requestId)
                 .then(function (request) {
 
-                    vm.selectedRequest = request;
+                    vm.currentRequest = request;
 
-                    return vm.selectedRequest;
+                    return vm.currentRequest;
                 });
         }
 
@@ -180,8 +180,8 @@
             }, 200);
         }
 
-        function createChat(selectedSpecialist, selectedRequest) {
-            if (selectedRequest) {
+        function createChat(selectedSpecialist, currentRequest) {
+            if (currentRequest) {
 
                 return;
             }
@@ -200,7 +200,7 @@
             uiGmapIsReady.promise()
                 .then(function () {
 
-                    return getRequest(selectedRequestId);
+                    return getRequest(currentRequestId);
                 })
                 .then(function (request) {
                     vm.request = request;

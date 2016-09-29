@@ -11,7 +11,7 @@
     /* @ngInject */
     function ChatController($q, $state, $stateParams, $mdSidenav, coreConstants, currentUserService,
                             chatSocketservice, requestService) {
-        var selectedRequestId = $stateParams.requestId;
+        var currentRequestId = $stateParams.requestId;
         var chatPaginationOptions = coreConstants.CHAT_PAGINATION_OPTIONS;
         var vm = this;
 
@@ -22,7 +22,7 @@
         vm.currentUser = {};
         vm.currentChat = null;
 
-        vm.selectedRequest = {};
+        vm.currentRequest = {};
         vm.pagination = {};
         vm.isAllMessagesLoaded = {};
 
@@ -60,7 +60,7 @@
 
             return requestService.getRequest(request)
                 .then(function (request) {
-                    vm.selectedRequest = request;
+                    vm.currentRequest = request;
                 });
         }
 
@@ -113,7 +113,7 @@
         }
 
         function changeRequestStatus(offer) {
-            if ((!vm.selectedRequest || !vm.selectedRequest.id) || (!offer || !offer.executor)) {
+            if ((!vm.currentRequest || !vm.currentRequest.id) || (!offer || !offer.executor)) {
 
                 return $q.reject();
             }
@@ -122,19 +122,19 @@
                 request: offer
             };
 
-            return chatSocketservice.updateRequest(vm.selectedRequest.id, request)
+            return chatSocketservice.updateRequest(vm.currentRequest.id, request)
                 .then(function (updatedRequest) {
-                    vm.selectedRequest = updatedRequest;
+                    vm.currentRequest = updatedRequest;
                     requestService.setRequest(updatedRequest);
 
                     $state.go('customer.requests.request.view');
 
-                    return vm.selectedRequest;
+                    return vm.currentRequest;
                 });
         }
 
-        function reply(event, replyMessage, currentChat, selectedRequest) {
-            if ((event && event.shiftKey && event.keyCode === 13) || selectedRequest.status !== 1) {
+        function reply(event, replyMessage, currentChat, currentRequest) {
+            if ((event && event.shiftKey && event.keyCode === 13) || currentRequest.status !== 1) {
                 vm.textareaGrow[currentChat.id] = true;
 
                 return;
@@ -173,7 +173,7 @@
         function activate() {
             $q.all([
                 getCurrentUser(),
-                getRequest(selectedRequestId)
+                getRequest(currentRequestId)
             ]);
         }
     }

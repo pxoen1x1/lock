@@ -15,7 +15,7 @@
                 chats: '=',
                 messages: '=',
                 pagination: '=',
-                selectedRequest: '=',
+                currentRequest: '=',
                 currentChat: '=',
                 isScrollDisabled: '=?scrollChatDisabled',
                 isScrollToBottomEnabled: '=?scrollChatToBottom',
@@ -43,9 +43,9 @@
 
         activate();
 
-        function getChats(selectedRequest) {
+        function getChats(currentRequest) {
 
-            return chatSocketservice.getChats(selectedRequest)
+            return chatSocketservice.getChats(currentRequest)
                 .then(function (chats) {
                     vm.chats = chats;
 
@@ -100,7 +100,7 @@
         }
 
         function activate() {
-            getChats(vm.selectedRequest)
+            getChats(vm.currentRequest)
                 .then(listenMessageEvent);
         }
     }
