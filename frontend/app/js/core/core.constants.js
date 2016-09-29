@@ -22,7 +22,7 @@
                 3: 'done',
                 4: 'closed',
                 'NEW': 1,
-                'IN_PROGGRESS': 2,
+                'IN_PROGRESS': 2,
                 'DONE': 3,
                 'CLOSED': 4
             },

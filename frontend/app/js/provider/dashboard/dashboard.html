@@ -57,7 +57,7 @@
               md-cell
               ng-class="{
               'new': request.status === vm.status.NEW,
-              'pending': request.status === vm.status.IN_PROGGRESS || request.status === vm.status.DONE,
+              'pending': request.status === vm.status.IN_PROGRESS || request.status === vm.status.DONE,
               'closed': request.status === vm.status.CLOSED
               }">
             <span ng-bind="vm.requestStatuses[request.status]"></span>
@@ -95,7 +95,7 @@
         <div class="td-status"
              ng-class="{
              'new': request.status === vm.status.NEW,
-              'pending': request.status === vm.status.IN_PROGGRESS || request.status === vm.status.DONE,
+              'pending': request.status === vm.status.IN_PROGRESS || request.status === vm.status.DONE,
               'closed': request.status === vm.status.CLOSED
              }">
           <span ng-bind="vm.status[request.status]"></span>
