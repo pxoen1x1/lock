@@ -42,6 +42,9 @@
                     case vm.messageType.OFFER :
                         messageTemplate = $templateCache.get('chat/directives/message-chat/message-offer.html');
                         break;
+                    case vm.messageType.AGREEMENT :
+                        messageTemplate = $templateCache.get('chat/directives/message-chat/message-agreement.html');
+                        break;
                     default:
                         messageTemplate = $templateCache.get('chat/directives/message-chat/message-chat.html');
                 }
