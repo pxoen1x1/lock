@@ -79,6 +79,13 @@ module.exports.policies = {
         ]
     },
 
+    FeedbackController: {
+        '*': [
+            'hasJsonWebToken',
+            'isUserEnabled'
+        ]
+    },
+
     ChatController: {
         '*': [
             'isSocketRequest',
