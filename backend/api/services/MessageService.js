@@ -25,7 +25,13 @@ let MessageService = {
         return Chat.findOneById(chat.id)
             .then(
                 (chat) => {
+                    if (!chat) {
+
+                        return Promise.reject(new Error('Chat is not found.'));
+                    }
+
                     message.recipient = message.sender !== chat.client ? chat.client : chat.specialist;
+                    message.chat = chat.id;
 
                     return Message.create(message);
                 }
