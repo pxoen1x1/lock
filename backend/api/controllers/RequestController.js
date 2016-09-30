@@ -181,9 +181,9 @@ let RequestController = {
 
         if (request.executor) {
             request.executor = request.executor.id;
-            request.isPublic = false;
         }
 
+        delete request.isPublic;
         delete request.owner;
 
         RequestService.updateRequest(request)
