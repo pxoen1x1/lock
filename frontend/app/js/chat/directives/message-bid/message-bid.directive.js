@@ -35,7 +35,7 @@
 
         vm.defaultPortrait = coreConstants.IMAGES.defaultPortrait;
         vm.dateFormat = coreConstants.DATE_FORMAT;
-        vm.status = coreConstants.REQUEST_STATUSES;
+        vm.requestStatus = coreConstants.REQUEST_STATUSES;
 
         vm.startChat = startChat;
         vm.acceptBid = acceptBid;
@@ -64,7 +64,7 @@
         }
 
         function startChat(currentBid, currentRequest) {
-            if (currentRequest.status !== vm.status.NEW) {
+            if (currentRequest.status !== vm.requestStatus.NEW) {
 
                 return;
             }
@@ -89,7 +89,7 @@
         }
 
         function acceptBid(currentBid, currentRequest) {
-            if (currentRequest.status !== vm.status.NEW) {
+            if (currentRequest.status !== vm.requestStatus.NEW) {
 
                 return;
             }
@@ -107,7 +107,7 @@
         }
 
         function declineBid(currentBid, currentRequest) {
-            if (currentRequest.status !== vm.status.NEW) {
+            if (currentRequest.status !== vm.requestStatus.NEW) {
 
                 return;
             }

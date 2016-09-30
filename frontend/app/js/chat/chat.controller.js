@@ -37,7 +37,7 @@
 
         vm.defaultPortrait = coreConstants.IMAGES.defaultPortrait;
         vm.dateFormat = coreConstants.DATE_FORMAT;
-        vm.status = coreConstants.REQUEST_STATUSES;
+        vm.requestStatus = coreConstants.REQUEST_STATUSES;
 
         vm.toggleSidenav = toggleSidenav;
         vm.loadPrevMessages = loadPrevMessages;
@@ -134,7 +134,7 @@
         }
 
         function reply(event, replyMessage, currentChat, currentRequest) {
-            if ((event && event.shiftKey && event.keyCode === 13) || currentRequest.status !== 1) {
+            if ((event && event.shiftKey && event.keyCode === 13) || currentRequest.status !== vm.requestStatus.NEW) {
                 vm.textareaGrow[currentChat.id] = true;
 
                 return;

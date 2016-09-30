@@ -25,7 +25,7 @@
   </md-card-content>
   <md-card-actions layout="row"
                    layout-align="end center"
-                   ng-class="{ 'disabled': vm.currentRequest.status !== vm.status.NEW }">
+                   ng-class="{ 'disabled': vm.currentRequest.status !== vm.requestStatus.NEW }">
     <md-button class="md-button-blue"
                ng-click="vm.startChat(vm.currentBid, vm.currentRequest)">Start Chat
     </md-button>

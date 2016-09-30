@@ -81,7 +81,7 @@
             zoom: 16,
         };
 
-        vm.status = coreConstants.REQUEST_STATUSES;
+        vm.requestStatus = coreConstants.REQUEST_STATUSES;
 
         vm.createChat = createChat;
 
