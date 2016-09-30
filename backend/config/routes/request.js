@@ -17,10 +17,6 @@ let requestRoutes = {
         controller: 'RequestController',
         action: 'createRequest'
     },
-    'POST /api/client/requests/:request/feedback': {
-        controller: 'RequestController',
-        action: 'createFeedback'
-    },
     'GET /api/specialist/requests': {
         controller: 'RequestController',
         action: 'getAllSpecialistRequests'

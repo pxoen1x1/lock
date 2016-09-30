@@ -1,4 +1,4 @@
-/*global sails, waterlock, User, UserService, FileService, Feedback*/
+/*global sails, waterlock, User, UserService, FileService */
 
 /**
  * UserController.js
