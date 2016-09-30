@@ -22,7 +22,7 @@
             '</li>' +
             '</ul>',
             scope: {
-                value: '=',
+                value: '<',
                 max: '=?',
                 onchange: '&'
             },
