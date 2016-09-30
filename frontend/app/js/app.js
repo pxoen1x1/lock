@@ -22,6 +22,7 @@
         'app.home',
         'app.chat',
         'app.customer',
-        'app.provider'
+        'app.provider',
+        'app.group'
     ]);
 })();

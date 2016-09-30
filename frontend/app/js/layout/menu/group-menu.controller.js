@@ -2,22 +2,22 @@
     'use strict';
 
     angular
-        .module('app.customer')
-        .controller('CustomerMenuController', CustomerMenuController);
+        .module('app.group')
+        .controller('GroupMenuController', GroupMenuController);
 
-    CustomerMenuController.$inject = ['$mdSidenav', 'customerConstants', 'currentUserService', 'conf'];
+    GroupMenuController.$inject = ['$mdSidenav', 'groupConstants', 'currentUserService', 'conf'];
 
     /* @ngInject */
-    function CustomerMenuController($mdSidenav, customerConstants, currentUserService, conf) {
+    function GroupMenuController($mdSidenav, groupConstants, currentUserService, conf) {
         var vm = this;
-        
-        vm.menuItems = customerConstants.MENU_ITEMS;
-        vm.profileRoute = 'customer.profile';
+
+        vm.menuItems = groupConstants.MENU_ITEMS;
+        vm.profileRoute = 'group.profile';
         vm.toggleMenu = toggleMenu;
 
         currentUserService.getUser()
             .then(function (user) {
-                
+
                 vm.profileData = user;
                 vm.profileData.portrait = user.portrait ? conf.BASE_URL + user.portrait : '';
 
@@ -27,6 +27,6 @@
         function toggleMenu() {
             $mdSidenav('left').toggle();
         }
-        
+
     }
 })();

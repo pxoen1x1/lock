@@ -2,13 +2,13 @@
     'use strict';
 
     angular
-        .module('app.provider')
-        .controller('ProviderDashboardController', ProviderDashboardController);
+        .module('app.group')
+        .controller('GroupDashboardController', GroupDashboardController);
 
-    ProviderDashboardController.$inject = ['coreConstants', 'serviceProviderDataservice'];
+    GroupDashboardController.$inject = ['coreConstants', 'groupDataservice'];
 
     /* @ngInject */
-    function ProviderDashboardController(coreConstants, serviceProviderDataservice) {
+    function GroupDashboardController(coreConstants, groupDataservice) {
         var promises = {
             getAllRequests: null
         };
@@ -17,7 +17,6 @@
 
         vm.paginationOptions = coreConstants.PAGINATION_OPTIONS;
         vm.requestStatuses = coreConstants.REQUEST_STATUSES;
-        vm.requestStatus = coreConstants.REQUEST_STATUSES;
 
         vm.queryOptions = {
             orderBy: '-updatedAt',
@@ -35,7 +34,7 @@
                 promises.getAllRequests.cancel();
             }
 
-            promises.getAllRequests = serviceProviderDataservice.getAllRequests(queryOptions);
+            promises.getAllRequests = groupDataservice.getAllRequests(queryOptions);
 
             return promises.getAllRequests
                 .then(function (response) {
@@ -61,7 +60,7 @@
         }
 
         function activate() {
-            getRequests();
+            //getRequests();
         }
     }
 })();

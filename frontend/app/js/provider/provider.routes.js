@@ -50,7 +50,7 @@
                     }
                 }
             })
-            .state('provider.requests', {
+            .state('provider.dashboard', {
                 parent: 'provider',
                 url: '/dashboard',
                 views: {
