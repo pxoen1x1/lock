@@ -1,0 +1,37 @@
+.customer, .provider, .group {
+
+  .header {
+
+    .root {
+      text-transform: uppercase;
+      font-size: 16px;
+      font-weight: 400;
+      margin-left: 8px;
+
+      a {
+        vertical-align: middle;
+      }
+
+      a:hover {
+        color: $primary-color;
+      }
+
+      i.material-icons {
+        vertical-align: middle;
+        font-size: 20px;
+        font-weight: 600;
+        cursor: default;
+      }
+    }
+
+    .root.bold {
+      font-size: 18px;
+      font-weight: 400;
+    }
+
+    md-icon i {
+      vertical-align: top;
+    }
+
+  }
+}

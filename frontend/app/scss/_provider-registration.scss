@@ -24,6 +24,12 @@
     /*color: $primary-color;*/
   }
 
+  .page-name {
+    text-align: center;
+    font-weight: 300;
+    font-size: 26px;
+  }
+
   .registration {
     background: url(https://newevolutiondesigns.com/images/freebies/google-material-design-wallpaper-2.jpg) no-repeat;
     background-attachment: fixed;
@@ -211,6 +217,9 @@
     }
     .stepper-navigation-item::before {
       display: none;
+    }
+    .page-name {
+      font-size: 19px;
     }
   }
 }

@@ -2,29 +2,19 @@
     'use strict';
 
     angular
-        .module('app.provider')
-        .factory('serviceProviderDataservice', serviceProviderDataservice);
+        .module('app.group')
+        .factory('groupDataservice', groupDataservice);
 
-    serviceProviderDataservice.$inject = ['$http', 'request', 'conf'];
+    groupDataservice.$inject = ['$http', 'request', 'conf'];
 
     /* @ngInject */
-    function serviceProviderDataservice($http, request, conf) {
+    function groupDataservice($http, request, conf) {
         var service = {
-            getAllRequests: getAllRequests,
             getUser: getUser,
             updateUser: updateUser
         };
 
         return service;
-
-        function getAllRequests(params) {
-
-            return request.httpWithTimeout({
-                url: conf.BASE_URL + 'api/specialist/requests',
-                method: 'GET',
-                params: params
-            });
-        }
 
         function getUser() {
 

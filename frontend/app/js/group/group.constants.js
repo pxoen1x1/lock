@@ -2,8 +2,8 @@
     'use strict';
 
     angular
-        .module('app.provider')
-        .constant('serviceProviderConstants',{
+        .module('app.group')
+        .constant('groupConstants',{
             REGISTRATION_STEPS: [
                 {
                     id: 1,
@@ -27,7 +27,7 @@
                 }
             ],
             MENU_ITEMS: [
-                'provider.dashboard'
+                'group.dashboard'
             ]
         });
 })();
