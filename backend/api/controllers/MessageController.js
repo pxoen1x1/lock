@@ -8,6 +8,8 @@
 
 'use strict';
 
+const MESSAGE_TYPE = sails.config.messages.TYPES;
+
 let MessageController = {
     getMessages(req, res) {
         let params = req.allParams();
@@ -58,12 +60,11 @@ let MessageController = {
     create(req, res) {
         let params = req.allParams();
 
-        let chat = params.chat;
-        let messageText = params.message;
-        let type = params.type || 0;
+        let chat = req.params.chat;
+        let message = params.message;
         let sender = req.session.user.id;
 
-        if (!messageText || !chat) {
+        if ((!message || !message.message || !chat) || (message.type === MESSAGE_TYPE.OFFER && !message.cost)) {
 
             return res.badRequest(
                 {
@@ -72,14 +73,19 @@ let MessageController = {
             );
         }
 
-        let message = {
-            chat: chat,
-            message: messageText,
-            type: type,
-            sender: sender
+        let newMessage = {
+            message: message.message,
+            type: message.type || MESSAGE_TYPE.MESSAGE,
+            sender: sender,
         };
 
-        MessageService.create({id: chat}, message)
+        if (message.cost) {
+            newMessage.cost = message.cost;
+        }
+
+        message.sender = sender;
+
+        MessageService.create({id: chat}, newMessage)
             .then(
                 (message) => {
                     res.created(
