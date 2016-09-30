@@ -2,9 +2,9 @@
 
 let messages = {
     TYPES: {
-        0: 'message',
-        1: 'offer',
-        2: 'agreement'
+        1: 'message',
+        2: 'offer',
+        3: 'agreement'
     }
 };
 

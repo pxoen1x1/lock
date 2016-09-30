@@ -214,6 +214,7 @@ $search-text-color: rgba(0, 0, 0, .54);
               background-color: #FFF;
               box-shadow: 0 1px .5px rgba(0, 0, 0, .13);
               border-radius: 6px;
+              min-width: 30%;
 
               &:before {
                 background-image: url('/images/bubble-left.png');
@@ -261,7 +262,7 @@ $search-text-color: rgba(0, 0, 0, .54);
           }
 
           .service-message {
-            min-width: 316px;
+            min-width: 300px;
             max-width: 500px;
 
             .message-content {

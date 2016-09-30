@@ -1,0 +1,23 @@
+<div class="md-padding message-row"
+     layout="row"
+     ng-class="{
+                     'user': vm.message.sender.id === vm.currentUser.id,
+                     'contact': vm.message.sender.id === vm.currentUser.id,
+                     }">
+  <div class="avatar"
+       ng-if="vm.message.sender.id !== vm.currentUser.id"
+       ng-style="{ 'background-image': 'url(' + (vm.currentChat.specialist.portrait || vm.defaultPortrait) + ')' }">
+  </div>
+  <div class="avatar"
+       ng-if="vm.message.sender.id === vm.currentUser.id"
+       ng-style="{ 'background-image': 'url(' + (vm.currentUser.portrait || vm.defaultPortrait) + ')' }">
+  </div>
+  <div class="bubble">
+    <div class="vm.message">
+      <span ng-bind="vm.message.message"></span>
+    </div>
+    <div class="time secondary-text">
+      <span ng-bind="vm.message.updatedAt | altDate : vm.dateFormat"></span>
+    </div>
+  </div>
+</div>
