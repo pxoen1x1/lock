@@ -17,7 +17,7 @@ let Message = {
         },
         type: {
             type: 'integer',
-            defaultsTo: 0
+            defaultsTo: 1
         },
         isRead: {
             type: 'boolean',
