@@ -25,7 +25,6 @@ let requestRoutes = {
         controller: 'RequestController',
         action: 'getAllSpecialistRequests'
     },
-    },
     'PUT /api/client/requests/:requestId': {
         controller: 'RequestController',
         action: 'updateRequest'
