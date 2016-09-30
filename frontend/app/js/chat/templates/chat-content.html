@@ -56,7 +56,9 @@
          ng-repeat="message in vm.messages[vm.currentChat.id] | orderBy : 'updatedAt' track by message.id">
       <message-chat message="message"
                     current-user="vm.currentUser"
-                    ng-if="vm.currentUser">
+                    current-request="vm.currentRequest"
+                    change-request-status="vm.changeRequestStatus(offer, message)"
+                    ng-if="vm.currentUser && vm.currentRequest">
       </message-chat>
     </div>
   </div>

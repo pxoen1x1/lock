@@ -27,15 +27,16 @@
         return directive;
     }
 
-    MessageBidController.$inject = ['chatSocketservice', 'coreConstants'];
+    MessageBidController.$inject = ['chatSocketservice', 'coreConstants', 'chatConstants'];
 
     /* @ngInject */
-    function MessageBidController(chatSocketservice, coreConstants) {
+    function MessageBidController(chatSocketservice, coreConstants, chatConstants) {
         var vm = this;
 
         vm.defaultPortrait = coreConstants.IMAGES.defaultPortrait;
         vm.dateFormat = coreConstants.DATE_FORMAT;
         vm.requestStatus = coreConstants.REQUEST_STATUSES;
+        vm.messageType = chatConstants.MESSAGE_TYPES;
 
         vm.startChat = startChat;
         vm.acceptBid = acceptBid;
@@ -99,11 +100,13 @@
                 executor: currentBid.specialist
             };
 
-            return vm.changeRequestStatus({offer: offer})
-                .then(function (request) {
+            var message = {
+                message: currentBid.message,
+                cost: currentBid.cost,
+                type: vm.messageType.AGREEMENT
+            };
 
-                    return request;
-                });
+            return vm.changeRequestStatus({offer: offer, message: message});
         }
 
         function declineBid(currentBid, currentRequest) {
@@ -113,7 +116,7 @@
             }
 
             return chatSocketservice.declineBid(currentBid)
-                .then(function(updatedBid){
+                .then(function (updatedBid) {
                     vm.bids = vm.bids.filter(function (bid) {
 
                         return bid.id !== updatedBid.id;
