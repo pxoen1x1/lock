@@ -16,25 +16,34 @@
          layout="column"
          layout-align="center center">
       <div layout="column"
-           layout-align="center center">
+           layout-align="center center"
+           ng-if="vm.selectedTab === 'chats'">
         <div class="md-avatar avatar contact-avatar huge"
-             ng-style="{ 'background-image': 'url(' + (vm.currentChat.portrait || vm.defaultPortrait) + ')' }">
+             ng-style="{ 'background-image': 'url(' + (vm.currentChat.specialist.portrait || vm.defaultPortrait) + ')' }">
         </div>
         <div class="contact-name">
-          <span ng-bind="vm.currentChat.fullName"></span>
+          <span ng-bind="vm.currentChat.specialist.fullName"></span>
         </div>
+        <star-rating readonly value="vm.currentChat.specialist.details.rating"></star-rating>
+      </div>
+      <div layout="column"
+           layout-align="center center"
+           ng-if="vm.selectedTab === 'bids'">
+        <div class="md-avatar avatar contact-avatar huge"
+             ng-style="{ 'background-image': 'url(' + (vm.currentBid.specialist.portrait || vm.defaultPortrait) + ')' }">
+        </div>
+        <div class="contact-name">
+          <span ng-bind="vm.currentBid.specialist.fullName"></span>
+        </div>
+        <star-rating readonly value="vm.currentBid.specialist.details.rating"></star-rating>
       </div>
     </div>
   </md-toolbar>
   <md-content class="md-hue-2"
               flex>
     <md-card>
-      <md-card-title>Rating</md-card-title>
+      <md-card-title>Feedbacks:</md-card-title>
       <md-card-content>
-        <span class="mood"
-              ng-if="vm.currentChat.details.rating"
-              ng-bind="vm.currentChat.details.rating">
-        </span>
       </md-card-content>
     </md-card>
   </md-content>
