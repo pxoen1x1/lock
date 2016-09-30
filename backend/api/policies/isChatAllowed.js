@@ -16,7 +16,7 @@ const STATUS = sails.config.requests.STATUSES;
 module.exports = function (req, res, next) {
     let params = req.allParams();
     let request = params.request;
-    let chat = params.chat;
+    let chat = req.params.chat;
 
     let requestPromise;
 
@@ -41,7 +41,16 @@ module.exports = function (req, res, next) {
     requestPromise
         .then(
             (request) => {
-                if (!request || request.status !== STATUS.NEW) {
+                if (!request) {
+
+                    return res.notFound(
+                        {
+                            message: req.__('Request is not found.')
+                        }
+                    );
+                }
+
+                if (request.status !== STATUS.NEW) {
 
                     return res.forbidden(
                         {
