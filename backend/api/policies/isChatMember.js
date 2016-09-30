@@ -12,9 +12,7 @@
 'use strict';
 
 module.exports = function (req, res, next) {
-    let params = req.allParams();
-
-    let chat = params.chat;
+    let chat = req.params.chat;
     let user = req.session.user.id;
 
     if (!chat) {
@@ -29,12 +27,14 @@ module.exports = function (req, res, next) {
             (foundChat) => {
                 if (!foundChat) {
 
-                    return res.notFound({
-                        message: req.__('Chat is not found.')
-                    });
+                    return res.notFound(
+                        {
+                            message: req.__('Chat is not found.')
+                        }
+                    );
                 }
 
-                let isChatMember = user === foundChat.client  || user === foundChat.specialist;
+                let isChatMember = user === foundChat.client || user === foundChat.specialist;
 
                 if (!isChatMember) {
 

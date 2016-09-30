@@ -112,8 +112,8 @@
                 });
         }
 
-        function changeRequestStatus(offer) {
-            if ((!vm.currentRequest || !vm.currentRequest.id) || (!offer || !offer.executor)) {
+        function changeRequestStatus(offer, message) {
+            if ((!vm.currentRequest || !vm.currentRequest.id) || (!offer || !offer.executor || !offer.cost)) {
 
                 return $q.reject();
             }
@@ -122,7 +122,16 @@
                 request: offer
             };
 
-            return chatSocketservice.updateRequest(vm.currentRequest.id, request)
+            message = {
+                message: message
+            };
+
+            return sendMessage(vm.currentChat, message)
+                .then(function () {
+
+                    return chatSocketservice.updateRequest(vm.currentRequest.id, request);
+
+                })
                 .then(function (updatedRequest) {
                     vm.currentRequest = updatedRequest;
                     requestService.setRequest(updatedRequest);
@@ -130,6 +139,9 @@
                     $state.go('customer.requests.request.view');
 
                     return vm.currentRequest;
+                })
+                .catch(function (err) {
+                    console.log(err);
                 });
         }
 
@@ -148,7 +160,9 @@
                 }
 
                 var message = {
-                    message: replyMessage
+                    message: {
+                        message: replyMessage
+                    }
                 };
 
                 return sendMessage(currentChat, message)

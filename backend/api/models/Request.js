@@ -79,7 +79,7 @@ let Request = {
             collection: 'Chat',
             via: 'request'
         },
-        bids : {
+        bids: {
             collection: 'Bid',
             via: 'request'
         }
@@ -94,21 +94,26 @@ let Request = {
     beforeUpdate(request, next) {
         if (request.isClosed) {
             request.status = STATUS.CLOSED;
+            request.isPublic = false;
 
             return next(null, request);
         }
 
-        if(request.isExecuted) {
+        if (request.isExecuted) {
             request.status = STATUS.DONE;
+            request.isPublic = false;
 
             return next(null, request);
         }
 
         if (request.executor) {
             request.status = STATUS.IN_PROGRESS;
+            request.isPublic = false;
 
             return next(null, request);
         }
+
+        next(null, request);
     }
 };
 
