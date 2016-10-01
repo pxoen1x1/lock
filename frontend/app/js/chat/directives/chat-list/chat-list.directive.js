@@ -78,8 +78,8 @@
 
             vm.currentChat = currentChat;
 
-            if (!vm.pagination[currentChat.id]) {
-                vm.pagination[currentChat.id] = {
+            if (!vm.pagination.messages[currentChat.id]) {
+                vm.pagination.messages[currentChat.id] = {
                     currentPageNumber: 1,
                     totalCount: 0
                 };

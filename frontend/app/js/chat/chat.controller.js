@@ -18,12 +18,16 @@
         vm.chats = [];
         vm.bids = [];
         vm.messages = {};
+        vm.feedbacks = {};
 
         vm.currentUser = {};
         vm.currentChat = null;
 
         vm.currentRequest = {};
-        vm.pagination = {};
+        vm.pagination = {
+            messages: {},
+            feedbacks: {}
+        };
         vm.isAllMessagesLoaded = {};
 
         vm.replyMessage = {};
@@ -83,19 +87,19 @@
 
             var params = {
                 limit: chatPaginationOptions.limit,
-                page: vm.pagination[currentChat.id].currentPageNumber
+                page: vm.pagination.messages[currentChat.id].currentPageNumber
             };
 
             return loadMessages(currentChat, params)
                 .then(function (messages) {
                     vm.messages[currentChat.id] = vm.messages[currentChat.id].concat(messages.items);
 
-                    vm.pagination[currentChat.id].totalCount = messages.totalCount;
+                    vm.pagination.messages[currentChat.id].totalCount = messages.totalCount;
                     vm.isAllMessagesLoaded[currentChat.id] =
-                        vm.pagination[currentChat.id].currentPageNumber * chatPaginationOptions.limit >=
-                        vm.pagination[currentChat.id].totalCount;
+                        vm.pagination.messages[currentChat.id].currentPageNumber * chatPaginationOptions.limit >=
+                        vm.pagination.messages[currentChat.id].totalCount;
 
-                    vm.pagination[currentChat.id].currentPageNumber++;
+                    vm.pagination.messages[currentChat.id].currentPageNumber++;
 
                     vm.isScrollDisabled = false;
 
@@ -182,6 +186,10 @@
 
         function toggleSidenav(navID) {
             $mdSidenav(navID).toggle();
+
+            if (navID === 'right-sidenav') {
+
+            }
         }
 
         function activate() {
