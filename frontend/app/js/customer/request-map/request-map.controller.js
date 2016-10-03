@@ -181,7 +181,7 @@
         }
 
         function createChat(selectedSpecialist, currentRequest) {
-            if (currentRequest) {
+            if (currentRequest && currentRequest.status !== vm.requestStatus.NEW) {
 
                 return;
             }
