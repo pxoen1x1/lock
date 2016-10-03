@@ -19,6 +19,7 @@
                 currentChat: '=',
                 isScrollDisabled: '=?scrollChatDisabled',
                 isScrollToBottomEnabled: '=?scrollChatToBottom',
+                selectSpecialist: '&',
                 loadPrevMessages: '&'
             },
             replace: true,
@@ -77,6 +78,8 @@
             }
 
             vm.currentChat = currentChat;
+
+            vm.selectSpecialist({specialist: currentChat.specialist});
 
             if (!vm.pagination.messages[currentChat.id]) {
                 vm.pagination.messages[currentChat.id] = {
