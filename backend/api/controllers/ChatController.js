@@ -1,4 +1,4 @@
-/* global sails, Chat, ChatService */
+/* global sails, ChatService */
 
 /**
  * ChatController

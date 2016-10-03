@@ -13,6 +13,7 @@
             getChats: getChats,
             getRequestBids: getRequestBids,
             getMessages: getMessages,
+            getReviews: getReviews,
             createChat: createChat,
             sendMessage: sendMessage,
             deleteBid: deleteBid,
@@ -53,6 +54,17 @@
                 .then(getMessagesCompleted);
 
             function getMessagesCompleted(response) {
+
+                return response.data;
+            }
+        }
+
+        function getReviews(user, params) {
+
+            return $sails.get('/api/users/' + user.id + '/feedbacks', params)
+                .then(getReviewsComplete);
+
+            function getReviewsComplete(response) {
 
                 return response.data;
             }

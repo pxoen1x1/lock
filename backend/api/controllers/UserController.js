@@ -1,4 +1,4 @@
-/*global sails, waterlock, User, UserService, FileService, Feedback*/
+/*global sails, waterlock, User, UserService, FileService */
 
 /**
  * UserController.js
@@ -93,35 +93,6 @@ let UserController = waterlock.actions.user({
                     sails.log.error(err);
 
                     return res.serverError();
-                }
-            );
-    },
-    getUserFeedbacks(req, res) {
-        let executor = req.params.user;
-
-        if (!executor) {
-
-            res.badRequest(
-                {
-                    message: req.__('Submitted data is invalid.')
-                }
-            );
-        }
-
-        Feedback.findByExecutor(executor)
-            .populateAll()
-            .then(
-                (feedbacks) => res.ok(
-                    {
-                        feedbacks: feedbacks
-                    }
-                )
-            )
-            .catch(
-                (err) => {
-                    sails.log.error(err);
-
-                    res.serverError();
                 }
             );
     },

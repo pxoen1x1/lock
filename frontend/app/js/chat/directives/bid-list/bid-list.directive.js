@@ -14,7 +14,8 @@
             scope: {
                 bids: '=',
                 currentBid: '=',
-                currentRequest: '='
+                currentRequest: '=',
+                selectSpecialist: '&'
             },
             replace: true,
             templateUrl: 'chat/directives/bid-list/bid-list.html'
@@ -68,6 +69,8 @@
             }
 
             vm.currentBid = currentBid;
+
+            vm.selectSpecialist({specialist: currentBid.specialist});
 
             if (!$mdMedia('gt-md')) {
                 $mdSidenav('left-sidenav').close();

@@ -74,6 +74,27 @@ $panel-background-color: rgb(245, 245, 245);
   margin-left: 5px;
 }
 
+.m-w-s {
+  margin-right: 10px;
+  margin-left: 10px;
+}
+
+.m-t-s {
+  margin-top: 10px;
+}
+
+.m-r-s {
+  margin-right: 10px;
+}
+
+.m-b-s {
+  margin-bottom: 10px;
+}
+
+.m-l-s {
+  margin-left: 10px;
+}
+
 .m-t-none {
   margin-top: 0;
 }
@@ -187,9 +208,14 @@ md-input-container {
 }
 
 .md-primary-bg {
+  color: rgba(255, 255, 255, 1);
+
+  &.md-hue-2 {
+    background-color: $primary-color;
+  }
+
   &.md-hue-3 {
     background-color: rgb(92, 97, 111);
-    color: rgba(255, 255, 255, 1);
   }
 }
 

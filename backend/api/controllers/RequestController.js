@@ -1,4 +1,4 @@
-/* global sails, RequestService, UserDetailService */
+/* global sails, RequestService */
 /**
  * RequestController
  *
@@ -142,56 +142,6 @@ let RequestController = {
                     sails.log.error(err);
 
                     res.serverError();
-                }
-            );
-    },
-    createFeedback(req, res) {
-        let feedback = req.allParams();
-        feedback.rating = feedback.rating ? parseInt(feedback.rating, 10) : undefined;
-
-        if (!feedback.request || !feedback.message ||
-            (typeof feedback.rating !== 'undefined' && (feedback.rating < 1 || feedback.rating > 5))) {
-
-            return res.badRequest(
-                {
-                    message: req.__('Submitted data is invalid.')
-                }
-            );
-        }
-
-        feedback.author = req.session.user.id;
-
-        RequestService.createFeedback(feedback)
-            .then(
-                (createdFeedback) => {
-                    res.created(
-                        {
-                            feedback: createdFeedback
-                        });
-
-                    return createdFeedback;
-                }
-            )
-            .then(
-                (feedback)=> {
-                    let executor = feedback.executor;
-
-                    return UserDetailService.updateRating({id: executor});
-                }
-            )
-            .catch(
-                (err) => {
-                    if (err) {
-                        sails.log.error(err);
-
-                        return res.serverError();
-                    }
-
-                    return res.badRequest(
-                        {
-                            message: req.__('Request is not completed.')
-                        }
-                    );
                 }
             );
     },

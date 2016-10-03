@@ -72,6 +72,13 @@ module.exports.policies = {
     },
 
     RequestController: {
+    },
+
+    FeedbackController: {
+        '*': [
+            'hasJsonWebToken',
+            'isUserEnabled'
+        ],
         'createFeedback': [
             'hasJsonWebToken',
             'isUserEnabled',

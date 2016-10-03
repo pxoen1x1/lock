@@ -1,4 +1,4 @@
-/* global Request, Feedback, UserDetailService, HelperService */
+/* global Request, UserDetailService, HelperService */
 
 'use strict';
 
@@ -152,25 +152,6 @@ let RequestService = {
         return Request.create(request)
             .then(
                 (createdRequest) => createdRequest
-            );
-    },
-    createFeedback(feedback) {
-
-        return Request.findOneById(feedback.request)
-            .then(
-                (request) => {
-                    if (!request.isExecuted || !request.executor) {
-
-                        return Promise.reject();
-                    }
-
-                    feedback.executor = request.executor;
-
-                    return Feedback.create(feedback);
-                }
-            )
-            .then(
-                (createdFeedback) => createdFeedback
             );
     },
     updateRequest(request) {

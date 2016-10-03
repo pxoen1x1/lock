@@ -43,6 +43,7 @@
              current-chat="vm.currentChat"
              scroll-chat-disabled="vm.isScrollDisabled"
              scroll-chat-to-bottom="vm.isScrollToBottomEnabled"
+             select-specialist="vm.selectSpecialist(specialist)"
              load-prev-messages="vm.loadPrevMessages(currentChat)">
   </chat-list>
 </div>
@@ -53,6 +54,7 @@
   <bid-list ng-if="vm.currentRequest.id"
             bids="vm.bids"
             current-request="vm.currentRequest"
-            current-bid="vm.currentBid">
+            current-bid="vm.currentBid"
+            select-specialist="vm.selectSpecialist(specialist)">
   </bid-list>
 </div>
