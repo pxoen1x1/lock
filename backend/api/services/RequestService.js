@@ -107,9 +107,18 @@ let getRequestsRawQuery = `SELECT request.id,
                                ON executor_details_workingHours.user_details_id = executor_details.id`;
 
 let RequestService = {
-    getAll(criteria, sorting, pagination) {
+    getAll(criteria) {
+        let tableAlias = 'request';
+        let rawQuery = HelperService.buildQuery(getRequestsRawQuery, criteria, tableAlias);
 
-        return Request.find(criteria)
+        let getRequestQueryAsync = promise.promisify(Request.query);
+
+        return getRequestQueryAsync(rawQuery)
+            .then(
+                (requests) => HelperService.formatQueryResult(requests)
+            );
+
+        /*return Request.find(criteria)
             .sort(sorting)
             .populateAll()
             .paginate(pagination)
@@ -128,7 +137,7 @@ let RequestService = {
 
                     return Promise.all(executorDetailsPopulatePromises);
                 }
-            );
+            );*/
     },
     getRequestById(request){
         let rawQuery = `${getRequestsRawQuery} WHERE request.id = ?`;

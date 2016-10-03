@@ -11,24 +11,27 @@
 let RequestController = {
     getAllClientRequests(req, res) {
         let params = req.allParams();
-
-        let criteria = {
-            where: {
-                owner: req.session.user.id
-            }
-        };
+        let user = req.session.user.id;
 
         let sorting = params.order || 'updatedAt DESC';
-
         let pagination = {};
         pagination.limit = params.limit || sails.config.application.queryLimit;
         pagination.page = params.page || 1;
 
-        RequestService.getAll(criteria, sorting, pagination)
+        let criteria = {
+            where: {
+                owner_id: user
+            },
+            sorting: sorting,
+            skip: (pagination.page - 1) * pagination.limit,
+            limit: pagination.limit
+        };
+
+        RequestService.getAll(criteria)
             .then(
                 (requests) => {
 
-                    return [RequestService.getRequestsCount(criteria), requests];
+                    return [RequestService.getRequestsCount({owner: user}), requests];
                 }
             )
             .spread(
@@ -49,23 +52,27 @@ let RequestController = {
     getAllSpecialistRequests(req, res) {
         let params = req.allParams();
 
-        let criteria = {
-            where: {
-                executor: req.session.user.id
-            }
-        };
+        let user = req.session.user.id;
 
         let sorting = params.order || 'updatedAt DESC';
-
         let pagination = {};
         pagination.limit = params.limit || sails.config.application.queryLimit;
         pagination.page = params.page || 1;
 
-        RequestService.getAll(criteria, sorting, pagination)
+        let criteria = {
+            where: {
+                executor_id: user
+            },
+            sorting: sorting,
+            skip: (pagination.page - 1) * pagination.limit,
+            limit: pagination.limit
+        };
+
+        RequestService.getAll(criteria)
             .then(
                 (requests) => {
 
-                    return [RequestService.getRequestsCount(criteria), requests];
+                    return [RequestService.getRequestsCount({executor: user}), requests];
                 }
             )
             .spread(
