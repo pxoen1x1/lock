@@ -32,6 +32,13 @@ let FeedbackService = {
                     return Feedback.create(feedback);
                 }
             );
+    },
+    getFeedbacksCount(criteria) {
+
+        return Feedback.count(criteria)
+            .then(
+                (count) => count
+            );
     }
 };
 
