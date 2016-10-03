@@ -58,6 +58,7 @@ let UserService = {
                     details.is_pro AS 'details.isPro',
                     details.latitude AS 'details.latitude',
                     details.longitude AS 'details.longitude',
+                    details.rating AS 'details.rating',
                     details_license.id AS 'details.license.id',
                     details_license.number AS 'details.license.number',
                     details_license.date AS 'details.license.date',
