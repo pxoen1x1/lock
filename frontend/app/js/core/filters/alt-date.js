@@ -22,12 +22,12 @@
 
             if (fromNow < 24 * 3600 * 1000) {
 
-                return moment(date).format('HH:mm');
+                return moment(date).format('hh:mm a');
             }
 
             if (fromNow < 7 * 24 * 3600 * 1000) {
 
-                return moment(date).format('ddd HH:mm');
+                return moment(date).format('ddd hh:mm a');
             }
 
             return dateFormate ? moment(date).format(dateFormate) : moment(date).calendar();
