@@ -3,13 +3,13 @@
 
     angular
         .module('app.chat')
-        .controller('ChatController', ChatController);
+        .controller('ClientChatController', ClientChatController);
 
-    ChatController.$inject = ['$q', '$state', '$stateParams', '$mdSidenav', 'coreConstants', 'currentUserService',
+    ClientChatController.$inject = ['$q', '$state', '$stateParams', '$mdSidenav', 'coreConstants', 'currentUserService',
         'chatSocketservice', 'requestService'];
 
     /* @ngInject */
-    function ChatController($q, $state, $stateParams, $mdSidenav, coreConstants, currentUserService,
+    function ClientChatController($q, $state, $stateParams, $mdSidenav, coreConstants, currentUserService,
                             chatSocketservice, requestService) {
         var currentRequestId = $stateParams.requestId;
         var chatPaginationOptions = coreConstants.CHAT_PAGINATION_OPTIONS;
