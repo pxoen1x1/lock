@@ -11,6 +11,7 @@
 
 let FeedbackController = {
     getUserFeedbacks(req, res) {
+        let params = req.allParams();
         let executor = req.params.user;
 
         if (!executor) {
@@ -22,12 +23,34 @@ let FeedbackController = {
             );
         }
 
-        Feedback.findByExecutor(executor)
+        let criteria = {
+            where: {
+                executor: executor
+            }
+        };
+
+        let sorting = params.order || 'updatedAt DESC';
+
+        let pagination = {};
+        pagination.limit = params.limit || sails.config.application.queryLimit;
+        pagination.page = params.page || 1;
+
+        Feedback.find(criteria)
+            .sort(sorting)
+            .paginate(pagination)
             .populateAll()
             .then(
-                (feedbacks) => res.ok(
+                (feedbacks) => {
+
+                    return [FeedbackService.getFeedbacksCount(criteria), feedbacks];
+                }
+            )
+            .spread(
+                (totalCount, feedbacks) => res.ok(
                     {
-                        feedbacks: feedbacks
+                        items: feedbacks,
+                        currentPageNumber: pagination.page,
+                        totalCount: totalCount
                     }
                 )
             )
