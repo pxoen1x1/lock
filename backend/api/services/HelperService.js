@@ -17,7 +17,6 @@ let HelperService = {
             return query;
         }
 
-
         let whereCriterion = criteria.where;
 
         if (whereCriterion) {
@@ -29,7 +28,6 @@ let HelperService = {
         } else {
             query += this._buildQuery(criteria, tableAlias);
         }
-
 
         return query;
     },
