@@ -71,13 +71,15 @@ module.exports.policies = {
         'getLanguages': true
     },
 
-    RequestController: {},
+    RequestController: {
+        'updateRequest': [
+            'hasJsonWebToken',
+            'isUserEnabled',
+            'isRequestOwner'
+        ]
+    },
 
     FeedbackController: {
-        '*': [
-            'hasJsonWebToken',
-            'isUserEnabled'
-        ],
         'createFeedback': [
             'hasJsonWebToken',
             'isUserEnabled',

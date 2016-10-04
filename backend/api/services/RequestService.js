@@ -1,4 +1,4 @@
-/* global Request, UserDetailService, HelperService */
+/* global Request, HelperService */
 
 'use strict';
 
@@ -153,13 +153,3 @@ let RequestService = {
 
 module.exports = RequestService;
 
-function populateByUserDetails(request) {
-    return UserDetailService.getUserDetailByUser(request.executor)
-        .then(
-            (userDetails) => {
-                request.executor.details = userDetails;
-
-                return request;
-            }
-        );
-}

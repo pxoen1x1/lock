@@ -14,7 +14,7 @@ let application = {
         passwordResetRequest: '/auth/password/reset'
     },
     mailer: {
-        from: `LockSmith <no-reply@locksmith.local>`,
+        from: `LockHeal <no-reply@lockheal.com>`,
         providerPath: '/usr/sbin/sendmail',
         templates: {
             successRegistration: 'emails/successRegistration',
