@@ -146,7 +146,7 @@
 
             function updateUserComplete(response) {
 
-                return response.data;
+                return response;
             }
         }
 

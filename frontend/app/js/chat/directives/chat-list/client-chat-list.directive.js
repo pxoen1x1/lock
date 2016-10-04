@@ -3,12 +3,12 @@
 
     angular
         .module('app.chat')
-        .directive('chatList', chatList);
+        .directive('clientChatList', clientChatList);
 
-    function chatList() {
+    function clientChatList() {
         var directive = {
             bindToController: true,
-            controller: ChatListController,
+            controller: ClientChatListController,
             controllerAs: 'vm',
             restrict: 'E',
             scope: {
@@ -29,10 +29,10 @@
         return directive;
     }
 
-    ChatListController.$inject = ['chatSocketservice', '$mdSidenav', '$mdMedia', 'coreConstants'];
+    ClientChatListController.$inject = ['chatSocketservice', '$mdSidenav', '$mdMedia', 'coreConstants'];
 
     /* @ngInject */
-    function ChatListController(chatSocketservice, $mdSidenav, $mdMedia, coreConstants) {
+    function ClientChatListController(chatSocketservice, $mdSidenav, $mdMedia, coreConstants) {
         var vm = this;
 
         vm.chatSearch = '';
@@ -46,7 +46,7 @@
 
         function getChats(currentRequest) {
 
-            return chatSocketservice.getChats(currentRequest)
+            return chatSocketservice.getClientChats(currentRequest)
                 .then(function (chats) {
                     vm.chats = chats;
 

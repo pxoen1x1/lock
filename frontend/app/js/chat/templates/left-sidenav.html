@@ -35,7 +35,7 @@
      flex
      ng-show="vm.selectedTab === 'chats'"
      ng-class="{ 'nav-bar-disabled' : vm.bids.length === 0 || vm.currentRequest.status !== vm.requestStatus.NEW }">
-  <chat-list ng-if="vm.currentRequest.id"
+  <client-chat-list ng-if="vm.currentRequest.id"
              chats="vm.chats"
              messages="vm.messages"
              pagination="vm.pagination"
@@ -45,7 +45,7 @@
              scroll-chat-to-bottom="vm.isScrollToBottomEnabled"
              select-specialist="vm.selectSpecialist(specialist)"
              load-prev-messages="vm.loadPrevMessages(currentChat)">
-  </chat-list>
+  </client-chat-list>
 </div>
 <div class="view chats-view animate-slide-right"
      layout="column"

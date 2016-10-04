@@ -10,7 +10,7 @@
     /* @ngInject */
     function chatSocketservice($sails, socketService) {
         var service = {
-            getChats: getChats,
+            getClientChats: getClientChats,
             getRequestBids: getRequestBids,
             getMessages: getMessages,
             getReviews: getReviews,
@@ -26,12 +26,12 @@
 
         return service;
 
-        function getChats(request) {
+        function getClientChats(request) {
 
             return $sails.get('/api/client/request/' + request.id + '/chats')
-                .then(getChatsCompleted);
+                .then(getClientChatsCompleted);
 
-            function getChatsCompleted(message) {
+            function getClientChatsCompleted(message) {
 
                 return message.data.chats;
             }
