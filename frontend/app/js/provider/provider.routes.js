@@ -69,6 +69,25 @@
                     isPrivate: true
                 }
             })
+            .state('provider.messages', {
+                parent: 'provider',
+                url: '/messages',
+                views: {
+                    'content@provider': {
+                        templateUrl: 'chat/templates/chat.html',
+                        controller: 'SpecialistChatController',
+                        controllerAs: 'vm'
+                    }
+                },
+                data: {
+                    title: 'Messages',
+                    menu: {
+                        icon: 'list',
+                        title: 'Messages'
+                    },
+                    isPrivate: true
+                }
+            })
             .state('provider.profile', {
                 parent: 'provider',
                 url: '/profile',
