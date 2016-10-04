@@ -10,7 +10,6 @@ const mailerOptions = {
 };
 
 const HOST = sails.config.baseUrl;
-const POST = sails.config.port;
 
 let mailer = require('sails-service-mailer');
 
@@ -31,7 +30,7 @@ let MailerService = {
         let options = {};
         options.user = user;
         options.email = user.auth.email;
-        options.url = `${HOST}:${POST}${sails.config.application.urls.emailConfirmation}` +
+        options.url = `${HOST}${sails.config.application.urls.emailConfirmation}` +
             `?token=${user.emailConfirmationToken}`;
 
         return this.sendMail(templatePath, options)
@@ -44,7 +43,7 @@ let MailerService = {
         let options = {};
         options.user = user;
         options.email = user.auth.email;
-        options.url = `${HOST}:${POST}${sails.config.application.urls.passwordResetRequest}/` +
+        options.url = `${HOST}${sails.config.application.urls.passwordResetRequest}/` +
             `${user.resetToken.token}`;
 
         return this.sendMail(templatePath, options)
