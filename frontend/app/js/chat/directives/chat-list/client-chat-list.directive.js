@@ -46,7 +46,7 @@
 
         function getChats(currentRequest) {
 
-            return chatSocketservice.getChats(currentRequest)
+            return chatSocketservice.getClientChats(currentRequest)
                 .then(function (chats) {
                     vm.chats = chats;
 
