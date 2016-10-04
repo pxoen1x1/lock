@@ -5,15 +5,17 @@
         .module('app.core')
         .factory('currentUserService', currentUserService);
 
-    currentUserService.$inject = ['$q', 'coreDataservice', 'localService'];
+    currentUserService.$inject = ['$q', 'coreDataservice', 'localService', 'coreConstants'];
 
     /* @ngInject */
-    function currentUserService($q, coreDataservice, localService) {
+    function currentUserService($q, coreDataservice, localService, coreConstants) {
         var getUserPromise;
+        var userType;
 
         var service = {
             getUser: getUser,
-            setUser: setUser
+            setUser: setUser,
+            getType: getType
         };
 
         return service;
@@ -24,9 +26,8 @@
         }
 
         function getUserFromLocalStorage() {
-            var user = localService.getUser();
 
-            return user;
+            return localService.getUser();
         }
 
         function getUserFromHttp() {
@@ -57,7 +58,14 @@
 
         function setUser(user) {
 
-            return setUserToHttp(user);
+            return setUserToHttp(user)
+                .then(function (currentUser) {
+
+                    localService.setUser(currentUser);
+                    setCurrentUserType(currentUser);
+
+                    return currentUser;
+                });
         }
 
         function setUserToHttp(user) {
@@ -69,16 +77,33 @@
 
         function setUserToHttpComplete(response) {
 
-            var currentUser = response.user;
-
-            localService.setUser(currentUser);
-
-            return currentUser;
+            return response.data.user;
         }
 
         function setUserToHttpFailed(error) {
 
             return error;
+        }
+
+        function getType() {
+
+            return $q.when(userType || getCurrentUserType());
+        }
+
+        function getCurrentUserType() {
+
+            return getUser()
+                .then(setCurrentUserType);
+        }
+
+        function setCurrentUserType(currentUser) {
+            if (currentUser.details && currentUser.details.id) {
+                userType = coreConstants.USER_TYPES.SPECIALIST;
+            } else {
+                userType = coreConstants.USER_TYPES.CLIENT;
+            }
+
+            return userType;
         }
     }
 })();
