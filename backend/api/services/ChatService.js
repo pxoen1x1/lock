@@ -154,12 +154,13 @@ let ChatService = {
                 }
             );
     },
-    getChats(params) {
-        let rawQuery = `${getChatsRawQuery} WHERE chat.request_id = ?`;
+    getChats(criteria) {
+        let tableAlias = 'chat';
+        let rawQuery = HelperService.buildQuery(getChatsRawQuery, criteria, tableAlias);
 
         let chatQueryAsync = promise.promisify(Chat.query);
 
-        return chatQueryAsync(rawQuery, [params.request])
+        return chatQueryAsync(rawQuery)
             .then(
                 (chats) => {
 

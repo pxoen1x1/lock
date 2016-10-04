@@ -22,11 +22,32 @@ let ChatController = {
             );
         }
 
-        ChatService.getChats({request: request})
+        ChatService.getChats({request_id: request})
             .then(
-                (chats) => res.ok({
-                    chats: chats
-                })
+                (chats) => res.ok(
+                    {
+                        chats: chats
+                    }
+                )
+            )
+            .catch(
+                (err) => {
+                    sails.log.error(err);
+
+                    return res.serverError();
+                }
+            );
+    },
+    getSpecialistChats(req, res) {
+        let user = req.session.user.id;
+
+        ChatService.getChats({specialist_id: user})
+            .then(
+                (chats) => res.ok(
+                    {
+                        chats: chats
+                    }
+                )
             )
             .catch(
                 (err) => {
