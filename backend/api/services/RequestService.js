@@ -117,27 +117,6 @@ let RequestService = {
             .then(
                 (requests) => HelperService.formatQueryResult(requests)
             );
-
-        /*return Request.find(criteria)
-            .sort(sorting)
-            .populateAll()
-            .paginate(pagination)
-            .then(
-                (foundRequests) => {
-                    let executorDetailsPopulatePromises = foundRequests.map(
-                        (foundRequest) => {
-                            if (!foundRequest || !foundRequest.executor) {
-
-                                return Promise.resolve(foundRequest);
-                            }
-
-                            return populateByUserDetails(foundRequest);
-                        }
-                    );
-
-                    return Promise.all(executorDetailsPopulatePromises);
-                }
-            );*/
     },
     getRequestById(request){
         let rawQuery = `${getRequestsRawQuery} WHERE request.id = ?`;
