@@ -100,13 +100,6 @@ let UserController = waterlock.actions.user({
         let userId = req.session.user.id;
         let user = req.body;
 
-        if (!userId) {
-
-            return res.forbidden({
-                message: req.__('You are not permitted to perform this action.')
-            });
-        }
-
         if (Object.keys(user).length === 0) {
 
             return res.badRequest({
