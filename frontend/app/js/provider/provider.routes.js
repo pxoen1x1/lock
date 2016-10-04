@@ -30,8 +30,7 @@
                     }
                 },
                 data: {
-                    title: 'Specialist',
-                    isPrivate: true
+                    title: 'Specialist'
                 }
             })
             .state('provider.registration', {
@@ -114,8 +113,7 @@
                     }
                 },
                 data: {
-                    title: 'Public',
-                    isPrivate: true
+                    title: 'Public'
                 }
             });
     }
