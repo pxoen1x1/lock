@@ -27,7 +27,8 @@
                 }
             ],
             MENU_ITEMS: [
-                'provider.dashboard'
+                'provider.dashboard',
+                'provider.messages'
             ]
         });
 })();
