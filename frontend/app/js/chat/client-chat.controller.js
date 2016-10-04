@@ -10,7 +10,7 @@
 
     /* @ngInject */
     function ClientChatController($q, $state, $stateParams, $mdSidenav, coreConstants, currentUserService,
-                            chatSocketservice, requestService) {
+                                  chatSocketservice, requestService) {
         var currentRequestId = $stateParams.requestId;
         var chatPaginationOptions = coreConstants.CHAT_PAGINATION_OPTIONS;
         var vm = this;
@@ -42,6 +42,7 @@
         vm.defaultPortrait = coreConstants.IMAGES.defaultPortrait;
         vm.dateFormat = coreConstants.DATE_FORMAT;
         vm.requestStatus = coreConstants.REQUEST_STATUSES;
+        vm.userType = coreConstants.USER_TYPES;
 
         vm.toggleSidenav = toggleSidenav;
         vm.loadPrevMessages = loadPrevMessages;
@@ -59,6 +60,16 @@
                     vm.currentUser = currentUser;
 
                     return vm.currentUser;
+                });
+        }
+
+        function getCurrentUserType() {
+
+            return currentUserService.getType()
+                .then(function (currentUserType) {
+                    vm.currentUser.type = currentUserType;
+
+                    return currentUserType;
                 });
         }
 
@@ -228,7 +239,6 @@
             vm.textareaGrow[currentChat.id] = false;
         }
 
-
         function toggleSidenav(navID) {
             $mdSidenav(navID).toggle();
         }
@@ -237,7 +247,10 @@
             $q.all([
                 getCurrentUser(),
                 getRequest(currentRequestId)
-            ]);
+            ])
+                .then(function () {
+                    getCurrentUserType();
+                });
         }
     }
 })();
