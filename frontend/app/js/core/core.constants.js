@@ -16,6 +16,12 @@
                 limit: 50
             },
             DATE_FORMAT: 'MM/DD/YYYY',
+            USER_TYPES: {
+                'CLIENT': 1,
+                'SPECIALIST': 2,
+                1: 'client',
+                2: 'specialist'
+            },
             REQUEST_STATUSES: {
                 1: 'new',
                 2: 'in progress',
