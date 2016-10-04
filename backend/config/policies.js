@@ -71,8 +71,7 @@ module.exports.policies = {
         'getLanguages': true
     },
 
-    RequestController: {
-    },
+    RequestController: {},
 
     FeedbackController: {
         '*': [
@@ -88,6 +87,11 @@ module.exports.policies = {
 
     ChatController: {
         '*': [
+            'isSocketRequest',
+            'hasJsonWebToken',
+            'isUserEnabled'
+        ],
+        'getClientChats': [
             'isSocketRequest',
             'hasJsonWebToken',
             'isUserEnabled',

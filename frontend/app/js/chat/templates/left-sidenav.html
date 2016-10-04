@@ -33,19 +33,30 @@
 <div class="view chats-view animate-slide-left"
      layout="column"
      flex
-     ng-show="vm.selectedTab === 'chats'"
-     ng-class="{ 'nav-bar-disabled' : vm.bids.length === 0 || vm.currentRequest.status !== vm.requestStatus.NEW }">
+     ng-show="vm.selectedTab !== 'bids'"
+     ng-class="{ 'nav-bar-disabled' : !vm.bids || vm.bids.length === 0 || vm.currentRequest.status !== vm.requestStatus.NEW }">
   <client-chat-list ng-if="vm.currentRequest.id"
-             chats="vm.chats"
-             messages="vm.messages"
-             pagination="vm.pagination"
-             current-request="vm.currentRequest"
-             current-chat="vm.currentChat"
-             scroll-chat-disabled="vm.isScrollDisabled"
-             scroll-chat-to-bottom="vm.isScrollToBottomEnabled"
-             select-specialist="vm.selectSpecialist(specialist)"
-             load-prev-messages="vm.loadPrevMessages(currentChat)">
+                    chats="vm.chats"
+                    messages="vm.messages"
+                    pagination="vm.pagination"
+                    current-request="vm.currentRequest"
+                    current-chat="vm.currentChat"
+                    scroll-chat-disabled="vm.isScrollDisabled"
+                    scroll-chat-to-bottom="vm.isScrollToBottomEnabled"
+                    select-specialist="vm.selectSpecialist(specialist)"
+                    load-prev-messages="vm.loadPrevMessages(currentChat)">
   </client-chat-list>
+  <specialist-chat-list ng-if="vm.currentUser.type === vm.userType.SPECIALIST"
+                        chats="vm.chats"
+                        messages="vm.messages"
+                        pagination="vm.pagination"
+                        current-request="vm.currentRequest"
+                        current-chat="vm.currentChat"
+                        scroll-chat-disabled="vm.isScrollDisabled"
+                        scroll-chat-to-bottom="vm.isScrollToBottomEnabled"
+                        select-specialist="vm.selectSpecialist(specialist)"
+                        load-prev-messages="vm.loadPrevMessages(currentChat)">
+  </specialist-chat-list>
 </div>
 <div class="view chats-view animate-slide-right"
      layout="column"

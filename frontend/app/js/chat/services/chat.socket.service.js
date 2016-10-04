@@ -11,6 +11,7 @@
     function chatSocketservice($sails, socketService) {
         var service = {
             getClientChats: getClientChats,
+            getSpecialistChats: getSpecialistChats,
             getRequestBids: getRequestBids,
             getMessages: getMessages,
             getReviews: getReviews,
@@ -32,6 +33,17 @@
                 .then(getClientChatsCompleted);
 
             function getClientChatsCompleted(message) {
+
+                return message.data.chats;
+            }
+        }
+
+        function getSpecialistChats() {
+
+            return $sails.get('/api/specialist/chats')
+                .then(getSpecialistChatsCompleted);
+
+            function getSpecialistChatsCompleted(message) {
 
                 return message.data.chats;
             }
