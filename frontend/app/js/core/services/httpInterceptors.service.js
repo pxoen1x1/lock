@@ -42,7 +42,7 @@
                 var message = response.data.message;
 
                 if (response.status > 0 && !isStatusOk) {
-                    if (response.status === 401 || response.status === 403) {
+                    if (response.status === 403) {
                         localService.removeAuth();
                     }
 
