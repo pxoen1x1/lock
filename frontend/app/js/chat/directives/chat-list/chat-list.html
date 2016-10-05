@@ -12,7 +12,8 @@
                   ng-click="vm.changeCurrentChat(chat)">
       <div class="avatar-wrapper">
         <div class="md-avatar avatar"
-             ng-style="{ 'background-image': 'url(' + (chat.specialist.portrait || vm.defaultPortrait) + ')' }">
+             ng-style="{ 'background-image': 'url(' + (chat.specialist.portrait ?
+             vm.baseUrl + chat.specialist.portrait : vm.defaultPortrait) + ')' }">
         </div>
         <i class="material-icons s14 status"
            ng-if="chat.specialist.details.isAvailable">check_circle
