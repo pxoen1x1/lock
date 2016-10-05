@@ -27,14 +27,16 @@ module.exports = function (req, res, next) {
             (foundChat) => {
                 if (!foundChat) {
 
-                    return res.notFound({
-                        message: req.__('Chat is not found.')
-                    });
+                    return res.notFound(
+                        {
+                            message: req.__('Chat is not found.')
+                        }
+                    );
                 }
 
-                let isUserChatMember = user === foundChat.client  || user === foundChat.specialist;
+                let isChatMember = user === foundChat.client || user === foundChat.specialist;
 
-                if (!isUserChatMember) {
+                if (!isChatMember) {
 
                     return res.forbidden(
                         {

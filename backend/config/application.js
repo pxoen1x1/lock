@@ -3,7 +3,10 @@
 let application = {
     tokenLength: 16,
     queryLimit: 10,
-    chatMessagesLimit: 50,
+    chat: {
+        messagesLimit: 50,
+        bidDefaultMessage: 'Please, start a chat with me.'
+    },
     emailVerificationEnabled: true,
     resetPasswordExpiresTime: 24*3600*1000,
     urls: {
@@ -11,7 +14,7 @@ let application = {
         passwordResetRequest: '/auth/password/reset'
     },
     mailer: {
-        from: `LockSmith <no-reply@locksmith.local>`,
+        from: `LockHeal <no-reply@lockheal.com>`,
         providerPath: '/usr/sbin/sendmail',
         templates: {
             successRegistration: 'emails/successRegistration',

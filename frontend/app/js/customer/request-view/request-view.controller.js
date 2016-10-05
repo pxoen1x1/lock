@@ -46,7 +46,7 @@
             }
         };
 
-        vm.selectedRequestId = $stateParams.requestId;
+        vm.currentRequestId = $stateParams.requestId;
 
         activate();
 
@@ -65,11 +65,11 @@
         }
 
         function getRequest() {
-            var selectedRequestId = {
-                id: vm.selectedRequestId
+            var currentRequestId = {
+                id: vm.currentRequestId
             };
 
-            getRequestById(selectedRequestId)
+            getRequestById(currentRequestId)
                 .then(function (request) {
                     vm.request = request;
                     requestService.setRequest(vm.request);

@@ -1,0 +1,28 @@
+<md-card class="service-message">
+  <md-card-content class="message-content">
+    <div class="message"
+         layout="row">
+      <div flex
+           ng-bind="vm.message.message">
+      </div>
+      <div class="subtitle"
+           ng-bind="vm.message.createdAt | altDate : vm.dateFormat">
+      </div>
+    </div>
+    <div class="price md-primary-bg md-hue-2"
+         layout="column"
+         layout-align="start center">
+      <div layout="row"
+           layout-align="center start">
+        <div class="value">
+          cost:
+        </div>
+        <div class="currency">$</div>
+        <div layout="row" layout-align="center end">
+          <div class="value" ng-bind="vm.message.cost"></div>
+        </div>
+      </div>
+      <div class="value m-t-xs">Accepted</div>
+    </div>
+  </md-card-content>
+</md-card>

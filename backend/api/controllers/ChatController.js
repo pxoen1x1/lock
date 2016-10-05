@@ -1,4 +1,4 @@
-/* global sails, Chat, ChatService */
+/* global sails, ChatService */
 
 /**
  * ChatController
@@ -22,11 +22,32 @@ let ChatController = {
             );
         }
 
-        ChatService.getChats({request: request})
+        ChatService.getChats({request_id: request})
             .then(
-                (chats) => res.ok({
-                    chats: chats
-                })
+                (chats) => res.ok(
+                    {
+                        chats: chats
+                    }
+                )
+            )
+            .catch(
+                (err) => {
+                    sails.log.error(err);
+
+                    return res.serverError();
+                }
+            );
+    },
+    getSpecialistChats(req, res) {
+        let user = req.session.user.id;
+
+        ChatService.getChats({specialist_id: user})
+            .then(
+                (chats) => res.ok(
+                    {
+                        chats: chats
+                    }
+                )
             )
             .catch(
                 (err) => {
@@ -52,17 +73,34 @@ let ChatController = {
             );
         }
 
-        Chat.create({
+        let chat = {
             client: client,
             specialist: specialist,
             request: request
-        })
+        };
+
+        ChatService.createChat(chat)
             .then(
                 (createdChat) => {
-
-                    return res.ok({
+                    res.ok({
                         chat: createdChat
                     });
+
+                    return createdChat;
+                }
+            )
+            .then(
+                (chat) => {
+                    let specialistRoom = `user_${chat.specialist.id}`;
+
+                    sails.sockets.broadcast(
+                        specialistRoom,
+                        'chat',
+                        {
+                            chat: chat
+                        },
+                        req
+                    );
                 }
             )
             .catch(

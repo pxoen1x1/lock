@@ -1,4 +1,4 @@
-/*global sails, UserService*/
+/* global sails, HelperService */
 
 /**
  * User
@@ -68,7 +68,7 @@ let User = {
             defaultsTo() {
                 if (sails.config.application.emailVerificationEnabled) {
 
-                    return UserService.generateToken();
+                    return HelperService.generateToken();
                 }
             },
             columnName: 'email_confirmation_token'
@@ -104,6 +104,14 @@ let User = {
         },
         chatSpecialists: {
             collection: 'Chat',
+            via: 'specialist'
+        },
+        bidClients: {
+            collection: 'Bid',
+            via: 'client'
+        },
+        bidSpecialists: {
+            collection: 'Bid',
             via: 'specialist'
         },
         messageSenders: {

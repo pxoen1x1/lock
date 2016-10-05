@@ -1,3 +1,5 @@
+/* global sails */
+
 /**
  * Message.js
  *
@@ -7,17 +9,23 @@
 
 'use strict';
 
+const TYPE = sails.config.messages.TYPES;
+
 let Message = {
     tableName: 'messages',
 
     attributes: {
         message: {
-            type: 'string',
+            type: 'text',
             required: true
         },
         type: {
             type: 'integer',
-            defaultsTo: 0
+            defaultsTo: 1
+        },
+        cost: {
+            type: 'float',
+            is: /^\d*(\.\d{1,2})?$/
         },
         isRead: {
             type: 'boolean',
@@ -40,6 +48,18 @@ let Message = {
             required: true,
             columnName: 'chat_id'
         }
+    },
+
+    beforeValidate(message, next) {
+        let messageType = parseInt(message.type, 10);
+
+        if (messageType === TYPE.OFFER && !message.cost) {
+            let errorText = sails.__('Cost must be defined for offers.');
+
+            return next(new TypeError(errorText));
+        }
+
+        next(null, message);
     }
 };
 

@@ -16,10 +16,25 @@
                 limit: 50
             },
             DATE_FORMAT: 'MM/DD/YYYY',
+            USER_TYPES: {
+                'CLIENT': 1,
+                'SPECIALIST': 2,
+                1: 'client',
+                2: 'specialist'
+            },
+            USER_TYPE_DEFAULT_STATE: {
+                1: 'customer.newRequest',
+                2: 'provider.dashboard'
+            },
             REQUEST_STATUSES: {
                 1: 'new',
                 2: 'in progress',
-                3: 'closed'
+                3: 'done',
+                4: 'closed',
+                'NEW': 1,
+                'IN_PROGRESS': 2,
+                'DONE': 3,
+                'CLOSED': 4
             },
             IMAGES: {
                 'currentLocationMarker': '/images/map-marker-current.png',

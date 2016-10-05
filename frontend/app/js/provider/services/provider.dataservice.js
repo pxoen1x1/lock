@@ -10,34 +10,18 @@
     /* @ngInject */
     function serviceProviderDataservice($http, request, conf) {
         var service = {
-            getUser: getUser,
-            updateUser: updateUser
+            getAllRequests: getAllRequests
         };
 
         return service;
 
-        function getUser() {
+        function getAllRequests(params) {
 
             return request.httpWithTimeout({
-                url: conf.BASE_URL + 'api/user',
-                method: 'GET'
+                url: conf.BASE_URL + conf.URL_PREFIX + 'specialist/requests',
+                method: 'GET',
+                params: params
             });
-        }
-
-        function updateUser(updatedUser) {
-
-            return $http({
-                url: conf.BASE_URL + 'api/user/' + updatedUser.id,
-                method: 'PUT',
-                data: updatedUser
-            })
-                .then(updateUserCompleted);
-
-            function updateUserCompleted(response) {
-
-                return response;
-            }
-
         }
     }
 })();

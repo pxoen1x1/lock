@@ -1,4 +1,4 @@
-/* global sails, RequestService, UserDetailService */
+/* global sails, RequestService */
 /**
  * RequestController
  *
@@ -11,24 +11,68 @@
 let RequestController = {
     getAllClientRequests(req, res) {
         let params = req.allParams();
-
-        let criteria = {
-            where: {
-                owner: req.session.user.id
-            }
-        };
+        let user = req.session.user.id;
 
         let sorting = params.order || 'updatedAt DESC';
-
         let pagination = {};
         pagination.limit = params.limit || sails.config.application.queryLimit;
         pagination.page = params.page || 1;
 
-        RequestService.getAll(criteria, sorting, pagination)
+        let criteria = {
+            where: {
+                owner_id: user
+            },
+            sorting: sorting,
+            skip: (pagination.page - 1) * pagination.limit,
+            limit: pagination.limit
+        };
+
+        RequestService.getAll(criteria)
             .then(
                 (requests) => {
 
-                    return [RequestService.getRequestsCount(criteria), requests];
+                    return [RequestService.getRequestsCount({owner: user}), requests];
+                }
+            )
+            .spread(
+                (totalCount, requests) => res.ok({
+                    items: requests,
+                    currentPageNumber: pagination.page,
+                    totalCount: totalCount
+                })
+            )
+            .catch(
+                (err) => {
+                    sails.log.error(err);
+
+                    res.serverError();
+                }
+            );
+    },
+    getAllSpecialistRequests(req, res) {
+        let params = req.allParams();
+
+        let user = req.session.user.id;
+
+        let sorting = params.order || 'updatedAt DESC';
+        let pagination = {};
+        pagination.limit = params.limit || sails.config.application.queryLimit;
+        pagination.page = params.page || 1;
+
+        let criteria = {
+            where: {
+                executor_id: user
+            },
+            sorting: sorting,
+            skip: (pagination.page - 1) * pagination.limit,
+            limit: pagination.limit
+        };
+
+        RequestService.getAll(criteria)
+            .then(
+                (requests) => {
+
+                    return [RequestService.getRequestsCount({executor: user}), requests];
                 }
             )
             .spread(
@@ -47,16 +91,16 @@ let RequestController = {
             );
     },
     getClientRequestById(req, res) {
-        let requestId = req.params.request;
+        let request = req.params.request;
 
-        if (!requestId) {
+        if (!request) {
 
             return res.badRequest({
                 message: req.__('Request is not defined.')
             });
         }
 
-        RequestService.getRequestById(requestId)
+        RequestService.getRequestById({id: request})
             .then(
                 (foundRequest) => {
                     if (!foundRequest) {
@@ -79,7 +123,7 @@ let RequestController = {
                 }
             );
     },
-    create(req, res) {
+    createRequest(req, res) {
         let newRequest = req.body.request;
 
         if (!newRequest) {
@@ -92,7 +136,7 @@ let RequestController = {
 
         newRequest.owner = req.session.user.id;
 
-        RequestService.create(newRequest)
+        RequestService.createRequest(newRequest)
             .then(
                 (createdRequest) => res.created(
                     {
@@ -108,12 +152,13 @@ let RequestController = {
                 }
             );
     },
-    createFeedback(req, res) {
-        let feedback = req.allParams();
-        feedback.rating = feedback.rating ? parseInt(feedback.rating, 10) : undefined;
+    updateRequest(req, res) {
+        let requestId = req.params.requestId;
+        let params = req.allParams();
 
-        if (!feedback.request || !feedback.message ||
-            (typeof feedback.rating !== 'undefined' && (feedback.rating < 1 || feedback.rating > 5))) {
+        let request = params.request;
+
+        if (!requestId || !request) {
 
             return res.badRequest(
                 {
@@ -122,39 +167,49 @@ let RequestController = {
             );
         }
 
-        feedback.author = req.session.user.id;
+        request.id = requestId;
 
-        RequestService.createFeedback(feedback)
+        if (request.cost) {
+            request.cost = parseFloat(request.cost).toFixed(2);
+        }
+
+        if (request.executor) {
+            request.executor = request.executor.id;
+        }
+
+        delete request.isPublic;
+        delete request.owner;
+
+        RequestService.updateRequest(request)
             .then(
-                (createdFeedback) => {
-                    res.created(
-                        {
-                            feedback: createdFeedback
-                        });
+                (request) => {
+                    res.ok({
+                        request: request
+                    });
 
-                    return createdFeedback;
+                    return request;
                 }
             )
             .then(
-                (feedback)=> {
-                    let executor = feedback.executor;
+                (request) => {
+                    let clientRoomName = `user_${request.owner.id}`;
+                    let specialistRoomName = `user_${request.executor.id}`;
 
-                    return UserDetailService.updateRating({id: executor});
+                    sails.sockets.broadcast(
+                        [clientRoomName, specialistRoomName],
+                        'request',
+                        request,
+                        req
+                    );
+
+                    return request;
                 }
             )
             .catch(
                 (err) => {
-                    if (err) {
-                        sails.log.error(err);
+                    sails.log.error(err);
 
-                        return res.serverError();
-                    }
-
-                    return res.badRequest(
-                        {
-                            message: req.__('Request is not completed.')
-                        }
-                    );
+                    return res.serverError();
                 }
             );
     }

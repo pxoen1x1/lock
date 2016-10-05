@@ -17,6 +17,7 @@
 
         vm.paginationOptions = coreConstants.PAGINATION_OPTIONS;
         vm.requestStatuses = coreConstants.REQUEST_STATUSES;
+        vm.requestStatus = coreConstants.REQUEST_STATUSES;
 
         vm.queryOptions = {
             orderBy: '-updatedAt',

@@ -1,0 +1,71 @@
+<md-toolbar>
+  <div class="md-toolbar-tools md-toolbar-tools-top">
+    <div class="search-wrapper md-whiteframe-1dp"
+         flex
+         layout="row"
+         layout-align="start center">
+      <div class="search"
+           flex
+           layout="row"
+           layout-align="start center">
+        <i class="material-icons s18">search</i>
+        <input type="text"
+               placeholder="Search or start new chat"
+               flex
+               ng-model="vm.chatSearch">
+      </div>
+    </div>
+  </div>
+  <div class="md-toolbar-tools-bottom"
+       flex
+       layout="row"
+       layout-align="end end"
+       ng-if="vm.bids.length > 0 && vm.currentRequest.status === vm.requestStatus.NEW">
+    <md-nav-bar
+        flex
+        md-selected-nav-item="vm.selectedTab"
+        nav-bar-aria-label="navigation links">
+      <md-nav-item md-nav-click name="chats">Chats</md-nav-item>
+      <md-nav-item md-nav-click name="bids">Bids</md-nav-item>
+    </md-nav-bar>
+  </div>
+</md-toolbar>
+<div class="view chats-view animate-slide-left"
+     layout="column"
+     flex
+     ng-show="vm.selectedTab !== 'bids'"
+     ng-class="{ 'nav-bar-disabled' : !vm.bids || vm.bids.length === 0 || vm.currentRequest.status !== vm.requestStatus.NEW }">
+  <client-chat-list ng-if="vm.currentRequest.id && vm.currentUser.type === vm.userType.CLIENT"
+                    chats="vm.chats"
+                    messages="vm.messages"
+                    pagination="vm.pagination"
+                    current-request="vm.currentRequest"
+                    current-chat="vm.currentChat"
+                    scroll-chat-disabled="vm.isScrollDisabled"
+                    scroll-chat-to-bottom="vm.isScrollToBottomEnabled"
+                    select-specialist="vm.selectSpecialist(specialist)"
+                    load-prev-messages="vm.loadPrevMessages(currentChat)">
+  </client-chat-list>
+  <specialist-chat-list ng-if="vm.currentUser.type === vm.userType.SPECIALIST"
+                        chats="vm.chats"
+                        messages="vm.messages"
+                        pagination="vm.pagination"
+                        current-request="vm.currentRequest"
+                        current-chat="vm.currentChat"
+                        scroll-chat-disabled="vm.isScrollDisabled"
+                        scroll-chat-to-bottom="vm.isScrollToBottomEnabled"
+                        select-specialist="vm.selectSpecialist(specialist)"
+                        load-prev-messages="vm.loadPrevMessages(currentChat)">
+  </specialist-chat-list>
+</div>
+<div class="view chats-view animate-slide-right"
+     layout="column"
+     flex
+     ng-show="vm.selectedTab === 'bids'">
+  <bid-list ng-if="vm.currentRequest.id"
+            bids="vm.bids"
+            current-request="vm.currentRequest"
+            current-bid="vm.currentBid"
+            select-specialist="vm.selectSpecialist(specialist)">
+  </bid-list>
+</div>

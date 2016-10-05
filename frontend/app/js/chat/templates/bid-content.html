@@ -1,0 +1,63 @@
+<md-toolbar class="chat-toolbar">
+  <div class="md-toolbar-tools">
+    <md-button class="hide-gt-md responsive-chats-button md-icon-button"
+               aria-label="chats button"
+               ng-click="vm.toggleSidenav('left-sidenav')">
+      <i class="material-icons s28">textsms</i>
+    </md-button>
+    <div class="chat-contact"
+         layout="row"
+         layout-align="start center"
+         ng-if="vm.currentBid.specialist.id"
+         ng-click="vm.toggleSidenav('right-sidenav')">
+      <div class="avatar-wrapper">
+        <div class="avatar"
+             ng-style="{ 'background-image': 'url(' + (vm.currentBid.specialist.portrait ?
+             vm.baseUrl + vm.currentBid.specialist.portrait : vm.defaultPortrait) + ')' }">
+        </div>
+        <i class="material-icons s14 status"
+           ng-if="vm.currentBid.specialist.details.isAvailable">check_circle
+        </i>
+        <i class="material-icons s14 status unavailable"
+           ng-if="!vm.currentBid.specialist.details.isAvailable">schedule
+        </i>
+      </div>
+      <div class="chat-contact-name">
+        <span ng-bind="vm.currentBid.specialist.fullName"></span>
+        <star-rating readonly
+                     value="vm.currentBid.specialist.details.rating">
+        </star-rating>
+      </div>
+
+    </div>
+    <md-menu md-position-mode="target-right target">
+      <md-button class="md-icon-button"
+                 aria-label="more"
+                 ng-click="$mdOpenMenu()">
+        <i class="material-icons">more_vert</i>
+      </md-button>
+      <md-menu-content width="3">
+        <md-menu-item>
+          <md-button ng-click="vm.toggleSidenav('right-sidenav')">Contact Info</md-button>
+        </md-menu-item>
+        <md-menu-item>
+          <md-button ng-click="vm.closeChat()">Close Chat</md-button>
+        </md-menu-item>
+      </md-menu-content>
+    </md-menu>
+  </div>
+</md-toolbar>
+<md-content class="chat-content"
+            flex
+            layout="column"
+            layout-align="end center">
+  <message-bid class="service-message"
+               chats="vm.chats"
+               bids="vm.bids"
+               current-bid="vm.currentBid"
+               current-chat="vm.currentChat"
+               current-request="vm.currentRequest"
+               selected-tab="vm.selectedTab"
+               change-request-status="vm.changeRequestStatus(offer, message)">
+  </message-bid>
+</md-content>

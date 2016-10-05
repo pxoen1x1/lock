@@ -1,9 +1,7 @@
-/* global sails, User, UserDetailService, HelperService */
+/* global User, UserDetailService, HelperService */
 
 'use strict';
 
-let bcryptjs = require('bcryptjs');
-let crypto = require('crypto');
 let promise = require('bluebird');
 
 let UserService = {
@@ -58,6 +56,7 @@ let UserService = {
                     details.is_pro AS 'details.isPro',
                     details.latitude AS 'details.latitude',
                     details.longitude AS 'details.longitude',
+                    details.rating AS 'details.rating',
                     details_license.id AS 'details.license.id',
                     details_license.number AS 'details.license.number',
                     details_license.date AS 'details.license.date',
@@ -122,30 +121,6 @@ let UserService = {
                     }
                 );
             });
-    },
-    encryptPassword(password) {
-        let promise = new Promise(
-            (resolve, reject) => {
-                bcryptjs.genSalt(10, (err, salt) => {
-                    bcryptjs.hash(password, salt,
-                        (err, hash) => {
-                            if (err) {
-
-                                return reject(err);
-                            }
-
-                            return resolve(hash);
-                        });
-                });
-            }
-        );
-
-        return promise;
-    },
-    generateToken() {
-        let buffer = crypto.randomBytes(sails.config.application.tokenLength);
-
-        return buffer.toString('hex');
     }
 };
 

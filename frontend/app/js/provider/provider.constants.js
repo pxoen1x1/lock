@@ -27,7 +27,8 @@
                 }
             ],
             MENU_ITEMS: [
-                'provider.dashboard.new'
+                'provider.dashboard.new',
+                'provider.messages'
             ],
             DASHBOARD_TABBAR_ITEMS: [
                 'provider.dashboard.new',

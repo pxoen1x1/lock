@@ -30,8 +30,7 @@
                     }
                 },
                 data: {
-                    title: 'Specialist',
-                    isPrivate: true
+                    title: 'Specialist'
                 }
             })
             .state('provider.registration', {
@@ -48,6 +47,25 @@
                     'header@provider.registration': {
                         templateUrl: 'layout/header/registration-header.html'
                     }
+                }
+            })
+            .state('provider.messages', {
+                parent: 'provider',
+                url: '/messages',
+                views: {
+                    'content@provider': {
+                        templateUrl: 'chat/templates/chat.html',
+                        controller: 'SpecialistChatController',
+                        controllerAs: 'vm'
+                    }
+                },
+                data: {
+                    title: 'Messages',
+                    menu: {
+                        icon: 'list',
+                        title: 'Messages'
+                    },
+                    isPrivate: true
                 }
             })
             .state('provider.profile', {

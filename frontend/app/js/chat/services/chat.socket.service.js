@@ -5,34 +5,64 @@
         .module('app.chat')
         .factory('chatSocketservice', chatSocketservice);
 
-    chatSocketservice.$inject = ['$sails', 'socketService'];
+    chatSocketservice.$inject = ['$sails', 'socketService', 'conf'];
 
     /* @ngInject */
-    function chatSocketservice($sails, socketService) {
+    function chatSocketservice($sails, socketService, conf) {
         var service = {
-            getChats: getChats,
+            getClientChats: getClientChats,
+            getSpecialistChats: getSpecialistChats,
+            getRequestBids: getRequestBids,
             getMessages: getMessages,
+            getReviews: getReviews,
             createChat: createChat,
             sendMessage: sendMessage,
+            deleteBid: deleteBid,
+            updateRequest: updateRequest,
+            declineBid: declineBid,
+            onChat: onChat,
+            onBid: onBid,
             onMessage: onMessage
         };
 
         return service;
 
-        function getChats(request) {
+        function getClientChats(request) {
 
-            return $sails.get('/api/client/request/' + request + '/chats')
-                .then(getChatsCompleted);
+            return $sails.get(conf.URL_PREFIX + 'client/request/' + request.id + '/chats')
+                .then(getClientChatsCompleted);
 
-            function getChatsCompleted(message) {
+            function getClientChatsCompleted(message) {
 
                 return message.data.chats;
             }
         }
 
+        function getSpecialistChats() {
+
+            return $sails.get(conf.URL_PREFIX + 'specialist/chats')
+                .then(getSpecialistChatsCompleted);
+
+            function getSpecialistChatsCompleted(message) {
+
+                return message.data.chats;
+            }
+        }
+
+        function getRequestBids(request) {
+
+            return $sails.get(conf.URL_PREFIX + 'client/request/' + request.id + '/bids')
+                .then(getRequestBidsCompleted);
+
+            function getRequestBidsCompleted(message) {
+
+                return message.data.bids;
+            }
+        }
+
         function getMessages(chat, params) {
 
-            return $sails.get('/api/chats/' + chat.id + '/messages', params)
+            return $sails.get(conf.URL_PREFIX + 'chats/' + chat.id + '/messages', params)
                 .then(getMessagesCompleted);
 
             function getMessagesCompleted(response) {
@@ -41,9 +71,20 @@
             }
         }
 
+        function getReviews(user, params) {
+
+            return $sails.get(conf.URL_PREFIX + 'users/' + user.id + '/feedbacks', params)
+                .then(getReviewsComplete);
+
+            function getReviewsComplete(response) {
+
+                return response.data;
+            }
+        }
+
         function createChat(request, specialist) {
 
-            return $sails.post('/api/request/' + request.id + '/chats', specialist)
+            return $sails.post(conf.URL_PREFIX + 'client/request/' + request.id + '/chats', specialist)
                 .then(createChatCompleted);
 
             function createChatCompleted(response) {
@@ -54,13 +95,58 @@
 
         function sendMessage(chat, message) {
 
-            return $sails.post('/api/chats/' + chat.id + '/messages', message)
+            return $sails.post(conf.URL_PREFIX + 'chats/' + chat.id + '/messages', message)
                 .then(sendMessageCompleted);
 
             function sendMessageCompleted(response) {
 
                 return response.data.message;
             }
+        }
+
+        function updateRequest(requestId, request) {
+
+            return $sails.put(conf.URL_PREFIX + 'client/requests/' + requestId, request)
+                .then(updateRequestCompleted);
+
+            function updateRequestCompleted(response) {
+
+                return response.data.request;
+            }
+        }
+
+        function declineBid(bid) {
+
+            return $sails.put(conf.URL_PREFIX + 'client/bids/' + bid.id + '/refuse')
+                .then(updateBidCompleted);
+
+            function updateBidCompleted(response) {
+
+                return response.data.bid;
+            }
+        }
+
+        function deleteBid(bid) {
+
+            return $sails.delete(conf.URL_PREFIX + 'bids/' + bid.id)
+                .then(deleteBidCompleted);
+
+            function deleteBidCompleted(response) {
+
+                return response.data.bid;
+            }
+        }
+
+        function onChat(next) {
+            socketService.listener('chat', function (event) {
+                next(event.chat);
+            });
+        }
+
+        function onBid(next) {
+            socketService.listener('bid', function (event) {
+                next(event.bid);
+            });
         }
 
         function onMessage(next) {

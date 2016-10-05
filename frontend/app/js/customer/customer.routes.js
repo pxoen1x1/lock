@@ -144,7 +144,7 @@
                 views: {
                     'content@customer.requests.request': {
                         templateUrl: 'chat/templates/chat.html',
-                        controller: 'ChatController',
+                        controller: 'ClientChatController',
                         controllerAs: 'vm'
                     }
                 },

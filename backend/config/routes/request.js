@@ -15,11 +15,15 @@ let requestRoutes = {
     },
     'POST /api/client/requests': {
         controller: 'RequestController',
-        action: 'create'
+        action: 'createRequest'
     },
-    'POST /api/client/requests/:request/feedback': {
+    'GET /api/specialist/requests': {
         controller: 'RequestController',
-        action: 'createFeedback'
+        action: 'getAllSpecialistRequests'
+    },
+    'PUT /api/client/requests/:requestId': {
+        controller: 'RequestController',
+        action: 'updateRequest'
     }
 };
 

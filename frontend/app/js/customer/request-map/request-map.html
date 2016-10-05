@@ -38,7 +38,8 @@
         <div class="map-card-provider" layout="row">
           <div class="right">
             <div class="photo"
-                 ng-style="{'background-image': 'url('+ vm.selectedSpecialist.portrait +')'}">
+                 ng-style="{'background-image': 'url('+ (vm.selectedSpecialist.portrait ?
+                 vm.baseUrl + vm.selectedSpecialist.portrait : vm.defaultPortrait) +')'}">
             </div>
           </div>
           <div class="left" flex>
@@ -73,7 +74,8 @@
                layout="row"
                layout-align="start center">
             <md-button class="md-fab"
-                       ng-click="vm.createChat(vm.selectedSpecialist)">
+                       ng-disabled="vm.currentRequest.status !== vm.requestStatus.NEW"
+                       ng-click="vm.createChat(vm.selectedSpecialist, vm.currentRequest)">
               <md-icon>chat</md-icon>
             </md-button>
           </div>

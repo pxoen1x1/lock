@@ -22,11 +22,12 @@
             '</li>' +
             '</ul>',
             scope: {
-                value: '=',
+                value: '<',
                 max: '=?',
                 onchange: '&'
             },
             link: function (scope, elem, attrs) {
+                scope.value = scope.value || 0;
                 scope.max = scope.max || 5;
                 scope.readonly = 'readonly' in attrs;
                 scope.showChoice = 'showchoice' in attrs;

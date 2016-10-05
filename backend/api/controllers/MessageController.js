@@ -1,4 +1,4 @@
-/* global sails, JwtService, Message, MessageService */
+/* global sails, MessageService */
 /**
  * MessageController
  *
@@ -7,6 +7,8 @@
  */
 
 'use strict';
+
+const MESSAGE_TYPE = sails.config.messages.TYPES;
 
 let MessageController = {
     getMessages(req, res) {
@@ -32,7 +34,7 @@ let MessageController = {
 
         let pagination = {};
         pagination.page = params.page || 1;
-        pagination.limit = params.limit || sails.config.application.chatMessagesLimit;
+        pagination.limit = params.limit || sails.config.application.chat.messagesLimit;
 
         MessageService.getMessages(criteria, sorting, pagination)
             .then(
@@ -58,13 +60,11 @@ let MessageController = {
     create(req, res) {
         let params = req.allParams();
 
-        let chat = params.chat;
+        let chat = req.params.chat;
         let message = params.message;
-        let type = params.type || 0;
-        let recipient = params.recipient && params.recipient.id ? params.recipient.id : null;
         let sender = req.session.user.id;
 
-        if (!message || !chat || !recipient) {
+        if ((!message || !message.message || !chat) || (message.type === MESSAGE_TYPE.OFFER && !message.cost)) {
 
             return res.badRequest(
                 {
@@ -73,16 +73,19 @@ let MessageController = {
             );
         }
 
-        Message.create({
-            chat: chat,
-            message: message,
-            type: type,
-            recipient: recipient,
-            sender: sender
-        })
-            .then(
-                (createdMessage) => Message.findOneById(createdMessage.id).populateAll()
-            )
+        let newMessage = {
+            message: message.message,
+            type: message.type || MESSAGE_TYPE.MESSAGE,
+            sender: sender,
+        };
+
+        if (message.cost) {
+            newMessage.cost = message.cost;
+        }
+
+        message.sender = sender;
+
+        MessageService.create({id: chat}, newMessage)
             .then(
                 (message) => {
                     res.created(
@@ -96,7 +99,7 @@ let MessageController = {
             )
             .then(
                 (message) => {
-                    let roomName = `user_${recipient}`;
+                    let roomName = `user_${message.recipient.id}`;
 
                     sails.sockets.broadcast(
                         roomName,

@@ -24,24 +24,24 @@
                 return $q.resolve(request);
             }
 
-            var selectedRequest = {
+            var currentRequest = {
                 id: requestId
             };
 
-            return $q.when(request || getRequestFromHttp(selectedRequest));
+            return $q.when(request || getRequestFromHttp(currentRequest));
         }
 
         function setRequest(newRequest) {
             request = newRequest;
         }
 
-        function getRequestFromHttp(selectedRequest) {
+        function getRequestFromHttp(currentRequest) {
             if (getRequestFromHttpPromise) {
 
                 getRequestFromHttpPromise.cancel();
             }
 
-            getRequestFromHttpPromise = customerDataservice.getRequest(selectedRequest);
+            getRequestFromHttpPromise = customerDataservice.getRequest(currentRequest);
 
             return getRequestFromHttpPromise
                 .then(getRequestFromHttpComplete)
