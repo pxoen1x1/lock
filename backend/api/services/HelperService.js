@@ -1,6 +1,15 @@
+/* global sails */
+
 'use strict';
 
+let crypto = require('crypto');
+
 let HelperService = {
+    generateToken() {
+        let buffer = crypto.randomBytes(sails.config.application.tokenLength);
+
+        return buffer.toString('hex');
+    },
     buildQuery(query, criteria, tableAlias) {
         query = query || ``;
         tableAlias = tableAlias ? `${tableAlias}.` : ``;
