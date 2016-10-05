@@ -29,14 +29,15 @@
         return directive;
     }
 
-    SpecialistChatListController.$inject = ['chatSocketservice', '$mdSidenav', '$mdMedia', 'coreConstants'];
+    SpecialistChatListController.$inject = ['chatSocketservice', '$mdSidenav', '$mdMedia', 'coreConstants', 'conf'];
 
     /* @ngInject */
-    function SpecialistChatListController(chatSocketservice, $mdSidenav, $mdMedia, coreConstants) {
+    function SpecialistChatListController(chatSocketservice, $mdSidenav, $mdMedia, coreConstants, conf) {
         var vm = this;
 
         vm.chatSearch = '';
 
+        vm.baseUrl = conf.BASE_URL;
         vm.defaultPortrait = coreConstants.IMAGES.defaultPortrait;
         vm.dateFormat = coreConstants.DATE_FORMAT;
 

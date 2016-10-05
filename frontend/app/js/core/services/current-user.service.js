@@ -5,23 +5,24 @@
         .module('app.core')
         .factory('currentUserService', currentUserService);
 
-    currentUserService.$inject = ['$q', 'coreDataservice', 'authService', 'localService', 'coreConstants'];
+    currentUserService.$inject = ['$q', 'coreDataservice', 'localService', 'coreConstants'];
 
     /* @ngInject */
-    function currentUserService($q, coreDataservice, authService, localService, coreConstants) {
+    function currentUserService($q, coreDataservice, localService, coreConstants) {
         var getUserPromise;
         var userType;
 
         var service = {
             getUser: getUser,
             setUser: setUser,
-            getType: getType
+            getType: getType,
+            clearType: clearType
         };
 
         return service;
 
         function getUser() {
-            if(!authService.isAuthenticated()) {
+            if (!isAuthenticated()) {
 
                 return $q.reject(new Error('You are not logged.'));
             }
@@ -90,7 +91,7 @@
         }
 
         function getType() {
-            if(!authService.isAuthenticated()) {
+            if (!isAuthenticated()) {
 
                 return $q.reject(new Error('You are not logged.'));
             }
@@ -112,6 +113,15 @@
             }
 
             return userType;
+        }
+
+        function clearType() {
+            userType = null;
+        }
+
+        function isAuthenticated() {
+
+            return localService.getAuth();
         }
     }
 })();

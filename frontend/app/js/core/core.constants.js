@@ -22,6 +22,10 @@
                 1: 'client',
                 2: 'specialist'
             },
+            USER_TYPE_DEFAULT_STATE: {
+                1: 'customer.newRequest',
+                2: 'provider.dashboard'
+            },
             REQUEST_STATUSES: {
                 1: 'new',
                 2: 'in progress',

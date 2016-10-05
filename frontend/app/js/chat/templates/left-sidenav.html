@@ -35,7 +35,7 @@
      flex
      ng-show="vm.selectedTab !== 'bids'"
      ng-class="{ 'nav-bar-disabled' : !vm.bids || vm.bids.length === 0 || vm.currentRequest.status !== vm.requestStatus.NEW }">
-  <client-chat-list ng-if="vm.currentRequest.id"
+  <client-chat-list ng-if="vm.currentRequest.id && vm.currentUser.type === vm.userType.CLIENT"
                     chats="vm.chats"
                     messages="vm.messages"
                     pagination="vm.pagination"

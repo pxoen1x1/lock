@@ -12,7 +12,8 @@
          ng-click="vm.toggleSidenav('right-sidenav')">
       <div class="avatar-wrapper">
         <div class="avatar"
-             ng-style="{ 'background-image': 'url(' + (vm.currentChat.specialist.portrait || vm.defaultPortrait) + ')' }">
+             ng-style="{ 'background-image': 'url(' + (vm.currentChat.specialist.portrait ?
+             vm.baseUrl + vm.currentChat.specialist.portrait : vm.defaultPortrait) + ')' }">
         </div>
         <i class="material-icons s14 status"
            ng-if="vm.currentChat.specialist.details.isAvailable">check_circle
