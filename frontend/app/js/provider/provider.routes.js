@@ -50,25 +50,6 @@
                     }
                 }
             })
-            .state('provider.requests', {
-                parent: 'provider',
-                url: '/dashboard',
-                views: {
-                    'content@provider': {
-                        templateUrl: 'provider/dashboard/dashboard.html',
-                        controller: 'ProviderDashboardController',
-                        controllerAs: 'vm'
-                    }
-                },
-                data: {
-                    title: 'Dashboard',
-                    menu: {
-                        icon: 'list',
-                        title: 'Dashboard'
-                    },
-                    isPrivate: true
-                }
-            })
             .state('provider.profile', {
                 parent: 'provider',
                 url: '/profile',
@@ -98,6 +79,80 @@
                     title: 'Public',
                     isPrivate: true
                 }
-            });
+            })
+            .state('provider.dashboard', {
+                parent: 'provider',
+                url: '/dashboard',
+                views: {
+                    'content@provider': {
+                        templateUrl: 'provider/dashboard/dashboard.html',
+                        controller: 'ProviderDashboardController',
+                        controllerAs: 'vm'
+                    }
+                },
+                data: {
+                    title: 'Dashboard',
+                    menu: {
+                        icon: 'dashboard',
+                        title: 'Dashboard'
+                    },
+                    isPrivate: true
+                }
+            })
+            .state('provider.dashboard.new', {
+                parent: 'provider.dashboard',
+                url: '/new',
+                views: {
+                    'content@provider.dashboard': {
+                        templateUrl: 'provider/dashboard-new/dashboard-new.html',
+                        controller: 'ProviderDashboardNewController',
+                        controllerAs: 'vm'
+                    }
+                },
+                data: {
+                    title: 'New',
+                    tab: {
+                        title: 'New',
+                        icon: 'whatshot'
+                    }
+                }
+            })
+            .state('provider.dashboard.current', {
+                parent: 'provider.dashboard',
+                url: '/current',
+                views: {
+                    'content@provider.dashboard': {
+                        templateUrl: 'provider/dashboard-current/dashboard-current.html',
+                        controller: 'ProviderDashboardCurrentController',
+                        controllerAs: 'vm'
+                    }
+                },
+                data: {
+                    title: 'Current',
+                    tab: {
+                        title: 'Current',
+                        icon: 'list'
+                    }
+                }
+            })
+            .state('provider.dashboard.history', {
+                parent: 'provider.dashboard',
+                url: '/history',
+                views: {
+                    'content@provider.dashboard': {
+                        templateUrl: 'provider/dashboard-history/dashboard-history.html',
+                        controller: 'ProviderDashboardHistoryController',
+                        controllerAs: 'vm'
+                    }
+                },
+                data: {
+                    title: 'History',
+                    tab: {
+                        title: 'History',
+                        icon: 'history'
+                    }
+                }
+            })
+        ;
     }
 })();

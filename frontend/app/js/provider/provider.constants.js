@@ -27,7 +27,12 @@
                 }
             ],
             MENU_ITEMS: [
-                'provider.requests'
+                'provider.dashboard.new'
+            ],
+            DASHBOARD_TABBAR_ITEMS: [
+                'provider.dashboard.new',
+                'provider.dashboard.current',
+                'provider.dashboard.history'
             ]
         });
 })();
