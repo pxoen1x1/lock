@@ -1,0 +1,49 @@
+.tab-bar {
+  position: fixed;
+  bottom: 0;
+  width: calc(100% - 240px);
+  z-index: 59;
+  background: #fff;
+  height: 54px;
+  border-top: 1px solid rgba(0, 0, 0, .1);
+}
+
+.tab-bar.full {
+  width: 100%;
+}
+
+.tab-bar-items {
+  height: 54px;
+  width: 100%;
+}
+
+.tab-bar-item {
+  overflow: hidden;
+  height: 100%;
+
+  .title {
+    font-size: 12px;
+  }
+
+  a {
+    height: 100%;
+    color: rgba(176, 179, 184, 1);
+  }
+
+  a.md-button {
+    margin: 0;
+    padding: 0;
+    border-radius: 0;
+    line-height: normal;
+    font-weight: 400;
+  }
+
+  a.md-button .md-ripple-container {
+    border-radius: 0;
+  }
+
+  a.active {
+    color: $primary-color;
+  }
+
+}
