@@ -5,10 +5,16 @@
         .module('app.chat')
         .controller('SpecialistChatController', SpecialistChatController);
 
-    SpecialistChatController.$inject = ['$q', '$mdSidenav', 'coreConstants', 'chatSocketservice', 'currentUserService'];
+    SpecialistChatController.$inject = [
+        '$mdSidenav',
+        'coreConstants',
+        'chatSocketservice',
+        'currentUserService',
+        'conf'
+    ];
 
     /* @ngInject */
-    function SpecialistChatController($q, $mdSidenav, coreConstants, chatSocketservice, currentUserService) {
+    function SpecialistChatController($mdSidenav, coreConstants, chatSocketservice, currentUserService, conf) {
         var chatPaginationOptions = coreConstants.CHAT_PAGINATION_OPTIONS;
         var vm = this;
 
