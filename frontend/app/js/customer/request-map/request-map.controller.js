@@ -5,12 +5,22 @@
         .module('app.customer')
         .controller('CustomerRequestMapController', CustomerRequestMapController);
 
-    CustomerRequestMapController.$inject = ['$state', '$timeout', '$stateParams', 'uiGmapIsReady', 'coreConstants',
-        'chatSocketservice', 'customerDataservice', 'requestService', 'geocoderService'];
+    CustomerRequestMapController.$inject = [
+        '$state',
+        '$timeout',
+        '$stateParams',
+        'uiGmapIsReady',
+        'coreConstants',
+        'chatSocketservice',
+        'customerDataservice',
+        'requestService',
+        'geocoderService',
+        'conf'
+    ];
 
     /* @ngInject */
     function CustomerRequestMapController($state, $timeout, $stateParams, uiGmapIsReady, coreConstants,
-                                          chatSocketservice, customerDataservice, requestService, geocoderService) {
+                                        chatSocketservice, customerDataservice, requestService, geocoderService, conf) {
         var currentRequestId = $stateParams.requestId;
         var promises = {
             findSpecialists: null
@@ -81,7 +91,9 @@
             zoom: 16,
         };
 
+        vm.baseUrl = conf.BASE_URL;
         vm.requestStatus = coreConstants.REQUEST_STATUSES;
+        vm.defaultPortrait = coreConstants.IMAGES.defaultPortrait;
 
         vm.createChat = createChat;
 

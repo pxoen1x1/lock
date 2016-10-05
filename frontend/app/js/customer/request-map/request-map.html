@@ -38,7 +38,8 @@
         <div class="map-card-provider" layout="row">
           <div class="right">
             <div class="photo"
-                 ng-style="{'background-image': 'url('+ vm.selectedSpecialist.portrait +')'}">
+                 ng-style="{'background-image': 'url('+ (vm.selectedSpecialist.portrait ?
+                 vm.baseUrl + vm.selectedSpecialist.portrait : vm.defaultPortrait) +')'}">
             </div>
           </div>
           <div class="left" flex>
