@@ -54,12 +54,13 @@
         }
     }
 
-    ControllerName.$inject = ['coreConstants', 'chatConstants'];
+    ControllerName.$inject = ['coreConstants', 'chatConstants', 'conf'];
 
     /* @ngInject */
-    function ControllerName(coreConstants, chatConstants) {
+    function ControllerName(coreConstants, chatConstants, conf) {
         var vm = this;
 
+        vm.baseUrl = conf.BASE_URL;
         vm.defaultPortrait = coreConstants.IMAGES.defaultPortrait;
         vm.dateFormat = coreConstants.DATE_FORMAT;
         vm.requestStatus = coreConstants.REQUEST_STATUSES;
