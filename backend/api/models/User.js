@@ -38,11 +38,6 @@ let User = {
             unique: true,
             is: /^\d{3}-?\d{2}-?\d{4}$/
         },
-        isAvailable: {
-            type: 'boolean',
-            defaultsTo: true,
-            columnName: 'is_available'
-        },
         isEnabled: {
             type: 'boolean',
             defaultsTo() {
