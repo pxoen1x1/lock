@@ -10,19 +10,10 @@
     /* @ngInject */
     function groupDataservice($http, request, conf) {
         var service = {
-            getUser: getUser,
             updateUser: updateUser
         };
 
         return service;
-
-        function getUser() {
-
-            return request.httpWithTimeout({
-                url: conf.BASE_URL + conf.URL_PREFIX + 'user',
-                method: 'GET'
-            });
-        }
 
         function updateUser(updatedUser) {
 
