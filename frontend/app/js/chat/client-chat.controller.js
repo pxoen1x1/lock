@@ -6,11 +6,11 @@
         .controller('ClientChatController', ClientChatController);
 
     ClientChatController.$inject = ['$q', '$state', '$stateParams', '$mdSidenav', 'coreConstants', 'currentUserService',
-        'chatSocketservice', 'requestService'];
+        'chatSocketservice', 'requestService', 'conf'];
 
     /* @ngInject */
     function ClientChatController($q, $state, $stateParams, $mdSidenav, coreConstants, currentUserService,
-                                  chatSocketservice, requestService) {
+                                  chatSocketservice, requestService, conf) {
         var currentRequestId = $stateParams.requestId;
         var chatPaginationOptions = coreConstants.CHAT_PAGINATION_OPTIONS;
         var vm = this;
@@ -39,6 +39,7 @@
         vm.leftSidenavView = false;
         vm.selectedTab = 'chats';
 
+        vm.baseUrl = conf.BASE_URL;
         vm.defaultPortrait = coreConstants.IMAGES.defaultPortrait;
         vm.dateFormat = coreConstants.DATE_FORMAT;
         vm.requestStatus = coreConstants.REQUEST_STATUSES;

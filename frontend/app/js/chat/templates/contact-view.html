@@ -18,7 +18,8 @@
       <div layout="column"
            layout-align="center center">
         <div class="md-avatar avatar contact-avatar huge"
-             ng-style="{ 'background-image': 'url(' + (vm.selectedSpecialist.portrait || vm.defaultPortrait) + ')' }">
+             ng-style="{ 'background-image': 'url(' + (vm.selectedSpecialist.portrait ?
+             vm.baseUrl + vm.selectedSpecialist.portrait : vm.defaultPortrait) + ')' }">
         </div>
         <div class="contact-name">
           <span ng-bind="vm.selectedSpecialist.fullName"></span>
@@ -46,7 +47,8 @@
                layout-align="start center">
             <div class="avatar-wrapper">
               <div class="md-avatar avatar"
-                   ng-style="{ 'background-image': 'url(' + (review.author.portrait || vm.defaultPortrait) + ')' }">
+                   ng-style="{ 'background-image': 'url(' + (review.author.portrait ?
+                   vm.baseUrl + review.author.portrait : vm.defaultPortrait) + ')' }">
               </div>
             </div>
             <div class="md-list-item-text" flex>

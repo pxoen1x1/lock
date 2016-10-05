@@ -30,6 +30,7 @@
         vm.isScrollDisabled = true;
         vm.isScrollToBottomEnabled = true;
 
+        vm.baseUrl = conf.BASE_URL;
         vm.defaultPortrait = coreConstants.IMAGES.defaultPortrait;
         vm.dateFormat = coreConstants.DATE_FORMAT;
         vm.userType = coreConstants.USER_TYPES;
