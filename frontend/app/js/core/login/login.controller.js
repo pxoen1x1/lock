@@ -5,10 +5,19 @@
         .module('app.core')
         .controller('LoginController', LoginController);
 
-    LoginController.$inject = ['$state', '$mdDialog', 'toastService', 'coreDataservice', 'authService'];
+    LoginController.$inject = [
+        '$state',
+        '$mdDialog',
+        'toastService',
+        'coreDataservice',
+        'authService',
+        'currentUserService',
+        'coreConstants'
+    ];
 
     /* @ngInject */
-    function LoginController($state, $mdDialog, toastService, coreDataservice, authService) {
+    function LoginController($state, $mdDialog, toastService,
+                             coreDataservice, authService, currentUserService, coreConstants) {
         var vm = this;
 
         vm.user = {};
@@ -36,6 +45,16 @@
                 });
         }
 
+        function getCurrentUserType() {
+
+            return currentUserService.getType()
+                .then(function (currentUserType) {
+
+                        return currentUserType;
+                    }
+                );
+        }
+
         function submit(user, isFromValid, isForgotPasswordEnabled) {
             if (!isFromValid) {
 
@@ -54,7 +73,12 @@
                 .then(function () {
                     $mdDialog.hide();
 
-                    $state.go('home');
+                    return getCurrentUserType();
+                })
+                .then(function (currentUserType) {
+                    var stateName = coreConstants.USER_TYPE_DEFAULT_STATE[currentUserType];
+
+                    $state.go(stateName);
                 });
         }
 

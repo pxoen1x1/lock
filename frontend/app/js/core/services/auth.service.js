@@ -5,10 +5,10 @@
         .module('app.core')
         .factory('authService', authService);
 
-    authService.$inject = ['coreDataservice', 'socketService', 'localService'];
+    authService.$inject = ['coreDataservice', 'socketService', 'localService', 'currentUserService'];
 
     /* @ngInject */
-    function authService(coreDataservice, socketService, localService) {
+    function authService(coreDataservice, socketService, localService, currentUserService) {
         var service = {
             authorize: authorize,
             isAuthenticated: isAuthenticated,
@@ -36,7 +36,7 @@
 
             return coreDataservice.login(user)
                 .then(function (auth) {
-                    localService.clear();
+                    clearData();
                     localService.setAuth(auth);
 
                     return auth;
@@ -52,10 +52,7 @@
 
             return coreDataservice.logout()
                 .then(function () {
-
-                    return localService.clear();
-                })
-                .then(function() {
+                    clearData();
 
                     return socketService.unsubscribe();
                 });
@@ -71,10 +68,15 @@
 
                     return auth;
                 })
-                .then(function() {
+                .then(function () {
 
                     return socketService.subscribe();
                 });
+        }
+
+        function clearData() {
+            currentUserService.clearType();
+            localService.clear();
         }
     }
 })();
