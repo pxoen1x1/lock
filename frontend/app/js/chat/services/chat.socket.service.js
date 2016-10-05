@@ -5,10 +5,10 @@
         .module('app.chat')
         .factory('chatSocketservice', chatSocketservice);
 
-    chatSocketservice.$inject = ['$sails', 'socketService'];
+    chatSocketservice.$inject = ['$sails', 'socketService', 'conf'];
 
     /* @ngInject */
-    function chatSocketservice($sails, socketService) {
+    function chatSocketservice($sails, socketService, conf) {
         var service = {
             getClientChats: getClientChats,
             getSpecialistChats: getSpecialistChats,
@@ -29,7 +29,7 @@
 
         function getClientChats(request) {
 
-            return $sails.get('/api/client/request/' + request.id + '/chats')
+            return $sails.get(conf.URL_PREFIX + 'client/request/' + request.id + '/chats')
                 .then(getClientChatsCompleted);
 
             function getClientChatsCompleted(message) {
@@ -40,7 +40,7 @@
 
         function getSpecialistChats() {
 
-            return $sails.get('/api/specialist/chats')
+            return $sails.get(conf.URL_PREFIX + 'specialist/chats')
                 .then(getSpecialistChatsCompleted);
 
             function getSpecialistChatsCompleted(message) {
@@ -51,7 +51,7 @@
 
         function getRequestBids(request) {
 
-            return $sails.get('/api/client/request/' + request.id + '/bids')
+            return $sails.get(conf.URL_PREFIX + 'client/request/' + request.id + '/bids')
                 .then(getRequestBidsCompleted);
 
             function getRequestBidsCompleted(message) {
@@ -62,7 +62,7 @@
 
         function getMessages(chat, params) {
 
-            return $sails.get('/api/chats/' + chat.id + '/messages', params)
+            return $sails.get(conf.URL_PREFIX + 'chats/' + chat.id + '/messages', params)
                 .then(getMessagesCompleted);
 
             function getMessagesCompleted(response) {
@@ -73,7 +73,7 @@
 
         function getReviews(user, params) {
 
-            return $sails.get('/api/users/' + user.id + '/feedbacks', params)
+            return $sails.get(conf.URL_PREFIX + 'users/' + user.id + '/feedbacks', params)
                 .then(getReviewsComplete);
 
             function getReviewsComplete(response) {
@@ -84,7 +84,7 @@
 
         function createChat(request, specialist) {
 
-            return $sails.post('/api/client/request/' + request.id + '/chats', specialist)
+            return $sails.post(conf.URL_PREFIX + 'client/request/' + request.id + '/chats', specialist)
                 .then(createChatCompleted);
 
             function createChatCompleted(response) {
@@ -95,7 +95,7 @@
 
         function sendMessage(chat, message) {
 
-            return $sails.post('/api/chats/' + chat.id + '/messages', message)
+            return $sails.post(conf.URL_PREFIX + 'chats/' + chat.id + '/messages', message)
                 .then(sendMessageCompleted);
 
             function sendMessageCompleted(response) {
@@ -106,7 +106,7 @@
 
         function updateRequest(requestId, request) {
 
-            return $sails.put('/api/client/requests/' + requestId, request)
+            return $sails.put(conf.URL_PREFIX + 'client/requests/' + requestId, request)
                 .then(updateRequestCompleted);
 
             function updateRequestCompleted(response) {
@@ -117,7 +117,7 @@
 
         function declineBid(bid) {
 
-            return $sails.put('/api/client/bids/' + bid.id + '/refuse')
+            return $sails.put(conf.URL_PREFIX + 'client/bids/' + bid.id + '/refuse')
                 .then(updateBidCompleted);
 
             function updateBidCompleted(response) {
@@ -128,7 +128,7 @@
 
         function deleteBid(bid) {
 
-            return $sails.delete('/api/bids/' + bid.id)
+            return $sails.delete(conf.URL_PREFIX + 'bids/' + bid.id)
                 .then(deleteBidCompleted);
 
             function deleteBidCompleted(response) {

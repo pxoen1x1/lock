@@ -29,7 +29,7 @@
         function getCurrentUser() {
 
             return request.httpWithTimeout({
-                url: conf.BASE_URL + '/api/user',
+                url: conf.BASE_URL + conf.URL_PREFIX + 'user',
                 method: 'GET'
             });
         }
@@ -37,7 +37,7 @@
         function getUser(userId) {
 
             return request.httpWithTimeout({
-                url: conf.BASE_URL + '/api/users/' + userId,
+                url: conf.BASE_URL + conf.URL_PREFIX + 'users/' + userId,
                 method: 'GET'
             });
         }
@@ -45,7 +45,7 @@
         function getServiceTypes() {
 
             return request.httpWithTimeout({
-                url: conf.BASE_URL + '/api/lists/service-types',
+                url: conf.BASE_URL + conf.URL_PREFIX + 'lists/service-types',
                 method: 'GET'
             });
         }
@@ -53,7 +53,7 @@
         function getLanguages() {
 
             return request.httpWithTimeout({
-                url: conf.BASE_URL + '/api/lists/languages',
+                url: conf.BASE_URL + conf.URL_PREFIX + 'lists/languages',
                 method: 'GET'
             });
         }
@@ -61,7 +61,7 @@
         function getStates() {
 
             return request.httpWithTimeout({
-                url: conf.BASE_URL + '/api/lists/states',
+                url: conf.BASE_URL + conf.URL_PREFIX + 'lists/states',
                 method: 'GET'
             });
         }
@@ -69,7 +69,7 @@
         function getCities(stateId, params) {
 
             return request.httpWithTimeout({
-                url: conf.BASE_URL + '/api/lists/states/' + stateId + '/cities',
+                url: conf.BASE_URL + conf.URL_PREFIX + 'lists/states/' + stateId + '/cities',
                 method: 'GET',
                 params: params
             });
@@ -78,7 +78,7 @@
         function createUser(newUser) {
 
             return $http({
-                url: conf.BASE_URL + '/api/user',
+                url: conf.BASE_URL + conf.URL_PREFIX + 'user',
                 method: 'POST',
                 data: newUser
             })
@@ -138,7 +138,7 @@
         function updateUser(user) {
 
             return $http({
-                url: conf.BASE_URL + '/api/user',
+                url: conf.BASE_URL + conf.URL_PREFIX + 'user',
                 method: 'PUT',
                 data: user
             })
@@ -153,7 +153,7 @@
         function updateRequest(request) {
 
             return $http({
-                url: conf.BASE_URL + '/api/client/requests/' + request.id,
+                url: conf.BASE_URL + conf.URL_PREFIX + 'client/requests/' + request.id,
                 method: 'PUT',
                 data: request
             })
