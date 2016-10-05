@@ -11,7 +11,6 @@
     function serviceProviderDataservice($http, request, conf) {
         var service = {
             getAllRequests: getAllRequests,
-            getUser: getUser,
             updateUser: updateUser
         };
 
@@ -23,14 +22,6 @@
                 url: conf.BASE_URL + conf.URL_PREFIX + 'specialist/requests',
                 method: 'GET',
                 params: params
-            });
-        }
-
-        function getUser() {
-
-            return request.httpWithTimeout({
-                url: conf.BASE_URL + conf.URL_PREFIX + 'user',
-                method: 'GET'
             });
         }
 
