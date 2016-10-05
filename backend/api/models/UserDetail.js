@@ -13,11 +13,6 @@ let UserDetail = {
     tableName: 'user_details',
 
     attributes: {
-        isAvailable: {
-            type: 'boolean',
-            defaultsTo: true,
-            columnName: 'is_available'
-        },
         isPro: {
             type: 'boolean',
             required: true,
