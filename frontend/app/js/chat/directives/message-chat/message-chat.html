@@ -5,9 +5,14 @@
                      'contact': vm.message.sender.id === vm.currentUser.id,
                      }">
   <div class="avatar"
-       ng-if="vm.message.sender.id !== vm.currentUser.id"
+       ng-if="vm.message.sender.id !== vm.currentUser.id && vm.currentChat.type === vm.userType.CLIENT"
        ng-style="{ 'background-image': 'url(' + (vm.currentChat.specialist.portrait ?
        vm.baseUrl + vm.currentChat.specialist.portrait : vm.defaultPortrait) + ')' }">
+  </div>
+  <div class="avatar"
+       ng-if="vm.message.sender.id !== vm.currentUser.id && vm.currentChat.type !== vm.userType.CLIENT"
+       ng-style="{ 'background-image': 'url(' + (vm.currentChat.client.portrait ?
+       vm.baseUrl + vm.currentChat.client.portrait : vm.defaultPortrait) + ')' }">
   </div>
   <div class="avatar"
        ng-if="vm.message.sender.id === vm.currentUser.id"

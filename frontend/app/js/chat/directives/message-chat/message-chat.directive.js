@@ -11,7 +11,7 @@
     function messageChat($compile, $templateCache) {
         var directive = {
             bindToController: true,
-            controller: ControllerName,
+            controller: MessageChatController,
             controllerAs: 'vm',
             link: link,
             restrict: 'E',
@@ -19,6 +19,7 @@
                 message: '=',
                 currentUser: '=',
                 currentRequest: '=',
+                currentChat: '=',
                 changeRequestStatus: '&'
             },
             replace: true
@@ -54,10 +55,10 @@
         }
     }
 
-    ControllerName.$inject = ['coreConstants', 'chatConstants', 'conf'];
+    MessageChatController.$inject = ['coreConstants', 'chatConstants', 'conf'];
 
     /* @ngInject */
-    function ControllerName(coreConstants, chatConstants, conf) {
+    function MessageChatController(coreConstants, chatConstants, conf) {
         var vm = this;
 
         vm.baseUrl = conf.BASE_URL;
@@ -65,6 +66,7 @@
         vm.dateFormat = coreConstants.DATE_FORMAT;
         vm.requestStatus = coreConstants.REQUEST_STATUSES;
         vm.messageType = chatConstants.MESSAGE_TYPES;
+        vm.userType = coreConstants.USER_TYPES;
 
         vm.acceptOffer = acceptOffer;
 
