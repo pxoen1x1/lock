@@ -35,7 +35,7 @@
                 promises.getAllRequests.cancel();
             }
 
-            promises.getAllRequests = serviceProviderDataservice.getCurrentRequests(queryOptions);
+            promises.getAllRequests = serviceProviderDataservice.getRequests(queryOptions);
 
             return promises.getAllRequests
                 .then(function (response) {
@@ -46,6 +46,7 @@
 
         function getRequests() {
             var queryOptions = {
+                status: '!4',
                 order: vm.queryOptions.orderBy.replace(/-(\w+)/, '$1 DESC'),
                 limit: vm.queryOptions.limit,
                 page: vm.queryOptions.page

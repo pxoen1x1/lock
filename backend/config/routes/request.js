@@ -5,6 +5,10 @@ let requestRoutes = {
         controller: 'RequestController',
         action: 'getAllClientRequests'
     },
+    'GET /api/specialist/requests': {
+        controller: 'RequestController',
+        action: 'getSpecialistRequests'
+    },
     'GET /api/client/requests/:request': {
         controller: 'RequestController',
         action: 'getClientRequestById'
@@ -16,14 +20,6 @@ let requestRoutes = {
     'POST /api/client/requests': {
         controller: 'RequestController',
         action: 'createRequest'
-    },
-    'GET /api/specialist/requests/all': {
-        controller: 'RequestController',
-        action: 'getAllSpecialistRequests'
-    },
-    'GET /api/specialist/requests/current': {
-        controller: 'RequestController',
-        action: 'getCurrentSpecialistRequests'
     },
     'PUT /api/client/requests/:requestId': {
         controller: 'RequestController',

@@ -10,28 +10,19 @@
     /* @ngInject */
     function serviceProviderDataservice($http, request, conf) {
         var service = {
-            getAllRequests: getAllRequests,
-            getCurrentRequests: getCurrentRequests
+            getRequests: getRequests
         };
 
         return service;
 
-        function getAllRequests(params) {
+        function getRequests(params) {
 
             return request.httpWithTimeout({
-                url: conf.BASE_URL + conf.URL_PREFIX + 'specialist/requests/all',
+                url: conf.BASE_URL + conf.URL_PREFIX + 'specialist/requests',
                 method: 'GET',
                 params: params
             });
         }
 
-        function getCurrentRequests(params) {
-
-            return request.httpWithTimeout({
-                url: conf.BASE_URL + conf.URL_PREFIX + 'specialist/requests/current',
-                method: 'GET',
-                params: params
-            });
-        }
     }
 })();
