@@ -24,12 +24,13 @@
         return directive;
     }
 
-    BidListController.$inject = ['$q', '$mdMedia', '$mdSidenav', 'chatSocketservice', 'coreConstants'];
+    BidListController.$inject = ['$q', '$mdMedia', '$mdSidenav', 'chatSocketservice', 'coreConstants', 'conf'];
 
     /* @ngInject */
-    function BidListController($q, $mdMedia, $mdSidenav, chatSocketservice, coreConstants) {
+    function BidListController($q, $mdMedia, $mdSidenav, chatSocketservice, coreConstants, conf) {
         var vm = this;
 
+        vm.baseUrl = conf.BASE_URL;
         vm.defaultPortrait = coreConstants.IMAGES.defaultPortrait;
 
         vm.changeCurrentBid = changeCurrentBid;

@@ -14,7 +14,8 @@
                   ng-click="vm.changeCurrentBid(bid)">
       <div class="avatar-wrapper">
         <div class="md-avatar avatar"
-             ng-style="{ 'background-image': 'url(' + (bid.specialist.portrait || vm.defaultPortrait) + ')' }">
+             ng-style="{ 'background-image': 'url(' + (bid.specialist.portrait ?
+             vm.baseUrl + bid.specialist.portrait : vm.defaultPortrait) + ')' }">
         </div>
         <i class="material-icons s14 status"
            ng-if="bid.specialist.details.isAvailable">check_circle
