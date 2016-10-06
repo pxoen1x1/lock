@@ -1,7 +1,7 @@
 /* global sails, Bid */
 
 /**
- * isChatMember
+ * isBidParticipant
  *
  * @module      :: Policy
  * @description :: Assumes that you are a participant of a bid;
@@ -18,6 +18,7 @@ module.exports = function (req, res, next) {
     let user = req.session.user.id;
 
     if (!bid) {
+        sails.log.debug(new Error('Submitted data is invalid.'));
 
         return res.badRequest({
             message: req.__('Submitted data is invalid.')
@@ -28,6 +29,7 @@ module.exports = function (req, res, next) {
         .then(
             (foundBid) => {
                 if (!foundBid) {
+                    sails.log.debug(new Error('Bid is not found'));
 
                     return res.notFound({
                         message: req.__('Bid is not found.')
@@ -37,6 +39,7 @@ module.exports = function (req, res, next) {
                 let isBidParticipant = (user === foundBid.client) || (user === foundBid.specialist);
 
                 if (!isBidParticipant) {
+                    sails.log.debug(new Error('You are not permitted to perform this action.'));
 
                     return res.forbidden(
                         {

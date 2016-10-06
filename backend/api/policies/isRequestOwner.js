@@ -17,6 +17,7 @@ module.exports = function (req, res, next) {
     let owner = req.session.user.id;
 
     if (!request) {
+        sails.log.debug(new Error('Submitted data is invalid.'));
 
         return res.badRequest({
             message: req.__('Submitted data is invalid.')
@@ -27,6 +28,7 @@ module.exports = function (req, res, next) {
         .then(
             (foundRequest) => {
                 if (!foundRequest) {
+                    sails.log.debug(new Error('Request is not found.'));
 
                     return res.notFound({
                         message: req.__('Request is not found.')
@@ -34,6 +36,7 @@ module.exports = function (req, res, next) {
                 }
 
                 if (foundRequest.owner !== owner) {
+                    sails.log.debug(new Error('You are not permitted to perform this action.'));
 
                     return res.forbidden(
                         {
