@@ -1,3 +1,5 @@
+/* global sails */
+
 /**
  * isSocketRequest
  *
@@ -11,6 +13,7 @@
 
 module.exports = function (req, res, next) {
     if (!req.isSocket) {
+        sails.log.debug(new Error('This is not a socket request.'));
 
         return res.badRequest(
             {

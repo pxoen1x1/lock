@@ -16,6 +16,8 @@ module.exports = function (req, res, next) {
     let user = req.session.user.id;
 
     if (!chat) {
+        sails.log.debug(new Error('Submitted data is invalid.'));
+
 
         return res.badRequest({
             message: req.__('Submitted data is invalid.')
@@ -26,6 +28,8 @@ module.exports = function (req, res, next) {
         .then(
             (foundChat) => {
                 if (!foundChat) {
+                    sails.log.debug(new Error('Chat is not found.'));
+
 
                     return res.notFound(
                         {
@@ -37,6 +41,8 @@ module.exports = function (req, res, next) {
                 let isChatMember = user === foundChat.client || user === foundChat.specialist;
 
                 if (!isChatMember) {
+                    sails.log.debug(new Error('You are not permitted to perform this action.'));
+
 
                     return res.forbidden(
                         {

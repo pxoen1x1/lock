@@ -1,4 +1,4 @@
-/* global  waterlock */
+/* global sails, waterlock */
 
 /**
  * hasJsonWebToken
@@ -15,6 +15,7 @@ module.exports = function (req, res, next) {
     waterlock.validator.validateTokenRequest(req,
         (err, user) => {
             if (err) {
+                sails.log.debug(new Error('You are not permitted to perform this action.'));
 
                 return res.forbidden(
                     {

@@ -23,7 +23,7 @@
                 loadPrevMessages: '&'
             },
             replace: true,
-            templateUrl: 'chat/directives/chat-list/chat-list.html'
+            templateUrl: 'chat/directives/chat-list/client-chat-list.html'
         };
 
         return directive;

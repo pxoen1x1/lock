@@ -208,6 +208,10 @@ $search-text-color: rgba(0, 0, 0, .54);
           }
 
           .message-row {
+            .avatar {
+              margin: 0 16px 0 0;
+            }
+
             .bubble {
               position: relative;
               padding: 6px 7px 8px 9px;

@@ -3,31 +3,30 @@
 
     angular
         .module('app.chat')
-        .directive('bidList', bidList);
+        .directive('specialistBidList', specialistBidList);
 
-    function bidList() {
+    function specialistBidList() {
         var directive = {
             bindToController: true,
-            controller: BidListController,
+            controller: SpecialistBidListController,
             controllerAs: 'vm',
             restrict: 'E',
             scope: {
                 bids: '=',
                 currentBid: '=',
-                currentRequest: '=',
-                selectSpecialist: '&'
+                currentRequest: '='
             },
             replace: true,
-            templateUrl: 'chat/directives/bid-list/bid-list.html'
+            templateUrl: 'chat/directives/bid-list/specialist-bid-list.html'
         };
 
         return directive;
     }
 
-    BidListController.$inject = ['$q', '$mdMedia', '$mdSidenav', 'chatSocketservice', 'coreConstants', 'conf'];
+    SpecialistBidListController.$inject = ['$mdMedia', '$mdSidenav', 'chatSocketservice', 'coreConstants', 'conf'];
 
     /* @ngInject */
-    function BidListController($q, $mdMedia, $mdSidenav, chatSocketservice, coreConstants, conf) {
+    function SpecialistBidListController($mdMedia, $mdSidenav, chatSocketservice, coreConstants, conf) {
         var vm = this;
 
         vm.baseUrl = conf.BASE_URL;
@@ -37,13 +36,9 @@
 
         activate();
 
-        function getBids(request) {
-            if (!request || !request.id) {
+        function getBids() {
 
-                return $q.reject();
-            }
-
-            return chatSocketservice.getRequestBids(request)
+            return chatSocketservice.getSpecialistBids()
                 .then(function (bids) {
                     vm.bids = bids;
 
@@ -53,7 +48,7 @@
 
         function listenBidEvent() {
             chatSocketservice.onBid(function (bid) {
-                vm.bids.push(bid);
+                console.log(bid);
             });
         }
 
@@ -70,8 +65,7 @@
             }
 
             vm.currentBid = currentBid;
-
-            vm.selectSpecialist({specialist: currentBid.specialist});
+            vm.currentRequest = currentBid.request;
 
             if (!$mdMedia('gt-md')) {
                 $mdSidenav('left-sidenav').close();
@@ -79,7 +73,7 @@
         }
 
         function activate() {
-            getBids(vm.currentRequest)
+            getBids()
                 .then(listenBidEvent);
         }
     }

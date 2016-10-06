@@ -16,6 +16,7 @@ module.exports = function (req, res, next) {
     let specialist = req.session.user.id;
 
     if (!request) {
+        sails.log.debug(new Error('Submitted data is invalid.'));
 
         return res.badRequest(
             {
@@ -36,6 +37,8 @@ module.exports = function (req, res, next) {
                     );
 
                     if (bidExists) {
+                        sails.log.debug(new Error('Bid has been sent already.'));
+
                         res.badRequest(
                             {
                                 message: req.__('Bid has been sent already.')
@@ -60,6 +63,8 @@ module.exports = function (req, res, next) {
                     );
 
                     if (chatExists) {
+                        sails.log.debug(new Error('Chat already exists.'));
+
                         res.badRequest(
                             {
                                 message: req.__('Chat already exists.')

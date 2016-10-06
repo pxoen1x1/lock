@@ -1,6 +1,4 @@
-<md-content
-    flex
-    ms-scroll>
+<md-content flex>
   <md-list class="chat-list">
     <md-list-item class="contact md-3-line"
                   aria-label="{{ bid.specialist.fullName }}"
@@ -14,7 +12,8 @@
                   ng-click="vm.changeCurrentBid(bid)">
       <div class="avatar-wrapper">
         <div class="md-avatar avatar"
-             ng-style="{ 'background-image': 'url(' + (bid.specialist.portrait || vm.defaultPortrait) + ')' }">
+             ng-style="{ 'background-image': 'url(' + (bid.specialist.portrait ?
+             vm.baseUrl + bid.specialist.portrait : vm.defaultPortrait) + ')' }">
         </div>
         <i class="material-icons s14 status"
            ng-if="bid.specialist.details.isAvailable">check_circle

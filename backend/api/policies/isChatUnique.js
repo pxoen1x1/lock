@@ -18,6 +18,7 @@ module.exports = function (req, res, next) {
     let specialist = params.specialist && params.specialist.id ? params.specialist.id : null;
 
     if (!request || !specialist) {
+        sails.log.debug(new Error('Submitted data is invalid.'));
 
         return res.badRequest(
             {
@@ -38,6 +39,7 @@ module.exports = function (req, res, next) {
                     );
 
                     if (chatExists) {
+                        sails.log.debug(new Error('Chat already exists.'));
 
                         return res.badRequest(
                             {

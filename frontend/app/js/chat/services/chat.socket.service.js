@@ -13,6 +13,7 @@
             getClientChats: getClientChats,
             getSpecialistChats: getSpecialistChats,
             getRequestBids: getRequestBids,
+            getSpecialistBids: getSpecialistBids,
             getMessages: getMessages,
             getReviews: getReviews,
             createChat: createChat,
@@ -55,6 +56,17 @@
                 .then(getRequestBidsCompleted);
 
             function getRequestBidsCompleted(message) {
+
+                return message.data.bids;
+            }
+        }
+
+        function getSpecialistBids() {
+
+            return $sails.get(conf.URL_PREFIX + 'specialist/bids')
+                .then(getSpecialistBidsCompleted);
+
+            function getSpecialistBidsCompleted(message) {
 
                 return message.data.bids;
             }

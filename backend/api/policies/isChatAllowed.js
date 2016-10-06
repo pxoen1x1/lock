@@ -21,6 +21,7 @@ module.exports = function (req, res, next) {
     let requestPromise;
 
     if (!request && !chat) {
+        sails.log.debug(new Error('Submitted data is invalid.'));
 
         return res.badRequest(
             {
@@ -42,6 +43,7 @@ module.exports = function (req, res, next) {
         .then(
             (request) => {
                 if (!request) {
+                    sails.log.debug(new Error('Request is not found.'));
 
                     return res.notFound(
                         {
@@ -51,6 +53,7 @@ module.exports = function (req, res, next) {
                 }
 
                 if (request.status !== STATUS.NEW) {
+                    sails.log.debug(new Error('You are not permitted to perform this action.'));
 
                     return res.forbidden(
                         {

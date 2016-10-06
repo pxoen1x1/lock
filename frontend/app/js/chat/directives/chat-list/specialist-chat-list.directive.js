@@ -15,15 +15,14 @@
                 chats: '=',
                 messages: '=',
                 pagination: '=',
-                currentRequest: '=',
                 currentChat: '=',
+                currentRequest: '=?',
                 isScrollDisabled: '=?scrollChatDisabled',
                 isScrollToBottomEnabled: '=?scrollChatToBottom',
-                selectSpecialist: '&',
                 loadPrevMessages: '&'
             },
             replace: true,
-            templateUrl: 'chat/directives/chat-list/chat-list.html'
+            templateUrl: 'chat/directives/chat-list/specialist-chat-list.html'
         };
 
         return directive;
@@ -86,8 +85,7 @@
             }
 
             vm.currentChat = currentChat;
-
-            vm.selectSpecialist({specialist: currentChat.specialist});
+            vm.currentRequest = currentChat.request;
 
             if (!vm.pagination.messages[currentChat.id]) {
                 vm.pagination.messages[currentChat.id] = {
