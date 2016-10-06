@@ -19,6 +19,7 @@
         var vm = this;
 
         vm.chats = [];
+        vm.bids = [];
         vm.messages = {};
 
         vm.currentUser = {};
@@ -35,10 +36,12 @@
 
         vm.isScrollDisabled = true;
         vm.isScrollToBottomEnabled = true;
+        vm.selectedTab = 'chats';
 
         vm.baseUrl = conf.BASE_URL;
         vm.defaultPortrait = coreConstants.IMAGES.defaultPortrait;
         vm.dateFormat = coreConstants.DATE_FORMAT;
+        vm.requestStatus = coreConstants.REQUEST_STATUSES;
         vm.userType = coreConstants.USER_TYPES;
 
         vm.toggleSidenav = toggleSidenav;

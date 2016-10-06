@@ -20,7 +20,7 @@
        flex
        layout="row"
        layout-align="end end"
-       ng-if="vm.bids.length > 0 && vm.currentRequest.status === vm.requestStatus.NEW">
+       ng-if="vm.bids.length > 0 && (vm.currentUser.type !== vm.userType.CLIENT || vm.currentRequest.status === vm.requestStatus.NEW)">
     <md-nav-bar
         flex
         md-selected-nav-item="vm.selectedTab"
@@ -34,7 +34,8 @@
      layout="column"
      flex
      ng-show="vm.selectedTab !== 'bids'"
-     ng-class="{ 'nav-bar-disabled' : !vm.bids || vm.bids.length === 0 || vm.currentRequest.status !== vm.requestStatus.NEW }">
+     ng-class="{ 'nav-bar-disabled' : !vm.bids || vm.bids.length === 0 ||
+     (vm.currentUser.type === vm.userType.CLIENT && vm.currentRequest.status !== vm.requestStatus.NEW) }">
   <client-chat-list ng-if="vm.currentRequest.id && vm.currentUser.type === vm.userType.CLIENT"
                     chats="vm.chats"
                     messages="vm.messages"
@@ -54,7 +55,6 @@
                         current-chat="vm.currentChat"
                         scroll-chat-disabled="vm.isScrollDisabled"
                         scroll-chat-to-bottom="vm.isScrollToBottomEnabled"
-                        select-specialist="vm.selectSpecialist(specialist)"
                         load-prev-messages="vm.loadPrevMessages(currentChat)">
   </specialist-chat-list>
 </div>
@@ -62,10 +62,16 @@
      layout="column"
      flex
      ng-show="vm.selectedTab === 'bids'">
-  <bid-list ng-if="vm.currentRequest.id"
+  <bid-list ng-if="vm.currentRequest.id && vm.currentUser.type === vm.userType.CLIENT"
             bids="vm.bids"
             current-request="vm.currentRequest"
             current-bid="vm.currentBid"
             select-specialist="vm.selectSpecialist(specialist)">
   </bid-list>
+  <specialist-bid-list ng-if="vm.currentUser.type === vm.userType.SPECIALIST"
+                       bids="vm.bids"
+                       current-request="vm.currentRequest"
+                       current-bid="vm.currentBid"
+                       select-specialist="vm.selectSpecialist(specialist)">
+  </specialist-bid-list>
 </div>
