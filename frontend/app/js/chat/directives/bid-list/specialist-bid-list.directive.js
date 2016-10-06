@@ -17,7 +17,7 @@
                 currentRequest: '='
             },
             replace: true,
-            templateUrl: 'chat/directives/bid-list/bid-list.html'
+            templateUrl: 'chat/directives/bid-list/specialist-bid-list.html'
         };
 
         return directive;
