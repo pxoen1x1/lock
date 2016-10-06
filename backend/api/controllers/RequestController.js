@@ -90,6 +90,48 @@ let RequestController = {
                 }
             );
     },
+    getCurrentSpecialistRequests(req, res) {
+        let params = req.allParams();
+
+        let user = req.session.user.id;
+
+        let sorting = params.order || 'updatedAt DESC';
+        let pagination = {};
+        pagination.limit = params.limit || sails.config.application.queryLimit;
+        pagination.page = params.page || 1;
+
+        let criteria = {
+            where: {
+                executor_id: user,
+                status: 2
+            },
+            sorting: sorting,
+            skip: (pagination.page - 1) * pagination.limit,
+            limit: pagination.limit
+        };
+
+        RequestService.getAll(criteria)
+            .then(
+                (requests) => {
+
+                    return [RequestService.getRequestsCount({executor: user}), requests];
+                }
+            )
+            .spread(
+                (totalCount, requests) => res.ok({
+                    items: requests,
+                    currentPageNumber: pagination.page,
+                    totalCount: totalCount
+                })
+            )
+            .catch(
+                (err) => {
+                    sails.log.error(err);
+
+                    res.serverError();
+                }
+            );
+    },
     getClientRequestById(req, res) {
         let request = req.params.request;
 

@@ -17,9 +17,13 @@ let requestRoutes = {
         controller: 'RequestController',
         action: 'createRequest'
     },
-    'GET /api/specialist/requests': {
+    'GET /api/specialist/requests/all': {
         controller: 'RequestController',
         action: 'getAllSpecialistRequests'
+    },
+    'GET /api/specialist/requests/current': {
+        controller: 'RequestController',
+        action: 'getCurrentSpecialistRequests'
     },
     'PUT /api/client/requests/:requestId': {
         controller: 'RequestController',
