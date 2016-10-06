@@ -23,6 +23,5 @@
                 params: params
             });
         }
-
     }
 })();
