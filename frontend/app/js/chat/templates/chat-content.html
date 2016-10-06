@@ -6,24 +6,39 @@
       <i class="material-icons s28">textsms</i>
     </md-button>
     <div class="chat-contact"
-         layout="row"
-         layout-align="start center"
          ng-if="vm.currentChat.specialist.id"
          ng-click="vm.toggleSidenav('right-sidenav')">
-      <div class="avatar-wrapper">
-        <div class="avatar"
-             ng-style="{ 'background-image': 'url(' + (vm.currentChat.specialist.portrait ?
-             vm.baseUrl + vm.currentChat.specialist.portrait : vm.defaultPortrait) + ')' }">
+      <div layout="row"
+           layout-align="start center"
+           ng-if="vm.currentUser.type === vm.userType.SPECIALIST">
+        <div class="avatar-wrapper">
+          <div class="avatar"
+               ng-style="{ 'background-image': 'url(' + (vm.currentChat.client.portrait ?
+             vm.baseUrl + vm.currentChat.client.portrait : vm.defaultPortrait) + ')' }">
+          </div>
         </div>
-        <i class="material-icons s14 status"
-           ng-if="vm.currentChat.specialist.details.isAvailable">check_circle
-        </i>
-        <i class="material-icons s14 status unavailable"
-           ng-if="!vm.currentChat.specialist.details.isAvailable">schedule
-        </i>
+        <div class="chat-contact-name">
+          <span ng-bind="vm.currentChat.client.fullName"></span>
+        </div>
       </div>
-      <div class="chat-contact-name">
-        <span ng-bind="vm.currentChat.specialist.fullName"></span>
+      <div layout="row"
+           layout-align="start center"
+           ng-if="vm.currentUser.type === vm.userType.CLIENT">
+        <div class="avatar-wrapper">
+          <div class="avatar"
+               ng-style="{ 'background-image': 'url(' + (vm.currentChat.specialist.portrait ?
+             vm.baseUrl + vm.currentChat.specialist.portrait : vm.defaultPortrait) + ')' }">
+          </div>
+          <i class="material-icons s14 status"
+             ng-if="vm.currentChat.specialist.details.isAvailable">check_circle
+          </i>
+          <i class="material-icons s14 status unavailable"
+             ng-if="!vm.currentChat.specialist.details.isAvailable">schedule
+          </i>
+        </div>
+        <div class="chat-contact-name">
+          <span ng-bind="vm.currentChat.specialist.fullName"></span>
+        </div>
       </div>
     </div>
     <md-menu md-position-mode="target-right target">
@@ -58,6 +73,7 @@
       <message-chat message="message"
                     current-user="vm.currentUser"
                     current-request="vm.currentRequest"
+                    current-chat="vm.currentChat"
                     change-request-status="vm.changeRequestStatus(offer, message)"
                     ng-if="vm.currentUser && vm.currentRequest">
       </message-chat>
