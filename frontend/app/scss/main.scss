@@ -109,15 +109,16 @@ $panel-background-color: rgb(245, 245, 245);
 .md-button {
   &.md-button-blue {
     &, &.md-fab {
-      background-color: $primary-color;
-      color: #fff;
-    }
+      &, &:not([disabled]) {
+        color: #fff;
+        &, &:focus {
+          background-color: $primary-color;
+        }
 
-    &:hover,
-    &.md-fab:hover,
-    &.md-fab:focus,
-    &.md-fab:not([disabled]):hover {
-      background-color: rgb(0, 145, 234);
+        &:hover {
+          background-color: rgb(0, 145, 234);
+        }
+      }
     }
   }
 
