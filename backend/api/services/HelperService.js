@@ -26,17 +26,13 @@ let HelperService = {
             return query;
         }
 
-        let whereCriterion = criteria.where;
+        let whereCriteria = criteria.where || criteria;
 
-        if (whereCriterion) {
-            query += this._buildWhereQuery(whereCriterion, tableAlias);
-            query += criteria.sorting ? ` ORDER BY ${tableAlias}${criteria.sorting}` : ``;
+        query += this._buildQuery(whereCriteria, tableAlias);
 
-            query += criteria.limit ? ` LIMIT ${criteria.limit}` : ``;
-            query += criteria.skip ? ` OFFSET ${criteria.skip}` : ``;
-        } else {
-            query += this._buildQuery(criteria, tableAlias);
-        }
+        query += criteria.sorting ? ` ORDER BY ${tableAlias}${criteria.sorting}` : ``;
+        query += criteria.limit ? ` LIMIT ${criteria.limit}` : ``;
+        query += criteria.skip ? ` OFFSET ${criteria.skip}` : ``;
 
         return query;
     },
@@ -61,7 +57,36 @@ let HelperService = {
 
         return queryResult;
     },
-    _buildQuery(criterion, tableAlias) {
+    _buildQuery(criteria, tableAlias) {
+        if (!criteria || typeof criteria !== 'object') {
+
+            return typeof criteria;
+        }
+
+        let query = ` WHERE`;
+
+        let criteriaKeys = Object.keys(criteria);
+        let index = 0;
+
+        if (criteriaKeys.length > 0) {
+            criteriaKeys.forEach(
+                (key) => {
+                    let criterion = {};
+
+                    criterion[key] = criteria[key];
+                    query += this._parseCriterion(criterion, tableAlias);
+                    index++;
+
+                    if (criteriaKeys[index]) {
+                        query += ' AND';
+                    }
+                }
+            );
+        }
+
+        return query;
+    },
+    _parseCriterion(criterion, tableAlias) {
         if (!criterion || typeof criterion !== 'object') {
 
             return;
@@ -75,41 +100,53 @@ let HelperService = {
         }
 
         let criterionValues = criterion[criterionKey];
-        let query = ` WHERE ${tableAlias}${criterionKey}`;
+        let query = ` ${tableAlias}${criterionKey}`;
 
         if (Array.isArray(criterionValues)) {
             query += ` in (${criterionValues.join(',')})`;
+        } else if (criterionValues !== null && typeof criterionValues === 'object') {
+            let criterionModifiers = Object.keys(criterionValues);
+            let index = 0;
+
+            criterionModifiers.forEach(function (criterionModifier) {
+                let criterionValue = criterionValues[criterionModifier];
+
+                query += this._parseCriterionModifier(criterionModifier, criterionValue);
+                index++;
+
+                if (criterionModifiers[index]) {
+                    query += ` AND ${tableAlias}${criterionKey}`;
+                }
+            });
         } else {
             query += ` = ${criterionValues}`;
         }
 
         return query;
     },
-    _buildWhereQuery(criterion, tableAlias) {
-        if (!criterion || typeof criterion !== 'object') {
-
-            return;
-        }
-
+    _parseCriterionModifier(criterionModifier, value) {
         let query = ``;
 
+        if (!criterionModifier) {
 
-        let criterionKeys = Object.keys(criterion);
-        let index = 0;
+            return ``;
+        }
 
-        if (criterionKeys.length > 0) {
-            query += ` WHERE `;
-
-            criterionKeys.forEach(
-                (key) => {
-                    query += `${tableAlias}${key} = ${criterion[key]}`;
-                    index++;
-
-                    if (criterionKeys[index]) {
-                        query += ' AND ';
-                    }
-                }
-            );
+        switch (criterionModifier) {
+            case '!':
+                query = ` <> ${value}`;
+                break;
+            case 'contains':
+                query = ` LIKE %${value}%`;
+                break;
+            case 'startsWith':
+                query = ` LIKE ${value}%`;
+                break;
+            case 'endsWith':
+                query = ` LIKE %${value}`;
+                break;
+            default:
+                query = ` ${criterionModifier} ${value}`;
         }
 
         return query;
