@@ -49,8 +49,9 @@ let RequestController = {
                 }
             );
     },
-    getAllSpecialistRequests(req, res) {
+    getSpecialistRequests(req, res) {
         let params = req.allParams();
+        let status = params.status;
 
         let user = req.session.user.id;
 
@@ -67,6 +68,16 @@ let RequestController = {
             skip: (pagination.page - 1) * pagination.limit,
             limit: pagination.limit
         };
+
+        if (status) {
+            if (status.indexOf('!') === 0) {
+                criteria.where.status = {
+                    '!': status.replace('!', '')
+                };
+            } else {
+                criteria.where.status = status;
+            }
+        }
 
         RequestService.getAll(criteria)
             .then(
@@ -90,6 +101,7 @@ let RequestController = {
                 }
             );
     },
+
     getClientRequestById(req, res) {
         let request = req.params.request;
 

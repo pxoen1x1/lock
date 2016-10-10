@@ -10,12 +10,12 @@
     /* @ngInject */
     function serviceProviderDataservice($http, request, conf) {
         var service = {
-            getAllRequests: getAllRequests
+            getRequests: getRequests
         };
 
         return service;
 
-        function getAllRequests(params) {
+        function getRequests(params) {
 
             return request.httpWithTimeout({
                 url: conf.BASE_URL + conf.URL_PREFIX + 'specialist/requests',
