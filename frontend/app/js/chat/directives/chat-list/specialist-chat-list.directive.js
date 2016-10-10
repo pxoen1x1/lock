@@ -67,7 +67,7 @@
         function listenChatEvent() {
             chatSocketservice.onChat(function (chat) {
 
-                vm.chats.push(chat);
+                vm.chats.unshift(chat);
             });
         }
 
