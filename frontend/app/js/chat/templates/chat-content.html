@@ -48,6 +48,10 @@
         <i class="material-icons">more_vert</i>
       </md-button>
       <md-menu-content width="3">
+        <md-menu-item ng-if="vm.currentUser.type !== vm.userType.CLIENT">
+          <md-button ng-click="vm.openOfferDialog(vm.currentChat)">Send Offer
+          </md-button>
+        </md-menu-item>
         <md-menu-item>
           <md-button ng-click="vm.toggleSidenav('right-sidenav')"
                      aria-label="vm.currentUser.type === vm.userType.CLIENT ? 'Contact Info' : 'Request Info'">
