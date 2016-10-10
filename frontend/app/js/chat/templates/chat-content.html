@@ -49,7 +49,7 @@
       </md-button>
       <md-menu-content width="3">
         <md-menu-item
-            ng-if="vm.currentUser.type !== vm.userType.CLIENT && vm.currentRequest.status === vm.requestType.NEW">
+            ng-if="vm.currentUser.type !== vm.userType.CLIENT && vm.currentRequest.status === vm.requestStatus.NEW">
           <md-button ng-click="vm.openOfferDialog(vm.currentChat)">Send Offer
           </md-button>
         </md-menu-item>
