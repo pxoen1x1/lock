@@ -13,10 +13,10 @@
 
 module.exports = function (req, res, next) {
     let params = req.allParams();
-    let request = params.request;
+    let requestId = params.requestId;
     let owner = req.session.user.id;
 
-    if (!request) {
+    if (!requestId) {
         sails.log.debug(new Error('Submitted data is invalid.'));
 
         return res.badRequest({
@@ -24,7 +24,7 @@ module.exports = function (req, res, next) {
         });
     }
 
-    Request.findOneById(request)
+    Request.findOneById(requestId)
         .then(
             (foundRequest) => {
                 if (!foundRequest) {
