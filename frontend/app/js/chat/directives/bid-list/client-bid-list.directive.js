@@ -3,12 +3,12 @@
 
     angular
         .module('app.chat')
-        .directive('bidList', bidList);
+        .directive('clientBidList', clientBidList);
 
-    function bidList() {
+    function clientBidList() {
         var directive = {
             bindToController: true,
-            controller: BidListController,
+            controller: ClientBidListController,
             controllerAs: 'vm',
             restrict: 'E',
             scope: {
@@ -18,16 +18,16 @@
                 selectSpecialist: '&'
             },
             replace: true,
-            templateUrl: 'chat/directives/bid-list/bid-list.html'
+            templateUrl: 'chat/directives/bid-list/client-bid-list.html'
         };
 
         return directive;
     }
 
-    BidListController.$inject = ['$q', '$mdMedia', '$mdSidenav', 'chatSocketservice', 'coreConstants', 'conf'];
+    ClientBidListController.$inject = ['$q', '$mdMedia', '$mdSidenav', 'chatSocketservice', 'coreConstants', 'conf'];
 
     /* @ngInject */
-    function BidListController($q, $mdMedia, $mdSidenav, chatSocketservice, coreConstants, conf) {
+    function ClientBidListController($q, $mdMedia, $mdSidenav, chatSocketservice, coreConstants, conf) {
         var vm = this;
 
         vm.baseUrl = conf.BASE_URL;
@@ -53,7 +53,7 @@
 
         function listenBidEvent() {
             chatSocketservice.onBid(function (bid) {
-                vm.bids.push(bid);
+                vm.bids.unshift(bid);
             });
         }
 
