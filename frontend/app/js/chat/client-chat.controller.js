@@ -41,7 +41,6 @@
 
         vm.baseUrl = conf.BASE_URL;
         vm.defaultPortrait = coreConstants.IMAGES.defaultPortrait;
-        vm.dateFormat = coreConstants.DATE_FORMAT;
         vm.requestStatus = coreConstants.REQUEST_STATUSES;
         vm.userType = coreConstants.USER_TYPES;
 

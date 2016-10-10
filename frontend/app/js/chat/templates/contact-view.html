@@ -1,6 +1,7 @@
 <div class="view contact-view"
      flex
-     layout="column">
+     layout="column"
+     ng-if="vm.currentUser.type === vm.userType.CLIENT">
   <md-toolbar class="md-tall md-accent">
     <div class="md-toolbar-tools md-toolbar-tools-top">
       <div>Contact Info</div>
@@ -64,7 +65,7 @@
                          readonly
                          value="review.rating">
             </star-rating>
-            <div ng-bind="review.createdAt | altDate : vm.formatDate"></div>
+            <div ng-bind="review.createdAt | altDate"></div>
           </div>
           <md-divider></md-divider>
         </div>
@@ -73,3 +74,7 @@
     </md-card>
   </md-content>
 </div>
+<request-info selected-request="vm.currentRequest"
+              toggle-sidenav="vm.toggleSidenav(navID)"
+              ng-if="vm.currentUser.type !== vm.userType.CLIENT && vm.isInfoTabOpen">
+</request-info>

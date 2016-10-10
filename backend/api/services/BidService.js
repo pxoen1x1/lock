@@ -1,6 +1,8 @@
-/* global Request, Bid, HelperService */
+/* global sails, Request, Bid, HelperService */
 
 'use strict';
+
+const RANDOM_COORDINATES_COEFFICIENT = sails.config.requests.RANDOM_COORDINATES_COEFFICIENT;
 
 let promise = require('bluebird');
 let getBidRawQuery = `SELECT bid.id,
@@ -127,7 +129,7 @@ let BidService = {
                 }
             );
     },
-    getBids(params) {
+    getClientBids(params) {
         let rawQuery = `${getBidRawQuery} WHERE bid.request_id = ? AND bid.is_refused <> true`;
 
         let bidQueryAsync = promise.promisify(Bid.query);
@@ -138,6 +140,28 @@ let BidService = {
 
                     return HelperService.formatQueryResult(bids);
                 }
+            );
+    },
+    getSpecialistBids(criteria) {
+        let tableAlias = 'bid';
+        let rawQuery = HelperService.buildQuery(getBidRawQuery, criteria, tableAlias);
+
+        rawQuery = rawQuery.replace(/\s*request_location.address AS 'request.location.address',/, '');
+
+        rawQuery = rawQuery.replace(
+            'request_location.latitude',
+            `(request_location.latitude + (2*RAND() - 1)/${RANDOM_COORDINATES_COEFFICIENT})`
+        );
+        rawQuery = rawQuery.replace(
+            'request_location.longitude',
+            `(request_location.longitude + (2*RAND()-1)/${RANDOM_COORDINATES_COEFFICIENT})`
+        );
+
+        let getBidQueryAsync = promise.promisify(Bid.query);
+
+        return getBidQueryAsync(rawQuery)
+            .then(
+                (bids) => HelperService.formatQueryResult(bids)
             );
     },
     create(bid) {

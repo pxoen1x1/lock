@@ -38,7 +38,6 @@
 
         vm.baseUrl = conf.BASE_URL;
         vm.defaultPortrait = coreConstants.IMAGES.defaultPortrait;
-        vm.dateFormat = coreConstants.DATE_FORMAT;
 
         vm.changeCurrentChat = changeCurrentChat;
 
@@ -79,13 +78,14 @@
                 return;
             }
 
+            vm.currentRequest = currentChat.request;
+
             if (vm.currentChat && vm.currentChat.id === currentChat.id) {
 
                 return;
             }
 
             vm.currentChat = currentChat;
-            vm.currentRequest = currentChat.request;
 
             if (!vm.pagination.messages[currentChat.id]) {
                 vm.pagination.messages[currentChat.id] = {

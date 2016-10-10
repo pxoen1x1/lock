@@ -433,7 +433,8 @@ $search-text-color: rgba(0, 0, 0, .54);
       transition-duration: .3s;
     }
 
-    .contact-view {
+    .contact-view,
+    .request-view {
       md-toolbar {
         min-height: 240px;
 
@@ -446,9 +447,19 @@ $search-text-color: rgba(0, 0, 0, .54);
           height: inherit;
           max-height: none;
 
+          .contact-name,
+          .request-info {
+            margin: 8px 0;
+          }
+
+          .request-info {
+            .flex {
+              text-align: end;
+            }
+          }
+
           .contact-name {
             font-size: 24px;
-            margin: 8px 0;
           }
         }
       }

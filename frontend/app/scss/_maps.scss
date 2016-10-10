@@ -1,0 +1,142 @@
+/* !ToDo: Moved from _customer.scss. Need refactoring. */
+.map-wrapper {
+  background: url('https://maps.gstatic.com/tactile/pane/spinner_color.gif');
+  background-position: center center;
+  background-repeat: no-repeat;
+}
+
+.map-wrapper, .angular-google-map-container {
+  position: relative;
+  width: 100%;
+  height: 125px;
+  border-radius: 10px;
+  overflow: hidden;
+  z-index: 1000010;
+}
+
+.map-content {
+  height: 100%;
+
+  &.container {
+    height: auto;
+  }
+
+  .container-content {
+    &, .angular-google-map-container {
+      height: 400px;
+    }
+  }
+
+  .actions {
+    font-size: 15px;
+
+    md-checkbox {
+      margin: 0;
+    }
+  }
+
+  .map-wrapper {
+    &, .angular-google-map, .angular-google-map-container {
+      height: 100%;
+      border-radius: 0;
+    }
+
+    .list.card.map-card {
+      position: absolute;
+      left: 50%;
+      bottom: 16px;
+      width: 70%;
+      margin: 0;
+      opacity: 0;
+      -webkit-transform: translate(-50%, -15%);
+      -moz-transform: translate(-50%, 0) scaleY(0);
+      -ms-transform: translate(-50%, 0) scaleY(0);
+      -o-transform: translate(-50%, 0) scaleY(0);
+      transform: translate(-50%, 0) scaleY(0);
+
+      -webkit-transition: all 0.2s ease;
+      -moz-transition: all 0.2s ease;
+      -ms-transition: all 0.2s ease;
+      -o-transition: all 0.2s ease;
+      transition: all 0.2s ease;
+    }
+
+    .list.card.map-card.show {
+      opacity: 1;
+      -webkit-transform: translate(-50%, 0);
+      -moz-transform: translate(-50%, 0);
+      -ms-transform: translate(-50%, 0);
+      -o-transform: translate(-50%, 0);
+      transform: translate(-50%, 0);
+    }
+  }
+
+  .map-card-provider {
+    padding: 10px 10px 10px 20px;
+
+    .right {
+      margin-right: 20px;
+    }
+
+    .star-rating {
+      color: rgba(29, 177, 239, 1);
+    }
+
+    .photo {
+      width: 71px;
+      height: 71px;
+      -webkit-border-radius: 50%;
+      -moz-border-radius: 50%;
+      border-radius: 50%;
+      background-size: cover;
+    }
+
+    .md-subhead {
+      color: rgba(0, 0, 0, 0.541176);
+      font-size: 14px;
+      letter-spacing: 0.14000000059604645px;
+      line-height: 24px;
+    }
+
+    .status {
+      font-size: 12px;
+      color: #4CAF50;
+      text-transform: uppercase;
+    }
+
+    .status.not-available {
+      color: #B71C1C;
+    }
+
+    .message {
+      width: 70px;
+
+      .md-button.md-fab {
+        background-color: $primary-color;
+      }
+
+      .md-button {
+        width: 50px;
+        height: 50px;
+        margin: 0;
+        padding: 0;
+      }
+    }
+
+    .close {
+      position: absolute;
+      right: 5px;
+      top: 5px;
+      opacity: 0.3;
+      cursor: pointer;
+
+      i.material-icons {
+        font-size: 16px;
+      }
+    }
+
+    .close:hover {
+      opacity: 1;
+    }
+  }
+}

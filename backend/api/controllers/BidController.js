@@ -21,7 +21,7 @@ let BidController = {
             );
         }
 
-        BidService.getBids({request: request})
+        BidService.getClientBids({request: request})
             .then(
                 (bids) => res.ok(
                     {
@@ -40,8 +40,13 @@ let BidController = {
     getSpecialistBids(req, res) {
         let specialist = req.session.user.id;
 
-        Bid.findBySpecialist(specialist)
-            .populateAll()
+        let criteria = {
+            where: {
+                specialist_id: specialist
+            }
+        };
+
+        BidService.getSpecialistBids(criteria)
             .then(
                 (bids) => res.ok(
                     {
