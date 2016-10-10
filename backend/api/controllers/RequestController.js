@@ -51,6 +51,7 @@ let RequestController = {
     },
     getSpecialistRequests(req, res) {
         let params = req.allParams();
+        let status = params.status;
 
         let user = req.session.user.id;
 
@@ -59,29 +60,24 @@ let RequestController = {
         pagination.limit = params.limit || sails.config.application.queryLimit;
         pagination.page = params.page || 1;
 
-        let status;
-        if (/^!.+/ig.test(params.status)) {
-
-            params.status.replace(/^!(.+)/ig,
-                function (str, id) {
-                    status = {
-                        '!': id
-                    };
-                });
-
-        } else {
-            status = params.status;
-        }
-
         let criteria = {
             where: {
-                executor_id: user,
-                status: status
+                executor_id: user
             },
             sorting: sorting,
             skip: (pagination.page - 1) * pagination.limit,
             limit: pagination.limit
         };
+
+        if (status) {
+            if (status.indexOf('!') === 0) {
+                criteria.where.status = {
+                    '!': status.replace('!', '')
+                };
+            } else {
+                criteria.where.status = status;
+            }
+        }
 
         RequestService.getAll(criteria)
             .then(
