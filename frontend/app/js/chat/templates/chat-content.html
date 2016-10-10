@@ -49,7 +49,10 @@
       </md-button>
       <md-menu-content width="3">
         <md-menu-item>
-          <md-button ng-click="vm.toggleSidenav('right-sidenav')">Contact Info</md-button>
+          <md-button ng-click="vm.toggleSidenav('right-sidenav')"
+                     aria-label="vm.currentUser.type === vm.userType.CLIENT ? 'Contact Info' : 'Request Info'">
+            <span ng-bind="vm.currentUser.type === vm.userType.CLIENT ? 'Contact Info' : 'Request Info'"></span>
+          </md-button>
         </md-menu-item>
         <md-menu-item>
           <md-button ng-click="vm.closeChat()">Close Chat</md-button>
