@@ -34,7 +34,7 @@
       <div layout="column" layout-align="center end">
         <div class="last-message-time"
              ng-if="chat.specialist.lastMessage.updatedAt">
-          <span ng-bind="chat.specialist.lastMessage.updatedAt | altDate : vm.dateFormat"></span>
+          <span ng-bind="chat.specialist.lastMessage.updatedAt | altDate"></span>
         </div>
         <div class="md-accent-bg unread-message-count"
              ng-if="chat.specialist.unread">

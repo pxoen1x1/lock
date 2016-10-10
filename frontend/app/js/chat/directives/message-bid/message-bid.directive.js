@@ -34,7 +34,6 @@
         var vm = this;
 
         vm.defaultPortrait = coreConstants.IMAGES.defaultPortrait;
-        vm.dateFormat = coreConstants.DATE_FORMAT;
         vm.requestStatus = coreConstants.REQUEST_STATUSES;
         vm.messageType = chatConstants.MESSAGE_TYPES;
 

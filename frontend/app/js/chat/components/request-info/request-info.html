@@ -20,7 +20,7 @@
            layout-align="end none">
         <div>Created:</div>
         <div flex
-             ng-bind="vm.selectedRequest.createdAt | date: 'MMM/dd/yyyy hh:mm a'">
+             ng-bind="vm.selectedRequest.createdAt | date: vm.dateFormat">
         </div>
       </div>
       <div class="request-info"
@@ -29,7 +29,7 @@
            ng-if="vm.selectedRequest.forDate">
         <div>For Date:</div>
         <div flex
-             ng-bind="vm.selectedRequest.forDate | date: 'MMM/dd/yyyy hh:mm a'">
+             ng-bind="vm.selectedRequest.forDate | date: vm.dateFormat">
         </div>
       </div>
       <div class="request-info"

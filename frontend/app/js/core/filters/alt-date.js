@@ -13,6 +13,8 @@
         return altDateFilter;
 
         function altDateFilter(date, dateFormate) {
+            dateFormate = dateFormate || 'MM/DD/YYYY';
+
             var fromNow = Date.now() - new Date(date);
 
             if (fromNow < 3600 * 1000) {
@@ -30,7 +32,7 @@
                 return moment(date).format('ddd hh:mm a');
             }
 
-            return dateFormate ? moment(date).format(dateFormate) : moment(date).calendar();
+            return moment(date).format(dateFormate);
         }
     }
 })();

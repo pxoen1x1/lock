@@ -15,7 +15,7 @@
             CHAT_PAGINATION_OPTIONS: {
                 limit: 50
             },
-            DATE_FORMAT: 'MM/DD/YYYY',
+            DATE_FORMAT: 'MMM/dd/yyyy hh:mm a',
             USER_TYPES: {
                 'CLIENT': 1,
                 'SPECIALIST': 2,
