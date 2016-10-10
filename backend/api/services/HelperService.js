@@ -108,16 +108,17 @@ let HelperService = {
             let criterionModifiers = Object.keys(criterionValues);
             let index = 0;
 
-            criterionModifiers.forEach(function (criterionModifier) {
-                let criterionValue = criterionValues[criterionModifier];
+            criterionModifiers.forEach(
+                (criterionModifier) => {
+                    let criterionValue = criterionValues[criterionModifier];
 
-                query += this._parseCriterionModifier(criterionModifier, criterionValue);
-                index++;
+                    query += this._parseCriterionModifier(criterionModifier, criterionValue);
+                    index++;
 
-                if (criterionModifiers[index]) {
-                    query += ` AND ${tableAlias}${criterionKey}`;
-                }
-            });
+                    if (criterionModifiers[index]) {
+                        query += ` AND ${tableAlias}${criterionKey}`;
+                    }
+                });
         } else {
             query += ` = ${criterionValues}`;
         }
