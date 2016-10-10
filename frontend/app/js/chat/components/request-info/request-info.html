@@ -1,0 +1,79 @@
+<div class="view request-view"
+     flex
+     layout="column">
+  <md-toolbar class="md-tall md-accent" flex="50">
+    <div class="md-toolbar-tools md-toolbar-tools-top">
+      <div>Request Info</div>
+      <div flex></div>
+      <md-button class="md-icon-button"
+                 aria-label="back"
+                 ng-click="vm.close()">
+        <i class="material-icons">close</i>
+      </md-button>
+    </div>
+    <div class="md-subhead md-toolbar-tools md-toolbar-tools-bottom"
+         flex
+         layout="column"
+         layout-align="start none">
+      <div class="request-info"
+           layout="row"
+           layout-align="end none">
+        <div>Created:</div>
+        <div flex
+             ng-bind="vm.selectedRequest.createdAt | date: 'MMM/dd/yyyy hh:mm a'">
+        </div>
+      </div>
+      <div class="request-info"
+           layout="row"
+           layout-align="end none"
+           ng-if="vm.selectedRequest.forDate">
+        <div>For Date:</div>
+        <div flex
+             ng-bind="vm.selectedRequest.forDate | date: 'MMM/dd/yyyy hh:mm a'">
+        </div>
+      </div>
+      <div class="request-info"
+           layout="row">
+        <div>Needed Service:</div>
+        <div flex
+             ng-bind="vm.selectedRequest.serviceType.name">
+        </div>
+      </div>
+      <div class="request-info"
+           layout="row"
+           layout-align="end none"
+           ng-if="vm.selectedRequest.language.name">
+        <div>Language:</div>
+        <div flex
+             ng-bind="vm.selectedRequest.language.name">
+        </div>
+      </div>
+      <div class="request-info"
+           layout="row"
+           layout-align="end none"
+           ng-if="vm.selectedRequest.language.name">
+        <div>Description:</div>
+        <div flex
+             ng-bind="vm.selectedRequest.description">
+        </div>
+      </div>
+    </div>
+  </md-toolbar>
+  <md-content flex>
+    <div class="map-content">
+      <div class="map-wrapper">
+        <ui-gmap-google-map center="vm.map.center"
+                            control="vm.map.control"
+                            zoom="vm.map.zoom"
+                            options="vm.map.options">
+
+          <ui-gmap-circle center='vm.map.circle.center'
+                          radius='vm.map.circle.radius'
+                          fill='vm.map.circle.fill'
+                          stroke='vm.map.circle.stroke'>
+          </ui-gmap-circle>
+        </ui-gmap-google-map>
+      </div>
+    </div>
+  </md-content>
+</div>
