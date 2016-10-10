@@ -79,13 +79,14 @@
                 return;
             }
 
+            vm.currentRequest = currentChat.request;
+
             if (vm.currentChat && vm.currentChat.id === currentChat.id) {
 
                 return;
             }
 
             vm.currentChat = currentChat;
-            vm.currentRequest = currentChat.request;
 
             if (!vm.pagination.messages[currentChat.id]) {
                 vm.pagination.messages[currentChat.id] = {
