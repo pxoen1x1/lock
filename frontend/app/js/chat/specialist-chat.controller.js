@@ -7,6 +7,7 @@
 
     SpecialistChatController.$inject = [
         '$mdSidenav',
+        '$mdDialog',
         'coreConstants',
         'chatSocketservice',
         'currentUserService',
@@ -14,7 +15,8 @@
     ];
 
     /* @ngInject */
-    function SpecialistChatController($mdSidenav, coreConstants, chatSocketservice, currentUserService, conf) {
+    function SpecialistChatController($mdSidenav, $mdDialog, coreConstants,
+                                      chatSocketservice, currentUserService, conf) {
         var chatPaginationOptions = coreConstants.CHAT_PAGINATION_OPTIONS;
         var vm = this;
 
@@ -45,6 +47,7 @@
 
         vm.toggleSidenav = toggleSidenav;
         vm.loadPrevMessages = loadPrevMessages;
+        vm.openOfferDialog = openOfferDialog;
         vm.reply = reply;
 
         activate();
@@ -112,6 +115,27 @@
 
             return chatSocketservice.sendMessage(chat, message)
                 .then(function (message) {
+
+                    return message;
+                });
+        }
+
+        function openOfferDialog(currentChat) {
+
+            return $mdDialog.show({
+                templateUrl: 'chat/templates/offer-dialog.html',
+                controller: 'OfferDialogController',
+                controllerAs: 'vm'
+            })
+                .then(function (offer) {
+                    var message = {
+                        message: offer
+                    };
+
+                    return sendMessage(currentChat, message);
+                })
+                .then(function (message) {
+                    vm.messages[currentChat.id].push(message);
 
                     return message;
                 });

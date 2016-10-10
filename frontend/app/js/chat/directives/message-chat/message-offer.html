@@ -24,9 +24,8 @@
   </md-card-content>
   <md-card-actions layout="row"
                    layout-align="end center"
-                   ng-if="vm.message.cost"
+                   ng-if="vm.currentUser.type === vm.userType.CLIENT"
                    ng-class="{ 'disabled': vm.currentRequest.status !== vm.requestStatus.NEW }">
-    <md-button ng-click="vm.acceptOffer(vm.message, vm.currentRequest)">Accept
-    </md-button>
+    <md-button ng-click="vm.acceptOffer(vm.message, vm.currentRequest)">Accept</md-button>
   </md-card-actions>
 </md-card>

@@ -446,6 +446,7 @@ $search-text-color: rgba(0, 0, 0, .54);
         .md-toolbar-tools-bottom {
           height: inherit;
           max-height: none;
+          overflow: auto;
 
           .contact-name,
           .request-info {
@@ -455,6 +456,11 @@ $search-text-color: rgba(0, 0, 0, .54);
           .request-info {
             .flex {
               text-align: end;
+              padding-left: 8px;
+
+              &.description {
+                text-align: justify;
+              }
             }
           }
 

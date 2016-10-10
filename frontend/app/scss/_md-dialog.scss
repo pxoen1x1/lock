@@ -1,0 +1,18 @@
+md-dialog {
+  &.md-dialog-fullscreen {
+    &.send-offer {
+      .md-menu-toolbar {
+      }
+    }
+  }
+}
+
+@media (min-width: 959px) {
+  md-dialog {
+    &.md-dialog-fullscreen {
+      &.send-offer {
+        min-width: 500px
+      }
+    }
+  }
+}
