@@ -103,16 +103,16 @@ let RequestController = {
     },
 
     getClientRequestById(req, res) {
-        let request = req.params.request;
+        let requestId = req.params.requestId;
 
-        if (!request) {
+        if (!requestId) {
 
             return res.badRequest({
                 message: req.__('Request is not defined.')
             });
         }
 
-        RequestService.getRequestById({id: request})
+        RequestService.getRequestById({id: requestId})
             .then(
                 (foundRequest) => {
                     if (!foundRequest) {

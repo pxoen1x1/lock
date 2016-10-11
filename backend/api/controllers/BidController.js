@@ -10,9 +10,9 @@
 
 let BidController = {
     getClientBids(req, res) {
-        let request = req.params.request;
+        let requestId = req.params.requestId;
 
-        if (!request) {
+        if (!requestId) {
 
             return res.badRequest(
                 {
@@ -21,7 +21,7 @@ let BidController = {
             );
         }
 
-        BidService.getClientBids({request: request})
+        BidService.getClientBids({request: requestId})
             .then(
                 (bids) => res.ok(
                     {
@@ -63,6 +63,7 @@ let BidController = {
             );
     },
     create(req, res) {
+        let requestId = req.params.requestId;
         let bid = req.allParams();
         let specialist = req.session.user.id;
 
@@ -75,6 +76,9 @@ let BidController = {
             );
         }
 
+        bid.request = {
+            id: requestId
+        };
         bid.specialist = specialist;
 
         BidService.create(bid)
