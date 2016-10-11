@@ -14,10 +14,10 @@
 module.exports = function (req, res, next) {
     let params = req.allParams();
 
-    let request = params.request;
+    let requestId = req.params.requestId;
     let specialist = params.specialist && params.specialist.id ? params.specialist.id : null;
 
-    if (!request || !specialist) {
+    if (!requestId || !specialist) {
         sails.log.debug(new Error('Submitted data is invalid.'));
 
         return res.badRequest(
@@ -27,7 +27,7 @@ module.exports = function (req, res, next) {
         );
     }
 
-    Chat.findByRequest(request)
+    Chat.findByRequest(requestId)
         .then(
             (chats) => {
                 if (chats && chats.length > 0) {
