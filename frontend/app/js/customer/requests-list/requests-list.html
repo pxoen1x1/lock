@@ -61,7 +61,7 @@
               'pending': request.status === vm.requestStatus.IN_PROGRESS || request.status === vm.requestStatus.DONE,
               'closed': request.status === vm.requestStatus.CLOSED
               }">
-            <span ng-bind="vm.requestStatuses[request.status]"></span>
+            <span ng-bind="vm.requestStatus[request.status]"></span>
           </td>
           <td class="td-cost" md-cell>
             <span ng-bind="request.cost ? '$'+ request.cost : '–'"></span>
