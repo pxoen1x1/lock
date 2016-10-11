@@ -1,4 +1,4 @@
-/*global sails, waterlock, User, UserService, FileService */
+/* global sails, waterlock, User, UserService, FileService */
 
 /**
  * UserController.js
@@ -52,7 +52,7 @@ let UserController = waterlock.actions.user({
             });
         }
 
-        UserService.getUser({ id: userId })
+        UserService.getUser({id: userId})
             .then(
                 (foundUser) => {
 
