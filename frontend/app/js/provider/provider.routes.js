@@ -123,7 +123,7 @@
                 views: {
                     'content@provider.dashboard': {
                         templateUrl: 'provider/dashboard-new/dashboard-new.html',
-                        controller: 'ProviderDashboardNewController',
+                        controller: 'SpecialistNewRequestsController',
                         controllerAs: 'vm'
                     }
                 },

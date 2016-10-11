@@ -3,12 +3,19 @@
 
     angular
         .module('app.provider')
-        .controller('ProviderDashboardNewController', ProviderDashboardNewController);
+        .controller('SpecialistNewRequestsController', SpecialistNewRequestsController);
 
-    ProviderDashboardNewController.$inject = [];
+    SpecialistNewRequestsController.$inject = ['coreDataservice'];
 
     /* @ngInject */
-    function ProviderDashboardNewController() {
+    function SpecialistNewRequestsController(coreDataservice) {
+        var vm = this;
 
+        vm.requests = [];
+
+        activate();
+
+        function activate() {
+        }
     }
 })();
