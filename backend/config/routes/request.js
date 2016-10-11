@@ -9,7 +9,7 @@ let requestRoutes = {
         controller: 'RequestController',
         action: 'getSpecialistRequests'
     },
-    'GET /api/client/requests/:request': {
+    'GET /api/client/requests/:requestId': {
         controller: 'RequestController',
         action: 'getClientRequestById'
     },

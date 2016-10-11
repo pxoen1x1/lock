@@ -1,7 +1,7 @@
 'use strict';
 
 let bidsRoutes = {
-    'GET /api/client/request/:request/bids': {
+    'GET /api/client/request/:requestId/bids': {
         controller: 'BidController',
         action: 'getClientBids'
     },
@@ -9,7 +9,7 @@ let bidsRoutes = {
         controller: 'BidController',
         action: 'getSpecialistBids'
     },
-    'POST /api/specialist/request/:request/bids': {
+    'POST /api/specialist/request/:requestId/bids': {
         controller: 'BidController',
         action: 'create'
     },

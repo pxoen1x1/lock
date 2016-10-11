@@ -19,7 +19,7 @@ let FeedbackService = {
     },
     createFeedback(feedback) {
 
-        return Request.findOneById(feedback.request)
+        return Request.findOneById(feedback.request.id)
             .then(
                 (request) => {
                     if (!request.isExecuted || !request.executor) {

@@ -48,7 +48,7 @@
                 fill: {
                     color: '#039BE5',
                     opacity: 0.3
-                },
+                }
             }
         };
 
@@ -65,7 +65,6 @@
         function refreshMap(location) {
             return uiGmapIsReady.promise(1)
                 .then(function () {
-
                     vm.map.circle.center = {
                         latitude: location.latitude,
                         longitude: location.longitude

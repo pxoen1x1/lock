@@ -166,7 +166,7 @@ let BidService = {
     },
     create(bid) {
 
-        return Request.findOneById(bid.request)
+        return Request.findOneById(bid.request.id)
             .then(
                 (request) => {
                     bid.client = request.owner;

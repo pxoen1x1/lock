@@ -63,10 +63,11 @@ let FeedbackController = {
             );
     },
     createFeedback(req, res) {
+        let requestId = req.params.requestId;
         let feedback = req.allParams();
         feedback.rating = feedback.rating ? parseInt(feedback.rating, 10) : undefined;
 
-        if (!feedback.request || !feedback.message ||
+        if (!requestId || !feedback.message ||
             (typeof feedback.rating !== 'undefined' && (feedback.rating < 1 || feedback.rating > 5))) {
 
             return res.badRequest(
@@ -76,6 +77,9 @@ let FeedbackController = {
             );
         }
 
+        feedback.request = {
+            id: requestId
+        };
         feedback.author = req.session.user.id;
 
         FeedbackService.createFeedback(feedback)

@@ -11,9 +11,9 @@
 
 let ChatController = {
     getClientChats(req, res) {
-        let request = req.params.request;
+        let requestId = req.params.requestId;
 
-        if (!request) {
+        if (!requestId) {
 
             return res.badRequest(
                 {
@@ -22,7 +22,7 @@ let ChatController = {
             );
         }
 
-        ChatService.getChats({request_id: request})
+        ChatService.getChats({request_id: requestId})
             .then(
                 (chats) => res.ok(
                     {
@@ -60,11 +60,11 @@ let ChatController = {
     createChat(req, res) {
         let params = req.allParams();
 
-        let request = params.request;
+        let requestId = params.requestId;
         let specialist = params.specialist && params.specialist.id ? params.specialist.id : null;
         let client = req.session.user.id;
 
-        if (!request || !specialist) {
+        if (!requestId || !specialist) {
 
             return res.badRequest(
                 {
@@ -76,7 +76,7 @@ let ChatController = {
         let chat = {
             client: client,
             specialist: specialist,
-            request: request
+            request: requestId
         };
 
         ChatService.createChat(chat)
