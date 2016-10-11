@@ -14,13 +14,12 @@
 const STATUS = sails.config.requests.STATUSES;
 
 module.exports = function (req, res, next) {
-    let params = req.allParams();
-    let request = params.request;
+    let requestId = req.params.requestId;
     let chat = req.params.chat;
 
     let requestPromise;
 
-    if (!request && !chat) {
+    if (!requestId && !chat) {
         sails.log.debug(new Error('Submitted data is invalid.'));
 
         return res.badRequest(
@@ -30,8 +29,8 @@ module.exports = function (req, res, next) {
         );
     }
 
-    if (request) {
-        requestPromise = getRequest(request);
+    if (requestId) {
+        requestPromise = getRequest(requestId);
     } else {
         requestPromise = Chat.findOneById(chat)
             .then(

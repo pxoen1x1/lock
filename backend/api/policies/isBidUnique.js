@@ -12,10 +12,10 @@
 'use strict';
 
 module.exports = function (req, res, next) {
-    let request = req.params.request;
+    let requestId = req.params.requestId;
     let specialist = req.session.user.id;
 
-    if (!request) {
+    if (!requestId) {
         sails.log.debug(new Error('Submitted data is invalid.'));
 
         return res.badRequest(
@@ -25,7 +25,7 @@ module.exports = function (req, res, next) {
         );
     }
 
-    Bid.findByRequest(request)
+    Bid.findByRequest(requestId)
         .then(
             (bids) => {
                 if (bids && bids.length > 0) {
@@ -49,7 +49,7 @@ module.exports = function (req, res, next) {
                     }
                 }
 
-                return Chat.findByRequest(request);
+                return Chat.findByRequest(requestId);
             }
         )
         .then(
