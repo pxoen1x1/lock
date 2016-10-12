@@ -1,4 +1,4 @@
-/* global sails, RequestService */
+/* global sails, RequestService, HelperService */
 /**
  * RequestController
  *
@@ -101,7 +101,47 @@ let RequestController = {
                 }
             );
     },
+    getSpecialistNewRequests(req, res) {
+        let params = req.allParams();
+        let status = sails.config.requests.STATUSES.NEW;
+        let sorting = params.order || 'updatedAt DESC';
 
+        let pagination = {};
+        pagination.limit = params.limit || sails.config.application.queryLimit;
+        pagination.page = params.page || 1;
+
+        let criteria = {
+            where: {
+                status: status,
+                is_public: true
+            },
+            sorting: sorting,
+            skip: (pagination.page - 1) * pagination.limit,
+            limit: pagination.limit
+        };
+
+        RequestService.getSpecialistNewRequests(criteria)
+            .then(
+                (requests) => {
+
+                    return [RequestService.getRequestsCount(criteria), requests];
+                }
+            )
+            .spread(
+                (totalCount, requests) => res.ok({
+                    items: requests,
+                    currentPageNumber: pagination.page,
+                    totalCount: totalCount
+                })
+            )
+            .catch(
+                (err) => {
+                    sails.log.error(err);
+
+                    res.serverError();
+                }
+            );
+    },
     getClientRequestById(req, res) {
         let requestId = req.params.requestId;
 
@@ -150,11 +190,36 @@ let RequestController = {
 
         RequestService.createRequest(newRequest)
             .then(
-                (createdRequest) => res.created(
-                    {
-                        request: createdRequest
+                (createdRequest) => {
+
+                    return RequestService.getRequestById(createdRequest);
+                }
+            )
+            .then(
+                (request) => {
+                    res.created(
+                        {
+                            request: request
+                        }
+                    );
+
+                    if (!request.isPublic) {
+
+                        return;
                     }
-                )
+
+                    let hiddenLocation = HelperService.hideLocation(request.location);
+
+                    request.location = hiddenLocation;
+
+                    sails.sockets.blast(
+                        'request',
+                        {
+                            request: request
+                        },
+                        req
+                    );
+                }
             )
             .catch(
                 (err) => {

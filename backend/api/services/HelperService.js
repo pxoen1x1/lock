@@ -2,6 +2,8 @@
 
 'use strict';
 
+const RANDOM_COORDINATES_COEFFICIENT = sails.config.requests.RANDOM_COORDINATES_COEFFICIENT;
+
 let crypto = require('crypto');
 
 let HelperService = {
@@ -56,6 +58,16 @@ let HelperService = {
         );
 
         return queryResult;
+    },
+    hideLocation(location) {
+        delete location.address;
+
+        let correction = (2*Math.random() -1)/RANDOM_COORDINATES_COEFFICIENT;
+
+        location.latitude += correction;
+        location.longitude += correction;
+
+        return location;
     },
     _buildQuery(criteria, tableAlias) {
         if (!criteria || typeof criteria !== 'object') {
