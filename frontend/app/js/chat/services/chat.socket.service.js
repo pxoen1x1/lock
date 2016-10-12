@@ -21,6 +21,7 @@
             deleteBid: deleteBid,
             updateRequest: updateRequest,
             declineBid: declineBid,
+            onRequest: onRequest,
             onChat: onChat,
             onBid: onBid,
             onMessage: onMessage
@@ -147,6 +148,12 @@
 
                 return response.data.bid;
             }
+        }
+
+        function onRequest(next) {
+            socketService.listener('request', function(event) {
+                next(event.request);
+            });
         }
 
         function onChat(next) {

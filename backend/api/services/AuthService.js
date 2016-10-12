@@ -144,6 +144,13 @@ let AuthService = {
 
             return Promise.reject(err);
         }
+    },
+    getAuthByEmail(email) {
+
+        return Auth.findOneByEmail(email)
+            .then(
+                (auth) => auth
+            );
     }
 };
 

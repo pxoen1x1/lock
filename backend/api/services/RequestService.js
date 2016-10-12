@@ -1,6 +1,8 @@
-/* global Request, HelperService */
+/* global sails, Request, HelperService */
 
 'use strict';
+
+const RANDOM_COORDINATES_COEFFICIENT = sails.config.requests.RANDOM_COORDINATES_COEFFICIENT;
 
 let promise = require('bluebird');
 let getRequestsRawQuery = `SELECT request.id,
@@ -18,7 +20,7 @@ let getRequestsRawQuery = `SELECT request.id,
                                   request_language.name AS 'language.name',
                                   request_serviceType.id AS 'serviceType.id',
                                   request_serviceType.name AS 'serviceType.name',
-                                  request_location.id AS 'request.location.id',
+                                  request_location.id AS 'location.id',
                                   request_location.address AS 'location.address',
                                   request_location.latitude AS 'location.latitude',
                                   request_location.longitude AS 'location.longitude',
@@ -110,6 +112,29 @@ let RequestService = {
     getAll(criteria) {
         let tableAlias = 'request';
         let rawQuery = HelperService.buildQuery(getRequestsRawQuery, criteria, tableAlias);
+
+        let getRequestQueryAsync = promise.promisify(Request.query);
+
+        return getRequestQueryAsync(rawQuery)
+            .then(
+                (requests) => HelperService.formatQueryResult(requests)
+            );
+    },
+    getSpecialistNewRequests(criteria) {
+        let tableAlias = 'request';
+        let rawQuery = HelperService.buildQuery(getRequestsRawQuery, criteria, tableAlias);
+
+        rawQuery = rawQuery.replace(/\s*request_location.address AS 'location.address',/, '');
+        rawQuery = rawQuery.replace(/\s*owner.phone_number AS 'owner.phoneNumber',/, '');
+
+        rawQuery = rawQuery.replace(
+            'request_location.latitude',
+            `(request_location.latitude + (2*RAND() - 1)/${RANDOM_COORDINATES_COEFFICIENT})`
+        );
+        rawQuery = rawQuery.replace(
+            'request_location.longitude',
+            `(request_location.longitude + (2*RAND()-1)/${RANDOM_COORDINATES_COEFFICIENT})`
+        );
 
         let getRequestQueryAsync = promise.promisify(Request.query);
 

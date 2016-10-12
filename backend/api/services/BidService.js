@@ -147,6 +147,7 @@ let BidService = {
         let rawQuery = HelperService.buildQuery(getBidRawQuery, criteria, tableAlias);
 
         rawQuery = rawQuery.replace(/\s*request_location.address AS 'request.location.address',/, '');
+        rawQuery = rawQuery.replace(/\s*client.phone_number AS 'client.phoneNumber',/, '');
 
         rawQuery = rawQuery.replace(
             'request_location.latitude',

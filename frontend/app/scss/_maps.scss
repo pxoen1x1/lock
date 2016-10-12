@@ -81,13 +81,10 @@
       color: rgba(29, 177, 239, 1);
     }
 
-    .photo {
+    .avatar {
       width: 71px;
       height: 71px;
-      -webkit-border-radius: 50%;
-      -moz-border-radius: 50%;
-      border-radius: 50%;
-      background-size: cover;
+      margin-right: 0;
     }
 
     .md-subhead {

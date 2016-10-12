@@ -12,7 +12,7 @@ let UserService = {
             .then(
                 (foundUser) => {
 
-                   return  UserDetailService.getUserDetailByUser(foundUser)
+                    return UserDetailService.getUserDetailByUser(foundUser)
                         .then(
                             (userDetails) => {
                                 foundUser.details = userDetails;
@@ -121,6 +121,23 @@ let UserService = {
                     }
                 );
             });
+    },
+    getUserBySSN(ssn) {
+
+        return User.findOneBySsn(ssn)
+            .then(
+                (user) => {
+
+                    return user;
+                }
+            );
+    },
+    getUserByPhoneNumber(phoneNumber) {
+
+        return User.findOneByPhoneNumber(phoneNumber)
+            .then(
+                (user) => user
+            );
     }
 };
 

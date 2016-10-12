@@ -11,6 +11,10 @@ let authRoutes = {
         controller: 'AuthController',
         action: 'openPasswordResetPage'
     },
+    'GET /api/users': {
+        controller: 'AuthController',
+        action: 'checkUniqueFields'
+    },
     'POST /api/user': {
         controller: 'AuthController',
         action: 'register'

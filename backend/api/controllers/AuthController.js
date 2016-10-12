@@ -1,4 +1,4 @@
-/* global sails, waterlock, User, AuthService, MailerService, JwtService*/
+/* global sails, waterlock, User, AuthService, MailerService, JwtService, UserService */
 /**
  * AuthController
  *
@@ -198,6 +198,54 @@ let AuthController = waterlock.waterlocked({
                     req.session.resetToken = false;
 
                     res.redirect(sails.config.homePage);
+                }
+            )
+            .catch(
+                (err) => {
+                    sails.log.error(err);
+
+                    return res.serverError();
+                }
+            );
+    },
+    checkUniqueFields(req, res) {
+        let params = req.allParams();
+
+        let ssn = params.ssn;
+        let phoneNumber = params.phoneNumber;
+        let email = params.email;
+
+        if (!ssn && !phoneNumber && !email) {
+
+            return res.badRequest({
+                message: req.__('Submitted data is invalid.')
+            });
+        }
+
+        let response = {};
+
+        let promiseCheckSSN = ssn ? UserService.getUserBySSN(ssn) : Promise.resolve();
+        let promiseCheckPhoneNumber = phoneNumber ? UserService.getUserBySSN(phoneNumber) : Promise.resolve();
+        let promiseCheckEmail = email ? AuthService.getAuthByEmail(email) : Promise.resolve();
+
+        Promise.all([
+            promiseCheckSSN,
+            promiseCheckPhoneNumber,
+            promiseCheckEmail
+        ])
+            .then(
+                (params) => {
+                    if (ssn) {
+                        response.ssn = params[0] ? true : false;
+                    }
+                    if (phoneNumber) {
+                        response.phoneNumber = params[1] ? true : false;
+                    }
+                    if (email) {
+                        response.email = params[2] ? true : false;
+                    }
+
+                    res.ok(response);
                 }
             )
             .catch(

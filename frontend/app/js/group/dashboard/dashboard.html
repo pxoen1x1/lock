@@ -1,4 +1,4 @@
-<div class="container history-content"
+<div class="container request-list-content"
      ng-if="$mdMedia('gt-xs')">
   <div class="container-title">
     <i class="material-icons">list</i>
@@ -61,7 +61,7 @@
               'pending': request.status === 2,
               'closed': request.status === 3
               }">
-            <span ng-bind="vm.requestStatuses[request.status]"></span>
+            <span ng-bind="vm.requestStatus[request.status]"></span>
           </td>
           <td class="td-cost" md-cell>
             <span ng-bind="request.cost ? '$'+ request.cost : '–'"></span>
@@ -88,7 +88,7 @@
   </div>
 </div>
 
-<div class="history-content"
+<div class="request-list-content"
      ng-if="!$mdMedia('gt-xs')">
   <a class="list card"
      ui-sref="customer.request.view({ requestId: request.id })"

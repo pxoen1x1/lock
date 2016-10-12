@@ -1,4 +1,7 @@
-.history-content {
+.request-list-content {
+  md-table-container {
+    max-height: 600px;
+  }
 
   tr {
     cursor: pointer;
@@ -6,7 +9,7 @@
 
   .td-status {
     min-width: 84px;
-    text-align: center !important;
+    text-align: center;
 
     span {
       padding: 4px 8px;
@@ -16,6 +19,22 @@
       display: block;
     }
 
+  }
+
+  table {
+    &.md-table {
+      &:not(.md-row-select) {
+        & td.md-cell {
+          &:first-child.td-customer {
+            padding-left: 8px;
+          }
+        }
+      }
+    }
+  }
+
+  .td-customer {
+    height: 48px;
   }
 
   .td-status.new span {
@@ -33,13 +52,13 @@
     border-color: #B71C1C;
   }
 
-  .td-cost {
-    text-align: center !important;
+  .td-description {
+    max-width: 160px;
   }
 
   .td-location {
-    padding-top: 10px !important;
-    padding-bottom: 10px !important;
+    padding-top: 10px;
+    padding-bottom: 10px;
   }
 
   .td-provider {
@@ -49,6 +68,10 @@
   .item-header {
     margin-bottom: -15px;
 
+    .secondary-text {
+      font-size: 14px;
+    }
+
     .md-title {
       margin-bottom: 10px;
       line-height: 29px;
@@ -57,7 +80,6 @@
     .td-status {
       margin-bottom: 10px;
     }
-
   }
 
   .item-body md-icon {
@@ -93,7 +115,7 @@
 }
 
 .list:last-child {
-  margin-bottom: 0px;
+  margin-bottom: 0;
 }
 
 .list:last-child.card {
@@ -204,7 +226,7 @@
 .item-header {
   overflow: auto;
   padding: 16px;
-  padding-bottom: 0px;
+  padding-bottom: 0;
   text-overflow: inherit;
   white-space: normal;
 }
