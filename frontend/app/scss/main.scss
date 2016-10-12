@@ -237,7 +237,6 @@ md-content {
 }
 
 .text-truncate {
-  display: block;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -274,6 +273,30 @@ md-content {
 *:focus {
   outline: none;
   border: 0;
+}
+
+.avatar-wrapper {
+  position: relative;
+}
+
+.avatar {
+  width: 40px;
+  min-width: 40px;
+  height: 40px;
+  line-height: 40px;
+  margin-right: 8px;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  border-radius: 50%;
+  background-size: cover;
+  background-position-x: center;
+
+  &.huge {
+    width: 96px;
+    min-width: 96px;
+    height: 96px;
+    line-height: 96px;
+  }
 }
 
 .customer, .provider, .group {
