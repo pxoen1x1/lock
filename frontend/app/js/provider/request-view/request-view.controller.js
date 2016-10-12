@@ -2,13 +2,13 @@
     'use strict';
 
     angular
-        .module('app.customer')
-        .controller('CustomerViewRequestController', CustomerViewRequestController);
+        .module('app.provider')
+        .controller('ProviderViewRequestController', ProviderViewRequestController);
 
-    CustomerViewRequestController.$inject = ['$stateParams', 'coreConstants', 'customerDataservice', 'requestService'];
+    ProviderViewRequestController.$inject = ['$stateParams', 'coreConstants', 'serviceProviderDataservice', 'requestService'];
 
     /* @ngInject */
-    function CustomerViewRequestController($stateParams, coreConstants, customerDataservice, requestService) {
+    function ProviderViewRequestController($stateParams, coreConstants, serviceProviderDataservice, requestService) {
         var promises = {
             getRequest: null
         };
@@ -55,7 +55,7 @@
                 promises.getRequest.cancel();
             }
 
-            promises.getRequest = customerDataservice.getRequest(requestId);
+            promises.getRequest = serviceProviderDataservice.getRequest(requestId);
 
             return promises.getRequest
                 .then(function (response) {

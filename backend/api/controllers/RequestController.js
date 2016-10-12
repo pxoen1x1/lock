@@ -175,6 +175,51 @@ let RequestController = {
                 }
             );
     },
+    getSpecialistRequestById(req, res) {
+        let requestId = req.params.requestId;
+
+        if (!requestId) {
+
+            return res.badRequest({
+                message: req.__('Request is not defined.')
+            });
+        }
+
+        RequestService.getRequestById({id: requestId})
+            .then(
+                (foundRequest) => {
+                    if (!foundRequest) {
+
+                        return res.notFound({
+                            message: req.__('Request is not found.')
+                        });
+                    }
+
+                    if (!foundRequest.isPublic || (foundRequest.executorId && foundRequest.executorId !== req.session.user.id)) {
+
+                        return res.forbidden({
+                            message: req.__('Request is not public.')
+                        });
+                    }
+
+                    if (foundRequest.status === sails.config.requests.STATUSES.NEW) {
+
+                        //!ToDo: randomize location
+                    }
+
+                    return res.ok({
+                        request: foundRequest
+                    });
+                }
+            )
+            .catch(
+                (err) => {
+                    sails.log.error(err);
+
+                    res.serverError();
+                }
+            );
+    },
     createRequest(req, res) {
         let newRequest = req.body.request;
 

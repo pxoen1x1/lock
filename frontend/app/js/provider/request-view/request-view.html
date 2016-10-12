@@ -5,7 +5,7 @@
       <div class="title md-headline">Details</div>
       <div layout="row">
         <div class="map-wrapper" flex="35">
-          <a ui-sref="customer.requests.request.map($stateParams)">
+          <a ui-sref="provider.dashboard.request.map($stateParams)">
             <ui-gmap-google-map center="vm.map.center"
                                 zoom="vm.map.zoom"
                                 options="vm.map.options">
@@ -34,39 +34,6 @@
             <b>Address:</b>
             <span ng-bind="vm.request.location.address"></span>
           </div>
-        </div>
-      </div>
-    </div>
-    <div class="provider-info">
-      <md-divider class="divider"></md-divider>
-      <div class="title md-headline">Service provider</div>
-      <div layout="row">
-        <div>
-          <div class="photo"
-               ng-style="{'background-image': 'url(https://pp.vk.me/c604329/v604329073/1a33c/XhTVHpUbzGU.jpg)'}">
-          </div>
-        </div>
-        <div class="name"
-             flex
-             layout="column"
-             layout-align="center start"
-             ng-bind="'Elliot Alderson'">
-        </div>
-        <div class="cost"
-             flex="10"
-             layout="column"
-             layout-align="center start"
-             ng-bind="'$30'">
-        </div>
-        <div flex
-             layout="row"
-             layout-align="end center">
-          <button class="md-button button-done">
-            <md-icon>done</md-icon>
-          </button>
-          <button class="md-button button-not-done">
-            <md-icon>close</md-icon>
-          </button>
         </div>
       </div>
     </div>

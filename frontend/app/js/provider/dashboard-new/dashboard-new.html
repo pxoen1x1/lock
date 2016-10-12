@@ -34,7 +34,7 @@
         </thead>
         <tbody md-body>
         <tr md-row
-            ui-sref="provider.requests.request.view({ requestId: request.id })"
+            ui-sref="provider.dashboard.request.view({ requestId: request.id })"
             ng-repeat="request in vm.requests track by request.id">
           <td class="td-customer"
               layout="row"
@@ -77,7 +77,7 @@
 <div class="request-list-content"
      ng-if="!$mdMedia('gt-xs')">
   <a class="list card"
-     ui-sref="customer.request.view({ requestId: request.id })"
+     ui-sref="provider.dashboard.request.view({ requestId: request.id })"
      ng-repeat="request in vm.requests track by request.id">
     <div class="item item-header" layout="row">
       <div layout="row"

@@ -34,6 +34,10 @@
                 'provider.dashboard.new',
                 'provider.dashboard.current',
                 'provider.dashboard.history'
+            ],
+            REQUEST_TABBAR_ITEMS: [
+                'provider.dashboard.request.view',
+                'provider.dashboard.request.map'
             ]
         });
 })();
