@@ -81,35 +81,59 @@
     </md-table-pagination>
   </div>
 </div>
-
 <div class="request-list-content"
      ng-if="!$mdMedia('gt-xs')">
   <a class="list card"
      ui-sref="customer.request.view({ requestId: request.id })"
-     ng-repeat="request in vm.requests.items">
+     ng-repeat="request in vm.requests track by request.id">
     <div class="item item-header" layout="row">
-      <div flex="50">
-        <div class="md-title" ng-bind="request.date"></div>
-        <span class="md-body-2">Type:</span>
-        <span class="md-body-1" ng-bind="vm.type[request.type]"></span>
+      <div layout="row"
+           layout-align="start center"
+           flex="50">
+        <div class="avatar-wrapper">
+          <div class="avatar"
+               ng-style="{ 'background-image': 'url(' + (request.owner.portrait ?
+               vm.baseUrl + request.owner.portrait : vm.defaultPortrait) + ')' }">
+          </div>
+        </div>
+        <div class="contact-name" flex>
+          <span ng-bind="request.owner.fullName"></span>
+        </div>
       </div>
-      <div flex="50" layout="column" layout-align="start end">
-        <div class="td-status"
-             ng-class="{
-             'new': request.status === vm.requestStatus.NEW,
-              'pending': request.status === vm.requestStatus.IN_PROGRESS || request.status === vm.requestStatus.DONE,
-              'closed': request.status === vm.requestStatus.CLOSED
-             }">
-          <span ng-bind="vm.requestStatus[request.status]"></span>
-        </div>
-        <div class="md-body-2">
-          <span ng-bind="'$ ' + (request.cost ? request.cost : '–')"></span>
-        </div>
+      <div class="secondary-text"
+           flex="50"
+           layout="row"
+           layout-align="end center">
+        <span ng-bind="request.createdAt | altDate"></span>
       </div>
     </div>
-    <div class="item item-body">
-      <span class="md-body-2">Location:</span>
-      <span class="md-body-1" ng-bind="request.location"></span>
+    <div class="item item-body" layout="row">
+      <div layout="column"
+           flex="50">
+        <div>
+          <span class="md-body-2">Type of service:</span>
+          <span class="md-body-1" ng-bind="request.serviceType.name"></span>
+        </div>
+        <div ng-if="request.language.name">
+          <span class="md-body-2">Language:</span>
+          <span class="md-body-1"
+                ng-bind="request.language.name">
+          </span>
+        </div>
+        <div ng-if="request.location">
+          <span class="md-body-2">Address:</span>
+          <span class="md-body-1" ng-bind="request.location.address"></span>
+        </div>
+      </div>
+      <div layout="column"
+           flex="50">
+        <div>
+          <span class="md-body-2">For Date:</span>
+          <span class="md-body-1"
+                ng-bind="request.forDate ? (request.forDate | date: vm.dateFormat) : 'Now'">
+          </span>
+        </div>
+      </div>
     </div>
   </a>
 </div>

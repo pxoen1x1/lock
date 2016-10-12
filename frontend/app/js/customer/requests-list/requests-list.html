@@ -92,12 +92,12 @@
      ng-if="!$mdMedia('gt-xs')">
   <a class="list card"
      ui-sref="customer.request.view({ requestId: request.id })"
-     ng-repeat="request in vm.requests.items">
+     ng-repeat="request in vm.requests track by request.id">
     <div class="item item-header" layout="row">
       <div flex="50">
-        <div class="md-title" ng-bind="request.date"></div>
+        <div class="md-title" ng-bind="request.updatedAt | date : 'MM/dd/yyyy H:mm a'"></div>
         <span class="md-body-2">Type:</span>
-        <span class="md-body-1" ng-bind="vm.type[request.type]"></span>
+        <span class="md-body-1" ng-bind="request.serviceType.name"></span>
       </div>
       <div flex="50" layout="column" layout-align="start end">
         <div class="td-status"
@@ -115,20 +115,19 @@
     </div>
     <div class="item item-body">
       <span class="md-body-2">Location:</span>
-      <span class="md-body-1" ng-bind="request.location"></span>
+      <span class="md-body-1" ng-bind="request.location.address"></span>
       <div class="item-provider"
            layout="row"
-           ng-if="request.provider">
-        <div flex="20">
-          <div class="photo"
-               ng-style="{'background-image': 'url(' + request.provider.photo + ')'}">
-          </div>
-        </div>
+           ng-if="request.executor">
+        <img class="photo"
+             ng-src="{{request.executor.portrait || coreConstants.IMAGES.defaultPortrait}}"
+             alt="photo"/>
+        <div flex="5"></div>
         <div flex="80">
-          <span class="md-body-2" ng-bind="request.provider.name"></span>
-          <star-rating ng-if="request.provider"
+          <span class="md-body-2" ng-bind="request.executor.fullName"></span>
+          <star-rating ng-if="request.executor"
                        readonly
-                       value="request.provider.rating">
+                       value="request.executor.rating">
           </star-rating>
         </div>
       </div>
