@@ -30,7 +30,6 @@
                     geocoderService.getCurrentCoordinates()
                         .then(function (position) {
                             currentPosition = position;
-                            console.log(currentPosition);
                         });
                 }
 
