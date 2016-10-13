@@ -72,6 +72,19 @@
                 });
         }
 
+        function listenRequestEvent() {
+            chatSocketservice.onRequest(function (request, type) {
+                if(type !== 'update'){
+
+                    return;
+                }
+
+                if (vm.currentRequest) {
+                    vm.currentRequest = request;
+                }
+            });
+        }
+
         function loadMessages(chat, params) {
 
             return chatSocketservice.getMessages(chat, params)
@@ -182,6 +195,8 @@
         function activate() {
             getCurrentUser()
                 .then(getCurrentUserType);
+
+            listenRequestEvent();
         }
     }
 })();

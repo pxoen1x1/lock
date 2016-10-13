@@ -152,25 +152,25 @@
 
         function onRequest(next) {
             socketService.listener('request', function(event) {
-                next(event.request);
+                next(event.request, event.type);
             });
         }
 
         function onChat(next) {
             socketService.listener('chat', function (event) {
-                next(event.chat);
+                next(event.chat, event.type);
             });
         }
 
         function onBid(next) {
             socketService.listener('bid', function (event) {
-                next(event.bid);
+                next(event.bid, event.type);
             });
         }
 
         function onMessage(next) {
             socketService.listener('message', function (event) {
-                next(event.message);
+                next(event.message, event.type);
             });
         }
     }
