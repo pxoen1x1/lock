@@ -111,6 +111,12 @@ let getRequestsRawQuery = `SELECT request.id,
 let RequestService = {
     getAll(criteria) {
         let tableAlias = 'request';
+
+        if (criteria.sorting) {
+            criteria.sorting = criteria.sorting.indexOf('serviceType') !== -1 ?
+                criteria.sorting.replace('serviceType', 'request_serviceType.name') : criteria.sorting;
+        }
+
         let rawQuery = HelperService.buildQuery(getRequestsRawQuery, criteria, tableAlias);
 
         let getRequestQueryAsync = promise.promisify(Request.query);
@@ -177,4 +183,3 @@ let RequestService = {
 };
 
 module.exports = RequestService;
-
