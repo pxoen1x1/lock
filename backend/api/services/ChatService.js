@@ -1,6 +1,8 @@
-/* global Chat, HelperService */
+/* global sails, Chat, HelperService */
 
 'use strict';
+
+const RANDOM_COORDINATES_COEFFICIENT = sails.config.requests.RANDOM_COORDINATES_COEFFICIENT;
 
 let promise = require('bluebird');
 let getChatsRawQuery = `SELECT chat.id,
@@ -157,6 +159,35 @@ let ChatService = {
     getChats(criteria) {
         let tableAlias = 'chat';
         let rawQuery = HelperService.buildQuery(getChatsRawQuery, criteria, tableAlias);
+
+        let chatQueryAsync = promise.promisify(Chat.query);
+
+        return chatQueryAsync(rawQuery)
+            .then(
+                (chats) => {
+
+                    return HelperService.formatQueryResult(chats);
+                }
+            );
+    },
+    getSpecialistChats(criteria) {
+        let tableAlias = 'chat';
+
+        let rawQuery = HelperService.buildQuery(getChatsRawQuery, criteria, tableAlias);
+
+        rawQuery = rawQuery.replace(/\s*request_location.address AS 'request.location.address',/, '');
+        rawQuery = rawQuery.replace(/\s*client.phone_number AS 'client.phoneNumber',/, '');
+        rawQuery = rawQuery.replace(/\s*client_auth.id AS 'client.auth.id',/, '');
+        rawQuery = rawQuery.replace(/\s*client_auth.email AS 'client.auth.email',/, '');
+
+        rawQuery = rawQuery.replace(
+            'request_location.latitude',
+            `(request_location.latitude + (2*RAND() - 1)/${RANDOM_COORDINATES_COEFFICIENT})`
+        );
+        rawQuery = rawQuery.replace(
+            'request_location.longitude',
+            `(request_location.longitude + (2*RAND() - 1)/${RANDOM_COORDINATES_COEFFICIENT})`
+        );
 
         let chatQueryAsync = promise.promisify(Chat.query);
 
