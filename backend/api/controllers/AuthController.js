@@ -225,7 +225,7 @@ let AuthController = waterlock.waterlocked({
         let response = {};
 
         let promiseCheckSSN = ssn ? UserService.getUserBySSN(ssn) : Promise.resolve();
-        let promiseCheckPhoneNumber = phoneNumber ? UserService.getUserBySSN(phoneNumber) : Promise.resolve();
+        let promiseCheckPhoneNumber = phoneNumber ? UserService.getUserByPhoneNumber(phoneNumber) : Promise.resolve();
         let promiseCheckEmail = email ? AuthService.getAuthByEmail(email) : Promise.resolve();
 
         Promise.all([
