@@ -17,6 +17,7 @@
             getStates: getStates,
             getCities: getCities,
             getNewRequests: getNewRequests,
+            getAvailabilityInfo: getAvailabilityInfo,
             createUser: createUser,
             login: login,
             logout: logout,
@@ -80,6 +81,15 @@
 
             return request.httpWithTimeout({
                 url: conf.BASE_URL + conf.URL_PREFIX + 'specialist/requests/new',
+                method: 'GET',
+                params: params
+            });
+        }
+
+        function getAvailabilityInfo(params) {
+
+            return request.httpWithTimeout({
+                url: conf.BASE_URL + conf.URL_PREFIX + 'users',
                 method: 'GET',
                 params: params
             });
