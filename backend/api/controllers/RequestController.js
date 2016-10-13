@@ -124,7 +124,7 @@ let RequestController = {
             .then(
                 (requests) => {
 
-                    return [RequestService.getRequestsCount(criteria), requests];
+                    return [RequestService.getRequestsCount(criteria.where), requests];
                 }
             )
             .spread(
