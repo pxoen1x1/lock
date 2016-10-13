@@ -40,8 +40,12 @@
 
                                 return $q.reject();
                             }
+
+                            return true;
                         });
                 }
+
+                return true;
             }
         }
     }
