@@ -19,16 +19,18 @@
 
         vm.baseUrl = conf.BASE_URL;
         vm.defaultPortrait = coreConstants.IMAGES.defaultPortrait;
-        vm.paginationOptions = coreConstants.PAGINATION_OPTIONS;
         vm.requestStatus = coreConstants.REQUEST_STATUSES;
         vm.dateFormat = coreConstants.DATE_FORMAT;
 
+        vm.isAllMessagesLoaded = false;
 
-        vm.queryOptions = {
-            limit: vm.paginationOptions.limit,
-            page: 1,
-            totalCount: 0
+        vm.pagination = {
+            totalCount: 0,
+            currentPageNumber: 1,
+            limit: 5
         };
+
+        vm.loadPrevRequests = loadPrevRequests;
 
         activate();
 
@@ -47,16 +49,26 @@
         }
 
         function loadPrevRequests() {
-            var queryOptions = {
+            if (vm.isAllMessagesLoaded) {
+
+                return;
+            }
+
+            var params = {
                 order: 'updatedAt DESC',
-                limit: vm.queryOptions.limit,
-                page: vm.queryOptions.page
+                limit: vm.pagination.limit,
+                page: vm.pagination.currentPageNumber
             };
 
-            return loadRequests(queryOptions)
+            return loadRequests(params)
                 .then(function (requests) {
                     vm.requests = vm.requests.concat(requests.items);
-                    vm.paginationOptions.totalCount = requests.totalCount;
+                    vm.pagination.totalCount = requests.totalCount;
+
+                    vm.isAllMessagesLoaded = vm.pagination.currentPageNumber * vm.pagination.limit >=
+                        vm.pagination.totalCount;
+
+                    vm.pagination.currentPageNumber++;
 
                     return vm.requests;
                 });
@@ -69,10 +81,7 @@
         }
 
         function activate() {
-            loadPrevRequests()
-                .then(function () {
-                    listenRequestEvent();
-                });
+            listenRequestEvent();
         }
     }
 })();
