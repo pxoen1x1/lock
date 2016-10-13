@@ -39,6 +39,7 @@
            required
            ng-pattern="/^[0-9]{3}-?[0-9]{2}-?[0-9]{4}$/"
            availability-validation
+           ng-model-options="{ 'debounce': 400 }"
            ng-model="vm.user.user.ssn">
     <div ng-messages="registrationForm.ssn.$error">
       <div ng-message="pattern">That doesn't look like a valid SSN.</div>
@@ -57,6 +58,7 @@
            required
            ui-us-phone-number
            availability-validation
+           ng-model-options="{ 'debounce': 400 }"
            ng-model="vm.user.user.phoneNumber">
     <div ng-messages="registrationForm.phoneNumber.$error">
       <span ng-message="usPhoneNumber">That doesn't look like a valid phone number.</span>
@@ -73,6 +75,7 @@
            required
            email-validation
            availability-validation
+           ng-model-options="{ 'debounce': 400 }"
            ng-model="vm.user.email">
     <div ng-messages="registrationForm.email.$error">
       <div ng-message="email">That doesn't look like a valid email.</div>
