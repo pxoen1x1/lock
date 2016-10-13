@@ -97,6 +97,7 @@ let ChatController = {
                         specialistRoom,
                         'chat',
                         {
+                            type: 'create',
                             chat: chat
                         },
                         req

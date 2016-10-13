@@ -215,6 +215,7 @@ let RequestController = {
                     sails.sockets.blast(
                         'request',
                         {
+                            type: 'create',
                             request: request
                         },
                         req
@@ -275,7 +276,10 @@ let RequestController = {
                     sails.sockets.broadcast(
                         [clientRoomName, specialistRoomName],
                         'request',
-                        request,
+                        {
+                            type: 'update',
+                            request: request
+                        },
                         req
                     );
 

@@ -96,6 +96,7 @@ let BidController = {
                         roomName,
                         'bid',
                         {
+                            type: 'create',
                             bid: bid
                         },
                         req
@@ -156,7 +157,10 @@ let BidController = {
                     sails.sockets.broadcast(
                         specialistRoomName,
                         'bid',
-                        bid,
+                        {
+                            type: 'update',
+                            bid: bid
+                        },
                         req
                     );
 
