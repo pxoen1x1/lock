@@ -13,18 +13,21 @@
             link: link,
             restrict: 'A',
             scope: {
-                onScroll: '&',
+                scrollDirection: '@',
                 scrollDistance: '=?',
-                scrollDirection: '@'
+                isScrollDisabled: '=?scrollDisabled',
+                onScroll: '&'
             }
         };
+
         return directive;
 
-        function link(scope, element) {
+        function link(scope, element, attrs) {
             var removeThrottle;
             var lastScrollTop = 0;
             var scrollCompleted = true;
 
+            var isAutoLoadingEnabled = 'autoloadingEnabled' in attrs && attrs.autoloadingEnabled !== 'false';
             var scrollDistance = parseInt(scope.scrollDistance) || 10;
             var scrollDirection = scope.scrollDistance || 'bottom';
 
@@ -65,11 +68,11 @@
                 var direction = scrollDirection === 'bottom' ?
                 scrollTop > lastScrollTop : scrollTop < lastScrollTop;
 
-                if (direction && (remainingPercent <= scrollDistance)) {
+                if (direction && (remainingPercent <= scrollDistance) && !scope.isScrollDisabled) {
                     if (scrollCompleted) {
                         scrollCompleted = false;
 
-                        $q.when(
+                        return $q.when(
                             scope.$apply(scope.onScroll)
                         )
                             .finally(function () {
@@ -81,8 +84,27 @@
                 lastScrollTop = scrollTop;
             }
 
+            function onScroll() {
+                if (element[0].scrollHeight > element[0].clientHeight || scope.isScrollDisabled) {
+
+                    return;
+                }
+
+                return $q.when(
+                    scope.onScroll()
+                )
+                    .then(function () {
+
+                        return scope.$applyAsync(onScroll);
+                    });
+            }
+
             function activate() {
                 removeThrottle = throttle('scroll', 'optimizedScroll', element[0]);
+
+                if (isAutoLoadingEnabled) {
+                    onScroll();
+                }
 
                 element.on('optimizedScroll', handler);
 
