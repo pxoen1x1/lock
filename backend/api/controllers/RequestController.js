@@ -233,7 +233,7 @@ let RequestController = {
                 }
             );
     },
-    updateRequest(req, res) {
+    confirmOffer(req, res) {
         let requestId = req.params.requestId;
         let params = req.allParams();
 
