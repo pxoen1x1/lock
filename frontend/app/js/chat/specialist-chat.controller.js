@@ -170,7 +170,9 @@
         }
 
         function reply(event, replyMessage, currentChat, currentRequest) {
-            if ((event && event.shiftKey && event.keyCode === 13) || currentRequest.status !== vm.requestStatus.NEW) {
+            if ((event && event.shiftKey && event.keyCode === 13) ||
+                currentRequest.status === vm.requestStatus.CLOSED) {
+
                 vm.textareaGrow[currentChat.id] = true;
 
                 return;

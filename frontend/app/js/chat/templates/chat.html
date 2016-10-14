@@ -54,7 +54,7 @@
             <md-button type="submit"
                        class="md-button-blue md-fab"
                        ng-disabled="(vm.selectedTab === 'bids' && vm.currentBid) ||
-                       vm.currentRequest.status !== vm.requestStatus.NEW"
+                       vm.currentRequest.status === vm.requestStatus.CLOSED"
                        aria-label="Send message">
               <i class="material-icons">send</i>
             </md-button>
