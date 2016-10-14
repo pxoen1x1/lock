@@ -307,6 +307,15 @@
                 overflow: auto;
               }
             }
+
+            md-card-actions {
+              margin: 0 8px;
+
+              & .md-button {
+                margin-top: 8px;
+                margin-bottom: 8px;
+              }
+            }
           }
         }
 
