@@ -239,7 +239,7 @@ let RequestController = {
 
         let request = params.request;
 
-        if (!requestId || !request) {
+        if (!requestId || !request || !request.executor || !request.cost) {
 
             return res.badRequest(
                 {
@@ -248,20 +248,15 @@ let RequestController = {
             );
         }
 
-        request.id = requestId;
+        let newRequest = {};
 
-        if (request.cost) {
-            request.cost = parseFloat(request.cost).toFixed(2);
-        }
+        newRequest.id = requestId;
+        newRequest.cost = parseFloat(request.cost).toFixed(2);
+        newRequest.executor = request.executor.id;
+        newRequest.status = STATUS.PENDING;
+        newRequest.isPublic = false;
 
-        if (request.executor) {
-            request.executor = request.executor.id;
-        }
-
-        delete request.isPublic;
-        delete request.owner;
-
-        RequestService.updateRequest(request)
+        RequestService.updateRequest(newRequest)
             .then(
                 (request) => {
                     res.ok({
