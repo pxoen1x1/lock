@@ -303,6 +303,8 @@
               .request-info {
                 padding: 0 16px;
                 color: $secondary-text-color;
+                max-height: 250px;
+                overflow: auto;
               }
             }
           }
