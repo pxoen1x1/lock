@@ -9,13 +9,14 @@
         '$mdSidenav',
         '$mdDialog',
         'coreConstants',
+        'coreDataservice',
         'chatSocketservice',
         'currentUserService',
         'conf'
     ];
 
     /* @ngInject */
-    function SpecialistChatController($mdSidenav, $mdDialog, coreConstants,
+    function SpecialistChatController($mdSidenav, $mdDialog, coreConstants, coreDataservice,
                                       chatSocketservice, currentUserService, conf) {
         var chatPaginationOptions = coreConstants.CHAT_PAGINATION_OPTIONS;
         var vm = this;
@@ -48,6 +49,7 @@
         vm.toggleSidenav = toggleSidenav;
         vm.loadPrevMessages = loadPrevMessages;
         vm.openOfferDialog = openOfferDialog;
+        vm.updateRequestStatus = updateRequestStatus;
         vm.reply = reply;
 
         activate();
@@ -74,7 +76,7 @@
 
         function listenRequestEvent() {
             chatSocketservice.onRequest(function (request, type) {
-                if(type !== 'update'){
+                if (type !== 'update') {
 
                     return;
                 }
@@ -130,6 +132,19 @@
                 .then(function (message) {
 
                     return message;
+                });
+        }
+
+        function updateRequestStatus(request, status) {
+            if (!request || !status) {
+
+                return;
+            }
+
+            return coreDataservice.updateRequestStatus(request, status)
+                .then(function (updatedRequest) {
+
+                    return updatedRequest;
                 });
         }
 

@@ -87,10 +87,12 @@
     </md-content>
   </md-card-content>
   <md-card-actions layout="row" layout-align="end center">
-    <md-button ng-if="vm.currentRequest.status === vm.requestStatus.PENDING">Start</md-button>
+    <md-button ng-if="vm.currentRequest.status === vm.requestStatus.PENDING"
+               ng-click="vm.changeRequestStatus(vm.currentRequest, vm.requestStatus.IN_PROGRESS)">Start
+    </md-button>
     <div ng-if="vm.currentRequest.status === vm.requestStatus.IN_PROGRESS">
-      <md-button>Done</md-button>
-      <md-button>Pause</md-button>
+      <md-button ng-click="vm.changeRequestStatus(vm.currentRequest, vm.requestStatus.DONE)">Done</md-button>
+      <md-button ng-click="vm.changeRequestStatus(vm.currentRequest, vm.requestStatus.PENDING)">Pause</md-button>
     </div>
   </md-card-actions>
 </md-card>
