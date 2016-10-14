@@ -8,6 +8,8 @@
 
 'use strict';
 
+const STATUS = sails.config.requests.STATUSES;
+
 let RequestController = {
     getAllClientRequests(req, res) {
         let params = req.allParams();
@@ -187,6 +189,7 @@ let RequestController = {
         }
 
         newRequest.owner = req.session.user.id;
+        newRequest.status = STATUS.NEW;
 
         RequestService.createRequest(newRequest)
             .then(
