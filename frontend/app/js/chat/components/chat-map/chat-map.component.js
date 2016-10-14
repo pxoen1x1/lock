@@ -66,7 +66,6 @@
                         x: 15, y: 15
                     }
                 },
-                visible: vm.selectedRequest.status !== vm.requestStatus.NEW,
                 title: vm.selectedRequest.location.address
             }
         };
@@ -92,8 +91,6 @@
                         latitude: location.latitude,
                         longitude: location.longitude
                     };
-
-                    vm.map.marker.visible = vm.selectedRequest.status !== vm.requestStatus.NEW;
 
                     vm.map.control.refresh(location);
 
