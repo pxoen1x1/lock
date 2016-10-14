@@ -23,7 +23,8 @@
             logout: logout,
             resetUserPassword: resetUserPassword,
             updateUser: updateUser,
-            updateRequest: updateRequest
+            acceptOffer: acceptOffer,
+            updateRequestStatus: updateRequestStatus
         };
 
         return service;
@@ -170,16 +171,31 @@
             }
         }
 
-        function updateRequest(request) {
+        function acceptOffer(request) {
 
             return $http({
                 url: conf.BASE_URL + conf.URL_PREFIX + 'client/requests/' + request.id,
                 method: 'PUT',
                 data: request
             })
-                .then(updateRequestCompleted);
+                .then(acceptOfferCompleted);
 
-            function updateRequestCompleted(response) {
+            function acceptOfferCompleted(response) {
+
+                return response.data.request;
+            }
+        }
+
+        function updateRequestStatus(request, status) {
+
+            return $http({
+                url: conf.BASE_URL + conf.URL_PREFIX + 'requests/' + request.id + '/status',
+                method: 'PUT',
+                data: status
+            })
+                .then(updateRequestStatusCompleted);
+
+            function updateRequestStatusCompleted(response) {
 
                 return response.data.request;
             }

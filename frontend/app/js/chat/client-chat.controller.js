@@ -5,12 +5,22 @@
         .module('app.chat')
         .controller('ClientChatController', ClientChatController);
 
-    ClientChatController.$inject = ['$q', '$state', '$stateParams', '$mdSidenav', 'coreConstants', 'currentUserService',
-        'chatSocketservice', 'requestService', 'conf'];
+    ClientChatController.$inject = [
+        '$q',
+        '$state',
+        '$stateParams',
+        '$mdSidenav',
+        'coreConstants',
+        'coreDataservice',
+        'currentUserService',
+        'chatSocketservice',
+        'requestService',
+        'conf'
+    ];
 
     /* @ngInject */
-    function ClientChatController($q, $state, $stateParams, $mdSidenav, coreConstants, currentUserService,
-                                  chatSocketservice, requestService, conf) {
+    function ClientChatController($q, $state, $stateParams, $mdSidenav, coreConstants, coreDataservice,
+                                  currentUserService, chatSocketservice, requestService, conf) {
         var currentRequestId = $stateParams.requestId;
         var chatPaginationOptions = coreConstants.CHAT_PAGINATION_OPTIONS;
         var vm = this;
@@ -47,7 +57,7 @@
         vm.toggleSidenav = toggleSidenav;
         vm.loadPrevMessages = loadPrevMessages;
         vm.loadPrevReviews = loadPrevReviews;
-        vm.changeRequestStatus = changeRequestStatus;
+        vm.acceptOffer = acceptOffer;
         vm.selectSpecialist = selectSpecialist;
         vm.reply = reply;
 
@@ -167,7 +177,7 @@
                 });
         }
 
-        function changeRequestStatus(offer, message) {
+        function acceptOffer(offer, message) {
             if ((!vm.currentRequest || !vm.currentRequest.id) || (!offer || !offer.executor || !offer.cost)) {
 
                 return $q.reject();
@@ -184,7 +194,7 @@
             return sendMessage(vm.currentChat, message)
                 .then(function () {
 
-                    return chatSocketservice.updateRequest(vm.currentRequest.id, request);
+                    return coreDataservice.acceptOffer(vm.currentRequest.id, request);
 
                 })
                 .then(function (updatedRequest) {

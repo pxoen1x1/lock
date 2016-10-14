@@ -19,7 +19,6 @@
             createChat: createChat,
             sendMessage: sendMessage,
             deleteBid: deleteBid,
-            updateRequest: updateRequest,
             declineBid: declineBid,
             onRequest: onRequest,
             onChat: onChat,
@@ -114,17 +113,6 @@
             function sendMessageCompleted(response) {
 
                 return response.data.message;
-            }
-        }
-
-        function updateRequest(requestId, request) {
-
-            return $sails.put(conf.URL_PREFIX + 'client/requests/' + requestId, request)
-                .then(updateRequestCompleted);
-
-            function updateRequestCompleted(response) {
-
-                return response.data.request;
             }
         }
 

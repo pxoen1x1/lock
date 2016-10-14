@@ -20,7 +20,7 @@
                 currentUser: '=',
                 currentRequest: '=',
                 currentChat: '=',
-                changeRequestStatus: '&'
+                acceptOffer: '&',
             },
             replace: true
         };
@@ -86,7 +86,7 @@
                 type: vm.messageType.AGREEMENT
             };
 
-            return vm.changeRequestStatus({offer: offer, message: newMessage});
+            return vm.acceptOffer({offer: offer, message: newMessage});
         }
     }
 })();
