@@ -28,13 +28,15 @@
             },
             REQUEST_STATUSES: {
                 1: 'new',
-                2: 'in progress',
-                3: 'done',
-                4: 'closed',
+                2: 'pending',
+                3: 'in progress',
+                4: 'done',
+                5: 'closed',
                 'NEW': 1,
-                'IN_PROGRESS': 2,
-                'DONE': 3,
-                'CLOSED': 4
+                'PENDING': 2,
+                'IN_PROGRESS': 3,
+                'DONE': 4,
+                'CLOSED': 5
             },
             IMAGES: {
                 'currentLocationMarker': '/images/map-marker-current.png',
