@@ -233,7 +233,7 @@ let RequestController = {
                 }
             );
     },
-    confirmOffer(req, res) {
+    acceptOffer(req, res) {
         let requestId = req.params.requestId;
         let params = req.allParams();
 
@@ -257,6 +257,62 @@ let RequestController = {
         newRequest.isPublic = false;
 
         RequestService.updateRequest(newRequest)
+            .then(
+                (request) => {
+                    res.ok({
+                        request: request
+                    });
+
+                    return request;
+                }
+            )
+            .then(
+                (request) => {
+                    let clientRoomName = `user_${request.owner.id}`;
+                    let specialistRoomName = `user_${request.executor.id}`;
+
+                    sails.sockets.broadcast(
+                        [clientRoomName, specialistRoomName],
+                        'request',
+                        {
+                            type: 'update',
+                            request: request
+                        },
+                        req
+                    );
+
+                    return request;
+                }
+            )
+            .catch(
+                (err) => {
+                    sails.log.error(err);
+
+                    return res.serverError();
+                }
+            );
+    },
+    updateStatus(req, res) {
+        let requestId = req.params.requestId;
+        let params = req.allParams();
+
+        let status = params.status;
+
+        if (!requestId || !status) {
+
+            return res.badRequest(
+                {
+                    message: req.__('Submitted data is invalid.')
+                }
+            );
+        }
+
+        let request = {
+            id: requestId,
+            status: status
+        };
+
+        RequestService.updateRequest(request)
             .then(
                 (request) => {
                     res.ok({
