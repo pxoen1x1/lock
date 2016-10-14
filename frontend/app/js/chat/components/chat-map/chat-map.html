@@ -1,0 +1,23 @@
+<div class="map-content">
+  <div class="map-wrapper">
+    <ui-gmap-google-map center="vm.map.center"
+                        control="vm.map.control"
+                        zoom="vm.map.zoom"
+                        options="vm.map.options">
+
+      <ui-gmap-circle center='vm.map.circle.center'
+                      radius='vm.map.circle.radius'
+                      fill='vm.map.circle.fill'
+                      stroke='vm.map.circle.stroke'
+                      visible="vm.selectedRequest.status === vm.requestStatus.NEW">
+      </ui-gmap-circle>
+      <ui-gmap-marker
+          coords="vm.map.marker.center"
+          options="vm.map.marker"
+          idKey="0"
+          fit="false">
+      </ui-gmap-marker>
+    </ui-gmap-google-map>
+  </div>
+</div>
+
