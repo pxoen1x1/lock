@@ -27,7 +27,7 @@ let requestRoutes = {
     },
     'PUT /api/client/requests/:requestId': {
         controller: 'RequestController',
-        action: 'acceptOffer'
+        action: 'confirmOffer'
     },
     'PUT /api/requests/:requestId/status': {
         controller: 'RequestController',
