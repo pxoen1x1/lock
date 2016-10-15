@@ -76,6 +76,11 @@ module.exports.policies = {
             'hasJsonWebToken',
             'isUserEnabled',
             'isOfferConfirmationAllowed'
+        ],
+        'changeStatus' : [
+            'hasJsonWebToken',
+            'isUserEnabled',
+            'isRequestStatusChangeAllowed'
         ]
     },
 

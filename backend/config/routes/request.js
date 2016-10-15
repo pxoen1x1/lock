@@ -31,7 +31,7 @@ let requestRoutes = {
     },
     'PUT /api/requests/:requestId/status': {
         controller: 'RequestController',
-        action: 'updateStatus'
+        action: 'changeStatus'
     }
 };
 

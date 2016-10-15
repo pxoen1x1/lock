@@ -292,7 +292,7 @@ let RequestController = {
                 }
             );
     },
-    updateStatus(req, res) {
+    changeStatus(req, res) {
         let requestId = req.params.requestId;
         let params = req.allParams();
 

@@ -1,22 +1,26 @@
 /* global sails, Request */
 
 /**
- * isOfferConfirmationAllowed
+ * isRequestStatusChangeAllowed
  *
  * @module      :: Policy
- * @description :: Assumes that you are the owner of the Request and executor has been added to request;
+ * @description :: Assumes that you are allowed to change status;
  *
  * @docs        :: http://waterlock.ninja/documentation
  */
 
 'use strict';
 
+const STATUS = sails.config.requests.STATUSES;
+
+
 module.exports = function (req, res, next) {
     let params = req.allParams();
     let requestId = params.requestId;
-    let owner = req.session.user.id;
+    let status = params.status;
+    let user = req.session.user.id;
 
-    if (!requestId) {
+    if (!requestId || !status) {
         sails.log.debug(new Error('Submitted data is invalid.'));
 
         return res.badRequest({
@@ -35,7 +39,9 @@ module.exports = function (req, res, next) {
                     });
                 }
 
-                if (foundRequest.owner !== owner || foundRequest.executor) {
+                if ((foundRequest.owner !== user || foundRequest.executor !== user) ||
+                    (foundRequest.executor === user && status === STATUS.NEW || status === STATUS.CLOSED) ||
+                    (foundRequest.owner === user && status !== STATUS.CLOSED)) {
                     sails.log.debug(new Error('You are not permitted to perform this action.'));
 
                     return res.forbidden(
