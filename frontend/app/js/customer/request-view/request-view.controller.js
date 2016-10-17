@@ -43,6 +43,10 @@
                 disableDoubleClickZoom: true
             },
             marker: {
+                center: {
+                    latitude: null,
+                    longitude: null
+                },
                 icon: {
                     url: coreConstants.IMAGES.currentLocationMarker,
                     scaledSize: {
@@ -60,8 +64,10 @@
         vm.baseUrl = conf.BASE_URL;
         vm.defaultPortrait = coreConstants.IMAGES.defaultPortrait;
         vm.requestStatus = coreConstants.REQUEST_STATUSES;
+        vm.dateFormat = coreConstants.DATE_FORMAT;
 
         vm.closeRequest = closeRequest;
+        vm.setRequestStatusAsDone = setRequestStatusAsDone;
 
         activate();
 
@@ -92,6 +98,9 @@
                     vm.map.center.latitude = vm.request.location.latitude;
                     vm.map.center.longitude = vm.request.location.longitude;
 
+                    vm.map.marker.center.latitude = vm.request.location.latitude;
+                    vm.map.marker.center.longitude = vm.request.location.longitude;
+
                     return vm.request;
                 });
         }
@@ -117,6 +126,24 @@
         }
 
         function closeRequest(request) {
+            if (!request || vm.request.status !== vm.requestStatus.NEW) {
+
+                return;
+            }
+
+            var status = {
+                status: coreConstants.REQUEST_STATUSES.CLOSED
+            };
+
+            return changeRequestStatus(request, status)
+                .then(function (request) {
+                    vm.request = request;
+
+                    return vm.request;
+                });
+        }
+
+        function setRequestStatusAsDone(request) {
             if (!request || vm.request.status !== vm.requestStatus.DONE) {
 
                 return;
