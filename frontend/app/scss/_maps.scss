@@ -1,5 +1,5 @@
 /* !ToDo: Moved from _customer.scss. Need refactoring. */
-.chat-map{
+.chat-map {
   height: 250px;
 }
 
@@ -12,7 +12,7 @@
 .map-wrapper, .angular-google-map-container {
   position: relative;
   width: 100%;
-  height: 125px;
+  height: 200px;
   border-radius: 10px;
   overflow: hidden;
 }
@@ -94,7 +94,7 @@
     .md-subhead {
       color: rgba(0, 0, 0, 0.541176);
       font-size: 14px;
-      letter-spacing: 0.14000000059604645px;
+      letter-spacing: .010em;
       line-height: 24px;
     }
 
