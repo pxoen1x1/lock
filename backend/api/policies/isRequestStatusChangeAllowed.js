@@ -39,8 +39,8 @@ module.exports = function (req, res, next) {
                     });
                 }
 
-                if ((foundRequest.owner !== user || foundRequest.executor !== user) ||
-                    (foundRequest.executor === user && status === STATUS.NEW || status === STATUS.CLOSED) ||
+                if ((foundRequest.owner !== user && foundRequest.executor !== user) ||
+                    (foundRequest.executor === user && (status === STATUS.NEW || status === STATUS.CLOSED)) ||
                     (foundRequest.owner === user && status !== STATUS.CLOSED)) {
                     sails.log.debug(new Error('You are not permitted to perform this action.'));
 

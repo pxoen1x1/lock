@@ -171,10 +171,10 @@
             }
         }
 
-        function acceptOffer(request) {
+        function acceptOffer(requestId, request) {
 
             return $http({
-                url: conf.BASE_URL + conf.URL_PREFIX + 'client/requests/' + request.id,
+                url: conf.BASE_URL + conf.URL_PREFIX + 'client/requests/' + requestId,
                 method: 'PUT',
                 data: request
             })
