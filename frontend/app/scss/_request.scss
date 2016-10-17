@@ -1,3 +1,21 @@
+.request-list-content table.md-table td.md-cell.request-status, .request-status {
+  &.new {
+    color: $success-color;
+  }
+
+  &.pending {
+    color: $warning-color;
+  }
+
+  &.in-progress {
+    color: $primary-color;
+  }
+
+  &.closed {
+    color: #B71C1C;
+  }
+}
+
 .request-list-content {
   md-table-container {
     max-height: 600px;
@@ -7,22 +25,22 @@
     cursor: pointer;
   }
 
-  .td-status {
-    min-width: 84px;
-    text-align: center;
-
-    span {
-      padding: 4px 8px;
-      border-radius: 2px;
-      border-style: solid;
-      border-width: 1px;
-      display: block;
-    }
-
-  }
-
   table {
     &.md-table {
+      .request-status {
+        min-width: 84px;
+        text-align: center;
+
+        span {
+          padding: 4px 8px;
+          border-radius: 2px;
+          border-style: solid;
+          border-width: 1px;
+          display: block;
+        }
+
+      }
+
       &:not(.md-row-select) {
         & td.md-cell {
           &:first-child.td-customer {
@@ -37,19 +55,22 @@
     height: 48px;
   }
 
-  .td-status.new span {
-    color: #4CAF50;
-    border-color: #4CAF50;
-  }
+  .request-status {
+    &.new span {
+      border-color: $success-color;
+    }
 
-  .td-status.pending span {
-    color: $primary-color;
-    border-color: $primary-color;
-  }
+    &.pending span {
+      border-color: $warning-color;
+    }
 
-  .td-status.closed span {
-    color: #B71C1C;
-    border-color: #B71C1C;
+    &.in-progress span {
+      border-color: $primary-color;
+    }
+
+    &.closed span {
+      border-color: #B71C1C;
+    }
   }
 
   .td-description {
@@ -77,7 +98,7 @@
       line-height: 29px;
     }
 
-    .td-status {
+    .request-status {
       margin-bottom: 10px;
     }
   }
