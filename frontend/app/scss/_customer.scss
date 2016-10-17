@@ -91,13 +91,9 @@
 
     .provider-info {
 
-      .photo {
+      .avatar {
         width: 56px;
         height: 56px;
-        -webkit-border-radius: 50%;
-        -moz-border-radius: 50%;
-        border-radius: 50%;
-        background-size: cover;
       }
 
       .name {

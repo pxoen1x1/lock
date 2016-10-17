@@ -5,10 +5,18 @@
         .module('app.customer')
         .controller('CustomerViewRequestController', CustomerViewRequestController);
 
-    CustomerViewRequestController.$inject = ['$stateParams', 'coreConstants', 'customerDataservice', 'requestService'];
+    CustomerViewRequestController.$inject = [
+        '$stateParams',
+        'coreConstants',
+        'customerDataservice',
+        'chatSocketservice',
+        'requestService',
+        'conf'
+    ];
 
     /* @ngInject */
-    function CustomerViewRequestController($stateParams, coreConstants, customerDataservice, requestService) {
+    function CustomerViewRequestController($stateParams, coreConstants, customerDataservice, chatSocketservice,
+                                           requestService, conf) {
         var promises = {
             getRequest: null
         };
@@ -16,6 +24,9 @@
         var vm = this;
 
         vm.request = {};
+
+        vm.baseUrl = conf.BASE_URL;
+        vm.defaultPortrait = coreConstants.IMAGES.defaultPortrait;
 
         vm.map = {
             center: {
@@ -69,7 +80,7 @@
                 id: vm.currentRequestId
             };
 
-            getRequestById(currentRequestId)
+            return getRequestById(currentRequestId)
                 .then(function (request) {
                     vm.request = request;
                     requestService.setRequest(vm.request);
@@ -82,8 +93,20 @@
                 });
         }
 
+        function listenRequestEvent() {
+            chatSocketservice.onRequest(function (request, type) {
+                if (type !== 'update') {
+
+                    return;
+                }
+
+                vm.request = request;
+            });
+        }
+
         function activate() {
-            getRequest();
+            getRequest()
+                .then(listenRequestEvent);
         }
     }
 })();

@@ -123,6 +123,21 @@ $panel-background-color: rgb(245, 245, 245);
     }
   }
 
+  &.md-button-green {
+    &, &.md-fab {
+      &, &:not([disabled]) {
+        color: #fff;
+        &, &:focus {
+          background-color: $success-color;
+        }
+
+        &:hover {
+          background-color: #4CAF50;
+        }
+      }
+    }
+  }
+
   .disabled &, .disabled &:hover,
   &[disabled], &[disabled]:hover,
   &.disabled, &.disabled:hover,

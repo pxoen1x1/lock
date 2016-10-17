@@ -37,36 +37,31 @@
         </div>
       </div>
     </div>
-    <div class="provider-info">
+    <div class="provider-info"
+         ng-if="vm.request.executor.id">
       <md-divider class="divider"></md-divider>
       <div class="title md-headline">Service provider</div>
-      <div layout="row">
-        <div>
-          <div class="photo"
-               ng-style="{'background-image': 'url(https://pp.vk.me/c604329/v604329073/1a33c/XhTVHpUbzGU.jpg)'}">
+      <div layout="row" layout-align="start center">
+        <div class="avatar-wrapper">
+          <div class="avatar"
+               ng-style="{ 'background-image': 'url(' + (vm.request.executor.portrait ?
+               vm.baseUrl + vm.request.executor.portrait : vm.defaultPortrait) + ')' }">
           </div>
         </div>
         <div class="name"
              flex
              layout="column"
              layout-align="center start"
-             ng-bind="'Elliot Alderson'">
+             ng-bind="vm.request.executor.fullName">
         </div>
-        <div class="cost"
-             flex="10"
-             layout="column"
-             layout-align="center start"
-             ng-bind="'$30'">
+        <div ng-if="vm.request.cost">
+          $ <span class="cost"
+                  flex="10"
+                  ng-bind="vm.request.cost">
+            </span>
         </div>
-        <div flex
-             layout="row"
-             layout-align="end center">
-          <button class="md-button button-done">
-            <md-icon>done</md-icon>
-          </button>
-          <button class="md-button button-not-done">
-            <md-icon>close</md-icon>
-          </button>
+        <div class="text-right" flex>
+          <button class="md-button md-button-green">Done</button>
         </div>
       </div>
     </div>
