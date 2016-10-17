@@ -60,14 +60,10 @@
       }
     }
 
-    .photo {
-      -webkit-border-radius: 50%;
-      -moz-border-radius: 50%;
-      border-radius: 50%;
+    .avatar {
       width: 120px;
       height: 120px;
       overflow: hidden;
-      background-size: cover;
     }
 
     .name {

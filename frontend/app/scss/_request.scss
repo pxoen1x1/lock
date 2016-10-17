@@ -110,7 +110,7 @@
   .item-provider {
     margin-top: 10px;
 
-    .photo {
+    .avatar {
       width: 42px;
       height: 42px;
       -webkit-border-radius: 50%;
@@ -122,7 +122,8 @@
   }
 
   /* cards for mobile */
-  &.cards {
+  /* !ToDo: delete &.cards after markup refactoring*/
+  & .cards, &.cards {
     height: 95%;
     overflow: auto;
 

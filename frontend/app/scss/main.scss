@@ -136,6 +136,19 @@ $panel-background-color: rgb(245, 245, 245);
     }
   }
 
+  &.md-button-red {
+    &, &.md-fab {
+      color: #fff;
+      &, &:focus {
+        background-color: $error-color;
+      }
+
+      &:hover {
+        background-color: #F44336;
+      }
+    }
+  }
+
   .disabled &, .disabled &:hover,
   &[disabled], &[disabled]:hover,
   &.disabled, &.disabled:hover,
@@ -144,7 +157,10 @@ $panel-background-color: rgb(245, 245, 245);
   &.md-button-blue.disabled,
   .disabled &.md-button-green,
   &.md-button-green[disabled],
-  &.md-button-green.disabled {
+  &.md-button-green.disabled,
+  .disabled &.md-button-red,
+  &.md-button-red[disabled],
+  &.md-button-red.disabled{
     &, &.md-fab, &:hover, &.focus {
       cursor: default;
       background-color: $disabled-background-color;

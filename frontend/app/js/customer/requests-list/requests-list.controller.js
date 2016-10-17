@@ -5,19 +5,21 @@
         .module('app.customer')
         .controller('CustomerRequestsListController', CustomerRequestsListController);
 
-    CustomerRequestsListController.$inject = ['coreConstants', 'customerDataservice'];
+    CustomerRequestsListController.$inject = ['coreConstants', 'customerDataservice', 'conf'];
 
     /* @ngInject */
-    function CustomerRequestsListController(coreConstants, customerDataservice) {
+    function CustomerRequestsListController(coreConstants, customerDataservice, conf) {
         var promises = {
             getAllRequests: null
         };
 
         var vm = this;
 
+        vm.baseUrl = conf.BASE_URL;
         vm.paginationOptions = coreConstants.PAGINATION_OPTIONS;
         vm.requestStatus = coreConstants.REQUEST_STATUSES;
         vm.dateFormat = coreConstants.DATE_FORMAT;
+        vm.defaultPortrait = coreConstants.IMAGES.defaultPortrait;
 
         vm.queryOptions = {
             orderBy: '-updatedAt',

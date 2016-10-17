@@ -83,6 +83,10 @@
     .info-column {
       padding: 6px 0 6px 0;
       font-size: 18px;
+
+      div:first-child {
+        margin-right: 5px;
+      }
     }
 
     .divider {
