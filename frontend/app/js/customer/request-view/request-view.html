@@ -61,7 +61,10 @@
             </span>
         </div>
         <div class="text-right" flex>
-          <button class="md-button md-button-green">Done</button>
+          <button class="md-button md-button-green"
+                  ng-class="{ disabled: vm.request.status !== vm.requestStatus.DONE }"
+                  ng-click="vm.closeRequest(vm.request)">Done
+          </button>
         </div>
       </div>
     </div>

@@ -8,6 +8,7 @@
     CustomerViewRequestController.$inject = [
         '$stateParams',
         'coreConstants',
+        'coreDataservice',
         'customerDataservice',
         'chatSocketservice',
         'requestService',
@@ -15,8 +16,8 @@
     ];
 
     /* @ngInject */
-    function CustomerViewRequestController($stateParams, coreConstants, customerDataservice, chatSocketservice,
-                                           requestService, conf) {
+    function CustomerViewRequestController($stateParams, coreConstants, coreDataservice, customerDataservice,
+                                           chatSocketservice, requestService, conf) {
         var promises = {
             getRequest: null
         };
@@ -25,8 +26,7 @@
 
         vm.request = {};
 
-        vm.baseUrl = conf.BASE_URL;
-        vm.defaultPortrait = coreConstants.IMAGES.defaultPortrait;
+        vm.currentRequestId = $stateParams.requestId;
 
         vm.map = {
             center: {
@@ -57,7 +57,11 @@
             }
         };
 
-        vm.currentRequestId = $stateParams.requestId;
+        vm.baseUrl = conf.BASE_URL;
+        vm.defaultPortrait = coreConstants.IMAGES.defaultPortrait;
+        vm.requestStatus = coreConstants.REQUEST_STATUSES;
+
+        vm.closeRequest = closeRequest;
 
         activate();
 
@@ -88,8 +92,16 @@
                     vm.map.center.latitude = vm.request.location.latitude;
                     vm.map.center.longitude = vm.request.location.longitude;
 
-
                     return vm.request;
+                });
+        }
+
+        function changeRequestStatus(request, status) {
+
+            return coreDataservice.updateRequestStatus(request, status)
+                .then(function (updatedRequest) {
+
+                    return updatedRequest;
                 });
         }
 
@@ -102,6 +114,24 @@
 
                 vm.request = request;
             });
+        }
+
+        function closeRequest(request) {
+            if (!request || vm.request.status !== vm.requestStatus.DONE) {
+
+                return;
+            }
+
+            var status = {
+                status: coreConstants.REQUEST_STATUSES.CLOSED
+            };
+
+            return changeRequestStatus(request, status)
+                .then(function (request) {
+                    vm.request = request;
+
+                    return vm.request;
+                });
         }
 
         function activate() {
