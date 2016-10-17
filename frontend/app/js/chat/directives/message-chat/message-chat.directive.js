@@ -68,10 +68,10 @@
         vm.messageType = chatConstants.MESSAGE_TYPES;
         vm.userType = coreConstants.USER_TYPES;
 
-        vm.acceptOffer = acceptOffer;
+        vm.confirmOffer = confirmOffer;
         vm.changeRequestStatus = changeRequestStatus;
 
-        function acceptOffer(message, currentRequest) {
+        function confirmOffer(message, currentRequest) {
             if (currentRequest.status !== vm.requestStatus.NEW) {
 
                 return;
