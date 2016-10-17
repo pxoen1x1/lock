@@ -18,7 +18,7 @@
                 currentChat: '=',
                 currentRequest: '=',
                 selectedTab: '=',
-                changeRequestStatus: '&'
+                acceptOffer: '&'
             },
             replace: true,
             templateUrl: 'chat/directives/message-bid/message-bid.html'
@@ -105,7 +105,7 @@
                 type: vm.messageType.AGREEMENT
             };
 
-            return vm.changeRequestStatus({offer: offer, message: message});
+            return vm.acceptOffer({offer: offer, message: message});
         }
 
         function declineBid(currentBid, currentRequest) {

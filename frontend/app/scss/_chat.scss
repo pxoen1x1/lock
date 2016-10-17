@@ -1,4 +1,3 @@
-$search-text-color: rgba(0, 0, 0, .54);
 
 .chat-app {
   height: 85%;
@@ -37,13 +36,13 @@ $search-text-color: rgba(0, 0, 0, .54);
 
               .material-icons {
                 margin: 0;
-                color: $search-text-color;
+                color: $secondary-text-color;
               }
 
               input {
                 padding-left: 12px;
                 height: 36px;
-                color: $search-text-color;
+                color: $secondary-text-color;
                 border: none;
               }
             }
@@ -63,7 +62,7 @@ $search-text-color: rgba(0, 0, 0, .54);
                     font-weight: normal;
 
                     &.md-unselected {
-                      color: $search-text-color;
+                      color: $secondary-text-color;
                     }
                   }
 
@@ -300,6 +299,22 @@ $search-text-color: rgba(0, 0, 0, .54);
                   text-align: center;
                 }
               }
+
+              .request-info {
+                padding: 0 16px;
+                color: $secondary-text-color;
+                max-height: 250px;
+                overflow: auto;
+              }
+            }
+
+            md-card-actions {
+              margin: 0 8px;
+
+              & .md-button {
+                margin-top: 8px;
+                margin-bottom: 8px;
+              }
             }
           }
         }
@@ -448,20 +463,8 @@ $search-text-color: rgba(0, 0, 0, .54);
           max-height: none;
           overflow: auto;
 
-          .contact-name,
-          .request-info {
+          .contact-name {
             margin: 8px 0;
-          }
-
-          .request-info {
-            .flex {
-              text-align: end;
-              padding-left: 8px;
-
-              &.description {
-                text-align: justify;
-              }
-            }
           }
 
           .contact-name {
@@ -506,5 +509,22 @@ $search-text-color: rgba(0, 0, 0, .54);
     font-weight: 500;
     text-align: center;
     color: #FFF;
+  }
+
+  .request-info {
+    font-size: 16px;
+    margin: 8px 0;
+
+    & > div {
+      margin-bottom: 8px;
+      .flex {
+        text-align: end;
+        padding-left: 8px;
+
+        &.description {
+          text-align: justify;
+        }
+      }
+    }
   }
 }

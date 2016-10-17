@@ -41,7 +41,7 @@ let ChatController = {
     getSpecialistChats(req, res) {
         let user = req.session.user.id;
 
-        ChatService.getChats({specialist_id: user})
+        ChatService.getSpecialistChats({specialist_id: user})
             .then(
                 (chats) => res.ok(
                     {
@@ -97,6 +97,7 @@ let ChatController = {
                         specialistRoom,
                         'chat',
                         {
+                            type: 'create',
                             chat: chat
                         },
                         req

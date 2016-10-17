@@ -20,21 +20,24 @@
         return service;
 
         function getCurrentCoordinates() {
+            var deferred = $q.defer();
 
-            return $q(function (resolve, reject) {
-                if (!$window.navigator && !$window.navigator.geolocation) {
+            if (!$window.navigator && !$window.navigator.geolocation) {
 
-                    return reject('Your browser doesn\'t support geolocation.');
-                }
+                return deferred.reject('Your browser doesn\'t support geolocation.');
+            }
 
-                $window.navigator.geolocation.getCurrentPosition(
-                    function (position) {
-                        resolve(position.coords);
-                    },
-                    function (error) {
-                        reject('Geolocation service failed for the following reason: ' + error.message);
-                    });
-            });
+            $window.navigator.geolocation.getCurrentPosition(
+                function (position) {
+
+                    return deferred.resolve(position.coords);
+                },
+                function (error) {
+
+                    return deferred.reject('Geolocation service failed for the following reason: ' + error.message);
+                });
+
+            return deferred.promise;
         }
 
         function getCoordinates(address) {

@@ -9,13 +9,14 @@
         '$mdSidenav',
         '$mdDialog',
         'coreConstants',
+        'coreDataservice',
         'chatSocketservice',
         'currentUserService',
         'conf'
     ];
 
     /* @ngInject */
-    function SpecialistChatController($mdSidenav, $mdDialog, coreConstants,
+    function SpecialistChatController($mdSidenav, $mdDialog, coreConstants, coreDataservice,
                                       chatSocketservice, currentUserService, conf) {
         var chatPaginationOptions = coreConstants.CHAT_PAGINATION_OPTIONS;
         var vm = this;
@@ -48,6 +49,7 @@
         vm.toggleSidenav = toggleSidenav;
         vm.loadPrevMessages = loadPrevMessages;
         vm.openOfferDialog = openOfferDialog;
+        vm.updateRequestStatus = updateRequestStatus;
         vm.reply = reply;
 
         activate();
@@ -70,6 +72,19 @@
 
                     return currentUserType;
                 });
+        }
+
+        function listenRequestEvent() {
+            chatSocketservice.onRequest(function (request, type) {
+                if (type !== 'update') {
+
+                    return;
+                }
+
+                if (vm.currentRequest) {
+                    vm.currentRequest = request;
+                }
+            });
         }
 
         function loadMessages(chat, params) {
@@ -120,6 +135,19 @@
                 });
         }
 
+        function updateRequestStatus(request, status) {
+            if (!request || !status) {
+
+                return;
+            }
+
+            return coreDataservice.updateRequestStatus(request, status)
+                .then(function (updatedRequest) {
+
+                    return updatedRequest;
+                });
+        }
+
         function openOfferDialog(currentChat) {
 
             return $mdDialog.show({
@@ -142,7 +170,9 @@
         }
 
         function reply(event, replyMessage, currentChat, currentRequest) {
-            if ((event && event.shiftKey && event.keyCode === 13) || currentRequest.status !== vm.requestStatus.NEW) {
+            if ((event && event.shiftKey && event.keyCode === 13) ||
+                currentRequest.status === vm.requestStatus.CLOSED) {
+
                 vm.textareaGrow[currentChat.id] = true;
 
                 return;
@@ -182,6 +212,8 @@
         function activate() {
             getCurrentUser()
                 .then(getCurrentUserType);
+
+            listenRequestEvent();
         }
     }
 })();

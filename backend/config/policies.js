@@ -72,10 +72,15 @@ module.exports.policies = {
     },
 
     RequestController: {
-        'updateRequest': [
+        'confirmOffer': [
             'hasJsonWebToken',
             'isUserEnabled',
-            'isRequestOwner'
+            'isOfferConfirmationAllowed'
+        ],
+        'changeStatus' : [
+            'hasJsonWebToken',
+            'isUserEnabled',
+            'isRequestStatusChangeAllowed'
         ]
     },
 

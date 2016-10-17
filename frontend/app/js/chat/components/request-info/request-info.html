@@ -11,36 +11,48 @@
         <i class="material-icons">close</i>
       </md-button>
     </div>
-    <div class="md-subhead md-toolbar-tools md-toolbar-tools-bottom"
+    <div class="md-subhead md-toolbar-tools md-toolbar-tools-bottom request-info"
          flex
          layout="column"
          layout-align="start none">
-      <div class="request-info"
-           layout="row"
+      <div layout="row"
            layout-align="end none">
         <div>Created:</div>
         <div flex
-             ng-bind="vm.selectedRequest.createdAt | date: vm.dateFormat">
+             ng-bind="vm.selectedRequest.createdAt | altDate">
         </div>
       </div>
-      <div class="request-info"
-           layout="row"
-           layout-align="end none"
-           ng-if="vm.selectedRequest.forDate">
+      <div layout="row"
+           layout-align="end none">
         <div>For Date:</div>
         <div flex
-             ng-bind="vm.selectedRequest.forDate | date: vm.dateFormat">
+             ng-bind="vm.selectedRequest.forDate ? (vm.selectedRequest.forDate | date: vm.dateFormat) : 'Now'">
         </div>
       </div>
-      <div class="request-info"
-           layout="row">
+      <div layout="row"
+           layout-align="end none"
+           ng-if="vm.selectedRequest.location.address">
+        <div>Address:</div>
+        <div flex
+             ng-bind="vm.selectedRequest.location.address">
+        </div>
+      </div>
+      <div layout="row"
+           layout-align="end none"
+           ng-if="vm.selectedRequest.location">
+        <div>Distance:</div>
+        <div flex
+             ng-bind="vm.selectedRequest.location | distance">
+        </div>
+      </div>
+      <div layout="row"
+           layout-align="end none">
         <div>Needed Service:</div>
         <div flex
              ng-bind="vm.selectedRequest.serviceType.name">
         </div>
       </div>
-      <div class="request-info"
-           layout="row"
+      <div layout="row"
            layout-align="end none"
            ng-if="vm.selectedRequest.language.name">
         <div>Language:</div>
@@ -48,10 +60,9 @@
              ng-bind="vm.selectedRequest.language.name">
         </div>
       </div>
-      <div class="request-info"
-           layout="row"
+      <div layout="row"
            layout-align="end none"
-           ng-if="vm.selectedRequest.language.name">
+           ng-if="vm.selectedRequest.description">
         <div>Description:</div>
         <div class="description"
              flex
@@ -60,21 +71,7 @@
       </div>
     </div>
   </md-toolbar>
-  <md-content flex>
-    <div class="map-content">
-      <div class="map-wrapper">
-        <ui-gmap-google-map center="vm.map.center"
-                            control="vm.map.control"
-                            zoom="vm.map.zoom"
-                            options="vm.map.options">
-
-          <ui-gmap-circle center='vm.map.circle.center'
-                          radius='vm.map.circle.radius'
-                          fill='vm.map.circle.fill'
-                          stroke='vm.map.circle.stroke'>
-          </ui-gmap-circle>
-        </ui-gmap-google-map>
-      </div>
-    </div>
+  <md-content flex="50">
+    <chat-map selected-request="vm.selectedRequest"></chat-map>
   </md-content>
 </div>

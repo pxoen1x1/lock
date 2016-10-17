@@ -20,7 +20,8 @@
                 currentUser: '=',
                 currentRequest: '=',
                 currentChat: '=',
-                changeRequestStatus: '&'
+                acceptOffer: '&',
+                updateRequestStatus: '&'
             },
             replace: true
         };
@@ -68,6 +69,7 @@
         vm.userType = coreConstants.USER_TYPES;
 
         vm.acceptOffer = acceptOffer;
+        vm.changeRequestStatus = changeRequestStatus;
 
         function acceptOffer(message, currentRequest) {
             if (currentRequest.status !== vm.requestStatus.NEW) {
@@ -86,7 +88,20 @@
                 type: vm.messageType.AGREEMENT
             };
 
-            return vm.changeRequestStatus({offer: offer, message: newMessage});
+            return vm.acceptOffer({offer: offer, message: newMessage});
+        }
+
+        function changeRequestStatus(request, status) {
+            if (!request || !status) {
+
+                return;
+            }
+
+            status = {
+                status: status
+            };
+
+            vm.updateRequestStatus({request: request, status: status});
         }
     }
 })();

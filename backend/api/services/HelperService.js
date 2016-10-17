@@ -32,7 +32,7 @@ let HelperService = {
 
         query += this._buildQuery(whereCriteria, tableAlias);
 
-        query += criteria.sorting ? ` ORDER BY ${tableAlias}${criteria.sorting}` : ``;
+        query += criteria.sorting ? ` ORDER BY ${criteria.sorting}` : ``;
         query += criteria.limit ? ` LIMIT ${criteria.limit}` : ``;
         query += criteria.skip ? ` OFFSET ${criteria.skip}` : ``;
 

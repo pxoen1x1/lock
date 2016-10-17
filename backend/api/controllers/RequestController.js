@@ -8,6 +8,8 @@
 
 'use strict';
 
+const STATUS = sails.config.requests.STATUSES;
+
 let RequestController = {
     getAllClientRequests(req, res) {
         let params = req.allParams();
@@ -187,6 +189,7 @@ let RequestController = {
         }
 
         newRequest.owner = req.session.user.id;
+        newRequest.status = STATUS.NEW;
 
         RequestService.createRequest(newRequest)
             .then(
@@ -215,6 +218,7 @@ let RequestController = {
                     sails.sockets.blast(
                         'request',
                         {
+                            type: 'create',
                             request: request
                         },
                         req
@@ -229,13 +233,13 @@ let RequestController = {
                 }
             );
     },
-    updateRequest(req, res) {
+    confirmOffer(req, res) {
         let requestId = req.params.requestId;
         let params = req.allParams();
 
         let request = params.request;
 
-        if (!requestId || !request) {
+        if (!requestId || !request || !request.executor || !request.cost) {
 
             return res.badRequest(
                 {
@@ -244,18 +248,69 @@ let RequestController = {
             );
         }
 
-        request.id = requestId;
+        let newRequest = {};
 
-        if (request.cost) {
-            request.cost = parseFloat(request.cost).toFixed(2);
+        newRequest.id = requestId;
+        newRequest.cost = parseFloat(request.cost).toFixed(2);
+        newRequest.executor = request.executor.id;
+        newRequest.status = STATUS.PENDING;
+        newRequest.isPublic = false;
+
+        RequestService.updateRequest(newRequest)
+            .then(
+                (request) => {
+                    res.ok({
+                        request: request
+                    });
+
+                    return request;
+                }
+            )
+            .then(
+                (request) => {
+                    let clientRoomName = `user_${request.owner.id}`;
+                    let specialistRoomName = `user_${request.executor.id}`;
+
+                    sails.sockets.broadcast(
+                        [clientRoomName, specialistRoomName],
+                        'request',
+                        {
+                            type: 'update',
+                            request: request
+                        },
+                        req
+                    );
+
+                    return request;
+                }
+            )
+            .catch(
+                (err) => {
+                    sails.log.error(err);
+
+                    return res.serverError();
+                }
+            );
+    },
+    changeStatus(req, res) {
+        let requestId = req.params.requestId;
+        let params = req.allParams();
+
+        let status = params.status;
+
+        if (!requestId || !status) {
+
+            return res.badRequest(
+                {
+                    message: req.__('Submitted data is invalid.')
+                }
+            );
         }
 
-        if (request.executor) {
-            request.executor = request.executor.id;
-        }
-
-        delete request.isPublic;
-        delete request.owner;
+        let request = {
+            id: requestId,
+            status: status
+        };
 
         RequestService.updateRequest(request)
             .then(
@@ -275,7 +330,10 @@ let RequestController = {
                     sails.sockets.broadcast(
                         [clientRoomName, specialistRoomName],
                         'request',
-                        request,
+                        {
+                            type: 'update',
+                            request: request
+                        },
                         req
                     );
 

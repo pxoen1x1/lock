@@ -19,7 +19,6 @@
             createChat: createChat,
             sendMessage: sendMessage,
             deleteBid: deleteBid,
-            updateRequest: updateRequest,
             declineBid: declineBid,
             onRequest: onRequest,
             onChat: onChat,
@@ -117,17 +116,6 @@
             }
         }
 
-        function updateRequest(requestId, request) {
-
-            return $sails.put(conf.URL_PREFIX + 'client/requests/' + requestId, request)
-                .then(updateRequestCompleted);
-
-            function updateRequestCompleted(response) {
-
-                return response.data.request;
-            }
-        }
-
         function declineBid(bid) {
 
             return $sails.put(conf.URL_PREFIX + 'client/bids/' + bid.id + '/refuse')
@@ -152,25 +140,25 @@
 
         function onRequest(next) {
             socketService.listener('request', function(event) {
-                next(event.request);
+                next(event.request, event.type);
             });
         }
 
         function onChat(next) {
             socketService.listener('chat', function (event) {
-                next(event.chat);
+                next(event.chat, event.type);
             });
         }
 
         function onBid(next) {
             socketService.listener('bid', function (event) {
-                next(event.bid);
+                next(event.bid, event.type);
             });
         }
 
         function onMessage(next) {
             socketService.listener('message', function (event) {
-                next(event.message);
+                next(event.message, event.type);
             });
         }
     }
