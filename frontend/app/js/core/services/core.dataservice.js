@@ -17,12 +17,14 @@
             getStates: getStates,
             getCities: getCities,
             getNewRequests: getNewRequests,
+            getAvailabilityInfo: getAvailabilityInfo,
             createUser: createUser,
             login: login,
             logout: logout,
             resetUserPassword: resetUserPassword,
             updateUser: updateUser,
-            updateRequest: updateRequest
+            acceptOffer: acceptOffer,
+            updateRequestStatus: updateRequestStatus
         };
 
         return service;
@@ -80,6 +82,15 @@
 
             return request.httpWithTimeout({
                 url: conf.BASE_URL + conf.URL_PREFIX + 'specialist/requests/new',
+                method: 'GET',
+                params: params
+            });
+        }
+
+        function getAvailabilityInfo(params) {
+
+            return request.httpWithTimeout({
+                url: conf.BASE_URL + conf.URL_PREFIX + 'users',
                 method: 'GET',
                 params: params
             });
@@ -160,16 +171,31 @@
             }
         }
 
-        function updateRequest(request) {
+        function acceptOffer(requestId, request) {
 
             return $http({
-                url: conf.BASE_URL + conf.URL_PREFIX + 'client/requests/' + request.id,
+                url: conf.BASE_URL + conf.URL_PREFIX + 'client/requests/' + requestId,
                 method: 'PUT',
                 data: request
             })
-                .then(updateRequestCompleted);
+                .then(acceptOfferCompleted);
 
-            function updateRequestCompleted(response) {
+            function acceptOfferCompleted(response) {
+
+                return response.data.request;
+            }
+        }
+
+        function updateRequestStatus(request, status) {
+
+            return $http({
+                url: conf.BASE_URL + conf.URL_PREFIX + 'requests/' + request.id + '/status',
+                method: 'PUT',
+                data: status
+            })
+                .then(updateRequestStatusCompleted);
+
+            function updateRequestStatusCompleted(response) {
 
                 return response.data.request;
             }

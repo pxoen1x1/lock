@@ -47,8 +47,13 @@
         }
 
         function listenBidEvent() {
-            chatSocketservice.onBid(function (bid) {
-                console.log(bid);
+            chatSocketservice.onBid(function (bid, type) {
+                if (type !== 'create') {
+
+                    return;
+                }
+
+                vm.bids.unshift(bid);
             });
         }
 

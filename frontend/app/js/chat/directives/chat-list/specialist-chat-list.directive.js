@@ -54,8 +54,9 @@
         }
 
         function listenMessageEvent() {
-            chatSocketservice.onMessage(function (message) {
-                if (!message || !message.chat || !message.chat.id || !angular.isArray(vm.messages[message.chat.id])) {
+            chatSocketservice.onMessage(function (message, type) {
+                if (type !== 'create' || !message || !message.chat || !message.chat.id ||
+                    !angular.isArray(vm.messages[message.chat.id])) {
 
                     return;
                 }
@@ -65,7 +66,11 @@
         }
 
         function listenChatEvent() {
-            chatSocketservice.onChat(function (chat) {
+            chatSocketservice.onChat(function (chat, type) {
+                if (type !== 'create') {
+
+                    return;
+                }
 
                 vm.chats.unshift(chat);
             });

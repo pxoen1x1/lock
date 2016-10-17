@@ -5,10 +5,10 @@
         .module('app.chat')
         .directive('messageChat', messageChat);
 
-    messageChat.$inject = ['$compile', '$templateCache'];
+    messageChat.$inject = ['$compile', '$templateCache', 'coreConstants'];
 
     /* @ngInject */
-    function messageChat($compile, $templateCache) {
+    function messageChat($compile, $templateCache, coreConstants) {
         var directive = {
             bindToController: true,
             controller: MessageChatController,
@@ -20,7 +20,8 @@
                 currentUser: '=',
                 currentRequest: '=',
                 currentChat: '=',
-                changeRequestStatus: '&'
+                acceptOffer: '&',
+                updateRequestStatus: '&'
             },
             replace: true
         };
@@ -29,7 +30,14 @@
         function link(scope, element) {
             var vm = scope.vm;
 
+            vm.userType = coreConstants.USER_TYPES;
+
             var messageTemplate = getMessageTemplate(vm.message);
+
+            if (!messageTemplate) {
+
+                return;
+            }
 
             element.html(messageTemplate);
 
@@ -38,6 +46,11 @@
             function getMessageTemplate(message) {
                 var messageTemplate = '';
                 var messageType = parseInt(message.type, 10);
+
+                if (messageType === vm.messageType.AGREEMENT && vm.currentUser.type === vm.userType.CLIENT) {
+
+                    return;
+                }
 
                 switch (messageType) {
                     case vm.messageType.OFFER :
@@ -67,9 +80,10 @@
         vm.messageType = chatConstants.MESSAGE_TYPES;
         vm.userType = coreConstants.USER_TYPES;
 
-        vm.acceptOffer = acceptOffer;
+        vm.confirmOffer = confirmOffer;
+        vm.changeRequestStatus = changeRequestStatus;
 
-        function acceptOffer(message, currentRequest) {
+        function confirmOffer(message, currentRequest) {
             if (currentRequest.status !== vm.requestStatus.NEW) {
 
                 return;
@@ -86,7 +100,20 @@
                 type: vm.messageType.AGREEMENT
             };
 
-            return vm.changeRequestStatus({offer: offer, message: newMessage});
+            return vm.acceptOffer({offer: offer, message: newMessage});
+        }
+
+        function changeRequestStatus(request, status) {
+            if (!request || !status) {
+
+                return;
+            }
+
+            status = {
+                status: status
+            };
+
+            vm.updateRequestStatus({request: request, status: status});
         }
     }
 })();

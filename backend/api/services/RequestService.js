@@ -9,9 +9,7 @@ let getRequestsRawQuery = `SELECT request.id,
                                   request.distance,
                                   request.description,
                                   request.for_date AS 'forDate',
-                                  request.is_executed AS 'isExecuted',
                                   request.cost AS 'cost',
-                                  request.is_closed AS 'isClosed',
                                   request.status AS 'status',
                                   request.is_public AS 'isPublic',
                                   request.createdAt AS 'createdAt',
@@ -111,6 +109,12 @@ let getRequestsRawQuery = `SELECT request.id,
 let RequestService = {
     getAll(criteria) {
         let tableAlias = 'request';
+
+        if (criteria.sorting) {
+            criteria.sorting = criteria.sorting.indexOf('serviceType') !== -1 ?
+                criteria.sorting.replace('serviceType', 'request_serviceType.name') : criteria.sorting;
+        }
+
         let rawQuery = HelperService.buildQuery(getRequestsRawQuery, criteria, tableAlias);
 
         let getRequestQueryAsync = promise.promisify(Request.query);
@@ -177,4 +181,3 @@ let RequestService = {
 };
 
 module.exports = RequestService;
-

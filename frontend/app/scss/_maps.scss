@@ -1,4 +1,8 @@
 /* !ToDo: Moved from _customer.scss. Need refactoring. */
+.chat-map{
+  height: 250px;
+}
+
 .map-wrapper {
   background: url('https://maps.gstatic.com/tactile/pane/spinner_color.gif');
   background-position: center center;
@@ -47,12 +51,12 @@
       width: 70%;
       margin: 0;
       opacity: 0;
+      background-color: #FFF;
       -webkit-transform: translate(-50%, -15%);
       -moz-transform: translate(-50%, 0) scaleY(0);
       -ms-transform: translate(-50%, 0) scaleY(0);
       -o-transform: translate(-50%, 0) scaleY(0);
       transform: translate(-50%, 0) scaleY(0);
-
       -webkit-transition: all 0.2s ease;
       -moz-transition: all 0.2s ease;
       -ms-transition: all 0.2s ease;
