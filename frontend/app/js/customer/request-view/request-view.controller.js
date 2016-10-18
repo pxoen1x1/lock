@@ -117,7 +117,7 @@
 
         function listenRequestEvent() {
             chatSocketservice.onRequest(function (request, type) {
-                if (type !== 'update') {
+                if (type !== 'update' || vm.request.id !== request.id) {
 
                     return;
                 }
