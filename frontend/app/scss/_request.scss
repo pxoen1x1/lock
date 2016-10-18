@@ -97,10 +97,6 @@
       margin-bottom: 10px;
       line-height: 29px;
     }
-
-    .request-status {
-      margin-bottom: 10px;
-    }
   }
 
   .item-body md-icon {
@@ -122,8 +118,7 @@
   }
 
   /* cards for mobile */
-  /* !ToDo: delete &.cards after markup refactoring*/
-  & .cards, &.cards {
+  & .cards {
     height: 95%;
     overflow: auto;
 
@@ -248,8 +243,8 @@
 
     .item-header {
       overflow: auto;
-      padding: 16px;
-      padding-bottom: 0;
+      padding: 16px 16px 0;
+      margin-bottom: 0;
       text-overflow: inherit;
       white-space: normal;
     }
@@ -287,13 +282,9 @@
 
   .provider-info {
 
-    .photo {
+    .avatar {
       width: 56px;
       height: 56px;
-      -webkit-border-radius: 50%;
-      -moz-border-radius: 50%;
-      border-radius: 50%;
-      background-size: cover;
     }
 
     .name {
