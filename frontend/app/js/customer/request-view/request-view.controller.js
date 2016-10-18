@@ -9,15 +9,14 @@
         '$stateParams',
         'coreConstants',
         'coreDataservice',
-        'customerDataservice',
         'chatSocketservice',
-        'requestService',
+        'currentRequestService',
         'conf'
     ];
 
     /* @ngInject */
-    function CustomerViewRequestController($stateParams, coreConstants, coreDataservice, customerDataservice,
-                                           chatSocketservice, requestService, conf) {
+    function CustomerViewRequestController($stateParams, coreConstants, coreDataservice, chatSocketservice,
+                                           currentRequestService, conf) {
         var promises = {
             getRequest: null
         };
@@ -71,12 +70,14 @@
 
         activate();
 
-        function getRequestById(requestId) {
+        function getRequestById(request) {
             if (promises.getRequest) {
                 promises.getRequest.cancel();
             }
 
-            promises.getRequest = customerDataservice.getRequest(requestId);
+            var userType = 'specialist';
+
+            promises.getRequest = coreDataservice.getRequest(userType, request);
 
             return promises.getRequest
                 .then(function (response) {
@@ -86,14 +87,14 @@
         }
 
         function getRequest() {
-            var currentRequestId = {
+            var currentRequest = {
                 id: vm.currentRequestId
             };
 
-            return getRequestById(currentRequestId)
+            return getRequestById(currentRequest)
                 .then(function (request) {
                     vm.request = request;
-                    requestService.setRequest(vm.request);
+                    currentRequestService.setRequest(vm.request);
 
                     vm.map.center.latitude = vm.request.location.latitude;
                     vm.map.center.longitude = vm.request.location.longitude;
@@ -116,7 +117,7 @@
 
         function listenRequestEvent() {
             chatSocketservice.onRequest(function (request, type) {
-                if (type !== 'update') {
+                if (type !== 'update' || vm.request.id !== request.id) {
 
                     return;
                 }
