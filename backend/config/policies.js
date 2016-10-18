@@ -169,5 +169,13 @@ module.exports.policies = {
             'isSocketRequest',
             'hasJsonWebToken'
         ]
+    },
+
+    AdminController: {
+        '*': [
+            'hasJsonWebToken',
+            'isUserEnabled',
+            'isUserAdmin'
+        ]
     }
 };
