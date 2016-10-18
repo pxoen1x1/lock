@@ -177,40 +177,6 @@ let RequestController = {
                 }
             );
     },
-    getSpecialistRequestById(req, res) {
-        let requestId = req.params.requestId;
-
-        let user = req.session.user.id;
-
-        if (!requestId) {
-
-            return res.badRequest({
-                message: req.__('Request is not defined.')
-            });
-        }
-
-        RequestService.getRequestById({id: requestId})
-            .then(
-                (foundRequest) => {
-                    if (foundRequest.executor.id !== user) {
-                        let hiddenLocation = HelperService.hideLocation(foundRequest.location);
-
-                        foundRequest.location = hiddenLocation;
-                    }
-
-                    return res.ok({
-                        request: foundRequest
-                    });
-                }
-            )
-            .catch(
-                (err) => {
-                    sails.log.error(err);
-
-                    res.serverError();
-                }
-            );
-    },
     createRequest(req, res) {
         let newRequest = req.body.request;
 
