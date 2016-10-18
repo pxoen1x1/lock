@@ -268,11 +268,10 @@ let RequestController = {
             )
             .then(
                 (request) => {
-                    let clientRoomName = `user_${request.owner.id}`;
                     let specialistRoomName = `user_${request.executor.id}`;
 
                     sails.sockets.broadcast(
-                        [clientRoomName, specialistRoomName],
+                        specialistRoomName,
                         'request',
                         {
                             type: 'update',
