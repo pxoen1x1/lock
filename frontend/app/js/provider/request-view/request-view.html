@@ -10,7 +10,7 @@
                                 zoom="vm.map.zoom"
                                 options="vm.map.options">
               <ui-gmap-marker
-                  coords="vm.map.center"
+                  coords="vm.map.marker.center"
                   options="vm.map.marker"
                   idKey="0"
                   fit="false">
@@ -28,7 +28,7 @@
           </div>
           <div class="info-column">
             <b>For date:</b>
-            <span ng-bind="vm.request.forDate ? (vm.request.forDate | date : 'MM/dd/yyyy H:mm a') : 'Now'"></span>
+            <span ng-bind="vm.request.forDate ? (vm.request.forDate | date : vm.dateFormat) : 'Now'"></span>
           </div>
           <div class="info-column">
             <b>Address:</b>

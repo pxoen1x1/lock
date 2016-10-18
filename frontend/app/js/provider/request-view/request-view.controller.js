@@ -17,6 +17,8 @@
 
         vm.request = {};
 
+        vm.currentRequestId = $stateParams.requestId;
+
         vm.map = {
             center: {
                 latitude: null,
@@ -32,6 +34,10 @@
                 disableDoubleClickZoom: true
             },
             marker: {
+                center: {
+                    latitude: null,
+                    longitude: null
+                },
                 icon: {
                     url: coreConstants.IMAGES.currentLocationMarker,
                     scaledSize: {
@@ -46,16 +52,16 @@
             }
         };
 
-        vm.currentRequestId = $stateParams.requestId;
+        vm.dateFormat = coreConstants.DATE_FORMAT;
 
         activate();
 
-        function getRequestById(requestId) {
+        function getRequestById(request) {
             if (promises.getRequest) {
                 promises.getRequest.cancel();
             }
 
-            promises.getRequest = serviceProviderDataservice.getRequest(requestId);
+            promises.getRequest = serviceProviderDataservice.getRequest(request);
 
             return promises.getRequest
                 .then(function (response) {
@@ -65,11 +71,11 @@
         }
 
         function getRequest() {
-            var currentRequestId = {
+            var currentRequest = {
                 id: vm.currentRequestId
             };
 
-            getRequestById(currentRequestId)
+            getRequestById(currentRequest)
                 .then(function (request) {
                     vm.request = request;
                     requestService.setRequest(vm.request);
