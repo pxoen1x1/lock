@@ -14,9 +14,27 @@ let getUsersRawQuery = `SELECT  user.id,
                     user.is_email_confirmed AS isEmailConfirmed,
                     user.portrait,
                     user.createdAt,
-                    auth.email AS 'auth.email'
+                    auth.id AS 'auth.id',
+                    auth.email AS 'auth.email',
+                    address.id AS 'address.id',
+                    address.address AS 'address.address',
+                    address.zip AS 'address.zip',
+                    address_city.id AS 'address.city.id',
+                    address_city.city AS 'address.city.city',
+                    address_city.zip AS 'address.city.zip',
+                    address_city.lat AS 'address.city.lat',
+                    address_city.lng AS 'address.city.lng',
+                    address_state.id AS 'address.state.id',
+                    address_state.state AS 'address.state.state',
+                    address_state.code AS 'address.state.code',
+                    details.id AS 'details.id',
+                    details.is_available AS 'details.isAvailable'
             FROM users as user
-            LEFT JOIN auth ON auth.user = user.id`;
+            LEFT JOIN auth ON auth.user = user.id
+            LEFT JOIN addresses AS address ON address.user_id = user.id
+            LEFT JOIN cities AS address_city ON address_city.id = address.city_id
+            LEFT JOIN states AS address_state ON address_state.id = address.state_id
+            LEFT JOIN user_details AS details ON details.user_id = user.id`;
 
 let AdminService = {
     getUsers(criteria) {

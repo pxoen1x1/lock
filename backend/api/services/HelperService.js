@@ -75,12 +75,14 @@ let HelperService = {
             return typeof criteria;
         }
 
-        let query = ` WHERE`;
+        let query = ``;
 
         let criteriaKeys = Object.keys(criteria);
         let index = 0;
 
         if (criteriaKeys.length > 0) {
+            query = ` WHERE`;
+
             criteriaKeys.forEach(
                 (key) => {
                     let criterion = {};

@@ -13,18 +13,22 @@ let AdminController = {
     getUsers(req, res) {
         let params = req.allParams();
         let sorting = params.order || 'createdAt DESC';
-        let where = params.where || {is_enabled: true};
 
         let pagination = {};
         pagination.limit = params.limit || sails.config.application.queryLimit;
         pagination.page = params.page || 1;
 
         let criteria = {
-            where: where,
+            where: {},
             sorting: sorting,
             skip: (pagination.page - 1) * pagination.limit,
             limit: pagination.limit
         };
+        if (params.isEnabled) {
+            criteria.where = {
+                is_enabled: params.isEnabled === 'true'
+            }
+        }
 
         AdminService.getUsers(criteria)
             .then(
