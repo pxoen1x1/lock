@@ -55,7 +55,8 @@
                         current-chat="vm.currentChat"
                         scroll-chat-disabled="vm.isScrollDisabled"
                         scroll-chat-to-bottom="vm.isScrollToBottomEnabled"
-                        load-prev-messages="vm.loadPrevMessages(currentChat)">
+                        load-prev-messages="vm.loadPrevMessages(currentChat)"
+                        change-current-request="vm.changeCurrentRequest(request)">
   </specialist-chat-list>
 </div>
 <div class="view chats-view animate-slide-right"
@@ -72,6 +73,7 @@
                        bids="vm.bids"
                        current-request="vm.currentRequest"
                        current-bid="vm.currentBid"
-                       select-specialist="vm.selectSpecialist(specialist)">
+                       select-specialist="vm.selectSpecialist(specialist)"
+                       change-current-request="vm.changeCurrentRequest(request)">
   </specialist-bid-list>
 </div>
