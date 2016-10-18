@@ -40,13 +40,8 @@ let BidController = {
     getSpecialistBids(req, res) {
         let specialist = req.session.user.id;
 
-        let criteria = {
-            where: {
-                specialist_id: specialist
-            }
-        };
-
-        BidService.getSpecialistBids(criteria)
+        Bid.findBySpecialist(specialist)
+            .populateAll()
             .then(
                 (bids) => res.ok(
                     {
