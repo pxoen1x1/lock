@@ -180,6 +180,8 @@ let RequestController = {
     getSpecialistRequestById(req, res) {
         let requestId = req.params.requestId;
 
+        let user = req.session.user.id;
+
         if (!requestId) {
 
             return res.badRequest({
@@ -190,23 +192,10 @@ let RequestController = {
         RequestService.getRequestById({id: requestId})
             .then(
                 (foundRequest) => {
-                    if (!foundRequest) {
+                    if (!foundRequest.executor || foundRequest.executor.id !== user) {
+                        let hiddenLocation = HelperService.hideLocation(foundRequest.location);
 
-                        return res.notFound({
-                            message: req.__('Request is not found.')
-                        });
-                    }
-
-                    if (!foundRequest.isPublic || (foundRequest.executorId && foundRequest.executorId !== req.session.user.id)) {
-
-                        return res.forbidden({
-                            message: req.__('Request is not public.')
-                        });
-                    }
-
-                    if (foundRequest.status === sails.config.requests.STATUSES.NEW) {
-
-                        //!ToDo: randomize location
+                        foundRequest.location = hiddenLocation;
                     }
 
                     return res.ok({
@@ -313,11 +302,10 @@ let RequestController = {
             )
             .then(
                 (request) => {
-                    let clientRoomName = `user_${request.owner.id}`;
                     let specialistRoomName = `user_${request.executor.id}`;
 
                     sails.sockets.broadcast(
-                        [clientRoomName, specialistRoomName],
+                        specialistRoomName,
                         'request',
                         {
                             type: 'update',

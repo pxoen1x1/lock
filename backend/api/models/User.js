@@ -73,6 +73,11 @@ let User = {
             },
             columnName: 'email_confirmation_token'
         },
+        isAdmin: {
+            type: 'boolean',
+            defaultsTo: false,
+            columnName: 'is_admin'
+        },
 
         address: {
             collection: 'Address',

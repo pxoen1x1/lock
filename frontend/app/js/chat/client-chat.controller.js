@@ -14,13 +14,13 @@
         'coreDataservice',
         'currentUserService',
         'chatSocketservice',
-        'requestService',
+        'currentRequestService',
         'conf'
     ];
 
     /* @ngInject */
     function ClientChatController($q, $state, $stateParams, $mdSidenav, coreConstants, coreDataservice,
-                                  currentUserService, chatSocketservice, requestService, conf) {
+                                  currentUserService, chatSocketservice, currentRequestService, conf) {
         var currentRequestId = $stateParams.requestId;
         var chatPaginationOptions = coreConstants.CHAT_PAGINATION_OPTIONS;
         var vm = this;
@@ -83,9 +83,12 @@
                 });
         }
 
-        function getRequest(request) {
+        function getRequest(requestId) {
+            var request = {
+                id: requestId
+            };
 
-            return requestService.getRequest(request)
+            return currentRequestService.getRequest(request)
                 .then(function (request) {
                     vm.currentRequest = request;
                 });
@@ -199,7 +202,7 @@
                 })
                 .then(function (updatedRequest) {
                     vm.currentRequest = updatedRequest;
-                    requestService.setRequest(updatedRequest);
+                    currentRequestService.setRequest(updatedRequest);
 
                     $state.go('customer.requests.request.view');
 

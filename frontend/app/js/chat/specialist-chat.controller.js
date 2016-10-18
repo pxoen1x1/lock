@@ -18,11 +18,15 @@
     /* @ngInject */
     function SpecialistChatController($mdSidenav, $mdDialog, coreConstants, coreDataservice,
                                       chatSocketservice, currentUserService, conf) {
+        var promises = {
+            getRequest: null
+        };
         var chatPaginationOptions = coreConstants.CHAT_PAGINATION_OPTIONS;
         var vm = this;
 
         vm.chats = [];
         vm.messages = {};
+        vm.requests = {};
 
         vm.currentUser = {};
         vm.currentChat = null;
@@ -48,6 +52,7 @@
 
         vm.toggleSidenav = toggleSidenav;
         vm.loadPrevMessages = loadPrevMessages;
+        vm.changeCurrentRequest = changeCurrentRequest;
         vm.openOfferDialog = openOfferDialog;
         vm.updateRequestStatus = updateRequestStatus;
         vm.reply = reply;
@@ -81,7 +86,9 @@
                     return;
                 }
 
-                if (vm.currentRequest) {
+                vm.requests[request.id] = request;
+
+                if (vm.currentRequest && vm.currentRequest.id === request.id) {
                     vm.currentRequest = request;
                 }
             });
@@ -93,6 +100,22 @@
                 .then(function (messages) {
 
                     return messages;
+                });
+        }
+
+        function getRequest(request) {
+            if (promises.getRequest) {
+                promises.getRequest.cancel();
+            }
+
+            var userType = 'specialist';
+
+            promises.getRequest = coreDataservice.getRequest(userType, request);
+
+            return promises.getRequest
+                .then(function (response) {
+
+                    return response.data.request;
                 });
         }
 
@@ -132,6 +155,27 @@
                 .then(function (message) {
 
                     return message;
+                });
+        }
+
+        function changeCurrentRequest(request) {
+            if (!request || !request.id) {
+
+                return;
+            }
+
+            if (vm.requests[request.id]) {
+                vm.currentRequest = vm.requests[request.id];
+
+                return;
+            }
+
+            return getRequest(request)
+                .then(function (request) {
+                    vm.requests[request.id] = request;
+                    vm.currentRequest = request;
+
+                    return request;
                 });
         }
 
