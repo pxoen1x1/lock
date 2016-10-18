@@ -11,7 +11,6 @@
     function customerDataservice($http, request, conf) {
         var service = {
             getAllRequests: getAllRequests,
-            getRequest: getRequest,
             getSpecialists: getSpecialists,
             createRequest: createRequest,
             updateUser: updateUser
@@ -25,14 +24,6 @@
                 url: conf.BASE_URL + conf.URL_PREFIX + 'client/requests',
                 method: 'GET',
                 params: params
-            });
-        }
-
-        function getRequest(currentRequest) {
-
-            return request.httpWithTimeout({
-                url: conf.BASE_URL + conf.URL_PREFIX + 'client/requests/' + currentRequest.id,
-                method: 'GET'
             });
         }
 
