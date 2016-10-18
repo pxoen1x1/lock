@@ -192,7 +192,7 @@ let RequestController = {
         RequestService.getRequestById({id: requestId})
             .then(
                 (foundRequest) => {
-                    if (foundRequest.executor.id !== user) {
+                    if (!foundRequest.executor || foundRequest.executor.id !== user) {
                         let hiddenLocation = HelperService.hideLocation(foundRequest.location);
 
                         foundRequest.location = hiddenLocation;
