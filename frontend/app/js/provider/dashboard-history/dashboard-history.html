@@ -14,11 +14,12 @@
                  md-order="vm.queryOptions.orderBy"
                  md-on-reorder="vm.getRequests">
           <tr md-row>
-            <th md-column>
-              <span>Customer</span>
+            <th md-column
+                md-order-by="createdAt">
+              <span>Date</span>
             </th>
             <th md-column>
-              <span>Date</span>
+              <span>Customer</span>
             </th>
             <th md-column>
               <span>Type of service</span>
@@ -40,6 +41,9 @@
           <tr md-row
               ui-sref="provider.dashboard.request.view({ requestId: request.id })"
               ng-repeat="request in vm.requests track by request.id">
+            <td md-cell>
+              <span ng-bind="request.createdAt | altDate"></span>
+            </td>
             <td class="td-customer"
                 layout="row"
                 layout-align="start center"
@@ -53,9 +57,6 @@
               <div class="contact-name" flex>
                 <span ng-bind="request.owner.fullName"></span>
               </div>
-            </td>
-            <td md-cell>
-              <span ng-bind="request.createdAt | altDate"></span>
             </td>
             <td md-cell>
               <span ng-bind="request.serviceType.name"></span>

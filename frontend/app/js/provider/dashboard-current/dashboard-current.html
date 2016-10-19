@@ -14,8 +14,9 @@
                  md-order="vm.queryOptions.orderBy"
                  md-on-reorder="vm.getRequests">
           <tr md-row>
-            <th md-column>
-              <span>Customer</span>
+            <th md-column
+                md-order-by="createdAt">
+              <span>Created</span>
             </th>
             <th md-column>
               <span>For Date</span>
@@ -40,19 +41,8 @@
           <tr md-row
               ui-sref="provider.dashboard.request.view({ requestId: request.id })"
               ng-repeat="request in vm.requests track by request.id">
-            <td class="td-customer"
-                layout="row"
-                layout-align="start center"
-                md-cell>
-              <div class="avatar-wrapper">
-                <div class="avatar"
-                     ng-style="{ 'background-image': 'url(' + (request.owner.portrait ?
-                   vm.baseUrl + request.owner.portrait : vm.defaultPortrait) + ')' }">
-                </div>
-              </div>
-              <div class="contact-name" flex>
-                <span ng-bind="request.owner.fullName"></span>
-              </div>
+            <td md-cell>
+              <span ng-bind="request.createdAt | altDate"></span>
             </td>
             <td md-cell>
               <span ng-bind="request.forDate ? (request.forDate | date: vm.dateFormat) : 'Now'"></span>

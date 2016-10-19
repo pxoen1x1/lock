@@ -21,7 +21,7 @@
         vm.requestStatus = coreConstants.REQUEST_STATUSES;
 
         vm.queryOptions = {
-            orderBy: '-updatedAt',
+            orderBy: '-createdAt',
             limit: vm.paginationOptions.limit,
             page: 1,
             totalCount: 0
@@ -47,7 +47,7 @@
 
         function getRequests() {
             var queryOptions = {
-                status: '!5',
+                status: '!' + coreConstants.REQUEST_STATUSES.CLOSED,
                 order: vm.queryOptions.orderBy.replace(/-(\w+)/, '$1 DESC'),
                 limit: vm.queryOptions.limit,
                 page: vm.queryOptions.page
