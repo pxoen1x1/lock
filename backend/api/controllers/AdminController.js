@@ -1,4 +1,4 @@
-/* global sails, User, AdminService */
+/* global sails, AdminService */
 
 /**
  * AdminController
@@ -24,10 +24,11 @@ let AdminController = {
             skip: (pagination.page - 1) * pagination.limit,
             limit: pagination.limit
         };
+
         if (params.isEnabled) {
             criteria.where = {
                 is_enabled: params.isEnabled === 'true'
-            }
+            };
         }
 
         AdminService.getUsers(criteria)

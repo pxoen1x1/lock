@@ -10,7 +10,8 @@
     /* @ngInject */
     function serviceProviderDataservice($http, request, conf) {
         var service = {
-            getRequests: getRequests
+            getRequests: getRequests,
+            getRequest: getRequest
         };
 
         return service;
@@ -21,6 +22,14 @@
                 url: conf.BASE_URL + conf.URL_PREFIX + 'specialist/requests',
                 method: 'GET',
                 params: params
+            });
+        }
+
+        function getRequest(currentRequest) {
+
+            return request.httpWithTimeout({
+                url: conf.BASE_URL + conf.URL_PREFIX + 'specialist/requests/' + currentRequest.id,
+                method: 'GET'
             });
         }
     }

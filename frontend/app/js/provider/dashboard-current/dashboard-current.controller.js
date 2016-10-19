@@ -5,16 +5,18 @@
         .module('app.provider')
         .controller('ProviderDashboardCurrentController', ProviderDashboardCurrentController);
 
-    ProviderDashboardCurrentController.$inject = ['coreConstants', 'serviceProviderDataservice'];
+    ProviderDashboardCurrentController.$inject = ['coreConstants', 'serviceProviderDataservice', 'conf'];
 
     /* @ngInject */
-    function ProviderDashboardCurrentController(coreConstants, serviceProviderDataservice) {
+    function ProviderDashboardCurrentController(coreConstants, serviceProviderDataservice, conf) {
         var promises = {
             getAllRequests: null
         };
 
         var vm = this;
 
+        vm.baseUrl = conf.BASE_URL;
+        vm.defaultPortrait = coreConstants.IMAGES.defaultPortrait;
         vm.paginationOptions = coreConstants.PAGINATION_OPTIONS;
         vm.requestStatus = coreConstants.REQUEST_STATUSES;
 
