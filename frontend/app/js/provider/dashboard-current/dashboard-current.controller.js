@@ -47,7 +47,7 @@
 
         function getRequests() {
             var queryOptions = {
-                status: '!4',
+                status: '!5',
                 order: vm.queryOptions.orderBy.replace(/-(\w+)/, '$1 DESC'),
                 limit: vm.queryOptions.limit,
                 page: vm.queryOptions.page
