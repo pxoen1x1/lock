@@ -61,10 +61,10 @@
               <span ng-bind="request.serviceType.name"></span>
             </td>
             <td md-cell>
-              <span ng-bind="request.language.name"></span>
+              <span ng-bind="request.language.name ? request.language.name : '–'"></span>
             </td>
             <td class="text-truncate td-description" md-cell>
-              <span ng-bind="request.description"></span>
+              <span ng-bind="request.description ? request.description : '–'"></span>
             </td>
             <td class="td-cost" md-cell>
               ~<span ng-bind="request.location | distance"></span>

@@ -15,20 +15,26 @@
                  md-on-reorder="vm.getRequests">
           <tr md-row>
             <th md-column
-                md-order-by="updatedAt">
-              <span>Date</span>
+                md-order-by="createdAt">
+              <span>Created</span>
             </th>
-            <th md-column
-                md-order-by="serviceType"
-                ng-show="$mdMedia('gt-xs')">
+            <th md-column>
+              <span>For Date</span>
+            </th>
+            <th md-column>
               <span>Type of service</span>
             </th>
-            <th md-column>Location</th>
+            <th md-column>
+              <span>Location</span>
+            </th>
+            <th md-column
+                md-order-by="cost">
+              <span>Cost</span>
+            </th>
             <th md-column
                 md-order-by="status">
               <span>Status</span>
             </th>
-            <th md-column>Cost</th>
           </tr>
           </thead>
           <tbody md-body>
@@ -38,22 +44,17 @@
             <td md-cell>
               <span ng-bind="request.createdAt | altDate"></span>
             </td>
-            <td md-cell
-                ng-show="$mdMedia('gt-xs')">
+            <td md-cell>
+              <span ng-bind="request.forDate ? (request.forDate | date: vm.dateFormat) : 'Now'"></span>
+            </td>
+            <td md-cell>
               <span ng-bind="request.serviceType.name"></span>
             </td>
-            <td class="td-location"
-                md-cell
-                ng-show="$mdMedia('gt-xs')">
+            <td class="text-truncate td-description" md-cell>
               <span ng-bind="request.location.address"></span>
             </td>
-            <td md-cell
-                ng-hide="$mdMedia('gt-xs')">
-              <md-button class="md-icon-button" aria-label="Location">
-                <md-icon class="material-icons">
-                  <i class="material-icons">place</i>
-                </md-icon>
-              </md-button>
+            <td class="td-cost" md-cell>
+              <span ng-bind="request.cost ? '$' + request.cost : '–'"></span>
             </td>
             <td class="request-status"
                 md-cell
@@ -64,9 +65,6 @@
                   'closed': request.status === vm.requestStatus.CLOSED
                 }">
               <span ng-bind="vm.requestStatus[request.status]"></span>
-            </td>
-            <td class="td-cost" md-cell>
-              <span ng-bind="request.cost ? '$' + request.cost : '–'"></span>
             </td>
           </tr>
           </tbody>
