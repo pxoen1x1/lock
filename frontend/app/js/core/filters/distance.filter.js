@@ -12,6 +12,11 @@
         var serviceInvoked = false;
 
         function distanceSyncFilter(location) {
+            if (!location || !location.latitude || !location.longitude) {
+
+                return ' ';
+            }
+
             var distance = geocoderService.getDistance(
                 currentPosition.latitude, currentPosition.longitude,
                 location.latitude, location.longitude
