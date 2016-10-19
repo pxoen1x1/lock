@@ -1,10 +1,33 @@
 <div class="container view-content">
-  <div class="container-title"><i class="material-icons">list</i> <span>Request</span></div>
+  <div class="container-title" layout="row" layout-align="start center">
+    <div>
+      <i class="material-icons">list</i> <span>Request</span>
+    </div>
+    <div class="text-right secondary-text" flex>
+      <span ng-bind="vm.request.createdAt | date : vm.dateFormat"></span>
+    </div>
+  </div>
   <div class="container-content">
     <div class="request-info">
       <div class="title md-headline">Details</div>
+      <div class="provider-info m-b-s" layout="row" layout-align="start center">
+        <div class="avatar-wrapper">
+          <div class="avatar"
+               ng-style="{ 'background-image': 'url(' + (vm.request.owner.portrait ?
+               vm.baseUrl + vm.request.owner.portrait : vm.defaultPortrait) + ')' }">
+          </div>
+        </div>
+        <div flex
+             layout="column"
+             layout-align="center none">
+          <div ng-bind="vm.request.owner.fullName"></div>
+          <div>
+            Phone: <span ng-bind="vm.request.owner.phoneNumber | tel"></span>
+          </div>
+        </div>
+      </div>
       <div layout="row">
-        <div class="map-wrapper" flex="35">
+        <div class="map-wrapper" flex="40">
           <a ui-sref="provider.dashboard.request.map($stateParams)">
             <ui-gmap-google-map center="vm.map.center"
                                 zoom="vm.map.zoom"
@@ -20,19 +43,93 @@
         </div>
         <div class="info-row"
              layout="column"
-             layout-align="center start"
-             flex="65">
-          <div class="info-column">
-            <b>Needed service:</b>
-            <span ng-bind="vm.request.serviceType.name"></span>
+             layout-align="start none"
+             flex="60">
+          <div class="info-column"
+               layout="row"
+               layout-align="start center">
+            <div>
+              <b>Status:</b>
+            </div>
+            <div class="request-status text-capitalize text-right"
+                 flex
+                 ng-class="{
+                    'new': vm.request.status === vm.requestStatus.NEW,
+                    'pending': vm.request.status === vm.requestStatus.PENDING,
+                    'in-progress': vm.request.status === vm.requestStatus.IN_PROGRESS || vm.request.status === vm.requestStatus.DONE,
+                    'closed': vm.request.status === vm.requestStatus.CLOSED
+                  }">
+              <span ng-bind="vm.requestStatus[vm.request.status]">
+              </span>
+            </div>
           </div>
-          <div class="info-column">
-            <b>For date:</b>
-            <span ng-bind="vm.request.forDate ? (vm.request.forDate | date : vm.dateFormat) : 'Now'"></span>
+          <div class="info-column"
+               layout="row">
+            <div>
+              <b>Needed service:</b>
+            </div>
+            <div class="text-right" flex>
+              <span ng-bind="vm.request.serviceType.name"></span>
+            </div>
           </div>
-          <div class="info-column">
-            <b>Address:</b>
-            <span ng-bind="vm.request.location.address"></span>
+          <div class="info-column"
+               layout="row">
+            <div>
+              <b>For date:</b>
+            </div>
+            <div class="text-right" flex>
+              <span ng-bind="vm.request.forDate ? (vm.request.forDate | date : vm.dateFormat) : 'Now'"></span>
+            </div>
+          </div>
+          <div class="info-column"
+               layout="row"
+               ng-if="vm.request.cost">
+            <div>
+              <b>Cost:</b>
+            </div>
+            <div class="text-right" flex>
+              $ <span ng-bind="vm.request.cost"></span>
+            </div>
+          </div>
+          <div class="info-column"
+               layout="row"
+               ng-if="vm.request.location.address">
+            <div>
+              <b>Address:</b>
+            </div>
+            <div class="text-right" flex>
+              <span ng-bind="vm.request.location.address"></span>
+            </div>
+          </div>
+          <div class="info-column"
+               layout="row"
+               ng-if="!vm.request.location.address">
+            <div>
+              <b>Distance:</b>
+            </div>
+            <div class="text-right" flex>
+              ~ <span ng-bind="vm.request.location | distance"></span> mi
+            </div>
+          </div>
+          <div class="info-column"
+               layout="row"
+               ng-if="vm.request.language.name">
+            <div>
+              <b>Language:</b>
+            </div>
+            <div class="text-right" flex>
+              <span ng-bind="vm.request.language.name"></span>
+            </div>
+          </div>
+          <div class="info-column"
+               layout="row"
+               ng-if="vm.request.description">
+            <div>
+              <b>Description:</b>
+            </div>
+            <div flex>
+              <span ng-bind="vm.request.description"></span>
+            </div>
           </div>
         </div>
       </div>

@@ -5,10 +5,12 @@
         .module('app.provider')
         .controller('ProviderViewRequestController', ProviderViewRequestController);
 
-    ProviderViewRequestController.$inject = ['$stateParams', 'coreConstants', 'serviceProviderDataservice', 'requestService'];
+    ProviderViewRequestController.$inject =
+        ['$stateParams', 'coreConstants', 'serviceProviderDataservice', 'requestService', 'conf'];
 
     /* @ngInject */
-    function ProviderViewRequestController($stateParams, coreConstants, serviceProviderDataservice, requestService) {
+    function ProviderViewRequestController($stateParams, coreConstants, serviceProviderDataservice, requestService,
+                                           conf) {
         var promises = {
             getRequest: null
         };
@@ -52,7 +54,10 @@
             }
         };
 
+        vm.baseUrl = conf.BASE_URL;
         vm.dateFormat = coreConstants.DATE_FORMAT;
+        vm.defaultPortrait = coreConstants.IMAGES.defaultPortrait;
+        vm.requestStatus = coreConstants.REQUEST_STATUSES;
 
         activate();
 
@@ -83,6 +88,8 @@
                     vm.map.center.latitude = vm.request.location.latitude;
                     vm.map.center.longitude = vm.request.location.longitude;
 
+                    vm.map.marker.center.latitude = vm.request.location.latitude;
+                    vm.map.marker.center.longitude = vm.request.location.longitude;
 
                     return vm.request;
                 });
