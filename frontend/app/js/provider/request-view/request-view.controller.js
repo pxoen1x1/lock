@@ -6,11 +6,11 @@
         .controller('ProviderViewRequestController', ProviderViewRequestController);
 
     ProviderViewRequestController.$inject =
-        ['$stateParams', 'coreConstants', 'serviceProviderDataservice', 'requestService', 'conf'];
+        ['$stateParams', 'coreConstants', 'serviceProviderDataservice', 'currentRequestService', 'conf'];
 
     /* @ngInject */
-    function ProviderViewRequestController($stateParams, coreConstants, serviceProviderDataservice, requestService,
-                                           conf) {
+    function ProviderViewRequestController($stateParams, coreConstants, serviceProviderDataservice,
+                                           currentRequestService, conf) {
         var promises = {
             getRequest: null
         };
@@ -83,7 +83,7 @@
             getRequestById(currentRequest)
                 .then(function (request) {
                     vm.request = request;
-                    requestService.setRequest(vm.request);
+                    currentRequestService.setRequest(vm.request);
 
                     vm.map.center.latitude = vm.request.location.latitude;
                     vm.map.center.longitude = vm.request.location.longitude;
