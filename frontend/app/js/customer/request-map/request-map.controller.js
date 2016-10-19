@@ -28,7 +28,7 @@
         };
         var requestLocationMarker = {
             icon: {
-                url: coreConstants.IMAGES.currentLocationMarker,
+                url: coreConstants.IMAGES.requestLocationMarker,
                 scaledSize: {
                     width: 30,
                     height: 30
