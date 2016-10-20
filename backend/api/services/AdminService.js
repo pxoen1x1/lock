@@ -1,4 +1,4 @@
-/* global sails, User, Auth, Address, UserDetail, Request, Feedback, Chat, Bid, Message, HelperService */
+/* global User, Auth, Address, UserDetail, Request, Feedback, Chat, Bid, Message, HelperService */
 
 'use strict';
 
@@ -35,6 +35,13 @@ let getUsersRawQuery = `SELECT  user.id,
             LEFT JOIN cities AS address_city ON address_city.id = address.city_id
             LEFT JOIN states AS address_state ON address_state.id = address.state_id
             LEFT JOIN user_details AS details ON details.user_id = user.id`;
+let getUsersCountRawQuery = `SELECT COUNT(user.id) AS count
+            FROM users as user
+            LEFT JOIN auth ON auth.user = user.id
+            LEFT JOIN addresses AS address ON address.user_id = user.id
+            LEFT JOIN cities AS address_city ON address_city.id = address.city_id
+            LEFT JOIN states AS address_state ON address_state.id = address.state_id
+            LEFT JOIN user_details AS details ON details.user_id = user.id`;
 
 let AdminService = {
     getUsers(criteria) {
@@ -52,10 +59,14 @@ let AdminService = {
             );
     },
     getUsersCount(criteria) {
+        let tableAlias = '';
+        let rawQuery = HelperService.buildQuery(getUsersCountRawQuery, criteria, tableAlias);
 
-        return User.count(criteria)
+        let usersCountQueryAsync = promise.promisify(User.query);
+
+        return usersCountQueryAsync(rawQuery)
             .then(
-                (count) => count
+                (count) => count[0].count
             );
     },
     deleteUser(userId) {

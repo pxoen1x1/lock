@@ -1,4 +1,4 @@
-/* global sails, User, AdminService */
+/* global sails, AdminService */
 
 /**
  * AdminController
@@ -25,9 +25,12 @@ let AdminController = {
             limit: pagination.limit
         };
         if (params.isEnabled) {
-            criteria.where = {
-                is_enabled: params.isEnabled === 'true'
-            }
+            criteria.where['user.is_enabled'] = params.isEnabled === 'true';
+        }
+        if (params.isProvider === 'true') {
+            criteria.where['details.id'] = { 'IS NOT' : 'null'};
+        } else if (params.isProvider === 'false') {
+            criteria.where['details.id'] = { 'IS' : 'null'};
         }
 
         AdminService.getUsers(criteria)
