@@ -5,7 +5,7 @@
         .module('app.admin')
         .factory('adminDataservice', adminDataservice);
 
-    adminDataservice.$inject = ['$http', 'request', 'conf'];
+    adminDataservice.$inject = ['request', 'conf'];
 
     /* @ngInject */
     function adminDataservice(request, conf) {
