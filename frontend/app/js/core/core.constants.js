@@ -19,12 +19,15 @@
             USER_TYPES: {
                 'CLIENT': 1,
                 'SPECIALIST': 2,
+                'ADMIN': 3,
                 1: 'client',
-                2: 'specialist'
+                2: 'specialist',
+                3: 'admin'
             },
             USER_TYPE_DEFAULT_STATE: {
                 1: 'customer.newRequest',
-                2: 'provider.dashboard'
+                2: 'provider.dashboard',
+                3: 'admin.dashboard'
             },
             REQUEST_STATUSES: {
                 1: 'new',

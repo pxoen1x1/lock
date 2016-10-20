@@ -106,7 +106,9 @@
         }
 
         function setCurrentUserType(currentUser) {
-            if (currentUser.details && currentUser.details.id) {
+            if (currentUser.isAdmin) {
+                userType = coreConstants.USER_TYPES.ADMIN;
+            } else if (currentUser.details && currentUser.details.id) {
                 userType = coreConstants.USER_TYPES.SPECIALIST;
             } else {
                 userType = coreConstants.USER_TYPES.CLIENT;
