@@ -171,6 +171,57 @@
                     }
                 }
             })
-        ;
+            .state('provider.dashboard.request', {
+                parent: 'provider.dashboard',
+                abstract: true,
+                url: '/{requestId:int}',
+                views: {
+                    'content@provider': {
+                        templateUrl: 'provider/request/request.html',
+                        controller: 'ProviderRequestController',
+                        controllerAs: 'vm'
+                    }
+                },
+                data: {
+                    title: '',
+                    isPrivate: true
+                }
+            })
+            .state('provider.dashboard.request.view', {
+                parent: 'provider.dashboard.request',
+                url: '/view',
+                views: {
+                    'content@provider.dashboard.request': {
+                        templateUrl: 'provider/request-view/request-view.html',
+                        controller: 'ProviderViewRequestController',
+                        controllerAs: 'vm'
+                    }
+                },
+                data: {
+                    title: 'Request',
+                    tab: {
+                        title: 'View',
+                        icon: 'list'
+                    }
+                }
+            })
+            .state('provider.dashboard.request.map', {
+                parent: 'provider.dashboard.request',
+                url: '/map',
+                views: {
+                    'content@provider.dashboard.request': {
+                        templateUrl: 'provider/request-map/request-map.html',
+                        controller: 'ProviderRequestMapController',
+                        controllerAs: 'vm'
+                    }
+                },
+                data: {
+                    title: 'Map',
+                    tab: {
+                        title: 'Map',
+                        icon: 'location_on'
+                    }
+                }
+            });
     }
 })();

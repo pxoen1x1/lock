@@ -5,21 +5,23 @@
         .module('app.provider')
         .controller('ProviderDashboardCurrentController', ProviderDashboardCurrentController);
 
-    ProviderDashboardCurrentController.$inject = ['coreConstants', 'serviceProviderDataservice'];
+    ProviderDashboardCurrentController.$inject = ['coreConstants', 'serviceProviderDataservice', 'conf'];
 
     /* @ngInject */
-    function ProviderDashboardCurrentController(coreConstants, serviceProviderDataservice) {
+    function ProviderDashboardCurrentController(coreConstants, serviceProviderDataservice, conf) {
         var promises = {
             getAllRequests: null
         };
 
         var vm = this;
 
+        vm.baseUrl = conf.BASE_URL;
+        vm.defaultPortrait = coreConstants.IMAGES.defaultPortrait;
         vm.paginationOptions = coreConstants.PAGINATION_OPTIONS;
         vm.requestStatus = coreConstants.REQUEST_STATUSES;
 
         vm.queryOptions = {
-            orderBy: '-updatedAt',
+            orderBy: '-createdAt',
             limit: vm.paginationOptions.limit,
             page: 1,
             totalCount: 0
@@ -45,7 +47,7 @@
 
         function getRequests() {
             var queryOptions = {
-                status: '!4',
+                status: '!' + coreConstants.REQUEST_STATUSES.CLOSED,
                 order: vm.queryOptions.orderBy.replace(/-(\w+)/, '$1 DESC'),
                 limit: vm.queryOptions.limit,
                 page: vm.queryOptions.page

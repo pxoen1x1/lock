@@ -13,21 +13,22 @@
         'coreConstants',
         'chatSocketservice',
         'customerDataservice',
-        'requestService',
+        'currentRequestService',
         'geocoderService',
         'conf'
     ];
 
     /* @ngInject */
     function CustomerRequestMapController($state, $timeout, $stateParams, uiGmapIsReady, coreConstants,
-                                        chatSocketservice, customerDataservice, requestService, geocoderService, conf) {
+                                          chatSocketservice, customerDataservice, currentRequestService,
+                                          geocoderService, conf) {
         var currentRequestId = $stateParams.requestId;
         var promises = {
             findSpecialists: null
         };
         var requestLocationMarker = {
             icon: {
-                url: coreConstants.IMAGES.currentLocationMarker,
+                url: coreConstants.IMAGES.requestLocationMarker,
                 scaledSize: {
                     width: 30,
                     height: 30
@@ -100,8 +101,11 @@
         activate();
 
         function getRequest(requestId) {
+            var request = {
+                id: requestId
+            };
 
-            return requestService.getRequest(requestId)
+            return currentRequestService.getRequest(request)
                 .then(function (request) {
 
                     vm.currentRequest = request;

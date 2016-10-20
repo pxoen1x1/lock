@@ -2,20 +2,14 @@
     'use strict';
 
     angular
-        .module('app.customer')
-        .controller('CustomerViewRequestController', CustomerViewRequestController);
+        .module('app.provider')
+        .controller('ProviderViewRequestController', ProviderViewRequestController);
 
-    CustomerViewRequestController.$inject = [
-        '$stateParams',
-        'coreConstants',
-        'coreDataservice',
-        'chatSocketservice',
-        'currentRequestService',
-        'conf'
-    ];
+    ProviderViewRequestController.$inject =
+        ['$stateParams', 'coreConstants', 'serviceProviderDataservice', 'currentRequestService', 'conf'];
 
     /* @ngInject */
-    function CustomerViewRequestController($stateParams, coreConstants, coreDataservice, chatSocketservice,
+    function ProviderViewRequestController($stateParams, coreConstants, serviceProviderDataservice,
                                            currentRequestService, conf) {
         var promises = {
             getRequest: null
@@ -61,12 +55,9 @@
         };
 
         vm.baseUrl = conf.BASE_URL;
+        vm.dateFormat = coreConstants.DATE_FORMAT;
         vm.defaultPortrait = coreConstants.IMAGES.defaultPortrait;
         vm.requestStatus = coreConstants.REQUEST_STATUSES;
-        vm.dateFormat = coreConstants.DATE_FORMAT;
-
-        vm.closeRequest = closeRequest;
-        vm.setRequestStatusAsDone = setRequestStatusAsDone;
 
         activate();
 
@@ -75,9 +66,7 @@
                 promises.getRequest.cancel();
             }
 
-            var userType = 'specialist';
-
-            promises.getRequest = coreDataservice.getRequest(userType, request);
+            promises.getRequest = serviceProviderDataservice.getRequest(request);
 
             return promises.getRequest
                 .then(function (response) {
@@ -91,7 +80,7 @@
                 id: vm.currentRequestId
             };
 
-            return getRequestById(currentRequest)
+            getRequestById(currentRequest)
                 .then(function (request) {
                     vm.request = request;
                     currentRequestService.setRequest(vm.request);
@@ -106,65 +95,8 @@
                 });
         }
 
-        function changeRequestStatus(request, status) {
-
-            return coreDataservice.updateRequestStatus(request, status)
-                .then(function (updatedRequest) {
-
-                    return updatedRequest;
-                });
-        }
-
-        function listenRequestEvent() {
-            chatSocketservice.onRequest(function (request, type) {
-                if (type !== 'update' || vm.request.id !== request.id) {
-
-                    return;
-                }
-
-                vm.request = request;
-            });
-        }
-
-        function closeRequest(request) {
-            if (!request || vm.request.status !== vm.requestStatus.NEW) {
-
-                return;
-            }
-
-            var status = {
-                status: coreConstants.REQUEST_STATUSES.CLOSED
-            };
-
-            return changeRequestStatus(request, status)
-                .then(function (request) {
-                    vm.request = request;
-
-                    return vm.request;
-                });
-        }
-
-        function setRequestStatusAsDone(request) {
-            if (!request || vm.request.status !== vm.requestStatus.DONE) {
-
-                return;
-            }
-
-            var status = {
-                status: coreConstants.REQUEST_STATUSES.CLOSED
-            };
-
-            return changeRequestStatus(request, status)
-                .then(function (request) {
-                    vm.request = request;
-
-                    return vm.request;
-                });
-        }
-
         function activate() {
-            getRequest()
-                .then(listenRequestEvent);
+            getRequest();
         }
     }
 })();

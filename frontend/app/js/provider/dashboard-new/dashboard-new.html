@@ -1,5 +1,5 @@
 <div class="request-list-content">
-  <div class="container request-list-content"
+  <div class="container"
        ng-if="$mdMedia('gt-xs')">
     <div class="container-title">
       <i class="material-icons">list</i>
@@ -38,7 +38,7 @@
           </thead>
           <tbody md-body>
           <tr md-row
-              ui-sref="provider.requests.request.view({ requestId: request.id })"
+              ui-sref="provider.dashboard.request.view({ requestId: request.id })"
               ng-repeat="request in vm.requests track by request.id">
             <td class="td-customer"
                 layout="row"
@@ -61,10 +61,10 @@
               <span ng-bind="request.serviceType.name"></span>
             </td>
             <td md-cell>
-              <span ng-bind="request.language.name"></span>
+              <span ng-bind="request.language.name ? request.language.name : '–'"></span>
             </td>
             <td class="text-truncate td-description" md-cell>
-              <span ng-bind="request.description"></span>
+              <span ng-bind="request.description ? request.description : '–'"></span>
             </td>
             <td class="td-cost" md-cell>
               ~<span ng-bind="request.location | distance"></span>
@@ -95,7 +95,7 @@
             <div class="avatar-wrapper">
               <div class="avatar"
                    ng-style="{ 'background-image': 'url(' + (request.owner.portrait ?
-               vm.baseUrl + request.owner.portrait : vm.defaultPortrait) + ')' }">
+                   vm.baseUrl + request.owner.portrait : vm.defaultPortrait) + ')' }">
               </div>
             </div>
             <div class="contact-name" flex>
@@ -120,7 +120,7 @@
               <span class="md-body-2">Language:</span>
               <span class="md-body-1"
                     ng-bind="request.language.name">
-          </span>
+              </span>
             </div>
           </div>
           <div layout="column"
@@ -129,13 +129,13 @@
               <span class="md-body-2">For Date:</span>
               <span class="md-body-1"
                     ng-bind="request.forDate ? (request.forDate | date: vm.dateFormat) : 'Now'">
-          </span>
+              </span>
             </div>
             <div ng-if="request.location">
               <span class="md-body-2">Distance:</span>
               ~ <span class="md-body-1"
                       ng-bind="request.location | distance">
-          </span> mi
+                </span> mi
             </div>
           </div>
         </div>

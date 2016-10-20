@@ -70,65 +70,6 @@
 
   }
 
-  .view-content {
-
-    .title {
-      margin-bottom: 15px;
-    }
-
-    .info-row {
-      padding-left: 20px;
-    }
-
-    .info-column {
-      padding: 6px 0 6px 0;
-      font-size: 18px;
-
-      div:first-child {
-        margin-right: 5px;
-      }
-    }
-
-    .divider {
-      margin: 30px 0 20px 0;
-    }
-
-    .provider-info {
-
-      .avatar {
-        width: 56px;
-        height: 56px;
-      }
-
-      .name {
-        font-size: 18px;
-        font-weight: 500;
-        padding-left: 24px;
-      }
-
-      .cost {
-        font-size: 18px;
-        font-weight: 600;
-      }
-
-      .button-done {
-        background: #27ad26;
-        min-width: 60px;
-      }
-
-      .button-not-done {
-        background: #ff2432;
-        min-width: 60px;
-      }
-
-      .button-done .material-icons, .button-not-done .material-icons {
-        color: #fff;
-      }
-
-    }
-
-  }
-
   .recommended-content {
     .actions {
       font-size: 15px;

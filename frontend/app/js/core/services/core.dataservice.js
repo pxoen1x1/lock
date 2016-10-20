@@ -17,6 +17,7 @@
             getStates: getStates,
             getCities: getCities,
             getNewRequests: getNewRequests,
+            getRequest: getRequest,
             getAvailabilityInfo: getAvailabilityInfo,
             createUser: createUser,
             login: login,
@@ -84,6 +85,14 @@
                 url: conf.BASE_URL + conf.URL_PREFIX + 'specialist/requests/new',
                 method: 'GET',
                 params: params
+            });
+        }
+
+        function getRequest(userType, currentRequest) {
+
+            return request.httpWithTimeout({
+                url: conf.BASE_URL + conf.URL_PREFIX + userType + '/requests/' + currentRequest.id,
+                method: 'GET'
             });
         }
 

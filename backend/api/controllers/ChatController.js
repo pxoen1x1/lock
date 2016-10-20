@@ -1,4 +1,4 @@
-/* global sails, ChatService */
+/* global sails, Chat, ChatService */
 
 /**
  * ChatController
@@ -39,9 +39,10 @@ let ChatController = {
             );
     },
     getSpecialistChats(req, res) {
-        let user = req.session.user.id;
+        let specialist = req.session.user.id;
 
-        ChatService.getSpecialistChats({specialist_id: user})
+        Chat.findBySpecialist(specialist)
+            .populateAll()
             .then(
                 (chats) => res.ok(
                     {

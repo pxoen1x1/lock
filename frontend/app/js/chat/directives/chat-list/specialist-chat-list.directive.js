@@ -19,7 +19,8 @@
                 currentRequest: '=?',
                 isScrollDisabled: '=?scrollChatDisabled',
                 isScrollToBottomEnabled: '=?scrollChatToBottom',
-                loadPrevMessages: '&'
+                loadPrevMessages: '&',
+                changeCurrentRequest: '&'
             },
             replace: true,
             templateUrl: 'chat/directives/chat-list/specialist-chat-list.html'
@@ -83,14 +84,14 @@
                 return;
             }
 
-            vm.currentRequest = currentChat.request;
-
             if (vm.currentChat && vm.currentChat.id === currentChat.id) {
 
                 return;
             }
 
             vm.currentChat = currentChat;
+
+            vm.changeCurrentRequest({request: currentChat.request});
 
             if (!vm.pagination.messages[currentChat.id]) {
                 vm.pagination.messages[currentChat.id] = {

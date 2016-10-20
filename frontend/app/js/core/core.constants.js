@@ -42,6 +42,7 @@
                 'CLOSED': 5
             },
             IMAGES: {
+                'requestLocationMarker': '/images/map-marker-request.png',
                 'currentLocationMarker': '/images/map-marker-current.png',
                 'locksmithLocationMarker': '/images/map-marker-locksmith.png',
                 'defaultPortrait': '/images/default-portrait.jpg'
