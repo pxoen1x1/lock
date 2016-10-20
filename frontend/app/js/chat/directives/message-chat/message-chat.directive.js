@@ -68,10 +68,10 @@
         }
     }
 
-    MessageChatController.$inject = ['coreConstants', 'chatConstants', 'conf'];
+    MessageChatController.$inject = ['coreConstants', 'chatConstants', 'conf', 'geocoderService'];
 
     /* @ngInject */
-    function MessageChatController(coreConstants, chatConstants, conf) {
+    function MessageChatController(coreConstants, chatConstants, conf, geocoderService) {
         var vm = this;
 
         vm.baseUrl = conf.BASE_URL;
@@ -107,6 +107,12 @@
             if (!request || !status) {
 
                 return;
+            }
+
+            if (status === vm.requestStatus.IN_PROGRESS) {
+                geocoderService.startGeoTracking();
+            } else {
+                geocoderService.stopGeoTracking();
             }
 
             status = {
