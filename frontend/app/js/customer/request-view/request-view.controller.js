@@ -7,6 +7,7 @@
 
     CustomerViewRequestController.$inject = [
         '$stateParams',
+        '$mdDialog',
         'coreConstants',
         'coreDataservice',
         'chatSocketservice',
@@ -15,8 +16,8 @@
     ];
 
     /* @ngInject */
-    function CustomerViewRequestController($stateParams, coreConstants, coreDataservice, chatSocketservice,
-                                           currentRequestService, conf) {
+    function CustomerViewRequestController($stateParams, $mdDialog, coreConstants, coreDataservice,
+                                           chatSocketservice, currentRequestService, conf) {
         var promises = {
             getRequest: null
         };
@@ -67,6 +68,7 @@
 
         vm.closeRequest = closeRequest;
         vm.setRequestStatusAsDone = setRequestStatusAsDone;
+        vm.addFeedback = addFeedback;
 
         activate();
 
@@ -160,6 +162,19 @@
 
                     return vm.request;
                 });
+        }
+
+        function addFeedback(request) {
+            event.preventDefault();
+
+            $mdDialog.show({
+                templateUrl: 'customer/feedback/feedback.html',
+                controller: 'CustomerFeedbackController',
+                controllerAs: 'vm',
+                locals: {
+                    requestInfo: request
+                }
+            });
         }
 
         function activate() {

@@ -13,6 +13,7 @@
             getAllRequests: getAllRequests,
             getSpecialists: getSpecialists,
             createRequest: createRequest,
+            createFeedback: createFeedback,
             updateUser: updateUser
         };
 
@@ -46,6 +47,22 @@
                 .then(createRequestCompleted);
 
             function createRequestCompleted(response) {
+
+                return response.data;
+            }
+
+        }
+
+        function createFeedback(newFeedback) {
+
+            return $http({
+                url: conf.BASE_URL + conf.URL_PREFIX + 'client/requests/' + newFeedback.requestId + '/feedback',
+                method: 'POST',
+                data: newFeedback
+            })
+                .then(createFeedbackCompleted);
+
+            function createFeedbackCompleted(response) {
 
                 return response.data;
             }

@@ -22,7 +22,7 @@ let FeedbackService = {
         return Request.findOneById(feedback.request.id)
             .then(
                 (request) => {
-                    if (!request.isExecuted || !request.executor) {
+                    if (!request.executor) {
 
                         return Promise.reject();
                     }
