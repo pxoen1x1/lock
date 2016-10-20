@@ -316,7 +316,7 @@ md-content {
   }
 }
 
-.customer, .provider, .group {
+.customer, .provider, .group, .admin {
   height: 100vh;
   overflow-x: hidden;
 
@@ -396,7 +396,7 @@ md-content {
 
 @media only screen and (min-device-width: 320px) and (max-device-width: 600px) {
 
-  .customer, .provider, .group {
+  .customer, .provider, .group, .admin {
 
     .content-wrapper {
       background-color: #fff;
@@ -436,6 +436,7 @@ md-content {
 @import 'provider';
 @import 'customer';
 @import 'group';
+@import 'admin';
 @import 'chat';
 @import 'animation';
 @import 'public-profile';
