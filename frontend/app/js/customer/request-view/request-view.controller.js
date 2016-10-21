@@ -7,23 +7,27 @@
 
     CustomerViewRequestController.$inject = [
         '$stateParams',
+        '$mdDialog',
         'coreConstants',
         'coreDataservice',
         'chatSocketservice',
         'currentRequestService',
+        'customerDataservice',
         'conf'
     ];
 
     /* @ngInject */
-    function CustomerViewRequestController($stateParams, coreConstants, coreDataservice, chatSocketservice,
-                                           currentRequestService, conf) {
+    function CustomerViewRequestController($stateParams, $mdDialog, coreConstants, coreDataservice,
+                                           chatSocketservice, currentRequestService, customerDataservice, conf) {
         var promises = {
-            getRequest: null
+            getRequest: null,
+            getFeedback: null
         };
 
         var vm = this;
 
         vm.request = {};
+        vm.feedback = {};
 
         vm.currentRequestId = $stateParams.requestId;
 
@@ -67,6 +71,7 @@
 
         vm.closeRequest = closeRequest;
         vm.setRequestStatusAsDone = setRequestStatusAsDone;
+        vm.addFeedback = addFeedback;
 
         activate();
 
@@ -96,6 +101,8 @@
                     vm.request = request;
                     currentRequestService.setRequest(vm.request);
 
+                    getFeedback();
+
                     vm.map.center.latitude = vm.request.location.latitude;
                     vm.map.center.longitude = vm.request.location.longitude;
 
@@ -103,6 +110,30 @@
                     vm.map.marker.center.longitude = vm.request.location.longitude;
 
                     return vm.request;
+                });
+        }
+
+        function getRequestFeedback(requestId) {
+            if (promises.getFeedback) {
+                promises.getFeedback.cancel();
+            }
+
+            promises.getFeedback = customerDataservice.getRequestFeedback(requestId);
+
+            return promises.getFeedback
+                .then(function (response) {
+
+                    return response.data.feedback;
+                });
+        }
+
+        function getFeedback() {
+
+            return getRequestFeedback(vm.currentRequestId)
+                .then(function (feedback) {
+                    vm.feedback = feedback;
+
+                    return vm.feedback;
                 });
         }
 
@@ -159,6 +190,22 @@
                     vm.request = request;
 
                     return vm.request;
+                });
+        }
+
+        function addFeedback(request) {
+            event.preventDefault();
+
+            $mdDialog.show({
+                templateUrl: 'customer/feedback/feedback.html',
+                controller: 'CustomerFeedbackController',
+                controllerAs: 'vm',
+                locals: {
+                    requestInfo: request
+                }
+            })
+                .then(function () {
+                    getFeedback();
                 });
         }
 
