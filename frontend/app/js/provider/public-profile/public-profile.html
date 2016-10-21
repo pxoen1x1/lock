@@ -36,22 +36,20 @@
         </div>
       </div>
       <div class="section first">
-        <span class="md-body-2">Requests done:</span>
-        <span class="md-body-1" ng-bind="vm.profileData.requestsDone"></span>
+        <span class="md-body-2">Joined:</span>
+        <span class="md-body-1" ng-bind="vm.profileData.createdAt | altDate"></span>
       </div>
       <div class="section">
         <span class="md-body-2">Working hours:</span>
-        from
             <span class="md-body-1"
-                  ng-bind="vm.profileData.details.workingHours.from | date: 'hh:mm a'"></span>
-        to
-            <span class="md-body-1"
-                  ng-bind="vm.profileData.details.workingHours.to | date: 'hh:mm a'"></span>
+                  ng-repeat="workingHours in vm.profileData.details.workingHours track by workingHours.id"
+                  ng-bind="(workingHours.timeFrom | date: 'hh:mm a') + ' – ' + (workingHours.timeTo | date: 'hh:mm a') + ($last ? '':', ')">
+            </span>
       </div>
       <div class="section">
         <span class="md-body-2">Services:</span>
             <span class="md-body-1"
-                  ng-repeat="service in vm.profileData.details.services track by service.id"
+                  ng-repeat="service in vm.profileData.details.servicePrices track by service.id"
                   ng-bind="service.serviceName + ' (' + (service.price | currency:'$') + ')' + ($last ? '':', ')">
             </span>
       </div>
@@ -61,23 +59,26 @@
     <i class="material-icons">star</i>
     <span>Feedbacks</span>
     <span class="divider-dot">⋅</span>
-    <span class="md-title" ng-bind="vm.feedbackData.count"></span>
+    <span class="md-title" ng-bind="vm.feedbackData.totalCount"></span>
   </div>
   <div class="container-content public-profile-feedbacks"
        layout="column">
     <div class="feedback"
          layout="row"
          ng-repeat="feedback in vm.feedbackData.items track by feedback.id">
-      <div>
-        <img class="avatar" ng-src="{{feedback.photo}}" alt="photo"/>
+      <div class="avatar-wrapper">
+        <div class="avatar mid"
+             ng-style="{ 'background-image': 'url(' + (feedback.author.portrait ?
+                   conf.baseUrl + feedback.author.portrait : coreConstants.IMAGES.defaultPortrait) + ')' }">
+        </div>
       </div>
       <div class="divider"></div>
       <div layout="column" flex>
-        <div class="md-subhead primary-color" ng-bind="feedback.name"></div>
-        <star-rating value="feedback.rate"
+        <div class="md-subhead" ng-bind="feedback.author.fullName"></div>
+        <star-rating value="feedback.rating"
                      readonly>
         </star-rating>
-        <div class="md-body-1 text" ng-bind="feedback.text"></div>
+        <div class="md-body-1 text" ng-bind="feedback.message"></div>
       </div>
     </div>
   </div>
