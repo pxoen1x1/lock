@@ -5,17 +5,18 @@
         .module('app.customer')
         .factory('customerDataservice', customerDataservice);
 
-    customerDataservice.$inject = ['$http', 'request', 'conf'];
+    customerDataservice.$inject = ['$http', 'request', 'conf', 'socketService'];
 
     /* @ngInject */
-    function customerDataservice($http, request, conf) {
+    function customerDataservice($http, request, conf, socketService) {
         var service = {
             getAllRequests: getAllRequests,
             getSpecialists: getSpecialists,
             getRequestFeedback: getRequestFeedback,
             createRequest: createRequest,
             createFeedback: createFeedback,
-            updateUser: updateUser
+            updateUser: updateUser,
+            onLocation: onLocation
         };
 
         return service;
@@ -90,6 +91,12 @@
 
                 return response;
             }
+        }
+
+        function onLocation(next) {
+            socketService.listener('location', function (event) {
+                next(event.location, event.type);
+            });
         }
     }
 })();

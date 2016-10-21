@@ -52,7 +52,6 @@
         var vm = this;
 
         vm.request = {};
-        vm.currentRequest = {};
         vm.selectedSpecialist = {};
         vm.specialists = [];
 
@@ -108,9 +107,9 @@
             return currentRequestService.getRequest(request)
                 .then(function (request) {
 
-                    vm.currentRequest = request;
+                    vm.request = request;
 
-                    return vm.currentRequest;
+                    return vm.request;
                 });
         }
 
@@ -131,7 +130,8 @@
         }
 
         function findSpecialists(gMarker) {
-            if (vm.map.center.latitude === null && vm.map.center.longitude === null) {
+            if (vm.map.center.latitude === null && vm.map.center.longitude === null ||
+                vm.request.status !== vm.requestStatus.NEW) {
 
                 return;
             }
@@ -212,29 +212,76 @@
                 });
         }
 
+        function setRequestMarker(request) {
+            requestLocationMarker.id = request.location.id;
+            requestLocationMarker.latitude = request.location.latitude;
+            requestLocationMarker.longitude = request.location.longitude;
+            requestLocationMarker.text = request.location.address;
+
+            vm.map.markers.push(requestLocationMarker);
+        }
+
+        function setExecutorMarker(request) {
+            if (vm.map.center.latitude === null && vm.map.center.longitude === null || !request.executor ||
+                request.status !== vm.requestStatus.IN_PROGRESS) {
+
+                return;
+            }
+
+            vm.specialists = [request.executor];
+        }
+
+        function listenRequestEvent() {
+            chatSocketservice.onRequest(function (request, type) {
+                if (type !== 'update' || vm.request.id !== request.id) {
+
+                    return;
+                }
+
+                vm.request = request;
+
+                if (request.status !== vm.requestStatus.NEW) {
+                    vm.specialists = [];
+                }
+
+                if (request.status === vm.requestStatus.IN_PROGRESS) {
+                    vm.map.specialistMarker.options.animation = 0;
+
+                    setExecutorMarker();
+                }
+            });
+        }
+
+        function listenLocationEvent() {
+            customerDataservice.onLocation(function (location, type) {
+                if (type !== 'update' || vm.request.status !== vm.requestStatus.IN_PROGRESS) {
+
+                    return;
+                }
+
+                vm.specialists[0].details.latitude = location.latitude;
+                vm.specialists[0].details.longitude = location.longitude;
+            });
+        }
+
         function activate() {
-            uiGmapIsReady.promise()
+            getRequest(currentRequestId)
                 .then(function () {
+                    listenRequestEvent();
+                    listenLocationEvent();
 
-                    return getRequest(currentRequestId);
+                    return uiGmapIsReady.promise(1);
                 })
-                .then(function (request) {
-                    vm.request = request;
-
-                    requestLocationMarker.id = 0;
-                    requestLocationMarker.latitude = vm.request.location.latitude;
-                    requestLocationMarker.longitude = vm.request.location.longitude;
-                    requestLocationMarker.text = vm.request.location.address;
-
-                    vm.map.markers.push(requestLocationMarker);
+                .then(function () {
+                    setMapCenter(vm.request.location.latitude, vm.request.location.longitude);
+                    setRequestMarker(vm.request);
+                    setExecutorMarker(vm.request);
 
                     vm.boundsOfDistance = geocoderService.getBoundsOfDistance(
                         vm.request.location.latitude,
                         vm.request.location.longitude,
                         vm.request.distance
                     );
-
-                    setMapCenter(vm.request.location.latitude, vm.request.location.longitude);
                 });
         }
     }
