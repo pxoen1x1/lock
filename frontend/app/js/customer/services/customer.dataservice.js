@@ -70,7 +70,7 @@
 
         function onLocation(next) {
             socketService.listener('location', function (event) {
-                next(event.bid, event.type);
+                next(event.location, event.type);
             });
         }
     }

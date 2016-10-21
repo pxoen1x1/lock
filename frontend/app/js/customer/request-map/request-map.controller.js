@@ -230,12 +230,17 @@
                     return;
                 }
 
-                if (request.status === vm.requestStatus.IN_PROGRESS) {
-                    setExecutorMarker();
+                vm.request = request;
+
+                if (request.status !== vm.requestStatus.NEW) {
+                    vm.specialists = [];
                 }
 
-                vm.request = request;
-                vm.specialists[0].executor = request.executor;
+                if (request.status === vm.requestStatus.IN_PROGRESS) {
+                    vm.map.specialistMarker.options.animation = 0;
+
+                    setExecutorMarker();
+                }
             });
         }
 
