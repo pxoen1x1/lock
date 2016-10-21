@@ -1,4 +1,4 @@
-/* global sails, UserDetail */
+/* global sails, UserDetail, Request */
 
 /**
  * UserDetailsController
@@ -8,6 +8,8 @@
  */
 
 'use strict';
+
+const STATUS = sails.config.requests.STATUSES;
 
 let UserDetailsController = {
     updateLocation(req, res){
@@ -29,14 +31,45 @@ let UserDetailsController = {
 
         UserDetail.update({user: specialist}, userDetail)
             .then(
-                (updatedUserDetails) => res.ok(
-                    {
-                        location: {
-                            latitude: updatedUserDetails[0].latitude,
-                            longitude: updatedUserDetails[0].longitude
+                (updatedUserDetails) => {
+                    let location = {
+                        latitude: updatedUserDetails[0].latitude,
+                        longitude: updatedUserDetails[0].longitude
+                    };
+
+                    let criteria = {
+                        executor: specialist,
+                        status: STATUS.IN_PROGRESS
+                    };
+
+                    res.ok(
+                        {
+                            location: location
                         }
+                    );
+
+                    return [Request.findOne(criteria), location];
+                }
+            )
+            .spread(
+                (request, location) => {
+                    if (!request) {
+
+                        return;
                     }
-                )
+
+                    let clientRoom = `user_${request.owner}`;
+
+                    sails.sockets.broadcast(
+                        clientRoom,
+                        'location',
+                        {
+                            type: 'update',
+                            location: location
+                        },
+                        req
+                    );
+                }
             )
             .catch(
                 (err) => {
