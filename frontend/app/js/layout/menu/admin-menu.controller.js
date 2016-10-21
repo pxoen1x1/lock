@@ -12,6 +12,7 @@
         var vm = this;
 
         vm.menuItems = adminConstants.MENU_ITEMS;
+        vm.baseUrl = conf.baseUrl;
         vm.profileRoute = 'admin.profile';
         vm.toggleMenu = toggleMenu;
 

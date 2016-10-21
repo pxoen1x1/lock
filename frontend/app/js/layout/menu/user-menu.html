@@ -16,9 +16,12 @@
      ui-sref="{{vm.profileRoute}}"
      ui-sref-active="active"
      ng-click="vm.toggleMenu()">
-    <img class="avatar"
-         ng-src="{{vm.profileData.portrait || coreConstants.IMAGES.defaultPortrait}}"
-         alt="photo"/>
+    <div class="avatar-wrapper">
+      <div class="avatar biggest"
+           ng-style="{ 'background-image': 'url(' + (vm.profileData.portrait ?
+                   vm.baseUrl + vm.profileData.portrait : coreConstants.IMAGES.defaultPortrait) + ')' }">
+      </div>
+    </div>
     <div class="name">
       <i class="material-icons" ng-if="vm.profileData.isEmailConfirmed">
         verified_user

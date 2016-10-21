@@ -12,6 +12,7 @@
         var service = {
             getCurrentUser: getCurrentUser,
             getUser: getUser,
+            getFeedbacks: getFeedbacks,
             getServiceTypes: getServiceTypes,
             getLanguages: getLanguages,
             getStates: getStates,
@@ -42,6 +43,14 @@
 
             return request.httpWithTimeout({
                 url: conf.BASE_URL + conf.URL_PREFIX + 'users/' + userId,
+                method: 'GET'
+            });
+        }
+
+        function getFeedbacks(userId) {
+
+            return request.httpWithTimeout({
+                url: conf.BASE_URL + conf.URL_PREFIX + 'users/' + userId + '/feedbacks',
                 method: 'GET'
             });
         }
