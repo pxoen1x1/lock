@@ -12,7 +12,6 @@
         var vm = this;
 
         vm.menuItems = serviceProviderConstants.MENU_ITEMS;
-        vm.baseUrl = conf.baseUrl;
         vm.profileRoute = 'provider.profile';
         vm.toggleMenu = toggleMenu;
 

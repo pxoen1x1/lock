@@ -12,7 +12,6 @@
         var vm = this;
 
         vm.profileId = $stateParams.profileId;
-        vm.baseUrl = conf.baseUrl;
 
         vm.profileData = {};
         vm.feedbackData = {};

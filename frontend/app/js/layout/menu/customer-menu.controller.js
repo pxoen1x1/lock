@@ -12,7 +12,6 @@
         var vm = this;
         
         vm.menuItems = customerConstants.MENU_ITEMS;
-        vm.baseUrl = conf.baseUrl;
         vm.profileRoute = 'customer.profile';
         vm.toggleMenu = toggleMenu;
 

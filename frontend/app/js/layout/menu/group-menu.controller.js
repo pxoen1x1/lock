@@ -12,7 +12,6 @@
         var vm = this;
 
         vm.menuItems = groupConstants.MENU_ITEMS;
-        vm.baseUrl = conf.baseUrl;
         vm.profileRoute = 'group.profile';
         vm.toggleMenu = toggleMenu;
 
