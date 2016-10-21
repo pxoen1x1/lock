@@ -12,7 +12,9 @@
         var service = {
             getAllRequests: getAllRequests,
             getSpecialists: getSpecialists,
+            getRequestFeedback: getRequestFeedback,
             createRequest: createRequest,
+            createFeedback: createFeedback,
             updateUser: updateUser
         };
 
@@ -36,6 +38,14 @@
             });
         }
 
+        function getRequestFeedback(requestId) {
+
+            return request.httpWithTimeout({
+                url: conf.BASE_URL + conf.URL_PREFIX + 'client/requests/' + requestId + '/feedback',
+                method: 'GET'
+            });
+        }
+
         function createRequest(newRequest) {
 
             return $http({
@@ -50,6 +60,21 @@
                 return response.data;
             }
 
+        }
+
+        function createFeedback(newFeedback) {
+
+            return $http({
+                url: conf.BASE_URL + conf.URL_PREFIX + 'client/requests/' + newFeedback.requestId + '/feedback',
+                method: 'POST',
+                data: newFeedback
+            })
+                .then(createFeedbackCompleted);
+
+            function createFeedbackCompleted(response) {
+
+                return response.data;
+            }
         }
 
         function updateUser(updatedUser) {
