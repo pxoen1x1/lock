@@ -52,7 +52,6 @@
         var vm = this;
 
         vm.request = {};
-        vm.currentRequest = {};
         vm.selectedSpecialist = {};
         vm.specialists = [];
 
@@ -108,9 +107,9 @@
             return currentRequestService.getRequest(request)
                 .then(function (request) {
 
-                    vm.currentRequest = request;
+                    vm.request = request;
 
-                    return vm.currentRequest;
+                    return vm.request;
                 });
         }
 
@@ -131,7 +130,8 @@
         }
 
         function findSpecialists(gMarker) {
-            if (vm.map.center.latitude === null && vm.map.center.longitude === null) {
+            if (vm.map.center.latitude === null && vm.map.center.longitude === null ||
+                vm.request.status !== vm.requestStatus.NEW) {
 
                 return;
             }
@@ -212,14 +212,56 @@
                 });
         }
 
+        function setExecutorMarker() {
+            if (vm.map.center.latitude === null && vm.map.center.longitude === null || !vm.request.executor ||
+                vm.request.status !== vm.requestStatus.IN_PROGRESS) {
+
+                return;
+            }
+
+            vm.specialists = [];
+            vm.specialists.push(vm.request.executor);
+        }
+
+        function listenRequestEvent() {
+            chatSocketservice.onRequest(function (request, type) {
+                if (type !== 'update' || vm.request.id !== request.id) {
+
+                    return;
+                }
+
+                if (request.status === vm.requestStatus.IN_PROGRESS) {
+                    setExecutorMarker();
+                }
+
+                vm.request = request;
+                vm.specialists[0].executor = request.executor;
+            });
+        }
+
+        function listenLocationEvent() {
+            customerDataservice.onLocation(function (location, type) {
+                if (type !== 'update' || vm.request.status !== vm.requestStatus.IN_PROGRESS) {
+
+                    return;
+                }
+
+                vm.specialists[0].details.latitude = location.latitude;
+                vm.specialists[0].details.longitude = location.longitude;
+            });
+        }
+
         function activate() {
             uiGmapIsReady.promise()
                 .then(function () {
 
                     return getRequest(currentRequestId);
                 })
-                .then(function (request) {
-                    vm.request = request;
+                .then(function () {
+                    listenRequestEvent();
+                    listenLocationEvent();
+
+                    setExecutorMarker();
 
                     requestLocationMarker.id = 0;
                     requestLocationMarker.latitude = vm.request.location.latitude;
