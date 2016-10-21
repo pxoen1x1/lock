@@ -12,6 +12,7 @@
         var service = {
             getAllRequests: getAllRequests,
             getSpecialists: getSpecialists,
+            getRequestFeedback: getRequestFeedback,
             createRequest: createRequest,
             createFeedback: createFeedback,
             updateUser: updateUser
@@ -34,6 +35,14 @@
                 url: conf.BASE_URL + conf.URL_PREFIX + 'specialists/find',
                 method: 'GET',
                 params: params
+            });
+        }
+
+        function getRequestFeedback(requestId) {
+
+            return request.httpWithTimeout({
+                url: conf.BASE_URL + conf.URL_PREFIX + 'client/requests/' + requestId + '/feedback',
+                method: 'GET'
             });
         }
 
@@ -66,7 +75,6 @@
 
                 return response.data;
             }
-
         }
 
         function updateUser(updatedUser) {

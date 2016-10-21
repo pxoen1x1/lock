@@ -22,11 +22,6 @@ let FeedbackService = {
         return Request.findOneById(feedback.request.id)
             .then(
                 (request) => {
-                    if (!request.executor) {
-
-                        return Promise.reject();
-                    }
-
                     feedback.executor = request.executor;
 
                     return Feedback.create(feedback);
