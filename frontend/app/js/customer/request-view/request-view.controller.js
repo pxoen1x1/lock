@@ -75,7 +75,7 @@
                 promises.getRequest.cancel();
             }
 
-            var userType = 'specialist';
+            var userType = 'client';
 
             promises.getRequest = coreDataservice.getRequest(userType, request);
 

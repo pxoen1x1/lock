@@ -212,15 +212,23 @@
                 });
         }
 
-        function setExecutorMarker() {
-            if (vm.map.center.latitude === null && vm.map.center.longitude === null || !vm.request.executor ||
-                vm.request.status !== vm.requestStatus.IN_PROGRESS) {
+        function setRequestMarker(request) {
+            requestLocationMarker.id = request.location.id;
+            requestLocationMarker.latitude = request.location.latitude;
+            requestLocationMarker.longitude = request.location.longitude;
+            requestLocationMarker.text = request.location.address;
+
+            vm.map.markers.push(requestLocationMarker);
+        }
+
+        function setExecutorMarker(request) {
+            if (vm.map.center.latitude === null && vm.map.center.longitude === null || !request.executor ||
+                request.status !== vm.requestStatus.IN_PROGRESS) {
 
                 return;
             }
 
-            vm.specialists = [];
-            vm.specialists.push(vm.request.executor);
+            vm.specialists = [request.executor];
         }
 
         function listenRequestEvent() {
@@ -257,31 +265,23 @@
         }
 
         function activate() {
-            uiGmapIsReady.promise()
-                .then(function () {
-
-                    return getRequest(currentRequestId);
-                })
+            getRequest(currentRequestId)
                 .then(function () {
                     listenRequestEvent();
                     listenLocationEvent();
 
-                    setExecutorMarker();
-
-                    requestLocationMarker.id = 0;
-                    requestLocationMarker.latitude = vm.request.location.latitude;
-                    requestLocationMarker.longitude = vm.request.location.longitude;
-                    requestLocationMarker.text = vm.request.location.address;
-
-                    vm.map.markers.push(requestLocationMarker);
+                    return uiGmapIsReady.promise(1);
+                })
+                .then(function () {
+                    setMapCenter(vm.request.location.latitude, vm.request.location.longitude);
+                    setRequestMarker(vm.request);
+                    setExecutorMarker(vm.request);
 
                     vm.boundsOfDistance = geocoderService.getBoundsOfDistance(
                         vm.request.location.latitude,
                         vm.request.location.longitude,
                         vm.request.distance
                     );
-
-                    setMapCenter(vm.request.location.latitude, vm.request.location.longitude);
                 });
         }
     }
