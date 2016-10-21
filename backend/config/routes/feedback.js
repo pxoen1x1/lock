@@ -5,6 +5,10 @@ let feedbackRoutes = {
         controller: 'FeedbackController',
         action: 'getUserFeedbacks'
     },
+    'GET /api/client/requests/:requestId/feedback': {
+        controller: 'FeedbackController',
+        action: 'getRequestFeedback'
+    },
     'POST /api/client/requests/:requestId/feedback': {
         controller: 'FeedbackController',
         action: 'createFeedback'
