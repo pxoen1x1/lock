@@ -35,8 +35,6 @@
 
                     vm.feedbackData = response.data;
 
-                    console.log(vm.feedbackData);
-
                     return vm.feedbackData;
                 });
         }
