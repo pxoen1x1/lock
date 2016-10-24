@@ -7,6 +7,7 @@
 
     availabilityValidation.$inject = ['coreDataservice', '$q'];
 
+    /* @ngInject */
     function availabilityValidation(coreDataservice, $q) {
         var directive = {
             link: link,
