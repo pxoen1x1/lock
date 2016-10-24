@@ -209,6 +209,11 @@ $panel-background-color: rgb(245, 245, 245);
     background-color: rgba(29, 169, 251, 1);
   }
 }
+.login-dialog {
+  md-dialog-actions {
+    min-height: 170px;
+  }
+}
 
 md-input-container {
   &.md-default-theme:not(.md-input-invalid),
