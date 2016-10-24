@@ -12,6 +12,7 @@
         var service = {
             getRequests: getRequests,
             getRequest: getRequest,
+            checkRequestsStatus: checkRequestsStatus,
             updateLocation: updateLocation
         };
 
@@ -32,6 +33,17 @@
                 url: conf.BASE_URL + conf.URL_PREFIX + 'specialist/requests/' + currentRequest.id,
                 method: 'GET'
             });
+        }
+
+        function checkRequestsStatus(status) {
+
+            return $sails.get(conf.URL_PREFIX + 'specialist/requests/status/check', status)
+                .then(checkRequestsStatusCompleted);
+
+            function checkRequestsStatusCompleted(response) {
+
+                return response.data.count;
+            }
         }
 
         function updateLocation(location) {
