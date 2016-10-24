@@ -51,11 +51,6 @@
         }
 
         function getUsers() {
-            if (vm.isAllUsersLoaded) {
-
-                return;
-            }
-
             var queryOptions = {
                 order: vm.queryOptions.orderBy.replace(/-(\w+(\.\w+)*)/, '$1 DESC'),
                 limit: vm.queryOptions.limit,
@@ -68,8 +63,6 @@
                 .then(function (users) {
                     vm.users = users.items;
                     vm.queryOptions.totalCount = users.totalCount;
-
-                    return vm.users;
                 });
         }
 
