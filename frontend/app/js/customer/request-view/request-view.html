@@ -142,25 +142,27 @@
           </button>
         </div>
       </div>
-      <md-divider class="divider" ng-if="vm.feedback"></md-divider>
-      <div layout="row" ng-if="vm.feedback">
-        <div class="avatar-wrapper">
-          <div class="avatar"
-               ng-style="{ 'background-image': 'url(' + (vm.feedback.author.portrait ?
-               vm.baseUrl + vm.feedback.author.portrait : vm.defaultPortrait) + ')' }">
+      <div ng-if="vm.feedback.id">
+        <md-divider class="divider"></md-divider>
+        <div layout="row">
+          <div class="avatar-wrapper">
+            <div class="avatar"
+                 ng-style="{ 'background-image': 'url(' + (vm.feedback.author.portrait ?
+                 vm.baseUrl + vm.feedback.author.portrait : vm.defaultPortrait) + ')' }">
+            </div>
           </div>
-        </div>
-        <div flex>
-          <div>
-            <b class="m-r-s" ng-bind="vm.feedback.author.fullName"></b>
-            <span class="secondary-text" ng-bind="vm.feedback.createdAt | date : vm.dateFormat"></span>
-          </div>
-          <div class="m-t-s" ng-bind="vm.feedback.message"></div>
-          <div class="m-t-s">
-            <star-rating readonly
-                         value="vm.feedback.rating"
-                         ng-if="vm.feedback.rating">
-            </star-rating>
+          <div flex>
+            <div>
+              <b class="m-r-s" ng-bind="vm.feedback.author.fullName"></b>
+              <span class="secondary-text" ng-bind="vm.feedback.createdAt | date : vm.dateFormat"></span>
+            </div>
+            <div class="m-t-s" ng-bind="vm.feedback.message"></div>
+            <div class="m-t-s">
+              <star-rating readonly
+                           value="vm.feedback.rating"
+                           ng-if="vm.feedback.rating">
+              </star-rating>
+            </div>
           </div>
         </div>
       </div>

@@ -5,20 +5,24 @@
         .module('app.admin')
         .controller('AdminUsersClientsController', AdminUsersClientsController);
 
-    AdminUsersClientsController.$inject = ['coreConstants', 'conf', 'adminDataservice'];
+    AdminUsersClientsController.$inject = ['$mdMedia', 'coreConstants', 'conf', 'adminDataservice'];
 
     /* @ngInject */
-    function AdminUsersClientsController(coreConstants, conf, adminDataservice) {
+    function AdminUsersClientsController($mdMedia, coreConstants, conf, adminDataservice) {
         var promises = {
             getAllUsers: null
         };
 
         var vm = this;
 
+        vm.users = [];
+
         vm.baseUrl = conf.BASE_URL;
         vm.paginationOptions = coreConstants.PAGINATION_OPTIONS;
         vm.defaultPortrait = coreConstants.IMAGES.defaultPortrait;
         vm.dateFormat = coreConstants.DATE_FORMAT;
+
+        vm.isAllUsersLoaded = false;
 
         vm.queryOptions = {
             orderBy: '-createdAt',
@@ -28,6 +32,7 @@
         };
 
         vm.getUsers = getUsers;
+        vm.getMoreUsers = getMoreUsers;
 
         activate();
 
@@ -57,14 +62,44 @@
             return getAllUsers(queryOptions)
                 .then(function (users) {
                     vm.users = users.items;
-                    vm.paginationOptions.totalCount = users.totalCount;
+                    vm.queryOptions.totalCount = users.totalCount;
+
+                    return vm.users;
+                });
+        }
+
+        function getMoreUsers() {
+            if (vm.isAllUsersLoaded) {
+
+                return;
+            }
+
+            var queryOptions = {
+                order: vm.queryOptions.orderBy.replace(/-(\w+(\.\w+)*)/, '$1 DESC'),
+                limit: vm.queryOptions.limit,
+                page: vm.queryOptions.page,
+                isEnabled: true,
+                isProvider: false
+            };
+
+            return getAllUsers(queryOptions)
+                .then(function (users) {
+                    vm.users = vm.users.concat(users.items);
+                    vm.queryOptions.totalCount = users.totalCount;
+
+                    vm.isAllUsersLoaded = vm.queryOptions.page * vm.queryOptions.limit >=
+                        vm.queryOptions.totalCount;
+
+                    vm.queryOptions.page++;
 
                     return vm.users;
                 });
         }
 
         function activate() {
-            getUsers();
+            if ($mdMedia('gt-xs')) {
+                getUsers();
+            }
         }
     }
 })();
