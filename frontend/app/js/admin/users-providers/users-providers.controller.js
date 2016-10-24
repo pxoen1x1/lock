@@ -5,10 +5,10 @@
         .module('app.admin')
         .controller('AdminUsersProvidersController', AdminUsersProvidersController);
 
-    AdminUsersProvidersController.$inject = ['coreConstants', 'conf', 'adminDataservice'];
+    AdminUsersProvidersController.$inject = ['$mdMedia', 'coreConstants', 'conf', 'adminDataservice'];
 
     /* @ngInject */
-    function AdminUsersProvidersController(coreConstants, conf, adminDataservice) {
+    function AdminUsersProvidersController($mdMedia, coreConstants, conf, adminDataservice) {
         var promises = {
             getAllUsers: null
         };
@@ -97,7 +97,9 @@
         }
 
         function activate() {
-            getUsers();
+            if ($mdMedia('gt-xs')) {
+                getUsers();
+            }
         }
     }
 })();
