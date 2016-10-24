@@ -43,9 +43,9 @@
           <tr md-row
               ng-repeat="user in vm.users track by user.id">
             <td md-cell>
-              <img class="avatar"
-                   ng-src="{{user.portrait ? vm.baseUrl + user.portrait : vm.defaultPortrait}}"
-                   alt=""/>
+              <div class="avatar"
+                   ng-style="{ 'background-image': 'url(' + (user.portrait ? vm.baseUrl + user.portrait : vm.defaultPortrait) + ')' }">
+              </div>
             </td>
             <td md-cell>
               <span ng-bind="user.fullName"></span>
@@ -77,9 +77,9 @@
       <div layout="row"
            layout-align="start center">
         <div flex="none">
-          <img class="avatar"
-               ng-src="{{user.portrait ? vm.baseUrl + user.portrait : vm.defaultPortrait}}"
-               alt=""/>
+          <div class="avatar"
+               ng-style="{ 'background-image': 'url(' + (user.portrait ? vm.baseUrl + user.portrait : vm.defaultPortrait) + ')' }">
+          </div>
         </div>
         <div class="md-title" flex ng-bind="user.fullName"></div>
       </div>
