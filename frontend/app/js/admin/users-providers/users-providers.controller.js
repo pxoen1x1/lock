@@ -63,6 +63,8 @@
                 .then(function (users) {
                     vm.users = users.items;
                     vm.queryOptions.totalCount = users.totalCount;
+
+                    return vm.users;
                 });
         }
 
