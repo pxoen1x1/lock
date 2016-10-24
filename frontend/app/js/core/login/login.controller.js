@@ -12,12 +12,13 @@
         'coreDataservice',
         'authService',
         'currentUserService',
+        'specialistGeoService',
         'coreConstants'
     ];
 
     /* @ngInject */
-    function LoginController($state, $mdDialog, toastService,
-                             coreDataservice, authService, currentUserService, coreConstants) {
+    function LoginController($state, $mdDialog, toastService, coreDataservice, authService,
+                             currentUserService, specialistGeoService, coreConstants) {
         var vm = this;
 
         vm.user = {};
@@ -79,6 +80,11 @@
                     var stateName = coreConstants.USER_TYPE_DEFAULT_STATE[currentUserType];
 
                     $state.go(stateName);
+
+                    return currentUserType;
+                })
+                .then(function (currentUserType) {
+                    specialistGeoService.startGeoTracking(currentUserType);
                 });
         }
 

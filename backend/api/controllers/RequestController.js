@@ -1,4 +1,4 @@
-/* global sails, RequestService, HelperService */
+/* global sails, RequestService, HelperService, Request */
 /**
  * RequestController
  *
@@ -211,10 +211,47 @@ let RequestController = {
                 }
             );
     },
+    checkSpecialistRequestsStatus(req, res){
+        let params = req.allParams();
+        let status = params.status;
+
+        let specialist = req.session.user.id;
+
+        if (!status) {
+
+            return res.badRequest(
+                {
+                    message: req.__('Submitted data is invalid.')
+                }
+            );
+        }
+
+        let criteria = {
+            executor: specialist,
+            status: status
+        };
+
+        Request.count(criteria)
+            .then(
+                (count) => res.ok(
+                    {
+                        count: count
+                    }
+                )
+            )
+            .catch(
+                (err) => {
+                    sails.log.error(err);
+
+                    res.serverError();
+                }
+            );
+    },
     createRequest(req, res) {
         let newRequest = req.body.request;
 
         if (!newRequest) {
+
             return res.badRequest(
                 {
                     message: req.__('Please, check data.')

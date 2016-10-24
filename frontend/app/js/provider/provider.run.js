@@ -5,10 +5,18 @@
         .module('app.provider')
         .run(providerRun);
 
-    providerRun.$inject = ['$rootScope', 'serviceProviderConstants'];
+    providerRun.$inject = [
+        '$rootScope',
+        'serviceProviderConstants',
+        'authService',
+        'specialistGeoService'
+    ];
 
     /* @ngInject */
-    function providerRun($rootScope, serviceProviderConstants) {
+    function providerRun($rootScope, serviceProviderConstants, authService, specialistGeoService) {
+        if (authService.isAuthenticated()) {
+            specialistGeoService.startGeoTracking();
+        }
 
         $rootScope.$on('$stateChangeStart',
             function (event, toState, toParams, fromState) {

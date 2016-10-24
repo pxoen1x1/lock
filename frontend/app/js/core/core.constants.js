@@ -26,7 +26,7 @@
             },
             USER_TYPE_DEFAULT_STATE: {
                 1: 'customer.newRequest',
-                2: 'provider.dashboard',
+                2: 'provider.dashboard.new',
                 3: 'admin.dashboard'
             },
             REQUEST_STATUSES: {

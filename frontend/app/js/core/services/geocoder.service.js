@@ -5,8 +5,14 @@
         .module('app.core')
         .factory('geocoderService', geocoderService);
 
-    geocoderService.$inject =
-        ['$q', '$timeout', '$window', 'uiGmapGoogleMapApi', 'coreConstants', 'serviceProviderDataservice'];
+    geocoderService.$inject = [
+        '$q',
+        '$timeout',
+        '$window',
+        'uiGmapGoogleMapApi',
+        'coreConstants',
+        'serviceProviderDataservice'
+    ];
 
     function geocoderService($q, $timeout, $window, uiGmapGoogleMapApi, coreConstants, serviceProviderDataservice) {
         var stopTrackingPromise;
@@ -43,7 +49,9 @@
             return deferred.promise;
         }
 
-        function startGeoTracking() {
+        function startGeoTracking(delay) {
+            delay = delay || 30000;
+
             stopTrackingPromise = $timeout(function () {
 
                 getCurrentCoordinates()
@@ -57,8 +65,10 @@
 
                         return serviceProviderDataservice.updateLocation(location);
                     })
-                    .finally(startGeoTracking);
-            }, 10000);
+                    .finally(function () {
+                        startGeoTracking(delay);
+                    });
+            }, delay);
 
             return stopTrackingPromise;
         }

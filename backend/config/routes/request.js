@@ -21,6 +21,10 @@ let requestRoutes = {
         controller: 'RequestController',
         action: 'getSpecialistRequestById'
     },
+    'GET /api/specialist/requests/status/check': {
+        controller: 'RequestController',
+        action: 'checkSpecialistRequestsStatus'
+    },
     'GET /api/specialists/find': {
         controller: 'UserController',
         action: 'findServiceProviders'
