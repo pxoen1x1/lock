@@ -32,6 +32,7 @@
         };
 
         vm.getUsers = getUsers;
+        vm.getMoreUsers = getMoreUsers;
 
         activate();
 
@@ -65,6 +66,29 @@
 
             return getAllUsers(queryOptions)
                 .then(function (users) {
+                    vm.users = users.items;
+                    vm.queryOptions.totalCount = users.totalCount;
+
+                    return vm.users;
+                });
+        }
+
+        function getMoreUsers() {
+            if (vm.isAllUsersLoaded) {
+
+                return;
+            }
+
+            var queryOptions = {
+                order: vm.queryOptions.orderBy.replace(/-(\w+(\.\w+)*)/, '$1 DESC'),
+                limit: vm.queryOptions.limit,
+                page: vm.queryOptions.page,
+                isEnabled: true,
+                isProvider: true
+            };
+
+            return getAllUsers(queryOptions)
+                .then(function (users) {
                     vm.users = vm.users.concat(users.items);
                     vm.queryOptions.totalCount = users.totalCount;
 
@@ -78,6 +102,7 @@
         }
 
         function activate() {
+            getUsers();
         }
     }
 })();
