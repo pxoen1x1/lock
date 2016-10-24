@@ -44,7 +44,7 @@ let FileService = {
     saveAvatar(userId, image) {
         if (!image || !image.base64) {
 
-            return;
+            return Promise.resolve();
         }
 
         let filename = this.generateFileName(image.base64);

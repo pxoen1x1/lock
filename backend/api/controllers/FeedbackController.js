@@ -62,6 +62,40 @@ let FeedbackController = {
                 }
             );
     },
+    getRequestFeedback(req, res) {
+        let params = req.allParams();
+        let requestId = params.requestId;
+
+        if (!requestId) {
+
+            res.badRequest(
+                {
+                    message: req.__('Submitted data is invalid.')
+                }
+            );
+        }
+
+        let criteria = {
+            where: {
+                request_id: requestId
+            }
+        };
+
+        Feedback.findOne(criteria)
+            .populateAll()
+            .then(
+                (foundFeedback) => res.ok({
+                    feedback: foundFeedback
+                })
+            )
+            .catch(
+                (err) => {
+                    sails.log.error(err);
+
+                    res.serverError();
+                }
+            );
+    },
     createFeedback(req, res) {
         let requestId = req.params.requestId;
         let feedback = req.allParams();

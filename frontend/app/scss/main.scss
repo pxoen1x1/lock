@@ -3,6 +3,7 @@ $warning-color: #FFB74D;
 $error-color: #EF5350;
 $primary-color: rgb(3, 155, 229);
 $text-color: rgba(0, 0, 0, .87);
+$secondary-text-color: rgba(0, 0, 0, .54);
 $disabled-color: rgba(0, 0, 0, 0.38);
 $disabled-background-color: rgba(0, 0, 0, 0.12);
 $panel-background-color: rgb(245, 245, 245);
@@ -122,12 +123,28 @@ $panel-background-color: rgb(245, 245, 245);
     }
   }
 
+  &.md-button-green {
+    &, &.md-fab {
+      color: #fff;
+      &, &:focus {
+        background-color: $success-color;
+      }
+
+      &:hover {
+        background-color: #4CAF50;
+      }
+    }
+  }
+
   .disabled &, .disabled &:hover,
   &[disabled], &[disabled]:hover,
   &.disabled, &.disabled:hover,
   .disabled &.md-button-blue,
   &.md-button-blue[disabled],
-  &.md-button-blue.disabled {
+  &.md-button-blue.disabled,
+  .disabled &.md-button-green,
+  &.md-button-green[disabled],
+  &.md-button-green.disabled {
     &, &.md-fab, &:hover, &.focus {
       cursor: default;
       background-color: $disabled-background-color;
@@ -291,15 +308,30 @@ md-content {
   background-size: cover;
   background-position-x: center;
 
+  &.mid {
+    width: 54px;
+    min-width: 54px;
+    height: 54px;
+    line-height: 54px;
+  }
+
   &.huge {
     width: 96px;
     min-width: 96px;
     height: 96px;
     line-height: 96px;
   }
+
+  &.biggest {
+    width: 120px;
+    min-width: 120px;
+    height: 120px;
+    line-height: 120px;
+  }
+
 }
 
-.customer, .provider, .group {
+.customer, .provider, .group, .admin {
   height: 100vh;
   overflow-x: hidden;
 
@@ -379,7 +411,7 @@ md-content {
 
 @media only screen and (min-device-width: 320px) and (max-device-width: 600px) {
 
-  .customer, .provider, .group {
+  .customer, .provider, .group, .admin {
 
     .content-wrapper {
       background-color: #fff;
@@ -419,13 +451,14 @@ md-content {
 @import 'provider';
 @import 'customer';
 @import 'group';
+@import 'admin';
 @import 'chat';
 @import 'animation';
 @import 'public-profile';
 @import 'profile';
 @import 'user-header';
 @import 'user-menu';
-@import 'requests-list';
+@import 'request';
 @import 'tab-bar';
 @import 'maps';
 @import 'md-dialog';

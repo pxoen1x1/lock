@@ -9,19 +9,24 @@
         '$mdSidenav',
         '$mdDialog',
         'coreConstants',
+        'coreDataservice',
         'chatSocketservice',
         'currentUserService',
         'conf'
     ];
 
     /* @ngInject */
-    function SpecialistChatController($mdSidenav, $mdDialog, coreConstants,
+    function SpecialistChatController($mdSidenav, $mdDialog, coreConstants, coreDataservice,
                                       chatSocketservice, currentUserService, conf) {
+        var promises = {
+            getRequest: null
+        };
         var chatPaginationOptions = coreConstants.CHAT_PAGINATION_OPTIONS;
         var vm = this;
 
         vm.chats = [];
         vm.messages = {};
+        vm.requests = {};
 
         vm.currentUser = {};
         vm.currentChat = null;
@@ -47,7 +52,9 @@
 
         vm.toggleSidenav = toggleSidenav;
         vm.loadPrevMessages = loadPrevMessages;
+        vm.changeCurrentRequest = changeCurrentRequest;
         vm.openOfferDialog = openOfferDialog;
+        vm.updateRequestStatus = updateRequestStatus;
         vm.reply = reply;
 
         activate();
@@ -72,12 +79,43 @@
                 });
         }
 
+        function listenRequestEvent() {
+            chatSocketservice.onRequest(function (request, type) {
+                if (type !== 'update') {
+
+                    return;
+                }
+
+                vm.requests[request.id] = request;
+
+                if (vm.currentRequest && vm.currentRequest.id === request.id) {
+                    vm.currentRequest = request;
+                }
+            });
+        }
+
         function loadMessages(chat, params) {
 
             return chatSocketservice.getMessages(chat, params)
                 .then(function (messages) {
 
                     return messages;
+                });
+        }
+
+        function getRequest(request) {
+            if (promises.getRequest) {
+                promises.getRequest.cancel();
+            }
+
+            var userType = 'specialist';
+
+            promises.getRequest = coreDataservice.getRequest(userType, request);
+
+            return promises.getRequest
+                .then(function (response) {
+
+                    return response.data.request;
                 });
         }
 
@@ -120,6 +158,40 @@
                 });
         }
 
+        function changeCurrentRequest(request) {
+            if (!request || !request.id) {
+
+                return;
+            }
+
+            if (vm.requests[request.id]) {
+                vm.currentRequest = vm.requests[request.id];
+
+                return;
+            }
+
+            return getRequest(request)
+                .then(function (request) {
+                    vm.requests[request.id] = request;
+                    vm.currentRequest = request;
+
+                    return request;
+                });
+        }
+
+        function updateRequestStatus(request, status) {
+            if (!request || !status) {
+
+                return;
+            }
+
+            return coreDataservice.updateRequestStatus(request, status)
+                .then(function (updatedRequest) {
+
+                    return updatedRequest;
+                });
+        }
+
         function openOfferDialog(currentChat) {
 
             return $mdDialog.show({
@@ -142,7 +214,9 @@
         }
 
         function reply(event, replyMessage, currentChat, currentRequest) {
-            if ((event && event.shiftKey && event.keyCode === 13) || currentRequest.status !== vm.requestStatus.NEW) {
+            if ((event && event.shiftKey && event.keyCode === 13) ||
+                currentRequest.status === vm.requestStatus.CLOSED) {
+
                 vm.textareaGrow[currentChat.id] = true;
 
                 return;
@@ -182,6 +256,8 @@
         function activate() {
             getCurrentUser()
                 .then(getCurrentUserType);
+
+            listenRequestEvent();
         }
     }
 })();

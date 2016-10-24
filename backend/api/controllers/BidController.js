@@ -40,13 +40,8 @@ let BidController = {
     getSpecialistBids(req, res) {
         let specialist = req.session.user.id;
 
-        let criteria = {
-            where: {
-                specialist_id: specialist
-            }
-        };
-
-        BidService.getSpecialistBids(criteria)
+        Bid.findBySpecialist(specialist)
+            .populateAll()
             .then(
                 (bids) => res.ok(
                     {
@@ -96,6 +91,7 @@ let BidController = {
                         roomName,
                         'bid',
                         {
+                            type: 'create',
                             bid: bid
                         },
                         req
@@ -156,7 +152,10 @@ let BidController = {
                     sails.sockets.broadcast(
                         specialistRoomName,
                         'bid',
-                        bid,
+                        {
+                            type: 'update',
+                            bid: bid
+                        },
                         req
                     );
 

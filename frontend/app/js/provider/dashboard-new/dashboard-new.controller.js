@@ -75,7 +75,12 @@
         }
 
         function listenRequestEvent() {
-            chatSocketservice.onRequest(function (request) {
+            chatSocketservice.onRequest(function (request, type) {
+                if (type !== 'create') {
+
+                    return;
+                }
+
                 vm.requests.unshift(request);
             });
         }

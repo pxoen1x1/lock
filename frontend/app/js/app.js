@@ -23,6 +23,7 @@
         'app.chat',
         'app.customer',
         'app.provider',
-        'app.group'
+        'app.group',
+        'app.admin'
     ]);
 })();

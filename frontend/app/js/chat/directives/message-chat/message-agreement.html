@@ -24,5 +24,75 @@
       </div>
       <div class="value m-t-xs">Accepted</div>
     </div>
+    <div class="request-info"
+         layout="column"
+         layout-align="start none">
+      <div layout="row"
+           layout-align="end none">
+        <div>Created:</div>
+        <div flex
+             ng-bind="vm.currentRequest.createdAt | altDate">
+        </div>
+      </div>
+      <div layout="row"
+           layout-align="end none">
+        <div>For Date:</div>
+        <div flex
+             ng-bind="vm.currentRequest.forDate ? (vm.currentRequest.forDate | date: vm.dateFormat) : 'Now'">
+        </div>
+      </div>
+      <div layout="row"
+           layout-align="end none"
+           ng-if="vm.currentRequest.location.address">
+        <div>Address:</div>
+        <div flex
+             ng-bind="vm.currentRequest.location.address">
+        </div>
+      </div>
+      <div layout="row"
+           layout-align="end none"
+           ng-if="vm.currentRequest.location">
+        <div>Distance:</div>
+        <div flex
+             ng-bind="vm.currentRequest.location | distance">
+        </div>
+      </div>
+      <div layout="row"
+           layout-align="end none">
+        <div>Needed Service:</div>
+        <div flex
+             ng-bind="vm.currentRequest.serviceType.name">
+        </div>
+      </div>
+      <div layout="row"
+           layout-align="end none"
+           ng-if="vm.currentRequest.language.name">
+        <div>Language:</div>
+        <div flex
+             ng-bind="vm.currentRequest.language.name">
+        </div>
+      </div>
+      <div layout="row"
+           layout-align="end none"
+           ng-if="vm.currentRequest.description">
+        <div>Description:</div>
+        <div class="description"
+             flex
+             ng-bind="vm.currentRequest.description">
+        </div>
+      </div>
+    </div>
+    <md-content class="chat-map">
+      <map-viewer selected-request="vm.currentRequest"></map-viewer>
+    </md-content>
   </md-card-content>
+  <md-card-actions layout="row" layout-align="end center">
+    <md-button ng-if="vm.currentRequest.status === vm.requestStatus.PENDING"
+               ng-click="vm.changeRequestStatus(vm.currentRequest, vm.requestStatus.IN_PROGRESS)">Start
+    </md-button>
+    <div ng-if="vm.currentRequest.status === vm.requestStatus.IN_PROGRESS">
+      <md-button ng-click="vm.changeRequestStatus(vm.currentRequest, vm.requestStatus.DONE)">Done</md-button>
+      <md-button ng-click="vm.changeRequestStatus(vm.currentRequest, vm.requestStatus.PENDING)">Pause</md-button>
+    </div>
+  </md-card-actions>
 </md-card>

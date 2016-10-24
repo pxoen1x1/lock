@@ -105,6 +105,7 @@ let MessageController = {
                         roomName,
                         'message',
                         {
+                            type: 'create',
                             message: message
                         },
                         req

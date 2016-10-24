@@ -72,10 +72,15 @@ module.exports.policies = {
     },
 
     RequestController: {
-        'updateRequest': [
+        'confirmOffer': [
             'hasJsonWebToken',
             'isUserEnabled',
-            'isRequestOwner'
+            'isOfferConfirmationAllowed'
+        ],
+        'changeStatus' : [
+            'hasJsonWebToken',
+            'isUserEnabled',
+            'isRequestStatusChangeAllowed'
         ]
     },
 
@@ -83,7 +88,8 @@ module.exports.policies = {
         'createFeedback': [
             'hasJsonWebToken',
             'isUserEnabled',
-            'isRequestOwner'
+            'isRequestOwner',
+            'isFeedbackAllowed'
         ]
     },
 
@@ -163,6 +169,14 @@ module.exports.policies = {
         'subscribe': [
             'isSocketRequest',
             'hasJsonWebToken'
+        ]
+    },
+
+    AdminController: {
+        '*': [
+            'hasJsonWebToken',
+            'isUserEnabled',
+            'isUserAdmin'
         ]
     }
 };

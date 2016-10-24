@@ -1,4 +1,4 @@
-.customer, .provider, .group {
+.customer, .provider, .group, .admin {
 
   .menu {
     background-color: rgb(45, 50, 62);
@@ -60,14 +60,8 @@
       }
     }
 
-    .photo {
-      -webkit-border-radius: 50%;
-      -moz-border-radius: 50%;
-      border-radius: 50%;
-      width: 120px;
-      height: 120px;
-      overflow: hidden;
-      background-size: cover;
+    .avatar {
+      margin: 0;
     }
 
     .name {

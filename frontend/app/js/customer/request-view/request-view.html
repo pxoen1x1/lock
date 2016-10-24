@@ -1,16 +1,33 @@
 <div class="container view-content">
-  <div class="container-title"><i class="material-icons">list</i> <span>Request</span></div>
+  <div class="container-title" layout="row" layout-align="start center">
+    <div>
+      <i class="material-icons">list</i> <span>Request</span>
+    </div>
+    <div class="text-right secondary-text" flex>
+      <span ng-bind="vm.request.createdAt | date : vm.dateFormat"></span>
+    </div>
+  </div>
   <div class="container-content">
     <div class="request-info">
-      <div class="title md-headline">Details</div>
+      <div class="title md-headline"
+           layout="row"
+           layout-align="start center">
+        <div>Details</div>
+        <div class="text-right" flex>
+          <button class="md-button md-button-red"
+                  ng-class="{ disabled: vm.request.status !== vm.requestStatus.NEW }"
+                  ng-click="vm.closeRequest(vm.request)">CLOSE
+          </button>
+        </div>
+      </div>
       <div layout="row">
-        <div class="map-wrapper" flex="35">
-          <a ui-sref="customer.requests.request.map($stateParams)">
+        <div class="map-wrapper" flex="40">
+          <a ui-sref="customer.requests.request.map()">
             <ui-gmap-google-map center="vm.map.center"
                                 zoom="vm.map.zoom"
                                 options="vm.map.options">
               <ui-gmap-marker
-                  coords="vm.map.center"
+                  coords="vm.map.marker.center"
                   options="vm.map.marker"
                   idKey="0"
                   fit="false">
@@ -20,53 +37,133 @@
         </div>
         <div class="info-row"
              layout="column"
-             layout-align="center start"
-             flex="65">
-          <div class="info-column">
-            <b>Needed service:</b>
-            <span ng-bind="vm.request.serviceType.name"></span>
+             layout-align="start none"
+             flex="60">
+          <div class="info-column"
+               layout="row"
+               layout-align="start center">
+            <div>
+              <b>Status:</b>
+            </div>
+            <div class="request-status text-capitalize text-right"
+                 flex
+                 ng-class="{
+                    'new': vm.request.status === vm.requestStatus.NEW,
+                    'pending': vm.request.status === vm.requestStatus.PENDING,
+                    'in-progress': vm.request.status === vm.requestStatus.IN_PROGRESS || vm.request.status === vm.requestStatus.DONE,
+                    'closed': vm.request.status === vm.requestStatus.CLOSED
+                  }">
+              <span ng-bind="vm.requestStatus[vm.request.status]">
+              </span>
+            </div>
           </div>
-          <div class="info-column">
-            <b>For date:</b>
-            <span ng-bind="vm.request.forDate ? (vm.request.forDate | date : 'MM/dd/yyyy H:mm a') : 'Now'"></span>
+          <div class="info-column"
+               layout="row">
+            <div>
+              <b>Needed service:</b>
+            </div>
+            <div class="text-right" flex>
+              <span ng-bind="vm.request.serviceType.name"></span>
+            </div>
           </div>
-          <div class="info-column">
-            <b>Address:</b>
-            <span ng-bind="vm.request.location.address"></span>
+          <div class="info-column"
+               layout="row">
+            <div>
+              <b>For date:</b>
+            </div>
+            <div class="text-right" flex>
+              <span ng-bind="vm.request.forDate ? (vm.request.forDate | date : vm.dateFormat) : 'Now'"></span>
+            </div>
+          </div>
+          <div class="info-column"
+               layout="row">
+            <div>
+              <b>Address:</b>
+            </div>
+            <div class="text-right" flex>
+              <span ng-bind="vm.request.location.address"></span>
+            </div>
+          </div>
+          <div class="info-column"
+               layout="row"
+               ng-if="vm.request.language.name">
+            <div>
+              <b>Language:</b>
+            </div>
+            <div class="text-right" flex>
+              <span ng-bind="vm.request.language.name"></span>
+            </div>
+          </div>
+          <div class="info-column"
+               layout="row"
+               ng-if="vm.request.description">
+            <div>
+              <b>Description:</b>
+            </div>
+            <div flex>
+              <span ng-bind="vm.request.description"></span>
+            </div>
           </div>
         </div>
       </div>
     </div>
-    <div class="provider-info">
+    <div class="provider-info"
+         ng-if="vm.request.executor.id">
       <md-divider class="divider"></md-divider>
       <div class="title md-headline">Service provider</div>
-      <div layout="row">
-        <div>
-          <div class="photo"
-               ng-style="{'background-image': 'url(https://pp.vk.me/c604329/v604329073/1a33c/XhTVHpUbzGU.jpg)'}">
+      <div layout="row" layout-align="start center">
+        <div class="avatar-wrapper">
+          <div class="avatar"
+               ng-style="{ 'background-image': 'url(' + (vm.request.executor.portrait ?
+               vm.baseUrl + vm.request.executor.portrait : vm.defaultPortrait) + ')' }">
           </div>
         </div>
         <div class="name"
              flex
              layout="column"
              layout-align="center start"
-             ng-bind="'Elliot Alderson'">
+             ng-bind="vm.request.executor.fullName">
         </div>
-        <div class="cost"
-             flex="10"
-             layout="column"
-             layout-align="center start"
-             ng-bind="'$30'">
+        <div ng-if="vm.request.cost">
+          $ <span class="cost"
+                  flex="10"
+                  ng-bind="vm.request.cost">
+            </span>
         </div>
-        <div flex
-             layout="row"
-             layout-align="end center">
-          <button class="md-button button-done">
-            <md-icon>done</md-icon>
+        <div class="text-right" flex>
+          <button class="md-button md-button-blue"
+                  ng-if="(vm.request.status === vm.requestStatus.DONE ||
+                  vm.request.status === vm.requestStatus.CLOSED) && !vm.feedback"
+                  ng-click="vm.addFeedback(vm.request)">Add feedback
           </button>
-          <button class="md-button button-not-done">
-            <md-icon>close</md-icon>
+          <button class="md-button md-button-green"
+                  ng-class="{ disabled: vm.request.status !== vm.requestStatus.DONE }"
+                  ng-click="vm.setRequestStatusAsDone(vm.request)">Done
           </button>
+        </div>
+      </div>
+      <div ng-if="vm.feedback.id">
+        <md-divider class="divider"></md-divider>
+        <div layout="row">
+          <div class="avatar-wrapper">
+            <div class="avatar"
+                 ng-style="{ 'background-image': 'url(' + (vm.feedback.author.portrait ?
+                 vm.baseUrl + vm.feedback.author.portrait : vm.defaultPortrait) + ')' }">
+            </div>
+          </div>
+          <div flex>
+            <div>
+              <b class="m-r-s" ng-bind="vm.feedback.author.fullName"></b>
+              <span class="secondary-text" ng-bind="vm.feedback.createdAt | date : vm.dateFormat"></span>
+            </div>
+            <div class="m-t-s" ng-bind="vm.feedback.message"></div>
+            <div class="m-t-s">
+              <star-rating readonly
+                           value="vm.feedback.rating"
+                           ng-if="vm.feedback.rating">
+              </star-rating>
+            </div>
+          </div>
         </div>
       </div>
     </div>

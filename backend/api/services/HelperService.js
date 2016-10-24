@@ -32,7 +32,7 @@ let HelperService = {
 
         query += this._buildQuery(whereCriteria, tableAlias);
 
-        query += criteria.sorting ? ` ORDER BY ${tableAlias}${criteria.sorting}` : ``;
+        query += criteria.sorting ? ` ORDER BY ${criteria.sorting}` : ``;
         query += criteria.limit ? ` LIMIT ${criteria.limit}` : ``;
         query += criteria.skip ? ` OFFSET ${criteria.skip}` : ``;
 
@@ -75,12 +75,14 @@ let HelperService = {
             return typeof criteria;
         }
 
-        let query = ` WHERE`;
+        let query = ``;
 
         let criteriaKeys = Object.keys(criteria);
         let index = 0;
 
         if (criteriaKeys.length > 0) {
+            query = ` WHERE`;
+
             criteriaKeys.forEach(
                 (key) => {
                     let criterion = {};

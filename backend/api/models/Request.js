@@ -8,8 +8,6 @@
 
 'use strict';
 
-const STATUS = sails.config.requests.STATUSES;
-
 let Request = {
     tableName: 'requests',
 
@@ -31,27 +29,17 @@ let Request = {
         description: {
             type: 'string'
         },
-        isExecuted: {
-            type: 'boolean',
-            columnName: 'is_executed'
-        },
         cost: {
             type: 'float',
             is: /^\d*(\.\d{1,2})?$/
         },
-        isClosed: {
-            type: 'boolean',
-            columnName: 'is_closed'
-        },
         status: {
             type: 'integer'
         },
-
         language: {
             model: 'Language',
             columnName: 'language_id'
         },
-
         serviceType: {
             model: 'ServiceType',
             columnName: 'service_type_id',
@@ -83,37 +71,6 @@ let Request = {
             collection: 'Bid',
             via: 'request'
         }
-    },
-
-    beforeCreate (request, next) {
-        request.status = STATUS.NEW;
-
-        next(null, request);
-    },
-
-    beforeUpdate(request, next) {
-        if (request.isClosed) {
-            request.status = STATUS.CLOSED;
-            request.isPublic = false;
-
-            return next(null, request);
-        }
-
-        if (request.isExecuted) {
-            request.status = STATUS.DONE;
-            request.isPublic = false;
-
-            return next(null, request);
-        }
-
-        if (request.executor) {
-            request.status = STATUS.IN_PROGRESS;
-            request.isPublic = false;
-
-            return next(null, request);
-        }
-
-        next(null, request);
     }
 };
 

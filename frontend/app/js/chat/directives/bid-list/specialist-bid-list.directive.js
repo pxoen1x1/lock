@@ -47,8 +47,13 @@
         }
 
         function listenBidEvent() {
-            chatSocketservice.onBid(function (bid) {
-                console.log(bid);
+            chatSocketservice.onBid(function (bid, type) {
+                if (type !== 'create') {
+
+                    return;
+                }
+
+                vm.bids.unshift(bid);
             });
         }
 
@@ -59,14 +64,14 @@
                 return;
             }
 
-            vm.currentRequest = currentBid.request;
-
             if (vm.currentBid && vm.currentBid.id === currentBid.id) {
 
                 return;
             }
 
             vm.currentBid = currentBid;
+
+            vm.changeCurrentRequest({request: currentBid.request});
 
             if (!$mdMedia('gt-md')) {
                 $mdSidenav('left-sidenav').close();

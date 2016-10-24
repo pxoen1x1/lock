@@ -5,12 +5,15 @@
         .module('app.core')
         .factory('geocoderService', geocoderService);
 
-    geocoderService.$inject = ['$q', '$window', 'uiGmapGoogleMapApi', 'coreConstants'];
+    geocoderService.$inject =
+        ['$q', '$timeout', '$window', 'uiGmapGoogleMapApi', 'coreConstants', 'serviceProviderDataservice'];
 
-    function geocoderService($q, $window, uiGmapGoogleMapApi, coreConstants) {
-
+    function geocoderService($q, $timeout, $window, uiGmapGoogleMapApi, coreConstants, serviceProviderDataservice) {
+        var stopTrackingPromise;
         var service = {
             getCurrentCoordinates: getCurrentCoordinates,
+            startGeoTracking: startGeoTracking,
+            stopGeoTracking: stopGeoTracking,
             getCoordinates: getCoordinates,
             getLocation: getLocation,
             getBoundsOfDistance: getBoundsOfDistance,
@@ -20,21 +23,48 @@
         return service;
 
         function getCurrentCoordinates() {
+            var deferred = $q.defer();
 
-            return $q(function (resolve, reject) {
-                if (!$window.navigator && !$window.navigator.geolocation) {
+            if (!$window.navigator && !$window.navigator.geolocation) {
 
-                    return reject('Your browser doesn\'t support geolocation.');
-                }
+                return deferred.reject('Your browser doesn\'t support geolocation.');
+            }
 
-                $window.navigator.geolocation.getCurrentPosition(
-                    function (position) {
-                        resolve(position.coords);
-                    },
-                    function (error) {
-                        reject('Geolocation service failed for the following reason: ' + error.message);
-                    });
-            });
+            $window.navigator.geolocation.getCurrentPosition(
+                function (position) {
+
+                    return deferred.resolve(position.coords);
+                },
+                function (error) {
+
+                    return deferred.reject('Geolocation service failed for the following reason: ' + error.message);
+                });
+
+            return deferred.promise;
+        }
+
+        function startGeoTracking() {
+            stopTrackingPromise = $timeout(function () {
+
+                getCurrentCoordinates()
+                    .then(function (position) {
+                        var location = {
+                            location: {
+                                latitude: position.latitude,
+                                longitude: position.longitude
+                            }
+                        };
+
+                        return serviceProviderDataservice.updateLocation(location);
+                    })
+                    .finally(startGeoTracking);
+            }, 10000);
+
+            return stopTrackingPromise;
+        }
+
+        function stopGeoTracking() {
+            $timeout.cancel(stopTrackingPromise);
         }
 
         function getCoordinates(address) {

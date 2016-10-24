@@ -1,49 +1,97 @@
-<div class="container request-list-content"
-     ng-if="$mdMedia('gt-xs')">
-  <div class="container-title">
-    <i class="material-icons">list</i>
-    <span>New</span>
-    <span>⋅</span>
-    <span ng-bind="vm.paginationOptions.totalCount"></span>
+<div class="request-list-content">
+  <div class="container"
+       ng-if="$mdMedia('gt-xs')">
+    <div class="container-title">
+      <i class="material-icons">list</i>
+      <span>New</span>
+      <span>⋅</span>
+      <span ng-bind="vm.paginationOptions.totalCount"></span>
+    </div>
+    <div class="container-content">
+      <md-table-container infinite-scroll
+                          autoloading-enabled="true"
+                          scroll-disabled="vm.isAllMessagesLoaded"
+                          on-scroll="vm.loadPrevRequests()">
+        <table md-table>
+          <thead md-head>
+          <tr md-row>
+            <th md-column>
+              <span>Customer</span>
+            </th>
+            <th md-column>
+              <span>For Date</span>
+            </th>
+            <th md-column>
+              <span>Type of service</span>
+            </th>
+            <th md-column>
+              <span>Language</span>
+            </th>
+            <th md-column>
+              <span>Description</span>
+            </th>
+            <th md-column>Distance (mi)</th>
+            <th md-column>
+              <span>Created</span>
+            </th>
+          </tr>
+          </thead>
+          <tbody md-body>
+          <tr md-row
+              ui-sref="provider.dashboard.request.view({ requestId: request.id })"
+              ng-repeat="request in vm.requests track by request.id">
+            <td class="td-customer"
+                layout="row"
+                layout-align="start center"
+                md-cell>
+              <div class="avatar-wrapper">
+                <div class="avatar"
+                     ng-style="{ 'background-image': 'url(' + (request.owner.portrait ?
+                   vm.baseUrl + request.owner.portrait : vm.defaultPortrait) + ')' }">
+                </div>
+              </div>
+              <div class="contact-name" flex>
+                <span ng-bind="request.owner.fullName"></span>
+              </div>
+            </td>
+            <td md-cell>
+              <span ng-bind="request.forDate ? (request.forDate | date: vm.dateFormat) : 'Now'"></span>
+            </td>
+            <td md-cell>
+              <span ng-bind="request.serviceType.name"></span>
+            </td>
+            <td md-cell>
+              <span ng-bind="request.language.name ? request.language.name : '–'"></span>
+            </td>
+            <td class="text-truncate td-description" md-cell>
+              <span ng-bind="request.description ? request.description : '–'"></span>
+            </td>
+            <td class="td-cost" md-cell>
+              ~<span ng-bind="request.location | distance"></span>
+            </td>
+            <td md-cell>
+              <span ng-bind="request.createdAt | altDate"></span>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </md-table-container>
+    </div>
   </div>
-  <div class="container-content">
-    <md-table-container
-        infinite-scroll
-        autoloading-enabled="true"
-        scroll-disabled="vm.isAllMessagesLoaded"
-        on-scroll="vm.loadPrevRequests()">
-      <table md-table>
-        <thead md-head>
-        <tr md-row>
-          <th md-column>
-            <span>Customer</span>
-          </th>
-          <th md-column>
-            <span>For Date</span>
-          </th>
-          <th md-column>
-            <span>Type of service</span>
-          </th>
-          <th md-column>
-            <span>Language</span>
-          </th>
-          <th md-column>
-            <span>Description</span>
-          </th>
-          <th md-column>Distance (mi)</th>
-          <th md-column>
-            <span>Created</span>
-          </th>
-        </tr>
-        </thead>
-        <tbody md-body>
-        <tr md-row
-            ui-sref="provider.requests.request.view({ requestId: request.id })"
-            ng-repeat="request in vm.requests track by request.id">
-          <td class="td-customer"
-              layout="row"
-              layout-align="start center"
-              md-cell>
+  <div class="cards"
+       ng-if="!$mdMedia('gt-xs')"
+       infinite-scroll
+       autoloading-enabled
+       scroll-disabled="vm.isAllMessagesLoaded"
+       on-scroll="vm.loadPrevRequests()">
+    <div>
+      <a class="list card"
+         ui-sref="provider.dashboard.request.view({ requestId: request.id })"
+         ng-repeat="request in vm.requests track by request.id">
+        <div class="item item-header" layout="row">
+          <div layout="row"
+               layout-align="start center"
+               flex="50">
             <div class="avatar-wrapper">
               <div class="avatar"
                    ng-style="{ 'background-image': 'url(' + (request.owner.portrait ?
@@ -53,125 +101,45 @@
             <div class="contact-name" flex>
               <span ng-bind="request.owner.fullName"></span>
             </div>
-          </td>
-          <td md-cell>
-            <span ng-bind="request.forDate ? (request.forDate | date: vm.dateFormat) : 'Now'"></span>
-          </td>
-          <td md-cell>
-            <span ng-bind="request.serviceType.name"></span>
-          </td>
-          <td md-cell>
-            <span ng-bind="request.language.name"></span>
-          </td>
-          <td class="text-truncate td-description" md-cell>
-            <span ng-bind="request.description"></span>
-          </td>
-          <td class="td-cost" md-cell>
-            ~<span ng-bind="request.location | distance"></span>
-          </td>
-          <td md-cell>
+          </div>
+          <div class="secondary-text"
+               flex="50"
+               layout="row"
+               layout-align="end center">
             <span ng-bind="request.createdAt | altDate"></span>
-          </td>
-        </tr>
-        </tbody>
-      </table>
-    </md-table-container>
-  </div>
-</div>
-<div class="request-list-content"
-     ng-if="!$mdMedia('gt-xs')">
-  <a class="list card"
-     ui-sref="customer.request.view({ requestId: request.id })"
-     ng-repeat="request in vm.requests track by request.id">
-    <div class="item item-header" layout="row">
-      <div layout="row"
-           layout-align="start center"
-           flex="50">
-        <div class="avatar-wrapper">
-          <div class="avatar"
-               ng-style="{ 'background-image': 'url(' + (request.owner.portrait ?
-               vm.baseUrl + request.owner.portrait : vm.defaultPortrait) + ')' }">
           </div>
         </div>
-        <div class="contact-name" flex>
-          <span ng-bind="request.owner.fullName"></span>
+        <div class="item item-body" layout="row">
+          <div layout="column"
+               flex="50">
+            <div>
+              <span class="md-body-2">Type of service:</span>
+              <span class="md-body-1" ng-bind="request.serviceType.name"></span>
+            </div>
+            <div ng-if="request.language.name">
+              <span class="md-body-2">Language:</span>
+              <span class="md-body-1"
+                    ng-bind="request.language.name">
+              </span>
+            </div>
+          </div>
+          <div layout="column"
+               flex="50">
+            <div>
+              <span class="md-body-2">For Date:</span>
+              <span class="md-body-1"
+                    ng-bind="request.forDate ? (request.forDate | date: vm.dateFormat) : 'Now'">
+              </span>
+            </div>
+            <div ng-if="request.location">
+              <span class="md-body-2">Distance:</span>
+              ~ <span class="md-body-1"
+                      ng-bind="request.location | distance">
+                </span> mi
+            </div>
+          </div>
         </div>
-      </div>
-      <div class="secondary-text"
-           flex="50"
-           layout="row"
-           layout-align="end center">
-        <span ng-bind="request.createdAt | altDate"></span>
-      </div>
+      </a>
     </div>
-    <div class="item item-body" layout="row">
-      <div layout="column"
-           flex="50">
-        <div>
-          <span class="md-body-2">Type of service:</span>
-          <span class="md-body-1" ng-bind="request.serviceType.name"></span>
-        </div>
-        <div ng-if="request.language.name">
-          <span class="md-body-2">Language:</span>
-          <span class="md-body-1"
-                ng-bind="request.language.name">
-          </span>
-        </div>
-      </div>
-      <div layout="column"
-           flex="50">
-        <div>
-          <span class="md-body-2">For Date:</span>
-          <span class="md-body-1"
-                ng-bind="request.forDate ? (request.forDate | date: vm.dateFormat) : 'Now'">
-          </span>
-        </div>
-        <div ng-if="request.location">
-          <span class="md-body-2">Distance:</span>
-          ~ <span class="md-body-1"
-                  ng-bind="request.location | distance">
-          </span> mi
-        </div>
-      </div>
-    </div>
-  </a>
+  </div>
 </div>
-
-<!--
-<div class="request-list-content"
-     ng-if="!$mdMedia('gt-xs')">
-  <a class="list card"
-     ui-sref="customer.request.view({ requestId: request.id })"
-     ng-repeat="request in vm.requests track by request.id">
-    <div class="item item-header" layout="row">
-      <div flex="50">
-        <div class="md-title" ng-bind="request.createdAt | altDate"></div>
-        <span class="md-body-2">Type of service:</span>
-        <span class="md-body-1" ng-bind="request.serviceType.name"></span>
-      </div>
-      <div flex="50" layout="column" layout-align="start end">
-        <div class="td-status"
-             ng-class="{
-             'new': request.status === vm.requestStatus.NEW,
-              'pending': request.status === vm.requestStatus.IN_PROGRESS || request.status === vm.requestStatus.DONE,
-              'closed': request.status === vm.requestStatus.CLOSED
-             }">
-          <span ng-bind="vm.requestStatus[request.status]"></span>
-        </div>
-        <div class="md-body-2">
-          <span class="md-body-1"
-                ng-bind="request.forDate | date : vm.dateFormat">
-          </span>
-        </div>
-      </div>
-    </div>
-    <div class="item item-body">
-      <span class="md-body-2">Distance:</span>
-      ~
-      <span class="md-body-1"
-            ng-bind="request.location | distance">
-      </span>
-      mi
-    </div>
-  </a>
-</div>-->

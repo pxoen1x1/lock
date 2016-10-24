@@ -19,7 +19,8 @@
                 currentRequest: '=?',
                 isScrollDisabled: '=?scrollChatDisabled',
                 isScrollToBottomEnabled: '=?scrollChatToBottom',
-                loadPrevMessages: '&'
+                loadPrevMessages: '&',
+                changeCurrentRequest: '&'
             },
             replace: true,
             templateUrl: 'chat/directives/chat-list/specialist-chat-list.html'
@@ -54,8 +55,9 @@
         }
 
         function listenMessageEvent() {
-            chatSocketservice.onMessage(function (message) {
-                if (!message || !message.chat || !message.chat.id || !angular.isArray(vm.messages[message.chat.id])) {
+            chatSocketservice.onMessage(function (message, type) {
+                if (type !== 'create' || !message || !message.chat || !message.chat.id ||
+                    !angular.isArray(vm.messages[message.chat.id])) {
 
                     return;
                 }
@@ -65,7 +67,11 @@
         }
 
         function listenChatEvent() {
-            chatSocketservice.onChat(function (chat) {
+            chatSocketservice.onChat(function (chat, type) {
+                if (type !== 'create') {
+
+                    return;
+                }
 
                 vm.chats.unshift(chat);
             });
@@ -78,14 +84,14 @@
                 return;
             }
 
-            vm.currentRequest = currentChat.request;
-
             if (vm.currentChat && vm.currentChat.id === currentChat.id) {
 
                 return;
             }
 
             vm.currentChat = currentChat;
+
+            vm.changeCurrentRequest({request: currentChat.request});
 
             if (!vm.pagination.messages[currentChat.id]) {
                 vm.pagination.messages[currentChat.id] = {

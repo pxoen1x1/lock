@@ -1,21 +1,71 @@
 /* !ToDo: Moved from _customer.scss. Need refactoring. */
+.chat-map {
+  height: 250px;
+}
+
 .map-wrapper {
   background: url('https://maps.gstatic.com/tactile/pane/spinner_color.gif');
   background-position: center center;
   background-repeat: no-repeat;
 }
 
-.map-wrapper, .angular-google-map-container {
+.full-screen {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 100;
+
+  .map-content {
+    position: relative;
+    width: 96%;
+    height: 96%;
+    top: 2%;
+    left: 2%;
+  }
+}
+
+.map-viewer,
+.map-content {
+  height: 100%;
+}
+
+.map-wrapper,
+.angular-google-map-container {
   position: relative;
   width: 100%;
-  height: 125px;
+  height: 200px;
   border-radius: 10px;
   overflow: hidden;
+
+}
+
+.angular-google-map-container {
+  button {
+    margin-right: 11px;
+    border-radius: 50px;
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    background-color: #fff;
+    color: $secondary-text-color;
+    box-shadow: rgba(0, 0, 0, .3) 0 1px 4px -1px;
+    border: none;
+
+    &:hover {
+      color: $text-color
+    }
+
+    i {
+      font-size: 18px;
+      line-height: 24px;
+    }
+  }
 }
 
 .map-content {
-  height: 100%;
-
   &.container {
     height: auto;
   }
@@ -47,12 +97,12 @@
       width: 70%;
       margin: 0;
       opacity: 0;
+      background-color: #FFF;
       -webkit-transform: translate(-50%, -15%);
       -moz-transform: translate(-50%, 0) scaleY(0);
       -ms-transform: translate(-50%, 0) scaleY(0);
       -o-transform: translate(-50%, 0) scaleY(0);
       transform: translate(-50%, 0) scaleY(0);
-
       -webkit-transition: all 0.2s ease;
       -moz-transition: all 0.2s ease;
       -ms-transition: all 0.2s ease;
@@ -90,7 +140,7 @@
     .md-subhead {
       color: rgba(0, 0, 0, 0.541176);
       font-size: 14px;
-      letter-spacing: 0.14000000059604645px;
+      letter-spacing: .010em;
       line-height: 24px;
     }
 

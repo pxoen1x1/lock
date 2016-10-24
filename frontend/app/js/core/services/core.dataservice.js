@@ -12,18 +12,21 @@
         var service = {
             getCurrentUser: getCurrentUser,
             getUser: getUser,
+            getFeedbacks: getFeedbacks,
             getServiceTypes: getServiceTypes,
             getLanguages: getLanguages,
             getStates: getStates,
             getCities: getCities,
             getNewRequests: getNewRequests,
+            getRequest: getRequest,
             getAvailabilityInfo: getAvailabilityInfo,
             createUser: createUser,
             login: login,
             logout: logout,
             resetUserPassword: resetUserPassword,
             updateUser: updateUser,
-            updateRequest: updateRequest
+            acceptOffer: acceptOffer,
+            updateRequestStatus: updateRequestStatus
         };
 
         return service;
@@ -40,6 +43,14 @@
 
             return request.httpWithTimeout({
                 url: conf.BASE_URL + conf.URL_PREFIX + 'users/' + userId,
+                method: 'GET'
+            });
+        }
+
+        function getFeedbacks(userId) {
+
+            return request.httpWithTimeout({
+                url: conf.BASE_URL + conf.URL_PREFIX + 'users/' + userId + '/feedbacks',
                 method: 'GET'
             });
         }
@@ -83,6 +94,14 @@
                 url: conf.BASE_URL + conf.URL_PREFIX + 'specialist/requests/new',
                 method: 'GET',
                 params: params
+            });
+        }
+
+        function getRequest(userType, currentRequest) {
+
+            return request.httpWithTimeout({
+                url: conf.BASE_URL + conf.URL_PREFIX + userType + '/requests/' + currentRequest.id,
+                method: 'GET'
             });
         }
 
@@ -170,16 +189,31 @@
             }
         }
 
-        function updateRequest(request) {
+        function acceptOffer(requestId, request) {
 
             return $http({
-                url: conf.BASE_URL + conf.URL_PREFIX + 'client/requests/' + request.id,
+                url: conf.BASE_URL + conf.URL_PREFIX + 'client/requests/' + requestId,
                 method: 'PUT',
                 data: request
             })
-                .then(updateRequestCompleted);
+                .then(acceptOfferCompleted);
 
-            function updateRequestCompleted(response) {
+            function acceptOfferCompleted(response) {
+
+                return response.data.request;
+            }
+        }
+
+        function updateRequestStatus(request, status) {
+
+            return $http({
+                url: conf.BASE_URL + conf.URL_PREFIX + 'requests/' + request.id + '/status',
+                method: 'PUT',
+                data: status
+            })
+                .then(updateRequestStatusCompleted);
+
+            function updateRequestStatusCompleted(response) {
 
                 return response.data.request;
             }
