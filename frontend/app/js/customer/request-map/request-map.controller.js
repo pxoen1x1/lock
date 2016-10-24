@@ -247,7 +247,7 @@
                 if (request.status === vm.requestStatus.IN_PROGRESS) {
                     vm.map.specialistMarker.options.animation = 0;
 
-                    setExecutorMarker();
+                    setExecutorMarker(request);
                 }
             });
         }
