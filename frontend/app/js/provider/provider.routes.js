@@ -211,7 +211,7 @@
                 views: {
                     'content@provider.dashboard.request': {
                         templateUrl: 'provider/request-map/request-map.html',
-                        controller: 'ProviderRequestMapController',
+                        controller: 'SpecialistRequestMapController',
                         controllerAs: 'vm'
                     }
                 },

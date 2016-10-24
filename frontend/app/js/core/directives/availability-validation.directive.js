@@ -44,11 +44,11 @@
                                 return $q.reject();
                             }
 
-                            return true;
+                            return $q.resolve();
                         });
                 }
 
-                return true;
+                return $q.resolve();
             }
         }
     }

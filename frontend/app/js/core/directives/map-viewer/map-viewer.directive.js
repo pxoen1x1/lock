@@ -58,10 +58,13 @@
         }
     }
 
-    MapViewerController.$inject = ['$scope', 'uiGmapIsReady', 'coreConstants', 'geocoderService'];
+    MapViewerController.$inject = ['$scope', '$window', 'uiGmapIsReady', 'coreConstants', 'geocoderService'];
 
     /* @ngInject */
-    function MapViewerController($scope, uiGmapIsReady, coreConstants, geocoderService) {
+    function MapViewerController($scope, $window, uiGmapIsReady, coreConstants, geocoderService) {
+        var googleMaps;
+        var directionsDisplay;
+        var directionsService;
         var currentPosition = {
             latitude: null,
             longitude: null
@@ -136,6 +139,7 @@
 
         vm.refreshMap = refreshMap;
         vm.goToCurrentPosition = goToCurrentPosition;
+        vm.getDirections = getDirections;
 
         function refreshMap(location) {
             var mapsCount = angular.element(document).find('ui-gmap-google-map').length;
@@ -189,12 +193,55 @@
             vm.map.currentMarker.center = position;
         }
 
+        function getDirections() {
+            if (vm.selectedRequest.status !== vm.requestStatus.IN_PROGRESS) {
+
+                return;
+            }
+
+            var request = {
+                origin: {
+                    lat: vm.selectedRequest.location.latitude,
+                    lng: vm.selectedRequest.location.longitude
+                },
+                destination: {
+                    lat: vm.map.currentMarker.center.latitude,
+                    lng: vm.map.currentMarker.center.longitude
+                },
+                travelMode: googleMaps.DirectionsTravelMode.DRIVING,
+                drivingOptions: {
+                    departureTime: new Date(),
+                    trafficModel: 'pessimistic'
+                },
+                unitSystem: googleMaps.UnitSystem.IMPERIAL
+            };
+
+            directionsService.route(request, function (response, status) {
+                if (status !== googleMaps.DirectionsStatus.OK) {
+
+                    return;
+                }
+
+                directionsDisplay.setDirections(response);
+                directionsDisplay.setMap(vm.map.control.getGMap());
+            });
+        }
+
+        function removeDirection(){
+            directionsDisplay.setMap(null);
+        }
+
         function activate() {
             refreshMap(vm.selectedRequest.location)
                 .then(function () {
 
+                    googleMaps = $window.google.maps;
+                    directionsDisplay = new googleMaps.DirectionsRenderer();
+                    directionsService = new googleMaps.DirectionsService();
+
                     return getCurrentPosition();
-                });
+                })
+                .then(getDirections);
 
             $scope.$watchCollection('vm.selectedRequest.location', function (newLocation, oldLocation) {
                 if (!newLocation || newLocation === oldLocation) {
@@ -205,6 +252,20 @@
                 $scope.$applyAsync(function () {
                     refreshMap(newLocation);
                 });
+            });
+
+            $scope.$watch('vm.selectedRequest.status', function (newStatus, oldStatus) {
+                if (newStatus === oldStatus) {
+
+                    return;
+                }
+
+                if (vm.selectedRequest.status === vm.requestStatus.IN_PROGRESS) {
+                    getDirections();
+                }
+                else {
+                    removeDirection();
+                }
             });
         }
     }

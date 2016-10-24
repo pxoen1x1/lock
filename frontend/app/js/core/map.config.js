@@ -10,7 +10,7 @@
     /* @ngInject */
     function mapConfig(uiGmapGoogleMapApiProvider) {
         uiGmapGoogleMapApiProvider.configure({
-            key: 'AIzaSyChAx8wUXND6tkUP2SLlXD32uZYw8HS1vg',
+            key: 'AIzaSyBqoLrvITR5sTXbNHaNFJsq3thbioSOks8',
             //v: '3',
             libraries: 'weather,geometry,visualization'
         });
