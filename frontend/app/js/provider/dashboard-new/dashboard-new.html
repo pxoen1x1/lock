@@ -86,7 +86,7 @@
        on-scroll="vm.loadPrevRequests()">
     <div>
       <a class="list card"
-         ui-sref="customer.request.view({ requestId: request.id })"
+         ui-sref="provider.dashboard.request.view({ requestId: request.id })"
          ng-repeat="request in vm.requests track by request.id">
         <div class="item item-header" layout="row">
           <div layout="row"

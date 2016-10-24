@@ -105,6 +105,18 @@
   }
 }
 
+.feedback-dialog {
+
+  md-dialog-actions {
+    padding-left: 0;
+  }
+
+  .star-rating {
+    font-size: 24px;
+    text-align: center;
+  }
+}
+
 @media only screen and (min-device-width: 320px) and (max-device-width: 960px) {
 
   .customer {

@@ -1,0 +1,54 @@
+<md-dialog aria-label="Add a feedback" class="feedback-dialog">
+  <form role="form"
+        name="feedbackForm"
+        novalidate
+        ng-submit="vm.submit(vm.feedbackData, feedbackForm.$valid)">
+    <md-toolbar class="md-menu-toolbar md-default-theme">
+      <div class="md-toolbar-tools">
+        <h2>Add a feedback</h2>
+        <span flex></span>
+        <md-button class="md-icon-button"
+                   aria-label="Close dialog"
+                   ng-click="vm.cancel()">
+          <i class="material-icons">close</i>
+        </md-button>
+      </div>
+    </md-toolbar>
+    <md-dialog-content>
+      <div class="md-dialog-content">
+        <!-- Rating -->
+        <star-rating class="feedback-star-rating"
+                     value="vm.feedbackData.rating"
+                     onchange="vm.setFeedbackRating(rating)">
+        </star-rating>
+        <!-- Message -->
+        <div layout="row">
+          <md-input-container class="md-block" flex>
+            <label>Message</label>
+            <textarea type="text"
+                      name="message"
+                      required
+                      rows="3"
+                      md-maxlength="250"
+                      ng-model="vm.feedbackData.message">
+            </textarea>
+            <div ng-messages="feedbackForm.message.$error">
+              <div ng-message="required">
+                It's required field.
+              </div>
+            </div>
+          </md-input-container>
+        </div>
+      </div>
+    </md-dialog-content>
+    <md-dialog-actions layout="row">
+      <button type="submit"
+              flex
+              aria-label="Add"
+              class="md-button md-button-blue"
+              ng-disabled="feedbackForm.$invalid">
+        Add
+      </button>
+    </md-dialog-actions>
+  </form>
+</md-dialog>

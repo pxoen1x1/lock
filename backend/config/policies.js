@@ -88,7 +88,8 @@ module.exports.policies = {
         'createFeedback': [
             'hasJsonWebToken',
             'isUserEnabled',
-            'isRequestOwner'
+            'isRequestOwner',
+            'isFeedbackAllowed'
         ]
     },
 

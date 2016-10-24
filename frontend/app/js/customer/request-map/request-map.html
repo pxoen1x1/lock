@@ -10,9 +10,9 @@
       <ui-gmap-google-map center="vm.map.center"
                           zoom="vm.map.zoom"
                           options="vm.map.options"
+                          control="vm.map.control"
                           events="vm.map.events">
-
-        <ui-gmap-marker idkey="'specialist' + specialist.id"
+        <ui-gmap-marker idKey="'specialist' + specialist.id"
                         coords="specialist.details"
                         options="vm.map.specialistMarker.options"
                         fit="false"
@@ -20,7 +20,6 @@
                         events="vm.map.specialistMarker.events"
                         ng-repeat="specialist in vm.specialists track by specialist.id">
         </ui-gmap-marker>
-
         <ui-gmap-markers models="vm.map.markers"
                          coords="'self'"
                          icon="'icon'">
@@ -74,8 +73,8 @@
                layout="row"
                layout-align="start center">
             <md-button class="md-button-blue md-fab"
-                       ng-disabled="vm.currentRequest.status !== vm.requestStatus.NEW"
-                       ng-click="vm.createChat(vm.selectedSpecialist, vm.currentRequest)">
+                       ng-disabled="vm.request.status !== vm.requestStatus.NEW"
+                       ng-click="vm.createChat(vm.selectedSpecialist, vm.request)">
               <md-icon>chat</md-icon>
             </md-button>
           </div>

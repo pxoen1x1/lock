@@ -23,9 +23,9 @@
         return directive;
 
         function link(scope, element, attrs) {
-            var isFullScreenMode = false;
-
             var vm = scope.vm;
+
+            vm.isFullScreenMode = false;
 
             var fullScreenModeDisabled = attrs.fullscreenDisabled && attrs.fullscreenDisabled !== 'false';
 
@@ -37,11 +37,11 @@
                     return;
                 }
 
-                isFullScreenMode = !isFullScreenMode;
+                vm.isFullScreenMode = !vm.isFullScreenMode;
                 var sideBar = angular.element(document.querySelector('md-sidenav.menu'));
                 var headerToolbar = angular.element(document.querySelector('.header md-toolbar'));
 
-                if (isFullScreenMode) {
+                if (vm.isFullScreenMode) {
                     element.removeClass('bounceOut');
                     sideBar.css('z-index', '1');
                     headerToolbar.css('z-index', '1');
@@ -58,10 +58,14 @@
         }
     }
 
-    MapViewerController.$inject = ['$scope', 'uiGmapIsReady', 'coreConstants'];
+    MapViewerController.$inject = ['$scope', 'uiGmapIsReady', 'coreConstants', 'geocoderService'];
 
     /* @ngInject */
-    function MapViewerController($scope, uiGmapIsReady, coreConstants) {
+    function MapViewerController($scope, uiGmapIsReady, coreConstants, geocoderService) {
+        var currentPosition = {
+            latitude: null,
+            longitude: null
+        };
         var vm = this;
 
         vm.requestStatus = coreConstants.REQUEST_STATUSES;
@@ -73,6 +77,11 @@
             },
             zoom: 15,
             control: {},
+            events: {
+                dblclick: function () {
+                    vm.toggleFullScreenMode();
+                }
+            },
             options: {
                 disableDoubleClickZoom: true,
                 streetViewControl: false,
@@ -80,10 +89,6 @@
                 minZoom: 7
             },
             circle: {
-                center: {
-                    latitude: vm.selectedRequest.location.latitude,
-                    longitude: vm.selectedRequest.location.longitude
-                },
                 radius: 500,
                 stroke: {
                     color: '#039BE5',
@@ -95,11 +100,7 @@
                     opacity: 0.3
                 }
             },
-            marker: {
-                center: {
-                    latitude: vm.selectedRequest.location.latitude,
-                    longitude: vm.selectedRequest.location.longitude
-                },
+            requestMarker: {
                 icon: {
                     url: coreConstants.IMAGES.requestLocationMarker,
                     scaledSize: {
@@ -111,12 +112,30 @@
                     }
                 },
                 title: vm.selectedRequest.location.address
+            },
+            currentMarker: {
+                center: {
+                    latitude: null,
+                    longitude: null
+                },
+                icon: {
+                    url: coreConstants.IMAGES.currentLocationMarker,
+                    scaledSize: {
+                        width: 30,
+                        height: 30
+                    },
+                    anchor: {
+                        x: 15, y: 15
+                    }
+                },
+                title: 'You are here.'
             }
         };
 
         activate();
 
         vm.refreshMap = refreshMap;
+        vm.goToCurrentPosition = goToCurrentPosition;
 
         function refreshMap(location) {
             var mapsCount = angular.element(document).find('ui-gmap-google-map').length;
@@ -128,33 +147,64 @@
                         longitude: location.longitude
                     };
 
-                    vm.map.circle.center = {
-                        latitude: location.latitude,
-                        longitude: location.longitude
-                    };
-
-                    vm.map.marker.center = {
-                        latitude: location.latitude,
-                        longitude: location.longitude
-                    };
-
-                    vm.map.control.refresh(location);
+                    vm.map.control.refresh(vm.map.center);
 
                     return vm.map;
                 });
         }
 
+        function goToCurrentPosition() {
+            if (!currentPosition.latitude || !currentPosition.longitude) {
+
+                return;
+            }
+
+            vm.map.center = {
+                latitude: currentPosition.latitude,
+                longitude: currentPosition.longitude
+            };
+        }
+
+        function getCurrentPosition() {
+
+            return geocoderService.getCurrentCoordinates()
+                .then(function (position) {
+                    currentPosition = {
+                        latitude: position.latitude,
+                        longitude: position.longitude
+                    };
+
+                    setCurrentMarkerCenter(currentPosition);
+
+                    return position;
+                });
+        }
+
+        function setCurrentMarkerCenter(position) {
+            if (!position.latitude || !position.longitude) {
+
+                return;
+            }
+
+            vm.map.currentMarker.center = position;
+        }
+
         function activate() {
+            refreshMap(vm.selectedRequest.location)
+                .then(function () {
 
-            refreshMap(vm.selectedRequest.location);
+                    return getCurrentPosition();
+                });
 
-            $scope.$watchCollection('vm.selectedRequest.location', function (newRequest, oldRequest) {
-                if (!newRequest || newRequest === oldRequest) {
+            $scope.$watchCollection('vm.selectedRequest.location', function (newLocation, oldLocation) {
+                if (!newLocation || newLocation === oldLocation) {
 
                     return;
                 }
 
-                refreshMap(vm.selectedRequest.location);
+                $scope.$applyAsync(function () {
+                    refreshMap(newLocation);
+                });
             });
         }
     }

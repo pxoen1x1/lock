@@ -5,13 +5,14 @@
         .module('app.provider')
         .factory('serviceProviderDataservice', serviceProviderDataservice);
 
-    serviceProviderDataservice.$inject = ['$http', 'request', 'conf'];
+    serviceProviderDataservice.$inject = ['$http', '$sails', 'request', 'conf'];
 
     /* @ngInject */
-    function serviceProviderDataservice($http, request, conf) {
+    function serviceProviderDataservice($http, $sails, request, conf) {
         var service = {
             getRequests: getRequests,
-            getRequest: getRequest
+            getRequest: getRequest,
+            updateLocation: updateLocation
         };
 
         return service;
@@ -31,6 +32,17 @@
                 url: conf.BASE_URL + conf.URL_PREFIX + 'specialist/requests/' + currentRequest.id,
                 method: 'GET'
             });
+        }
+
+        function updateLocation(location) {
+
+            return $sails.put(conf.URL_PREFIX + 'specialist/location', location)
+                .then(updateLocationCompleted);
+
+            function updateLocationCompleted(response) {
+
+                return response.data.location;
+            }
         }
     }
 })();

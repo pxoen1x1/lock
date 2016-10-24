@@ -1,23 +1,36 @@
-<div class="animated map-viewer" ng-dblclick="vm.toggleFullScreenMode()">
+<div class="animated map-viewer">
   <div class="map-content">
     <div class="map-wrapper">
       <ui-gmap-google-map center="vm.map.center"
                           control="vm.map.control"
+                          events="vm.map.events"
                           zoom="vm.map.zoom"
                           options="vm.map.options">
-
-        <ui-gmap-circle center='vm.map.circle.center'
+        <ui-gmap-circle center='vm.selectedRequest.location'
                         radius='vm.map.circle.radius'
                         fill='vm.map.circle.fill'
                         stroke='vm.map.circle.stroke'
                         visible="vm.selectedRequest.status === vm.requestStatus.NEW">
         </ui-gmap-circle>
         <ui-gmap-marker ng-if="vm.selectedRequest.status !== vm.requestStatus.NEW"
-                        coords="vm.map.marker.center"
-                        options="vm.map.marker"
+                        coords="vm.selectedRequest.location"
+                        options="vm.map.requestMarker"
                         idKey="0"
                         fit="false">
         </ui-gmap-marker>
+        <ui-gmap-marker ng-if="vm.isFullScreenMode"
+                        coords="vm.map.currentMarker.center"
+                        options="vm.map.currentMarker"
+                        idKey="1"
+                        fit="false">
+        </ui-gmap-marker>
+        <ui-gmap-map-control position="right-bottom">
+          <button type="button"
+                  ng-click="vm.goToCurrentPosition()"
+                  ng-if="vm.isFullScreenMode">
+            <i class="material-icons">my_location</i>
+          </button>
+        </ui-gmap-map-control>
       </ui-gmap-google-map>
     </div>
   </div>

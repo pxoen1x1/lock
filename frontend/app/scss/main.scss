@@ -308,12 +308,27 @@ md-content {
   background-size: cover;
   background-position-x: center;
 
+  &.mid {
+    width: 54px;
+    min-width: 54px;
+    height: 54px;
+    line-height: 54px;
+  }
+
   &.huge {
     width: 96px;
     min-width: 96px;
     height: 96px;
     line-height: 96px;
   }
+
+  &.biggest {
+    width: 120px;
+    min-width: 120px;
+    height: 120px;
+    line-height: 120px;
+  }
+
 }
 
 .customer, .provider, .group, .admin {
