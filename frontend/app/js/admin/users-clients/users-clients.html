@@ -1,70 +1,70 @@
 <div class="infinite-scroll-wrapper">
   <div class="container"
-     ng-if="$mdMedia('gt-xs')">
-  <div class="container-title">
-    <i class="material-icons">people</i>
-    <span>Users</span>
-    <span>⋅</span>
-    <span ng-bind="vm.queryOptions.totalCount"></span>
+       ng-if="$mdMedia('gt-xs')">
+    <div class="container-title">
+      <i class="material-icons">people</i>
+      <span>Users</span>
+      <span>⋅</span>
+      <span ng-bind="vm.queryOptions.totalCount"></span>
+    </div>
+    <div class="container-content">
+      <md-table-container class="infinite-scroll-container"
+                          infinite-scroll
+                          autoloading-enabled="true"
+                          scroll-disabled="vm.isAllUsersLoaded"
+                          on-scroll="vm.getUsers()">
+        <table md-table>
+          <thead md-head
+                 md-order="vm.queryOptions.orderBy"
+                 md-on-reorder="vm.getUsers">
+          <tr md-row>
+            <th md-column>
+              <span>Photo</span>
+            </th>
+            <th md-column
+                md-order-by="fullName">
+              <span>Name</span>
+            </th>
+            <th md-column
+                md-order-by="auth.email">
+              <span>E-mail</span>
+            </th>
+            <th md-column
+                md-order-by="phone_number">
+              <span>Phone number</span>
+            </th>
+            <th md-column
+                md-order-by="createdAt">
+              <span>Registration date</span>
+            </th>
+          </tr>
+          </thead>
+          <tbody md-body>
+          <tr md-row
+              ng-repeat="user in vm.users track by user.id">
+            <td md-cell>
+              <div class="avatar"
+                   ng-style="{ 'background-image': 'url(' + (user.portrait ? vm.baseUrl + user.portrait : vm.defaultPortrait) + ')' }">
+              </div>
+            </td>
+            <td md-cell>
+              <span ng-bind="user.fullName"></span>
+            </td>
+            <td md-cell>
+              <span ng-bind="user.auth.email"></span>
+            </td>
+            <td md-cell>
+              <span ng-bind="user.phone_number | tel"></span>
+            </td>
+            <td md-cell>
+              <span ng-bind="user.createdAt | date: vm.dateFormat"></span>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </md-table-container>
+    </div>
   </div>
-  <div class="container-content">
-    <md-table-container class="infinite-scroll-container"
-                        infinite-scroll
-                        autoloading-enabled="true"
-                        scroll-disabled="vm.isAllUsersLoaded"
-                        on-scroll="vm.getUsers()">
-      <table md-table>
-        <thead md-head
-               md-order="vm.queryOptions.orderBy"
-               md-on-reorder="vm.getUsers">
-        <tr md-row>
-          <th md-column>
-            <span>Photo</span>
-          </th>
-          <th md-column
-              md-order-by="fullName">
-            <span>Name</span>
-          </th>
-          <th md-column
-              md-order-by="auth.email">
-            <span>E-mail</span>
-          </th>
-          <th md-column
-              md-order-by="phone_number">
-            <span>Phone number</span>
-          </th>
-          <th md-column
-              md-order-by="createdAt">
-            <span>Registration date</span>
-          </th>
-        </tr>
-        </thead>
-        <tbody md-body>
-        <tr md-row
-            ng-repeat="user in vm.users track by user.id">
-          <td md-cell>
-            <div class="avatar"
-                 ng-style="{ 'background-image': 'url(' + (user.portrait ? vm.baseUrl + user.portrait : vm.defaultPortrait) + ')' }">
-            </div>
-          </td>
-          <td md-cell>
-            <span ng-bind="user.fullName"></span>
-          </td>
-          <td md-cell>
-            <span ng-bind="user.auth.email"></span>
-          </td>
-          <td md-cell>
-            <span ng-bind="user.phone_number | tel"></span>
-          </td>
-          <td md-cell>
-            <span ng-bind="user.createdAt | date: vm.dateFormat"></span>
-          </td>
-        </tr>
-        </tbody>
-      </table>
-    </md-table-container>
-  </div>
-</div>
 
   <div ng-if="!$mdMedia('gt-xs')"
        class="infinite-scroll-container"
