@@ -15,10 +15,14 @@
 
         var vm = this;
 
+        vm.users = [];
+
         vm.baseUrl = conf.BASE_URL;
         vm.paginationOptions = coreConstants.PAGINATION_OPTIONS;
         vm.defaultPortrait = coreConstants.IMAGES.defaultPortrait;
         vm.dateFormat = coreConstants.DATE_FORMAT;
+
+        vm.isAllUsersLoaded = false;
 
         vm.queryOptions = {
             orderBy: '-createdAt',
@@ -46,6 +50,11 @@
         }
 
         function getUsers() {
+            if (vm.isAllUsersLoaded) {
+
+                return;
+            }
+
             var queryOptions = {
                 order: vm.queryOptions.orderBy.replace(/-(\w+(\.\w+)*)/, '$1 DESC'),
                 limit: vm.queryOptions.limit,
@@ -56,15 +65,19 @@
 
             return getAllUsers(queryOptions)
                 .then(function (users) {
-                    vm.users = users.items;
-                    vm.paginationOptions.totalCount = users.totalCount;
+                    vm.users = vm.users.concat(users.items);
+                    vm.queryOptions.totalCount = users.totalCount;
+
+                    vm.isAllUsersLoaded = vm.queryOptions.page * vm.queryOptions.limit >=
+                        vm.queryOptions.totalCount;
+
+                    vm.queryOptions.page++;
 
                     return vm.users;
                 });
         }
 
         function activate() {
-            getUsers();
         }
     }
 })();
