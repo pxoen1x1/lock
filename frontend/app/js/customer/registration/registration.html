@@ -55,9 +55,12 @@
                    name="phoneNumber"
                    required
                    ui-us-phone-number
+                   availability-validation
+                   ng-model-options="{ 'debounce': 400 }"
                    ng-model="vm.user.user.phoneNumber">
             <div ng-messages="registrationForm.phoneNumber.$error">
               <span ng-message="usPhoneNumber">That doesn't look like a valid phone number.</span>
+              <span ng-message="availability">This phone number already exists.</span>
             </div>
           </md-input-container>
         </div>
@@ -69,9 +72,12 @@
                    name="email"
                    required
                    email-validation
+                   availability-validation
+                   ng-model-options="{ 'debounce': 400 }"
                    ng-model="vm.user.email">
             <div ng-messages="registrationForm.email.$error">
               <div ng-message="email">That doesn't look like a valid email.</div>
+              <div ng-message="availability">This email already exists.</div>
             </div>
           </md-input-container>
         </div>
