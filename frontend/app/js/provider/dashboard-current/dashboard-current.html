@@ -79,8 +79,15 @@
       </md-table-pagination>
     </div>
   </div>
-  <div class="cards"
-       ng-if="!$mdMedia('gt-xs')">
+</div>
+
+<div class="infinite-scroll-wrapper request-list-content"
+     ng-if="!$mdMedia('gt-xs')">
+  <div class="infinite-scroll-container cards"
+       infinite-scroll
+       autoloading-enabled="true"
+       scroll-disabled="vm.isAllRequestsLoaded"
+       on-scroll="vm.getMoreRequests()">
     <a class="list card"
        ui-sref="provider.dashboard.request.view({ requestId: request.id })"
        ng-repeat="request in vm.requests track by request.id">
