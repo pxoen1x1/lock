@@ -15,6 +15,7 @@
             template: '<ul class="rating">' +
             '<li ng-repeat="star in stars track by $index"' +
             'ng-mouseover="mouseOver($index)"' +
+            'ng-mouseleave="mouseLeave()"' +
             'ng-click="ratingChange($index)">' +
             '<i class="material-icons" ng-if="star.filled">star</i>' +
             '<i class="material-icons" ng-if="star.half">star_half</i>' +
@@ -22,11 +23,12 @@
             '</li>' +
             '</ul>',
             scope: {
-                value: '=',
+                value: '<',
                 max: '=?',
                 onchange: '&'
             },
             link: function (scope, elem, attrs) {
+                scope.value = scope.value || 0;
                 scope.max = scope.max || 5;
                 scope.readonly = 'readonly' in attrs;
                 scope.showChoice = 'showchoice' in attrs;
@@ -64,6 +66,15 @@
                             border: i > index
                         });
                     }
+                };
+
+                scope.mouseLeave = function () {
+                    if (scope.readonly) {
+
+                        return;
+                    }
+
+                    updateStars();
                 };
 
                 scope.ratingChange = function (index) {

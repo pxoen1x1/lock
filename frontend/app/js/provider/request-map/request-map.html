@@ -1,0 +1,13 @@
+<div class="container map-content">
+  <div class="container-title" layout="row">
+    <div flex>
+      <i class="material-icons">location_on</i>
+      <span>Map</span>
+    </div>
+  </div>
+  <div class="container-content">
+    <div class="map-wrapper">
+      <map-viewer ng-if="vm.request.id" selected-request="vm.request"></map-viewer>
+    </div>
+  </div>
+</div>

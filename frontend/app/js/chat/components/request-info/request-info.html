@@ -1,0 +1,79 @@
+<div class="view request-view"
+     flex
+     layout="column">
+  <md-toolbar class="md-tall md-accent" flex="50">
+    <div class="md-toolbar-tools md-toolbar-tools-top">
+      <div>Request Info</div>
+      <div flex></div>
+      <md-button class="md-icon-button"
+                 aria-label="back"
+                 ng-click="vm.close()">
+        <i class="material-icons">close</i>
+      </md-button>
+    </div>
+    <div class="md-subhead md-toolbar-tools md-toolbar-tools-bottom request-info"
+         flex
+         layout="column"
+         layout-align="start none">
+      <div layout="row"
+           layout-align="end none">
+        <div>Created:</div>
+        <div flex
+             ng-bind="vm.selectedRequest.createdAt | altDate">
+        </div>
+      </div>
+      <div layout="row"
+           layout-align="end none">
+        <div>For Date:</div>
+        <div flex
+             ng-bind="vm.selectedRequest.forDate ? (vm.selectedRequest.forDate | date: vm.dateFormat) : 'Now'">
+        </div>
+      </div>
+      <div layout="row"
+           layout-align="end none"
+           ng-if="vm.selectedRequest.location.address">
+        <div>Address:</div>
+        <div flex
+             ng-bind="vm.selectedRequest.location.address">
+        </div>
+      </div>
+      <div layout="row"
+           layout-align="end none"
+           ng-if="vm.selectedRequest.location">
+        <div>Distance:</div>
+        <div flex
+             ng-bind="vm.selectedRequest.location | distance">
+        </div>
+      </div>
+      <div layout="row"
+           layout-align="end none">
+        <div>Needed Service:</div>
+        <div flex
+             ng-bind="vm.selectedRequest.serviceType.name">
+        </div>
+      </div>
+      <div layout="row"
+           layout-align="end none"
+           ng-if="vm.selectedRequest.language.name">
+        <div>Language:</div>
+        <div flex
+             ng-bind="vm.selectedRequest.language.name">
+        </div>
+      </div>
+      <div layout="row"
+           layout-align="end none"
+           ng-if="vm.selectedRequest.description">
+        <div>Description:</div>
+        <div class="description"
+             flex
+             ng-bind="vm.selectedRequest.description">
+        </div>
+      </div>
+    </div>
+  </md-toolbar>
+  <md-content flex="50">
+    <map-viewer fullscreen-disabled
+                selected-request="vm.selectedRequest">
+    </map-viewer>
+  </md-content>
+</div>

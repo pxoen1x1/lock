@@ -4,6 +4,7 @@
     angular
         .module('app')
         .constant('conf', {
-            URL: 'http://locksmith.i-deasoft.com:1338/api/'
+            BASE_URL: 'https://lockheal.com',
+            URL_PREFIX: '/api/'
         });
-})();
+})(); 

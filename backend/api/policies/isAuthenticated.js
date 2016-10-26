@@ -1,5 +1,3 @@
-/*global sails*/
-
 'use strict';
 
 module.exports = function (req, res, next) {
@@ -7,8 +5,9 @@ module.exports = function (req, res, next) {
 
         return next();
     } else {
+
         return res.forbidden({
-            message: sails.__('You are not permitted to perform this action.')
+            message: req.__('You are not permitted to perform this action.')
         });
     }
 };

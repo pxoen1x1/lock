@@ -20,7 +20,7 @@
         return directive;
 
         function link(scope, element) {
-            var scrollDistance = parseInt(scope.scrollDistance) || 10;
+            var scrollDistance;
             var searchBox;
             var scrollContainer;
             var removeThrottle;
@@ -58,14 +58,16 @@
 
             function handler() {
                 var scrollTop = scrollContainer[0].scrollTop;
-                var scrollingHeight = scrollTop + scrollContainer[0].offsetHeight;
+                var scrollingHeight = scrollTop + scrollContainer[0].clientHeight;
                 var remainingPercent = (1 - scrollingHeight / scrollContainer[0].scrollHeight) * 100;
 
                 if (scrollTop > lastScrollTop && (remainingPercent <= scrollDistance)) {
                     if (scrollCompleted) {
                         scrollCompleted = false;
 
-                        $q.when(scope.$apply(scope.onScroll))
+                        $q.when(
+                            scope.$apply(scope.onScroll)
+                        )
                             .finally(function () {
                                 scrollCompleted = true;
                             });

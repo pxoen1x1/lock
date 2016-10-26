@@ -27,21 +27,21 @@
         <!-- First and last name -->
         <div layout="row">
           <md-input-container class="md-block" flex>
-            <label>First name<sup>*</sup></label>
+            <label>First name</label>
             <input name="firstName"
                    required
                    ng-maxlength="20"
-                   ng-model="vm.user.firstName">
+                   ng-model="vm.user.user.firstName">
             <div ng-messages="registrationForm.firstName.$error">
               <div ng-message="maxlength">Your first name is too long.</div>
             </div>
           </md-input-container>
           <md-input-container class="md-block" flex>
-            <label>Last name<sup>*</sup></label>
+            <label>Last name</label>
             <input name="lastName"
                    required
                    ng-maxlength="20"
-                   ng-model="vm.user.lastName">
+                   ng-model="vm.user.user.lastName">
             <div ng-messages="registrationForm.lastName.$error">
               <div ng-message="maxlength">Your last name is too long.</div>
             </div>
@@ -50,35 +50,41 @@
         <!-- Phone number -->
         <div layout="row">
           <md-input-container class="md-block" flex>
-            <label>Phone number<sup>*</sup></label>
+            <label>Phone number</label>
             <input type="tel"
                    name="phoneNumber"
                    required
                    ui-us-phone-number
-                   ng-model="vm.user.phoneNumber">
+                   availability-validation
+                   ng-model-options="{ 'debounce': 400 }"
+                   ng-model="vm.user.user.phoneNumber">
             <div ng-messages="registrationForm.phoneNumber.$error">
               <span ng-message="usPhoneNumber">That doesn't look like a valid phone number.</span>
+              <span ng-message="availability">This phone number already exists.</span>
             </div>
           </md-input-container>
         </div>
         <!-- E-mail -->
         <div layout="row">
           <md-input-container class="md-block" flex>
-            <label>Email<sup>*</sup></label>
+            <label>Email</label>
             <input type="email"
                    name="email"
                    required
                    email-validation
+                   availability-validation
+                   ng-model-options="{ 'debounce': 400 }"
                    ng-model="vm.user.email">
             <div ng-messages="registrationForm.email.$error">
               <div ng-message="email">That doesn't look like a valid email.</div>
+              <div ng-message="availability">This email already exists.</div>
             </div>
           </md-input-container>
         </div>
         <!-- Password -->
         <div layout="row">
           <md-input-container class="md-block" flex>
-            <label>Password<sup>*</sup></label>
+            <label>Password</label>
             <input type="password"
                    name="password"
                    required
@@ -102,9 +108,11 @@
       <div class="social-button-wrapper"
            layout="column"
            layout-align="center start">
-        <md-button class="social-button facebook">Log in with Facebook</md-button>
-        <md-button class="social-button google">Log in with Google+</md-button>
-        <md-button class="social-button twitter">Log in with Twitter</md-button>
+        <md-button class="social-button facebook"
+                   ng-click="vm.loginWithFacebook()">Join in with Facebook
+        </md-button>
+        <md-button class="social-button google">Join in with Google+</md-button>
+        <md-button class="social-button twitter">Join in with Twitter</md-button>
       </div>
       <md-button class="social-button gray"
                  ng-click="vm.showSocialButtons = !vm.showSocialButtons">

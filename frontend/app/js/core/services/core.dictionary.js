@@ -28,7 +28,7 @@
                 return response.data;
             }
 
-            function getServiceTypesFromHttp() {
+            function getServiceTypesFromHttp(cacheId) {
                 return coreDataservice.getServiceTypes()
                     .then(function (response) {
 
@@ -50,7 +50,7 @@
                 return response.data;
             }
 
-            function getLanguagesFromHttp() {
+            function getLanguagesFromHttp(cacheId) {
                 return coreDataservice.getLanguages()
                     .then(function (response) {
 

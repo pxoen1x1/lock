@@ -32,8 +32,9 @@ module.exports = {
         migrate: 'alter'
     },
 
-    hookTimeout: 60000,
+    hookTimeout: 120000,
 
     port: 1338,
-    homePage: 'http://locksmith.i-deasoft.com/'
+    baseUrl: 'https://lockheal.com',
+    homePage: 'https://lockheal.com/'
 };

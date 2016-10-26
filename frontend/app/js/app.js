@@ -15,10 +15,15 @@
         'uiGmapgoogle-maps',
         'checklist-model',          // AngularJS directive for list of checkboxes.
         'mdPickers',                // Material Design date/time pickers built with Angular Material and Moment.js.
+        'angularFileUpload',
+        'ngSails',                  // Module allows to use Sails.JS's awesome socket.io api with AngularJS.
 
         'app.core',
         'app.home',
+        'app.chat',
         'app.customer',
-        'app.provider'
+        'app.provider',
+        'app.group',
+        'app.admin'
     ]);
 })();

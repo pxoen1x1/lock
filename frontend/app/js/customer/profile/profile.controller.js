@@ -5,38 +5,60 @@
         .module('app.customer')
         .controller('CustomerProfileController', CustomerProfileController);
 
-    CustomerProfileController.$inject = [];
+    CustomerProfileController.$inject = ['currentUserService', 'coreConstants', 'conf'];
 
     /* @ngInject */
-    function CustomerProfileController() {
+    function CustomerProfileController(currentUserService, coreConstants, conf) {
         var vm = this;
 
-        vm.dataSource = {
-            photo: 'https://pp.vk.me/c604329/v604329073/1a33c/XhTVHpUbzGU.jpg',
-            name: 'Elliot Aldrerson',
-            verified: 1,
-            email: 'mrrobot@fsociety.org',
-            phone: '+1 (123) 456-789-10',
-            card: '9000 1234 5678 9142',
-            joined: {
-                date: '2016-06-23',
-                elapsed: '1 month 14 days'
-            },
-            requests: {
-                total: 16,
-                month: 4
-            },
-            spent: {
-                total: 600,
-                month: 200
-            }
-        };
-
+        vm.profileData = {};
         vm.isEditing = false;
+        vm.fileUploaderOptions = coreConstants.FILE_UPLOADER_OPTIONS;
+        vm.newPortrait = '';
+        
         vm.updateUser = updateUser;
+        vm.getUser = getUser;
 
-        function updateUser() {
-            vm.isEditing = false;
+        activate();
+
+        function updateUser(user, isFormValid) {
+            if (!isFormValid) {
+
+                return;
+            }
+            
+            if (vm.newPortrait) {
+                user.portrait = {
+                    base64: vm.newPortrait
+                };
+            }
+
+            return currentUserService.setUser(user)
+                .then(function (user) {
+                    
+                    vm.profileData = user;
+                    vm.profileData.portrait = user.portrait ? conf.BASE_URL + user.portrait : '';
+                    vm.newPortrait = '';
+                    vm.isEditing = false;
+
+                    return vm.profileData;
+                });
+        }
+
+        function getUser() {
+
+            return currentUserService.getUser()
+                .then(function (user) {
+
+                    vm.profileData = user;
+                    vm.profileData.portrait = user.portrait ? conf.BASE_URL + user.portrait : '';
+
+                    return vm.profileData;
+                });
+        }
+
+        function activate() {
+            getUser();
         }
     }
 })();

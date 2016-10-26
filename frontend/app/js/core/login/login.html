@@ -49,21 +49,31 @@
         </div>
         <div layout="row">
           <button class="md-button"
-                     flex
-                     aria-label="{{ vm.isForgotPasswordEnabled ? 'Log In': 'Forgot your password?' }}"
-                     ng-click="vm.isForgotPasswordEnabled = !vm.isForgotPasswordEnabled">
+                  type="button"
+                  flex
+                  aria-label="{{ vm.isForgotPasswordEnabled ? 'Log In': 'Forgot your password?' }}"
+                  ng-click="vm.isForgotPasswordEnabled = !vm.isForgotPasswordEnabled">
             <span ng-bind="vm.isForgotPasswordEnabled ? 'Log In': 'Forgot your password?'"></span>
           </button>
         </div>
       </div>
     </md-dialog-content>
-    <md-dialog-actions layout="row">
+    <md-dialog-actions layout="column">
       <button type="submit"
-                 class="md-button button-login"
-                 flex
-                 aria-label="{{ vm.isForgotPasswordEnabled ? 'Reset Password' : 'Log In' }}">
+              class="md-button button-login"
+              flex
+              aria-label="{{ vm.isForgotPasswordEnabled ? 'Reset Password' : 'Log In' }}">
         <span ng-bind="vm.isForgotPasswordEnabled ? 'Reset Password' : 'Log In'"></span>
       </button>
+      <div class="social-buttons"
+           layout="column"
+           ng-hide="vm.isForgotPasswordEnabled">
+        <md-button class="social-button facebook"
+                   ng-click="vm.loginWithFacebook()">Join in with Facebook
+        </md-button>
+        <md-button class="social-button google">Join in with Google+</md-button>
+        <md-button class="social-button twitter">Join in with Twitter</md-button>
+      </div>
     </md-dialog-actions>
   </form>
 </md-dialog>

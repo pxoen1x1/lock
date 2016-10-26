@@ -1,0 +1,23 @@
+.admin {
+  .user-container {
+    margin-bottom: 20px;
+
+    &:last-child {
+      margin-bottom: 60px;
+    }
+
+    .section {
+      margin-top: 10px;
+
+      .md-body-1 {
+        padding-left: 5px;
+      }
+
+      .md-body-2 {
+        text-transform: uppercase;
+        font-weight: 600;
+      }
+
+    }
+  }
+}

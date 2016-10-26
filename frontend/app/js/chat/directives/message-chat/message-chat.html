@@ -1,0 +1,16 @@
+<div class="md-padding message-row"
+     layout="row"
+     ng-class="{ 'user': vm.message.sender.id === vm.currentUser.id }">
+  <div class="avatar"
+       ng-style="{ 'background-image': 'url(' + (vm.message.sender.portrait ?
+       vm.baseUrl + vm.message.sender.portrait : vm.defaultPortrait) + ')' }">
+  </div>
+  <div class="bubble">
+    <div class="message">
+      <span ng-bind="vm.message.message"></span>
+    </div>
+    <div class="time secondary-text">
+      <span ng-bind="vm.message.updatedAt | altDate"></span>
+    </div>
+  </div>
+</div>

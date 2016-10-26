@@ -1,0 +1,223 @@
+.animate-slide-left {
+  -webkit-transition-property: none;
+  transition-property: none;
+  transition-duration: .4s;
+  transition-timing-function: cubic-bezier(.25, .46, .45, .94);
+  opacity: 1
+}
+
+.animate-slide-left.ng-enter {
+  -webkit-transform: translateX(100%);
+  transform: translateX(100%);
+  opacity: 0
+}
+
+.animate-slide-left.ng-enter.ng-enter-active {
+  -webkit-transition-property: all;
+  transition-property: all;
+  -webkit-transform: translateX(0);
+  transform: translateX(0);
+  opacity: 1
+}
+
+.animate-slide-left.ng-leave {
+  -webkit-transform: translateX(0);
+  transform: translateX(0);
+  opacity: 1
+}
+
+.animate-slide-left.ng-leave.ng-leave-active {
+  -webkit-transition-property: all;
+  transition-property: all;
+  -webkit-transform: translateX(-100%);
+  transform: translateX(-100%);
+  opacity: 0
+}
+
+.animate-slide-left.ng-hide {
+  -webkit-transform: translateX(-100%);
+  transform: translateX(-100%);
+  opacity: 0
+}
+
+.animate-slide-left.ng-hide-add-active, .animate-slide-left.ng-hide-remove-active {
+  -webkit-transition-property: all;
+  transition-property: all
+}
+
+.animate-slide-right {
+  -webkit-transition-property: none;
+  transition-property: none;
+  transition-duration: .4s;
+  transition-timing-function: cubic-bezier(.25, .46, .45, .94);
+  opacity: 1
+}
+
+.animate-slide-right.ng-enter {
+  -webkit-transform: translateX(-100%);
+  transform: translateX(-100%);
+  opacity: 0
+}
+
+.animate-slide-right.ng-enter.ng-enter-active {
+  -webkit-transition-property: all;
+  transition-property: all;
+  -webkit-transform: translateX(0);
+  transform: translateX(0);
+  opacity: 1
+}
+
+.animate-slide-right.ng-leave {
+  -webkit-transform: translateX(0);
+  transform: translateX(0);
+  opacity: 1
+}
+
+.animate-slide-right.ng-leave.ng-leave-active {
+  -webkit-transition-property: all;
+  transition-property: all;
+  -webkit-transform: translateX(100%);
+  transform: translateX(100%);
+  opacity: 0
+}
+
+.animate-slide-right.ng-hide {
+  -webkit-transform: translateX(100%);
+  transform: translateX(100%);
+  opacity: 0
+}
+
+.animate-slide-right.ng-hide-add-active, .animate-slide-right.ng-hide-remove-active {
+  -webkit-transition-property: all;
+  transition-property: all
+}
+
+.animated {
+  -webkit-animation-duration: 1s;
+  animation-duration: 1s;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+}
+
+@-webkit-keyframes bounceIn {
+  0% {
+    opacity: 0;
+    -webkit-transform: scale(.3);
+    transform: scale(.3);
+  }
+
+  50% {
+    opacity: 1;
+    -webkit-transform: scale(1.05);
+    transform: scale(1.05);
+  }
+
+  70% {
+    -webkit-transform: scale(.9);
+    transform: scale(.9);
+  }
+
+  100% {
+    opacity: 1;
+    -webkit-transform: scale(1);
+    transform: scale(1);
+  }
+}
+
+@keyframes bounceIn {
+  0% {
+    opacity: 0;
+    -webkit-transform: scale(.3);
+    -ms-transform: scale(.3);
+    transform: scale(.3);
+  }
+
+  50% {
+    opacity: 1;
+    -webkit-transform: scale(1.05);
+    -ms-transform: scale(1.05);
+    transform: scale(1.05);
+  }
+
+  70% {
+    -webkit-transform: scale(.9);
+    -ms-transform: scale(.9);
+    transform: scale(.9);
+  }
+
+  100% {
+    opacity: 1;
+    -webkit-transform: scale(1);
+    -ms-transform: scale(1);
+    transform: scale(1);
+  }
+}
+
+.bounceIn {
+  -webkit-animation-name: bounceIn;
+  animation-name: bounceIn;
+}
+
+@-webkit-keyframes bounceOut {
+  0% {
+    -webkit-transform: scale(1);
+    transform: scale(1);
+  }
+
+  25% {
+    -webkit-transform: scale(.95);
+    transform: scale(.95);
+  }
+
+  50% {
+    opacity: 1;
+    -webkit-transform: scale(1.1);
+    transform: scale(1.1);
+  }
+
+  100% {
+    opacity: 0;
+    -webkit-transform: scale(.3);
+    transform: scale(.3);
+  }
+}
+
+@keyframes bounceOut {
+  0% {
+    -webkit-transform: scale(1);
+    -ms-transform: scale(1);
+    transform: scale(1);
+  }
+
+  25% {
+    -webkit-transform: scale(.95);
+    -ms-transform: scale(.95);
+    transform: scale(.95);
+  }
+
+  50% {
+    opacity: 1;
+    -webkit-transform: scale(1.1);
+    -ms-transform: scale(1.1);
+    transform: scale(1.1);
+  }
+
+  70% {
+    opacity: 1;
+    -webkit-transform: scale(.9);
+    -ms-transform: scale(.9);
+    transform: scale(.9);
+  }
+
+  100% {
+    opacity: 1;
+    -webkit-transform: scale(1);
+    -ms-transform: scale(1);
+    transform: scale(1);
+  }
+}
+
+.bounceOut {
+  -webkit-animation-name: bounceOut;
+  animation-name: bounceOut;
+}

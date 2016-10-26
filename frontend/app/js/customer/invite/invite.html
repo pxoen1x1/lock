@@ -1,0 +1,60 @@
+<md-dialog aria-label="Invite a friend" class="invite-dialog">
+  <form role="form"
+        name="inviteForm"
+        novalidate
+        ng-submit="vm.submit(vm.inviteData, inviteForm.$valid)">
+    <md-toolbar class="md-menu-toolbar md-default-theme">
+      <div class="md-toolbar-tools">
+        <h2>Invite a friend</h2>
+        <span flex></span>
+        <md-button class="md-icon-button"
+                   aria-label="Close dialog"
+                   ng-click="vm.cancel()">
+          <i class="material-icons">close</i>
+        </md-button>
+      </div>
+    </md-toolbar>
+    <md-dialog-content>
+      <div class="md-dialog-content">
+        <!-- E-mail -->
+        <div layout="row">
+          <md-input-container class="md-block" flex>
+            <label>Email</label>
+            <input type="email"
+                   name="email"
+                   required
+                   email-validation
+                   ng-model="vm.inviteData.email">
+            <div ng-messages="inviteForm.email.$error">
+              <div ng-message="email">That doesn't look like a valid email.</div>
+            </div>
+          </md-input-container>
+        </div>
+        <!-- Friend's name -->
+        <div layout="row">
+          <md-input-container class="md-block" flex>
+            <label>Friend's name</label>
+            <input type="text"
+                   name="name"
+                   required
+                   ng-model="vm.inviteData.name">
+            <div ng-messages="inviteForm.name.$error">
+              <div ng-message="required">
+                It's required field.
+              </div>
+            </div>
+          </md-input-container>
+        </div>
+      </div>
+    </md-dialog-content>
+    <md-dialog-actions layout="row">
+        <button type="submit"
+                flex
+                aria-label="Send"
+                class="md-button button-login"
+                ng-disabled="inviteForm.$invalid">
+          Send
+        </button>
+    </md-dialog-actions>
+  </form>
+</md-dialog>

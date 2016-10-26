@@ -25,9 +25,11 @@
 <div ui-view autoscroll="true"></div>
 
 <!-- build:vendorjs(.) /js/vendor.js -->
+<script src="/vendor/sails.io.js/dist/sails.io.js"></script>
 <script src="/vendor/moment/min/moment-with-locales.min.js"></script>
 <script src="/vendor/angular/angular.min.js"></script>
 <script src="/vendor/angular-ui-router/release/angular-ui-router.min.js"></script>
+<script src="/vendor/angular-sails/dist/angular-sails.min.js"></script>
 <script src="/vendor/angular-aria/angular-aria.min.js"></script>
 <script src="/vendor/angular-animate/angular-animate.min.js"></script>
 <script src="/vendor/angular-material/angular-material.min.js"></script>
@@ -43,6 +45,7 @@
 <script src="/vendor/angular-google-maps/dist/angular-google-maps.min.js"></script>
 <script src="/vendor/checklist-model/checklist-model.js"></script>
 <script src="/vendor/mdPickers/dist/mdPickers.js"></script>
+<script src="/vendor/angular-file-upload/dist/angular-file-upload.min.js"></script>
 <!-- endbuild -->
 
 <!-- build:js({app,dist/development}) /js/app.js-->
@@ -60,24 +63,51 @@
 <script src="/js/core/md-datepicker.config.js"></script>
 <script src="/js/core/md-dialog.config.js"></script>
 <script src="/js/core/md-toast.config.js"></script>
+<script src="/js/core/filters/alt-date.js"></script>
+<script src="/js/core/filters/distance.filter.js"></script>
+<script src="/js/core/filters/tel.filter.js"></script>
 <script src="/js/core/services/dataCache.service.js"></script>
 <script src="/js/core/services/request.dataservice.js"></script>
 <script src="/js/core/services/core.dataservice.js"></script>
 <script src="/js/core/services/core.dictionary.js"></script>
-<script src="/js/core/services/toastService.js"></script>
+<script src="/js/core/services/socket.service.js"></script>
+<script src="/js/core/services/auth.service.js"></script>
+<script src="/js/core/services/local.service.js"></script>
+<script src="/js/core/services/current-user.service.js"></script>
+<script src="/js/core/services/current-request.service.js"></script>
+<script src="/js/core/services/toast.service.js"></script>
 <script src="/js/core/services/httpInterceptors.service.js"></script>
 <script src="/js/core/services/geocoder.service.js"></script>
 <script src="/js/core/services/cities-loader.service.js"></script>
 <script src="/js/core/directives/tab-bar/tab-bar.directive.js"></script>
 <script src="/js/core/directives/email-validation.directive.js"></script>
 <script src="/js/core/directives/password-validation.directive.js"></script>
+<script src="/js/core/directives/availability-validation.directive.js"></script>
 <script src="/js/core/directives/star-rating.directive.js"></script>
 <script src="/js/core/directives/date-formatter/date-formatter.directive.js"></script>
+<script src="/js/core/directives/infinite-scroll/infinite-scroll.directive.js"></script>
 <script src="/js/core/directives/md-select-infinite-scroll/md-select-infinite-scroll.directive.js"></script>
+<script src="/js/core/directives/file-uploader/file-uploader.directive.js"></script>
+<script src="/js/core/directives/map-viewer/map-viewer.directive.js"></script>
 <script src="/js/core/login/login.controller.js"></script>
 
 <script src="/js/home/home.module.js"></script>
 <script src="/js/home/home.controller.js"></script>
+
+<script src="/js/chat/chat.module.js"></script>
+<script src="/js/chat/chat.constants.js"></script>
+<script src="/js/chat/services/chat.socket.service.js"></script>
+<script src="/js/chat/directives/scroll-chat/scroll-chat.directive.js"></script>
+<script src="/js/chat/directives/chat-list/client-chat-list.directive.js"></script>
+<script src="/js/chat/directives/chat-list/specialist-chat-list.directive.js"></script>
+<script src="/js/chat/directives/bid-list/client-bid-list.directive.js"></script>
+<script src="/js/chat/directives/bid-list/specialist-bid-list.directive.js"></script>
+<script src="/js/chat/directives/message-bid/message-bid.directive.js"></script>
+<script src="/js/chat/directives/message-chat/message-chat.directive.js"></script>
+<script src="/js/chat/components/request-info/request-info.component.js"></script>
+<script src="/js/chat/client-chat.controller.js"></script>
+<script src="/js/chat/specialist-chat.controller.js"></script>
+<script src="/js/chat/offer-dialog.controller.js"></script>
 
 <script src="/js/customer/customer.module.js"></script>
 <script src="/js/customer/customer.routes.js"></script>
@@ -85,8 +115,8 @@
 <script src="/js/customer/customer.run.js"></script>
 <script src="/js/customer/services/customer.dataservice.js"></script>
 <script src="/js/customer/registration/registration.controller.js"></script>
-<script src="/js/customer/layout/header/header.controller.js"></script>
-<script src="/js/customer/layout/menu/menu.controller.js"></script>
+<script src="/js/layout/header/customer-header.controller.js"></script>
+<script src="/js/layout/menu/customer-menu.controller.js"></script>
 <script src="/js/customer/profile/profile.controller.js"></script>
 <script src="/js/customer/request/request.controller.js"></script>
 <script src="/js/customer/request-new/request-new.controller.js"></script>
@@ -95,13 +125,47 @@
 <script src="/js/customer/request-chat/request-chat.controller.js"></script>
 <script src="/js/customer/request-recommended/request-recommended.controller.js"></script>
 <script src="/js/customer/requests-list/requests-list.controller.js"></script>
+<script src="/js/customer/invite/invite.controller.js"></script>
+<script src="/js/customer/feedback/feedback.controller.js"></script>
 
 <script src="/js/provider/provider.module.js"></script>
 <script src="/js/provider/provider.routes.js"></script>
 <script src="/js/provider/provider.constants.js"></script>
+<script src="/js/provider/provider.run.js"></script>
 <script src="/js/provider/services/provider.dataservice.js"></script>
+<script src="/js/provider/services/geo.service.js"></script>
 <script src="/js/provider/registration/registration.controller.js"></script>
-<script src="/js/provider/registration/registration.controller.js"></script>
+<script src="/js/layout/header/provider-header.controller.js"></script>
+<script src="/js/layout/menu/provider-menu.controller.js"></script>
+<script src="/js/provider/profile/profile.controller.js"></script>
+<script src="/js/provider/public-profile/public-profile.controller.js"></script>
+<script src="/js/provider/dashboard/dashboard.controller.js"></script>
+<script src="/js/provider/dashboard-new/dashboard-new.controller.js"></script>
+<script src="/js/provider/dashboard-current/dashboard-current.controller.js"></script>
+<script src="/js/provider/dashboard-history/dashboard-history.controller.js"></script>
+<script src="/js/provider/request/request.controller.js"></script>
+<script src="/js/provider/request-view/request-view.controller.js"></script>
+<script src="/js/provider/request-map/request-map.controller.js"></script>
+
+<script src="/js/group/group.module.js"></script>
+<script src="/js/group/group.routes.js"></script>
+<script src="/js/group/group.constants.js"></script>
+<script src="/js/group/group.run.js"></script>
+<script src="/js/group/services/group.dataservice.js"></script>
+<script src="/js/layout/header/group-header.controller.js"></script>
+<script src="/js/layout/menu/group-menu.controller.js"></script>
+<script src="/js/group/dashboard/dashboard.controller.js"></script>
+
+<script src="/js/admin/admin.module.js"></script>
+<script src="/js/admin/admin.routes.js"></script>
+<script src="/js/admin/admin.constants.js"></script>
+<script src="/js/admin/admin.run.js"></script>
+<script src="/js/admin/services/admin.dataservice.js"></script>
+<script src="/js/layout/header/admin-header.controller.js"></script>
+<script src="/js/layout/menu/admin-menu.controller.js"></script>
+<script src="/js/admin/users/users.controller.js"></script>
+<script src="/js/admin/users-clients/users-clients.controller.js"></script>
+<script src="/js/admin/users-providers/users-providers.controller.js"></script>
 <!-- endbuild -->
 
 </body>

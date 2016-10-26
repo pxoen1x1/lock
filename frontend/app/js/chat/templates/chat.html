@@ -1,0 +1,72 @@
+<div class="container request-content chat-app">
+  <div class="center">
+    <div class="content-card"
+         flex
+         layout="row">
+      <md-sidenav class="sidenav left-sidenav md-sidenav-left"
+                  layout="column"
+                  md-is-locked-open="$mdMedia('gt-md')"
+                  md-component-id="left-sidenav"
+                  ng-include="'chat/templates/left-sidenav.html'">
+      </md-sidenav>
+      <div class="start-point"
+           ng-if="(vm.selectedTab === 'chats' && !vm.currentChat) || (!vm.currentBid && !vm.currentChat)"
+           flex
+           layout="column"
+           layout-align="center center">
+        <div class="big-circle md-whiteframe-4dp">
+          <i class="material-icons s128 md-accent">textsms</i>
+        </div>
+        <span class="app-title">Chat App</span>
+        <span class="hide show-gt-md secondary-text">Select contact to start the chat!..</span>
+        <md-button class="md-raised hide-gt-md"
+                   ng-click="vm.toggleSidenav('left-sidenav')">Select contact to start the chat!..
+        </md-button>
+      </div>
+      <div class="chat"
+           flex
+           layout="column"
+           ng-if="(vm.selectedTab === 'bids' && vm.currentBid) || vm.currentChat">
+        <div flex
+             layout="column"
+             ng-include="vm.selectedTab === 'bids' && vm.currentBid ?
+                         'chat/templates/bid-content.html' : 'chat/templates/chat-content.html'">
+        </div>
+        <div class="chat-footer flex-noshrink"
+             flex
+             layout="row"
+             layout-align="center center">
+          <form class="reply-form"
+                name="replyForm"
+                flex
+                layout="row"
+                layout-align="start center"
+                ng-submit="vm.reply(null, vm.replyMessage[vm.currentChat.id], vm.currentChat, vm.currentRequest)">
+            <md-input-container flex md-no-float>
+              <textarea placeholder="Type and hit enter to send message"
+                        md-no-autogrow
+                        ng-if="vm.selectedTab === 'chats' || !vm.currentBid"
+                        ng-class="{ 'grow': vm.textareaGrow[vm.currentChat.id] }"
+                        ng-keydown="vm.reply($event, vm.replyMessage[vm.currentChat.id], vm.currentChat, vm.currentRequest)"
+                        ng-model="vm.replyMessage[vm.currentChat.id]">
+              </textarea>
+            </md-input-container>
+            <md-button type="submit"
+                       class="md-button-blue md-fab"
+                       ng-disabled="(vm.selectedTab === 'bids' && vm.currentBid) ||
+                       vm.currentRequest.status === vm.requestStatus.CLOSED"
+                       aria-label="Send message">
+              <i class="material-icons">send</i>
+            </md-button>
+          </form>
+        </div>
+      </div>
+      <md-sidenav class="sidenav right-sidenav md-sidenav-right"
+                  layout="column"
+                  md-component-id="right-sidenav"
+                  md-is-open="vm.isInfoTabOpen"
+                  ng-include="'chat/templates/contact-view.html'">
+      </md-sidenav>
+    </div>
+  </div>
+</div>

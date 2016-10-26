@@ -10,7 +10,6 @@
     /* @ngInject */
     function citiesLoader($q, coreDataservice) {
         var promises = {
-            getStates: null,
             getCity: null
         };
 

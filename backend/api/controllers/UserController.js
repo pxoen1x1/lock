@@ -1,52 +1,109 @@
-/* global async, sails, MailerService, UserService */
+/* global sails, waterlock, User, UserService, FileService */
 
 /**
- * UserController
+ * UserController.js
  *
- * @description :: Server-side logic for managing users
- * @help        :: See http://sailsjs.org/#!/documentation/concepts/Controllers
+ * @module      :: Controller
+ * @description :: Provides the base user
+ *                 actions used to make waterlock work.
+ *
+ * @docs        :: http://waterlock.ninja/documentation
  */
+
 'use strict';
 
-let UserController = {
+let UserController = waterlock.actions.user({
     getCurrentUser(req, res) {
-        res.ok(
-            {
-                user: req.user
-            }
-        );
-    },
-    createUser(req, res) {
-        let user = req.body;
+        let user = req.session.user;
 
-        async.waterfall([
-                async.apply(createUser, user),
-                createAssociations,
-                sendConfirmation,
-                getCreatedUser
-            ],
-            (err, user) => {
-                if (err) {
+        if (!user) {
+
+            return res.forbidden({
+                message: req.__('You are not permitted to perform this action.')
+            });
+        }
+
+        UserService.getUser(user)
+            .then(
+                (foundUser) => {
+
+                    return res.ok(
+                        {
+                            user: foundUser
+                        }
+                    );
+                }
+            )
+            .catch(
+                (err) => {
                     sails.log.error(err);
 
                     return res.serverError();
                 }
-
-                res.created(
-                    {
-                        user: user
-                    }
-                );
-            });
+            );
     },
-    updateUser(req, res) {
-        let id = req.params.id;
-        let user = req.body;
+    getUserById(req, res) {
+        let userId = req.params.id;
 
-        if (!id || Object.keys(user).length === 0) {
+        if (!userId) {
 
             return res.badRequest({
-                message: sails.__('Please, check data.')
+                message: req.__('You are not permitted to perform this action.')
+            });
+        }
+
+        UserService.getUser({id: userId})
+            .then(
+                (foundUser) => {
+
+                    return res.ok(
+                        {
+                            user: foundUser
+                        }
+                    );
+                }
+            )
+            .catch(
+                (err) => {
+                    sails.log.error(err);
+
+                    return res.serverError();
+                }
+            );
+    },
+    findServiceProviders(req, res) {
+        let params = req.allParams();
+
+        if ((!params.southWestLatitude || !params.southWestLongitude) ||
+            (!params.northEastLatitude || !params.northEastLongitude)) {
+
+            return res.badRequest({
+                message: req.__('Submitted data is invalid.')
+            });
+        }
+
+        UserService.findServiceProviders(params)
+            .then(
+                (serviceProviders) => res.ok({
+                    serviceProviders: serviceProviders
+                })
+            )
+            .catch(
+                (err) => {
+                    sails.log.error(err);
+
+                    return res.serverError();
+                }
+            );
+    },
+    updateUser(req, res) {
+        let userId = req.session.user.id;
+        let user = req.body;
+
+        if (Object.keys(user).length === 0) {
+
+            return res.badRequest({
+                message: req.__('Please, check data.')
             });
         }
 
@@ -58,12 +115,37 @@ let UserController = {
             delete user.id;
         }
 
-        UserService.update({id: id}, user)
-            .then((updatedUser) => res.ok(
-                {
-                    user: updatedUser
+        if (user.details && user.details.rating) {
+            delete user.details.rating;
+        }
+
+        FileService.saveAvatar(userId, user.portrait)
+            .then(
+                (file) => {
+
+                    if (file) {
+                        user.portrait = file;
+                    }
+
+                    return User.update({id: userId}, user);
                 }
-            ))
+            )
+            .then(
+                (updatedUsers) => {
+
+                    return UserService.getUser(updatedUsers[0]);
+                }
+            )
+            .then(
+                (foundUser) => {
+
+                    return res.ok(
+                        {
+                            user: foundUser
+                        }
+                    );
+                }
+            )
             .catch(
                 (err) => {
                     if (err) {
@@ -73,72 +155,12 @@ let UserController = {
                     }
 
                     return res.notFound({
-                        message: sails.__('User not found.')
+                        message: req.__('User not found.')
                     });
                 }
             );
     }
-};
+});
 
 module.exports = UserController;
 
-function createUser(user, done) {
-    UserService.create(user)
-        .then(
-            (createdUser) => done(null, createdUser, user.address, user.details)
-        )
-        .catch(
-            (err) => done(err)
-        );
-}
-
-function createAssociations(createdUser, address, userDetails, done) {
-    if (!address && !userDetails) {
-
-        return done(null, createdUser);
-    }
-
-    createdUser.addresses.add(address);
-    createdUser.userDetail.add(userDetails);
-
-    createdUser.save(
-        (err) => {
-            if (err) {
-
-                return done(err);
-            }
-
-            done(null, createdUser);
-        }
-    );
-}
-
-function sendConfirmation(createdUser, done) {
-    if (sails.config.application.emailVerificationEnabled) {
-        MailerService.confirmRegistration(createdUser)
-            .then(
-                () => done(null, createdUser)
-            )
-            .catch(
-                (err) => done(err)
-            );
-    } else {
-        MailerService.successRegistration(createdUser)
-            .then(
-                () => done(null, createdUser)
-            )
-            .catch(
-                (err) => done(err)
-            );
-    }
-}
-
-function getCreatedUser(createdUser, done) {
-    UserService.getUser(createdUser)
-        .then(
-            (foundUser) => done(null, foundUser)
-        )
-        .catch(
-            (err) => done(err)
-        );
-}

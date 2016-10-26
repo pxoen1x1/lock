@@ -1,137 +1,176 @@
-<div class="container history-content"
-     ng-if="$mdMedia('gt-xs')">
-  <div class="container-title">
-    <i class="material-icons">list</i>
-    <span>Requests</span>
-  </div>
-  <div class="container-content">
-    <md-table-container>
-      <table md-table>
-        <thead md-head
-               md-order="vm.queryOptions.orderBy"
-               md-on-reorder="vm.getRequests">
-        <tr md-row>
-          <th md-column
-              md-order-by="updatedAt">
-            <span>Date</span>
-          </th>
-          <th md-column
-              md-order-by="service"
-              ng-show="$mdMedia('gt-xs')">
-            <span>Type of service</span>
-          </th>
-          <th md-column>Location</th>
-          <th md-column
-              md-order-by="status">
-            <span>Status</span>
-          </th>
-          <th md-column>Cost</th>
-          <th md-column>Provider</th>
-        </tr>
-        </thead>
-        <tbody md-body>
-        <tr md-row
-            ui-sref="customer.requests.request.view({ requestId: request.id })"
-            ng-repeat="request in vm.requests track by request.id">
-          <td md-cell>
-            <span ng-bind="request.updatedAt | date : 'MM/dd/yyyy H:mm a'"></span>
-          </td>
-          <td md-cell
-              ng-show="$mdMedia('gt-xs')">
-            <span ng-bind="request.serviceType.name"></span>
-          </td>
+<div class="request-list-content">
+  <div class="container"
+       ng-if="$mdMedia('gt-xs')">
+    <div class="container-title">
+      <i class="material-icons">list</i>
+      <span>Requests</span>
+    </div>
+    <div class="container-content">
+      <md-table-container>
+        <table md-table>
+          <thead md-head
+                 md-order="vm.queryOptions.orderBy"
+                 md-on-reorder="vm.getRequests">
+          <tr md-row>
+            <th md-column
+                md-order-by="updatedAt">
+              <span>Date</span>
+            </th>
+            <th md-column
+                md-order-by="serviceType"
+                ng-show="$mdMedia('gt-xs')">
+              <span>Type of service</span>
+            </th>
+            <th md-column>Location</th>
+            <th md-column
+                md-order-by="status">
+              <span>Status</span>
+            </th>
+            <th md-column>Cost</th>
+            <th md-column>Provider</th>
+          </tr>
+          </thead>
+          <tbody md-body>
+          <tr md-row
+              ui-sref="customer.requests.request.view({ requestId: request.id })"
+              ng-repeat="request in vm.requests track by request.id">
+            <td md-cell>
+              <span ng-bind="request.updatedAt | date : vm.dateFormat"></span>
+            </td>
+            <td md-cell
+                ng-show="$mdMedia('gt-xs')">
+              <span ng-bind="request.serviceType.name"></span>
+            </td>
 
-          <td class="td-location"
-              md-cell
-              ng-show="$mdMedia('gt-xs')">
-            <span ng-bind="request.location.address"></span>
-          </td>
-          <td md-cell
-              ng-hide="$mdMedia('gt-xs')">
-            <md-button class="md-icon-button" aria-label="Location">
-              <md-icon class="material-icons">
-                <i class="material-icons">place</i>
-              </md-icon>
-            </md-button>
-          </td>
-          <td class="td-status"
-              md-cell
-              ng-class="{
-              'new': request.status === 1,
-              'pending': request.status === 2,
-              'closed': request.status === 3
+            <td class="td-location"
+                md-cell
+                ng-show="$mdMedia('gt-xs')">
+              <span ng-bind="request.location.address"></span>
+            </td>
+            <td md-cell
+                ng-hide="$mdMedia('gt-xs')">
+              <md-button class="md-icon-button" aria-label="Location">
+                <md-icon class="material-icons">
+                  <i class="material-icons">place</i>
+                </md-icon>
+              </md-button>
+            </td>
+            <td class="request-status"
+                md-cell
+                ng-class="{
+                'new': request.status === vm.requestStatus.NEW,
+                'pending': request.status === vm.requestStatus.PENDING,
+                'in-progress': request.status === vm.requestStatus.IN_PROGRESS || request.status === vm.requestStatus.DONE,
+                'closed': request.status === vm.requestStatus.CLOSED
               }">
-            <span ng-bind="vm.requestStatuses[request.status]"></span>
-          </td>
-          <td class="td-cost" md-cell>
-            <span ng-bind="request.cost ? '$'+ request.cost : '–'"></span>
-          </td>
-          <td class="td-provider" md-cell>
-            <span ng-bind="request.executor ? request.executor.fullName : '–'"></span>
-            <star-rating readonly
-                         value="request.executor.rating"
-                         ng-if="request.executor">
-            </star-rating>
-          </td>
-        </tr>
-        </tbody>
-      </table>
-    </md-table-container>
+              <span ng-bind="vm.requestStatus[request.status]"></span>
+            </td>
+            <td class="td-cost" md-cell>
+              <span ng-bind="request.cost ? '$'+ request.cost : '–'"></span>
+            </td>
+            <td class="td-provider" md-cell>
+              <span ng-bind="request.executor ? request.executor.fullName : '–'"></span>
+              <star-rating readonly
+                           value="request.executor.rating"
+                           ng-if="request.executor">
+              </star-rating>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </md-table-container>
 
-    <md-table-pagination md-limit="vm.queryOptions.limit"
-                         md-limit-options="vm.paginationOptions.limitOptions"
-                         md-page="vm.queryOptions.page"
-                         md-total="{{ vm.paginationOptions.totalCount }}"
-                         md-on-paginate="vm.getRequests"
-                         md-page-select>
-    </md-table-pagination>
+      <md-table-pagination md-limit="vm.queryOptions.limit"
+                           md-limit-options="vm.paginationOptions.limitOptions"
+                           md-page="vm.queryOptions.page"
+                           md-total="{{ vm.paginationOptions.totalCount }}"
+                           md-on-paginate="vm.getRequests"
+                           md-page-select>
+      </md-table-pagination>
+    </div>
   </div>
 </div>
 
-<div class="history-content"
+<div class="infinite-scroll-wrapper request-list-content"
      ng-if="!$mdMedia('gt-xs')">
-  <a class="list card"
-     ui-sref="customer.request.view({ requestId: request.id })"
-     ng-repeat="request in vm.requests.items">
-    <div class="item item-header" layout="row">
-      <div flex="50">
-        <div class="md-title" ng-bind="request.date"></div>
-        <span class="md-body-2">Type:</span>
-        <span class="md-body-1" ng-bind="vm.type[request.type]"></span>
-      </div>
-      <div flex="50" layout="column" layout-align="start end">
-        <div class="td-status"
-             ng-class="{
-             'new': request.status === 0,
-             'pending': request.status === 1,
-             'closed': request.status === 2
+  <div class="infinite-scroll-container cards"
+       infinite-scroll
+       autoloading-enabled="true"
+       scroll-disabled="vm.isAllRequestsLoaded"
+       on-scroll="vm.getMoreRequests()">
+    <a class="list card"
+       ui-sref="customer.requests.request.view({ requestId: request.id })"
+       ng-repeat="request in vm.requests track by request.id">
+      <div class="item item-header" layout="row">
+        <div flex="50">
+          <div class="secondary-text" ng-bind="request.updatedAt | date : vm.dateFormat"></div>
+        </div>
+        <div flex="50" layout="column" layout-align="start end">
+          <div class="request-status"
+               ng-class="{
+               'new': request.status === vm.requestStatus.NEW,
+               'pending': request.status === vm.requestStatus.PENDING,
+               'in-progress': request.status === vm.requestStatus.IN_PROGRESS || request.status === vm.requestStatus.DONE,
+               'closed': request.status === vm.requestStatus.CLOSED
              }">
-          <span ng-bind="vm.status[request.status]"></span>
-        </div>
-        <div class="md-body-2">
-          <span ng-bind="'$ ' + (request.cost ? request.cost : '–')"></span>
-        </div>
-      </div>
-    </div>
-    <div class="item item-body">
-      <span class="md-body-2">Location:</span>
-      <span class="md-body-1" ng-bind="request.location"></span>
-      <div class="item-provider"
-           layout="row"
-           ng-if="request.provider">
-        <div flex="20">
-          <div class="photo"
-               ng-style="{'background-image': 'url(' + request.provider.photo + ')'}">
+            <span ng-bind="vm.requestStatus[request.status]"></span>
           </div>
         </div>
-        <div flex="80">
-          <span class="md-body-2" ng-bind="request.provider.name"></span>
-          <star-rating ng-if="request.provider"
-                       readonly
-                       value="request.provider.rating">
-          </star-rating>
+      </div>
+      <div class="item item-body">
+        <div layout="row">
+          <div layout="column"
+               flex="50">
+            <div>
+              <span class="md-body-2">Type of service:</span>
+              <span class="md-body-1" ng-bind="request.serviceType.name"></span>
+            </div>
+            <div ng-if="request.language.name">
+              <span class="md-body-2">Language:</span>
+              <span class="md-body-1"
+                    ng-bind="request.language.name">
+          </span>
+            </div>
+          </div>
+          <div layout="column"
+               flex="50">
+            <div>
+              <span class="md-body-2">For Date:</span>
+              <span class="md-body-1"
+                    ng-bind="request.forDate ? (request.forDate | date: vm.dateFormat) : 'Now'">
+          </span>
+            </div>
+            <div ng-if="request.location">
+              <span class="md-body-2">Location:</span>
+              <span class="md-body-1"
+                    ng-bind="request.location.address">
+            </span>
+            </div>
+          </div>
+        </div>
+        <div class="item-provider"
+             layout="row"
+             layout-align="start center"
+             ng-if="request.executor">
+          <div class="avatar-wrapper">
+            <div class="avatar"
+                 ng-style="{ 'background-image': 'url(' + (request.executor.portrait ?
+                   vm.baseUrl + request.executor.portrait : vm.defaultPortrait) + ')' }">
+            </div>
+          </div>
+          <div class="m-l-s"
+               flex>
+            <span class="md-body-2" ng-bind="request.executor.fullName"></span>
+            <star-rating ng-if="request.executor.details.rating"
+                         readonly
+                         value="request.executor.details.rating">
+            </star-rating>
+          </div>
+          <div class="md-body-2" ng-if="request.cost">
+            $ <span ng-bind="request.cost"></span>
+          </div>
         </div>
       </div>
-    </div>
-  </a>
+    </a>
+  </div>
 </div>

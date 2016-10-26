@@ -1,17 +1,21 @@
-/*global sails, UserService*/
+/* global sails, HelperService */
 
 /**
- * Users.js
+ * User
  *
- * @description :: TODO: You might write a short summary of how this model works and what it represents here.
- * @docs        :: http://sailsjs.org/documentation/concepts/models-and-orm/models
+ * @module      :: Model
+ * @description :: This is the base user model
+ * @docs        :: http://waterlock.ninja/documentation
  */
+
 'use strict';
+
+let waterlock = require('waterlock');
 
 let User = {
     tableName: 'users',
 
-    attributes: {
+    attributes: waterlock.models.user.attributes({
         firstName: {
             type: 'string',
             required: true,
@@ -29,45 +33,26 @@ let User = {
         birthday: {
             type: 'date'
         },
-        email: {
-            type: 'string',
-            unique: true,
-            email: true,
-            required: true
-        },
         ssn: {
             type: 'string',
             unique: true,
             is: /^\d{3}-?\d{2}-?\d{4}$/
         },
-        enabled: {
+        isEnabled: {
             type: 'boolean',
             defaultsTo() {
 
                 return !sails.config.application.emailVerificationEnabled;
-            }
+            },
+            columnName: 'is_enabled'
         },
-        emailConfirmed: {
+        isEmailConfirmed: {
             type: 'boolean',
             defaultsTo() {
 
                 return !sails.config.application.emailVerificationEnabled;
-            }
-        },
-        token: {
-            type: 'string',
-            defaultsTo() {
-                if (sails.config.application.emailVerificationEnabled) {
-
-                    return UserService.generateToken();
-                }
-            }
-        },
-        resetPasswordToken: {
-            type: 'string'
-        },
-        resetPasswordExpires: {
-            type: 'datetime'
+            },
+            columnName: 'is_email_confirmed'
         },
         portrait: {
             type: 'string'
@@ -78,13 +63,23 @@ let User = {
             unique: true,
             columnName: 'phone_number'
         },
-        password: {
+        emailConfirmationToken: {
             type: 'string',
-            required: true,
-            minLength: '6'
+            defaultsTo() {
+                if (sails.config.application.emailVerificationEnabled) {
+
+                    return HelperService.generateToken();
+                }
+            },
+            columnName: 'email_confirmation_token'
+        },
+        isAdmin: {
+            type: 'boolean',
+            defaultsTo: false,
+            columnName: 'is_admin'
         },
 
-        addresses: {
+        address: {
             collection: 'Address',
             via: 'user'
         },
@@ -92,13 +87,45 @@ let User = {
             collection: 'UserDetail',
             via: 'user'
         },
-        requestCreators: {
+        requestOwner: {
             collection: 'Request',
-            via: 'creator'
+            via: 'owner'
         },
         requestExecutors: {
             collection: 'Request',
             via: 'executor'
+        },
+        feedbackAuthors: {
+            collection: 'Feedback',
+            via: 'author'
+        },
+        feedbackExecutors: {
+            collection: 'Feedback',
+            via: 'executor'
+        },
+        chatClients: {
+            collection: 'Chat',
+            via: 'client'
+        },
+        chatSpecialists: {
+            collection: 'Chat',
+            via: 'specialist'
+        },
+        bidClients: {
+            collection: 'Bid',
+            via: 'client'
+        },
+        bidSpecialists: {
+            collection: 'Bid',
+            via: 'specialist'
+        },
+        messageSenders: {
+            collection: 'Message',
+            via: 'sender'
+        },
+        messageRecipients: {
+            collection: 'Message',
+            via: 'recipient'
         },
 
         fullName() {
@@ -111,49 +138,14 @@ let User = {
 
             user.fullName = this.fullName();
 
-            delete user.password;
-            delete user.token;
-            delete user.resetPasswordToken;
-            delete user.resetPasswordExpires;
+            delete user.emailConfirmationToken;
 
             return user;
         }
-    },
+    }),
 
-    beforeCreate(user, next) {
-        UserService.encryptPassword(user.password)
-            .then(
-                (encryptedPassword) => {
-                    user.password = encryptedPassword;
-
-                    next(null, user);
-                }
-            )
-            .catch(
-                (err) => {
-                    sails.log.error(err);
-
-                    next(err);
-                }
-            );
-    },
-    beforeUpdate(user, next) {
-        UserService.encryptPassword(user.password)
-            .then(
-                (encryptedPassword) => {
-                    user.password = encryptedPassword;
-
-                    next(null, user);
-                }
-            )
-            .catch(
-                (err) => {
-                    sails.log.error(err);
-
-                    next(err);
-                }
-            );
-    }
+    beforeCreate: waterlock.models.user.beforeCreate,
+    beforeUpdate: waterlock.models.user.beforeUpdate
 };
 
 module.exports = User;

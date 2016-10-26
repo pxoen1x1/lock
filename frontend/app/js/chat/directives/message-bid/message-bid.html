@@ -1,0 +1,37 @@
+<md-card>
+  <md-card-content class="message-content">
+    <div class="message"
+         layout="row">
+      <div flex
+           ng-bind="vm.currentBid.message">
+      </div>
+      <div class="subtitle"
+           ng-bind="vm.currentBid.createdAt | altDate">
+      </div>
+    </div>
+
+    <div class="price md-primary-bg md-hue-2"
+         layout="row"
+         layout-align="center start"
+         ng-if="vm.currentBid.cost">
+      <div class="value">
+        cost:
+      </div>
+      <div class="currency">$</div>
+      <div layout="row" layout-align="center end">
+        <div class="value" ng-bind="vm.currentBid.cost"></div>
+      </div>
+    </div>
+  </md-card-content>
+  <md-card-actions layout="row"
+                   layout-align="end center"
+                   ng-class="{ 'disabled': vm.currentRequest.status !== vm.requestStatus.NEW }">
+    <md-button class="md-button-blue"
+               ng-click="vm.startChat(vm.currentBid, vm.currentRequest)">Start Chat
+    </md-button>
+    <md-button ng-if="vm.currentBid.cost"
+               ng-click="vm.acceptBid(vm.currentBid, vm.currentRequest)">Accept
+    </md-button>
+    <md-button ng-click="vm.declineBid(vm.currentBid, vm.currentRequest)">Decline</md-button>
+  </md-card-actions>
+</md-card>

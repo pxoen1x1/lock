@@ -5,11 +5,11 @@ let userRoutes = {
         controller: 'UserController',
         action: 'getCurrentUser'
     },
-    'POST /api/user': {
+    'GET /api/users/:id': {
         controller: 'UserController',
-        action: 'createUser'
+        action: 'getUserById'
     },
-    'PUT /api/user/:id': {
+    'PUT /api/user': {
         controller: 'UserController',
         action: 'updateUser'
     }

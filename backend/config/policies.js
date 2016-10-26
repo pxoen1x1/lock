@@ -26,7 +26,7 @@ module.exports.policies = {
      *                                                                          *
      ***************************************************************************/
 
-    '*': ['isAuthenticated'],
+    '*': ['hasJsonWebToken', 'isUserEnabled'],
 
     /***************************************************************************
      *                                                                          *
@@ -53,32 +53,130 @@ module.exports.policies = {
         '*': true
     },
 
-    UserController: {
-        '*': ['isAuthenticated'],
-        'createUser': true
-    },
+    UserController: {},
 
     StateController: {
-        '*': ['isAuthenticated'],
         'getStates': true
     },
 
     CityController: {
-        '*': ['isAuthenticated'],
         'getCitiesByState': true
     },
 
     ServiceTypeController: {
-        '*': ['isAuthenticated'],
         'getServiceTypes': true
     },
 
     LanguageController: {
-        '*': ['isAuthenticated'],
         'getLanguages': true
     },
 
     RequestController: {
-        '*': ['isAuthenticated']
+        'confirmOffer': [
+            'hasJsonWebToken',
+            'isUserEnabled',
+            'isOfferConfirmationAllowed'
+        ],
+        'changeStatus' : [
+            'hasJsonWebToken',
+            'isUserEnabled',
+            'isRequestStatusChangeAllowed'
+        ]
+    },
+
+    FeedbackController: {
+        'createFeedback': [
+            'hasJsonWebToken',
+            'isUserEnabled',
+            'isRequestOwner',
+            'isFeedbackAllowed'
+        ]
+    },
+
+    ChatController: {
+        '*': [
+            'isSocketRequest',
+            'hasJsonWebToken',
+            'isUserEnabled'
+        ],
+        'getClientChats': [
+            'isSocketRequest',
+            'hasJsonWebToken',
+            'isUserEnabled',
+            'isRequestOwner'
+        ],
+        'createChat': [
+            'isSocketRequest',
+            'hasJsonWebToken',
+            'isUserEnabled',
+            'isChatAllowed',
+            'isRequestOwner',
+            'isChatUnique'
+        ]
+    },
+
+    BidController: {
+        '*': [
+            'isSocketRequest',
+            'hasJsonWebToken',
+            'isUserEnabled'
+        ],
+        'getClientBids': [
+            'isSocketRequest',
+            'hasJsonWebToken',
+            'isUserEnabled',
+            'isRequestOwner'
+        ],
+        'create': [
+            'isSocketRequest',
+            'hasJsonWebToken',
+            'isUserEnabled',
+            'isChatAllowed',
+            'isBidUnique'
+        ],
+        'refuseBidByClient': [
+            'isSocketRequest',
+            'hasJsonWebToken',
+            'isUserEnabled',
+            'isBidParticipant'
+        ],
+        'deleteBid': [
+            'isSocketRequest',
+            'hasJsonWebToken',
+            'isUserEnabled',
+            'isBidParticipant'
+        ]
+    },
+
+    MessageController: {
+        '*': [
+            'isSocketRequest',
+            'hasJsonWebToken',
+            'isUserEnabled',
+            'isChatMember'
+        ],
+        'create': [
+            'isSocketRequest',
+            'hasJsonWebToken',
+            'isUserEnabled',
+            'isChatAllowed',
+            'isChatMember'
+        ]
+    },
+
+    SocketController: {
+        '*': ['isSocketRequest'],
+        'subscribe': [
+            'isSocketRequest',
+            'hasJsonWebToken'
+        ]
+    },
+
+    AdminController: {
+        '*': [
+            'hasJsonWebToken',
+            'isUserEnabled',
+            'isUserAdmin'
+        ]
     }
 };

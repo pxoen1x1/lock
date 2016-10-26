@@ -8,17 +8,18 @@
 
 'use strict';
 
-const STATUSES = sails.config.requests.STATUSES;
-
 let Request = {
     tableName: 'requests',
 
     attributes: {
         forDate: {
-            type: 'datetime'
+            type: 'datetime',
+            columnName: 'for_date'
         },
         distance: {
-            type: 'integer'
+            type: 'integer',
+            defaultsTo: 100,
+            max: 100
         },
         isPublic: {
             type: 'boolean',
@@ -28,33 +29,17 @@ let Request = {
         description: {
             type: 'string'
         },
-        confirmedByCustomer: {
-            type: 'boolean',
-            columnName: 'confirmed_by_customer'
-        },
-        confirmedBySpecialist: {
-            type: 'boolean',
-            columnName: 'confirmed_by_specialist'
-        },
-        executed: {
-            type: 'boolean'
-        },
         cost: {
             type: 'float',
-            is: /^\d+(\.\d{1,2})$/
-        },
-        closed: {
-            type: 'boolean'
+            is: /^\d*(\.\d{1,2})?$/
         },
         status: {
             type: 'integer'
         },
-
         language: {
             model: 'Language',
             columnName: 'language_id'
         },
-
         serviceType: {
             model: 'ServiceType',
             columnName: 'service_type_id',
@@ -64,34 +49,27 @@ let Request = {
             unique: true,
             columnName: 'location_id'
         },
-        creator: {
+        owner: {
             model: 'User',
             required: true,
-            columnName: 'creator_id'
+            columnName: 'owner_id'
         },
         executor: {
             model: 'User',
             columnName: 'executor_id'
-        }
-    },
+        },
 
-    beforeCreate (request, next) {
-        request.status = STATUSES.NEW;
-
-        next(null, request);
-    },
-
-    beforeUpdate(request, next) {
-        if (request.closed) {
-            request.status = STATUSES.CLOSED;
-
-            return next(null, request);
-        }
-
-        if (request.executor) {
-            request.status = STATUSES.IN_PROGRESS;
-
-            return next(null, request);
+        feedbacks: {
+            collection: 'Feedback',
+            via: 'request'
+        },
+        chats: {
+            collection: 'Chat',
+            via: 'request'
+        },
+        bids: {
+            collection: 'Bid',
+            via: 'request'
         }
     }
 };

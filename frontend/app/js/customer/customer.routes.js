@@ -19,12 +19,12 @@
                         templateUrl: 'customer/layout/layout.html'
                     },
                     'menu@customer': {
-                        templateUrl: 'customer/layout/menu/menu.html',
+                        templateUrl: 'layout/menu/user-menu.html',
                         controller: 'CustomerMenuController',
                         controllerAs: 'vm'
                     },
                     'header@customer': {
-                        templateUrl: 'customer/layout/header/header.html',
+                        templateUrl: 'layout/header/user-header.html',
                         controller: 'CustomerHeaderController',
                         controllerAs: 'vm'
                     }
@@ -45,7 +45,7 @@
                         controllerAs: 'vm'
                     },
                     'header@customer.registration': {
-                        templateUrl: 'customer/layout/registration-header.html'
+                        templateUrl: 'layout/header/registration-header.html'
                     }
                 }
             })
@@ -79,6 +79,7 @@
                 },
                 data: {
                     title: 'Requests',
+                    isPrivate: true,
                     menu: {
                         title: 'Requests',
                         icon: 'list'
@@ -97,7 +98,8 @@
                     }
                 },
                 data: {
-                    title: ''
+                    title: '',
+                    isPrivate: true
                 }
             })
             .state('customer.requests.request.view', {
@@ -141,8 +143,8 @@
                 url: '/chat',
                 views: {
                     'content@customer.requests.request': {
-                        templateUrl: 'customer/request-chat/request-chat.html',
-                        controller: 'CustomerRequestChatController',
+                        templateUrl: 'chat/templates/chat.html',
+                        controller: 'ClientChatController',
                         controllerAs: 'vm'
                     }
                 },
@@ -177,6 +179,7 @@
                 url: '/settings',
                 data: {
                     title: 'Settings',
+                    isPrivate: true,
                     menu: {
                         title: 'Settings',
                         icon: 'settings'
@@ -194,7 +197,18 @@
                     }
                 },
                 data: {
+                    isPrivate: true,
                     title: 'Profile'
+                }
+            })
+            .state('customer.invite', {
+                reloadOnSearch: false,
+                data: {
+                    isPrivate: true,
+                    menu: {
+                        title: 'Invite a friend',
+                        icon: 'message'
+                    }
                 }
             });
     }

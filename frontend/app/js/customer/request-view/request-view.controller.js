@@ -5,22 +5,37 @@
         .module('app.customer')
         .controller('CustomerViewRequestController', CustomerViewRequestController);
 
-    CustomerViewRequestController.$inject = ['$stateParams', 'coreDataservice', 'coreConstants'];
+    CustomerViewRequestController.$inject = [
+        '$stateParams',
+        '$mdDialog',
+        'coreConstants',
+        'coreDataservice',
+        'chatSocketservice',
+        'currentRequestService',
+        'customerDataservice',
+        'conf'
+    ];
 
     /* @ngInject */
-    function CustomerViewRequestController($stateParams, coreDataservice, coreConstants) {
+    function CustomerViewRequestController($stateParams, $mdDialog, coreConstants, coreDataservice,
+                                           chatSocketservice, currentRequestService, customerDataservice, conf) {
         var promises = {
-            getRequest: null
+            getRequest: null,
+            getFeedback: null
         };
 
         var vm = this;
-        
-        vm.$stateParams = $stateParams;
 
         vm.request = {};
+        vm.feedback = {};
+
+        vm.currentRequestId = $stateParams.requestId;
 
         vm.map = {
-            center: {},
+            center: {
+                latitude: null,
+                longitude: null
+            },
             zoom: 14,
             options: {
                 scrollwheel: false,
@@ -31,8 +46,12 @@
                 disableDoubleClickZoom: true
             },
             marker: {
+                center: {
+                    latitude: null,
+                    longitude: null
+                },
                 icon: {
-                    url: coreConstants.IMAGES.currentLocationMarker,
+                    url: coreConstants.IMAGES.requestLocationMarker,
                     scaledSize: {
                         width: 30,
                         height: 30
@@ -45,16 +64,25 @@
             }
         };
 
-        vm.selectedRequestId = $stateParams.requestId;
+        vm.baseUrl = conf.BASE_URL;
+        vm.defaultPortrait = coreConstants.IMAGES.defaultPortrait;
+        vm.requestStatus = coreConstants.REQUEST_STATUSES;
+        vm.dateFormat = coreConstants.DATE_FORMAT;
+
+        vm.closeRequest = closeRequest;
+        vm.setRequestStatusAsDone = setRequestStatusAsDone;
+        vm.addFeedback = addFeedback;
 
         activate();
 
-        function getRequestById(requestId) {
+        function getRequestById(request) {
             if (promises.getRequest) {
                 promises.getRequest.cancel();
             }
 
-            promises.getRequest = coreDataservice.getRequest(requestId);
+            var userType = 'client';
+
+            promises.getRequest = coreDataservice.getRequest(userType, request);
 
             return promises.getRequest
                 .then(function (response) {
@@ -64,22 +92,129 @@
         }
 
         function getRequest() {
-            var selectedRequestId = {
-                id: vm.selectedRequestId
+            var currentRequest = {
+                id: vm.currentRequestId
             };
 
-            getRequestById(selectedRequestId)
+            return getRequestById(currentRequest)
                 .then(function (request) {
                     vm.request = request;
+                    currentRequestService.setRequest(vm.request);
 
-                    vm.map.center = vm.request.location;
+                    getFeedback();
+
+                    vm.map.center.latitude = vm.request.location.latitude;
+                    vm.map.center.longitude = vm.request.location.longitude;
+
+                    vm.map.marker.center.latitude = vm.request.location.latitude;
+                    vm.map.marker.center.longitude = vm.request.location.longitude;
 
                     return vm.request;
                 });
         }
 
+        function getRequestFeedback(requestId) {
+            if (promises.getFeedback) {
+                promises.getFeedback.cancel();
+            }
+
+            promises.getFeedback = customerDataservice.getRequestFeedback(requestId);
+
+            return promises.getFeedback
+                .then(function (response) {
+
+                    return response.data.feedback;
+                });
+        }
+
+        function getFeedback() {
+
+            return getRequestFeedback(vm.currentRequestId)
+                .then(function (feedback) {
+                    vm.feedback = feedback;
+
+                    return vm.feedback;
+                });
+        }
+
+        function changeRequestStatus(request, status) {
+
+            return coreDataservice.updateRequestStatus(request, status)
+                .then(function (updatedRequest) {
+
+                    return updatedRequest;
+                });
+        }
+
+        function listenRequestEvent() {
+            chatSocketservice.onRequest(function (request, type) {
+                if (type !== 'update' || vm.request.id !== request.id) {
+
+                    return;
+                }
+
+                vm.request = request;
+                currentRequestService.setRequest(vm.request);
+            });
+        }
+
+        function closeRequest(request) {
+            if (!request || vm.request.status !== vm.requestStatus.NEW) {
+
+                return;
+            }
+
+            var status = {
+                status: coreConstants.REQUEST_STATUSES.CLOSED
+            };
+
+            return changeRequestStatus(request, status)
+                .then(function (request) {
+                    vm.request = request;
+                    currentRequestService.setRequest(vm.request);
+
+                    return vm.request;
+                });
+        }
+
+        function setRequestStatusAsDone(request) {
+            if (!request || vm.request.status !== vm.requestStatus.DONE) {
+
+                return;
+            }
+
+            var status = {
+                status: coreConstants.REQUEST_STATUSES.CLOSED
+            };
+
+            return changeRequestStatus(request, status)
+                .then(function (request) {
+                    vm.request = request;
+                    currentRequestService.setRequest(vm.request);
+
+                    return vm.request;
+                });
+        }
+
+        function addFeedback(request) {
+            event.preventDefault();
+
+            $mdDialog.show({
+                templateUrl: 'customer/feedback/feedback.html',
+                controller: 'CustomerFeedbackController',
+                controllerAs: 'vm',
+                locals: {
+                    requestInfo: request
+                }
+            })
+                .then(function () {
+                    getFeedback();
+                });
+        }
+
         function activate() {
-            getRequest();
+            getRequest()
+                .then(listenRequestEvent);
         }
     }
 })();

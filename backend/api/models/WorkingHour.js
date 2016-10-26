@@ -24,6 +24,7 @@ module.exports = {
 
         userDetail: {
             model: 'UserDetail',
+            unique: true,
             columnName: 'user_details_id'
         }
     }

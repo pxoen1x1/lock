@@ -1,0 +1,80 @@
+<div class="view contact-view"
+     flex
+     layout="column"
+     ng-if="vm.currentUser.type === vm.userType.CLIENT">
+  <md-toolbar class="md-tall md-accent">
+    <div class="md-toolbar-tools md-toolbar-tools-top">
+      <div>Contact Info</div>
+      <div flex></div>
+      <md-button class="md-icon-button"
+                 aria-label="back"
+                 ng-click="vm.toggleSidenav('right-sidenav')">
+        <i class="material-icons">close</i>
+      </md-button>
+    </div>
+    <div class="md-toolbar-tools md-toolbar-tools-bottom"
+         flex
+         layout="column"
+         layout-align="center center">
+      <div layout="column"
+           layout-align="center center">
+        <div class="md-avatar avatar contact-avatar huge"
+             ng-style="{ 'background-image': 'url(' + (vm.selectedSpecialist.portrait ?
+             vm.baseUrl + vm.selectedSpecialist.portrait : vm.defaultPortrait) + ')' }">
+        </div>
+        <div class="contact-name">
+          <span ng-bind="vm.selectedSpecialist.fullName"></span>
+        </div>
+        <star-rating readonly value="vm.selectedSpecialist.details.rating"></star-rating>
+      </div>
+    </div>
+  </md-toolbar>
+  <md-content class="md-hue-2"
+              flex
+              infinite-scroll
+              on-scroll="vm.loadPrevReviews()">
+    <md-card ng-if="vm.reviews[vm.selectedSpecialist.id]">
+      <md-card-title>
+        <h3 class="m-t-none m-b-none">Reviews:</h3>
+      </md-card-title>
+      <md-card-content>
+        <div class="m-b-s"
+             layout="column"
+             layout-align="center none"
+             ng-repeat="review in vm.reviews[vm.selectedSpecialist.id] track by review.id">
+          <div class="m-b-s"
+               flex
+               layout="row"
+               layout-align="start center">
+            <div class="avatar-wrapper">
+              <div class="md-avatar avatar"
+                   ng-style="{ 'background-image': 'url(' + (review.author.portrait ?
+                   vm.baseUrl + review.author.portrait : vm.defaultPortrait) + ')' }">
+              </div>
+            </div>
+            <div class="md-list-item-text" flex>
+              <span ng-bind="review.author.fullName"></span>
+            </div>
+          </div>
+          <div ng-bind="review.message"></div>
+          <div class="m-t-s"
+               layout="row"
+               layout-align="end center">
+            <star-rating class="md-accent-fg"
+                         flex
+                         readonly
+                         value="review.rating">
+            </star-rating>
+            <div ng-bind="review.createdAt | altDate"></div>
+          </div>
+          <md-divider></md-divider>
+        </div>
+        <div ng-if="vm.reviews[vm.selectedSpecialist.id].length === 0">No Reviews Yet</div>
+      </md-card-content>
+    </md-card>
+  </md-content>
+</div>
+<request-info selected-request="vm.currentRequest"
+              toggle-sidenav="vm.toggleSidenav(navID)"
+              ng-if="vm.currentUser.type !== vm.userType.CLIENT && vm.isInfoTabOpen">
+</request-info>

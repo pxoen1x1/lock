@@ -6,20 +6,24 @@
         .controller('ProviderRegistrationController', ProviderRegistrationController);
 
     ProviderRegistrationController.$inject = ['$q', '$state', 'coreDataservice', 'coreConstants', 'coreDictionary',
-        'serviceProviderConstant', 'serviceProviderDataservice', 'citiesLoader'];
+        'authService', 'serviceProviderConstants', 'citiesLoader', 'geocoderService'];
 
     /* @ngInject */
     function ProviderRegistrationController($q, $state, coreDataservice, coreConstants, coreDictionary,
-                                            serviceProviderConstant, serviceProviderDataservice, citiesLoader) {
+                                            authService, serviceProviderConstants, citiesLoader, geocoderService) {
         var promises = {
             getState: null
         };
 
         var vm = this;
 
-        vm.user = {};
-        vm.user.details = {};
-        vm.user.details.servicePrices = [];
+        vm.user = {
+            user: {
+                details: {
+                    servicePrices: []
+                }
+            }
+        };
 
         vm.searchCity = '';
         vm.states = [];
@@ -32,7 +36,7 @@
             maxDate: new Date()
         };
         vm.timePickerOptions = coreConstants.MD_PICKERS_OPTIONS.timePicker;
-        vm.registrationSteps = serviceProviderConstant.REGISTRATION_STEPS;
+        vm.registrationSteps = serviceProviderConstants.REGISTRATION_STEPS;
         vm.validSteps = {};
         vm.currentStep = 0;
 
@@ -91,7 +95,7 @@
         }
 
         function resetSelectedCity() {
-            vm.user.address.city = null;
+            vm.user.user.address.city = null;
             vm.searchCity = '';
 
             citiesLoader.resetSelectedCity();
@@ -99,7 +103,7 @@
 
         function createUser(user) {
 
-            return coreDataservice.createUser(user)
+            return authService.register(user)
                 .then(function () {
 
                     $state.go('home');
@@ -130,9 +134,38 @@
                 return;
             }
 
-            user.details.servicePrices = clearEmptyElements(user.details.servicePrices);
+            getAddressLocation(user.user.address)
+                .then(function (location) {
+                    user.user.details.latitude = location.latitude;
+                    user.user.details.longitude = location.longitude;
+                })
+                .finally(function () {
+                    user.user.details.servicePrices = clearEmptyElements(user.user.details.servicePrices);
 
-            createUser(user);
+                    createUser(user);
+                });
+        }
+
+        function getAddressLocation(selectedAddress) {
+            if (!selectedAddress.city || !selectedAddress.address) {
+
+                return;
+            }
+
+            var address = selectedAddress.address + ', ' +
+                selectedAddress.city.city + ', ' +
+                selectedAddress.state.state;
+
+            return geocoderService.getCoordinates(address)
+                .then(function (location) {
+                    var resultLocation = {};
+
+                    resultLocation.latitude = location.lat();
+                    resultLocation.longitude = location.lng();
+                    resultLocation.address = address;
+
+                    return resultLocation;
+                });
         }
 
         function clearEmptyElements(arr) {
@@ -156,7 +189,7 @@
                 getStates()
             ])
                 .then(function () {
-                    vm.user.details.servicePrices.push({});
+                    vm.user.user.details.servicePrices.push({});
                 });
         }
     }
