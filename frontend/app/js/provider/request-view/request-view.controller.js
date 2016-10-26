@@ -5,8 +5,13 @@
         .module('app.provider')
         .controller('ProviderViewRequestController', ProviderViewRequestController);
 
-    ProviderViewRequestController.$inject =
-        ['$stateParams', 'coreConstants', 'serviceProviderDataservice', 'currentRequestService', 'conf'];
+    ProviderViewRequestController.$inject = [
+        '$stateParams',
+        'coreConstants',
+        'serviceProviderDataservice',
+        'currentRequestService',
+        'conf'
+    ];
 
     /* @ngInject */
     function ProviderViewRequestController($stateParams, coreConstants, serviceProviderDataservice,
