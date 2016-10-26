@@ -1,12 +1,14 @@
 .chat-app {
   height: 85%;
+  min-height: 440px;
+  min-width: 240px;
   max-width: 1600px;
 
   .center {
     height: 100%;
     margin: 0 auto;
     position: relative;
-    z-index: 2;
+    z-index: 1;
 
     .content-card {
       position: relative;
@@ -522,6 +524,38 @@
 
         &.description {
           text-align: justify;
+        }
+      }
+    }
+  }
+}
+
+@media only screen and (max-device-width: 600px) {
+  .content {
+    .container {
+      &.chat-app {
+        height: 100%;
+        margin: 0;
+      }
+    }
+  }
+}
+
+@media only screen and (max-device-width: 360px) {
+  .chat-app {
+    .center {
+      .content-card {
+        .start-point {
+          .big-circle {
+            width: 200px;
+            height: 200px;
+            line-height: 200px;
+          }
+
+          .md-button {
+            width: 200px;
+            white-space: pre-line;
+          }
         }
       }
     }
