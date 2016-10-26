@@ -6,6 +6,9 @@
     <div class="text-right secondary-text" flex>
       <span ng-bind="vm.request.createdAt | date : vm.dateFormat"></span>
     </div>
+    <request-action-buttons position-mode="target-right target"
+                            current-request="vm.request">
+    </request-action-buttons>
   </div>
   <div class="container-content">
     <div class="request-info">
