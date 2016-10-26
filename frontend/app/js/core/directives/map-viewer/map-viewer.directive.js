@@ -243,7 +243,10 @@
 
                     return getCurrentPosition();
                 })
-                .then(getDirections);
+                .then(getDirections)
+                .catch(function (error) {
+                    console.log(error);
+                });
 
             $scope.$watchCollection('vm.selectedRequest.location', function (newLocation, oldLocation) {
                 if (!newLocation || newLocation === oldLocation) {
