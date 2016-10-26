@@ -136,22 +136,31 @@ $panel-background-color: rgb(245, 245, 245);
     }
   }
 
-  .disabled &, .disabled &:hover,
-  &[disabled], &[disabled]:hover,
-  &.disabled, &.disabled:hover,
-  .disabled &.md-button-blue,
-  &.md-button-blue[disabled],
-  &.md-button-blue.disabled,
-  .disabled &.md-button-green,
-  &.md-button-green[disabled],
-  &.md-button-green.disabled {
-    &, &.md-fab, &:hover, &.focus {
-      cursor: default;
-      background-color: $disabled-background-color;
-      color: $disabled-color;
+  &.md-button-red {
+    &, &.md-fab {
+      color: #fff;
+      &, &:focus {
+        background-color: $error-color;
+      }
 
-      .md-ripple-container {
-        display: none;
+      &:hover {
+        background-color: #F44336;
+      }
+    }
+  }
+
+  &, &.md-button-blue,
+  &.md-button-green,
+  &.md-button-red {
+    .disabled &, &[disabled], &.disabled {
+      &, &:hover, &:focus {
+        cursor: default;
+        background-color: $disabled-background-color;
+        color: $disabled-color;
+
+        .md-ripple-container {
+          display: none;
+        }
       }
     }
   }
