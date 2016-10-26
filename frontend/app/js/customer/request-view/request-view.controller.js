@@ -154,6 +154,7 @@
                 }
 
                 vm.request = request;
+                currentRequestService.setRequest(vm.request);
             });
         }
 
@@ -170,6 +171,7 @@
             return changeRequestStatus(request, status)
                 .then(function (request) {
                     vm.request = request;
+                    currentRequestService.setRequest(vm.request);
 
                     return vm.request;
                 });
@@ -188,6 +190,7 @@
             return changeRequestStatus(request, status)
                 .then(function (request) {
                     vm.request = request;
+                    currentRequestService.setRequest(vm.request);
 
                     return vm.request;
                 });

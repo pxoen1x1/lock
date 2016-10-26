@@ -108,6 +108,7 @@
                 .then(function (request) {
 
                     vm.request = request;
+                    currentRequestService.setRequest(vm.request);
 
                     return vm.request;
                 });
@@ -169,6 +170,11 @@
         }
 
         function setMapCenter(latitude, longitude) {
+            if (!latitude || !longitude) {
+
+                return;
+            }
+
             vm.map.center.latitude = latitude;
             vm.map.center.longitude = longitude;
         }
@@ -219,16 +225,20 @@
             requestLocationMarker.text = request.location.address;
 
             vm.map.markers.push(requestLocationMarker);
+
+            if (request.status !== vm.requestStatus.IN_PROGRESS) {
+                setMapCenter(request.location.latitude, request.location.longitude);
+            }
         }
 
         function setExecutorMarker(request) {
-            if (vm.map.center.latitude === null && vm.map.center.longitude === null || !request.executor ||
-                request.status !== vm.requestStatus.IN_PROGRESS) {
+            if (!request.executor || request.status !== vm.requestStatus.IN_PROGRESS) {
 
                 return;
             }
 
             vm.specialists = [request.executor];
+            setMapCenter(request.executor.details.latitude, request.executor.details.longitude);
         }
 
         function listenRequestEvent() {
@@ -239,6 +249,7 @@
                 }
 
                 vm.request = request;
+                currentRequestService.setRequest(vm.request);
 
                 if (request.status !== vm.requestStatus.NEW) {
                     vm.specialists = [];
@@ -261,6 +272,8 @@
 
                 vm.specialists[0].details.latitude = location.latitude;
                 vm.specialists[0].details.longitude = location.longitude;
+
+                setMapCenter(location.latitude, location.longitude);
             });
         }
 
@@ -273,7 +286,6 @@
                     return uiGmapIsReady.promise(1);
                 })
                 .then(function () {
-                    setMapCenter(vm.request.location.latitude, vm.request.location.longitude);
                     setRequestMarker(vm.request);
                     setExecutorMarker(vm.request);
 
