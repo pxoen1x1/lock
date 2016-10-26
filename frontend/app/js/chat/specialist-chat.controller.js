@@ -12,12 +12,13 @@
         'coreDataservice',
         'chatSocketservice',
         'currentUserService',
+        'geocoderService',
         'conf'
     ];
 
     /* @ngInject */
     function SpecialistChatController($mdSidenav, $mdDialog, coreConstants, coreDataservice,
-                                      chatSocketservice, currentUserService, conf) {
+                                      chatSocketservice, currentUserService, geocoderService, conf) {
         var promises = {
             getRequest: null
         };
@@ -187,6 +188,11 @@
 
             return coreDataservice.updateRequestStatus(request, status)
                 .then(function (updatedRequest) {
+                    if (updatedRequest.status === vm.requestStatus.IN_PROGRESS) {
+                        geocoderService.startGeoTracking();
+                    } else {
+                        geocoderService.stopGeoTracking();
+                    }
 
                     return updatedRequest;
                 });
