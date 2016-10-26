@@ -13,8 +13,7 @@
             link: link,
             restrict: 'E',
             scope: {
-                selectedRequest: '=',
-                fullscreenDisabled: '='
+                selectedRequest: '='
             },
             templateUrl: 'core/directives/map-viewer/map-viewer.html',
             replace: true
@@ -55,6 +54,10 @@
 
                 vm.refreshMap(vm.selectedRequest.location);
             }
+
+            scope.$on('$destroy', function () {
+                element.remove();
+            });
         }
     }
 
@@ -227,14 +230,13 @@
             });
         }
 
-        function removeDirection(){
+        function removeDirection() {
             directionsDisplay.setMap(null);
         }
 
         function activate() {
             refreshMap(vm.selectedRequest.location)
                 .then(function () {
-
                     googleMaps = $window.google.maps;
                     directionsDisplay = new googleMaps.DirectionsRenderer();
                     directionsService = new googleMaps.DirectionsService();
