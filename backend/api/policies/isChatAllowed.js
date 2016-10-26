@@ -51,7 +51,7 @@ module.exports = function (req, res, next) {
                     );
                 }
 
-                if (request.status !== STATUS.NEW) {
+                if (request.status === STATUS.CLOSED) {
                     sails.log.debug(new Error('You are not permitted to perform this action.'));
 
                     return res.forbidden(
