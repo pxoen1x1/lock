@@ -28,17 +28,11 @@
       </div>
       <div layout="row">
         <div class="map-wrapper" flex="40">
-          <a ui-sref="provider.dashboard.request.map()">
-            <ui-gmap-google-map center="vm.map.center"
-                                zoom="vm.map.zoom"
-                                options="vm.map.options">
-              <ui-gmap-marker
-                  coords="vm.map.marker.center"
-                  options="vm.map.marker"
-                  idKey="0"
-                  fit="false">
-              </ui-gmap-marker>
-            </ui-gmap-google-map>
+          <a ui-sref="provider.dashboard.request.map">
+            <map-viewer ng-if="vm.request.id"
+                        fullscreen-disabled
+                        selected-request="vm.request">
+            </map-viewer>
           </a>
         </div>
         <div class="info-row"
