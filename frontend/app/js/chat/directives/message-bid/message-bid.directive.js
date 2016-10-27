@@ -14,6 +14,7 @@
             scope: {
                 chats: '=',
                 bids: '=',
+                currentUser: '=',
                 currentBid: '=',
                 currentChat: '=',
                 currentRequest: '=',
@@ -35,6 +36,7 @@
 
         vm.defaultPortrait = coreConstants.IMAGES.defaultPortrait;
         vm.requestStatus = coreConstants.REQUEST_STATUSES;
+        vm.userType = coreConstants.USER_TYPES;
         vm.messageType = chatConstants.MESSAGE_TYPES;
 
         vm.startChat = startChat;
