@@ -151,6 +151,21 @@ let AuthService = {
             .then(
                 (auth) => auth
             );
+    },
+    getUserByToken(req) {
+        let promise = new Promise((resolve, reject)=> {
+            waterlock.validator.validateTokenRequest(req,
+                (err, user) => {
+                    if (err) {
+
+                        return reject(err);
+                    }
+
+                    return resolve(user);
+                });
+        });
+
+        return promise;
     }
 };
 
