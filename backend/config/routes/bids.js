@@ -11,7 +11,7 @@ let bidsRoutes = {
     },
     'POST /api/specialist/request/:requestId/bids': {
         controller: 'BidController',
-        action: 'create'
+        action: 'createBid'
     },
     'PUT /api/client/bids/:bid/refuse': {
         controller: 'BidController',
