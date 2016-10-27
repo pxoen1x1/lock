@@ -227,20 +227,13 @@ let AuthController = waterlock.waterlocked({
         let promiseCheckSSN = ssn ? UserService.getUserBySSN(ssn) : Promise.resolve();
         let promiseCheckPhoneNumber = phoneNumber ? UserService.getUserByPhoneNumber(phoneNumber) : Promise.resolve();
         let promiseCheckEmail = email ? AuthService.getAuthByEmail(email) : Promise.resolve();
-        let promiseCheckAuth = new Promise(function (resolve) {
-            waterlock.validator.validateTokenRequest(req,
-                (err, user) => {
-
-                    return resolve(user);
-                }
-            );
-        });
+        let promiseGetUser = AuthService.getUserByToken(req);
 
         Promise.all([
             promiseCheckSSN,
             promiseCheckPhoneNumber,
             promiseCheckEmail,
-            promiseCheckAuth
+            promiseGetUser
         ])
             .then(
                 (params) => {

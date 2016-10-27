@@ -1,4 +1,4 @@
-/* global sails, waterlock */
+/* global sails, AuthService */
 
 /**
  * hasJsonWebToken
@@ -12,9 +12,22 @@
 'use strict';
 
 module.exports = function (req, res, next) {
-    waterlock.validator.validateTokenRequest(req,
-        (err, user) => {
-            if (err) {
+    AuthService.getUserByToken(req)
+        .then(
+            (user) => {
+                // valid request
+                if (!req.session) {
+                    req.session = {};
+                }
+
+                req.session.user = user;
+                req.session.authenticated = true;
+
+                next();
+            }
+        )
+        .catch(
+            () => {
                 sails.log.debug(new Error('You are not permitted to perform this action.'));
 
                 return res.forbidden(
@@ -23,15 +36,5 @@ module.exports = function (req, res, next) {
                     }
                 );
             }
-
-            // valid request
-            if (!req.session) {
-                req.session = {};
-            }
-
-            req.session.user = user;
-            req.session.authenticated = true;
-
-            next();
-        });
+        );
 };
