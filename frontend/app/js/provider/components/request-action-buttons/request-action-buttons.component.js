@@ -17,6 +17,7 @@
         .component('requestActionButtons', requestActionButtonsConfig);
 
     RequestActionButtonsController.$inject = [
+        '$mdDialog',
         'coreConstants',
         'coreDataservice',
         'geocoderService',
@@ -24,12 +25,23 @@
     ];
 
     /* @ngInject */
-    function RequestActionButtonsController(coreConstants, coreDataservice, geocoderService, currentRequestService) {
+    function RequestActionButtonsController($mdDialog, coreConstants, coreDataservice, geocoderService,
+                                            currentRequestService) {
         var vm = this;
 
         vm.requestStatus = coreConstants.REQUEST_STATUSES;
 
+        vm.openBidDialog = openBidDialog;
         vm.changeRequestStatus = changeRequestStatus;
+
+        function openBidDialog(request) {
+            return $mdDialog.show({
+                templateUrl: 'provider/send-bid-dialog/send-bid-dialog.html',
+                controller: 'SendBidDialogController',
+                controllerAs: 'vm',
+                locals: {currentRequest: request}
+            });
+        }
 
         function updateRequestStatus(request, status) {
 
