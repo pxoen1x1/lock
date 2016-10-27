@@ -27,7 +27,8 @@
             var lastScrollTop = 0;
             var scrollCompleted = true;
 
-            var isAutoLoadingEnabled = 'autoloadingEnabled' in attrs && attrs.autoloadingEnabled !== 'false';
+            var isAutoLoadingEnabled = typeof attrs.autoloadingEnabled !== 'undefined' &&
+                attrs.autoloadingEnabled !== 'false';
             var scrollDistance = parseInt(scope.scrollDistance) || 10;
             var scrollDirection = scope.scrollDistance || 'bottom';
 
