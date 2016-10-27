@@ -30,8 +30,8 @@
             link: function (scope, elem, attrs) {
                 scope.value = scope.value || 0;
                 scope.max = scope.max || 5;
-                scope.readonly = 'readonly' in attrs;
-                scope.showChoice = 'showchoice' in attrs;
+                scope.readonly = typeof attrs.readonly !== 'undefined' && attrs.readonly !== 'false';
+                scope.showChoice = typeof attrs.showchoice !== 'undefined' && attrs.showchoice !== 'false';
 
                 if (scope.readonly) {
                     angular.element(elem)[0].style.cursor = 'default';
