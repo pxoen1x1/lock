@@ -180,7 +180,7 @@
         }
 
         function showSelectedSpecialistInfo(marker, eventName, model) {
-            if (!model.control || Object.keys(model.control).length === 0) {
+            if (!model.control || Object.keys(model.control).length === 0 || !vm.request.location) {
 
                 return;
             }
@@ -219,6 +219,10 @@
         }
 
         function setRequestMarker(request) {
+            if (!request.location) {
+
+                return;
+            }
             requestLocationMarker.id = request.location.id;
             requestLocationMarker.latitude = request.location.latitude;
             requestLocationMarker.longitude = request.location.longitude;
@@ -232,7 +236,7 @@
         }
 
         function setExecutorMarker(request) {
-            if (!request.executor || request.status !== vm.requestStatus.IN_PROGRESS) {
+            if (!request.executor || !request.executor.details || request.status !== vm.requestStatus.IN_PROGRESS) {
 
                 return;
             }
@@ -288,6 +292,11 @@
                 .then(function () {
                     setRequestMarker(vm.request);
                     setExecutorMarker(vm.request);
+
+                    if (!vm.request.location || vm.request.distance) {
+
+                        return;
+                    }
 
                     vm.boundsOfDistance = geocoderService.getBoundsOfDistance(
                         vm.request.location.latitude,

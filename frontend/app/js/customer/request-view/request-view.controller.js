@@ -103,11 +103,13 @@
 
                     getFeedback();
 
-                    vm.map.center.latitude = vm.request.location.latitude;
-                    vm.map.center.longitude = vm.request.location.longitude;
+                    if (vm.request.location.latitude && vm.request.location.longitude) {
+                        vm.map.center.latitude = vm.request.location.latitude;
+                        vm.map.center.longitude = vm.request.location.longitude;
 
-                    vm.map.marker.center.latitude = vm.request.location.latitude;
-                    vm.map.marker.center.longitude = vm.request.location.longitude;
+                        vm.map.marker.center.latitude = vm.request.location.latitude;
+                        vm.map.marker.center.longitude = vm.request.location.longitude;
+                    }
 
                     return vm.request;
                 });

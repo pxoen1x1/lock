@@ -138,6 +138,11 @@
         }
 
         function getBoundsOfDistance(latitude, longitude, distance) {
+            if (!latitude || !longitude || !distance) {
+
+                return;
+            }
+
             var bounds = {};
             bounds.northEast = {};
             bounds.southWest = {};
@@ -191,6 +196,11 @@
         }
 
         function getDistance(latitude1, longitude1, latitude2, longitude2) {
+            if (!latitude1 || !longitude1 || !latitude2 || !longitude2) {
+
+                return;
+            }
+
             var radius = coreConstants.DISTANCE.earthRadius * coreConstants.DISTANCE.toMile;
 
             var radLat1 = convertToRadian(latitude1);
