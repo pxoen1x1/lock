@@ -5,71 +5,130 @@
         .module('app.customer')
         .controller('CustomerRequestRecommendedController', CustomerRequestRecommendedController);
 
-    CustomerRequestRecommendedController.$inject = ['$scope', '$state', '$mdMedia'];
+    CustomerRequestRecommendedController.$inject = [
+        '$state',
+        '$stateParams',
+        'coreConstants',
+        'currentRequestService',
+        'geocoderService',
+        'chatSocketservice',
+        'customerDataservice',
+        'conf'
+    ];
 
     /* @ngInject */
-    function CustomerRequestRecommendedController($scope, $state, $mdMedia) {
+    function CustomerRequestRecommendedController($state, $stateParams, coreConstants, currentRequestService,
+                                                  geocoderService, chatSocketservice, customerDataservice, conf) {
+        var currentRequestId = $stateParams.requestId;
+        var promises = {
+            findSpecialists: null
+        };
         var vm = this;
 
-        vm.$mdMedia = $mdMedia;
         vm.showOnlyAvailable = false;
-        vm.providers = {
-            left : [],
-            right : []
-        };
+        vm.request = {};
+        vm.specialists = [];
 
+        vm.baseUrl = conf.BASE_URL;
+        vm.requestStatus = coreConstants.REQUEST_STATUSES;
+        vm.defaultPortrait = coreConstants.IMAGES.defaultPortrait;
 
-        vm.init = function() {
-            var _arr = [];
-            vm.providers.left = [];
-            vm.providers.right = [];
+        vm.findSpecialists = findSpecialists;
+        vm.createChat = createChat;
 
-            for (var i = 0; i < 20; i++) _arr.push(getRandProvider());
+        activate();
 
-            // remove not available if needed
-            if (vm.showOnlyAvailable) {
-                for (var i = _arr.length-1; i >= 0; i--) {
-                    if (!_arr[i].available) {
-                        _arr.splice(i, 1);
-                    }
-                }
-            }
-            var arr = _.sortBy(_arr, "distance");
-            var a = [], b = [];
-            if (vm.$mdMedia('gt-xs')) {
-                for (var i = 0; i < arr.length; i++) {
-                    if (i % 2) {
-                        vm.providers.right.push(arr[i]);
-                    } else {
-                        vm.providers.left.push(arr[i]);
-                    }
-                }
-            } else {
-                vm.providers.left = vm.providers.left.concat(arr.slice(0, arr.length/2));
-                vm.providers.right = vm.providers.right.concat(arr.slice(arr.length/2,arr.length));
-            }
-        };
-
-        var getRandProvider = function() {
-            var _p = ["erlich", "richard", "bighead", "jared", "dinesh", "gilfoyle"];
-            var _n = ["Erlich Bachman", "Richard Hendricks", "Nelson Bigetti", "Jared Dunn", "Dinesh Chugtai", "Bertram Gilfoyle"];
-            var r = Math.floor(Math.random()*100) % _p.length;
-            return {
-                id: Math.floor(Math.random()*100) % 100,
-                photo: "http://www.piedpiper.com/app/themes/pied-piper/dist/images/"+_p[r]+".png",
-                name: _n[r],
-                rating: ((Math.random()*100 % 3) +3).toFixed(1),
-                available: Math.floor(Math.random()*100) % 2,
-                done: Math.floor(Math.random()*100) % 50,
-                working: {
-                    from: Math.floor(Math.random()*100) % 13 + 1,
-                    to: Math.floor(Math.random()*100) % 24 + 1
-                },
-                distance: (Math.random()*100 % 10).toFixed(1)
+        function getRequest(requestId) {
+            var request = {
+                id: requestId
             };
-        };
-        
-        vm.init();
 
+            return currentRequestService.getRequest(request)
+                .then(function (request) {
+                    vm.request = request;
+
+                    return vm.request;
+                });
+        }
+
+        function findSpecialistsByParams(params) {
+            if (promises.findSpecialists) {
+                promises.findSpecialists.cancel();
+            }
+
+            promises.findSpecialists = customerDataservice.getSpecialists(params);
+
+            return promises.findSpecialists
+                .then(function (response) {
+
+                    return response.data.serviceProviders;
+                });
+        }
+
+        function findSpecialists() {
+            var params = {};
+
+            params.southWestLatitude = vm.boundsOfDistance.southWest.latitude;
+            params.southWestLongitude = vm.boundsOfDistance.southWest.longitude;
+            params.northEastLatitude = vm.boundsOfDistance.northEast.latitude;
+            params.northEastLongitude = vm.boundsOfDistance.northEast.longitude;
+            params.isAllShown = !vm.showOnlyAvailable;
+
+            return findSpecialistsByParams(params)
+                .then(function (specialists) {
+                    vm.specialists = specialists.map(function (specialist) {
+                            specialist.distance = getSpecialistDistance(specialist);
+
+                            return specialist;
+                        }
+                    );
+
+                    vm.specialists.sort(function (a, b) {
+                        return a.details.rating < b.details.rating;
+                    });
+
+                    return vm.specialists;
+                });
+        }
+
+        function getSpecialistDistance(specialist) {
+            var distance = geocoderService.getDistance(
+                vm.request.location.latitude,
+                vm.request.location.longitude,
+                specialist.details.latitude,
+                specialist.details.longitude
+            );
+
+            return distance;
+        }
+
+        function createChat(selectedSpecialist, currentRequest) {
+            if (currentRequest && currentRequest.status !== vm.requestStatus.NEW) {
+
+                return;
+            }
+
+            var specialist = {
+                specialist: selectedSpecialist
+            };
+
+            return chatSocketservice.createChat(vm.request, specialist)
+                .then(function () {
+                    $state.go('customer.requests.request.chat');
+                });
+        }
+
+        function activate() {
+            getRequest(currentRequestId)
+                .then(function () {
+                    vm.boundsOfDistance = geocoderService.getBoundsOfDistance(
+                        vm.request.location.latitude,
+                        vm.request.location.longitude,
+                        vm.request.distance
+                    );
+
+                    findSpecialists();
+                });
+        }
     }
 })();
