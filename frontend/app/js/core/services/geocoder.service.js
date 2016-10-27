@@ -29,6 +29,12 @@
         return service;
 
         function getCurrentCoordinates() {
+            var options = {
+                enableHighAccuracy: true,
+                maximumAge: 10000,
+                timeout: 5000
+            };
+
             var deferred = $q.defer();
 
             if (!$window.navigator && !$window.navigator.geolocation) {
@@ -44,13 +50,15 @@
                 function (error) {
 
                     return deferred.reject('Geolocation service failed for the following reason: ' + error.message);
-                });
+                },
+                options
+            );
 
             return deferred.promise;
         }
 
         function startGeoTracking(delay) {
-            delay = delay || 30000;
+            delay = delay || 15000;
 
             stopTrackingPromise = $timeout(function () {
 
