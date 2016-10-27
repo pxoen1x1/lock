@@ -26,7 +26,8 @@
 
             vm.isFullScreenMode = false;
 
-            var fullScreenModeDisabled = attrs.fullscreenDisabled && attrs.fullscreenDisabled !== 'false';
+            var fullScreenModeDisabled = typeof attrs.fullscreenDisabled !== 'undefined' &&
+                attrs.fullscreenDisabled !== 'false';
 
             vm.toggleFullScreenMode = toggleFullScreenMode;
 

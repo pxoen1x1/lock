@@ -109,12 +109,6 @@
                 return;
             }
 
-            if (status === vm.requestStatus.IN_PROGRESS) {
-                geocoderService.startGeoTracking();
-            } else {
-                geocoderService.stopGeoTracking();
-            }
-
             status = {
                 status: status
             };
