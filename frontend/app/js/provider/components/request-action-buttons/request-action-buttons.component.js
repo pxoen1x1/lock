@@ -13,7 +13,7 @@
     };
 
     angular
-        .module('app.chat')
+        .module('app.provider')
         .component('requestActionButtons', requestActionButtonsConfig);
 
     RequestActionButtonsController.$inject = [
