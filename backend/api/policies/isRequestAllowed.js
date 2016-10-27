@@ -1,7 +1,7 @@
 /* global sails, Request, Chat */
 
 /**
- * isChatAllowed
+ * isRequestAllowed
  *
  * @module      :: Policy
  * @description :: Assumes that request wasn't executed or wasn't closed;
