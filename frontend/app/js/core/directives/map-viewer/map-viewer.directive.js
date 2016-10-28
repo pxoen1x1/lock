@@ -55,7 +55,7 @@
             }
 
             scope.$on('$destroy', function () {
-                vm.removeDirection();
+                vm.stopGeoTracking();
                 element.remove();
             });
         }
@@ -63,6 +63,7 @@
 
     MapViewerController.$inject = [
         '$scope',
+        '$q',
         '$timeout',
         '$window',
         'uiGmapIsReady',
@@ -71,15 +72,24 @@
     ];
 
     /* @ngInject */
-    function MapViewerController($scope, $timeout, $window, uiGmapIsReady, coreConstants, geocoderService) {
+    function MapViewerController($scope, $q, $timeout, $window, uiGmapIsReady, coreConstants, geocoderService) {
         var googleMaps;
         var directionsDisplay;
         var directionsService;
         var promiseStartGeoTracking;
-        var currentPosition = {
-            latitude: null,
-            longitude: null
+
+        var updateCurrentLocationDelay = coreConstants.UPDATE_CURRENT_LOCATION_DELAY;
+
+        var directionsRendererOptions = {
+            suppressMarkers: true,
+            preserveViewport: true
         };
+
+        var currentLocation = {
+            lat: null,
+            lng: null
+        };
+
         var vm = this;
 
         vm.requestStatus = coreConstants.REQUEST_STATUSES;
@@ -153,9 +163,9 @@
         activate();
 
         vm.refreshMap = refreshMap;
-        vm.goToCurrentPosition = goToCurrentPosition;
+        vm.goToLocation = goToLocation;
         vm.getDirections = getDirections;
-        vm.removeDirection =removeDirection;
+        vm.stopGeoTracking = stopGeoTracking;
 
         function refreshMap(location) {
             var mapsCount = angular.element(document).find('ui-gmap-google-map').length;
@@ -167,10 +177,7 @@
                         longitude: location.longitude
                     };
 
-                    vm.map.requestMarker.center = {
-                        latitude: location.latitude,
-                        longitude: location.longitude
-                    };
+                    setRequestMarkerCenter(location.latitude, location.longitude);
 
                     vm.map.control.refresh(vm.map.center);
 
@@ -178,15 +185,15 @@
                 });
         }
 
-        function goToCurrentPosition() {
-            if (!currentPosition.latitude || !currentPosition.longitude) {
+        function goToLocation(latitude, longitude) {
+            if (!latitude || !longitude) {
 
                 return;
             }
 
             vm.map.center = {
-                latitude: currentPosition.latitude,
-                longitude: currentPosition.longitude
+                latitude: latitude,
+                longitude: longitude
             };
         }
 
@@ -194,31 +201,25 @@
 
             return geocoderService.getCurrentCoordinates()
                 .then(function (position) {
-                    currentPosition = {
-                        latitude: position.latitude,
-                        longitude: position.longitude
+                    currentLocation = {
+                        lat: position.latitude,
+                        lng: position.longitude
                     };
 
-                    setCurrentMarkerCenter(currentPosition);
-
                     return position;
-                });
+                })
+                .then(getDirections);
         }
 
-        function setCurrentMarkerCenter(position) {
-            if (!position.latitude || !position.longitude) {
+        function setCurrentMarkerCenter(latitude, longitude) {
+            if (!latitude || !longitude) {
 
                 return;
             }
 
-            vm.currentLocation = {
-                lat: position.latitude,
-                lng: position.longitude
-            };
-
             vm.map.currentMarker.center = {
-                latitude: vm.currentLocation.lat,
-                longitude: vm.currentLocation.lng
+                latitude: latitude,
+                longitude: longitude
             };
         }
 
@@ -229,7 +230,7 @@
             }
 
             var request = {
-                origin: vm.currentLocation,
+                origin: currentLocation,
                 destination: {
                     lat: vm.selectedRequest.location.latitude,
                     lng: vm.selectedRequest.location.longitude
@@ -254,17 +255,23 @@
                 directionsDisplay.setDirections(response);
                 directionsDisplay.setMap(map);
 
-                vm.map.requestMarker.center = {
+                var endLocation = {
                     latitude: leg.end_location.lat(),
                     longitude: leg.end_location.lng()
                 };
 
-                vm.map.currentMarker.center = {
+                var startLocation = {
                     latitude: leg.start_location.lat(),
                     longitude: leg.start_location.lng()
                 };
 
-                startGeoTracking();
+                setRequestMarkerCenter(endLocation.latitude, endLocation.longitude);
+                setCurrentMarkerCenter(startLocation.latitude, startLocation.longitude);
+
+                vm.map.center = {
+                    latitude: startLocation.latitude,
+                    longitude: startLocation.longitude
+                };
             });
         }
 
@@ -281,42 +288,53 @@
                 longitude: vm.selectedRequest.location.longitude
             };
 
-            vm.map.requestMarker.center = {
-                latitude: vm.selectedRequest.location.latitude,
-                longitude: vm.selectedRequest.location.longitude
-            };
+            setRequestMarkerCenter(vm.selectedRequest.location.latitude, vm.selectedRequest.location.longitude);
+            setCurrentMarkerCenter(currentLocation.lat, currentLocation.lng);
 
-            vm.map.currentMarker.center = {
-                latitude: vm.currentLocation.lat,
-                longitude: vm.currentLocation.lng
-            };
-
-            $timeout.cancel(promiseStartGeoTracking);
+            stopGeoTracking();
         }
 
         function startGeoTracking() {
+            if (vm.selectedRequest.status !== vm.requestStatus.IN_PROGRESS) {
 
-            promiseStartGeoTracking = $timeout(function () {
-                return getCurrentPosition();
-            }, 15000)
-                .then(startGeoTracking);
+                return $q.reject();
+            }
+
+            return getCurrentPosition()
+                .then(function () {
+                    promiseStartGeoTracking = $timeout(function () {
+                        startGeoTracking();
+
+                        return promiseStartGeoTracking;
+                    }, updateCurrentLocationDelay);
+                });
+        }
+
+        function stopGeoTracking() {
+            $timeout.cancel(promiseStartGeoTracking);
+        }
+
+        function setRequestMarkerCenter(latitude, longitude) {
+            if (!latitude || !longitude) {
+                return;
+            }
+
+            vm.map.requestMarker.center = {
+                latitude: latitude,
+                longitude: longitude
+            };
         }
 
         function activate() {
             refreshMap(vm.selectedRequest.location)
                 .then(function () {
-                    var options = {
-                        suppressMarkers: true
-                    };
-
                     googleMaps = $window.google.maps;
 
-                    directionsDisplay = new googleMaps.DirectionsRenderer(options);
+                    directionsDisplay = new googleMaps.DirectionsRenderer(directionsRendererOptions);
                     directionsService = new googleMaps.DirectionsService();
 
-                    return getCurrentPosition();
-                })
-                .then(getDirections);
+                    return startGeoTracking();
+                });
 
             $scope.$watchCollection('vm.selectedRequest.location', function (newLocation, oldLocation) {
                 if (!newLocation || newLocation === oldLocation) {
@@ -336,7 +354,7 @@
                 }
 
                 if (vm.selectedRequest.status === vm.requestStatus.IN_PROGRESS) {
-                    getDirections();
+                    startGeoTracking();
                 }
                 else {
                     removeDirection();
