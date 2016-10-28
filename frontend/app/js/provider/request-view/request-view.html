@@ -1,18 +1,18 @@
 <div class="container view-content">
-  <div class="container-title" layout="row" layout-align="start center">
-    <div>
-      <i class="material-icons">list</i> <span>Request</span>
-    </div>
-    <div class="text-right secondary-text" flex>
-      <span ng-bind="vm.request.createdAt | date : vm.dateFormat"></span>
-    </div>
-    <request-action-buttons position-mode="target-right target"
-                            current-request="vm.request">
-    </request-action-buttons>
+  <div class="container-title">
+    <i class="material-icons">list</i> <span>Request</span>
   </div>
   <div class="container-content">
     <div class="request-info">
-      <div class="title md-headline">Details</div>
+      <div layout="row" layout-align="start center">
+        <div class="title md-headline">Details</div>
+        <div class="text-right secondary-text" flex>
+          <span ng-bind="vm.request.createdAt | date : vm.dateFormat"></span>
+        </div>
+        <request-action-buttons position-mode="target-right target"
+                                current-request="vm.request">
+        </request-action-buttons>
+      </div>
       <div class="provider-info m-b-s" layout="row" layout-align="start center">
         <div class="avatar-wrapper">
           <div class="avatar"

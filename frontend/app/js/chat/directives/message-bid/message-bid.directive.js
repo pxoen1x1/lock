@@ -28,10 +28,10 @@
         return directive;
     }
 
-    MessageBidController.$inject = ['chatSocketservice', 'coreConstants', 'chatConstants'];
+    MessageBidController.$inject = ['$scope', 'chatSocketservice', 'coreConstants', 'chatConstants'];
 
     /* @ngInject */
-    function MessageBidController(chatSocketservice, coreConstants, chatConstants) {
+    function MessageBidController($scope, chatSocketservice, coreConstants, chatConstants) {
         var vm = this;
 
         vm.defaultPortrait = coreConstants.IMAGES.defaultPortrait;
@@ -107,7 +107,14 @@
                 type: vm.messageType.AGREEMENT
             };
 
-            return vm.acceptOffer({offer: offer, message: message});
+            return startChat(currentBid, currentRequest)
+                .then(function () {
+
+                    return $scope.$applyAsync(function () {
+
+                        return vm.acceptOffer({offer: offer, message: message});
+                    });
+                });
         }
 
         function declineBid(currentBid, currentRequest) {
