@@ -58,6 +58,7 @@
                     images: 'jpg jpeg png gif'
                 },
                 maxFileSize: 2000000
-            }
+            },
+            UPDATE_CURRENT_LOCATION_DELAY: 15 * 1000
         });
 })();

@@ -16,6 +16,8 @@
 
     function geocoderService($q, $timeout, $window, uiGmapGoogleMapApi, coreConstants, serviceProviderDataservice) {
         var stopTrackingPromise;
+        var updateCurrentLocationDelay = coreConstants.UPDATE_CURRENT_LOCATION_DELAY;
+
         var service = {
             getCurrentCoordinates: getCurrentCoordinates,
             startGeoTracking: startGeoTracking,
@@ -58,7 +60,7 @@
         }
 
         function startGeoTracking(delay) {
-            delay = delay || 15000;
+            delay = delay || updateCurrentLocationDelay;
 
             stopTrackingPromise = $timeout(function () {
 
