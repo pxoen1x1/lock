@@ -5,7 +5,8 @@
                           control="vm.map.control"
                           events="vm.map.events"
                           zoom="vm.map.zoom"
-                          options="vm.map.options">
+                          options="vm.map.options"
+                          pan="true">
         <ui-gmap-circle center='vm.selectedRequest.location'
                         radius='vm.map.circle.radius'
                         fill='vm.map.circle.fill'
@@ -26,8 +27,8 @@
         </ui-gmap-marker>
         <ui-gmap-map-control position="right-bottom">
           <button type="button"
-                  ng-click="vm.goToCurrentPosition()"
-                  ng-if="vm.isFullScreenMode">
+                  ng-click="vm.goToLocation(vm.map.currentMarker.center.latitude, vm.map.currentMarker.center.longitude)"
+                  ng-if="vm.selectedRequest.status === vm.requestStatus.IN_PROGRESS">
             <i class="material-icons">my_location</i>
           </button>
         </ui-gmap-map-control>
