@@ -13,12 +13,12 @@
                         visible="vm.selectedRequest.status === vm.requestStatus.NEW">
         </ui-gmap-circle>
         <ui-gmap-marker ng-if="vm.selectedRequest.status !== vm.requestStatus.NEW"
-                        coords="vm.selectedRequest.location"
+                        coords="vm.map.requestMarker.center"
                         options="vm.map.requestMarker"
                         idKey="0"
                         fit="false">
         </ui-gmap-marker>
-        <ui-gmap-marker ng-if="vm.isFullScreenMode"
+        <ui-gmap-marker ng-if="vm.selectedRequest.status === vm.requestStatus.IN_PROGRESS"
                         coords="vm.map.currentMarker.center"
                         options="vm.map.currentMarker"
                         idKey="1"

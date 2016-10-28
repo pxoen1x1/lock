@@ -42,33 +42,40 @@
                 var headerToolbar = angular.element(document.querySelector('.header md-toolbar'));
 
                 if (vm.isFullScreenMode) {
-                    element.removeClass('bounceOut');
                     sideBar.css('z-index', '1');
                     headerToolbar.css('z-index', '1');
                 } else {
-                    element.addClass('bounceOut');
                     sideBar.css('z-index', '');
                     headerToolbar.css('z-index', '');
                 }
 
-                element.toggleClass('full-screen bounceIn');
+                element.toggleClass('full-screen');
 
                 vm.refreshMap(vm.selectedRequest.location);
             }
 
             scope.$on('$destroy', function () {
+                vm.removeDirection();
                 element.remove();
             });
         }
     }
 
-    MapViewerController.$inject = ['$scope', '$window', 'uiGmapIsReady', 'coreConstants', 'geocoderService'];
+    MapViewerController.$inject = [
+        '$scope',
+        '$timeout',
+        '$window',
+        'uiGmapIsReady',
+        'coreConstants',
+        'geocoderService'
+    ];
 
     /* @ngInject */
-    function MapViewerController($scope, $window, uiGmapIsReady, coreConstants, geocoderService) {
+    function MapViewerController($scope, $timeout, $window, uiGmapIsReady, coreConstants, geocoderService) {
         var googleMaps;
         var directionsDisplay;
         var directionsService;
+        var promiseStartGeoTracking;
         var currentPosition = {
             latitude: null,
             longitude: null
@@ -108,6 +115,10 @@
                 }
             },
             requestMarker: {
+                center: {
+                    latitude: vm.selectedRequest.location.latitude,
+                    longitude: vm.selectedRequest.location.longitude
+                },
                 icon: {
                     url: coreConstants.IMAGES.requestLocationMarker,
                     scaledSize: {
@@ -144,6 +155,7 @@
         vm.refreshMap = refreshMap;
         vm.goToCurrentPosition = goToCurrentPosition;
         vm.getDirections = getDirections;
+        vm.removeDirection =removeDirection;
 
         function refreshMap(location) {
             var mapsCount = angular.element(document).find('ui-gmap-google-map').length;
@@ -151,6 +163,11 @@
             return uiGmapIsReady.promise(mapsCount)
                 .then(function () {
                     vm.map.center = {
+                        latitude: location.latitude,
+                        longitude: location.longitude
+                    };
+
+                    vm.map.requestMarker.center = {
                         latitude: location.latitude,
                         longitude: location.longitude
                     };
@@ -194,7 +211,15 @@
                 return;
             }
 
-            vm.map.currentMarker.center = position;
+            vm.currentLocation = {
+                lat: position.latitude,
+                lng: position.longitude
+            };
+
+            vm.map.currentMarker.center = {
+                latitude: vm.currentLocation.lat,
+                longitude: vm.currentLocation.lng
+            };
         }
 
         function getDirections() {
@@ -204,13 +229,10 @@
             }
 
             var request = {
-                origin: {
+                origin: vm.currentLocation,
+                destination: {
                     lat: vm.selectedRequest.location.latitude,
                     lng: vm.selectedRequest.location.longitude
-                },
-                destination: {
-                    lat: vm.map.currentMarker.center.latitude,
-                    lng: vm.map.currentMarker.center.longitude
                 },
                 travelMode: googleMaps.DirectionsTravelMode.DRIVING,
                 drivingOptions: {
@@ -226,28 +248,75 @@
                     return;
                 }
 
+                var map = vm.map.control.getGMap();
+                var leg = response.routes[0].legs[0];
+
                 directionsDisplay.setDirections(response);
-                directionsDisplay.setMap(vm.map.control.getGMap());
+                directionsDisplay.setMap(map);
+
+                vm.map.requestMarker.center = {
+                    latitude: leg.end_location.lat(),
+                    longitude: leg.end_location.lng()
+                };
+
+                vm.map.currentMarker.center = {
+                    latitude: leg.start_location.lat(),
+                    longitude: leg.start_location.lng()
+                };
+
+                startGeoTracking();
             });
         }
 
         function removeDirection() {
+            if (!directionsDisplay) {
+
+                return;
+            }
+
             directionsDisplay.setMap(null);
+
+            vm.map.center = {
+                latitude: vm.selectedRequest.location.latitude,
+                longitude: vm.selectedRequest.location.longitude
+            };
+
+            vm.map.requestMarker.center = {
+                latitude: vm.selectedRequest.location.latitude,
+                longitude: vm.selectedRequest.location.longitude
+            };
+
+            vm.map.currentMarker.center = {
+                latitude: vm.currentLocation.lat,
+                longitude: vm.currentLocation.lng
+            };
+
+            $timeout.cancel(promiseStartGeoTracking);
+        }
+
+        function startGeoTracking() {
+
+            promiseStartGeoTracking = $timeout(function () {
+                return getCurrentPosition();
+            }, 15000)
+                .then(startGeoTracking);
         }
 
         function activate() {
             refreshMap(vm.selectedRequest.location)
                 .then(function () {
+                    var options = {
+                        suppressMarkers: true
+                    };
+
                     googleMaps = $window.google.maps;
-                    directionsDisplay = new googleMaps.DirectionsRenderer();
+
+                    directionsDisplay = new googleMaps.DirectionsRenderer(options);
                     directionsService = new googleMaps.DirectionsService();
 
                     return getCurrentPosition();
                 })
-                .then(getDirections)
-                .catch(function (error) {
-                    console.log(error);
-                });
+                .then(getDirections);
 
             $scope.$watchCollection('vm.selectedRequest.location', function (newLocation, oldLocation) {
                 if (!newLocation || newLocation === oldLocation) {
