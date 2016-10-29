@@ -27,12 +27,13 @@
         </ui-gmap-marker>
         <ui-gmap-map-control position="right-bottom">
           <button type="button"
+                  class="current-location"
                   ng-click="vm.goToLocation(vm.map.currentMarker.center.latitude, vm.map.currentMarker.center.longitude)"
                   ng-if="vm.selectedRequest.status === vm.requestStatus.IN_PROGRESS">
             <i class="material-icons">my_location</i>
           </button>
         </ui-gmap-map-control>
-        <ui-gmap-map-control position="bottom-center">
+        <ui-gmap-map-control position="left-bottom">
           <request-action-buttons view-mode="buttons" current-request="vm.selectedRequest"></request-action-buttons>
         </ui-gmap-map-control>
       </ui-gmap-google-map>
