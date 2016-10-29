@@ -78,8 +78,6 @@
         var directionsService;
         var promiseStartGeoTracking;
 
-        var updateCurrentLocationDelay = coreConstants.UPDATE_CURRENT_LOCATION_DELAY;
-
         var directionsRendererOptions = {
             suppressMarkers: true,
             preserveViewport: true
@@ -207,8 +205,7 @@
                     };
 
                     return position;
-                })
-                .then(getDirections);
+                });
         }
 
         function setCurrentMarkerCenter(latitude, longitude) {
@@ -224,9 +221,11 @@
         }
 
         function getDirections() {
+            var deferred = $q.defer();
+
             if (vm.selectedRequest.status !== vm.requestStatus.IN_PROGRESS) {
 
-                return;
+                return deferred.reject();
             }
 
             var request = {
@@ -246,14 +245,11 @@
             directionsService.route(request, function (response, status) {
                 if (status !== googleMaps.DirectionsStatus.OK) {
 
-                    return;
+                    return deferred.reject();
                 }
 
                 var map = vm.map.control.getGMap();
                 var leg = response.routes[0].legs[0];
-
-                directionsDisplay.setDirections(response);
-                directionsDisplay.setMap(map);
 
                 var endLocation = {
                     latitude: leg.end_location.lat(),
@@ -265,14 +261,21 @@
                     longitude: leg.start_location.lng()
                 };
 
-                setRequestMarkerCenter(endLocation.latitude, endLocation.longitude);
                 setCurrentMarkerCenter(startLocation.latitude, startLocation.longitude);
+                setRequestMarkerCenter(endLocation.latitude, endLocation.longitude);
+
+                directionsDisplay.setDirections(response);
+                directionsDisplay.setMap(map);
 
                 vm.map.center = {
                     latitude: startLocation.latitude,
                     longitude: startLocation.longitude
                 };
+
+                deferred.resolve();
             });
+
+            return deferred.promise;
         }
 
         function removeDirection() {
@@ -301,12 +304,13 @@
             }
 
             return getCurrentPosition()
-                .then(function () {
+                .then(getDirections)
+                .finally(function () {
                     promiseStartGeoTracking = $timeout(function () {
                         startGeoTracking();
 
                         return promiseStartGeoTracking;
-                    }, updateCurrentLocationDelay);
+                    }, 5000);
                 });
         }
 
