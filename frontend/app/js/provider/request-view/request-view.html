@@ -34,6 +34,8 @@
           <a ui-sref="provider.dashboard.request.map">
             <map-viewer ng-if="vm.request.id"
                         fullscreen-disabled
+                        is-directions-disabled="true"
+                        is-action-buttons-hidden="true"
                         selected-request="vm.request">
             </map-viewer>
           </a>

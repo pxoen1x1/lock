@@ -22,12 +22,14 @@
         return directive;
 
         function link(scope, element, attrs) {
+            var fullScreenModeDisabled = typeof attrs.fullscreenDisabled !== 'undefined' &&
+                attrs.fullscreenDisabled !== 'false';
             var vm = scope.vm;
 
             vm.isFullScreenMode = false;
 
-            var fullScreenModeDisabled = typeof attrs.fullscreenDisabled !== 'undefined' &&
-                attrs.fullscreenDisabled !== 'false';
+            vm.isDirectionsDisabled = attrs.isDirectionsDisabled === 'true';
+            vm.isActionButtonsHidden = attrs.isActionButtonsHidden === 'true';
 
             vm.toggleFullScreenMode = toggleFullScreenMode;
 
@@ -223,7 +225,7 @@
         function getDirections() {
             var deferred = $q.defer();
 
-            if (vm.selectedRequest.status !== vm.requestStatus.IN_PROGRESS) {
+            if (vm.selectedRequest.status !== vm.requestStatus.IN_PROGRESS || vm.isDirectionsDisabled) {
 
                 return deferred.reject();
             }
@@ -298,7 +300,7 @@
         }
 
         function startGeoTracking() {
-            if (vm.selectedRequest.status !== vm.requestStatus.IN_PROGRESS) {
+            if (vm.selectedRequest.status !== vm.requestStatus.IN_PROGRESS || vm.isDirectionsDisabled) {
 
                 return $q.reject();
             }
@@ -357,7 +359,7 @@
                     return;
                 }
 
-                if (vm.selectedRequest.status === vm.requestStatus.IN_PROGRESS) {
+                if (vm.selectedRequest.status === vm.requestStatus.IN_PROGRESS && !vm.isDirectionsDisabled) {
                     startGeoTracking();
                 }
                 else {

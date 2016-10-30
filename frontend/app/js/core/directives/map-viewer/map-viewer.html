@@ -19,7 +19,7 @@
                         idKey="0"
                         fit="false">
         </ui-gmap-marker>
-        <ui-gmap-marker ng-if="vm.selectedRequest.status === vm.requestStatus.IN_PROGRESS"
+        <ui-gmap-marker ng-if="vm.selectedRequest.status === vm.requestStatus.IN_PROGRESS && !vm.isDirectionsDisabled"
                         coords="vm.map.currentMarker.center"
                         options="vm.map.currentMarker"
                         idKey="1"
@@ -29,12 +29,15 @@
           <button type="button"
                   class="current-location"
                   ng-click="vm.goToLocation(vm.map.currentMarker.center.latitude, vm.map.currentMarker.center.longitude)"
-                  ng-if="vm.selectedRequest.status === vm.requestStatus.IN_PROGRESS">
+                  ng-if="vm.selectedRequest.status === vm.requestStatus.IN_PROGRESS && !vm.isDirectionsDisabled">
             <i class="material-icons">my_location</i>
           </button>
         </ui-gmap-map-control>
         <ui-gmap-map-control position="left-bottom">
-          <request-action-buttons view-mode="buttons" current-request="vm.selectedRequest"></request-action-buttons>
+          <request-action-buttons view-mode="buttons"
+                                  current-request="vm.selectedRequest"
+                                  ng-if="!vm.isActionButtonsHidden">
+          </request-action-buttons>
         </ui-gmap-map-control>
       </ui-gmap-google-map>
     </div>
