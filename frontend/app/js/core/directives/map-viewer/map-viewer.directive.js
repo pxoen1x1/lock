@@ -29,6 +29,7 @@
             vm.isFullScreenMode = false;
 
             vm.isDirectionsDisabled = attrs.isDirectionsDisabled === 'true';
+            vm.isActionButtonsHidden = attrs.isActionButtonsHidden === 'true';
 
             vm.toggleFullScreenMode = toggleFullScreenMode;
 
