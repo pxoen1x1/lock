@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('app.core')
+        .module('app.provider')
         .directive('mapViewer', mapViewer);
 
     function mapViewer() {
@@ -15,7 +15,7 @@
             scope: {
                 selectedRequest: '='
             },
-            templateUrl: 'core/directives/map-viewer/map-viewer.html',
+            templateUrl: 'provider/directives/map-viewer/map-viewer.html',
             replace: true
         };
 
