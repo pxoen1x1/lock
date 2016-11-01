@@ -69,8 +69,6 @@
         var boundsOfDistance;
         var vm = this;
 
-        vm.mapOptions = vm.mapOptions || {};
-
         vm.map = {
             events: {},
             center: {
@@ -107,6 +105,8 @@
         activate();
 
         function initializeMap() {
+            vm.mapOptions = vm.mapOptions || {};
+
             if (!vm.isSpecialistHidden) {
                 vm.map.events.idle = findSpecialists;
             }
