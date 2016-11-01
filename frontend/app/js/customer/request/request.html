@@ -1,2 +1,6 @@
-<md-content ui-view="content" class="content anim-in-out anim-fade" data-anim-speed="400"></md-content>
+<div class="content has-tab-bar"
+     layout="row"
+     flex
+     ui-view="content">
+</div>
 <tab-bar items="vm.tabBarItems" ng-class="{'full': !$mdMedia('gt-sm')}"></tab-bar>
