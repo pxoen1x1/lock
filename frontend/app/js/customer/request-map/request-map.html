@@ -7,30 +7,10 @@
   </div>
   <div class="container-content">
     <div class="map-wrapper">
-      <ui-gmap-google-map center="vm.map.center"
-                          zoom="vm.map.zoom"
-                          options="vm.map.options"
-                          control="vm.map.control"
-                          events="vm.map.events"
-                          pan="true">
-        <ui-gmap-marker idKey="'specialist' + specialist.id"
-                        coords="specialist.details"
-                        options="vm.map.specialistMarker.options"
-                        fit="false"
-                        control="specialist"
-                        events="vm.map.specialistMarker.events"
-                        ng-repeat="specialist in vm.specialists track by specialist.id">
-        </ui-gmap-marker>
-        <ui-gmap-markers models="vm.map.markers"
-                         coords="'self'"
-                         icon="'icon'">
-
-          <ui-gmap-windows show="'show'">
-            <div ng-non-bindable>{{text}}</div>
-          </ui-gmap-windows>
-
-        </ui-gmap-markers>
-      </ui-gmap-google-map>
+      <client-map-viewer current-request="vm.request"
+                    show-specialist-info="vm.showSelectedSpecialistInfo(marker, eventName, model)"
+                    ng-if="vm.request.id">
+      </client-map-viewer>
 
       <div class="list card map-card"
            ng-class="{ 'show': vm.isSpecialistCardShown }"

@@ -16,7 +16,8 @@
             createRequest: createRequest,
             createFeedback: createFeedback,
             updateUser: updateUser,
-            onLocation: onLocation
+            onLocation: onLocation,
+            offLocation: offLocation
         };
 
         return service;
@@ -94,9 +95,13 @@
         }
 
         function onLocation(next) {
-            socketService.listener('location', function (event) {
+            return socketService.listener('location', function (event) {
                 next(event.location, event.type);
             });
+        }
+
+        function offLocation(handler) {
+            socketService.stopListener('location', handler);
         }
     }
 })();

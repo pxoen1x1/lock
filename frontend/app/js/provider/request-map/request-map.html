@@ -10,7 +10,9 @@
   </div>
   <div class="container-content">
     <div class="map-wrapper">
-      <map-viewer ng-if="vm.request.id" selected-request="vm.request"></map-viewer>
+      <specialist-map-viewer ng-if="vm.request.id"
+                             selected-request="vm.request">
+      </specialist-map-viewer>
     </div>
   </div>
 </div>

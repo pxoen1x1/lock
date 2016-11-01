@@ -32,12 +32,13 @@
       <div layout="row">
         <div class="map-wrapper" flex="40">
           <a ui-sref="provider.dashboard.request.map">
-            <map-viewer ng-if="vm.request.id"
-                        fullscreen-disabled
-                        is-directions-disabled="true"
-                        is-action-buttons-hidden="true"
-                        selected-request="vm.request">
-            </map-viewer>
+            <specialist-map-viewer ng-if="vm.request.id"
+                                   fullscreen-disabled
+                                   is-directions-disabled="true"
+                                   is-action-buttons-hidden="true"
+                                   selected-request="vm.request"
+                                   map-options="vm.mapOptions">
+            </specialist-map-viewer>
           </a>
         </div>
         <div class="info-row"

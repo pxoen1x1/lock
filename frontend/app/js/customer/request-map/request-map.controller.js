@@ -23,79 +23,21 @@
                                           chatSocketservice, customerDataservice, currentRequestService,
                                           geocoderService, conf) {
         var currentRequestId = $stateParams.requestId;
-        var promises = {
-            findSpecialists: null
-        };
-        var requestLocationMarker = {
-            icon: {
-                url: coreConstants.IMAGES.requestLocationMarker,
-                scaledSize: {
-                    width: 30,
-                    height: 30
-                },
-                anchor: {
-                    x: 15,
-                    y: 15
-                }
-            },
-            events: {
-                mouseover: function (gMarker, eventName, model) {
-                    model.show = true;
-                },
-                mouseout: function (gMarker, eventName, model) {
-                    model.show = false;
-                }
-            },
-            title: 'Your request',
-            text: ''
-        };
+
         var vm = this;
 
         vm.request = {};
         vm.selectedSpecialist = {};
         vm.specialists = [];
 
-        vm.boundsOfDistance = {};
-
         vm.isSpecialistCardShown = false;
-
-        vm.map = {
-            events: {
-                idle: findSpecialists
-            },
-            center: {
-                latitude: null,
-                longitude: null
-            },
-            options: {
-                streetViewControl: false,
-                maxZoom: 21,
-                minZoom: 7
-            },
-            specialistMarker: {
-                options: {
-                    icon: {
-                        url: '/images/map-marker-locksmith.png',
-                        scaledSize: {
-                            width: 50,
-                            height: 50
-                        }
-                    },
-                    animation: 2
-                },
-                events: {
-                    click: showSelectedSpecialistInfo
-                }
-            },
-            markers: [],
-            zoom: 16,
-        };
 
         vm.baseUrl = conf.BASE_URL;
         vm.requestStatus = coreConstants.REQUEST_STATUSES;
         vm.defaultPortrait = coreConstants.IMAGES.defaultPortrait;
 
         vm.createChat = createChat;
+        vm.showSelectedSpecialistInfo = showSelectedSpecialistInfo;
 
         activate();
 
@@ -112,71 +54,6 @@
 
                     return vm.request;
                 });
-        }
-
-        function findSpecialistsByParams(params) {
-            if (promises.findSpecialists) {
-
-                promises.findSpecialists.cancel();
-            }
-
-            promises.findSpecialists = customerDataservice.getSpecialists(params);
-
-            return promises.findSpecialists
-                .then(function (response) {
-
-                    return response.data.serviceProviders;
-                });
-
-        }
-
-        function findSpecialists(gMarker) {
-            if (vm.map.center.latitude === null && vm.map.center.longitude === null ||
-                vm.request.status !== vm.requestStatus.NEW) {
-
-                return;
-            }
-
-            var bounds = gMarker.getBounds();
-
-            var boundsSouthWestLatitude = bounds.getSouthWest().lat();
-            var boundsSouthWestLongitude = bounds.getSouthWest().lng();
-            var boundsNorthEastLatitude = bounds.getNorthEast().lat();
-            var boundsNorthEastLongitude = bounds.getNorthEast().lng();
-
-            var selectedSouthWestLatitude = (boundsSouthWestLatitude < vm.boundsOfDistance.southWest.latitude) ?
-                vm.boundsOfDistance.southWest.latitude : boundsSouthWestLatitude;
-            var selectedSouthWestLongitude = (boundsSouthWestLongitude < vm.boundsOfDistance.southWest.longitude) ?
-                vm.boundsOfDistance.southWest.longitude : boundsSouthWestLongitude;
-            var selectedNorthEastLatitude = (boundsNorthEastLatitude > vm.boundsOfDistance.northEast.latitude) ?
-                vm.boundsOfDistance.northEast.latitude : boundsNorthEastLatitude;
-            var selectedNorthEastLongitude = (boundsNorthEastLongitude > vm.boundsOfDistance.northEast.longitude) ?
-                vm.boundsOfDistance.northEast.longitude : boundsNorthEastLongitude;
-
-            var params = {};
-
-            params.southWestLatitude = selectedSouthWestLatitude;
-            params.southWestLongitude = selectedSouthWestLongitude;
-            params.northEastLatitude = selectedNorthEastLatitude;
-            params.northEastLongitude = selectedNorthEastLongitude;
-            params.isAllShown = vm.request.forDate ? true : null;
-
-            return findSpecialistsByParams(params)
-                .then(function (specialists) {
-                    vm.specialists = specialists;
-
-                    return vm.specialists;
-                });
-        }
-
-        function setMapCenter(latitude, longitude) {
-            if (!latitude || !longitude) {
-
-                return;
-            }
-
-            vm.map.center.latitude = latitude;
-            vm.map.center.longitude = longitude;
         }
 
         function showSelectedSpecialistInfo(marker, eventName, model) {
@@ -218,33 +95,6 @@
                 });
         }
 
-        function setRequestMarker(request) {
-            if (!request.location) {
-
-                return;
-            }
-            requestLocationMarker.id = request.location.id;
-            requestLocationMarker.latitude = request.location.latitude;
-            requestLocationMarker.longitude = request.location.longitude;
-            requestLocationMarker.text = request.location.address;
-
-            vm.map.markers.push(requestLocationMarker);
-
-            if (request.status !== vm.requestStatus.IN_PROGRESS) {
-                setMapCenter(request.location.latitude, request.location.longitude);
-            }
-        }
-
-        function setExecutorMarker(request) {
-            if (!request.executor || !request.executor.details || request.status !== vm.requestStatus.IN_PROGRESS) {
-
-                return;
-            }
-
-            vm.specialists = [request.executor];
-            setMapCenter(request.executor.details.latitude, request.executor.details.longitude);
-        }
-
         function listenRequestEvent() {
             chatSocketservice.onRequest(function (request, type) {
                 if (type !== 'update' || vm.request.id !== request.id) {
@@ -258,26 +108,6 @@
                 if (request.status !== vm.requestStatus.NEW) {
                     vm.specialists = [];
                 }
-
-                if (request.status === vm.requestStatus.IN_PROGRESS) {
-                    vm.map.specialistMarker.options.animation = 0;
-
-                    setExecutorMarker(request);
-                }
-            });
-        }
-
-        function listenLocationEvent() {
-            customerDataservice.onLocation(function (location, type) {
-                if (type !== 'update' || vm.request.status !== vm.requestStatus.IN_PROGRESS) {
-
-                    return;
-                }
-
-                vm.specialists[0].details.latitude = location.latitude;
-                vm.specialists[0].details.longitude = location.longitude;
-
-                setMapCenter(location.latitude, location.longitude);
             });
         }
 
@@ -285,24 +115,6 @@
             getRequest(currentRequestId)
                 .then(function () {
                     listenRequestEvent();
-                    listenLocationEvent();
-
-                    return uiGmapIsReady.promise(1);
-                })
-                .then(function () {
-                    setRequestMarker(vm.request);
-                    setExecutorMarker(vm.request);
-
-                    if (!vm.request.location || vm.request.distance) {
-
-                        return;
-                    }
-
-                    vm.boundsOfDistance = geocoderService.getBoundsOfDistance(
-                        vm.request.location.latitude,
-                        vm.request.location.longitude,
-                        vm.request.distance
-                    );
                 });
         }
     }
