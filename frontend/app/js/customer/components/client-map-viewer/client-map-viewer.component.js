@@ -20,6 +20,7 @@
 
     ClientMapViewerController.$inject = [
         '$scope',
+        '$window',
         'uiGmapIsReady',
         'coreConstants',
         'customerDataservice',
@@ -27,11 +28,20 @@
     ];
 
     /* @ngInject */
-    function ClientMapViewerController($scope, uiGmapIsReady, coreConstants, customerDataservice,
+    function ClientMapViewerController($scope, $window, uiGmapIsReady, coreConstants, customerDataservice,
                                        geocoderService) {
         var promises = {
             findSpecialists: null
         };
+
+        var directionsRendererOptions = {
+            suppressMarkers: true,
+            suppressPolylines: true,
+            preserveViewport: true
+        };
+        var googleMaps;
+        var directionsDisplay;
+        var directionsService;
         var locationHandler;
         var requestLocationMarker = {
             icon: {
@@ -56,9 +66,9 @@
             title: 'Your request',
             text: ''
         };
+        var boundsOfDistance;
         var vm = this;
 
-        vm.boundsOfDistance = {};
         vm.mapOptions = vm.mapOptions || {};
 
         vm.map = {
@@ -67,6 +77,7 @@
                 latitude: null,
                 longitude: null
             },
+            control: {},
             options: {
                 streetViewControl: false,
                 maxZoom: 21,
@@ -127,6 +138,10 @@
                 return;
             }
 
+            if (!boundsOfDistance) {
+                boundsOfDistance = getBoundsOfDistance(vm.currentRequest);
+            }
+
             var bounds = gMarker.getBounds();
 
             var boundsSouthWestLatitude = bounds.getSouthWest().lat();
@@ -134,14 +149,14 @@
             var boundsNorthEastLatitude = bounds.getNorthEast().lat();
             var boundsNorthEastLongitude = bounds.getNorthEast().lng();
 
-            var selectedSouthWestLatitude = (boundsSouthWestLatitude < vm.boundsOfDistance.southWest.latitude) ?
-                vm.boundsOfDistance.southWest.latitude : boundsSouthWestLatitude;
-            var selectedSouthWestLongitude = (boundsSouthWestLongitude < vm.boundsOfDistance.southWest.longitude) ?
-                vm.boundsOfDistance.southWest.longitude : boundsSouthWestLongitude;
-            var selectedNorthEastLatitude = (boundsNorthEastLatitude > vm.boundsOfDistance.northEast.latitude) ?
-                vm.boundsOfDistance.northEast.latitude : boundsNorthEastLatitude;
-            var selectedNorthEastLongitude = (boundsNorthEastLongitude > vm.boundsOfDistance.northEast.longitude) ?
-                vm.boundsOfDistance.northEast.longitude : boundsNorthEastLongitude;
+            var selectedSouthWestLatitude = (boundsSouthWestLatitude < boundsOfDistance.southWest.latitude) ?
+                boundsOfDistance.southWest.latitude : boundsSouthWestLatitude;
+            var selectedSouthWestLongitude = (boundsSouthWestLongitude < boundsOfDistance.southWest.longitude) ?
+                boundsOfDistance.southWest.longitude : boundsSouthWestLongitude;
+            var selectedNorthEastLatitude = (boundsNorthEastLatitude > boundsOfDistance.northEast.latitude) ?
+                boundsOfDistance.northEast.latitude : boundsNorthEastLatitude;
+            var selectedNorthEastLongitude = (boundsNorthEastLongitude > boundsOfDistance.northEast.longitude) ?
+                boundsOfDistance.northEast.longitude : boundsNorthEastLongitude;
 
             var params = {};
 
@@ -159,14 +174,20 @@
                 });
         }
 
-        function setMapCenter(latitude, longitude) {
-            if (!latitude || !longitude) {
+        function listenLocationEvent() {
+            if (vm.currentRequest.status !== vm.requestStatus.IN_PROGRESS || vm.isSpecialistHidden) {
 
                 return;
             }
 
-            vm.map.center.latitude = latitude;
-            vm.map.center.longitude = longitude;
+            return customerDataservice.onLocation(function (location, type) {
+                if (type !== 'update') {
+
+                    return;
+                }
+
+                getDirections(location.latitude, location.longitude);
+            });
         }
 
         function setRequestMarker(request) {
@@ -188,34 +209,33 @@
         }
 
         function setExecutorMarker(request) {
-            if (!request.executor || !request.executor.details ||
+            if (!request || !request.executor || !request.executor.details ||
                 request.status !== vm.requestStatus.IN_PROGRESS || vm.isSpecialistHidden) {
 
                 return;
             }
 
+            locationHandler = listenLocationEvent();
+
             vm.specialists = [request.executor];
-            setMapCenter(request.executor.details.latitude, request.executor.details.longitude);
+
+            getDirections(request.executor.details.latitude, request.executor.details.longitude);
         }
 
-        function listenLocationEvent() {
-            if (vm.currentRequest.status !== vm.requestStatus.IN_PROGRESS || vm.isSpecialistHidden) {
+        function setExecutorMarkerCenter(latitude, longitude) {
+            if (!latitude || !longitude) {
 
                 return;
             }
 
-            console.log('onLocation');
-            return customerDataservice.onLocation(function (location, type) {
-                if (type !== 'update') {
+            if (!vm.specialists[0]) {
+                vm.specialists[0] = {
+                    details: {}
+                };
+            }
 
-                    return;
-                }
-
-                vm.specialists[0].details.latitude = location.latitude;
-                vm.specialists[0].details.longitude = location.longitude;
-
-                setMapCenter(location.latitude, location.longitude);
-            });
+            vm.specialists[0].details.latitude = latitude;
+            vm.specialists[0].details.longitude = longitude;
         }
 
         function showSpecialistInfo(marker, eventName, model) {
@@ -227,47 +247,126 @@
             vm.showSpecialistInfo({marker: marker, eventName: eventName, model: model});
         }
 
+        function setMapCenter(latitude, longitude) {
+            if (!latitude || !longitude) {
+
+                return;
+            }
+
+            vm.map.center.latitude = latitude;
+            vm.map.center.longitude = longitude;
+        }
+
         function getBoundsOfDistance(request) {
             if (!request.location || !request.distance) {
 
                 return;
             }
 
-            vm.boundsOfDistance = geocoderService.getBoundsOfDistance(
+            return geocoderService.getBoundsOfDistance(
                 request.location.latitude,
                 request.location.longitude,
                 request.distance
             );
         }
 
+        function getDirections(latitude, longitude) {
+            if (!latitude || !longitude ||
+                vm.currentRequest.status !== vm.requestStatus.IN_PROGRESS || vm.isDirectionsDisabled) {
+
+                return;
+            }
+
+            var request = {
+                origin: {
+                    lat: latitude,
+                    lng: longitude
+                },
+                destination: {
+                    lat: vm.currentRequest.location.latitude,
+                    lng: vm.currentRequest.location.longitude
+                },
+                travelMode: googleMaps.DirectionsTravelMode.DRIVING,
+                drivingOptions: {
+                    departureTime: new Date(),
+                    trafficModel: 'pessimistic'
+                },
+                unitSystem: googleMaps.UnitSystem.IMPERIAL
+            };
+
+            directionsService.route(request, function (response, status) {
+                if (status !== googleMaps.DirectionsStatus.OK) {
+
+                    return;
+                }
+
+                var map = vm.map.control.getGMap();
+                var leg = response.routes[0].legs[0];
+
+                setExecutorMarkerCenter(leg.start_location.lat(), leg.start_location.lng());
+
+                $scope.$applyAsync(function () {
+                    directionsDisplay.setDirections(response);
+                    directionsDisplay.setMap(map);
+                });
+
+                setMapCenter(leg.start_location.lat(), leg.start_location.lng());
+            });
+        }
+
+        function removeDirection() {
+            if (!directionsDisplay) {
+
+                return;
+            }
+
+            directionsDisplay.setMap(null);
+        }
+
+        function stopLocationEventListener(handler) {
+            if (!handler) {
+
+                return;
+            }
+
+            customerDataservice.offLocation(locationHandler);
+        }
+
         function activate() {
             initializeMap();
             uiGmapIsReady.promise(1)
                 .then(function () {
-                    locationHandler = listenLocationEvent();
+                    googleMaps = $window.google.maps;
+
+                    directionsDisplay = new googleMaps.DirectionsRenderer(directionsRendererOptions);
+                    directionsService = new googleMaps.DirectionsService();
 
                     setRequestMarker(vm.currentRequest);
                     setExecutorMarker(vm.currentRequest);
 
-                    getBoundsOfDistance(vm.currentRequest);
-
                     $scope.$watch('vm.currentRequest.status', function (newRequestStatus, oldRequestStatus) {
-                        if (newRequestStatus === oldRequestStatus ||
-                            vm.currentRequest.status !== vm.requestStatus.IN_PROGRESS) {
+                        if (newRequestStatus === oldRequestStatus) {
 
                             return;
                         }
 
-                        delete vm.map.specialistMarker.options.animation;
+                        if (vm.currentRequest.status === vm.requestStatus.IN_PROGRESS) {
+                            delete vm.map.specialistMarker.options.animation;
 
-                        setExecutorMarker(newRequestStatus);
+                            setExecutorMarker(vm.currentRequest);
+                        } else {
+                            vm.map.specialistMarker.options.animation = 2;
+                            vm.specialists = [];
+
+                            removeDirection();
+                            setMapCenter(vm.currentRequest.location.latitude, vm.currentRequest.location.longitude);
+                            stopLocationEventListener(locationHandler);
+                        }
                     });
                 });
 
             $scope.$on('$destroy', function () {
-                if (locationHandler) {
-                    customerDataservice.offLocation(locationHandler);
-                }
+                stopLocationEventListener(locationHandler);
             });
         }
     }
