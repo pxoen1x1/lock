@@ -345,65 +345,6 @@ md-content {
 
 }
 
-.customer, .provider, .group, .admin {
-  height: 100vh;
-  overflow-x: hidden;
-
-  a {
-    text-decoration: none;
-  }
-
-  .content {
-    background: transparent;
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 100%;
-
-    .container {
-      background: #fff;
-      margin: 30px;
-      margin-bottom: 84px;
-      box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .2), 0 1px 1px 0 rgba(0, 0, 0, .14), 0 2px 1px -1px rgba(0, 0, 0, .12);
-    }
-
-    .container-title {
-      padding: 24px 24px 0 24px;
-      font-size: 20px;
-
-      i.material-icons {
-        vertical-align: middle;
-      }
-
-      span {
-        vertical-align: middle;
-      }
-
-    }
-
-    .container-content {
-      padding: 24px;
-
-      p {
-        font-weight: 600;
-      }
-
-    }
-
-  }
-
-  .content._content {
-    min-height: 100%;
-  }
-
-  .content-wrapper {
-    background-color: $panel-background-color;
-    position: relative;
-  }
-
-}
-
 .star-rating {
   cursor: pointer;
 
@@ -442,46 +383,6 @@ md-content {
   }
 }
 
-@media only screen and (min-device-width: 320px) and (max-device-width: 600px) {
-
-  .customer, .provider, .group, .admin {
-
-    .content-wrapper {
-      background-color: #fff;
-    }
-
-    .content {
-
-      .container {
-        background: #fff;
-        margin: 0;
-        box-shadow: none;
-        padding-bottom: 50px;
-      }
-
-      .cards {
-        padding-bottom: 50px;
-      }
-
-      .container-title {
-        display: none;
-      }
-
-      .container-content {
-        padding: 20px;
-
-        p {
-          font-weight: 600;
-        }
-
-      }
-
-    }
-
-  }
-
-}
-
 @import 'toast';
 @import 'icons';
 @import 'md-select';
@@ -496,6 +397,7 @@ md-content {
 @import 'profile';
 @import 'user-header';
 @import 'user-menu';
+@import 'user';
 @import 'request';
 @import 'tab-bar';
 @import 'maps';
