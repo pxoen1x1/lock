@@ -336,6 +336,8 @@
             initializeMap();
             uiGmapIsReady.promise(1)
                 .then(function () {
+                    vm.map.control.refresh(location);
+
                     googleMaps = $window.google.maps;
 
                     directionsDisplay = new googleMaps.DirectionsRenderer(directionsRendererOptions);
