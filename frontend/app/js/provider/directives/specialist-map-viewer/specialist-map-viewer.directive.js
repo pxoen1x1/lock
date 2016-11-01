@@ -13,7 +13,8 @@
             link: link,
             restrict: 'E',
             scope: {
-                selectedRequest: '='
+                selectedRequest: '=',
+                mapOptions: '=?'
             },
             templateUrl: 'provider/directives/specialist-map-viewer/specialist-map-viewer.html',
             replace: true
@@ -321,9 +322,20 @@
             };
         }
 
+        function initializeMap() {
+            vm.mapOptions = vm.mapOptions || {};
+
+            vm.map.options = angular.extend(vm.map.options, vm.mapOptions);
+            vm.map.zoom = vm.mapOptions.zoom || vm.map.zoom;
+        }
+
         function activate() {
+            initializeMap();
             refreshMap(vm.selectedRequest.location)
                 .then(function () {
+                    vm.map.options = angular.extend(vm.map.options, vm.mapOptions);
+                    vm.map.zoom = vm.mapOptions.zoom || vm.map.zoom;
+
                     googleMaps = $window.google.maps;
 
                     directionsDisplay = new googleMaps.DirectionsRenderer(directionsRendererOptions);

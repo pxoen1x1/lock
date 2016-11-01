@@ -26,37 +26,14 @@
 
         vm.currentRequestId = $stateParams.requestId;
 
-        vm.map = {
-            center: {
-                latitude: null,
-                longitude: null
-            },
+        vm.mapOptions = {
             zoom: 14,
-            options: {
-                scrollwheel: false,
-                streetViewControl: false,
-                disableDefaultUI: true,
-                draggable: false,
-                zoomControl: false,
-                disableDoubleClickZoom: true
-            },
-            marker: {
-                center: {
-                    latitude: null,
-                    longitude: null
-                },
-                icon: {
-                    url: coreConstants.IMAGES.requestLocationMarker,
-                    scaledSize: {
-                        width: 30,
-                        height: 30
-                    },
-                    anchor: {
-                        x: 15, y: 15
-                    }
-                },
-                title: 'Your request'
-            }
+            scrollwheel: false,
+            streetViewControl: false,
+            disableDefaultUI: true,
+            draggable: false,
+            zoomControl: false,
+            disableDoubleClickZoom: true
         };
 
         vm.baseUrl = conf.BASE_URL;
@@ -89,12 +66,6 @@
                 .then(function (request) {
                     vm.request = request;
                     currentRequestService.setRequest(vm.request);
-
-                    vm.map.center.latitude = vm.request.location.latitude;
-                    vm.map.center.longitude = vm.request.location.longitude;
-
-                    vm.map.marker.center.latitude = vm.request.location.latitude;
-                    vm.map.marker.center.longitude = vm.request.location.longitude;
 
                     return vm.request;
                 });
