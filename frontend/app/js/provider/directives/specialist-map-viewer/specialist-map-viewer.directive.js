@@ -3,19 +3,19 @@
 
     angular
         .module('app.provider')
-        .directive('mapViewer', mapViewer);
+        .directive('specialistMapViewer', specialistMapViewer);
 
-    function mapViewer() {
+    function specialistMapViewer() {
         var directive = {
             bindToController: true,
-            controller: MapViewerController,
+            controller: SpecialistMapViewerController,
             controllerAs: 'vm',
             link: link,
             restrict: 'E',
             scope: {
                 selectedRequest: '='
             },
-            templateUrl: 'provider/directives/map-viewer/map-viewer.html',
+            templateUrl: 'provider/directives/specialist-map-viewer/specialist-map-viewer.html',
             replace: true
         };
 
@@ -63,7 +63,7 @@
         }
     }
 
-    MapViewerController.$inject = [
+    SpecialistMapViewerController.$inject = [
         '$scope',
         '$q',
         '$timeout',
@@ -74,7 +74,8 @@
     ];
 
     /* @ngInject */
-    function MapViewerController($scope, $q, $timeout, $window, uiGmapIsReady, coreConstants, geocoderService) {
+    function SpecialistMapViewerController($scope, $q, $timeout, $window, uiGmapIsReady, coreConstants,
+                                           geocoderService) {
         var googleMaps;
         var directionsDisplay;
         var directionsService;
@@ -172,7 +173,7 @@
 
             return uiGmapIsReady.promise(mapsCount)
                 .then(function () {
-                    if(!location.latitude || !location.longitude){
+                    if (!location.latitude || !location.longitude) {
 
                         return;
                     }
