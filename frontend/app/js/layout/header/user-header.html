@@ -32,9 +32,19 @@
     </md-button>
     <md-button class="md-icon-button button-menu"
                hide-gt-xs ng-href="#"
-               aria-label="Log out">
+               aria-label="Log out"
+               ng-if="!vm.isAuthentificated()">
       <md-icon>
-        <i class="fa fa-sign-in" aria-hidden="true"></i>
+        <i class="fa fa-sign-in fa-2x" aria-hidden="true"></i>
+      </md-icon>
+    </md-button>
+    <md-button class="button-logout"
+               ng-href="#"
+               aria-label="Log out"
+               hide-gt-xs
+               ng-if="vm.isAuthentificated()">
+      <md-icon>
+        <i class="fa fa-sign-out fa-2x" aria-hidden="true"></i>
       </md-icon>
     </md-button>
   </div>
