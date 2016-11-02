@@ -1,6 +1,8 @@
-<div class="content has-tab-bar"
-     layout="row"
-     flex
-     ui-view="content">
+<div class="content-wrapper has-tab-bar" layout="column" flex>
+  <div class="content anim-in-out anim-fade"
+       layout="row"
+       flex
+       ui-view="content">
+  </div>
 </div>
 <tab-bar items="vm.tabBarItems" ng-class="{'full': !$mdMedia('gt-sm')}"></tab-bar>
