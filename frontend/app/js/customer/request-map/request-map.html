@@ -8,15 +8,17 @@
     </div>
   </div>
   <div class="container-content"
-  layout="column" flex>
+       layout="column" flex>
     <div class="map-wrapper" flex layout="column" layout-align="end center">
-      <client-map-viewer class="map-viewer" flex
+      <client-map-viewer class="map-viewer"
+                         flex
                          current-request="vm.request"
                          show-specialist-info="vm.showSelectedSpecialistInfo(marker, eventName, model)"
                          ng-if="vm.request.id">
       </client-map-viewer>
 
-      <div class="list card map-card"
+      <div class="list card map-card animated"
+           ng-class="{ 'slideInUp': vm.isSpecialistCardShown, 'slideOutDown': !vm.isSpecialistCardShown}"
            ng-show="vm.isSpecialistCardShown">
         <div class="map-card-provider" layout="row">
           <div class="right">
