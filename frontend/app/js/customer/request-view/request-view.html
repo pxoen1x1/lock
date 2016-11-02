@@ -21,9 +21,15 @@
         </div>
       </div>
       <div layout="row">
-        <div class="map-wrapper" flex="40">
-          <a ui-sref="customer.requests.request.map()">
-            <client-map-viewer current-request="vm.request"
+        <div class="map-wrapper"
+             layout="column"
+             flex="40">
+          <a layout="column"
+             flex
+             ui-sref="customer.requests.request.map()">
+            <client-map-viewer class="map-viewer"
+                               flex
+                               current-request="vm.request"
                                map-options="vm.mapOptions"
                                is-specialist-hidden="true"
                                ng-if="vm.request.id">

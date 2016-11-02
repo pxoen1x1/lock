@@ -21,13 +21,13 @@
            ng-class="{ 'slideInUp': vm.isSpecialistCardShown, 'slideOutDown': !vm.isSpecialistCardShown}"
            ng-show="vm.isSpecialistCardShown">
         <div class="map-card-provider" layout="row">
-          <div class="right">
+          <div class="m-r-xl">
             <div class="avatar"
                  ng-style="{'background-image': 'url('+ (vm.selectedSpecialist.portrait ?
                  vm.baseUrl + vm.selectedSpecialist.portrait : vm.defaultPortrait) +')'}">
             </div>
           </div>
-          <div class="left" flex>
+          <div flex>
             <div>
               <span class="md-headline"
                     ng-bind="vm.selectedSpecialist.fullName">
