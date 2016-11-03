@@ -71,9 +71,12 @@
       </div>
     </div>
   </md-toolbar>
-  <md-content flex="50">
-    <specialist-map-viewer fullscreen-disabled
-                selected-request="vm.selectedRequest">
+  <md-content layout="column" flex="50">
+    <specialist-map-viewer class="map-viewer"
+                           layout="column"
+                           flex
+                           fullscreen-disabled
+                           selected-request="vm.selectedRequest">
     </specialist-map-viewer>
   </md-content>
 </div>
