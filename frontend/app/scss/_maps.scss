@@ -19,6 +19,14 @@
   z-index: 100;
 }
 
+.view-content {
+  .container-content {
+    .map-wrapper {
+      min-height: 250px;
+    }
+  }
+}
+
 .map-viewer {
   position: relative;
   width: 100%;
@@ -73,7 +81,9 @@
   }
 }
 
-.map-content {
+.container.map-content {
+  min-height: 384px;
+
   .actions {
     font-size: 15px;
 
@@ -149,6 +159,23 @@
 
     .close:hover {
       opacity: 1;
+    }
+  }
+}
+
+@media only screen and (max-device-width: 600px) {
+  .customer, .provider, .group, .admin {
+    .content {
+      .container {
+        &.map-content {
+          overflow: hidden;
+          min-height: 0;
+
+          .container-content {
+            padding: 0;
+          }
+        }
+      }
     }
   }
 }

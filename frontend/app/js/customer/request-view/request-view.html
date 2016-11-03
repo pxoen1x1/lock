@@ -1,6 +1,7 @@
-<div></div>
 <div class="container view-content">
-  <div class="container-title" layout="row" layout-align="start center">
+  <div class="container-title"
+       layout="row"
+       layout-align="start center">
     <div>
       <i class="material-icons">list</i> <span>Request</span>
     </div>
@@ -25,9 +26,9 @@
         <div class="map-wrapper"
              layout="column"
              flex="40">
-          <a layout="column"
-             flex
-             ui-sref="customer.requests.request.map()">
+          <a ui-sref="customer.requests.request.map"
+             layout="column"
+             flex>
             <client-map-viewer class="map-viewer"
                                flex
                                current-request="vm.request"

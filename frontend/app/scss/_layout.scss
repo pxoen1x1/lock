@@ -70,12 +70,6 @@
         margin: 0;
         box-shadow: none;
 
-        &.map-content {
-          .container-content {
-            padding: 0;
-          }
-        }
-
         .container-title {
           display: none;
         }
@@ -86,10 +80,6 @@
             font-weight: 600;
           }
         }
-      }
-
-      .cards {
-        padding-bottom: 50px;
       }
     }
   }
