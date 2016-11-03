@@ -92,7 +92,7 @@ let BidController = {
             )
             .then(
                 (bid) => {
-                    let roomName = `user_${bid.client}`;
+                    let roomName = `user_${bid.client.id}`;
 
                     sails.sockets.broadcast(
                         roomName,
