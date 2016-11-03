@@ -13,7 +13,8 @@
             subscribe: subscribe,
             unsubscribe: unsubscribe,
             onConnect: onConnect,
-            listener: listener
+            listener: listener,
+            stopListener: stopListener
         };
 
         return service;
@@ -44,6 +45,11 @@
 
                 next.apply($sails, arguments);
             });
+        }
+
+        function stopListener(eventIdentity, handler){
+
+            return $sails.off(eventIdentity, handler);
         }
     }
 })();

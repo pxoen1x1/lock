@@ -23,79 +23,21 @@
                                           chatSocketservice, customerDataservice, currentRequestService,
                                           geocoderService, conf) {
         var currentRequestId = $stateParams.requestId;
-        var promises = {
-            findSpecialists: null
-        };
-        var requestLocationMarker = {
-            icon: {
-                url: coreConstants.IMAGES.requestLocationMarker,
-                scaledSize: {
-                    width: 30,
-                    height: 30
-                },
-                anchor: {
-                    x: 15,
-                    y: 15
-                }
-            },
-            events: {
-                mouseover: function (gMarker, eventName, model) {
-                    model.show = true;
-                },
-                mouseout: function (gMarker, eventName, model) {
-                    model.show = false;
-                }
-            },
-            title: 'Your request',
-            text: ''
-        };
+
         var vm = this;
 
         vm.request = {};
         vm.selectedSpecialist = {};
         vm.specialists = [];
 
-        vm.boundsOfDistance = {};
-
         vm.isSpecialistCardShown = false;
-
-        vm.map = {
-            events: {
-                idle: findSpecialists
-            },
-            center: {
-                latitude: null,
-                longitude: null
-            },
-            options: {
-                streetViewControl: false,
-                maxZoom: 21,
-                minZoom: 7
-            },
-            specialistMarker: {
-                options: {
-                    icon: {
-                        url: '/images/map-marker-locksmith.png',
-                        scaledSize: {
-                            width: 50,
-                            height: 50
-                        }
-                    },
-                    animation: 2
-                },
-                events: {
-                    click: showSelectedSpecialistInfo
-                }
-            },
-            markers: [],
-            zoom: 16,
-        };
 
         vm.baseUrl = conf.BASE_URL;
         vm.requestStatus = coreConstants.REQUEST_STATUSES;
         vm.defaultPortrait = coreConstants.IMAGES.defaultPortrait;
 
         vm.createChat = createChat;
+        vm.showSelectedSpecialistInfo = showSelectedSpecialistInfo;
 
         activate();
 
@@ -108,89 +50,32 @@
                 .then(function (request) {
 
                     vm.request = request;
+                    currentRequestService.setRequest(vm.request);
 
                     return vm.request;
                 });
         }
 
-        function findSpecialistsByParams(params) {
-            if (promises.findSpecialists) {
-
-                promises.findSpecialists.cancel();
-            }
-
-            promises.findSpecialists = customerDataservice.getSpecialists(params);
-
-            return promises.findSpecialists
-                .then(function (response) {
-
-                    return response.data.serviceProviders;
-                });
-
-        }
-
-        function findSpecialists(gMarker) {
-            if (vm.map.center.latitude === null && vm.map.center.longitude === null ||
-                vm.request.status !== vm.requestStatus.NEW) {
+        function showSelectedSpecialistInfo(slectedSpecialist) {
+            if (!slectedSpecialist || Object.keys(slectedSpecialist).length === 0 || !vm.request.location) {
 
                 return;
             }
 
-            var bounds = gMarker.getBounds();
-
-            var boundsSouthWestLatitude = bounds.getSouthWest().lat();
-            var boundsSouthWestLongitude = bounds.getSouthWest().lng();
-            var boundsNorthEastLatitude = bounds.getNorthEast().lat();
-            var boundsNorthEastLongitude = bounds.getNorthEast().lng();
-
-            var selectedSouthWestLatitude = (boundsSouthWestLatitude < vm.boundsOfDistance.southWest.latitude) ?
-                vm.boundsOfDistance.southWest.latitude : boundsSouthWestLatitude;
-            var selectedSouthWestLongitude = (boundsSouthWestLongitude < vm.boundsOfDistance.southWest.longitude) ?
-                vm.boundsOfDistance.southWest.longitude : boundsSouthWestLongitude;
-            var selectedNorthEastLatitude = (boundsNorthEastLatitude > vm.boundsOfDistance.northEast.latitude) ?
-                vm.boundsOfDistance.northEast.latitude : boundsNorthEastLatitude;
-            var selectedNorthEastLongitude = (boundsNorthEastLongitude > vm.boundsOfDistance.northEast.longitude) ?
-                vm.boundsOfDistance.northEast.longitude : boundsNorthEastLongitude;
-
-            var params = {};
-
-            params.southWestLatitude = selectedSouthWestLatitude;
-            params.southWestLongitude = selectedSouthWestLongitude;
-            params.northEastLatitude = selectedNorthEastLatitude;
-            params.northEastLongitude = selectedNorthEastLongitude;
-            params.isAllShown = vm.request.forDate ? true : null;
-
-            return findSpecialistsByParams(params)
-                .then(function (specialists) {
-                    vm.specialists = specialists;
-
-                    return vm.specialists;
-                });
-        }
-
-        function setMapCenter(latitude, longitude) {
-            vm.map.center.latitude = latitude;
-            vm.map.center.longitude = longitude;
-        }
-
-        function showSelectedSpecialistInfo(marker, eventName, model) {
-            if (!model.control || Object.keys(model.control).length === 0) {
-
-                return;
+            if (!slectedSpecialist.distance) {
+                var distance = geocoderService.getDistance(
+                    vm.request.location.latitude,
+                    vm.request.location.longitude,
+                    slectedSpecialist.details.latitude,
+                    slectedSpecialist.details.longitude
+                );
             }
-
-            var distance = geocoderService.getDistance(
-                vm.request.location.latitude,
-                vm.request.location.longitude,
-                model.control.details.latitude,
-                model.control.details.longitude
-            );
 
             vm.isSpecialistCardShown = false;
 
             $timeout(function () {
-                vm.selectedSpecialist = model.control;
-                vm.selectedSpecialist.distance = distance;
+                vm.selectedSpecialist = slectedSpecialist;
+                vm.selectedSpecialist.distance = distance ? distance : slectedSpecialist.distance;
 
                 vm.isSpecialistCardShown = true;
             }, 200);
@@ -212,25 +97,6 @@
                 });
         }
 
-        function setRequestMarker(request) {
-            requestLocationMarker.id = request.location.id;
-            requestLocationMarker.latitude = request.location.latitude;
-            requestLocationMarker.longitude = request.location.longitude;
-            requestLocationMarker.text = request.location.address;
-
-            vm.map.markers.push(requestLocationMarker);
-        }
-
-        function setExecutorMarker(request) {
-            if (vm.map.center.latitude === null && vm.map.center.longitude === null || !request.executor ||
-                request.status !== vm.requestStatus.IN_PROGRESS) {
-
-                return;
-            }
-
-            vm.specialists = [request.executor];
-        }
-
         function listenRequestEvent() {
             chatSocketservice.onRequest(function (request, type) {
                 if (type !== 'update' || vm.request.id !== request.id) {
@@ -239,49 +105,23 @@
                 }
 
                 vm.request = request;
+                currentRequestService.setRequest(vm.request);
 
                 if (request.status !== vm.requestStatus.NEW) {
                     vm.specialists = [];
                 }
-
-                if (request.status === vm.requestStatus.IN_PROGRESS) {
-                    vm.map.specialistMarker.options.animation = 0;
-
-                    setExecutorMarker(request);
-                }
-            });
-        }
-
-        function listenLocationEvent() {
-            customerDataservice.onLocation(function (location, type) {
-                if (type !== 'update' || vm.request.status !== vm.requestStatus.IN_PROGRESS) {
-
-                    return;
-                }
-
-                vm.specialists[0].details.latitude = location.latitude;
-                vm.specialists[0].details.longitude = location.longitude;
             });
         }
 
         function activate() {
             getRequest(currentRequestId)
-                .then(function () {
+                .then(function (request) {
+                    if (request.status === vm.requestStatus.IN_PROGRESS) {
+                        vm.isSpecialistCardShown = true;
+                        vm.selectedSpecialist = request.executor;
+                    }
+
                     listenRequestEvent();
-                    listenLocationEvent();
-
-                    return uiGmapIsReady.promise(1);
-                })
-                .then(function () {
-                    setMapCenter(vm.request.location.latitude, vm.request.location.longitude);
-                    setRequestMarker(vm.request);
-                    setExecutorMarker(vm.request);
-
-                    vm.boundsOfDistance = geocoderService.getBoundsOfDistance(
-                        vm.request.location.latitude,
-                        vm.request.location.longitude,
-                        vm.request.distance
-                    );
                 });
         }
     }

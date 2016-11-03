@@ -1,47 +1,37 @@
-<div class="container map-content">
+<div class="container map-content"
+     layout="column"
+     flex>
   <div class="container-title" layout="row">
     <div flex>
       <i class="material-icons">location_on</i>
       <span>Map</span>
     </div>
   </div>
-  <div class="container-content">
-    <div class="map-wrapper">
-      <ui-gmap-google-map center="vm.map.center"
-                          zoom="vm.map.zoom"
-                          options="vm.map.options"
-                          control="vm.map.control"
-                          events="vm.map.events">
-        <ui-gmap-marker idKey="'specialist' + specialist.id"
-                        coords="specialist.details"
-                        options="vm.map.specialistMarker.options"
-                        fit="false"
-                        control="specialist"
-                        events="vm.map.specialistMarker.events"
-                        ng-repeat="specialist in vm.specialists track by specialist.id">
-        </ui-gmap-marker>
-        <ui-gmap-markers models="vm.map.markers"
-                         coords="'self'"
-                         icon="'icon'">
+  <div class="container-content"
+       layout="column"
+       flex>
+    <div class="map-wrapper"
+         flex
+         layout="column">
+      <client-map-viewer class="map-viewer"
+                         flex
+                         current-request="vm.request"
+                         show-specialist-info="vm.showSelectedSpecialistInfo(selectedSpecialist)"
+                         selected-specialist="vm.selectedSpecialist"
+                         ng-if="vm.request.id">
+      </client-map-viewer>
 
-          <ui-gmap-windows show="'show'">
-            <div ng-non-bindable>{{text}}</div>
-          </ui-gmap-windows>
-
-        </ui-gmap-markers>
-      </ui-gmap-google-map>
-
-      <div class="list card map-card"
-           ng-class="{ 'show': vm.isSpecialistCardShown }"
+      <div class="list card map-card animated"
+           ng-class="{ 'slideInUp': vm.isSpecialistCardShown, 'slideOutDown': !vm.isSpecialistCardShown}"
            ng-show="vm.isSpecialistCardShown">
         <div class="map-card-provider" layout="row">
-          <div class="right">
+          <div class="m-r-lg">
             <div class="avatar"
                  ng-style="{'background-image': 'url('+ (vm.selectedSpecialist.portrait ?
                  vm.baseUrl + vm.selectedSpecialist.portrait : vm.defaultPortrait) +')'}">
             </div>
           </div>
-          <div class="left" flex>
+          <div flex>
             <div>
               <span class="md-headline"
                     ng-bind="vm.selectedSpecialist.fullName">
@@ -54,10 +44,15 @@
             </div>
             <div class="md-subhead" layout="row" layout-align="start center">
               <div ng-if="vm.selectedSpecialist.distance">
-                <span ng-bind="vm.selectedSpecialist.distance | number : 2"></span>
+                <span ng-bind="vm.selectedSpecialist.distance | number : 1"></span>
                 <span>miles away</span>
               </div>
-              <div ng-if="vm.selectedSpecialist.details.workingHours">
+              <div ng-if="vm.selectedSpecialist.duration && vm.request.status === vm.requestStatus.IN_PROGRESS">
+                <span class="m-l-xs">- Estimated time of arrival:</span>
+                <span ng-bind="vm.selectedSpecialist.duration.text"></span>
+              </div>
+              <div ng-if="vm.selectedSpecialist.details.workingHours &&
+                          vm.request.status !== vm.requestStatus.IN_PROGRESS">
                 <span class="m-l-xs">- Working hours:</span>
                 <span ng-bind="vm.selectedSpecialist.details.workingHours.timeFrom | date: 'HH:mm a'"></span> -
                 <span ng-bind="vm.selectedSpecialist.details.workingHours.timeTo | date: 'HH:mm a'"></span>

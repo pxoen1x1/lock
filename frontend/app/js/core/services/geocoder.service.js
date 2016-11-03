@@ -16,6 +16,7 @@
 
     function geocoderService($q, $timeout, $window, uiGmapGoogleMapApi, coreConstants, serviceProviderDataservice) {
         var stopTrackingPromise;
+
         var service = {
             getCurrentCoordinates: getCurrentCoordinates,
             startGeoTracking: startGeoTracking,
@@ -29,6 +30,12 @@
         return service;
 
         function getCurrentCoordinates() {
+            var options = {
+                enableHighAccuracy: true,
+                maximumAge: 10000,
+                timeout: 5000
+            };
+
             var deferred = $q.defer();
 
             if (!$window.navigator && !$window.navigator.geolocation) {
@@ -44,13 +51,15 @@
                 function (error) {
 
                     return deferred.reject('Geolocation service failed for the following reason: ' + error.message);
-                });
+                },
+                options
+            );
 
             return deferred.promise;
         }
 
         function startGeoTracking(delay) {
-            delay = delay || 30000;
+            delay = delay || 15000;
 
             stopTrackingPromise = $timeout(function () {
 
@@ -130,6 +139,11 @@
         }
 
         function getBoundsOfDistance(latitude, longitude, distance) {
+            if (!latitude || !longitude || !distance) {
+
+                return;
+            }
+
             var bounds = {};
             bounds.northEast = {};
             bounds.southWest = {};
@@ -183,6 +197,11 @@
         }
 
         function getDistance(latitude1, longitude1, latitude2, longitude2) {
+            if (!latitude1 || !longitude1 || !latitude2 || !longitude2) {
+
+                return;
+            }
+
             var radius = coreConstants.DISTANCE.earthRadius * coreConstants.DISTANCE.toMile;
 
             var radLat1 = convertToRadian(latitude1);

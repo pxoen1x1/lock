@@ -60,6 +60,11 @@ let HelperService = {
         return queryResult;
     },
     hideLocation(location) {
+        if(!location){
+
+            return;
+        }
+
         delete location.address;
 
         let correction = (2*Math.random() -1)/RANDOM_COORDINATES_COEFFICIENT;

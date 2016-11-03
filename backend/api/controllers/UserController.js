@@ -115,8 +115,14 @@ let UserController = waterlock.actions.user({
             delete user.id;
         }
 
-        if (user.details && user.details.rating) {
-            delete user.details.rating;
+        if (user.details) {
+            if (user.details.rating) {
+                delete user.details.rating;
+            }
+
+            user.userDetail = user.details;
+
+            delete user.details;
         }
 
         FileService.saveAvatar(userId, user.portrait)

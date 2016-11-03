@@ -4,7 +4,7 @@
 }
 
 .map-wrapper {
-  background: url('https://maps.gstatic.com/tactile/pane/spinner_color.gif');
+  background: url('/images/spinner_color.gif');
   background-position: center center;
   background-repeat: no-repeat;
 }
@@ -17,64 +17,72 @@
   left: 0;
   background-color: rgba(0, 0, 0, 0.5);
   z-index: 100;
+}
 
-  .map-content {
-    position: relative;
-    width: 96%;
-    height: 96%;
-    top: 2%;
-    left: 2%;
+.view-content {
+  .container-content {
+    .map-wrapper {
+      min-height: 250px;
+    }
   }
 }
 
-.map-viewer,
-.map-content {
+.map-viewer {
+  position: relative;
+  width: 100%;
+
+  > .angular-google-map {
+    position: absolute;
+    width: 100%;
+  }
+}
+
+.angular-google-map,
+.angular-google-map-container {
   height: 100%;
 }
 
-.map-wrapper,
 .angular-google-map-container {
-  position: relative;
-  width: 100%;
-  height: 200px;
-  border-radius: 10px;
-  overflow: hidden;
+  .action-buttons {
+    margin-left: 11px;
+    z-index: 10000;
 
-}
+    button {
+      margin: 0 4px 4px 0;
+      min-width: 76px;
+      min-height: 34px;
+      border-radius: 3px;
+      letter-spacing: .01em;
+      white-space: nowrap;
+      text-transform: uppercase;
+      font-size: 14px;
+      font-weight: 500;
+    }
+  }
 
-.angular-google-map-container {
   button {
     margin-right: 11px;
-    border-radius: 50px;
     width: 28px;
     height: 28px;
     padding: 0;
-    background-color: #fff;
     color: $secondary-text-color;
+    background-color: #fff;
     box-shadow: rgba(0, 0, 0, .3) 0 1px 4px -1px;
     border: none;
-
-    &:hover {
-      color: $text-color
-    }
 
     i {
       font-size: 18px;
       line-height: 24px;
     }
+
+    &.current-location {
+      border-radius: 50px;
+    }
   }
 }
 
-.map-content {
-  &.container {
-    height: auto;
-  }
-
-  .container-content {
-    &, .angular-google-map-container {
-      height: 400px;
-    }
-  }
+.container.map-content {
+  min-height: 384px;
 
   .actions {
     font-size: 15px;
@@ -85,47 +93,19 @@
   }
 
   .map-wrapper {
-    &, .angular-google-map, .angular-google-map-container {
-      height: 100%;
-      border-radius: 0;
-    }
+    position: relative;
 
     .list.card.map-card {
       position: absolute;
-      left: 50%;
-      bottom: 16px;
-      width: 70%;
+      bottom: 0;
+      width: 100%;
       margin: 0;
-      opacity: 0;
       background-color: #FFF;
-      -webkit-transform: translate(-50%, -15%);
-      -moz-transform: translate(-50%, 0) scaleY(0);
-      -ms-transform: translate(-50%, 0) scaleY(0);
-      -o-transform: translate(-50%, 0) scaleY(0);
-      transform: translate(-50%, 0) scaleY(0);
-      -webkit-transition: all 0.2s ease;
-      -moz-transition: all 0.2s ease;
-      -ms-transition: all 0.2s ease;
-      -o-transition: all 0.2s ease;
-      transition: all 0.2s ease;
-    }
-
-    .list.card.map-card.show {
-      opacity: 1;
-      -webkit-transform: translate(-50%, 0);
-      -moz-transform: translate(-50%, 0);
-      -ms-transform: translate(-50%, 0);
-      -o-transform: translate(-50%, 0);
-      transform: translate(-50%, 0);
     }
   }
 
   .map-card-provider {
     padding: 10px 10px 10px 20px;
-
-    .right {
-      margin-right: 20px;
-    }
 
     .star-rating {
       color: rgba(29, 177, 239, 1);
@@ -179,6 +159,23 @@
 
     .close:hover {
       opacity: 1;
+    }
+  }
+}
+
+@media only screen and (max-device-width: 600px) {
+  .customer, .provider, .group, .admin {
+    .content {
+      .container {
+        &.map-content {
+          overflow: hidden;
+          min-height: 0;
+
+          .container-content {
+            padding: 0;
+          }
+        }
+      }
     }
   }
 }

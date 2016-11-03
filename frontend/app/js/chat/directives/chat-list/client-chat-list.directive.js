@@ -56,10 +56,13 @@
 
         function listenMessageEvent() {
             chatSocketservice.onMessage(function (message, type) {
-                if (type !== 'create' || !message || !message.chat || !message.chat.id ||
-                    !angular.isArray(vm.messages[message.chat.id])) {
+                if (type !== 'create' || !message || !message.chat || !message.chat.id) {
 
                     return;
+                }
+
+                if (!angular.isArray(vm.messages[message.chat.id])) {
+                    vm.messages[message.chat.id] = [];
                 }
 
                 vm.messages[message.chat.id].push(message);

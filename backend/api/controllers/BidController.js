@@ -57,12 +57,15 @@ let BidController = {
                 }
             );
     },
-    create(req, res) {
+    createBid(req, res) {
         let requestId = req.params.requestId;
-        let bid = req.allParams();
+
+        let params = req.allParams();
+        let bid = params.bid || {};
+
         let specialist = req.session.user.id;
 
-        if (!bid.request) {
+        if (!requestId) {
 
             return res.badRequest(
                 {
@@ -71,12 +74,16 @@ let BidController = {
             );
         }
 
-        bid.request = {
-            id: requestId
+        let newBid = {
+            request: {
+                id: requestId
+            },
+            message: bid.message,
+            cost: bid.cost,
+            specialist: specialist
         };
-        bid.specialist = specialist;
 
-        BidService.create(bid)
+        BidService.create(newBid)
             .then(
                 (createdBid) => {
 

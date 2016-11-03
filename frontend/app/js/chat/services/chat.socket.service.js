@@ -17,6 +17,7 @@
             getMessages: getMessages,
             getReviews: getReviews,
             createChat: createChat,
+            createBid: createBid,
             sendMessage: sendMessage,
             deleteBid: deleteBid,
             declineBid: declineBid,
@@ -105,6 +106,17 @@
             }
         }
 
+        function createBid(request, bid) {
+
+            return $sails.post(conf.URL_PREFIX + 'specialist/request/' + request.id + '/bids', bid)
+                .then(createBidCompleted);
+
+            function createBidCompleted(response) {
+
+                return response.data.bid;
+            }
+        }
+
         function sendMessage(chat, message) {
 
             return $sails.post(conf.URL_PREFIX + 'chats/' + chat.id + '/messages', message)
@@ -139,7 +151,7 @@
         }
 
         function onRequest(next) {
-            socketService.listener('request', function(event) {
+            socketService.listener('request', function (event) {
                 next(event.request, event.type);
             });
         }

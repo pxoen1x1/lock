@@ -118,6 +118,10 @@
 
             return loadMessages(currentChat, params)
                 .then(function (messages) {
+                    if (!angular.isArray(vm.messages[currentChat.id])) {
+                        vm.messages[currentChat.id] = [];
+                    }
+
                     vm.messages[currentChat.id] = vm.messages[currentChat.id].concat(messages.items);
 
                     vm.pagination.messages[currentChat.id].totalCount = messages.totalCount;
@@ -242,6 +246,10 @@
 
                 return sendMessage(currentChat, message)
                     .then(function (message) {
+                        if (!angular.isArray(vm.messages[currentChat.id])) {
+                            vm.messages[currentChat.id] = [];
+                        }
+
                         vm.messages[currentChat.id].push(message);
 
                         clearReplyMessage(currentChat);

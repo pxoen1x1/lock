@@ -14,7 +14,8 @@
             scope: {
                 bids: '=',
                 currentBid: '=',
-                currentRequest: '='
+                currentRequest: '=',
+                changeCurrentRequest: '&'
             },
             replace: true,
             templateUrl: 'chat/directives/bid-list/specialist-bid-list.html'

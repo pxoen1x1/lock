@@ -1,5 +1,7 @@
-<div class="request-list-content">
+<div class="request-list-content"
+     layout="row">
   <div class="container"
+       layout="column"
        ng-if="$mdMedia('gt-xs')">
     <div class="container-title">
       <i class="material-icons">list</i>
@@ -158,7 +160,7 @@
                    vm.baseUrl + request.executor.portrait : vm.defaultPortrait) + ')' }">
             </div>
           </div>
-          <div class="m-l-s"
+          <div class="m-l-sm"
                flex>
             <span class="md-body-2" ng-bind="request.executor.fullName"></span>
             <star-rating ng-if="request.executor.details.rating"

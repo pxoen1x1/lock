@@ -1,0 +1,23 @@
+<div class="action-buttons"
+     layout="row"
+     layout-align="center center">
+  <div ng-if="vm.currentRequest.status !== vm.requestStatus.DONE ||
+         vm.currentRequest.status === vm.requestStatus.CLOSED">
+    <button ng-if="vm.currentRequest.status === vm.requestStatus.NEW"
+               ng-click="vm.openBidDialog(vm.currentRequest)">
+      Send Bid
+    </button>
+    <button ng-if="vm.currentRequest.status === vm.requestStatus.PENDING"
+               ng-click="vm.changeRequestStatus(vm.currentRequest, vm.requestStatus.IN_PROGRESS)">
+      Start
+    </button>
+    <div ng-if="vm.currentRequest.status === vm.requestStatus.IN_PROGRESS">
+      <button ng-click="vm.changeRequestStatus(vm.currentRequest, vm.requestStatus.PENDING)">
+        Pause
+      </button>
+      <button ng-click="vm.changeRequestStatus(vm.currentRequest, vm.requestStatus.DONE)">
+        Done
+      </button>
+    </div>
+  </div>
+</div>
