@@ -10,6 +10,7 @@
             currentRequest: '<',
             mapOptions: '<?',
             isSpecialistHidden: '@',
+            selectedSpecialist: '=?',
             showSpecialistInfo: '&?'
         }
     };
@@ -68,6 +69,8 @@
         };
         var boundsOfDistance;
         var vm = this;
+
+        vm.selectedSpecialist = vm.selectedSpecialist || {};
 
         vm.map = {
             events: {},
@@ -244,7 +247,9 @@
                 return;
             }
 
-            vm.showSpecialistInfo({marker: marker, eventName: eventName, model: model});
+            vm.selectedSpecialist = angular.extend(vm.selectedSpecialist, model.control);
+
+            vm.showSpecialistInfo({selectedSpecialist: vm.selectedSpecialist});
         }
 
         function setMapCenter(latitude, longitude) {
@@ -311,6 +316,9 @@
                 });
 
                 setMapCenter(leg.start_location.lat(), leg.start_location.lng());
+
+                vm.selectedSpecialist.distance = leg.distance.value/1000 * coreConstants.DISTANCE.toMile;
+                vm.selectedSpecialist.duration = leg.duration;
             });
         }
 

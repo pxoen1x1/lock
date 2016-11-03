@@ -56,24 +56,26 @@
                 });
         }
 
-        function showSelectedSpecialistInfo(marker, eventName, model) {
-            if (!model.control || Object.keys(model.control).length === 0 || !vm.request.location) {
+        function showSelectedSpecialistInfo(slectedSpecialist) {
+            if (!slectedSpecialist || Object.keys(slectedSpecialist).length === 0 || !vm.request.location) {
 
                 return;
             }
 
-            var distance = geocoderService.getDistance(
-                vm.request.location.latitude,
-                vm.request.location.longitude,
-                model.control.details.latitude,
-                model.control.details.longitude
-            );
+            if (!slectedSpecialist.distance) {
+                var distance = geocoderService.getDistance(
+                    vm.request.location.latitude,
+                    vm.request.location.longitude,
+                    slectedSpecialist.details.latitude,
+                    slectedSpecialist.details.longitude
+                );
+            }
 
             vm.isSpecialistCardShown = false;
 
             $timeout(function () {
-                vm.selectedSpecialist = model.control;
-                vm.selectedSpecialist.distance = distance;
+                vm.selectedSpecialist = slectedSpecialist;
+                vm.selectedSpecialist.distance = distance ? distance : slectedSpecialist.distance;
 
                 vm.isSpecialistCardShown = true;
             }, 200);
@@ -113,7 +115,12 @@
 
         function activate() {
             getRequest(currentRequestId)
-                .then(function () {
+                .then(function (request) {
+                    if (request.status === vm.requestStatus.IN_PROGRESS) {
+                        vm.isSpecialistCardShown = true;
+                        vm.selectedSpecialist = request.executor;
+                    }
+
                     listenRequestEvent();
                 });
         }
