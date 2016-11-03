@@ -1,6 +1,6 @@
-<div class="request-list-content">
-  <div class="container"
-       ng-if="$mdMedia('gt-xs')">
+<div class="infinite-scroll-wrapper request-list-content"
+     ng-if="$mdMedia('gt-xs')">
+  <div class="container">
     <div class="container-title">
       <i class="material-icons">list</i>
       <span>New</span>
@@ -11,7 +11,8 @@
       <md-table-container infinite-scroll
                           autoloading-enabled="true"
                           scroll-disabled="vm.isAllMessagesLoaded"
-                          on-scroll="vm.loadPrevRequests()">
+                          on-scroll="vm.loadPrevRequests()"
+                          class="infinite-scroll-container">
         <table md-table>
           <thead md-head>
           <tr md-row>
@@ -78,7 +79,11 @@
       </md-table-container>
     </div>
   </div>
-  <div class="cards"
+</div>
+
+<div class="infinite-scroll-wrapper request-list-content"
+     ng-if="!$mdMedia('gt-xs')">
+  <div class="infinite-scroll-container cards"
        ng-if="!$mdMedia('gt-xs')"
        infinite-scroll
        autoloading-enabled
