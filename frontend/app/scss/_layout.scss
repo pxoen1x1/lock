@@ -1,0 +1,86 @@
+.customer, .provider, .group, .admin {
+  height: 100vh;
+  overflow-x: hidden;
+
+  a {
+    text-decoration: none;
+  }
+
+  .content-wrapper {
+    position: relative;
+    background-color: $panel-background-color;
+
+    .has-tab-bar {
+      margin-bottom: 54px;
+    }
+  }
+
+  .content {
+    overflow: auto;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: transparent;
+
+    .container {
+      background: #fff;
+      margin: 30px;
+      margin-bottom: 84px;
+      box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .2), 0 1px 1px 0 rgba(0, 0, 0, .14), 0 2px 1px -1px rgba(0, 0, 0, .12);
+    }
+
+    .container-title {
+      padding: 24px 24px 0 24px;
+      font-size: 20px;
+
+      i.material-icons {
+        vertical-align: middle;
+      }
+
+      span {
+        vertical-align: middle;
+      }
+
+    }
+
+    .container-content {
+      padding: 24px;
+
+      p {
+        font-weight: 600;
+      }
+    }
+  }
+
+  .content._content {
+    min-height: 100%;
+  }
+}
+
+@media only screen and (max-device-width: 600px) {
+  .customer, .provider, .group, .admin {
+    .content-wrapper {
+      background-color: #fff;
+    }
+
+    .content {
+      .container {
+        height: 100%;
+        overflow: auto;
+        margin: 0;
+        box-shadow: none;
+
+        .container-title {
+          display: none;
+        }
+
+        .container-content {
+          padding: 10px;
+          p {
+            font-weight: 600;
+          }
+        }
+      }
+    }
+  }
+}
