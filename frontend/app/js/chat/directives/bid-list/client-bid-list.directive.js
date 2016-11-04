@@ -24,10 +24,19 @@
         return directive;
     }
 
-    ClientBidListController.$inject = ['$q', '$mdMedia', '$mdSidenav', 'chatSocketservice', 'coreConstants', 'conf'];
+    ClientBidListController.$inject = [
+        '$scope',
+        '$q',
+        '$mdMedia',
+        '$mdSidenav',
+        'chatSocketservice',
+        'coreConstants',
+        'conf'
+    ];
 
     /* @ngInject */
-    function ClientBidListController($q, $mdMedia, $mdSidenav, chatSocketservice, coreConstants, conf) {
+    function ClientBidListController($scope, $q, $mdMedia, $mdSidenav, chatSocketservice, coreConstants, conf) {
+        var bidHandler;
         var vm = this;
 
         vm.baseUrl = conf.BASE_URL;
@@ -52,8 +61,10 @@
         }
 
         function listenBidEvent() {
-            chatSocketservice.onBid(function (bid) {
-                vm.bids.unshift(bid);
+            bidHandler = chatSocketservice.onBid(function (bid, type) {
+                if (type === 'create') {
+                    vm.bids.unshift(bid);
+                }
             });
         }
 
@@ -81,6 +92,10 @@
         function activate() {
             getBids(vm.currentRequest)
                 .then(listenBidEvent);
+
+            $scope.$on('$destroy', function () {
+                chatSocketservice.offBid(bidHandler);
+            });
         }
     }
 })();
