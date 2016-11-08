@@ -31,6 +31,7 @@
 
         vm.currentUser = {};
         vm.currentChat = null;
+        vm.currentBid = null;
 
         vm.pagination = {
             messages: {}
@@ -81,16 +82,18 @@
         }
 
         function listenRequestEvent() {
-            chatSocketservice.onRequest(function (request, type) {
+            chatSocketservice.onRequest(function (request, type, isBlast) {
                 if (type !== 'update') {
 
                     return;
                 }
 
-                vm.requests[request.id] = request;
+                if (request.executor.id === vm.currentUser.id && !isBlast) {
+                    updateRequest(request);
+                }
 
-                if (vm.currentRequest && vm.currentRequest.id === request.id) {
-                    vm.currentRequest = request;
+                if (request.executor.id !== vm.currentUser.id && isBlast) {
+                    updateRequest(request);
                 }
             });
         }
@@ -221,7 +224,9 @@
 
         function reply(event, replyMessage, currentChat, currentRequest) {
             if ((event && event.shiftKey && event.keyCode === 13) ||
-                currentRequest.status === vm.requestStatus.CLOSED) {
+                currentRequest.status === vm.requestStatus.CLOSED ||
+                (currentRequest.status !== vm.requestStatus.NEW &&
+                currentRequest.executor.id !== currentChat.specialist.id)) {
 
                 vm.textareaGrow[currentChat.id] = true;
 
@@ -247,6 +252,19 @@
 
                         clearReplyMessage(currentChat);
                     });
+            }
+        }
+
+        function updateRequest(request) {
+            if (!request) {
+
+                return;
+            }
+
+            vm.requests[request.id] = request;
+
+            if (vm.currentRequest && vm.currentRequest.id === request.id) {
+                vm.currentRequest = request;
             }
         }
 
