@@ -351,6 +351,25 @@ let RequestController = {
                         req
                     );
 
+                    let hiddenLocation = HelperService.hideLocation(request.location);
+
+                    request.location = hiddenLocation;
+                    request.executor = {
+                        id: request.executor.id
+                    };
+                    delete request.owner.auth;
+                    delete request.owner.phoneNumber;
+
+                    sails.sockets.blast(
+                        'request',
+                        {
+                            isBlast: true,
+                            type: 'update',
+                            request: request
+                        },
+                        req
+                    );
+
                     return request;
                 }
             )
