@@ -153,7 +153,7 @@
 
         function onRequest(next) {
             socketService.listener('request', function (event) {
-                next(event.request, event.type);
+                next(event.request, event.type, event.isBlast);
             });
         }
 
