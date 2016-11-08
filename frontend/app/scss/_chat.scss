@@ -233,6 +233,10 @@
                 background-size: contain;
               }
 
+              .message {
+                word-wrap: break-word;
+              }
+
               .time {
                 font-size: 11px;
                 margin-top: 8px;

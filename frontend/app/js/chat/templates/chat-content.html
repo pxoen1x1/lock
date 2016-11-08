@@ -67,14 +67,13 @@
   </div>
 </md-toolbar>
 <md-content class="chat-content"
-            flex
-            layout="column"
-            layout-align="end center"
             scroll-chat="vm.loadPrevMessages()"
             scroll-chat-disabled="vm.isScrollDisabled"
             scroll-chat-to-bottom="vm.isScrollToBottomEnabled">
   <div class="chat-messages"
+       flex
        layout="column"
+       layout-align="end stretch"
        ng-if="vm.messages[vm.currentChat.id].length > 0">
     <div class="chat-message"
          ng-repeat="message in vm.messages[vm.currentChat.id] | orderBy : 'updatedAt' track by message.id">

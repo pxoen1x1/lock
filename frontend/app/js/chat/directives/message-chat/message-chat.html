@@ -1,5 +1,6 @@
 <div class="md-padding message-row"
      layout="row"
+     layout-align="start end"
      ng-class="{ 'user': vm.message.sender.id === vm.currentUser.id }">
   <div class="avatar"
        ng-style="{ 'background-image': 'url(' + (vm.message.sender.portrait ?
