@@ -15,6 +15,7 @@
                 bids: '=',
                 currentBid: '=',
                 currentRequest: '=',
+                selectedTab: '=',
                 changeCurrentRequest: '&'
             },
             replace: true,
@@ -24,10 +25,18 @@
         return directive;
     }
 
-    SpecialistBidListController.$inject = ['$mdMedia', '$mdSidenav', 'chatSocketservice', 'coreConstants', 'conf'];
+    SpecialistBidListController.$inject = [
+        '$scope',
+        '$mdMedia',
+        '$mdSidenav',
+        'chatSocketservice',
+        'coreConstants',
+        'conf'
+    ];
 
     /* @ngInject */
-    function SpecialistBidListController($mdMedia, $mdSidenav, chatSocketservice, coreConstants, conf) {
+    function SpecialistBidListController($scope, $mdMedia, $mdSidenav, chatSocketservice, coreConstants, conf) {
+        var bidHandler;
         var vm = this;
 
         vm.baseUrl = conf.BASE_URL;
@@ -48,13 +57,25 @@
         }
 
         function listenBidEvent() {
-            chatSocketservice.onBid(function (bid, type) {
-                if (type !== 'create') {
+            bidHandler = chatSocketservice.onBid(function (bid, type) {
+                if (type === 'create') {
 
-                    return;
+                    vm.bids.unshift(bid);
                 }
 
-                vm.bids.unshift(bid);
+
+                if (type === 'delete') {
+                    vm.currentBid = null;
+
+                    vm.bids = vm.bids.filter(function (item) {
+
+                        return item.id !== bid.id;
+                    });
+
+                    if(vm.bids.length === 0) {
+                        vm.selectedTab = 'chats';
+                    }
+                }
             });
         }
 
@@ -82,6 +103,10 @@
         function activate() {
             getBids()
                 .then(listenBidEvent);
+
+            $scope.$on('$destroy', function () {
+                chatSocketservice.offBid(bidHandler);
+            });
         }
     }
 })();

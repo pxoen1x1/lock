@@ -32,6 +32,7 @@
 
         vm.currentUser = {};
         vm.currentChat = null;
+        vm.currentBid = null;
 
         vm.currentRequest = {};
         vm.pagination = {
@@ -224,7 +225,9 @@
 
         function reply(event, replyMessage, currentChat, currentRequest) {
             if ((event && event.shiftKey && event.keyCode === 13) ||
-                currentRequest.status === vm.requestStatus.CLOSED) {
+                currentRequest.status === vm.requestStatus.CLOSED ||
+                (currentRequest.status !== vm.requestStatus.NEW &&
+                currentRequest.executor.id !== currentChat.specialist.id)) {
 
                 vm.textareaGrow[currentChat.id] = true;
 

@@ -26,29 +26,31 @@
             ngModel.$asyncValidators.availability = verifyAvailability;
 
             function verifyAvailability(modelValue) {
-                if (ngModel.$valid || (Object.keys(ngModel.$error).length === 1 && ngModel.$error.availability)) {
-                    var field = {};
+                if (!ngModel.$valid || (Object.keys(ngModel.$error).length === 1 && ngModel.$error.availability) ||
+                    !modelValue) {
 
-                    field[attrs.name] = modelValue;
-
-                    if (promises.getAvailabilityInfo) {
-                        promises.getAvailabilityInfo.cancel();
-                    }
-
-                    promises.getAvailabilityInfo = coreDataservice.getAvailabilityInfo(field);
-
-                    return promises.getAvailabilityInfo
-                        .then(function (response) {
-                            if (response.data[attrs.name]) {
-
-                                return $q.reject();
-                            }
-
-                            return $q.resolve();
-                        });
+                    return $q.resolve();
                 }
 
-                return $q.resolve();
+                var field = {};
+
+                field[attrs.name] = modelValue;
+
+                if (promises.getAvailabilityInfo) {
+                    promises.getAvailabilityInfo.cancel();
+                }
+
+                promises.getAvailabilityInfo = coreDataservice.getAvailabilityInfo(field);
+
+                return promises.getAvailabilityInfo
+                    .then(function (response) {
+                        if (response.data[attrs.name]) {
+
+                            return $q.reject();
+                        }
+
+                        return $q.resolve();
+                    });
             }
         }
     }

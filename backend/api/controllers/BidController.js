@@ -92,7 +92,7 @@ let BidController = {
             )
             .then(
                 (bid) => {
-                    let roomName = `user_${bid.client}`;
+                    let roomName = `user_${bid.client.id}`;
 
                     sails.sockets.broadcast(
                         roomName,
@@ -182,11 +182,26 @@ let BidController = {
 
         Bid.destroy({id: bid})
             .then(
-                (bids) => res.ok(
-                    {
-                        bid: bids[0]
-                    }
-                )
+                (bids) => {
+                    let bid = bids[0];
+                    let specialistRoomName = `user_${bid.specialist_id}`;
+
+                    res.ok(
+                        {
+                            bid: bid
+                        }
+                    );
+
+                    sails.sockets.broadcast(
+                        specialistRoomName,
+                        'bid',
+                        {
+                            type: 'delete',
+                            bid: bid
+                        },
+                        req
+                    );
+                }
             )
             .catch(
                 (err) => {
