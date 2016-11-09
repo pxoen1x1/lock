@@ -6,7 +6,8 @@
                layout-align-gt-xs="center center"
                layout-align="center center"
                aria-label="{{ $state.get(tabBarItem).data.tab.title }}"
-               ui-sref="{{ tabBarItem }}($stateParams)">
+               ui-sref="{{ tabBarItem }}($stateParams)"
+               ui-sref-active="active"  >
       <div ng-show="!$mdMedia('gt-xs')"
            layout="column"
            layout-align="center center">
