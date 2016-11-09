@@ -10,32 +10,33 @@
       </a>
     </div>
   </md-toolbar>
-  <div class="profile">
-    <a layout="column"
-       layout-align="start center"
-       ui-sref="{{vm.profileRoute}}"
-       ng-click="vm.toggleMenu()">
-      <div class="avatar-wrapper">
-        <div class="avatar biggest"
-             ng-style="{ 'background-image': 'url(' + (vm.profileData.portrait ?
+  <a class="profile"
+     layout="column"
+     layout-align="start center"
+     ui-sref="{{vm.profileRoute}}"
+     ui-sref-active="active"
+     ng-click="vm.toggleMenu()">
+    <div class="avatar-wrapper">
+      <div class="avatar biggest"
+           ng-style="{ 'background-image': 'url(' + (vm.profileData.portrait ?
                    conf.baseUrl + vm.profileData.portrait : coreConstants.IMAGES.defaultPortrait) + ')' }">
-        </div>
       </div>
-      <div class="name">
-        <i class="material-icons" ng-if="vm.profileData.isEmailConfirmed">
-          verified_user
-        </i>
-        <span ng-bind="vm.profileData.fullName"></span>
-      </div>
-      <div class="email" ng-bind="vm.profileData.auth.email"></div>
-    </a>
-  </div>
+    </div>
+    <div class="name">
+      <i class="material-icons" ng-if="vm.profileData.isEmailConfirmed">
+        verified_user
+      </i>
+      <span ng-bind="vm.profileData.fullName"></span>
+    </div>
+    <div class="email" ng-bind="vm.profileData.auth.email"></div>
+  </a>
   <div class="navigation" layout="column">
     <div class="navigation-item"
          ng-repeat="menuItem in vm.menuItems track by $index">
       <a layout="row"
          layout-align="start start"
          ui-sref="{{menuItem}}"
+         ui-sref-active="active"
          ng-click="vm.toggleMenu()">
         <i class="material-icons"
            ng-if="$state.get(menuItem).data.menu.icon"

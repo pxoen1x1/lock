@@ -45,9 +45,7 @@
     border-radius: 0;
   }
 
-  &.active {
-    a {
-      color: $primary-color;
-    }
+  a.active {
+    color: $primary-color;
   }
 }
