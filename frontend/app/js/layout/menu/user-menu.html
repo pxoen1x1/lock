@@ -10,8 +10,7 @@
       </a>
     </div>
   </md-toolbar>
-  <div class="profile"
-       ui-sref-active="active">
+  <div class="profile">
     <a layout="column"
        layout-align="start center"
        ui-sref="{{vm.profileRoute}}"
@@ -33,7 +32,6 @@
   </div>
   <div class="navigation" layout="column">
     <div class="navigation-item"
-         ui-sref-active="active"
          ng-repeat="menuItem in vm.menuItems track by $index">
       <a layout="row"
          layout-align="start start"
