@@ -31,7 +31,8 @@
     <div class="email" ng-bind="vm.profileData.auth.email"></div>
   </a>
   <div class="navigation" layout="column">
-    <div class="navigation-item" ng-repeat="menuItem in vm.menuItems track by $index">
+    <div class="navigation-item"
+         ng-repeat="menuItem in vm.menuItems track by $index">
       <a layout="row"
          layout-align="start start"
          ui-sref="{{menuItem}}"

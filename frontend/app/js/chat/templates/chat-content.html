@@ -71,10 +71,7 @@
             scroll-chat-disabled="vm.isScrollDisabled"
             scroll-chat-to-bottom="vm.isScrollToBottomEnabled">
   <div class="chat-messages"
-       flex
-       layout="column"
-       layout-align="end stretch"
-       ng-if="vm.messages[vm.currentChat.id].length > 0">
+       layout="column">
     <div class="chat-message"
          ng-repeat="message in vm.messages[vm.currentChat.id] | orderBy : 'updatedAt' track by message.id">
       <message-chat message="message"
@@ -85,6 +82,11 @@
                     update-request-status="vm.updateRequestStatus(request, status)"
                     ng-if="vm.currentUser && vm.currentRequest">
       </message-chat>
+    </div>
+    <div class="chat-message"
+         ng-if="vm.currentUser.type === vm.userType.SPECIALIST &&
+         (vm.currentRequest.executor && vm.currentRequest.executor.id !== vm.currentUser.id)"
+         ng-include="'chat/templates/system-message-unselected-specialist.html'">
     </div>
   </div>
 </md-content>

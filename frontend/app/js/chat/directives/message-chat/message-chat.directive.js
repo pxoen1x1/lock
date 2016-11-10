@@ -68,10 +68,10 @@
         }
     }
 
-    MessageChatController.$inject = ['coreConstants', 'chatConstants', 'conf', 'geocoderService'];
+    MessageChatController.$inject = ['coreConstants', 'chatConstants', 'conf'];
 
     /* @ngInject */
-    function MessageChatController(coreConstants, chatConstants, conf, geocoderService) {
+    function MessageChatController(coreConstants, chatConstants, conf) {
         var vm = this;
 
         vm.baseUrl = conf.BASE_URL;
