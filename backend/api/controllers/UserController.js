@@ -125,7 +125,9 @@ let UserController = waterlock.actions.user({
             delete user.details;
         }
 
-        FileService.saveAvatar(userId, user.portrait)
+        let dir = 'avatars';
+
+        FileService.saveImage(userId, user.portrait, dir)
             .then(
                 (file) => {
 
