@@ -1,0 +1,40 @@
+<div class="chat"
+     flex
+     layout="column"
+     ng-if="(vm.selectedTab === 'bids' && vm.currentBid) || vm.currentChat">
+  <div flex
+       layout="column"
+       ng-include="vm.selectedTab === 'bids' && vm.currentBid ?
+                         'chat/components/chat-messages/bid-content.html' :
+                         'chat/components/chat-messages/chat-content.html'">
+  </div>
+  <div class="chat-footer flex-noshrink"
+       flex
+       layout="row"
+       layout-align="center center">
+    <form class="reply-form"
+          name="replyForm"
+          flex
+          layout="row"
+          layout-align="start center"
+          ng-submit="vm.reply(null, vm.replyMessage[vm.currentChat.id], vm.currentChat, vm.currentRequest)">
+      <md-input-container flex md-no-float>
+              <textarea placeholder="Type and hit enter to send message"
+                        md-no-autogrow
+                        ng-if="vm.selectedTab === 'chats' || !vm.currentBid"
+                        ng-class="{ 'grow': vm.textareaGrow[vm.currentChat.id] }"
+                        ng-keydown="vm.reply($event, vm.replyMessage[vm.currentChat.id], vm.currentChat, vm.currentRequest)"
+                        ng-model="vm.replyMessage[vm.currentChat.id]">
+              </textarea>
+      </md-input-container>
+      <md-button type="submit"
+                 class="md-button-blue md-fab"
+                 ng-disabled="(vm.selectedTab === 'bids' && vm.currentBid) ||
+                       vm.currentRequest.status === vm.requestStatus.CLOSED ||
+                       (vm.currentRequest.status !== vm.requestStatus.NEW && vm.currentRequest.executor.id !== vm.currentChat.specialist.id)"
+                 aria-label="Send message">
+        <i class="material-icons">send</i>
+      </md-button>
+    </form>
+  </div>
+</div>

@@ -2,12 +2,12 @@
   <div class="md-toolbar-tools">
     <md-button class="hide-gt-md responsive-chats-button md-icon-button"
                aria-label="chats button"
-               ng-click="vm.toggleSidenav('left-sidenav')">
+               ng-click="vm.toggleSidenav({ navID: 'left-sidenav' })">
       <i class="material-icons s28">textsms</i>
     </md-button>
     <div class="chat-contact"
          ng-if="vm.currentBid.specialist.id"
-         ng-click="vm.toggleSidenav('right-sidenav')">
+         ng-click="vm.toggleSidenav({ navID: 'right-sidenav' })">
       <div layout="row"
            layout-align="start center"
            ng-if="vm.currentUser.type === vm.userType.CLIENT">
@@ -49,7 +49,7 @@
       </md-button>
       <md-menu-content width="3">
         <md-menu-item>
-          <md-button ng-click="vm.toggleSidenav('right-sidenav')"
+          <md-button ng-click="vm.toggleSidenav({ navID: 'right-sidenav' })"
                      aria-label="vm.currentUser.type === vm.userType.CLIENT ? 'Contact Info' : 'Request Info'">
             <span ng-bind="vm.currentUser.type === vm.userType.CLIENT ? 'Contact Info' : 'Request Info'"></span>
           </md-button>

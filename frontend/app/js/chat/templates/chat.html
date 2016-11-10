@@ -23,45 +23,19 @@
                    ng-click="vm.toggleSidenav('left-sidenav')">Select contact to start the chat!..
         </md-button>
       </div>
-      <div class="chat"
-           flex
-           layout="column"
-           ng-if="(vm.selectedTab === 'bids' && vm.currentBid) || vm.currentChat">
-        <div flex
-             layout="column"
-             ng-include="vm.selectedTab === 'bids' && vm.currentBid ?
-                         'chat/templates/bid-content.html' : 'chat/templates/chat-content.html'">
-        </div>
-        <div class="chat-footer flex-noshrink"
-             flex
-             layout="row"
-             layout-align="center center">
-          <form class="reply-form"
-                name="replyForm"
-                flex
-                layout="row"
-                layout-align="start center"
-                ng-submit="vm.reply(null, vm.replyMessage[vm.currentChat.id], vm.currentChat, vm.currentRequest)">
-            <md-input-container flex md-no-float>
-              <textarea placeholder="Type and hit enter to send message"
-                        md-no-autogrow
-                        ng-if="vm.selectedTab === 'chats' || !vm.currentBid"
-                        ng-class="{ 'grow': vm.textareaGrow[vm.currentChat.id] }"
-                        ng-keydown="vm.reply($event, vm.replyMessage[vm.currentChat.id], vm.currentChat, vm.currentRequest)"
-                        ng-model="vm.replyMessage[vm.currentChat.id]">
-              </textarea>
-            </md-input-container>
-            <md-button type="submit"
-                       class="md-button-blue md-fab"
-                       ng-disabled="(vm.selectedTab === 'bids' && vm.currentBid) ||
-                       vm.currentRequest.status === vm.requestStatus.CLOSED ||
-                       (vm.currentRequest.status !== vm.requestStatus.NEW && vm.currentRequest.executor.id !== vm.currentChat.specialist.id)"
-                       aria-label="Send message">
-              <i class="material-icons">send</i>
-            </md-button>
-          </form>
-        </div>
-      </div>
+      <chat-messages flex
+                     layout="column"
+                     ng-if="(vm.selectedTab === 'bids' && vm.currentBid) || vm.currentChat"
+                     chats="vm.chats"
+                     bids="vm.bids"
+                     messages="vm.messages"
+                     current-user="vm.currentUser"
+                     current-request="vm.currentRequest"
+                     selected-tab="vm.selectedTab"
+                     current-chat="vm.currentChat"
+                     current-bid="vm.currentBid"
+                     toggle-sidenav="vm.toggleSidenav(navID)">
+      </chat-messages>
       <md-sidenav class="sidenav right-sidenav md-sidenav-right"
                   layout="column"
                   md-component-id="right-sidenav"

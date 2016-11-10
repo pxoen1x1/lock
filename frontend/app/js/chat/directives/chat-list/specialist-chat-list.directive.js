@@ -14,12 +14,10 @@
             scope: {
                 chats: '=',
                 messages: '=',
-                pagination: '=',
                 currentChat: '=',
                 currentRequest: '=?',
                 isScrollDisabled: '=?scrollChatDisabled',
                 isScrollToBottomEnabled: '=?scrollChatToBottom',
-                loadPrevMessages: '&',
                 changeCurrentRequest: '&'
             },
             replace: true,
@@ -90,24 +88,11 @@
 
             vm.changeCurrentRequest({request: currentChat.request});
 
-            if (!vm.pagination.messages[currentChat.id]) {
-                vm.pagination.messages[currentChat.id] = {
-                    currentPageNumber: 1,
-                    totalCount: 0
-                };
-            }
-
             vm.isScrollDisabled = true;
             vm.isScrollToBottomEnabled = true;
 
             if (!$mdMedia('gt-md')) {
                 $mdSidenav('left-sidenav').close();
-            }
-
-            if (!vm.messages[currentChat.id]) {
-                vm.messages[currentChat.id] = [];
-
-                vm.loadPrevMessages({currentChat: currentChat});
             }
         }
 
