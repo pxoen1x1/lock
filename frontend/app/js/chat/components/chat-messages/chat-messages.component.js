@@ -56,6 +56,7 @@
         vm.userType = coreConstants.USER_TYPES;
         vm.requestStatus = coreConstants.REQUEST_STATUSES;
         vm.defaultPortrait = coreConstants.IMAGES.defaultPortrait;
+        vm.fileUploaderOptions = coreConstants.FILE_UPLOADER_OPTIONS;
 
         vm.isScrollDisabled = true;
         vm.isScrollToBottomEnabled = true;

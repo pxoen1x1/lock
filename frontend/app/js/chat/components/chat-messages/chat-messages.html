@@ -27,14 +27,24 @@
                         ng-model="vm.replyMessage[vm.currentChat.id]">
               </textarea>
       </md-input-container>
-      <md-button type="submit"
-                 class="md-button-blue md-fab"
-                 ng-disabled="(vm.selectedTab === 'bids' && vm.currentBid) ||
+      <div ng-class="{ disabled: (vm.selectedTab === 'bids' && vm.currentBid) ||
                        vm.currentRequest.status === vm.requestStatus.CLOSED ||
-                       (vm.currentRequest.status !== vm.requestStatus.NEW && vm.currentRequest.executor.id !== vm.currentChat.specialist.id)"
-                 aria-label="Send message">
-        <i class="material-icons">send</i>
-      </md-button>
+                      (vm.currentRequest.status !== vm.requestStatus.NEW && vm.currentRequest.executor.id !== vm.currentChat.specialist.id) }">
+        <md-button type="button"
+                   class="md-button-blue md-fab md-mini"
+                   aria-label="Load Photo"
+                   file-uploader
+                   is-single-file="true"
+                   allowed-extensions="{{ vm.fileUploaderOptions.allowedFileExtensions.images }}"
+                   max-size="{{ vm.fileUploaderOptions.maxFileSize }}">
+          <i class="material-icons">insert_photo</i>
+        </md-button>
+        <md-button type="submit"
+                   class="md-button-blue md-fab"
+                   aria-label="Send Message">
+          <i class="material-icons">send</i>
+        </md-button>
+      </div>
     </form>
   </div>
 </div>
