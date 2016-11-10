@@ -71,7 +71,9 @@
             scroll-chat-disabled="vm.isScrollDisabled"
             scroll-chat-to-bottom="vm.isScrollToBottomEnabled">
   <div class="chat-messages"
-       layout="column">
+       flex
+       layout="column"
+       layout-align="end stretch">
     <div class="chat-message"
          ng-repeat="message in vm.messages[vm.currentChat.id] | orderBy : 'updatedAt' track by message.id">
       <message-chat message="message"

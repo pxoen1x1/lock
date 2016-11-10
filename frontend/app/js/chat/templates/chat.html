@@ -29,6 +29,7 @@
            ng-if="(vm.selectedTab === 'bids' && vm.currentBid) || vm.currentChat">
         <div flex
              layout="column"
+             layout-align="space-between stretch"
              ng-include="vm.selectedTab === 'bids' && vm.currentBid ?
                          'chat/templates/bid-content.html' : 'chat/templates/chat-content.html'">
         </div>
