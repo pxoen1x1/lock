@@ -14,13 +14,11 @@
             scope: {
                 chats: '=',
                 messages: '=',
-                pagination: '=',
                 currentRequest: '=',
                 currentChat: '=',
                 isScrollDisabled: '=?scrollChatDisabled',
                 isScrollToBottomEnabled: '=?scrollChatToBottom',
-                selectSpecialist: '&',
-                loadPrevMessages: '&'
+                selectSpecialist: '&'
             },
             replace: true,
             templateUrl: 'chat/directives/chat-list/client-chat-list.html'
@@ -56,13 +54,10 @@
 
         function listenMessageEvent() {
             chatSocketservice.onMessage(function (message, type) {
-                if (type !== 'create' || !message || !message.chat || !message.chat.id) {
+                if (type !== 'create' || !message || !message.chat || !message.chat.id ||
+                    !angular.isArray(vm.messages[message.chat.id])) {
 
                     return;
-                }
-
-                if (!angular.isArray(vm.messages[message.chat.id])) {
-                    vm.messages[message.chat.id] = [];
                 }
 
                 vm.messages[message.chat.id].push(message);
@@ -85,24 +80,11 @@
 
             vm.selectSpecialist({specialist: currentChat.specialist});
 
-            if (!vm.pagination.messages[currentChat.id]) {
-                vm.pagination.messages[currentChat.id] = {
-                    currentPageNumber: 1,
-                    totalCount: 0
-                };
-            }
-
             vm.isScrollDisabled = true;
             vm.isScrollToBottomEnabled = true;
 
             if (!$mdMedia('gt-md')) {
                 $mdSidenav('left-sidenav').close();
-            }
-
-            if (!vm.messages[currentChat.id]) {
-                vm.messages[currentChat.id] = [];
-
-                vm.loadPrevMessages({currentChat: currentChat});
             }
         }
 

@@ -39,23 +39,19 @@
   <client-chat-list ng-if="vm.currentRequest.id && vm.currentUser.type === vm.userType.CLIENT"
                     chats="vm.chats"
                     messages="vm.messages"
-                    pagination="vm.pagination"
                     current-request="vm.currentRequest"
                     current-chat="vm.currentChat"
                     scroll-chat-disabled="vm.isScrollDisabled"
                     scroll-chat-to-bottom="vm.isScrollToBottomEnabled"
-                    select-specialist="vm.selectSpecialist(specialist)"
-                    load-prev-messages="vm.loadPrevMessages(currentChat)">
+                    select-specialist="vm.selectSpecialist(specialist)">
   </client-chat-list>
   <specialist-chat-list ng-if="vm.currentUser.type === vm.userType.SPECIALIST"
                         chats="vm.chats"
                         messages="vm.messages"
-                        pagination="vm.pagination"
                         current-request="vm.currentRequest"
                         current-chat="vm.currentChat"
                         scroll-chat-disabled="vm.isScrollDisabled"
                         scroll-chat-to-bottom="vm.isScrollToBottomEnabled"
-                        load-prev-messages="vm.loadPrevMessages(currentChat)"
                         change-current-request="vm.changeCurrentRequest(request)">
   </specialist-chat-list>
 </div>
