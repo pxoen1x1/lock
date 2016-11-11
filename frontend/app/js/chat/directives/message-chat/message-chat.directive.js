@@ -30,8 +30,6 @@
         function link(scope, element) {
             var vm = scope.vm;
 
-            vm.userType = coreConstants.USER_TYPES;
-
             var messageTemplate = getMessageTemplate(vm.message);
 
             if (!messageTemplate) {
@@ -50,6 +48,15 @@
                 if (messageType === vm.messageType.AGREEMENT && vm.currentUser.type === vm.userType.CLIENT) {
 
                     return;
+                }
+
+                var regexImage = /^.+\.(?:jpg|jpeg|png|gif)$/;
+
+                vm.isImage = regexImage.test(message.message);
+
+                if (vm.isImage) {
+
+                    return $templateCache.get('chat/directives/message-chat/message-chat.html');
                 }
 
                 switch (messageType) {
@@ -73,6 +80,8 @@
     /* @ngInject */
     function MessageChatController(coreConstants, chatConstants, conf) {
         var vm = this;
+
+        vm.isImage = false;
 
         vm.baseUrl = conf.BASE_URL;
         vm.defaultPortrait = coreConstants.IMAGES.defaultPortrait;

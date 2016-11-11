@@ -34,9 +34,12 @@
                    class="md-button-blue md-fab md-mini"
                    aria-label="Load Photo"
                    file-uploader
+                   auto-upload="true"
+                   upload-file-url="{{ vm.baseUrl + '/api/chats/' + vm.currentChat.id + '/messages/file' }}"
                    is-single-file="true"
                    allowed-extensions="{{ vm.fileUploaderOptions.allowedFileExtensions.images }}"
-                   max-size="{{ vm.fileUploaderOptions.maxFileSize }}">
+                   max-size="{{ vm.fileUploaderOptions.maxFileSize }}"
+                   on-file-loaded="vm.onFileLoaded(file)">
           <i class="material-icons">insert_photo</i>
         </md-button>
         <md-button type="submit"

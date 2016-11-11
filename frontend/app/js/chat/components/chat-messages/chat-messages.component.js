@@ -67,6 +67,7 @@
         vm.acceptOffer = acceptOffer;
         vm.openOfferDialog = openOfferDialog;
         vm.reply = reply;
+        vm.onFileLoaded = onFileLoaded;
 
         activate();
 
@@ -251,6 +252,19 @@
         function clearReplyMessage(currentChat) {
             vm.replyMessage[currentChat.id] = '';
             vm.textareaGrow[currentChat.id] = false;
+        }
+
+        function onFileLoaded(response) {
+            var file = response.files[0];
+            var message = {
+                message: vm.baseUrl + file.fd,
+                sender: vm.currentUser,
+                updatedAt: (new Date()).toISOString()
+            };
+
+            vm.messages[vm.currentChat.id].push(message);
+
+            return sendMessage(vm.currentChat, {message: message});
         }
 
         function activate() {
