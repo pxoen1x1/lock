@@ -155,8 +155,14 @@ module.exports.policies = {
             'isUserEnabled',
             'isChatMember'
         ],
-        'create': [
+        'createMessage': [
             'isSocketRequest',
+            'hasJsonWebToken',
+            'isUserEnabled',
+            'isRequestAllowed',
+            'isChatMember'
+        ],
+        'uploadFile': [
             'hasJsonWebToken',
             'isUserEnabled',
             'isRequestAllowed',

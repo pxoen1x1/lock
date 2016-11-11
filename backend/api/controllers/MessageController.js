@@ -57,7 +57,7 @@ let MessageController = {
                 }
             );
     },
-    create(req, res) {
+    createMessage(req, res) {
         let params = req.allParams();
 
         let chat = req.params.chat;
@@ -119,6 +119,44 @@ let MessageController = {
                     return res.serverError();
                 }
             );
+    },
+    uploadFile(req, res) {
+        let chat = req.params.chat;
+
+        if (!chat) {
+
+            return res.badRequest(
+                {
+                    message: req.__('Submitted data is invalid.')
+                }
+            );
+        }
+
+        let dir = `assets/uploads/chats/${chat}/`;
+
+        req.file('file').upload({
+            dirname: require('path').resolve(sails.config.appPath, dir)
+        }, function (err, uploadedFiles) {
+            if (err) {
+                sails.log.error(err);
+
+                return res.serverError();
+            }
+
+            uploadedFiles = uploadedFiles.map((uploadedFile)=> {
+
+                return {
+                    fd: uploadedFile.fd.replace(/.+\/assets/, ''),
+                    filename: uploadedFile.filename,
+                    size: uploadedFile.size,
+                    type: uploadedFile.type
+                };
+            });
+
+            res.created({
+                files: uploadedFiles
+            });
+        });
     }
 };
 
