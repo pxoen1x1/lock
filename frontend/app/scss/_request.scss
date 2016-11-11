@@ -157,6 +157,11 @@
       .item {
         border-left: 0;
         border-right: 0;
+
+        .contact-name {
+          text-overflow: ellipsis;
+          overflow: hidden;
+        }
       }
 
       .item:first-child {
@@ -281,6 +286,8 @@
       font-size: 18px;
       font-weight: 500;
       padding-left: 24px;
+      text-overflow: ellipsis;
+      overflow: hidden;
     }
 
     .cost {

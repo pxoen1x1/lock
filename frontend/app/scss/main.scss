@@ -216,6 +216,11 @@ md-content {
   white-space: nowrap;
 }
 
+.text-truncate-multiline {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 /* start scroll */
 
 ::-webkit-scrollbar {
