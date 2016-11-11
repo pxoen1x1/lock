@@ -7,14 +7,15 @@
               md-whiteframe="4"
               layout="column"
               flex>
-
   </md-sidenav>
   <div layout="column" flex>
     <div class="header" ui-view="header"></div>
     <div class="content-wrapper" flex>
       <md-content class="content anim-in-out anim-fade"
-                  ui-view="content"
-                  data-anim-speed="400">
+                  data-anim-speed="400"
+                  layout="column"
+                  flex
+                  ui-view="content">
       </md-content>
     </div>
   </div>

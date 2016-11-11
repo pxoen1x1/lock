@@ -82,8 +82,12 @@
         </div>
       </div>
     </div>
-    <md-content class="chat-map">
-      <specialist-map-viewer selected-request="vm.currentRequest"></specialist-map-viewer>
+    <md-content class="chat-map" layout="column">
+      <specialist-map-viewer class="map-viewer"
+                             layout="column"
+                             flex
+                             selected-request="vm.currentRequest">
+      </specialist-map-viewer>
     </md-content>
   </md-card-content>
   <md-card-actions layout="row" layout-align="end center">

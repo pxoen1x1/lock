@@ -68,12 +68,9 @@
 
         function listenChatEvent() {
             chatSocketservice.onChat(function (chat, type) {
-                if (type !== 'create') {
-
-                    return;
+                if (type === 'create') {
+                    vm.chats.unshift(chat);
                 }
-
-                vm.chats.unshift(chat);
             });
         }
 

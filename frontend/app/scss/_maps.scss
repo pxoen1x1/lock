@@ -4,7 +4,7 @@
 }
 
 .map-wrapper {
-  background: url('https://maps.gstatic.com/tactile/pane/spinner_color.gif');
+  background: url('/images/spinner_color.gif');
   background-position: center center;
   background-repeat: no-repeat;
 }
@@ -19,19 +19,27 @@
   z-index: 100;
 }
 
-.map-viewer,
-.map-content {
-  height: 100%;
+.view-content {
+  .container-content {
+    .map-wrapper {
+      min-height: 250px;
+    }
+  }
 }
 
-.map-wrapper,
-.angular-google-map-container {
+.map-viewer {
   position: relative;
   width: 100%;
-  height: 300px;
-  border-radius: 10px;
-  overflow: hidden;
 
+  > .angular-google-map {
+    position: absolute;
+    width: 100%;
+  }
+}
+
+.angular-google-map,
+.angular-google-map-container {
+  height: 100%;
 }
 
 .angular-google-map-container {
@@ -41,7 +49,6 @@
 
     button {
       margin: 0 4px 4px 0;
-
       min-width: 76px;
       min-height: 34px;
       border-radius: 3px;
@@ -74,16 +81,8 @@
   }
 }
 
-.map-content {
-  &.container {
-    height: auto;
-  }
-
-  .container-content {
-    &, .angular-google-map-container {
-      height: 400px;
-    }
-  }
+.container.map-content {
+  min-height: 384px;
 
   .actions {
     font-size: 15px;
@@ -94,47 +93,19 @@
   }
 
   .map-wrapper {
-    &, .angular-google-map, .angular-google-map-container {
-      height: 100%;
-      border-radius: 0;
-    }
+    position: relative;
 
     .list.card.map-card {
       position: absolute;
-      left: 50%;
-      bottom: 16px;
-      width: 70%;
+      bottom: 0;
+      width: 100%;
       margin: 0;
-      opacity: 0;
       background-color: #FFF;
-      -webkit-transform: translate(-50%, -15%);
-      -moz-transform: translate(-50%, 0) scaleY(0);
-      -ms-transform: translate(-50%, 0) scaleY(0);
-      -o-transform: translate(-50%, 0) scaleY(0);
-      transform: translate(-50%, 0) scaleY(0);
-      -webkit-transition: all 0.2s ease;
-      -moz-transition: all 0.2s ease;
-      -ms-transition: all 0.2s ease;
-      -o-transition: all 0.2s ease;
-      transition: all 0.2s ease;
-    }
-
-    .list.card.map-card.show {
-      opacity: 1;
-      -webkit-transform: translate(-50%, 0);
-      -moz-transform: translate(-50%, 0);
-      -ms-transform: translate(-50%, 0);
-      -o-transform: translate(-50%, 0);
-      transform: translate(-50%, 0);
     }
   }
 
   .map-card-provider {
     padding: 10px 10px 10px 20px;
-
-    .right {
-      margin-right: 20px;
-    }
 
     .star-rating {
       color: rgba(29, 177, 239, 1);
@@ -188,6 +159,23 @@
 
     .close:hover {
       opacity: 1;
+    }
+  }
+}
+
+@media only screen and (max-device-width: 600px) {
+  .customer, .provider, .group, .admin {
+    .content {
+      .container {
+        &.map-content {
+          overflow: hidden;
+          min-height: 0;
+
+          .container-content {
+            padding: 0;
+          }
+        }
+      }
     }
   }
 }

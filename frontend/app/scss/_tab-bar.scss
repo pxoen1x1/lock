@@ -22,6 +22,9 @@
   height: 100%;
 
   .title {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
     font-size: 12px;
   }
 
@@ -45,5 +48,4 @@
   a.active {
     color: $primary-color;
   }
-
 }

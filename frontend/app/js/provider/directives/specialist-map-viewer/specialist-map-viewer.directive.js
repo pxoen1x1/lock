@@ -245,8 +245,10 @@
                 setCurrentMarkerCenter(startLocation.latitude, startLocation.longitude);
                 setRequestMarkerCenter(endLocation.latitude, endLocation.longitude);
 
-                directionsDisplay.setDirections(response);
-                directionsDisplay.setMap(map);
+                $scope.$applyAsync(function () {
+                    directionsDisplay.setDirections(response);
+                    directionsDisplay.setMap(map);
+                });
 
                 setMapCenter(startLocation.latitude, startLocation.longitude);
 

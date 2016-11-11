@@ -38,11 +38,11 @@
         <h3 class="m-t-none m-b-none">Reviews:</h3>
       </md-card-title>
       <md-card-content>
-        <div class="m-b-s"
+        <div class="m-b-sm"
              layout="column"
              layout-align="center none"
              ng-repeat="review in vm.reviews[vm.selectedSpecialist.id] track by review.id">
-          <div class="m-b-s"
+          <div class="m-b-sm"
                flex
                layout="row"
                layout-align="start center">
@@ -57,7 +57,7 @@
             </div>
           </div>
           <div ng-bind="review.message"></div>
-          <div class="m-t-s"
+          <div class="m-t-sm"
                layout="row"
                layout-align="end center">
             <star-rating class="md-accent-fg"

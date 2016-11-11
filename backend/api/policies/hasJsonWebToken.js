@@ -15,6 +15,10 @@ module.exports = function (req, res, next) {
     AuthService.getUserByToken(req)
         .then(
             (user) => {
+                if(!user) {
+                    throw new Error();
+                }
+
                 // valid request
                 if (!req.session) {
                     req.session = {};

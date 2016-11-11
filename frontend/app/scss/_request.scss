@@ -17,8 +17,8 @@
 }
 
 .request-list-content {
-  md-table-container {
-    max-height: 600px;
+  .container-content {
+    overflow: auto;
   }
 
   tr {
@@ -119,9 +119,6 @@
 
   /* cards for mobile */
   & .cards {
-    height: 95%;
-    overflow: auto;
-
     .list {
       position: relative;
       padding-top: 1px;
@@ -130,14 +127,6 @@
       margin-bottom: 20px;
       display: block;
       color: inherit;
-    }
-
-    .list:last-child {
-      margin-bottom: 0;
-    }
-
-    .list:last-child.card {
-      margin-bottom: 40px;
     }
 
     .list-header {
@@ -264,7 +253,8 @@
   }
 
   .info-row {
-    padding-left: 20px;
+    overflow: auto;
+    padding-left: 10px;
   }
 
   .info-column {
