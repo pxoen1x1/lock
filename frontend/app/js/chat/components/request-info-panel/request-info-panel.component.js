@@ -1,10 +1,10 @@
 (function () {
     'use strict';
 
-    var requestInfoConfig = {
-        controller: RequestInfoController,
+    var requestInfoPanelConfig = {
+        controller: RequestInfoPanelController,
         controllerAs: 'vm',
-        templateUrl: 'chat/components/request-info/request-info.html',
+        templateUrl: 'chat/components/request-info-panel/request-info-panel.html',
         replace: true,
         bindings: {
             selectedRequest: '=',
@@ -14,12 +14,12 @@
 
     angular
         .module('app.chat')
-        .component('requestInfo', requestInfoConfig);
+        .component('requestInfoPanel', requestInfoPanelConfig);
 
-    RequestInfoController.$inject = ['coreConstants'];
+    RequestInfoPanelController.$inject = ['coreConstants'];
 
     /* @ngInject */
-    function RequestInfoController(coreConstants) {
+    function RequestInfoPanelController(coreConstants) {
         var vm = this;
 
         vm.dateFormat = coreConstants.DATE_FORMAT;
