@@ -577,3 +577,46 @@
     }
   }
 }
+
+@media only screen and (max-device-width: 600px) {
+  .chat-app {
+    .center {
+      .content-card {
+        .chat {
+          .chat-footer {
+            .reply-form {
+              .md-button {
+                margin: 0 0 5px 0;
+
+                &.md-fab {
+                  width: 32px;
+                  height: 32px;
+                  min-height: 20px;
+                  line-height: 32px;
+
+                  .material-icons {
+                    font-size: 14px;
+                    min-width: 14px;
+                    min-height: 14px;
+                  }
+
+                  &.md-mini {
+                    width: 26px;
+                    height: 26px;
+                    line-height: 26px;
+
+                    .material-icons {
+                      font-size: 12px;
+                      min-width: 12px;
+                      min-height: 12px;
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
