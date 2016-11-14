@@ -27,7 +27,8 @@
                         ng-model="vm.replyMessage[vm.currentChat.id]">
               </textarea>
       </md-input-container>
-      <div ng-class="{ disabled: (vm.selectedTab === 'bids' && vm.currentBid) ||
+      <div layout="row" layout-xs="column" layout-align=" center center"
+           ng-class="{ disabled: (vm.selectedTab === 'bids' && vm.currentBid) ||
                        vm.currentRequest.status === vm.requestStatus.CLOSED ||
                       (vm.currentRequest.status !== vm.requestStatus.NEW && vm.currentRequest.executor.id !== vm.currentChat.specialist.id) }">
         <md-button type="button"
