@@ -11,10 +11,10 @@
       <span ng-bind="vm.message.message"></span>
     </div>
     <a class="message-image"
-       ng-href="{{ vm.message.message }}"
+       ng-href="{{ vm.baseUrl + vm.message.message }}"
        target="_blank"
        ng-if="vm.isImage">
-      <div ng-style="{ 'background-image': 'url(' + vm.message.message + ')' }"></div>
+      <div ng-style="{ 'background-image': 'url(' + vm.baseUrl + vm.message.message + ')' }"></div>
     </a>
     <div class="time secondary-text">
       <span ng-bind="vm.message.updatedAt | altDate"></span>

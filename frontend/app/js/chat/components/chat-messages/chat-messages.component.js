@@ -257,7 +257,7 @@
         function onFileLoaded(response) {
             var file = response.files[0];
             var message = {
-                message: vm.baseUrl + file.fd,
+                message: file.fd,
                 sender: vm.currentUser,
                 updatedAt: (new Date()).toISOString()
             };
