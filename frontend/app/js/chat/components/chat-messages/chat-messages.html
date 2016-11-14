@@ -32,16 +32,19 @@
                        vm.currentRequest.status === vm.requestStatus.CLOSED ||
                       (vm.currentRequest.status !== vm.requestStatus.NEW && vm.currentRequest.executor.id !== vm.currentChat.specialist.id) }">
         <md-button type="button"
-                   class="md-button-blue md-fab md-mini"
+                   class="md-button-blue md-mini"
                    aria-label="Load Photo"
                    file-uploader
+                   file-uploader-disabled="(vm.selectedTab === 'bids' && vm.currentBid) ||
+                       vm.currentRequest.status === vm.requestStatus.CLOSED ||
+                      (vm.currentRequest.status !== vm.requestStatus.NEW && vm.currentRequest.executor.id !== vm.currentChat.specialist.id)"
                    auto-upload="true"
                    upload-file-url="{{ vm.baseUrl + '/api/chats/' + vm.currentChat.id + '/messages/file' }}"
                    is-single-file="true"
                    allowed-extensions="{{ vm.fileUploaderOptions.allowedFileExtensions.images }}"
                    max-size="{{ vm.fileUploaderOptions.maxFileSize }}"
                    on-file-loaded="vm.onFileLoaded(file)">
-          <i class="material-icons">insert_photo</i>
+          <i class="material-icons">photo</i>
         </md-button>
         <md-button type="submit"
                    class="md-button-blue md-fab"
