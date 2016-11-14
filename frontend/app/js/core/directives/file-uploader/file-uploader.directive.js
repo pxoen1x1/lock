@@ -20,6 +20,7 @@
                 isSingleFile: '@',
                 isMultipleSelection: '@',
                 autoUpload: '@',
+                isDisabled: '=?fileUploaderDisabled',
                 onFileLoaded: '&?',
                 onFail: '&?',
                 selectedFileSrc: '=?',
@@ -49,6 +50,11 @@
             element.after(inputElement);
 
             element.on('click', function () {
+                if (vm.isDisabled) {
+
+                    return;
+                }
+
                 element.next()[0].click();
             });
         }
