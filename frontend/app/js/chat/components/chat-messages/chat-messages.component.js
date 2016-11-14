@@ -139,6 +139,8 @@
             if (!vm.messages[currentChat.id]) {
                 vm.messages[currentChat.id] = [];
 
+                vm.isScrollDisabled = true;
+
                 return loadPrevMessages(currentChat);
             }
         }
