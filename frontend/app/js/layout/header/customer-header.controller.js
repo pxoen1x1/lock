@@ -15,6 +15,7 @@
 
         vm.toggleMenu = toggleMenu;
         vm.isAuthenticated = authService.isAuthenticated;
+        vm.logout = authService.logout;
 
         activate();
 
