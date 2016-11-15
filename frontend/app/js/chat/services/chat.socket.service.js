@@ -25,6 +25,7 @@
             onChat: onChat,
             onBid: onBid,
             onMessage: onMessage,
+            offRequest: offRequest,
             offBid: offBid,
         };
 
@@ -173,6 +174,10 @@
             socketService.listener('message', function (event) {
                 next(event.message, event.type);
             });
+        }
+
+        function offRequest(handler) {
+            socketService.stopListener('request', handler);
         }
 
         function offBid(handler) {
