@@ -58,6 +58,36 @@ let ChatController = {
                 }
             );
     },
+    getSpecialistChatByRequest(req, res) {
+        let requestId = req.params.requestId;
+        let specialist = req.session.user.id;
+
+        if (!requestId) {
+
+            return res.badRequest(
+                {
+                    message: req.__('Submitted data is invalid.')
+                }
+            );
+        }
+
+        Chat.findOne({request: requestId, specialist: specialist})
+            .populateAll()
+            .then(
+                (chat) => res.ok(
+                    {
+                        chat: chat
+                    }
+                )
+            )
+            .catch(
+                (err) => {
+                    sails.log.error(err);
+
+                    return res.serverError();
+                }
+            );
+    },
     createChat(req, res) {
         let params = req.allParams();
 
