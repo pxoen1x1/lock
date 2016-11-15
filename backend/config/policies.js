@@ -99,12 +99,6 @@ module.exports.policies = {
             'hasJsonWebToken',
             'isUserEnabled'
         ],
-        'getClientChats': [
-            'isSocketRequest',
-            'hasJsonWebToken',
-            'isUserEnabled',
-            'isRequestOwner'
-        ],
         'createChat': [
             'isSocketRequest',
             'hasJsonWebToken',

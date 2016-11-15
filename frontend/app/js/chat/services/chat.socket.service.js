@@ -26,7 +26,9 @@
             onBid: onBid,
             onMessage: onMessage,
             offRequest: offRequest,
+            offChat: offChat,
             offBid: offBid,
+            offMessage: offMessage
         };
 
         return service;
@@ -180,8 +182,16 @@
             socketService.stopListener('request', handler);
         }
 
+        function offChat(handler) {
+            socketService.stopListener('chat', handler);
+        }
+
         function offBid(handler) {
             socketService.stopListener('bid', handler);
+        }
+
+        function offMessage(handler) {
+            socketService.stopListener('message', handler);
         }
     }
 })();

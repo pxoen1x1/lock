@@ -4,7 +4,7 @@
          flex
          layout="row">
       <div class="start-point"
-           ng-if="vm.currentRequest.status === vm.requestStatus.NEW"
+           ng-if="!vm.currentChat.id"
            flex
            layout="column"
            layout-align="center center">
@@ -15,25 +15,28 @@
           Chat has not been started.
         </span>
       </div>
-      <chat-messages flex
-                     layout="column"
-                     ng-if="vm.currentRequest.status !== vm.requestStatus.NEW"
-                     messages="vm.messages"
-                     current-user="vm.currentUser"
-                     current-request="vm.currentRequest"
-                     selected-tab="vm.selectedTab"
-                     current-chat="vm.currentChat"
-                     toggle-sidenav="vm.toggleSidenav(navID)">
-      </chat-messages>
-      <md-sidenav class="sidenav right-sidenav md-sidenav-right"
-                  layout="column"
-                  md-component-id="right-sidenav"
-                  md-is-open="vm.isInfoTabOpen">
-        <request-info-panel selected-request="vm.currentRequest"
-                            toggle-sidenav="vm.toggleSidenav(navID)"
-                            ng-if="vm.isInfoTabOpen">
-        </request-info-panel>
-      </md-sidenav>
+      <div flex
+           layout="column"
+           ng-if="vm.currentChat.id">
+        <chat-messages flex
+                       layout="column"
+                       messages="vm.messages"
+                       current-user="vm.currentUser"
+                       current-request="vm.currentRequest"
+                       selected-tab="vm.selectedTab"
+                       current-chat="vm.currentChat"
+                       toggle-sidenav="vm.toggleSidenav(navID)">
+        </chat-messages>
+        <md-sidenav class="sidenav right-sidenav md-sidenav-right"
+                    layout="column"
+                    md-component-id="right-sidenav"
+                    md-is-open="vm.isInfoTabOpen">
+          <request-info-panel selected-request="vm.currentRequest"
+                              toggle-sidenav="vm.toggleSidenav(navID)"
+                              ng-if="vm.isInfoTabOpen">
+          </request-info-panel>
+        </md-sidenav>
+      </div>
     </div>
   </div>
 </div>

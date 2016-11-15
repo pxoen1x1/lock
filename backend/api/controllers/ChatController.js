@@ -12,6 +12,7 @@
 let ChatController = {
     getClientChats(req, res) {
         let requestId = req.params.requestId;
+        let client = req.session.user.id;
 
         if (!requestId) {
 
@@ -22,7 +23,7 @@ let ChatController = {
             );
         }
 
-        ChatService.getChats({request_id: requestId})
+        ChatService.getChats({request_id: requestId, client_id: client})
             .then(
                 (chats) => res.ok(
                     {

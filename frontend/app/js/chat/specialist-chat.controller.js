@@ -18,6 +18,7 @@
     function SpecialistChatController($scope, $mdSidenav, coreConstants, coreDataservice, chatSocketservice,
                                       currentUserService) {
         var requestHandler;
+        var chatHandler;
         var promises = {
             getRequest: null
         };
@@ -48,18 +49,9 @@
             return currentUserService.getUser()
                 .then(function (currentUser) {
                     vm.currentUser = currentUser;
+                    vm.currentUser.type = coreConstants.USER_TYPES.SPECIALIST;
 
                     return vm.currentUser;
-                });
-        }
-
-        function getCurrentUserType() {
-
-            return currentUserService.getType()
-                .then(function (currentUserType) {
-                    vm.currentUser.type = currentUserType;
-
-                    return currentUserType;
                 });
         }
 
@@ -117,6 +109,15 @@
                 });
         }
 
+
+        function listenChatEvent() {
+            chatHandler = chatSocketservice.onChat(function (chat, type) {
+                if (type === 'create') {
+                    vm.chats.unshift(chat);
+                }
+            });
+        }
+
         function updateRequest(request) {
             if (!request) {
 
@@ -136,12 +137,14 @@
 
         function activate() {
             getCurrentUser()
-                .then(getCurrentUserType);
-
-            listenRequestEvent();
+                .then(function () {
+                    listenRequestEvent();
+                    listenChatEvent();
+                });
 
             $scope.$on('$destroy', function () {
                 chatSocketservice.offRequest(requestHandler);
+                chatSocketservice.offChat(chatHandler);
             });
         }
     }
