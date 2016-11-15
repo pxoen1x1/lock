@@ -34,6 +34,8 @@
         vm.selectedTab = 'chats';
         vm.isInfoTabOpen = false;
 
+        vm.requestStatus = coreConstants.REQUEST_STATUSES;
+
         vm.toggleSidenav = toggleSidenav;
 
         activate();

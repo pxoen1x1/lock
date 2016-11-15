@@ -3,8 +3,21 @@
     <div class="content-card"
          flex
          layout="row">
+      <div class="start-point"
+           ng-if="vm.currentRequest.status === vm.requestStatus.NEW"
+           flex
+           layout="column"
+           layout-align="center center">
+        <div class="big-circle md-whiteframe-4dp">
+          <i class="material-icons s128 md-accent">textsms</i>
+        </div>
+        <span class="secondary-text m-t-md">
+          Chat has not been started.
+        </span>
+      </div>
       <chat-messages flex
                      layout="column"
+                     ng-if="vm.currentRequest.status !== vm.requestStatus.NEW"
                      messages="vm.messages"
                      current-user="vm.currentUser"
                      current-request="vm.currentRequest"
