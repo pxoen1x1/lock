@@ -7,22 +7,17 @@
 
     ClientChatController.$inject = [
         '$q',
-        '$state',
         '$stateParams',
         '$mdSidenav',
         'coreConstants',
-        'coreDataservice',
         'currentUserService',
-        'chatSocketservice',
         'currentRequestService',
-        'conf'
     ];
 
     /* @ngInject */
-    function ClientChatController($q, $state, $stateParams, $mdSidenav, coreConstants, coreDataservice,
-                                  currentUserService, chatSocketservice, currentRequestService, conf) {
+    function ClientChatController($q, $stateParams, $mdSidenav, coreConstants, currentUserService,
+                                  currentRequestService) {
         var currentRequestId = $stateParams.requestId;
-        var chatPaginationOptions = coreConstants.CHAT_PAGINATION_OPTIONS;
         var vm = this;
 
         vm.chats = [];
@@ -35,32 +30,15 @@
         vm.currentBid = null;
 
         vm.currentRequest = {};
-        vm.pagination = {
-            messages: {},
-            reviews: {}
-        };
-        vm.isAllMessagesLoaded = {};
-
-        vm.replyMessage = {};
-        vm.textareaGrow = {};
-
-        vm.isScrollDisabled = true;
-        vm.isScrollToBottomEnabled = true;
 
         vm.leftSidenavView = false;
         vm.selectedTab = 'chats';
 
-        vm.baseUrl = conf.BASE_URL;
-        vm.defaultPortrait = coreConstants.IMAGES.defaultPortrait;
         vm.requestStatus = coreConstants.REQUEST_STATUSES;
         vm.userType = coreConstants.USER_TYPES;
 
         vm.toggleSidenav = toggleSidenav;
-        vm.loadPrevMessages = loadPrevMessages;
-        vm.loadPrevReviews = loadPrevReviews;
-        vm.acceptOffer = acceptOffer;
         vm.selectSpecialist = selectSpecialist;
-        vm.reply = reply;
 
         activate();
 
@@ -95,174 +73,9 @@
                 });
         }
 
-        function loadMessages(chat, params) {
-
-            return chatSocketservice.getMessages(chat, params)
-                .then(function (messages) {
-
-                    return messages;
-                });
-        }
-
-        function loadPrevMessages(currentChat) {
-            currentChat = currentChat || vm.currentChat;
-
-            if ((!currentChat || !currentChat.id) || vm.isAllMessagesLoaded[currentChat.id]) {
-
-                return;
-            }
-
-            var params = {
-                limit: chatPaginationOptions.limit,
-                page: vm.pagination.messages[currentChat.id].currentPageNumber
-            };
-
-            return loadMessages(currentChat, params)
-                .then(function (messages) {
-                    if (!angular.isArray(vm.messages[currentChat.id])) {
-                        vm.messages[currentChat.id] = [];
-                    }
-
-                    vm.messages[currentChat.id] = vm.messages[currentChat.id].concat(messages.items);
-
-                    vm.pagination.messages[currentChat.id].totalCount = messages.totalCount;
-                    vm.isAllMessagesLoaded[currentChat.id] =
-                        vm.pagination.messages[currentChat.id].currentPageNumber * chatPaginationOptions.limit >=
-                        vm.pagination.messages[currentChat.id].totalCount;
-
-                    vm.pagination.messages[currentChat.id].currentPageNumber++;
-
-                    vm.isScrollDisabled = false;
-
-                    return vm.messages[currentChat.id];
-                });
-        }
-
-        function loadPrevReviews() {
-            if (!vm.pagination.reviews[vm.selectedSpecialist.id]) {
-                vm.pagination.reviews[vm.selectedSpecialist.id] = {
-                    page: 1,
-                    totalCount: 0,
-                    isAllReviewsLoad: false
-                };
-            }
-
-            if (vm.pagination.reviews[vm.selectedSpecialist.id].isAllReviewsLoad) {
-
-                return $q.reject;
-            }
-
-            var params = {
-                limit: coreConstants.PAGINATION_OPTIONS.limit,
-                page: vm.pagination.reviews[vm.selectedSpecialist.id].page
-            };
-
-            return chatSocketservice.getReviews(vm.selectedSpecialist, params)
-                .then(function (reviews) {
-                    if (!angular.isArray(vm.reviews[vm.selectedSpecialist.id])) {
-                        vm.reviews[vm.selectedSpecialist.id] = [];
-                    }
-
-                    vm.reviews[vm.selectedSpecialist.id] =
-                        vm.reviews[vm.selectedSpecialist.id].concat(reviews.items);
-
-                    vm.pagination.reviews[vm.selectedSpecialist.id].isAllReviewsLoad = reviews.totalCount <=
-                        vm.pagination.reviews[vm.selectedSpecialist.id].page * coreConstants.PAGINATION_OPTIONS.limit;
-                    vm.pagination.reviews[vm.selectedSpecialist.id].totalCount = reviews.totalCount;
-
-                    vm.pagination.reviews[vm.selectedSpecialist.id].page++;
-
-                    return vm.reviews[vm.selectedSpecialist.id];
-                });
-        }
-
-        function sendMessage(chat, message) {
-
-            return chatSocketservice.sendMessage(chat, message)
-                .then(function (message) {
-
-                    return message;
-                });
-        }
-
-        function acceptOffer(offer, message) {
-            if ((!vm.currentRequest || !vm.currentRequest.id) || (!offer || !offer.executor || !offer.cost)) {
-
-                return $q.reject();
-            }
-
-            var request = {
-                request: offer
-            };
-
-            message = {
-                message: message
-            };
-
-            return sendMessage(vm.currentChat, message)
-                .then(function () {
-
-                    return coreDataservice.acceptOffer(vm.currentRequest.id, request);
-
-                })
-                .then(function (updatedRequest) {
-                    vm.currentRequest = updatedRequest;
-                    currentRequestService.setRequest(updatedRequest);
-
-                    $state.go('customer.requests.request.view');
-
-                    return vm.currentRequest;
-                });
-        }
 
         function selectSpecialist(specialist) {
             vm.selectedSpecialist = specialist;
-
-            if (!vm.reviews[specialist.id]) {
-                loadPrevReviews(specialist);
-            }
-        }
-
-        function reply(event, replyMessage, currentChat, currentRequest) {
-            if ((event && event.shiftKey && event.keyCode === 13) ||
-                currentRequest.status === vm.requestStatus.CLOSED ||
-                (currentRequest.status !== vm.requestStatus.NEW &&
-                currentRequest.executor.id !== currentChat.specialist.id)) {
-
-                vm.textareaGrow[currentChat.id] = true;
-
-                return;
-            }
-
-            if (!event || event.keyCode === 13) {
-                if (!replyMessage) {
-                    clearReplyMessage(currentChat);
-
-                    return;
-                }
-
-                var message = {
-                    message: {
-                        message: replyMessage
-                    }
-                };
-
-                return sendMessage(currentChat, message)
-                    .then(function (message) {
-                        if (!angular.isArray(vm.messages[currentChat.id])) {
-                            vm.messages[currentChat.id] = [];
-                        }
-
-                        vm.messages[currentChat.id].push(message);
-
-                        clearReplyMessage(currentChat);
-                    });
-            }
-        }
-
-        function clearReplyMessage(currentChat) {
-            vm.replyMessage[currentChat.id] = '';
-            vm.textareaGrow[currentChat.id] = false;
         }
 
         function toggleSidenav(navID) {

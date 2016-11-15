@@ -6,23 +6,21 @@
         .controller('SpecialistChatController', SpecialistChatController);
 
     SpecialistChatController.$inject = [
+        '$scope',
         '$mdSidenav',
-        '$mdDialog',
         'coreConstants',
         'coreDataservice',
         'chatSocketservice',
-        'currentUserService',
-        'geocoderService',
-        'conf'
+        'currentUserService'
     ];
 
     /* @ngInject */
-    function SpecialistChatController($mdSidenav, $mdDialog, coreConstants, coreDataservice,
-                                      chatSocketservice, currentUserService, geocoderService, conf) {
+    function SpecialistChatController($scope, $mdSidenav, coreConstants, coreDataservice, chatSocketservice,
+                                      currentUserService) {
+        var requestHandler;
         var promises = {
             getRequest: null
         };
-        var chatPaginationOptions = coreConstants.CHAT_PAGINATION_OPTIONS;
         var vm = this;
 
         vm.chats = [];
@@ -33,31 +31,15 @@
         vm.currentChat = null;
         vm.currentBid = null;
 
-        vm.pagination = {
-            messages: {}
-        };
-
-        vm.isAllMessagesLoaded = {};
-
-        vm.replyMessage = {};
-        vm.textareaGrow = {};
-
         vm.isInfoTabOpen = false;
-        vm.isScrollDisabled = true;
-        vm.isScrollToBottomEnabled = true;
 
         vm.selectedTab = 'chats';
-        vm.baseUrl = conf.BASE_URL;
-        vm.defaultPortrait = coreConstants.IMAGES.defaultPortrait;
+
         vm.requestStatus = coreConstants.REQUEST_STATUSES;
         vm.userType = coreConstants.USER_TYPES;
 
         vm.toggleSidenav = toggleSidenav;
-        vm.loadPrevMessages = loadPrevMessages;
         vm.changeCurrentRequest = changeCurrentRequest;
-        vm.openOfferDialog = openOfferDialog;
-        vm.updateRequestStatus = updateRequestStatus;
-        vm.reply = reply;
 
         activate();
 
@@ -82,7 +64,7 @@
         }
 
         function listenRequestEvent() {
-            chatSocketservice.onRequest(function (request, type, isBlast) {
+            requestHandler = chatSocketservice.onRequest(function (request, type, isBlast) {
                 if (type !== 'update') {
 
                     return;
@@ -98,15 +80,6 @@
             });
         }
 
-        function loadMessages(chat, params) {
-
-            return chatSocketservice.getMessages(chat, params)
-                .then(function (messages) {
-
-                    return messages;
-                });
-        }
-
         function getRequest(request) {
             if (promises.getRequest) {
                 promises.getRequest.cancel();
@@ -120,45 +93,6 @@
                 .then(function (response) {
 
                     return response.data.request;
-                });
-        }
-
-        function loadPrevMessages(currentChat) {
-            currentChat = currentChat || vm.currentChat;
-
-            if ((!currentChat || !currentChat.id) || vm.isAllMessagesLoaded[currentChat.id]) {
-
-                return;
-            }
-
-            var params = {
-                limit: chatPaginationOptions.limit,
-                page: vm.pagination.messages[currentChat.id].currentPageNumber
-            };
-
-            return loadMessages(currentChat, params)
-                .then(function (messages) {
-                    vm.messages[currentChat.id] = vm.messages[currentChat.id].concat(messages.items);
-
-                    vm.pagination.messages[currentChat.id].totalCount = messages.totalCount;
-                    vm.isAllMessagesLoaded[currentChat.id] =
-                        vm.pagination.messages[currentChat.id].currentPageNumber * chatPaginationOptions.limit >=
-                        vm.pagination.messages[currentChat.id].totalCount;
-
-                    vm.pagination.messages[currentChat.id].currentPageNumber++;
-
-                    vm.isScrollDisabled = false;
-
-                    return vm.messages[currentChat.id];
-                });
-        }
-
-        function sendMessage(chat, message) {
-
-            return chatSocketservice.sendMessage(chat, message)
-                .then(function (message) {
-
-                    return message;
                 });
         }
 
@@ -183,78 +117,6 @@
                 });
         }
 
-        function updateRequestStatus(request, status) {
-            if (!request || !status) {
-
-                return;
-            }
-
-            return coreDataservice.updateRequestStatus(request, status)
-                .then(function (updatedRequest) {
-                    if (updatedRequest.status === vm.requestStatus.IN_PROGRESS) {
-                        geocoderService.startGeoTracking();
-                    } else {
-                        geocoderService.stopGeoTracking();
-                    }
-
-                    return updatedRequest;
-                });
-        }
-
-        function openOfferDialog(currentChat) {
-
-            return $mdDialog.show({
-                templateUrl: 'chat/templates/offer-dialog.html',
-                controller: 'OfferDialogController',
-                controllerAs: 'vm'
-            })
-                .then(function (offer) {
-                    var message = {
-                        message: offer
-                    };
-
-                    return sendMessage(currentChat, message);
-                })
-                .then(function (message) {
-                    vm.messages[currentChat.id].push(message);
-
-                    return message;
-                });
-        }
-
-        function reply(event, replyMessage, currentChat, currentRequest) {
-            if ((event && event.shiftKey && event.keyCode === 13) ||
-                currentRequest.status === vm.requestStatus.CLOSED ||
-                (currentRequest.status !== vm.requestStatus.NEW &&
-                currentRequest.executor.id !== currentChat.specialist.id)) {
-
-                vm.textareaGrow[currentChat.id] = true;
-
-                return;
-            }
-
-            if (!event || event.keyCode === 13) {
-                if (!replyMessage) {
-                    clearReplyMessage(currentChat);
-
-                    return;
-                }
-
-                var message = {
-                    message: {
-                        message: replyMessage
-                    }
-                };
-
-                return sendMessage(currentChat, message)
-                    .then(function (message) {
-                        vm.messages[currentChat.id].push(message);
-
-                        clearReplyMessage(currentChat);
-                    });
-            }
-        }
-
         function updateRequest(request) {
             if (!request) {
 
@@ -268,11 +130,6 @@
             }
         }
 
-        function clearReplyMessage(currentChat) {
-            vm.replyMessage[currentChat.id] = '';
-            vm.textareaGrow[currentChat.id] = false;
-        }
-
         function toggleSidenav(navID) {
             $mdSidenav(navID).toggle();
         }
@@ -282,6 +139,10 @@
                 .then(getCurrentUserType);
 
             listenRequestEvent();
+
+            $scope.$on('$destroy', function () {
+                chatSocketservice.offRequest(requestHandler);
+            });
         }
     }
 })();

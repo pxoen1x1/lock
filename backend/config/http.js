@@ -9,6 +9,8 @@
  * http://sailsjs.org/#!/documentation/reference/sails.config/sails.config.http.html
  */
 
+'use strict';
+
 module.exports.http = {
 
     /****************************************************************************

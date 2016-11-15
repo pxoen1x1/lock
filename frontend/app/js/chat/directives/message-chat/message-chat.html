@@ -7,9 +7,16 @@
        vm.baseUrl + vm.message.sender.portrait : vm.defaultPortrait) + ')' }">
   </div>
   <div class="bubble">
-    <div class="message">
+    <div class="message"
+         ng-if="!vm.isImage">
       <span ng-bind="vm.message.message"></span>
     </div>
+    <a class="message-image"
+       ng-href="{{ vm.baseUrl + vm.message.message }}"
+       target="_blank"
+       ng-if="vm.isImage">
+      <div ng-style="{ 'background-image': 'url(' + vm.baseUrl + vm.message.message + ')' }"></div>
+    </a>
     <div class="time secondary-text">
       <span ng-bind="vm.message.updatedAt | altDate"></span>
     </div>

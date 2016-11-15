@@ -243,6 +243,22 @@
                 word-wrap: break-word;
               }
 
+              .message-image {
+                position: relative;
+                display: inline-block;
+                width: 100%;
+                height: 12em;
+
+                & > div {
+                  position: absolute;
+                  top: 0;
+                  height: 100%;
+                  width: 100%;
+                  background-position: center center;
+                  background-size: cover;
+                }
+              }
+
               .time {
                 font-size: 11px;
                 margin-top: 8px;
@@ -359,7 +375,22 @@
               }
             }
             .md-button {
-              margin: 0;
+              margin: 0 10px 0 0;
+
+              &.md-mini {
+                width: 36px;
+                height: 36px;
+                min-width: 26px;
+                min-height: 26px;
+                line-height: 36px;
+                padding: 0;
+                background-color: rgba(3, 155, 229, 0.7);
+                box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .26);
+
+                &:hover {
+                  background-color: rgba(3, 155, 229, 0.8);
+                }
+              }
             }
           }
         }
@@ -547,6 +578,40 @@
       &.chat-app {
         height: 100%;
         margin: 0;
+
+        .center {
+          .content-card {
+            .chat {
+              .chat-footer {
+                .reply-form {
+                  .md-button {
+                    margin: 0 0 5px 0;
+
+                    &.md-fab {
+                      width: 34px;
+                      height: 34px;
+                      min-width: 24px;
+                      min-height: 24px;
+                      line-height: 33px;
+
+                      .material-icons {
+                        font-size: 20px;
+                        min-width: 20px;
+                        min-height: 20px;
+                      }
+                    }
+
+                    &.md-mini {
+                      width: 24px;
+                      height: 24px;
+                      line-height: 23px;
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
       }
     }
   }

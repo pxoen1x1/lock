@@ -5,14 +5,16 @@
         .module('app.customer')
         .controller('CustomerHeaderController', CustomerHeaderController);
 
-    CustomerHeaderController.$inject = ['$rootScope', '$state', '$mdSidenav'];
+    CustomerHeaderController.$inject = ['$rootScope', '$state', '$mdSidenav', 'authService'];
 
     /* @ngInject */
-    function CustomerHeaderController($rootScope, $state, $mdSidenav) {
+    function CustomerHeaderController($rootScope, $state, $mdSidenav, authService) {
         var vm = this;
 
         vm.pageTitles = [];
+
         vm.toggleMenu = toggleMenu;
+        vm.isAuthenticated = authService.isAuthenticated;
 
         activate();
 

@@ -6,22 +6,18 @@ let fs = require('fs');
 let mkdirp = require('mkdirp');
 
 let FileService = {
-    readFile(filePath, optons) {
-        let promise = new Promise((resolve, reject) => {
-            fs.readFile(filePath, optons,
-                (err, file) => {
-                    if (err) {
+    saveImage(userId, image, dir) {
+        if (!image || !image.base64 || !dir) {
 
-                        return reject(err);
-                    }
+            return Promise.resolve();
+        }
 
-                    return resolve(file);
-                });
-        });
+        let filename = this._generateFileName(image.base64);
+        let path = this._getFilePath(userId, dir, filename);
 
-        return promise;
+        return this._uploadBase64File(image.base64, path);
     },
-    uploadBase64File(base64, path) {
+    _uploadBase64File(base64, path) {
         let matches = base64.match(/^data:image\/([A-Za-z-+\/]+);base64,(.+)$/);
         let base64Data = matches[2];
 
@@ -41,32 +37,21 @@ let FileService = {
 
         return promise;
     },
-    saveAvatar(userId, image) {
-        if (!image || !image.base64) {
-
-            return Promise.resolve();
-        }
-
-        let filename = this.generateFileName(image.base64);
-        let path = this.getFilePath(userId, 'avatars', filename);
-
-        return this.uploadBase64File(image.base64, path);
-    },
-    getFilePath(userId, dir, filename) {
+    _getFilePath(userId, dir, filename) {
         let path = `assets/uploads/users/${userId}/${dir}/`;
         
-        path = this.prepareDirectory(path);
+        path = this._prepareDirectory(path);
 
         return path + filename;
     },
-    generateFileName(base64) {
+    _generateFileName(base64) {
         let filename = HelperService.generateToken();
         let matches = base64.match(/^data:image\/([A-Za-z-+\/]+);base64,(.+)$/);
         let extension = matches[1];
 
         return `${filename}.${extension}`;
     },
-    prepareDirectory(path) {
+    _prepareDirectory(path) {
         try {
             mkdirp.sync(path, 0o755);
         } catch (err) {

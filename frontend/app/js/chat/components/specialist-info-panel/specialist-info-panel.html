@@ -1,14 +1,13 @@
 <div class="view contact-view"
      flex
-     layout="column"
-     ng-if="vm.currentUser.type === vm.userType.CLIENT">
+     layout="column">
   <md-toolbar class="md-accent">
     <div class="md-toolbar-tools md-toolbar-tools-top">
       <div>Contact Info</div>
       <div flex></div>
       <md-button class="md-icon-button"
                  aria-label="back"
-                 ng-click="vm.toggleSidenav('right-sidenav')">
+                 ng-click="vm.close()">
         <i class="material-icons">close</i>
       </md-button>
     </div>
@@ -72,7 +71,3 @@
     </md-card>
   </md-content>
 </div>
-<request-info selected-request="vm.currentRequest"
-              toggle-sidenav="vm.toggleSidenav(navID)"
-              ng-if="vm.currentUser.type !== vm.userType.CLIENT && vm.isInfoTabOpen">
-</request-info>

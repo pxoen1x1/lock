@@ -91,18 +91,14 @@ $panel-background-color: rgb(245, 245, 245);
     }
   }
 
-  &, &.md-button-blue,
-  &.md-button-green,
-  &.md-button-red {
-    .disabled &, &[disabled], &.disabled {
-      &, &:hover, &:focus {
-        cursor: default;
-        background-color: $disabled-background-color;
-        color: $disabled-color;
+  .disabled &, &[disabled], &.disabled {
+    &, &:hover, &:focus {
+      cursor: default;
+      background-color: $disabled-background-color !important;
+      color: $disabled-color !important;
 
-        .md-ripple-container {
-          display: none;
-        }
+      .md-ripple-container {
+        display: none;
       }
     }
   }

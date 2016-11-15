@@ -222,6 +222,24 @@
                         icon: 'location_on'
                     }
                 }
+            })
+            .state('provider.dashboard.request.chat', {
+                parent: 'provider.dashboard.request',
+                url: '/chat',
+                views: {
+                    'content@provider.dashboard.request': {
+                        templateUrl: 'provider/request-chat/request-chat.html',
+                        controller: 'SpecialistRequestChatController',
+                        controllerAs: 'vm'
+                    }
+                },
+                data: {
+                    title: 'Chat',
+                    tab: {
+                        title: 'Chat',
+                        icon: 'chat'
+                    }
+                }
             });
     }
 })();

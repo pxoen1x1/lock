@@ -5,10 +5,10 @@
         .module('app.chat')
         .directive('messageChat', messageChat);
 
-    messageChat.$inject = ['$compile', '$templateCache', 'coreConstants'];
+    messageChat.$inject = ['$compile', '$templateCache'];
 
     /* @ngInject */
-    function messageChat($compile, $templateCache, coreConstants) {
+    function messageChat($compile, $templateCache) {
         var directive = {
             bindToController: true,
             controller: MessageChatController,
@@ -30,8 +30,6 @@
         function link(scope, element) {
             var vm = scope.vm;
 
-            vm.userType = coreConstants.USER_TYPES;
-
             var messageTemplate = getMessageTemplate(vm.message);
 
             if (!messageTemplate) {
@@ -50,6 +48,15 @@
                 if (messageType === vm.messageType.AGREEMENT && vm.currentUser.type === vm.userType.CLIENT) {
 
                     return;
+                }
+
+                var regexImage = /^.+\.(?:jpg|jpeg|png|gif)$/;
+
+                vm.isImage = regexImage.test(message.message);
+
+                if (vm.isImage) {
+
+                    return $templateCache.get('chat/directives/message-chat/message-chat.html');
                 }
 
                 switch (messageType) {
@@ -74,11 +81,18 @@
     function MessageChatController(coreConstants, chatConstants, conf) {
         var vm = this;
 
+        vm.isImage = false;
+
         vm.baseUrl = conf.BASE_URL;
         vm.defaultPortrait = coreConstants.IMAGES.defaultPortrait;
         vm.requestStatus = coreConstants.REQUEST_STATUSES;
         vm.messageType = chatConstants.MESSAGE_TYPES;
         vm.userType = coreConstants.USER_TYPES;
+
+        vm.mapOptions = {
+            scrollwheel: false,
+            disableDoubleClickZoom: true
+        };
 
         vm.confirmOffer = confirmOffer;
         vm.changeRequestStatus = changeRequestStatus;

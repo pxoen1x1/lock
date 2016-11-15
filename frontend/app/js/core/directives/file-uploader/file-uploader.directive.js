@@ -20,7 +20,9 @@
                 isSingleFile: '@',
                 isMultipleSelection: '@',
                 autoUpload: '@',
-                onFail: '&',
+                isDisabled: '=?fileUploaderDisabled',
+                onFileLoaded: '&?',
+                onFail: '&?',
                 selectedFileSrc: '=?',
                 selectedFile: '=?',
                 uploadedFiles: '=?'
@@ -48,15 +50,20 @@
             element.after(inputElement);
 
             element.on('click', function () {
+                if (vm.isDisabled) {
+
+                    return;
+                }
+
                 element.next()[0].click();
             });
         }
     }
 
-    fileUploaderController.$inject = ['$scope', 'coreDataservice', 'FileUploader'];
+    fileUploaderController.$inject = ['$scope', 'coreDataservice', 'FileUploader', 'localService'];
 
     /* @ngInject */
-    function fileUploaderController($scope, coreDataservice, FileUploader) {
+    function fileUploaderController($scope, coreDataservice, FileUploader, localService) {
         var promiseRemoveFromQueue;
         var vm = this;
 
@@ -64,7 +71,6 @@
 
         vm.uploader.method = vm.method || 'POST';
         vm.uploader.url = vm.uploadFileUrl;
-        vm.uploader.formData = [vm.formData];
         vm.uploader.autoUpload = vm.autoUpload === 'true';
 
         vm.uploader.filters = [
@@ -116,6 +122,7 @@
 
             function onLoadFile(event) {
                 vm.selectedFileSrc = event.target.result;
+
                 $scope.$apply();
             }
 
@@ -130,6 +137,8 @@
             } else {
                 vm.uploadedFiles = response;
             }
+
+            vm.onFileLoaded({file: response});
         }
 
         function onWhenAddingFileFailed(fileItem, filter) {
@@ -164,6 +173,14 @@
         }
 
         function activate() {
+            var auth = localService.getAuth();
+
+            if (auth && auth.token) {
+                vm.uploader.headers = {
+                    Authorization: 'Bearer ' + auth.token
+                };
+            }
+
             if (vm.allowedExtensions) {
                 vm.allowedExtensionsStr = vm.allowedExtensions.replace(/(\w+)/g, '.$1,');
             }

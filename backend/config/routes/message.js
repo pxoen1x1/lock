@@ -7,7 +7,11 @@ let messageRoutes = {
     },
     'POST /api/chats/:chat/messages': {
         controller: 'MessageController',
-        action: 'create'
+        action: 'createMessage'
+    },
+    'POST /api/chats/:chat/messages/file' : {
+        controller: 'MessageController',
+        action: 'uploadFile'
     }
 };
 
