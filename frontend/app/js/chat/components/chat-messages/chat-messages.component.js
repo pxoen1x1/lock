@@ -7,14 +7,14 @@
         templateUrl: 'chat/components/chat-messages/chat-messages.html',
         replace: true,
         bindings: {
-            chats: '=',
-            bids: '=',
             messages: '=',
             currentUser: '=',
             currentRequest: '=',
             selectedTab: '=',
             currentChat: '=',
-            currentBid: '=',
+            currentBid: '=?',
+            chats: '=?',
+            bids: '=?',
             toggleSidenav: '&'
         }
     };

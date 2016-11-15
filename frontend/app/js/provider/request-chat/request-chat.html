@@ -1,0 +1,26 @@
+<div class="container request-content chat-app">
+  <div class="center">
+    <div class="content-card"
+         flex
+         layout="row">
+      <chat-messages flex
+                     layout="column"
+                     messages="vm.messages"
+                     current-user="vm.currentUser"
+                     current-request="vm.currentRequest"
+                     selected-tab="vm.selectedTab"
+                     current-chat="vm.currentChat"
+                     toggle-sidenav="vm.toggleSidenav(navID)">
+      </chat-messages>
+      <md-sidenav class="sidenav right-sidenav md-sidenav-right"
+                  layout="column"
+                  md-component-id="right-sidenav"
+                  md-is-open="vm.isInfoTabOpen">
+        <request-info-panel selected-request="vm.currentRequest"
+                            toggle-sidenav="vm.toggleSidenav(navID)"
+                            ng-if="vm.isInfoTabOpen">
+        </request-info-panel>
+      </md-sidenav>
+    </div>
+  </div>
+</div>
