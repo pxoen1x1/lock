@@ -21,6 +21,7 @@
     function SpecialistRequestChatController($scope, $q, $stateParams, $mdSidenav, coreConstants, coreDataservice,
                                              currentUserService, chatSocketservice, serviceProviderDataservice) {
         var requestHandler;
+        var chatHandler;
         var promises = {
             getRequest: null
         };
@@ -107,6 +108,16 @@
             });
         }
 
+        function listenChatEvent() {
+            chatHandler = chatSocketservice.onChat(function (chat, type) {
+                if (type === 'create') {
+                    if (vm.currentRequest.id === chat.request.id) {
+                        vm.currentChat = chat;
+                    }
+                }
+            });
+        }
+
         function toggleSidenav(navID) {
             $mdSidenav(navID).toggle();
         }
@@ -119,11 +130,13 @@
                 .then(function () {
                     listenRequestEvent();
 
-                    getCurrentChat(vm.currentRequest);
+                    getCurrentChat(vm.currentRequest)
+                        .then(listenChatEvent);
                 });
 
             $scope.$on('$destroy', function () {
                 chatSocketservice.offRequest(requestHandler);
+                chatSocketservice.offChat(chatHandler);
             });
         }
     }
