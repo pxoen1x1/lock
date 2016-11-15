@@ -71,6 +71,14 @@
   }
 
   .recommended-content {
+    md-card-title-text{
+      min-width: 0;
+
+      .md-headline{
+        word-wrap: break-word;
+      }
+    }
+
     .actions {
       font-size: 15px;
 

@@ -96,7 +96,7 @@
         <div class="item item-header" layout="row">
           <div layout="row"
                layout-align="start center"
-               flex="50">
+               flex>
             <div class="avatar-wrapper">
               <div class="avatar"
                    ng-style="{ 'background-image': 'url(' + (request.owner.portrait ?
@@ -108,7 +108,7 @@
             </div>
           </div>
           <div class="secondary-text"
-               flex="50"
+               flex="none"
                layout="row"
                layout-align="end center">
             <span ng-bind="request.createdAt | altDate"></span>

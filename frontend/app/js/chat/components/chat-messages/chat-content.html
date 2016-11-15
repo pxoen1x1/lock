@@ -2,6 +2,7 @@
   <div class="md-toolbar-tools">
     <md-button class="hide-gt-md responsive-chats-button md-icon-button"
                aria-label="chats button"
+               flex="none"
                ng-click="vm.toggleSidenav({ navID: 'left-sidenav' })">
       <i class="material-icons s28">textsms</i>
     </md-button>
@@ -67,14 +68,13 @@
   </div>
 </md-toolbar>
 <md-content class="chat-content"
-            flex
-            layout="column"
-            layout-align="end center"
             scroll-chat="vm.loadPrevMessages()"
             scroll-chat-disabled="vm.isScrollDisabled"
             scroll-chat-to-bottom="vm.isScrollToBottomEnabled">
   <div class="chat-messages"
-       layout="column">
+       flex
+       layout="column"
+       layout-align="end stretch">
     <div class="chat-message"
          ng-repeat="message in vm.messages[vm.currentChat.id] | orderBy : 'updatedAt' track by message.id">
       <message-chat message="message"
