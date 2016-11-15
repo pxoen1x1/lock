@@ -375,6 +375,7 @@
                 line-height: 36px;
                 padding: 0;
                 background-color: rgba(3, 155, 229, 0.7);
+                box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .26);
 
                 &:hover {
                   background-color: rgba(3, 155, 229, 0.8);
@@ -566,6 +567,40 @@
       &.chat-app {
         height: 100%;
         margin: 0;
+
+        .center {
+          .content-card {
+            .chat {
+              .chat-footer {
+                .reply-form {
+                  .md-button {
+                    margin: 0 0 5px 0;
+
+                    &.md-fab {
+                      width: 34px;
+                      height: 34px;
+                      min-width: 24px;
+                      min-height: 24px;
+                      line-height: 33px;
+
+                      .material-icons {
+                        font-size: 20px;
+                        min-width: 20px;
+                        min-height: 20px;
+                      }
+                    }
+
+                    &.md-mini {
+                      width: 24px;
+                      height: 24px;
+                      line-height: 23px;
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
       }
     }
   }
@@ -585,48 +620,6 @@
           .md-button {
             width: 200px;
             white-space: pre-line;
-          }
-        }
-      }
-    }
-  }
-}
-
-@media only screen and (max-device-width: 600px) {
-  .chat-app {
-    .center {
-      .content-card {
-        .chat {
-          .chat-footer {
-            .reply-form {
-              .md-button {
-                margin: 0 0 5px 0;
-
-                &.md-fab {
-                  width: 34px;
-                  height: 34px;
-                  min-width: 24px;
-                  min-height: 24px;
-                  line-height: 33px;
-
-                  .material-icons {
-                    font-size: 20px;
-                    min-width: 20px;
-                    min-height: 20px;
-                  }
-                }
-
-                &.md-mini {
-                  width: 24px;
-                  height: 24px;
-                  line-height: 23px;
-
-                  .material-icons {
-
-                  }
-                }
-              }
-            }
           }
         }
       }
