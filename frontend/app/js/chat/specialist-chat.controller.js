@@ -6,6 +6,7 @@
         .controller('SpecialistChatController', SpecialistChatController);
 
     SpecialistChatController.$inject = [
+        '$scope',
         '$mdSidenav',
         'coreConstants',
         'coreDataservice',
@@ -14,8 +15,9 @@
     ];
 
     /* @ngInject */
-    function SpecialistChatController($mdSidenav, coreConstants, coreDataservice, chatSocketservice,
+    function SpecialistChatController($scope, $mdSidenav, coreConstants, coreDataservice, chatSocketservice,
                                       currentUserService) {
+        var requestHandler;
         var promises = {
             getRequest: null
         };
@@ -62,7 +64,7 @@
         }
 
         function listenRequestEvent() {
-            chatSocketservice.onRequest(function (request, type, isBlast) {
+            requestHandler = chatSocketservice.onRequest(function (request, type, isBlast) {
                 if (type !== 'update') {
 
                     return;
@@ -137,6 +139,10 @@
                 .then(getCurrentUserType);
 
             listenRequestEvent();
+
+            $scope.$on('$destroy', function () {
+                chatSocketservice.offRequest(requestHandler);
+            });
         }
     }
 })();

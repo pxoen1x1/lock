@@ -12,6 +12,7 @@
         var service = {
             getRequests: getRequests,
             getRequest: getRequest,
+            getChatByRequest: getChatByRequest,
             checkRequestsStatus: checkRequestsStatus,
             updateLocation: updateLocation
         };
@@ -33,6 +34,18 @@
                 url: conf.BASE_URL + conf.URL_PREFIX + 'specialist/requests/' + currentRequest.id,
                 method: 'GET'
             });
+        }
+
+        function getChatByRequest(currentRequest) {
+            var url = conf.BASE_URL + conf.URL_PREFIX + 'specialist/requests/' + currentRequest.id + '/chat';
+
+            return $sails.get(url)
+                .then(getChatByRequestComplete);
+
+            function getChatByRequestComplete(response) {
+
+                return response.data.chat;
+            }
         }
 
         function checkRequestsStatus(status) {
