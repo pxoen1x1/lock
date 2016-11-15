@@ -76,7 +76,7 @@
   <div class="chat-messages"
        layout="column">
     <div class="chat-message"
-         ng-repeat="message in vm.messages[vm.currentChat.id] | orderBy : 'updatedAt' track by message.id">
+         ng-repeat="message in vm.messages[vm.currentChat.id] | orderBy : 'updatedAt' track by $index">
       <message-chat message="message"
                     current-user="vm.currentUser"
                     current-request="vm.currentRequest"
