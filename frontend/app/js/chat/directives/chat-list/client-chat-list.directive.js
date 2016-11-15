@@ -52,18 +52,6 @@
                 });
         }
 
-        function listenMessageEvent() {
-            chatSocketservice.onMessage(function (message, type) {
-                if (type !== 'create' || !message || !message.chat || !message.chat.id ||
-                    !angular.isArray(vm.messages[message.chat.id])) {
-
-                    return;
-                }
-
-                vm.messages[message.chat.id].push(message);
-            });
-        }
-
         function changeCurrentChat(currentChat) {
             if (currentChat === null) {
                 vm.currentChat = null;
@@ -89,8 +77,7 @@
         }
 
         function activate() {
-            getChats(vm.currentRequest)
-                .then(listenMessageEvent);
+            getChats(vm.currentRequest);
         }
     }
 })();
