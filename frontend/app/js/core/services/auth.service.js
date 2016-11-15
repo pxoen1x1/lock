@@ -29,7 +29,7 @@
 
         function isAuthenticated() {
 
-            return localService.getAuth() ? true : false;
+            return !!localService.getAuth();
         }
 
         function login(user) {
