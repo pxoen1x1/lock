@@ -30,7 +30,7 @@ module.exports = {
             server: {
                 baseDir: [paths.production]
             },
-            port: 9001
+            port: 9100
         }
     },
     copyfonts: {
