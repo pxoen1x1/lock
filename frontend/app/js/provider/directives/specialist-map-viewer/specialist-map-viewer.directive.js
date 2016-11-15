@@ -14,7 +14,7 @@
             restrict: 'E',
             scope: {
                 selectedRequest: '=',
-                mapOptions: '=?'
+                mapOptions: '<?'
             },
             templateUrl: 'provider/directives/specialist-map-viewer/specialist-map-viewer.html',
             replace: true
@@ -43,18 +43,21 @@
                 vm.isFullScreenMode = !vm.isFullScreenMode;
                 var sideBar = angular.element(document.querySelector('md-sidenav.menu'));
                 var headerToolbar = angular.element(document.querySelector('.header md-toolbar'));
+                var tabBar = angular.element(document.querySelector('.content tab-bar'));
 
                 if (vm.isFullScreenMode) {
                     sideBar.css('z-index', '1');
                     headerToolbar.css('z-index', '1');
+                    tabBar.css('z-index', '0');
                 } else {
                     sideBar.css('z-index', '');
                     headerToolbar.css('z-index', '');
+                    tabBar.css('z-index', '');
                 }
 
                 element.toggleClass('full-screen');
 
-                vm.refreshMap(vm.selectedRequest.location);
+                vm.refreshMap(vm.map.center);
             }
 
             scope.$on('$destroy', function () {
