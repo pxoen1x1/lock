@@ -20,7 +20,7 @@
 
         function authorize(access) {
             if (access) {
-
+                
                 return isAuthenticated();
             }
 
@@ -29,7 +29,7 @@
 
         function isAuthenticated() {
 
-            return localService.getAuth();
+            return localService.getAuth() ? true : false;
         }
 
         function login(user) {
