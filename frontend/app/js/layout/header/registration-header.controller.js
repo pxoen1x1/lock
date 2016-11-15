@@ -3,17 +3,16 @@
 
     angular
         .module('app.customer')
-        .controller('CustomerHeaderController', CustomerHeaderController);
+        .controller('RegistrationHeaderController', RegistrationHeaderController);
 
-    CustomerHeaderController.$inject = ['$rootScope', '$state', '$mdSidenav', 'authService'];
+    RegistrationHeaderController.$inject = ['$rootScope', '$state', 'authService'];
 
     /* @ngInject */
-    function CustomerHeaderController($rootScope, $state, $mdSidenav, authService) {
+    function RegistrationHeaderController($rootScope, $state, authService) {
         var vm = this;
 
         vm.pageTitles = [];
 
-        vm.toggleMenu = toggleMenu;
         vm.isAuthenticated = authService.isAuthenticated;
         vm.logout = authService.logout;
 
@@ -22,10 +21,6 @@
         $rootScope.$on('$stateChangeStart', function (fromState, toState, fromParams, toParams) {
             vm.pageTitles = createPageTitles(toState);
         });
-
-        function toggleMenu() {
-            $mdSidenav('left').toggle();
-        }
 
         function createPageTitles(state) {
             var pageTitles = [];

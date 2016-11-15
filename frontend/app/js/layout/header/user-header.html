@@ -26,33 +26,34 @@
     <span flex hide-gt-sm></span>
     <div ng-if="$mdMedia('gt-xs')">
       <md-button class="button-login"
-                ng-href="#"
                 aria-label="Log out"
-                ng-if="!vm.isAuthentificated()">
-        Log out
+                ui-sref="login"
+                ng-if="!vm.isAuthenticated()">
+                Log in
       </md-button>
       <md-button class="button-login"
-                ng-href="#"
                 aria-label="Log out"
-                ng-if="vm.isAuthentificated()">
-        Log in
+                ng-if="vm.isAuthenticated()"
+                ng-click="vm.logout()">
+                Log out
       </md-button>
     </div>
     <md-button class="md-icon-button button-menu"
-               hide-gt-xs ng-href="#"
                aria-label="Log in"
-               ng-if="!vm.isAuthentificated()">
+               hide-gt-xs
+               ui-sref="login"
+               ng-if="!vm.isAuthenticated()">
       <md-icon>
-        <i class="fa fa-sign-in fa-2x" aria-hidden="true"></i>
+        <i class="fa fa-sign-in" aria-hidden="true"></i>
       </md-icon>
     </md-button>
-    <md-button class="button-logout"
-               ng-href="#"
+    <md-button class="md-icon-button button-menu"
                aria-label="Log out"
                hide-gt-xs
-               ng-if="vm.isAuthentificated()">
+               ng-if="vm.isAuthenticated()"
+               ng-click="vm.logout()">
       <md-icon>
-        <i class="fa fa-sign-out fa-2x" aria-hidden="true"></i>
+        <i class="fa fa-sign-out" aria-hidden="true"></i>
       </md-icon>
     </md-button>
   </div>

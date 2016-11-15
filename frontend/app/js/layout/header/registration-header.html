@@ -12,15 +12,30 @@
     <h2 class="page-name">Locksmith / Registration</h2>
     <span flex></span>
     <md-button class="button-login"
-               ui-sref="login">
+               ui-sref="login"
+               ng-if="!vm.isAuthenticated()">
       Log in <i class="fa fa-sign-in" aria-hidden="true"></i>
+    </md-button>
+    <md-button class="button-login"
+               ng-click="vm.logout()"
+               ng-if="vm.isAuthenticated()">
+      Log out <i class="fa fa-sign-out" aria-hidden="true"></i>
     </md-button>
     <a class="button-login-min"
        aria-label="Log in"
        ui-sref="login"
        flex
-       layout-align="center center">
+       layout-align="center center"
+       ng-if="!vm.isAuthenticated()">
       <i class="fa fa-sign-in" aria-hidden="true"></i>
+    </a>
+    <a class="button-login-min"
+       aria-label="Log in"
+       ng-click="vm.logout()"
+       flex
+       layout-align="center center"
+       ng-if="vm.isAuthenticated()">
+      <i class="fa fa-sign-out" aria-hidden="true"></i>
     </a>
   </div>
 </md-toolbar>

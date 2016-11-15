@@ -45,7 +45,9 @@
                         controllerAs: 'vm'
                     },
                     'header@customer.registration': {
-                        templateUrl: 'layout/header/registration-header.html'
+                        templateUrl: 'layout/header/registration-header.html',
+                        controller: 'RegistrationHeaderController',
+                        controllerAs: 'vm'
                     }
                 }
             })
