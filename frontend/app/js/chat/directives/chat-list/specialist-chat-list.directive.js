@@ -52,14 +52,6 @@
                 });
         }
 
-        function listenChatEvent() {
-            chatSocketservice.onChat(function (chat, type) {
-                if (type === 'create') {
-                    vm.chats.unshift(chat);
-                }
-            });
-        }
-
         function changeCurrentChat(currentChat) {
             if (currentChat === null) {
                 vm.currentChat = null;
@@ -85,11 +77,7 @@
         }
 
         function activate() {
-            getChats()
-                .then(function () {
-                        listenChatEvent();
-                    }
-                );
+            getChats();
         }
     }
 })();
