@@ -7,21 +7,26 @@
             REGISTRATION_STEPS: [
                 {
                     id: 1,
+                    templateUrl: 'provider/registration/registration-agreement.html',
+                    title: 'agreement'
+                },
+                {
+                    id: 2,
                     templateUrl: 'provider/registration/registration-profile.html',
                     title: 'profile'
                 },
                 {
-                    id: 2,
+                    id: 3,
                     templateUrl: 'provider/registration/registration-service-information.html',
                     title: 'service'
                 },
                 {
-                    id: 3,
+                    id: 4,
                     templateUrl: 'provider/registration/registration-work-information.html',
                     title: 'work'
                 },
                 {
-                    id: 4,
+                    id: 5,
                     templateUrl: 'provider/registration/registration-payments-information.html',
                     title: 'payments'
                 }
