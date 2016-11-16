@@ -52,26 +52,6 @@
                 });
         }
 
-        function listenMessageEvent() {
-            chatSocketservice.onMessage(function (message, type) {
-                if (type !== 'create' || !message || !message.chat || !message.chat.id ||
-                    !angular.isArray(vm.messages[message.chat.id])) {
-
-                    return;
-                }
-
-                vm.messages[message.chat.id].push(message);
-            });
-        }
-
-        function listenChatEvent() {
-            chatSocketservice.onChat(function (chat, type) {
-                if (type === 'create') {
-                    vm.chats.unshift(chat);
-                }
-            });
-        }
-
         function changeCurrentChat(currentChat) {
             if (currentChat === null) {
                 vm.currentChat = null;
@@ -97,12 +77,7 @@
         }
 
         function activate() {
-            getChats()
-                .then(function () {
-                        listenMessageEvent();
-                        listenChatEvent();
-                    }
-                );
+            getChats();
         }
     }
 })();

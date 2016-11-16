@@ -17,9 +17,12 @@
         <div class="big-circle md-whiteframe-4dp">
           <i class="material-icons s128 md-accent">textsms</i>
         </div>
-        <span class="app-title">Chat App</span>
-        <span class="hide show-gt-md secondary-text">Select contact to start the chat!..</span>
-        <md-button class="md-raised hide-gt-md"
+        <span class="secondary-text m-t-md"
+              ng-if="$mdMedia('gt-md')">
+          Select contact to start the chat.
+        </span>
+        <md-button class="md-raised"
+                   ng-if="!$mdMedia('gt-md')"
                    ng-click="vm.toggleSidenav('left-sidenav')">Select contact to start the chat!..
         </md-button>
       </div>
@@ -45,8 +48,8 @@
                                ng-if="vm.currentUser.type === vm.userType.CLIENT">
         </specialist-info-panel>
         <request-info-panel selected-request="vm.currentRequest"
-                      toggle-sidenav="vm.toggleSidenav(navID)"
-                      ng-if="vm.currentUser.type !== vm.userType.CLIENT && vm.isInfoTabOpen">
+                            toggle-sidenav="vm.toggleSidenav(navID)"
+                            ng-if="vm.currentUser.type !== vm.userType.CLIENT && vm.isInfoTabOpen">
         </request-info-panel>
       </md-sidenav>
     </div>

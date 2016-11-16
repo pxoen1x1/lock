@@ -47,18 +47,9 @@
             return currentUserService.getUser()
                 .then(function (currentUser) {
                     vm.currentUser = currentUser;
+                    vm.currentUser.type = coreConstants.USER_TYPES.CLIENT;
 
                     return vm.currentUser;
-                });
-        }
-
-        function getCurrentUserType() {
-
-            return currentUserService.getType()
-                .then(function (currentUserType) {
-                    vm.currentUser.type = currentUserType;
-
-                    return currentUserType;
                 });
         }
 
@@ -86,10 +77,7 @@
             $q.all([
                 getCurrentUser(),
                 getRequest(currentRequestId)
-            ])
-                .then(function () {
-                    getCurrentUserType();
-                });
+            ]);
         }
     }
 })();

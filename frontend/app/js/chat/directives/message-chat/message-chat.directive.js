@@ -5,10 +5,10 @@
         .module('app.chat')
         .directive('messageChat', messageChat);
 
-    messageChat.$inject = ['$compile', '$templateCache', 'coreConstants'];
+    messageChat.$inject = ['$compile', '$templateCache'];
 
     /* @ngInject */
-    function messageChat($compile, $templateCache, coreConstants) {
+    function messageChat($compile, $templateCache) {
         var directive = {
             bindToController: true,
             controller: MessageChatController,
@@ -88,6 +88,11 @@
         vm.requestStatus = coreConstants.REQUEST_STATUSES;
         vm.messageType = chatConstants.MESSAGE_TYPES;
         vm.userType = coreConstants.USER_TYPES;
+
+        vm.mapOptions = {
+            scrollwheel: false,
+            disableDoubleClickZoom: true
+        };
 
         vm.confirmOffer = confirmOffer;
         vm.changeRequestStatus = changeRequestStatus;

@@ -7,14 +7,14 @@
         templateUrl: 'chat/components/chat-messages/chat-messages.html',
         replace: true,
         bindings: {
-            chats: '=',
-            bids: '=',
             messages: '=',
             currentUser: '=',
             currentRequest: '=',
             selectedTab: '=',
             currentChat: '=',
-            currentBid: '=',
+            currentBid: '=?',
+            chats: '=?',
+            bids: '=?',
             toggleSidenav: '&'
         }
     };
@@ -39,6 +39,7 @@
     /* @ngInject */
     function ChatMessagesController($scope, $q, $state, $mdDialog, coreConstants, coreDataservice, chatSocketservice,
                                     currentRequestService, geocoderService, conf) {
+        var messageHandler;
         var isAllMessagesLoaded = {};
         var pagination = {
             messages: {}
@@ -143,6 +144,18 @@
 
                 return loadPrevMessages(currentChat);
             }
+        }
+
+        function listenMessageEvent() {
+            messageHandler = chatSocketservice.onMessage(function (message, type) {
+                if (type !== 'create' || !message || !message.chat || !message.chat.id ||
+                    !angular.isArray(vm.messages[message.chat.id])) {
+
+                    return;
+                }
+
+                vm.messages[message.chat.id].push(message);
+            });
         }
 
         function updateRequestStatus(request, status) {
@@ -272,6 +285,8 @@
         function activate() {
             loadCurrentChatMessages(vm.currentChat);
 
+            listenMessageEvent();
+
             $scope.$watch('vm.currentChat.id', function (newCurrentChatId, oldCurrentChatId) {
                 if (!newCurrentChatId || newCurrentChatId === oldCurrentChatId) {
 
@@ -279,6 +294,10 @@
                 }
 
                 loadCurrentChatMessages(vm.currentChat);
+            });
+
+            $scope.$on('$destroy', function () {
+                chatSocketservice.offMessage(messageHandler);
             });
         }
     }
