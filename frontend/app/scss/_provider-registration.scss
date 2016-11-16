@@ -192,6 +192,12 @@
       color: $primary-color;
       cursor: pointer;
     }
+
+    .agreement-terms {
+      margin-bottom: 15px;
+      max-height: 70vh;
+      overflow-y: scroll;
+    }
   }
 
   @media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
