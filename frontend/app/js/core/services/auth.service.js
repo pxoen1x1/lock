@@ -20,7 +20,7 @@
 
         function authorize(access) {
             if (access) {
-
+                
                 return isAuthenticated();
             }
 
@@ -29,7 +29,7 @@
 
         function isAuthenticated() {
 
-            return localService.getAuth();
+            return !!localService.getAuth();
         }
 
         function login(user) {
@@ -52,10 +52,10 @@
 
             return coreDataservice.logout()
                 .then(function () {
-                    clearData();
 
                     return socketService.unsubscribe();
-                });
+                })
+                .then(clearData);
         }
 
         function register(user) {

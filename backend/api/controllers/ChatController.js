@@ -12,6 +12,7 @@
 let ChatController = {
     getClientChats(req, res) {
         let requestId = req.params.requestId;
+        let client = req.session.user.id;
 
         if (!requestId) {
 
@@ -22,7 +23,7 @@ let ChatController = {
             );
         }
 
-        ChatService.getChats({request_id: requestId})
+        ChatService.getChats({request_id: requestId, client_id: client})
             .then(
                 (chats) => res.ok(
                     {
@@ -47,6 +48,36 @@ let ChatController = {
                 (chats) => res.ok(
                     {
                         chats: chats
+                    }
+                )
+            )
+            .catch(
+                (err) => {
+                    sails.log.error(err);
+
+                    return res.serverError();
+                }
+            );
+    },
+    getSpecialistChatByRequest(req, res) {
+        let requestId = req.params.requestId;
+        let specialist = req.session.user.id;
+
+        if (!requestId) {
+
+            return res.badRequest(
+                {
+                    message: req.__('Submitted data is invalid.')
+                }
+            );
+        }
+
+        Chat.findOne({request: requestId, specialist: specialist})
+            .populateAll()
+            .then(
+                (chat) => res.ok(
+                    {
+                        chat: chat
                     }
                 )
             )

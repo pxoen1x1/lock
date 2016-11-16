@@ -20,7 +20,8 @@
         return service;
 
         function subscribe() {
-            $sails.post('/socket/subscribe')
+            
+            return $sails.post('/socket/subscribe')
                 .then(function (message) {
 
                     return message.data;
@@ -28,7 +29,8 @@
         }
 
         function unsubscribe() {
-            $sails.post('/socket/unsubscribe')
+
+            return $sails.post('/socket/unsubscribe')
                 .then(function (message) {
 
                     return message.data;

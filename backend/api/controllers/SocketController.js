@@ -16,7 +16,7 @@ let SocketController = {
 
         SocketService.subscribe(req.socket, roomName)
             .then(
-                ()=> res.ok(
+                () => res.ok(
                     {
                         message: req.__('Subscribed successfully.')
                     }
@@ -31,12 +31,11 @@ let SocketController = {
     unsubscribe(req, res) {
         let user = req.session.user;
 
-        JwtService.getTokenByOwner(user)
+        let roomName = `user_${user.id}`;
+
+        SocketService.unsubscribe(roomName)
             .then(
-                (token) => SocketService.unsubscribe(req, token)
-            )
-            .then(
-                ()=> res.ok(
+                () => res.ok(
                     {
                         message: req.__('Unsubscribed successfully.')
                     }
