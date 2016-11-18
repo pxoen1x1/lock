@@ -11,6 +11,9 @@
     /* @ngInject */
     function ProviderRegistrationController($q, $state, coreDataservice, coreConstants, coreDictionary,
                                             authService, serviceProviderConstants) {
+        var promises = {
+            getState: null
+        };
 
         var vm = this;
 
@@ -22,6 +25,7 @@
             }
         };
 
+        vm.states = [];
         vm.languages = [];
         vm.serviceTypes = [];
         vm.procedures = [];
@@ -61,6 +65,30 @@
                 });
         }
 
+        function getStates() {
+            if (promises.getStates) {
+                promises.getStates.cancel();
+            }
+
+            promises.getStates = coreDataservice.getStates();
+
+            return promises.getStates
+                .then(function (response) {
+                    vm.states = response.data.states;
+
+                    return vm.states;
+                });
+        }
+
+        function createUser(user) {
+
+            return authService.register(user)
+                .then(function () {
+
+                    $state.go('home');
+                });
+        }
+
         function goToNextStep(isStepValid) {
             vm.validSteps[vm.currentStep] = isStepValid;
 
@@ -85,6 +113,16 @@
                 return;
             }
 
+            getAddressLocation(user.user.address)
+                .then(function (location) {
+                    user.user.details.latitude = location.latitude;
+                    user.user.details.longitude = location.longitude;
+                })
+                .finally(function () {
+                    user.user.details.servicePrices = clearEmptyElements(user.user.details.servicePrices);
+
+                    createUser(user);
+                });
         }
 
         function clearEmptyElements(arr) {
@@ -105,6 +143,7 @@
             $q.all([
                 getLanguages(),
                 getServiceTypes(),
+                getStates()
             ])
                 .then(function () {
                     vm.user.user.details.servicePrices.push({});
