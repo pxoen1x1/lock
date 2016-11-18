@@ -17,6 +17,7 @@
 
         var MediaStreamTrack = $window.MediaStreamTrack;
         var SpeechRecognition = $window.SpeechRecognition || $window.webkitSpeechRecognition;
+        var language = $window.navigator.userLanguage || $window.navigator.language || 'en-US';
 
         var service = {
             isReady: isReady,
@@ -134,7 +135,7 @@
             if (!recognition) {
                 recognition = new SpeechRecognition();
 
-                recognition.lang = 'en-US';
+                recognition.lang = language;
                 recognition.interimResults = true;
             }
 
