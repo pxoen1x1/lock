@@ -6,14 +6,11 @@
         .controller('ProviderRegistrationController', ProviderRegistrationController);
 
     ProviderRegistrationController.$inject = ['$q', '$state', 'coreDataservice', 'coreConstants', 'coreDictionary',
-        'authService', 'serviceProviderConstants', 'citiesLoader', 'geocoderService'];
+        'authService', 'serviceProviderConstants'];
 
     /* @ngInject */
     function ProviderRegistrationController($q, $state, coreDataservice, coreConstants, coreDictionary,
-                                            authService, serviceProviderConstants, citiesLoader, geocoderService) {
-        var promises = {
-            getState: null
-        };
+                                            authService, serviceProviderConstants) {
 
         var vm = this;
 
@@ -25,9 +22,6 @@
             }
         };
 
-        vm.searchCity = '';
-        vm.states = [];
-        vm.cities = [];
         vm.languages = [];
         vm.serviceTypes = [];
         vm.procedures = [];
@@ -40,8 +34,6 @@
         vm.validSteps = {};
         vm.currentStep = 0;
 
-        vm.getCities = getCities;
-        vm.resetSelectedCity = resetSelectedCity;
         vm.goToNextStep = goToNextStep;
         vm.goToPrevStep = goToPrevStep;
         vm.goToStep = goToStep;
@@ -69,47 +61,6 @@
                 });
         }
 
-        function getStates() {
-            if (promises.getStates) {
-                promises.getStates.cancel();
-            }
-
-            promises.getStates = coreDataservice.getStates();
-
-            return promises.getStates
-                .then(function (response) {
-                    vm.states = response.data.states;
-
-                    return vm.states;
-                });
-        }
-
-        function getCities(state, query) {
-
-            return citiesLoader.getCities(state, query)
-                .then(function (cities) {
-                    vm.cities = cities;
-
-                    return vm.cities;
-                });
-        }
-
-        function resetSelectedCity() {
-            vm.user.user.address.city = null;
-            vm.searchCity = '';
-
-            citiesLoader.resetSelectedCity();
-        }
-
-        function createUser(user) {
-
-            return authService.register(user)
-                .then(function () {
-
-                    $state.go('home');
-                });
-        }
-
         function goToNextStep(isStepValid) {
             vm.validSteps[vm.currentStep] = isStepValid;
 
@@ -134,38 +85,6 @@
                 return;
             }
 
-            getAddressLocation(user.user.address)
-                .then(function (location) {
-                    user.user.details.latitude = location.latitude;
-                    user.user.details.longitude = location.longitude;
-                })
-                .finally(function () {
-                    user.user.details.servicePrices = clearEmptyElements(user.user.details.servicePrices);
-
-                    createUser(user);
-                });
-        }
-
-        function getAddressLocation(selectedAddress) {
-            if (!selectedAddress.city || !selectedAddress.address) {
-
-                return;
-            }
-
-            var address = selectedAddress.address + ', ' +
-                selectedAddress.city.city + ', ' +
-                selectedAddress.state.state;
-
-            return geocoderService.getCoordinates(address)
-                .then(function (location) {
-                    var resultLocation = {};
-
-                    resultLocation.latitude = location.lat();
-                    resultLocation.longitude = location.lng();
-                    resultLocation.address = address;
-
-                    return resultLocation;
-                });
         }
 
         function clearEmptyElements(arr) {
@@ -186,7 +105,6 @@
             $q.all([
                 getLanguages(),
                 getServiceTypes(),
-                getStates()
             ])
                 .then(function () {
                     vm.user.user.details.servicePrices.push({});
