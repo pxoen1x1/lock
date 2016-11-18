@@ -296,7 +296,7 @@
             var message = {
                 message: file.fd,
                 sender: vm.currentUser,
-                updatedAt: (new Date()).toISOString()
+                updatedAt: file.uploadedAt
             };
 
             vm.messages[vm.currentChat.id].push(message);
