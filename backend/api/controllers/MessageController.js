@@ -149,7 +149,8 @@ let MessageController = {
                     fd: uploadedFile.fd.replace(/.+\/assets/, ''),
                     filename: uploadedFile.filename,
                     size: uploadedFile.size,
-                    type: uploadedFile.type
+                    type: uploadedFile.type,
+                    uploadedAt: (new Date()).toISOString()
                 };
             });
 
