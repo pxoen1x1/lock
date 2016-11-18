@@ -52,10 +52,10 @@
 
             return coreDataservice.logout()
                 .then(function () {
-                    clearData();
 
                     return socketService.unsubscribe();
-                });
+                })
+                .then(clearData);
         }
 
         function register(user) {

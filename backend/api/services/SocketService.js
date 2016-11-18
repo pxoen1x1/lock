@@ -18,7 +18,7 @@ let SocketService = {
 
         return promise;
     },
-    leaveAll(roomName) {
+    unsubscribe(roomName) {
         let promise = new Promise((resolve, reject) => {
             sails.sockets.leaveAll(roomName,
                 (err) => {
