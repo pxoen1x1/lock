@@ -253,6 +253,8 @@
 }
 
 .view-content {
+  overflow: auto;
+
   .title {
     margin-bottom: 15px;
   }
