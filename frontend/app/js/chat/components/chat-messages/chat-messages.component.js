@@ -33,12 +33,13 @@
         'chatSocketservice',
         'currentRequestService',
         'geocoderService',
+        'speechRecognition',
         'conf'
     ];
 
     /* @ngInject */
     function ChatMessagesController($scope, $q, $state, $mdDialog, coreConstants, coreDataservice, chatSocketservice,
-                                    currentRequestService, geocoderService, conf) {
+                                    currentRequestService, geocoderService, speechRecognition, conf) {
         var messageHandler;
         var isAllMessagesLoaded = {};
         var pagination = {
@@ -61,6 +62,8 @@
 
         vm.isScrollDisabled = true;
         vm.isScrollToBottomEnabled = true;
+        vm.isMicrophoneAllowed = false;
+        vm.recognizing = false;
 
         vm.sendMessage = sendMessage;
         vm.loadPrevMessages = loadPrevMessages;
@@ -71,6 +74,25 @@
         vm.onFileLoaded = onFileLoaded;
 
         activate();
+
+        vm.start = function () {
+            if (vm.recognizing) {
+                vm.recognizing = false;
+
+                speechRecognition.stop();
+
+            } else {
+                vm.recognizing = true;
+
+                speechRecognition.start()
+                    .then(function (result) {
+                        vm.replyMessage[vm.currentChat.id] = result;
+                    })
+                    .finally(function () {
+                        vm.recognizing = false;
+                    });
+            }
+        };
 
         function sendMessage(chat, message) {
 
@@ -283,6 +305,11 @@
         }
 
         function activate() {
+            speechRecognition.isReady()
+                .then(function () {
+                    vm.isMicrophoneAllowed = true;
+                });
+
             loadCurrentChatMessages(vm.currentChat);
 
             listenMessageEvent();
