@@ -198,6 +198,10 @@
       max-height: 70vh;
       overflow-y: scroll;
     }
+
+    .md-block {
+      margin: 0 0;
+    }
   }
 
   @media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
