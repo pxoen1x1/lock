@@ -272,3 +272,21 @@
   -webkit-animation-name: slideOutDown;
   animation-name: slideOutDown;
 }
+
+.pulse {
+  animation-name: pulse;
+  animation-direction: alternate;
+  -webkit-animation-duration: 1.5s;
+  animation-duration: 1.5s;
+  animation-iteration-count: infinite;
+  animation-play-state: running;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(0);
+  }
+  100% {
+    transform: scale(1.1);
+  }
+}
