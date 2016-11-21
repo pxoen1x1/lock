@@ -22,11 +22,6 @@
                 },
                 {
                     id: 4,
-                    templateUrl: 'provider/registration/registration-work-information.html',
-                    title: 'work'
-                },
-                {
-                    id: 5,
                     templateUrl: 'provider/registration/registration-payments-information.html',
                     title: 'payments'
                 }
