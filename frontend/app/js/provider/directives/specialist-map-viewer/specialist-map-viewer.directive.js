@@ -351,13 +351,10 @@
         }
 
         function activate() {
+            initializeMap();
+
             getCurrentUser()
                 .then(function () {
-
-                    return initializeMap();
-                })
-                .then(function () {
-
                     refreshMap(vm.selectedRequest.location)
                         .then(function () {
                             vm.map.options = angular.extend(vm.map.options, vm.mapOptions);
