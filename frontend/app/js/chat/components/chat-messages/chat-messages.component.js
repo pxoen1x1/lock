@@ -72,27 +72,9 @@
         vm.openOfferDialog = openOfferDialog;
         vm.reply = reply;
         vm.onFileLoaded = onFileLoaded;
+        vm.startSpeechRecognition = startSpeechRecognition;
 
         activate();
-
-        vm.start = function () {
-            if (vm.recognizing) {
-                vm.recognizing = false;
-
-                speechRecognition.stop();
-
-            } else {
-                vm.recognizing = true;
-
-                speechRecognition.start()
-                    .then(function (result) {
-                        vm.replyMessage[vm.currentChat.id] = result;
-                    })
-                    .finally(function () {
-                        vm.recognizing = false;
-                    });
-            }
-        };
 
         function sendMessage(chat, message) {
 
@@ -304,15 +286,35 @@
             return sendMessage(vm.currentChat, {message: message});
         }
 
+        function startSpeechRecognition() {
+            if (vm.recognizing) {
+                vm.recognizing = false;
+
+                speechRecognition.stop();
+
+            } else {
+                vm.recognizing = true;
+
+                speechRecognition.start()
+                    .then(function (result) {
+                        vm.replyMessage[vm.currentChat.id] = result;
+                    })
+                    .finally(function () {
+                        vm.recognizing = false;
+                    });
+            }
+        }
+
         function activate() {
-            speechRecognition.isReady()
+            loadCurrentChatMessages(vm.currentChat)
+                .then(function () {
+                    listenMessageEvent();
+
+                    return speechRecognition.isReady();
+                })
                 .then(function () {
                     vm.isMicrophoneAllowed = true;
                 });
-
-            loadCurrentChatMessages(vm.currentChat);
-
-            listenMessageEvent();
 
             $scope.$watch('vm.currentChat.id', function (newCurrentChatId, oldCurrentChatId) {
                 if (!newCurrentChatId || newCurrentChatId === oldCurrentChatId) {
