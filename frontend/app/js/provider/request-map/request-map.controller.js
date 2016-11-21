@@ -6,6 +6,7 @@
         .controller('SpecialistRequestMapController', SpecialistRequestMapController);
 
     SpecialistRequestMapController.$inject = [
+        '$scope',
         '$stateParams',
         'coreConstants',
         'chatSocketservice',
@@ -14,8 +15,9 @@
     ];
 
     /* @ngInject */
-    function SpecialistRequestMapController($stateParams, coreConstants, chatSocketservice, currentRequestService,
-                                            conf) {
+    function SpecialistRequestMapController($scope, $stateParams, coreConstants, chatSocketservice,
+                                            currentRequestService, conf) {
+        var requestHandler;
         var currentRequestId = $stateParams.requestId;
 
         var vm = this;
@@ -43,13 +45,14 @@
         }
 
         function listenRequestEvent() {
-            chatSocketservice.onRequest(function (request, type) {
+            requestHandler = chatSocketservice.onRequest(function (request, type) {
                 if (type !== 'update' || vm.request.id !== request.id) {
 
                     return;
                 }
 
                 vm.request = request;
+                currentRequestService.setRequest(vm.request);
             });
         }
 
@@ -58,6 +61,10 @@
                 .then(function () {
                     listenRequestEvent();
                 });
+
+            $scope.$on('$destroy', function(){
+                chatSocketservice.offRequest(requestHandler);
+            });
         }
     }
 })();

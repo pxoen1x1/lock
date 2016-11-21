@@ -11,12 +11,13 @@
         'coreConstants',
         'coreDataservice',
         'chatSocketservice',
-        'currentUserService'
+        'currentUserService',
+        'currentRequestService'
     ];
 
     /* @ngInject */
     function SpecialistChatController($scope, $mdSidenav, coreConstants, coreDataservice, chatSocketservice,
-                                      currentUserService) {
+                                      currentUserService, currentRequestService) {
         var requestHandler;
         var chatHandler;
         var promises = {
@@ -128,6 +129,7 @@
 
             if (vm.currentRequest && vm.currentRequest.id === request.id) {
                 vm.currentRequest = request;
+                currentRequestService.setRequest(request);
             }
         }
 

@@ -14,12 +14,14 @@
         'coreDataservice',
         'currentUserService',
         'chatSocketservice',
-        'serviceProviderDataservice'
+        'serviceProviderDataservice',
+        'currentRequestService'
     ];
 
     /* @ngInject */
     function SpecialistRequestChatController($scope, $q, $stateParams, $mdSidenav, coreConstants, coreDataservice,
-                                             currentUserService, chatSocketservice, serviceProviderDataservice) {
+                                             currentUserService, chatSocketservice, serviceProviderDataservice,
+                                             currentRequestService) {
         var requestHandler;
         var chatHandler;
         var promises = {
@@ -93,25 +95,27 @@
 
         function listenRequestEvent() {
             requestHandler = chatSocketservice.onRequest(function (request, type, isBlast) {
-                if (type !== 'update') {
+                if (type !== 'update' || !vm.currentRequest || vm.currentRequest.id !== request.id) {
 
                     return;
                 }
 
-                if (request.executor.id === vm.currentUser.id && !isBlast) {
+                if (vm.currentUser.id === request.executor.id && !isBlast) {
                     vm.currentRequest = request;
                 }
 
-                if (request.executor.id !== vm.currentUser.id && isBlast) {
+                if (vm.currentUser.id !== request.executor.id && isBlast) {
                     vm.currentRequest = request;
                 }
+
+                currentRequestService.setRequest(request);
             });
         }
 
         function listenChatEvent() {
             chatHandler = chatSocketservice.onChat(function (chat, type) {
                 if (type === 'create') {
-                    if (vm.currentRequest.id === chat.request.id) {
+                    if (vm.currentRequest && vm.currentRequest.id === chat.request.id) {
                         vm.currentChat = chat;
                     }
                 }
