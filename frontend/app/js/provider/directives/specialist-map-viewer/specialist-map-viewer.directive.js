@@ -74,12 +74,13 @@
         '$window',
         'uiGmapIsReady',
         'coreConstants',
-        'geocoderService'
+        'geocoderService',
+        'currentUserService'
     ];
 
     /* @ngInject */
     function SpecialistMapViewerController($scope, $q, $timeout, $window, uiGmapIsReady, coreConstants,
-                                           geocoderService) {
+                                           geocoderService, currentUserService) {
         var googleMaps;
         var directionsDisplay;
         var directionsService;
@@ -96,6 +97,8 @@
         };
 
         var vm = this;
+
+        vm.currentUser = {};
 
         vm.requestStatus = coreConstants.REQUEST_STATUSES;
 
@@ -188,6 +191,17 @@
                     vm.map.control.refresh(location);
 
                     return vm.map;
+                });
+        }
+
+        function getCurrentUser() {
+
+            return currentUserService.getUser()
+                .then(function (currentUser) {
+                    vm.currentUser = currentUser;
+                    vm.currentUser.type = coreConstants.USER_TYPES.SPECIALIST;
+
+                    return vm.currentUser;
                 });
         }
 
@@ -332,22 +346,32 @@
 
             vm.map.options = angular.extend(vm.map.options, vm.mapOptions);
             vm.map.zoom = vm.mapOptions.zoom || vm.map.zoom;
+
+            return vm.map;
         }
 
         function activate() {
-            initializeMap();
-            refreshMap(vm.selectedRequest.location)
+            getCurrentUser()
                 .then(function () {
-                    vm.map.options = angular.extend(vm.map.options, vm.mapOptions);
-                    vm.map.zoom = vm.mapOptions.zoom || vm.map.zoom;
 
-                    googleMaps = $window.google.maps;
+                    return initializeMap();
+                })
+                .then(function () {
 
-                    directionsDisplay = new googleMaps.DirectionsRenderer(directionsRendererOptions);
-                    directionsService = new googleMaps.DirectionsService();
+                    refreshMap(vm.selectedRequest.location)
+                        .then(function () {
+                            vm.map.options = angular.extend(vm.map.options, vm.mapOptions);
+                            vm.map.zoom = vm.mapOptions.zoom || vm.map.zoom;
 
-                    return startGeoTracking();
+                            googleMaps = $window.google.maps;
+
+                            directionsDisplay = new googleMaps.DirectionsRenderer(directionsRendererOptions);
+                            directionsService = new googleMaps.DirectionsService();
+
+                            return startGeoTracking();
+                        });
                 });
+
 
             $scope.$watchCollection('vm.selectedRequest.location', function (newLocation, oldLocation) {
                 if (!newLocation || newLocation === oldLocation) {
