@@ -99,7 +99,7 @@
 
             if ((!currentChat || !currentChat.id) || isAllMessagesLoaded[currentChat.id]) {
 
-                return;
+                return $q.reject();
             }
 
             var params = {
@@ -129,9 +129,9 @@
         }
 
         function loadCurrentChatMessages(currentChat) {
-            if (!currentChat || !currentChat.id) {
+            if (!currentChat || !currentChat.id || vm.messages[currentChat.id]) {
 
-                return;
+                return $q.reject();
             }
 
             if (!pagination.messages[currentChat.id]) {
@@ -141,13 +141,14 @@
                 };
             }
 
-            if (!vm.messages[currentChat.id]) {
-                vm.messages[currentChat.id] = [];
+            vm.messages[currentChat.id] = [];
+            vm.isScrollDisabled = true;
 
-                vm.isScrollDisabled = true;
+            return loadPrevMessages(currentChat)
+                .then(function () {
 
-                return loadPrevMessages(currentChat);
-            }
+                    return chatSocketservice.subscribeToChat(vm.currentChat);
+                });
         }
 
         function listenMessageEvent() {

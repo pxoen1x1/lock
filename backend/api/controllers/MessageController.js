@@ -13,7 +13,7 @@ const MESSAGE_TYPE = sails.config.messages.TYPES;
 let MessageController = {
     getMessages(req, res) {
         let params = req.allParams();
-        let chat = params.chat;
+        let chat = req.params.chatId;
 
         if (!chat) {
 
@@ -60,7 +60,7 @@ let MessageController = {
     createMessage(req, res) {
         let params = req.allParams();
 
-        let chat = req.params.chat;
+        let chat = req.params.chatId;
         let message = params.message;
         let sender = req.session.user.id;
 
@@ -99,7 +99,7 @@ let MessageController = {
             )
             .then(
                 (message) => {
-                    let roomName = `user_${message.recipient.id}`;
+                    let roomName = `chat_${message.chat.id}`;
 
                     sails.sockets.broadcast(
                         roomName,
@@ -121,7 +121,7 @@ let MessageController = {
             );
     },
     uploadFile(req, res) {
-        let chat = req.params.chat;
+        let chat = req.params.chatId;
 
         if (!chat) {
 

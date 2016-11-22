@@ -106,6 +106,12 @@ module.exports.policies = {
             'isRequestAllowed',
             'isRequestOwner',
             'isChatUnique'
+        ],
+        'subscribeToChat': [
+            'isSocketRequest',
+            'hasJsonWebToken',
+            'isUserEnabled',
+            'isChatMember'
         ]
     },
 

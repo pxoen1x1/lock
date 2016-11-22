@@ -16,6 +16,7 @@
             getSpecialistBids: getSpecialistBids,
             getMessages: getMessages,
             getReviews: getReviews,
+            subscribeToChat: subscribeToChat,
             createChat: createChat,
             createBid: createBid,
             sendMessage: sendMessage,
@@ -97,6 +98,15 @@
 
                 return response.data;
             }
+        }
+
+        function subscribeToChat(chat) {
+
+            return $sails.post(conf.URL_PREFIX + 'chat/' + chat.id + '/subscribe')
+                .then(function (message) {
+
+                    return message.data;
+                });
         }
 
         function createChat(request, specialist) {

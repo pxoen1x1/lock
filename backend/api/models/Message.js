@@ -38,11 +38,6 @@ let Message = {
             required: true,
             columnName: 'sender_id'
         },
-        recipient: {
-            model: 'User',
-            required: true,
-            columnName: 'recipient_id'
-        },
         chat: {
             model: 'Chat',
             required: true,
