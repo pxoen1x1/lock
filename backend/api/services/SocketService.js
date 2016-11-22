@@ -7,22 +7,36 @@ let SocketService = {
         let promise = new Promise((resolve, reject) => {
             sails.sockets.join(socket, roomName,
                 (err) => {
-                    if(err) {
+                    if (err) {
 
                         return reject(err);
                     }
 
                     return resolve();
-            });
+                });
         });
 
         return promise;
     },
-    unsubscribe(roomName) {
+    unsubscribe(socket, roomName) {
+        let promise = new Promise((resolve, reject) => {
+            sails.sockets.leave(socket, roomName,
+                (err) => {
+                    if (err) {
+                        return reject(err);
+                    }
+
+                    return resolve();
+                });
+        });
+
+        return promise;
+    },
+    unsubscribeFromAll(roomName) {
         let promise = new Promise((resolve, reject) => {
             sails.sockets.leaveAll(roomName,
                 (err) => {
-                    if(err) {
+                    if (err) {
 
                         return reject(err);
                     }

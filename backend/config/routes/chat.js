@@ -16,6 +16,10 @@ let chatRoutes = {
     'POST /api/client/request/:requestId/chats': {
         controller: 'ChatController',
         action: 'createChat'
+    },
+    'POST /api/chat/:chatId/subscribe': {
+        controller: 'ChatController',
+        action: 'subscribeToChat'
     }
 };
 

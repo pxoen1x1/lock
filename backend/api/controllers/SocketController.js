@@ -1,4 +1,4 @@
-/* global sails, JwtService, SocketService */
+/* global sails, SocketService */
 
 /**
  * SocketController
@@ -33,7 +33,7 @@ let SocketController = {
 
         let roomName = `user_${user.id}`;
 
-        SocketService.unsubscribe(roomName)
+        SocketService.unsubscribeFromAll(roomName)
             .then(
                 () => res.ok(
                     {
