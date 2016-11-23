@@ -49,8 +49,21 @@
         </md-button>
         <md-button type="submit"
                    class="md-button-blue md-fab"
-                   aria-label="Send Message">
+                   aria-label="Send Message"
+                   ng-if="!vm.isMicrophoneAllowed || !!vm.replyMessage[vm.currentChat.id]">
           <i class="material-icons">send</i>
+        </md-button>
+        <md-button type="button"
+                   class="md-button-blue md-fab mic"
+                   aria-label="Voice Typing"
+                   ng-if="vm.isMicrophoneAllowed && !vm.replyMessage[vm.currentChat.id]"
+                   ng-click="vm.startSpeechRecognition()">
+          <div>
+            <i class="material-icons">mic</i>
+            <div class="animated pulse"
+                 ng-if="vm.recognizing">
+            </div>
+          </div>
         </md-button>
       </div>
     </form>

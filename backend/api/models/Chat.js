@@ -11,17 +11,6 @@ let Chat = {
     tableName: 'chats',
 
     attributes: {
-        isAcceptedByOwner: {
-            type: 'boolean',
-            defaultsTo: false,
-            columnName: 'is_accepted_by_client'
-        },
-        isAcceptedByContact: {
-            type: 'boolean',
-            defaultsTo: false,
-            columnName: 'is_accepted_by_specialist'
-        },
-
         client: {
             model: 'User',
             required: true,

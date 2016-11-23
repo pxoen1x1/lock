@@ -123,10 +123,6 @@ let User = {
             collection: 'Message',
             via: 'sender'
         },
-        messageRecipients: {
-            collection: 'Message',
-            via: 'recipient'
-        },
 
         fullName() {
 

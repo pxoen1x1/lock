@@ -9,9 +9,11 @@
                     radius='vm.map.circle.radius'
                     fill='vm.map.circle.fill'
                     stroke='vm.map.circle.stroke'
-                    visible="vm.selectedRequest.status === vm.requestStatus.NEW">
+                    visible="vm.selectedRequest.status === vm.requestStatus.NEW ||
+                    vm.selectedRequest.executor.id !== vm.currentUser.id">
     </ui-gmap-circle>
-    <ui-gmap-marker ng-if="vm.selectedRequest.status !== vm.requestStatus.NEW"
+    <ui-gmap-marker ng-if="vm.selectedRequest.status !== vm.requestStatus.NEW &&
+                    vm.selectedRequest.executor.id === vm.currentUser.id"
                     coords="vm.map.requestMarker.center"
                     options="vm.map.requestMarker"
                     idKey="0"

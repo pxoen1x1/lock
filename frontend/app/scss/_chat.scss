@@ -377,6 +377,24 @@
             .md-button {
               margin: 0 10px 0 0;
 
+              &.mic {
+                padding: 0;
+
+                > div {
+                  position: relative;
+                }
+
+                .pulse {
+                  position: absolute;
+                  top: 0;
+                  left: 0;
+                  height: 100%;
+                  width: 100%;
+                  background-color: rgba(255, 255, 255, .5);
+                  border-radius: 50%
+                }
+              }
+
               &.md-mini {
                 width: 36px;
                 height: 36px;

@@ -15,7 +15,7 @@ const STATUS = sails.config.requests.STATUSES;
 
 module.exports = function (req, res, next) {
     let requestId = req.params.requestId;
-    let chat = req.params.chat;
+    let chat = req.params.chatId;
 
     let requestPromise;
 

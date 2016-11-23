@@ -33,12 +33,13 @@
         'chatSocketservice',
         'currentRequestService',
         'geocoderService',
+        'speechRecognition',
         'conf'
     ];
 
     /* @ngInject */
     function ChatMessagesController($scope, $q, $state, $mdDialog, coreConstants, coreDataservice, chatSocketservice,
-                                    currentRequestService, geocoderService, conf) {
+                                    currentRequestService, geocoderService, speechRecognition, conf) {
         var messageHandler;
         var isAllMessagesLoaded = {};
         var pagination = {
@@ -61,6 +62,8 @@
 
         vm.isScrollDisabled = true;
         vm.isScrollToBottomEnabled = true;
+        vm.isMicrophoneAllowed = false;
+        vm.recognizing = false;
 
         vm.sendMessage = sendMessage;
         vm.loadPrevMessages = loadPrevMessages;
@@ -69,6 +72,7 @@
         vm.openOfferDialog = openOfferDialog;
         vm.reply = reply;
         vm.onFileLoaded = onFileLoaded;
+        vm.startSpeechRecognition = startSpeechRecognition;
 
         activate();
 
@@ -95,7 +99,7 @@
 
             if ((!currentChat || !currentChat.id) || isAllMessagesLoaded[currentChat.id]) {
 
-                return;
+                return $q.reject();
             }
 
             var params = {
@@ -125,9 +129,9 @@
         }
 
         function loadCurrentChatMessages(currentChat) {
-            if (!currentChat || !currentChat.id) {
+            if (!currentChat || !currentChat.id || vm.messages[currentChat.id]) {
 
-                return;
+                return $q.reject();
             }
 
             if (!pagination.messages[currentChat.id]) {
@@ -137,13 +141,14 @@
                 };
             }
 
-            if (!vm.messages[currentChat.id]) {
-                vm.messages[currentChat.id] = [];
+            vm.messages[currentChat.id] = [];
+            vm.isScrollDisabled = true;
 
-                vm.isScrollDisabled = true;
+            return loadPrevMessages(currentChat)
+                .then(function () {
 
-                return loadPrevMessages(currentChat);
-            }
+                    return chatSocketservice.subscribeToChat(vm.currentChat);
+                });
         }
 
         function listenMessageEvent() {
@@ -274,7 +279,7 @@
             var message = {
                 message: file.fd,
                 sender: vm.currentUser,
-                updatedAt: (new Date()).toISOString()
+                updatedAt: file.uploadedAt
             };
 
             vm.messages[vm.currentChat.id].push(message);
@@ -282,10 +287,35 @@
             return sendMessage(vm.currentChat, {message: message});
         }
 
-        function activate() {
-            loadCurrentChatMessages(vm.currentChat);
+        function startSpeechRecognition() {
+            if (vm.recognizing) {
+                vm.recognizing = false;
 
-            listenMessageEvent();
+                speechRecognition.stop();
+
+            } else {
+                vm.recognizing = true;
+
+                speechRecognition.start()
+                    .then(function (result) {
+                        vm.replyMessage[vm.currentChat.id] = result;
+                    })
+                    .finally(function () {
+                        vm.recognizing = false;
+                    });
+            }
+        }
+
+        function activate() {
+            loadCurrentChatMessages(vm.currentChat)
+                .then(function () {
+                    listenMessageEvent();
+
+                    return speechRecognition.isReady();
+                })
+                .then(function () {
+                    vm.isMicrophoneAllowed = true;
+                });
 
             $scope.$watch('vm.currentChat.id', function (newCurrentChatId, oldCurrentChatId) {
                 if (!newCurrentChatId || newCurrentChatId === oldCurrentChatId) {

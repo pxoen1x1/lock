@@ -170,12 +170,9 @@ let AdminService = {
             )
             .then(
                 () => {
-                    Message.destroy({
-                        or: [
-                            {sender_id: userId},
-                            {recipient_id: userId}
-                        ]
-                    })
+                    Message.destroy(
+                        {sender_id: userId}
+                    )
                         .then(
                             (messages) => {
 

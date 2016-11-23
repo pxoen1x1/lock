@@ -1,4 +1,4 @@
-/* global sails, Chat, ChatService */
+/* global sails, Chat, ChatService, SocketService */
 
 /**
  * ChatController
@@ -143,6 +143,32 @@ let ChatController = {
                     return res.serverError();
                 }
             );
+    },
+    subscribeToChat(req, res) {
+        let chat = req.params.chatId;
+
+        if (!chat) {
+
+            return res.forbidden({
+                message: req.__('You are not permitted to perform this action.')
+            });
+        }
+
+        let roomName = `chat_${chat}`;
+
+        SocketService.subscribe(req.socket, roomName)
+            .then(
+                () => res.ok(
+                    {
+                        message: req.__('Subscribed successfully.')
+                    }
+                )
+            )
+            .catch(function (err) {
+                sails.log.error(err);
+
+                res.serverError();
+            });
     }
 };
 
