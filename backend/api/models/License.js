@@ -14,10 +14,16 @@ let License = {
 
     attributes: {
         number: {
-            type: 'string'
+            type: 'string',
+            required: true
+        },
+        state: {
+            type: 'string',
+            required: true
         },
         date: {
-            type: 'date'
+            type: 'date',
+            required: true
         },
 
         userDetail: {
