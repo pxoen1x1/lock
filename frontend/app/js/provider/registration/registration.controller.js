@@ -21,7 +21,8 @@
             user: {
                 details: {
                     servicePrices: []
-                }
+                },
+                licenses: [{}]
             }
         };
 
@@ -31,7 +32,7 @@
         vm.procedures = [];
 
         vm.datePickerOptions = {
-            maxDate: new Date()
+            minDate: new Date()
         };
         vm.timePickerOptions = coreConstants.MD_PICKERS_OPTIONS.timePicker;
         vm.registrationSteps = serviceProviderConstants.REGISTRATION_STEPS;
@@ -42,6 +43,8 @@
         vm.goToPrevStep = goToPrevStep;
         vm.goToStep = goToStep;
         vm.createNewUser = createNewUser;
+        vm.addLicenseForm = addLicenseForm;
+        vm.removeLicenseForm = removeLicenseForm;
 
         activate();
 
@@ -137,6 +140,16 @@
             });
 
             return arr;
+        }
+
+        function addLicenseForm() {
+            vm.user.user.licenses.push({});
+            return ;
+        }
+
+        function removeLicenseForm(index) {
+            vm.user.user.licenses.splice(index, 1);
+            return ;
         }
 
         function activate() {
