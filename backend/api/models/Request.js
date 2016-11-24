@@ -1,4 +1,3 @@
-/* global sails */
 /**
  * Request.js
  *
