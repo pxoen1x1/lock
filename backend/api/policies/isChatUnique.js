@@ -27,14 +27,21 @@ module.exports = function (req, res, next) {
         );
     }
 
-    Chat.findByRequest(requestId)
+    Chat.find({
+        where: {
+            request: requestId
+        }
+    })
+        .populate('specialists')
         .then(
             (chats) => {
                 if (chats && chats.length > 0) {
                     let chatExists = chats.some(
                         (chat) => {
 
-                            return chat.specialist === specialist;
+                            return chat.specialists.filter(
+                                (specialist) => specialist.id === specialist
+                            );
                         }
                     );
 

@@ -16,10 +16,11 @@ let Chat = {
             required: true,
             columnName: 'client_id'
         },
-        specialist: {
-            model: 'User',
+        specialists: {
+            collection: 'User',
+            via: 'chatSpecialists',
+            dominant: true,
             required: true,
-            columnName: 'specialist_id'
         },
         request: {
             model: 'Request',
