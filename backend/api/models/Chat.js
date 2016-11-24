@@ -16,9 +16,9 @@ let Chat = {
             required: true,
             columnName: 'owner_id'
         },
-        specialists: {
+        members: {
             collection: 'User',
-            via: 'chatSpecialists',
+            via: 'chatMembers',
             dominant: true,
             required: true,
         },

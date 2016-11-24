@@ -15,9 +15,9 @@ module.exports = function (req, res, next) {
     let params = req.allParams();
 
     let requestId = req.params.requestId;
-    let specialist = params.specialist && params.specialist.id ? params.specialist.id : null;
+    let member = params.member && params.member.id ? params.member.id : null;
 
-    if (!requestId || !specialist) {
+    if (!requestId || !member) {
         sails.log.debug(new Error('Submitted data is invalid.'));
 
         return res.badRequest(
@@ -34,8 +34,8 @@ module.exports = function (req, res, next) {
                     let chatExists = chats.some(
                         (chat) => {
 
-                            return chat.specialists.filter(
-                                (specialist) => specialist.id === specialist
+                            return chat.members.filter(
+                                (chatMember) => chatMember.id === member
                             );
                         }
                     );

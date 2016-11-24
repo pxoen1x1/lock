@@ -40,9 +40,9 @@ let ChatController = {
             );
     },
     getSpecialistChats(req, res) {
-        let specialist = req.session.user.id;
+        let member = req.session.user.id;
 
-        Chat.findBySpecialist(specialist)
+        Chat.find({members: member})
             .populateAll()
             .then(
                 (chats) => res.ok(
@@ -61,7 +61,7 @@ let ChatController = {
     },
     getSpecialistChatByRequest(req, res) {
         let requestId = req.params.requestId;
-        let specialist = req.session.user.id;
+        let member = req.session.user.id;
 
         if (!requestId) {
 
@@ -72,7 +72,7 @@ let ChatController = {
             );
         }
 
-        Chat.findOne({request: requestId, specialist: specialist})
+        Chat.findOne({request: requestId, members: member})
             .populateAll()
             .then(
                 (chat) => res.ok(
@@ -93,10 +93,10 @@ let ChatController = {
         let params = req.allParams();
 
         let requestId = params.requestId;
-        let specialist = params.specialist && params.specialist.id ? params.specialist.id : null;
+        let member = params.member && params.member.id ? params.member.id : null;
         let owner = req.session.user.id;
 
-        if (!requestId || !specialist) {
+        if (!requestId || !member) {
 
             return res.badRequest(
                 {
@@ -107,7 +107,7 @@ let ChatController = {
 
         let chat = {
             owner: owner,
-            specialists: specialist,
+            members: member,
             request: requestId
         };
 
@@ -123,17 +123,17 @@ let ChatController = {
             )
             .then(
                 (chat) => {
-                    if (!chat.specialists || !chat.specialists.length) {
+                    if (!chat.members || !chat.members.length) {
 
                         return;
                     }
 
-                    let specialistRooms = chat.specialists.map(
+                    let memberRooms = chat.members.map(
                         (member) => `user_${member.id}`
                     );
 
                     sails.sockets.broadcast(
-                        specialistRooms,
+                        memberRooms,
                         'chat',
                         {
                             type: 'create',

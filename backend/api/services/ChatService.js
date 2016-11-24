@@ -58,53 +58,7 @@ let getChatsRawQuery = `SELECT chat.id,
                                owner_lastMessage.sender_id AS 'owner.lastMessage.senderId',
                                owner_lastMessage.chat_id AS 'owner.lastMessage.chatId',
                                owner_lastMessage.createdAt AS 'owner.lastMessage.createdAt',
-                               owner_lastMessage.updatedAt AS 'owner.lastMessage.updatedAt',
-                               specialist.id AS 'specialist.id',
-                               specialist.first_name AS 'specialist.firstName',
-                               specialist.last_name AS 'specialist.lastName',
-                               CONCAT_WS(' ', specialist.first_name, specialist.last_name) AS 'specialist.fullName',
-                               specialist.phone_number AS 'specialist.phoneNumber',
-                               specialist.gender AS 'specialist.gender',
-                               specialist.birthday AS 'specialist.birthday',
-                               specialist.ssn AS 'specialist.ssn',
-                               specialist.is_enabled AS 'specialist.isEnabled',
-                               specialist.is_email_confirmed AS 'specialist.isEmailConfirmed',
-                               specialist.portrait AS 'specialist.portrait',
-                               specialist.createdAt AS 'specialist.createdAt',
-                               specialist.updatedAt AS'specialist.updatedAt',
-                               specialist_auth.id AS 'specialist.auth.id',
-                               specialist_auth.email AS 'specialist.auth.email',
-                               specialist_address.id AS 'specialist.address.id',
-                               specialist_address.address AS 'specialist.address.address',
-                               specialist_address.zip AS 'specialist.address.zip',
-                               specialist_address_city.id AS 'specialist.address.city.id',
-                               specialist_address_city.city AS 'specialist.address.city.city',
-                               specialist_address_city.zip AS 'specialist.address.city.zip',
-                               specialist_address_city.lat AS 'specialist.address.city.lat',
-                               specialist_address_city.lng AS 'specialist.address.city.lng',
-                               specialist_address_state.id AS 'specialist.address.state.id',
-                               specialist_address_state.state AS 'specialist.address.state.state',
-                               specialist_address_state.code AS 'specialist.address.state.code',
-                               specialist_details.id AS 'specialist.details.id',
-                               specialist_details.is_available AS 'specialist.details.isAvailable',
-                               specialist_details.is_pro AS 'specialist.details.isPro',
-                               specialist_details.latitude AS 'specialist.details.latitude',
-                               specialist_details.longitude AS 'specialist.details.longitude',
-                               specialist_details.rating AS 'specialist.details.rating',
-                               specialist_details_license.id AS 'specialist.details.license.id',
-                               specialist_details_license.number AS 'specialist.details.license.number',
-                               specialist_details_license.date AS 'specialist.details.license.date',
-                               specialist_details_workingHours.id AS 'specialist.details.workingHours.id',
-                               specialist_details_workingHours.time_from AS 'specialist.details.workingHours.timeFrom',
-                               specialist_details_workingHours.time_to AS 'specialist.details.workingHours.timeTo',
-                               specialist_lastMessage.id AS 'specialist.lastMessage.id',
-                               specialist_lastMessage.message AS 'specialist.lastMessage.message',
-                               specialist_lastMessage.type AS 'specialist.lastMessage.type',
-                               specialist_lastMessage.is_read AS 'specialist.lastMessage.isRead',
-                               specialist_lastMessage.sender_id AS 'specialist.lastMessage.senderId',
-                               specialist_lastMessage.chat_id AS 'specialist.lastMessage.chatId',
-                               specialist_lastMessage.createdAt AS 'specialist.lastMessage.createdAt',
-                               specialist_lastMessage.updatedAt AS 'specialist.lastMessage.updatedAt'
+                               owner_lastMessage.updatedAt AS 'owner.lastMessage.updatedAt'
         FROM chats AS chat
         LEFT JOIN requests AS request ON request.id = chat.request_id
         LEFT JOIN languages AS request_language ON request_language.id = request.language_id
@@ -119,22 +73,7 @@ let getChatsRawQuery = `SELECT chat.id,
                     WHERE updatedAt IN (
                       SELECT MAX(updatedAt) FROM messages GROUP BY sender_id
                     )
-                  ) AS owner_lastMessage ON owner_lastMessage.sender_id = owner.id
-        LEFT JOIN users AS specialist ON specialist.id = chat.specialist_id
-        LEFT JOIN auth AS specialist_auth ON specialist_auth.user = specialist.id
-        LEFT JOIN addresses AS specialist_address ON specialist_address.user_id = specialist.id
-        LEFT JOIN cities AS specialist_address_city ON specialist_address_city.id = specialist_address.city_id
-        LEFT JOIN states AS specialist_address_state ON specialist_address_state.id = specialist_address.state_id
-        LEFT JOIN user_details AS specialist_details ON specialist_details.user_id = specialist.id
-        LEFT JOIN licenses AS specialist_details_license
-                  ON specialist_details_license.user_details_id = specialist_details.id
-        LEFT JOIN working_hours AS specialist_details_workingHours
-                  ON specialist_details_workingHours.user_details_id = specialist_details.id
-        LEFT JOIN (SELECT * FROM messages
-                    WHERE updatedAt IN (
-                      SELECT MAX(updatedAt) FROM messages GROUP BY sender_id
-                    )
-                  ) AS specialist_lastMessage ON specialist_lastMessage.sender_id = specialist.id`;
+                  ) AS owner_lastMessage ON owner_lastMessage.sender_id = owner.id`;
 
 let ChatService = {
     getChat(chat) {

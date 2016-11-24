@@ -107,9 +107,9 @@ let User = {
             collection: 'Chat',
             via: 'owner'
         },
-        chatSpecialists: {
+        chatMembers: {
             collection: 'Chat',
-            via: 'specialists'
+            via: 'members'
         },
         bidClients: {
             collection: 'Bid',
