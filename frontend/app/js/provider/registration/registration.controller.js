@@ -18,10 +18,7 @@
         var vm = this;
 
         vm.user = {
-            user: {
-                details: {
-                    servicePrices: []
-                },
+            details: {
                 licenses: [{}]
             }
         };
@@ -84,7 +81,7 @@
         }
 
         function createUser(user) {
-
+            
             return authService.register(user)
                 .then(function () {
 
@@ -116,16 +113,11 @@
                 return;
             }
 
-            getAddressLocation(user.user.address)
-                .then(function (location) {
-                    user.user.details.latitude = location.latitude;
-                    user.user.details.longitude = location.longitude;
-                })
-                .finally(function () {
-                    user.user.details.servicePrices = clearEmptyElements(user.user.details.servicePrices);
+            var params = {
+                user: user
+            };
 
-                    createUser(user);
-                });
+            createUser(params);
         }
 
         function clearEmptyElements(arr) {
@@ -143,12 +135,12 @@
         }
 
         function addLicenseForm() {
-            vm.user.user.licenses.push({});
+            vm.user.details.licenses.push({});
             return ;
         }
 
         function removeLicenseForm(index) {
-            vm.user.user.licenses.splice(index, 1);
+            vm.user.details.licenses.splice(index, 1);
             return ;
         }
 
@@ -157,10 +149,7 @@
                 getLanguages(),
                 getServiceTypes(),
                 getStates()
-            ])
-                .then(function () {
-                    vm.user.user.details.servicePrices.push({});
-                });
+            ]);
         }
     }
 })();
