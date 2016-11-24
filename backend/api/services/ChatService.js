@@ -138,31 +138,14 @@ let getChatsRawQuery = `SELECT chat.id,
 
 let ChatService = {
     getChat(chat) {
-        let rawQuery = `${getChatsRawQuery} WHERE chat.id = ?`;
 
-        let chatQueryAsync = promise.promisify(Chat.query);
-
-        return chatQueryAsync(rawQuery, [chat.id])
-            .then(
-                (chats) => {
-
-                    return HelperService.formatQueryResult(chats)[0];
-                }
-            );
+        return Chat.findOneById(chat.id)
+            .populateAll();
     },
     getChats(criteria) {
-        let tableAlias = 'chat';
-        let rawQuery = HelperService.buildQuery(getChatsRawQuery, criteria, tableAlias);
 
-        let chatQueryAsync = promise.promisify(Chat.query);
-
-        return chatQueryAsync(rawQuery)
-            .then(
-                (chats) => {
-
-                    return HelperService.formatQueryResult(chats);
-                }
-            );
+        return Chat.find(criteria)
+            .populateAll();
     },
     getSpecialistChats(criteria) {
         let tableAlias = 'chat';
@@ -197,7 +180,8 @@ let ChatService = {
 
         return Chat.create(chat)
             .then(
-                (chat) => this.getChat(chat)
+                (chat) => Chat.findOneById(chat.id)
+                    .populateAll()
             );
     }
 };

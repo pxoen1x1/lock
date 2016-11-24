@@ -107,7 +107,7 @@ let ChatController = {
 
         let chat = {
             client: client,
-            specialist: specialist,
+            specialists: specialist,
             request: requestId
         };
 
@@ -123,10 +123,17 @@ let ChatController = {
             )
             .then(
                 (chat) => {
-                    let specialistRoom = `user_${chat.specialist.id}`;
+                    if (!chat.specialists || !chat.specialists.length) {
+
+                        return;
+                    }
+
+                    let specialistRooms = chat.specialists.map(
+                        (member) => `user_${member.id}`
+                    );
 
                     sails.sockets.broadcast(
-                        specialistRoom,
+                        specialistRooms,
                         'chat',
                         {
                             type: 'create',
