@@ -25,40 +25,40 @@ let getChatsRawQuery = `SELECT chat.id,
                                request_location.address AS 'request.location.address',
                                request_location.latitude AS 'request.location.latitude',
                                request_location.longitude AS 'request.location.longitude',
-                               client.id AS 'client.id',
-                               client.first_name AS 'client.firstName',
-                               client.last_name AS 'client.lastName',
-                               CONCAT_WS(' ', client.first_name, client.last_name) AS 'client.fullName',
-                               client.phone_number AS 'client.phoneNumber',
-                               client.gender AS 'client.gender',
-                               client.birthday AS 'client.birthday',
-                               client.ssn AS 'client.ssn',
-                               client.is_enabled AS 'client.isEnabled',
-                               client.is_email_confirmed AS 'client.isEmailConfirmed',
-                               client.portrait AS 'client.portrait',
-                               client.createdAt AS 'client.createdAt',
-                               client.updatedAt AS'client.updatedAt',
-                               client_auth.id AS 'client.auth.id',
-                               client_auth.email AS 'client.auth.email',
-                               client_address.id AS 'client.address.id',
-                               client_address.address AS 'client.address.address',
-                               client_address.zip AS 'client.address.zip',
-                               client_address_city.id AS 'client.address.city.id',
-                               client_address_city.city AS 'client.address.city.city',
-                               client_address_city.zip AS 'client.address.city.zip',
-                               client_address_city.lat AS 'client.address.city.lat',
-                               client_address_city.lng AS 'client.address.city.lng',
-                               client_address_state.id AS 'client.address.state.id',
-                               client_address_state.state AS 'client.address.state.state',
-                               client_address_state.code AS 'client.address.state.code',
-                               client_lastMessage.id AS 'client.lastMessage.id',
-                               client_lastMessage.message AS 'client.lastMessage.message',
-                               client_lastMessage.type AS 'client.lastMessage.type',
-                               client_lastMessage.is_read AS 'client.lastMessage.isRead',
-                               client_lastMessage.sender_id AS 'client.lastMessage.senderId',
-                               client_lastMessage.chat_id AS 'client.lastMessage.chatId',
-                               client_lastMessage.createdAt AS 'client.lastMessage.createdAt',
-                               client_lastMessage.updatedAt AS 'client.lastMessage.updatedAt',
+                               owner.id AS 'owner.id',
+                               owner.first_name AS 'owner.firstName',
+                               owner.last_name AS 'owner.lastName',
+                               CONCAT_WS(' ', owner.first_name, owner.last_name) AS 'owner.fullName',
+                               owner.phone_number AS 'owner.phoneNumber',
+                               owner.gender AS 'owner.gender',
+                               owner.birthday AS 'owner.birthday',
+                               owner.ssn AS 'owner.ssn',
+                               owner.is_enabled AS 'owner.isEnabled',
+                               owner.is_email_confirmed AS 'owner.isEmailConfirmed',
+                               owner.portrait AS 'owner.portrait',
+                               owner.createdAt AS 'owner.createdAt',
+                               owner.updatedAt AS'owner.updatedAt',
+                               owner_auth.id AS 'owner.auth.id',
+                               owner_auth.email AS 'owner.auth.email',
+                               owner_address.id AS 'owner.address.id',
+                               owner_address.address AS 'owner.address.address',
+                               owner_address.zip AS 'owner.address.zip',
+                               owner_address_city.id AS 'owner.address.city.id',
+                               owner_address_city.city AS 'owner.address.city.city',
+                               owner_address_city.zip AS 'owner.address.city.zip',
+                               owner_address_city.lat AS 'owner.address.city.lat',
+                               owner_address_city.lng AS 'owner.address.city.lng',
+                               owner_address_state.id AS 'owner.address.state.id',
+                               owner_address_state.state AS 'owner.address.state.state',
+                               owner_address_state.code AS 'owner.address.state.code',
+                               owner_lastMessage.id AS 'owner.lastMessage.id',
+                               owner_lastMessage.message AS 'owner.lastMessage.message',
+                               owner_lastMessage.type AS 'owner.lastMessage.type',
+                               owner_lastMessage.is_read AS 'owner.lastMessage.isRead',
+                               owner_lastMessage.sender_id AS 'owner.lastMessage.senderId',
+                               owner_lastMessage.chat_id AS 'owner.lastMessage.chatId',
+                               owner_lastMessage.createdAt AS 'owner.lastMessage.createdAt',
+                               owner_lastMessage.updatedAt AS 'owner.lastMessage.updatedAt',
                                specialist.id AS 'specialist.id',
                                specialist.first_name AS 'specialist.firstName',
                                specialist.last_name AS 'specialist.lastName',
@@ -110,16 +110,16 @@ let getChatsRawQuery = `SELECT chat.id,
         LEFT JOIN languages AS request_language ON request_language.id = request.language_id
         LEFT JOIN service_types AS request_serviceType ON request_serviceType.id = request.service_type_id
         LEFT JOIN locations AS request_location ON request_location.id = request.location_id
-        LEFT JOIN users AS client ON client.id = chat.client_id
-        LEFT JOIN auth AS client_auth ON client_auth.user = client.id
-        LEFT JOIN addresses AS client_address ON client_address.user_id = client.id
-        LEFT JOIN cities AS client_address_city ON client_address_city.id = client_address.city_id
-        LEFT JOIN states AS client_address_state ON client_address_state.id = client_address.state_id
+        LEFT JOIN users AS owner ON owner.id = chat.owner_id
+        LEFT JOIN auth AS owner_auth ON owner_auth.user = owner.id
+        LEFT JOIN addresses AS owner_address ON owner_address.user_id = owner.id
+        LEFT JOIN cities AS owner_address_city ON owner_address_city.id = owner_address.city_id
+        LEFT JOIN states AS owner_address_state ON owner_address_state.id = owner_address.state_id
         LEFT JOIN (SELECT * FROM messages
                     WHERE updatedAt IN (
                       SELECT MAX(updatedAt) FROM messages GROUP BY sender_id
                     )
-                  ) AS client_lastMessage ON client_lastMessage.sender_id = client.id
+                  ) AS owner_lastMessage ON owner_lastMessage.sender_id = owner.id
         LEFT JOIN users AS specialist ON specialist.id = chat.specialist_id
         LEFT JOIN auth AS specialist_auth ON specialist_auth.user = specialist.id
         LEFT JOIN addresses AS specialist_address ON specialist_address.user_id = specialist.id
@@ -153,9 +153,9 @@ let ChatService = {
         let rawQuery = HelperService.buildQuery(getChatsRawQuery, criteria, tableAlias);
 
         rawQuery = rawQuery.replace(/\s*request_location.address AS 'request.location.address',/, '');
-        rawQuery = rawQuery.replace(/\s*client.phone_number AS 'client.phoneNumber',/, '');
-        rawQuery = rawQuery.replace(/\s*client_auth.id AS 'client.auth.id',/, '');
-        rawQuery = rawQuery.replace(/\s*client_auth.email AS 'client.auth.email',/, '');
+        rawQuery = rawQuery.replace(/\s*owner.phone_number AS 'owner.phoneNumber',/, '');
+        rawQuery = rawQuery.replace(/\s*owner_auth.id AS 'owner.auth.id',/, '');
+        rawQuery = rawQuery.replace(/\s*owner_auth.email AS 'owner.auth.email',/, '');
 
         rawQuery = rawQuery.replace(
             'request_location.latitude',

@@ -38,7 +38,7 @@ module.exports = function (req, res, next) {
                     );
                 }
 
-                let isChatMember = user === foundChat.client || user === foundChat.specialist;
+                let isChatMember = user === foundChat.owner || user === foundChat.specialist;
 
                 if (!isChatMember) {
                     sails.log.debug(new Error('You are not permitted to perform this action.'));

@@ -11,10 +11,10 @@ let Chat = {
     tableName: 'chats',
 
     attributes: {
-        client: {
+        owner: {
             model: 'User',
             required: true,
-            columnName: 'client_id'
+            columnName: 'owner_id'
         },
         specialists: {
             collection: 'User',
