@@ -19,11 +19,6 @@
                     id: 3,
                     templateUrl: 'provider/registration/registration-service-information.html',
                     title: 'service'
-                },
-                {
-                    id: 4,
-                    templateUrl: 'provider/registration/registration-payments-information.html',
-                    title: 'payments'
                 }
             ],
             MENU_ITEMS: [
