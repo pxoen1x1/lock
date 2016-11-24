@@ -1,13 +1,11 @@
 <div class="customer" layout="row">
-  <md-sidenav ui-view="menu"
-              class="menu"
+  <md-sidenav class="menu"
               md-component-id="left"
               md-is-locked-open="$mdMedia('gt-sm')"
-              md-disable-backdrop
               md-whiteframe="4"
               layout="column"
               flex>
-
+    <div ui-view="menu"></div>
   </md-sidenav>
   <div layout="column" flex>
     <div class="header" ui-view="header"></div>
