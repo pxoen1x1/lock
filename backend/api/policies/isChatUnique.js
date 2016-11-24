@@ -1,4 +1,4 @@
-/* global sails, Chat */
+/* global sails, ChatService */
 
 /**
  * isChatUnique
@@ -27,12 +27,7 @@ module.exports = function (req, res, next) {
         );
     }
 
-    Chat.find({
-        where: {
-            request: requestId
-        }
-    })
-        .populate('specialists')
+    ChatService.getChats({request: requestId})
         .then(
             (chats) => {
                 if (chats && chats.length > 0) {
