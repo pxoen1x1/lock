@@ -11,7 +11,7 @@
              name="firstName"
              required
              ng-maxlength="20"
-             ng-model="vm.user.user.firstName">
+             ng-model="vm.user.firstName">
       <div ng-messages="registrationForm.firstName.$error">
         <div ng-message="maxlength">Your first name is too long.</div>
       </div>
@@ -24,7 +24,7 @@
              name="lastName"
              required
              ng-maxlength="20"
-             ng-model="vm.user.user.lastName">
+             ng-model="vm.user.lastName">
       <div ng-messages="registrationForm.lastName.$error">
         <div ng-message="maxlength">Your last name is too long.</div>
       </div>
@@ -40,7 +40,7 @@
            ng-pattern="/^[0-9]{3}-?[0-9]{2}-?[0-9]{4}$/"
            availability-validation
            ng-model-options="{ 'debounce': 400 }"
-           ng-model="vm.user.user.ssn">
+           ng-model="vm.user.ssn">
     <div ng-messages="registrationForm.ssn.$error">
       <div ng-message="pattern">That doesn't look like a valid SSN.</div>
       <div ng-message="availability">This SSN already exists.</div>
@@ -59,7 +59,7 @@
            ui-us-phone-number
            availability-validation
            ng-model-options="{ 'debounce': 400 }"
-           ng-model="vm.user.user.phoneNumber">
+           ng-model="vm.user.phoneNumber">
     <div ng-messages="registrationForm.phoneNumber.$error">
       <span ng-message="usPhoneNumber">That doesn't look like a valid phone number.</span>
       <span ng-message="availability">This phone number already exists.</span>
@@ -103,7 +103,7 @@
   <md-input-container class="md-block" flex>
     <md-select aria-label="Languages"
                multiple
-               ng-model="vm.user.user.details.languages">
+               ng-model="vm.user.details.languages">
       <md-option ng-repeat="language in vm.languages track by language.id"
                  ng-value="language.id">
         <span ng-bind="language.name"></span>
