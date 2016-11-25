@@ -109,9 +109,9 @@
                 });
         }
 
-        function createChat(request, specialist) {
+        function createChat(request, member) {
 
-            return $sails.post(conf.URL_PREFIX + 'client/request/' + request.id + '/chats', specialist)
+            return $sails.post(conf.URL_PREFIX + 'client/request/' + request.id + '/chats', member)
                 .then(createChatCompleted);
 
             function createChatCompleted(response) {
