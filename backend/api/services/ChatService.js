@@ -1,4 +1,4 @@
-/* global sails, Chat, HelperService */
+/* global sails, Chat, User, HelperService */
 
 'use strict';
 
@@ -115,9 +115,27 @@ let ChatService = {
                 }
             );
     },
-    createChat(chat) {
+    createChat(chat, member) {
 
-        return Chat.create(chat)
+        return User.findOne({id: member.id})
+            .then(
+                (user) => {
+                    if (!user) {
+
+                        return Promise.reject('User not found.');
+                    }
+
+                    if (user.group) {
+                        chat.title = user.group.name;
+                        chat.photo = user.group.photo;
+                    } else {
+                        chat.title = user.fullName();
+                        chat.photo = user.portrait;
+                    }
+
+                    return Chat.create(chat);
+                }
+            )
             .then(
                 (chat) => Chat.findOneById(chat.id)
                     .populateAll()

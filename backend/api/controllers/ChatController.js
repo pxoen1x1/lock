@@ -93,7 +93,7 @@ let ChatController = {
         let params = req.allParams();
 
         let requestId = params.requestId;
-        let member = params.member && params.member.id ? params.member.id : null;
+        let member = params.member && params.member.id ? params.member : null;
         let owner = req.session.user.id;
 
         if (!requestId || !member) {
@@ -111,7 +111,7 @@ let ChatController = {
             request: requestId
         };
 
-        ChatService.createChat(chat)
+        ChatService.createChat(chat, member)
             .then(
                 (createdChat) => {
                     res.ok({
