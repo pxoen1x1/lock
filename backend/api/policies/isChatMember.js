@@ -25,6 +25,7 @@ module.exports = function (req, res, next) {
     }
 
     Chat.findOneById(chat)
+        .populate('members')
         .then(
             (foundChat) => {
                 if (!foundChat) {
