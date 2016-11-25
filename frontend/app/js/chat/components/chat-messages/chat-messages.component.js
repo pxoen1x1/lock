@@ -10,6 +10,7 @@
             messages: '=',
             currentUser: '=',
             currentRequest: '=',
+            selectedSpecialist: '=',
             selectedTab: '=',
             currentChat: '=',
             currentBid: '=?',
