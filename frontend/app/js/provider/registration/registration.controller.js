@@ -22,6 +22,7 @@
                 licenses: [{}]
             }
         };
+        vm.auth = {};
 
         vm.states = [];
         vm.languages = [];
@@ -114,9 +115,10 @@
             }
 
             var params = {
+                auth: vm.auth,
                 user: user
             };
-
+            
             createUser(params);
         }
 

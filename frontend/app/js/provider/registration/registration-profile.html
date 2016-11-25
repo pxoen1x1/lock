@@ -76,7 +76,7 @@
            email-validation
            availability-validation
            ng-model-options="{ 'debounce': 400 }"
-           ng-model="vm.user.email">
+           ng-model="vm.auth.email">
     <div ng-messages="registrationForm.email.$error">
       <div ng-message="email">That doesn't look like a valid email.</div>
       <div ng-message="availability">This email already exists.</div>
@@ -90,7 +90,7 @@
            name="password"
            password-validation
            required
-           ng-model="vm.user.password">
+           ng-model="vm.auth.password">
     <div ng-messages="registrationForm.password.$error">
       <div ng-message="password">
         Your password must contain 6 characters (at least one number and one letter).

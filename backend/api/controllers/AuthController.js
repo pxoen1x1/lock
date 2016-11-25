@@ -19,9 +19,11 @@ let AuthController = waterlock.waterlocked({
 
     register(req, res) {
         let params = req.allParams();
-
-        if ((!params.password || !params.email) ||
-            (!params.user || !params.user.firstName || !params.user.lastName || !params.user.phoneNumber)) {
+        let user = params.user;
+        let auth = params.auth;
+        
+        if (!user || (!auth.password || !auth.email) ||
+            (!user.firstName || !user.lastName || !user.phoneNumber)) {
 
             return res.badRequest({
                 message: req.__('Submitted data is invalid.')
@@ -30,27 +32,27 @@ let AuthController = waterlock.waterlocked({
 
         let criteria = {};
 
-        criteria.email = params.email;
+        criteria.email = auth.email;
 
-        if (params.user.details) {
-            if (params.user.details.rating) {
-                delete params.user.details.rating;
+        if (user.details) {
+            if (user.details.rating) {
+                delete user.details.rating;
             }
 
-            params.user.userDetail = params.user.details;
+            user.userDetail = user.details;
 
-            delete params.user.details;
+            delete user.details;
         }
 
         AuthService.findAuth(criteria)
             .then(
-                (user) => {
-                    if (user) {
+                (foundUser) => {
+                    if (foundUser) {
 
                         return Promise.reject();
                     }
 
-                    return AuthService.findOrCreateAuth(criteria, params);
+                    return AuthService.findOrCreateAuth(criteria, user);
                 }
             )
             .then(
@@ -125,14 +127,14 @@ let AuthController = waterlock.waterlocked({
     createResetAuthToken(req, res){
         let params = req.allParams();
 
-        if (!params.email) {
+        if (!params.auth.email) {
 
             return res.badRequest({
                 message: req.__('Email is not defined.')
             });
         }
 
-        AuthService.resetAuthToken(params.email)
+        AuthService.resetAuthToken(params.auth.email)
             .then(
                 (user) => {
                     return MailerService.passwordResetRequest(user);
@@ -185,7 +187,7 @@ let AuthController = waterlock.waterlocked({
         let params = req.allParams();
         let owner = req.session.resetToken.owner;
 
-        if (!params.password) {
+        if (!params.auth.password) {
 
             return res.badRequest({
                 message: req.__('Password is not defined.')
