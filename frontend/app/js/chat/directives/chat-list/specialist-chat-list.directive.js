@@ -16,6 +16,7 @@
                 messages: '=',
                 currentChat: '=',
                 currentRequest: '=?',
+                chatSearch: '=?',
                 isScrollDisabled: '=?scrollChatDisabled',
                 isScrollToBottomEnabled: '=?scrollChatToBottom',
                 changeCurrentRequest: '&'
