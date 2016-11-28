@@ -241,15 +241,15 @@ let AuthController = waterlock.waterlocked({
                     let userId = params[3] ? params[3].id : null;
 
                     if (ssn) {
-                        response.ssn = params[0] && userId !== params[0].id ? true : false;
+                        response.ssn = !!(params[0] && userId !== params[0].id);
                     }
 
                     if (phoneNumber) {
-                        response.phoneNumber = params[1] && userId !== params[1].id ? true : false;
+                        response.phoneNumber = !!(params[1] && userId !== params[1].id);
                     }
 
                     if (email) {
-                        response.email = params[2] && userId !== params[2].id ? true : false;
+                        response.email = !!(params[2] && userId !== params[2].id);
                     }
 
                     res.ok(response);
