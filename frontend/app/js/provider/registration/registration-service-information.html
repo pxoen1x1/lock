@@ -26,7 +26,7 @@
         <input type="text"
               name="licenseNumber"
               required
-              ng-model="vm.user.details.licenses[$index].license.number">
+              ng-model="vm.user.details.licenses[$index].number">
         <div ng-messages="registrationForm.service.licenseNumber.$error">
           <div ng-message="required">Please, enter a license number.</div>
         </div>
@@ -40,7 +40,7 @@
                   name="state"
                   required
                   ng-change="vm.resetSelectedCity(); vm.getCities(vm.user.address.state.id)"
-                  ng-model="vm.user.details.licenses[$index].license.state">
+                  ng-model="vm.user.details.licenses[$index].state">
           <md-option ng-repeat="state in vm.states track by state.id"
                     ng-value="state">
             <span ng-bind="::state.state"></span>
@@ -57,7 +57,7 @@
                        md-placeholder="Expiration *"
                        md-min-date="vm.datePickerOptions.minDate"
                        required
-                       ng-model="vm.user.details.licenses[$index].license.date">
+                       ng-model="vm.user.details.licenses[$index].date">
         </md-datepicker>
         <div class="validation-messages"
             ng-messages="registrationForm.licenseDate.$error">
