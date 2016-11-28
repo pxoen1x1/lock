@@ -192,6 +192,37 @@
       color: $primary-color;
       cursor: pointer;
     }
+
+    .agreement-terms {
+      margin-bottom: 15px;
+      max-height: 35vh;
+      overflow-y: scroll;
+    }
+
+    .md-block {
+      margin: 0;
+    }
+
+    md-input-container, .md-icon-button {
+      margin: 0;
+    }
+
+    .service-remove {
+      padding-top: 10px;
+      margin-left: 10px;
+
+      i {
+        cursor: pointer;
+      }
+    }
+
+    .license-number {
+      flex-basis: 28%;
+    }
+
+    .md-datepicker-input {
+      max-width: 120px;
+    }
   }
 
   @media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
@@ -225,6 +256,12 @@
     }
     .page-name {
       font-size: 19px;
+    }
+    .stepper-navigation, md-divider {
+      display: none;
+    }
+    .form-wrapper, .registration-form {
+      padding-top: 0;
     }
   }
 }

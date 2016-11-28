@@ -11,7 +11,7 @@
              name="firstName"
              required
              ng-maxlength="20"
-             ng-model="vm.user.user.firstName">
+             ng-model="vm.user.firstName">
       <div ng-messages="registrationForm.firstName.$error">
         <div ng-message="maxlength">Your first name is too long.</div>
       </div>
@@ -24,7 +24,7 @@
              name="lastName"
              required
              ng-maxlength="20"
-             ng-model="vm.user.user.lastName">
+             ng-model="vm.user.lastName">
       <div ng-messages="registrationForm.lastName.$error">
         <div ng-message="maxlength">Your last name is too long.</div>
       </div>
@@ -40,7 +40,7 @@
            ng-pattern="/^[0-9]{3}-?[0-9]{2}-?[0-9]{4}$/"
            availability-validation
            ng-model-options="{ 'debounce': 400 }"
-           ng-model="vm.user.user.ssn">
+           ng-model="vm.user.ssn">
     <div ng-messages="registrationForm.ssn.$error">
       <div ng-message="pattern">That doesn't look like a valid SSN.</div>
       <div ng-message="availability">This SSN already exists.</div>
@@ -59,7 +59,7 @@
            ui-us-phone-number
            availability-validation
            ng-model-options="{ 'debounce': 400 }"
-           ng-model="vm.user.user.phoneNumber">
+           ng-model="vm.user.phoneNumber">
     <div ng-messages="registrationForm.phoneNumber.$error">
       <span ng-message="usPhoneNumber">That doesn't look like a valid phone number.</span>
       <span ng-message="availability">This phone number already exists.</span>
@@ -76,7 +76,7 @@
            email-validation
            availability-validation
            ng-model-options="{ 'debounce': 400 }"
-           ng-model="vm.user.email">
+           ng-model="vm.auth.email">
     <div ng-messages="registrationForm.email.$error">
       <div ng-message="email">That doesn't look like a valid email.</div>
       <div ng-message="availability">This email already exists.</div>
@@ -90,7 +90,7 @@
            name="password"
            password-validation
            required
-           ng-model="vm.user.password">
+           ng-model="vm.auth.password">
     <div ng-messages="registrationForm.password.$error">
       <div ng-message="password">
         Your password must contain 6 characters (at least one number and one letter).
@@ -98,93 +98,12 @@
     </div>
   </md-input-container>
 </div>
-<p>Where are you? <sup>*</sup></p>
-<div layout="column">
-  <md-input-container class="md-block" flex>
-    <label>Address</label>
-    <input type="text"
-           name="address"
-           required
-           ng-model="vm.user.user.address.address">
-    <div ng-messages="registrationForm.address.$error">
-      <div ng-message="required">Your address is required.</div>
-    </div>
-  </md-input-container>
-  <div layout-gt-xs="row">
-    <md-input-container class="md-block"
-                        flex="100"
-                        flex-gt-xs="30">
-      <label>State</label>
-      <md-select role="listbox"
-                 name="state"
-                 required
-                 ng-change="vm.resetSelectedCity(); vm.getCities(vm.user.user.address.state.id)"
-                 ng-model="vm.user.user.address.state">
-        <md-option ng-repeat="state in vm.states track by state.id"
-                   ng-value="state">
-          <span ng-bind="::state.state"></span>
-        </md-option>
-      </md-select>
-      <div ng-messages="registrationForm.state.$error">
-        <div ng-message="required">State is required.</div>
-      </div>
-    </md-input-container>
-    <div layout="row"
-         flex="100"
-         flex-gt-xs="70">
-      <md-input-container class="md-block"
-                          flex="100"
-                          flex-gt-xs="60">
-        <label>City</label>
-        <md-select role="listbox"
-                   name="city"
-                   class="cities-select"
-                   required
-                   md-select-infinite-scroll
-                   on-scroll="vm.getCities(vm.user.user.address.state.id, vm.searchCity)"
-                   ng-model="vm.user.user.address.city">
-          <md-select-header>
-            <input type="search"
-                   placeholder="Search for a city.."
-                   ng-change="vm.getCities(vm.user.user.address.state.id, vm.searchCity)"
-                   ng-model-options="{ debounce: 400 }"
-                   ng-model="vm.searchCity">
-          </md-select-header>
-          <md-optgroup label="cities">
-            <md-option ng-repeat="city in vm.cities | filter: vm.searchCity track by city.id"
-                       ng-value="city">
-              <span ng-bind="city.city"></span>
-            </md-option>
-          </md-optgroup>
-        </md-select>
-        <div ng-messages="registrationForm.city.$error">
-          <div ng-message="required">City is required.</div>
-        </div>
-      </md-input-container>
-      <md-input-container class="md-block"
-                          flex="100"
-                          flex-gt-xs="40">
-        <label>Postal Code</label>
-        <input type="text"
-               name="zipCode"
-               required
-               ng-pattern="/^[0-9]{5}(-[0-9]{4})?$/"
-               ng-trim="false"
-               ng-model="vm.user.user.address.zip">
-        <div ng-messages="registrationForm.zipCode.$error">
-          <div ng-message="pattern">That doesn't look like a valid zip code.</div>
-          <div ng-message="required">Postal Code is required.</div>
-        </div>
-      </md-input-container>
-    </div>
-  </div>
-</div>
 <p>What languages do you speak?</p>
 <div layout-gt-xs="row">
   <md-input-container class="md-block" flex>
     <md-select aria-label="Languages"
                multiple
-               ng-model="vm.user.user.details.languages">
+               ng-model="vm.user.details.languages">
       <md-option ng-repeat="language in vm.languages track by language.id"
                  ng-value="language.id">
         <span ng-bind="language.name"></span>

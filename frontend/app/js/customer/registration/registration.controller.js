@@ -33,13 +33,18 @@
             login(loginType);
         }
 
-        function createUser(user, isFormValid) {
+        function createUser(auth, user, isFormValid) {
             if (!isFormValid) {
 
                 return;
             }
 
-            return authService.register(user)
+            var params = {
+                auth: auth,
+                user: user
+            };
+
+            return authService.register(params)
                 .then(function () {
                     $state.go('home');
                 });

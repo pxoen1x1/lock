@@ -1,41 +1,83 @@
+<p>Type of service: <sup>*</sup></p>
 <div layout-gt-xs="row">
-  <div layout="column"
-       flex="100"
-       flex-gt-xs="50">
-    <p>Type of service: <sup>*</sup></p>
-    <div ng-repeat="serviceType in vm.serviceTypes track by serviceType.id">
-      <md-checkbox aria-label="{{ serviceType.name }}"
-                   checklist-value="serviceType.id"
-                   checklist-model="vm.user.user.details.serviceTypes">
+  <md-input-container class="md-block" flex>
+    <label>Services</label>
+    <md-select aria-label="Services"
+              multiple
+              required
+              ng-model="vm.user.details.serviceTypes">
+      <md-option ng-repeat="serviceType in vm.serviceTypes track by serviceType.id"
+                ng-value="serviceType.id">
         <span ng-bind="serviceType.name"></span>
-      </md-checkbox>
-    </div>
-  </div>
-  <div layout="column"
-       flex="100"
-       flex-gt-xs="50">
-    <p>License information: <sup>*</sup></p>
-    <md-input-container class="md-block">
-      <label>License Number</label>
-      <input type="text"
-             name="licenseNumber"
-             required
-             ng-model="vm.user.user.details.license.number">
-      <div ng-messages="registrationForm.licenseNumber.$error">
-        <div ng-message="required">Please, enter a license number.</div>
+      </md-option>
+    </md-select>
+  </md-input-container>
+</div>
+<p>License information: <sup>*</sup></p>
+<div class="licenses"
+     flex
+     ng-repeat="license in vm.user.details.licenses track by $index">
+  <div layout-gt-xs="column">
+    <div layout="row"
+        flex="100"
+        flex-gt-xs="50">
+      <md-input-container class="md-block license-number">
+        <label>License Number</label>
+        <input type="text"
+              name="licenseNumber"
+              required
+              ng-model="vm.user.details.licenses[$index].number">
+        <div ng-messages="registrationForm.service.licenseNumber.$error">
+          <div ng-message="required">Please, enter a license number.</div>
+        </div>
+      </md-input-container>
+     
+      <md-input-container class="md-block"
+                          flex="100"
+                          flex-gt-xs="30">
+        <label>State</label>
+        <md-select role="listbox"
+                  name="state"
+                  required
+                  ng-change="vm.resetSelectedCity(); vm.getCities(vm.user.address.state.id)"
+                  ng-model="vm.user.details.licenses[$index].state">
+          <md-option ng-repeat="state in vm.states track by state.id"
+                    ng-value="state">
+            <span ng-bind="::state.state"></span>
+          </md-option>
+        </md-select>
+        <div ng-messages="registrationForm.state.$error">
+          <div ng-message="required">State is required.</div>
+        </div>
+      </md-input-container>
+      <md-input-container class="md-block"
+                          layout="row"
+                          required>
+        <md-datepicker name="licenseDate"
+                       md-placeholder="Expiration *"
+                       md-min-date="vm.datePickerOptions.minDate"
+                       required
+                       ng-model="vm.user.details.licenses[$index].date">
+        </md-datepicker>
+        <div class="validation-messages"
+            ng-messages="registrationForm.licenseDate.$error">
+          <div ng-message="invalid">The entered value is not a date!</div>
+          <div ng-message="mindate">Date is too early!</div>
+        </div>
+      </md-input-container>
+      
+      <div class="service-remove"
+            flex="100"
+            flex-gt-xs="5"
+            layout="column"
+            layout-align="start center"
+            ng-click="vm.removeLicenseForm($index)"
+            ng-if="vm.user.licenses.length > 1">
+        <i class="material-icons">delete</i>
       </div>
-    </md-input-container>
-    <mdp-date-picker name="licenseDate"
-                     mdp-placeholder="License Date"
-                     mdp-max-date="vm.datePickerOptions.maxDate"
-                     date-formatter
-                     ng-required
-                     ng-model="vm.user.user.details.license.date">
-    </mdp-date-picker>
-    <div class="validation-messages"
-         ng-messages="registrationForm.licenseDate.$error">
-      <div ng-message="valid">The entered value is not a date!</div>
-      <div ng-message="maxdate">Date is too late!</div>
     </div>
   </div>
+</div>
+<div layout-gt-xs="row">
+  <md-button ng-click="vm.addLicenseForm()">Add more</md-button>
 </div>
