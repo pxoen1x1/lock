@@ -23,7 +23,7 @@
       </div>
       <form name="registrationForm"
             novalidate
-            ng-submit="vm.createUser(vm.user, registrationForm.$valid)">
+            ng-submit="vm.createUser(vm.auth, vm.user, registrationForm.$valid)">
         <!-- First and last name -->
         <div layout="row">
           <md-input-container class="md-block" flex>
@@ -31,7 +31,7 @@
             <input name="firstName"
                    required
                    ng-maxlength="20"
-                   ng-model="vm.user.user.firstName">
+                   ng-model="vm.user.firstName">
             <div ng-messages="registrationForm.firstName.$error">
               <div ng-message="maxlength">Your first name is too long.</div>
             </div>
@@ -41,7 +41,7 @@
             <input name="lastName"
                    required
                    ng-maxlength="20"
-                   ng-model="vm.user.user.lastName">
+                   ng-model="vm.user.lastName">
             <div ng-messages="registrationForm.lastName.$error">
               <div ng-message="maxlength">Your last name is too long.</div>
             </div>
@@ -57,7 +57,7 @@
                    ui-us-phone-number
                    availability-validation
                    ng-model-options="{ 'debounce': 400 }"
-                   ng-model="vm.user.user.phoneNumber">
+                   ng-model="vm.user.phoneNumber">
             <div ng-messages="registrationForm.phoneNumber.$error">
               <span ng-message="usPhoneNumber">That doesn't look like a valid phone number.</span>
               <span ng-message="availability">This phone number already exists.</span>
@@ -74,7 +74,7 @@
                    email-validation
                    availability-validation
                    ng-model-options="{ 'debounce': 400 }"
-                   ng-model="vm.user.email">
+                   ng-model="vm.auth.email">
             <div ng-messages="registrationForm.email.$error">
               <div ng-message="email">That doesn't look like a valid email.</div>
               <div ng-message="availability">This email already exists.</div>
@@ -89,7 +89,7 @@
                    name="password"
                    required
                    password-validation
-                   ng-model="vm.user.password">
+                   ng-model="vm.auth.password">
             <div ng-messages="registrationForm.password.$error">
               <div ng-message="password">
                 Your password must contain 6 characters (at least one number and one letter).

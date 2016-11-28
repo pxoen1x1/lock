@@ -7,7 +7,7 @@
     <div class="registration-form">
       <form name="registrationForm"
             novalidate
-            ng-submit="vm.createNewUser(vm.user, registrationForm)">
+            ng-submit="vm.createNewUser(vm.auth, vm.user, registrationForm.$valid)">
         <div class="stepper-navigation"
              layout="row"
              layout-align="center center">

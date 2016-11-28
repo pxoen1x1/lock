@@ -14,15 +14,21 @@ let License = {
 
     attributes: {
         number: {
-            type: 'string'
+            type: 'string',
+            required: true
         },
         date: {
-            type: 'date'
+            type: 'date',
+            required: true
         },
 
+        state: {
+            model: 'State',
+            required: true,
+            columnName: 'state_id'
+        },
         userDetail: {
             model: 'UserDetail',
-            unique: true,
             columnName: 'user_details_id'
         }
     }

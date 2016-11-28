@@ -14,7 +14,8 @@ let ServiceType = {
 
     attributes: {
         name: {
-            type: 'string'
+            type: 'string',
+            required: true
         },
 
         userDetails: {
