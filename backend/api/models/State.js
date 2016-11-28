@@ -26,6 +26,10 @@ let State = {
         addresses: {
             collection: 'address',
             via: 'city'
+        },
+        licenses: {
+            collection: 'License',
+            via: 'state'
         }
     }
 };

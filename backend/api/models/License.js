@@ -17,18 +17,18 @@ let License = {
             type: 'string',
             required: true
         },
-        state: {
-            type: 'string',
-            required: true
-        },
         date: {
             type: 'date',
             required: true
         },
 
+        state: {
+            model: 'State',
+            required: true,
+            columnName: 'state_id'
+        },
         userDetail: {
             model: 'UserDetail',
-            unique: true,
             columnName: 'user_details_id'
         }
     }
