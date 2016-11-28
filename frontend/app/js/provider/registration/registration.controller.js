@@ -122,28 +122,12 @@
             createUser(params);
         }
 
-        function clearEmptyElements(arr) {
-            arr = arr.filter(function (el) {
-                var isEmpty = true;
-
-                angular.forEach(el, function (value) {
-                    isEmpty = value === '' || value === null;
-                });
-
-                return !isEmpty;
-            });
-
-            return arr;
-        }
-
         function addLicenseForm() {
             vm.user.details.licenses.push({});
-            return;
         }
 
         function removeLicenseForm(index) {
             vm.user.details.licenses.splice(index, 1);
-            return;
         }
 
         function activate() {
