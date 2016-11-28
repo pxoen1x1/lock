@@ -32,12 +32,9 @@ module.exports = function (req, res, next) {
             (chats) => {
                 if (chats && chats.length > 0) {
                     let chatExists = chats.some(
-                        (chat) => {
-
-                            return chat.members.filter(
-                                (chatMember) => chatMember.id === member
-                            );
-                        }
+                        (chat) => chat.members.some(
+                            (chatMember) => chatMember.id === member
+                        )
                     );
 
                     if (chatExists) {
