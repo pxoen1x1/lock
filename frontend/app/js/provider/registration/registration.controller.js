@@ -82,7 +82,7 @@
         }
 
         function createUser(user) {
-            
+
             return authService.register(user)
                 .then(function () {
 
@@ -108,17 +108,17 @@
             vm.currentStep = indexStep;
         }
 
-        function createNewUser(user, isFormValid) {
+        function createNewUser(auth, user, isFormValid) {
             if (!isFormValid) {
 
                 return;
             }
 
             var params = {
-                auth: vm.auth,
+                auth: auth,
                 user: user
             };
-            
+
             createUser(params);
         }
 
@@ -138,12 +138,12 @@
 
         function addLicenseForm() {
             vm.user.details.licenses.push({});
-            return ;
+            return;
         }
 
         function removeLicenseForm(index) {
             vm.user.details.licenses.splice(index, 1);
-            return ;
+            return;
         }
 
         function activate() {
