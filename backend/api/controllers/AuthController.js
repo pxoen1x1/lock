@@ -19,11 +19,11 @@ let AuthController = waterlock.waterlocked({
 
     register(req, res) {
         let params = req.allParams();
-        let user = params.user;
         let auth = params.auth;
-        
-        if (!user || (!auth.password || !auth.email) ||
-            (!user.firstName || !user.lastName || !user.phoneNumber)) {
+        let user = params.user;
+
+        if ((!auth || !auth.password || !auth.email) ||
+            (!user || !user.firstName || !user.lastName || !user.phoneNumber)) {
 
             return res.badRequest({
                 message: req.__('Submitted data is invalid.')
@@ -44,6 +44,8 @@ let AuthController = waterlock.waterlocked({
             delete user.details;
         }
 
+        auth.user = user;
+
         AuthService.findAuth(criteria)
             .then(
                 (foundUser) => {
@@ -52,7 +54,7 @@ let AuthController = waterlock.waterlocked({
                         return Promise.reject();
                     }
 
-                    return AuthService.findOrCreateAuth(criteria, user);
+                    return AuthService.findOrCreateAuth(criteria, auth);
                 }
             )
             .then(
