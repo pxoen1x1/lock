@@ -57,9 +57,6 @@ let UserService = {
                     details.latitude AS 'details.latitude',
                     details.longitude AS 'details.longitude',
                     details.rating AS 'details.rating',
-                    details_license.id AS 'details.license.id',
-                    details_license.number AS 'details.license.number',
-                    details_license.date AS 'details.license.date',
                     details_workingHours.id AS 'details.workingHours.id',
                     details_workingHours.time_from AS 'details.workingHours.timeFrom',
                     details_workingHours.time_to AS 'details.workingHours.timeTo'
@@ -69,7 +66,6 @@ let UserService = {
             LEFT JOIN cities AS address_city ON address_city.id = address.city_id
             LEFT JOIN states AS address_state ON address_state.id = address.state_id
             LEFT JOIN user_details AS details ON details.user_id = user.id
-            LEFT JOIN licenses AS details_license ON details_license.user_details_id = details.id
             LEFT JOIN working_hours AS details_workingHours ON details_workingHours.id = details.id
             WHERE details.user_id IS NOT NULL
             AND user.is_enabled = true
