@@ -40,10 +40,9 @@ let ChatController = {
             );
     },
     getSpecialistChats(req, res) {
-        let member = req.session.user.id;
+        let member = req.session.user;
 
-        Chat.find({members: member})
-            .populateAll()
+        ChatService.getSpecialistChats(member)
             .then(
                 (chats) => res.ok(
                     {
