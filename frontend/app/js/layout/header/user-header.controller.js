@@ -3,12 +3,12 @@
 
     angular
         .module('app.customer')
-        .controller('CustomerHeaderController', CustomerHeaderController);
+        .controller('UserHeaderController', UserHeaderController);
 
-    CustomerHeaderController.$inject = ['$rootScope', '$state', '$mdSidenav', 'authService'];
+    UserHeaderController.$inject = ['$rootScope', '$state', '$mdSidenav', 'authService'];
 
     /* @ngInject */
-    function CustomerHeaderController($rootScope, $state, $mdSidenav, authService) {
+    function UserHeaderController($rootScope, $state, $mdSidenav, authService) {
         var vm = this;
 
         vm.pageTitles = [];
@@ -19,7 +19,7 @@
 
         activate();
 
-        $rootScope.$on('$stateChangeStart', function (fromState, toState, fromParams, toParams) {
+        $rootScope.$on('$stateChangeStart', function (fromState, toState) {
             vm.pageTitles = createPageTitles(toState);
         });
 
