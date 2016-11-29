@@ -77,7 +77,7 @@ module.exports.policies = {
             'isUserEnabled',
             'isOfferConfirmationAllowed'
         ],
-        'changeStatus' : [
+        'changeStatus': [
             'hasJsonWebToken',
             'isUserEnabled',
             'isRequestStatusChangeAllowed'
@@ -98,6 +98,12 @@ module.exports.policies = {
             'isSocketRequest',
             'hasJsonWebToken',
             'isUserEnabled'
+        ],
+        'getSpecialistChat': [
+            'isSocketRequest',
+            'hasJsonWebToken',
+            'isUserEnabled',
+            'isChatMember'
         ],
         'createChat': [
             'isSocketRequest',

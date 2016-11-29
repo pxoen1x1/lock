@@ -1,4 +1,4 @@
-/* global sails, Chat, ChatService, SocketService */
+/* global sails, Chat, ChatService, SocketService, HelperService */
 
 /**
  * ChatController
@@ -10,6 +10,55 @@
 'use strict';
 
 let ChatController = {
+    getSpecialistChat(req, res) {
+        let chatId = req.params.chatId;
+
+        let user = req.session.user.id;
+
+        if (!chatId) {
+
+            return res.badRequest(
+                {
+                    message: req.__('Submitted data is invalid.')
+                }
+            );
+        }
+
+        let chat = {
+            id: chatId
+        };
+
+        ChatService.getChat(chat)
+            .then(
+                (foundChat) => {
+                    if (!foundChat.request.executor || foundChat.request.executor.id !== user) {
+                        let hiddenLocation = HelperService.hideLocation(foundChat.request.location);
+
+                        foundChat.request.location = hiddenLocation;
+                    }
+
+                    return [ChatService.getChatMembers(foundChat), foundChat];
+                }
+            )
+            .spread(
+                (members, chat) => {
+                    chat.members = members;
+
+                    res.ok(
+                        {
+                            chat: chat
+                        }
+                    );
+                }
+            )
+            .catch(
+                (err) => {
+                    sails.log.error(err);
+
+                    return res.serverError();
+                }
+            );
+    },
     getClientChats(req, res) {
         let requestId = req.params.requestId;
         let owner = req.session.user.id;

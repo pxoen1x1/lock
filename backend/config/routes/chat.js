@@ -1,6 +1,10 @@
 'use strict';
 
 let chatRoutes = {
+    'GET /api/specialist/chat/:chatId': {
+        controller: 'ChatController',
+        action: 'getSpecialistChat'
+    },
     'GET /api/client/request/:requestId/chats': {
         controller: 'ChatController',
         action: 'getClientChats'
