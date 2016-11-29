@@ -10,6 +10,7 @@
     /* @ngInject */
     function chatSocketservice($sails, socketService, conf) {
         var service = {
+            getSpecialistChat: getSpecialistChat,
             getClientChats: getClientChats,
             getSpecialistChats: getSpecialistChats,
             getRequestBids: getRequestBids,
@@ -33,6 +34,17 @@
         };
 
         return service;
+
+        function getSpecialistChat(chat) {
+
+            return $sails.get(conf.URL_PREFIX + 'specialist/chat/' + chat.id)
+                .then(getChatCompleted);
+
+            function getChatCompleted(message) {
+
+                return message.data.chat;
+            }
+        }
 
         function getClientChats(request) {
 
