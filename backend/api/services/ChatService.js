@@ -182,6 +182,21 @@ let ChatService = {
                 (members) => HelperService.formatQueryResult(members)
             );
     },
+    getSpecialistChatByRequest(request, member) {
+        let rawQuery = `${getChatsRawQuery}
+        JOIN  chat_members__user_chatmembers AS cu ON cu.user_chatMembers = ?
+        WHERE chat.request_id = ? LIMIT 1`;
+
+        let chatQueryAsync = promise.promisify(Chat.query);
+
+        return chatQueryAsync(rawQuery, [member.id, request.id])
+            .then(
+                (chats) => {
+
+                    return HelperService.formatQueryResult(chats)[0];
+                }
+            );
+    },
     getChats(criteria) {
 
         return Chat.find(criteria)
@@ -189,7 +204,7 @@ let ChatService = {
     },
     getSpecialistChats(member) {
         let rawQuery = `${getChatsRawQuery}
-        JOIN  chat_members__user_chatmembers AS cu ON cu.user_chatMembers = ${member.id}
+        JOIN  chat_members__user_chatmembers AS cu ON cu.user_chatMembers = ?
         WHERE chat.id = cu.chat_members`;
 
         rawQuery = rawQuery.replace(/\s*request_location.address AS 'request.location.address',/, '');
@@ -207,7 +222,7 @@ let ChatService = {
 
         let chatQueryAsync = promise.promisify(Chat.query);
 
-        return chatQueryAsync(rawQuery)
+        return chatQueryAsync(rawQuery, [member.id])
             .then(
                 (chats) => {
 

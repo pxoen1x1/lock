@@ -1,4 +1,4 @@
-/* global sails, Chat, ChatService, SocketService, HelperService */
+/* global sails, ChatService, SocketService, HelperService */
 
 /**
  * ChatController
@@ -59,6 +59,39 @@ let ChatController = {
                 }
             );
     },
+    getSpecialistChatByRequest(req, res) {
+        let requestId = req.params.requestId;
+        let member = req.session.user;
+
+        if (!requestId) {
+
+            return res.badRequest(
+                {
+                    message: req.__('Submitted data is invalid.')
+                }
+            );
+        }
+
+        let request = {
+            id: requestId
+        };
+
+        ChatService.getSpecialistChatByRequest(request, member)
+            .then(
+                (chat) => res.ok(
+                    {
+                        chat: chat
+                    }
+                )
+            )
+            .catch(
+                (err) => {
+                    sails.log.error(err);
+
+                    return res.serverError();
+                }
+            );
+    },
     getClientChats(req, res) {
         let requestId = req.params.requestId;
         let owner = req.session.user.id;
@@ -96,36 +129,6 @@ let ChatController = {
                 (chats) => res.ok(
                     {
                         chats: chats
-                    }
-                )
-            )
-            .catch(
-                (err) => {
-                    sails.log.error(err);
-
-                    return res.serverError();
-                }
-            );
-    },
-    getSpecialistChatByRequest(req, res) {
-        let requestId = req.params.requestId;
-        let member = req.session.user.id;
-
-        if (!requestId) {
-
-            return res.badRequest(
-                {
-                    message: req.__('Submitted data is invalid.')
-                }
-            );
-        }
-
-        Chat.findOne({request: requestId, members: member})
-            .populateAll()
-            .then(
-                (chat) => res.ok(
-                    {
-                        chat: chat
                     }
                 )
             )
