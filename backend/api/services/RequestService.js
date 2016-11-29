@@ -80,9 +80,6 @@ let getRequestsRawQuery = `SELECT request.id,
                                   executor_details.latitude AS 'executor.details.latitude',
                                   executor_details.longitude AS 'executor.details.longitude',
                                   executor_details.rating AS 'executor.details.rating',
-                                  executor_details_license.id AS 'executor.details.license.id',
-                                  executor_details_license.number AS 'executor.details.license.number',
-                                  executor_details_license.date AS 'executor.details.license.date',
                                   executor_details_workingHours.id AS 'executor.details.workingHours.id',
                                   executor_details_workingHours.time_from AS 'executor.details.workingHours.timeFrom',
                                   executor_details_workingHours.time_to AS 'executor.details.workingHours.timeTo'
@@ -101,8 +98,6 @@ let getRequestsRawQuery = `SELECT request.id,
                      LEFT JOIN cities AS executor_address_city ON executor_address_city.id = executor_address.city_id
                      LEFT JOIN states AS executor_address_state ON executor_address_state.id = executor_address.state_id
                      LEFT JOIN user_details AS executor_details ON executor_details.user_id = executor.id
-                     LEFT JOIN licenses AS executor_details_license
-                               ON executor_details_license.user_details_id = executor_details.id
                      LEFT JOIN working_hours AS executor_details_workingHours
                                ON executor_details_workingHours.user_details_id = executor_details.id`;
 
