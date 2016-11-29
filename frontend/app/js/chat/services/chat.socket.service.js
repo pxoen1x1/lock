@@ -37,7 +37,7 @@
 
         function getSpecialistChat(chat) {
 
-            return $sails.get(conf.URL_PREFIX + 'specialist/chat/' + chat.id)
+            return $sails.get(conf.URL_PREFIX + 'specialist/chats/' + chat.id)
                 .then(getChatCompleted);
 
             function getChatCompleted(message) {
@@ -48,7 +48,7 @@
 
         function getClientChats(request) {
 
-            return $sails.get(conf.URL_PREFIX + 'client/request/' + request.id + '/chats')
+            return $sails.get(conf.URL_PREFIX + 'client/requests/' + request.id + '/chats')
                 .then(getClientChatsCompleted);
 
             function getClientChatsCompleted(message) {
@@ -70,7 +70,7 @@
 
         function getRequestBids(request) {
 
-            return $sails.get(conf.URL_PREFIX + 'client/request/' + request.id + '/bids')
+            return $sails.get(conf.URL_PREFIX + 'client/requests/' + request.id + '/bids')
                 .then(getRequestBidsCompleted);
 
             function getRequestBidsCompleted(message) {
@@ -114,7 +114,7 @@
 
         function subscribeToChat(chat) {
 
-            return $sails.post(conf.URL_PREFIX + 'chat/' + chat.id + '/subscribe')
+            return $sails.post(conf.URL_PREFIX + 'chats/' + chat.id + '/subscribe')
                 .then(function (message) {
 
                     return message.data;
@@ -123,7 +123,7 @@
 
         function createChat(request, member) {
 
-            return $sails.post(conf.URL_PREFIX + 'client/request/' + request.id + '/chats', member)
+            return $sails.post(conf.URL_PREFIX + 'client/requests/' + request.id + '/chats', member)
                 .then(createChatCompleted);
 
             function createChatCompleted(response) {
@@ -134,7 +134,7 @@
 
         function createBid(request, bid) {
 
-            return $sails.post(conf.URL_PREFIX + 'specialist/request/' + request.id + '/bids', bid)
+            return $sails.post(conf.URL_PREFIX + 'specialist/requests/' + request.id + '/bids', bid)
                 .then(createBidCompleted);
 
             function createBidCompleted(response) {
