@@ -25,7 +25,7 @@
                     },
                     'header@provider': {
                         templateUrl: 'layout/header/user-header.html',
-                        controller: 'ProviderHeaderController',
+                        controller: 'UserHeaderController',
                         controllerAs: 'vm'
                     }
                 },

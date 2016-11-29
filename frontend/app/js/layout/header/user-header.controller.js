@@ -2,21 +2,24 @@
     'use strict';
 
     angular
-        .module('app.provider')
-        .controller('ProviderHeaderController', ProviderHeaderController);
+        .module('app.customer')
+        .controller('UserHeaderController', UserHeaderController);
 
-    ProviderHeaderController.$inject = ['$rootScope', '$state', '$mdSidenav'];
+    UserHeaderController.$inject = ['$rootScope', '$state', '$mdSidenav', 'authService'];
 
     /* @ngInject */
-    function ProviderHeaderController($rootScope, $state, $mdSidenav) {
+    function UserHeaderController($rootScope, $state, $mdSidenav, authService) {
         var vm = this;
 
         vm.pageTitles = [];
+
         vm.toggleMenu = toggleMenu;
+        vm.isAuthenticated = authService.isAuthenticated;
+        vm.logout = authService.logout;
 
         activate();
 
-        $rootScope.$on('$stateChangeStart', function (fromState, toState, fromParams, toParams) {
+        $rootScope.$on('$stateChangeStart', function (fromState, toState) {
             vm.pageTitles = createPageTitles(toState);
         });
 
@@ -26,6 +29,10 @@
 
         function createPageTitles(state) {
             var pageTitles = [];
+
+            if (!state.parent) {
+                return vm.pageTitles;
+            }
             
             while (state.parent) {
                 if (state.data && state.data.title) {
