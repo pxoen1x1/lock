@@ -20,7 +20,7 @@
                     },
                     'menu@provider': {
                         templateUrl: 'layout/menu/user-menu.html',
-                        controller: 'ProviderMenuController',
+                        controller: 'UserMenuController',
                         controllerAs: 'vm'
                     },
                     'header@provider': {
