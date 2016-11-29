@@ -74,6 +74,7 @@
         vm.reply = reply;
         vm.onFileLoaded = onFileLoaded;
         vm.startSpeechRecognition = startSpeechRecognition;
+        vm.isChatDisabled = isChatDisabled;
 
         activate();
 
@@ -233,13 +234,11 @@
                 });
         }
 
-        function reply(event, replyMessage, currentChat, currentRequest) {
-            if ((event && event.shiftKey && event.keyCode === 13) ||
-                currentRequest.status === vm.requestStatus.CLOSED ||
-                (currentRequest.status !== vm.requestStatus.NEW &&
-                currentRequest.executor.id !== currentChat.specialist.id)) {
-
-                vm.textareaGrow[currentChat.id] = true;
+        function reply(event, replyMessage, currentChat) {
+            if ((event && event.shiftKey && event.keyCode === 13) || isChatDisabled()) {
+                if (currentChat) {
+                    vm.textareaGrow[currentChat.id] = true;
+                }
 
                 return;
             }
@@ -289,6 +288,11 @@
         }
 
         function startSpeechRecognition() {
+            if ((vm.selectedTab === 'bids' && vm.currentBid) || isChatDisabled()) {
+
+                return;
+            }
+
             if (vm.recognizing) {
                 vm.recognizing = false;
 
@@ -305,6 +309,27 @@
                         vm.recognizing = false;
                     });
             }
+        }
+
+        function isChatDisabled() {
+            if (!vm.currentChat || !vm.currentRequest) {
+
+                return true;
+            }
+
+            if (!vm.currentRequest.executor) {
+
+                return false;
+            }
+
+            var isRequestClosed = vm.currentRequest.status === vm.requestStatus.CLOSED;
+            var isRequestNew = vm.currentRequest.status !== vm.requestStatus.NEW;
+            var isRequestExecutorChatMember = vm.currentChat.members.some(function (member) {
+
+                return member.id === vm.currentRequest.executor.id;
+            });
+
+            return isRequestClosed || (isRequestNew && !isRequestExecutorChatMember);
         }
 
         function activate() {
