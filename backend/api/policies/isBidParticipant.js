@@ -12,9 +12,7 @@
 'use strict';
 
 module.exports = function (req, res, next) {
-    let params = req.allParams();
-
-    let bid = params.bid;
+    let bid = req.params.bidId;
     let user = req.session.user.id;
 
     if (!bid) {

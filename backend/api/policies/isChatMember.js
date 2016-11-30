@@ -25,6 +25,7 @@ module.exports = function (req, res, next) {
     }
 
     Chat.findOneById(chat)
+        .populate('members')
         .then(
             (foundChat) => {
                 if (!foundChat) {
@@ -38,9 +39,13 @@ module.exports = function (req, res, next) {
                     );
                 }
 
-                let isChatMember = user === foundChat.client || user === foundChat.specialist;
+                let isChatOwner = user === foundChat.owner;
+                let isChatMembers = foundChat.members
+                    .some(
+                        (member) => member.id === user
+                    );
 
-                if (!isChatMember) {
+                if (!isChatMembers && !isChatOwner) {
                     sails.log.debug(new Error('You are not permitted to perform this action.'));
 
 

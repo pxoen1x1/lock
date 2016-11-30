@@ -16,6 +16,7 @@
                 currentBid: '=',
                 currentRequest: '=',
                 selectedTab: '=',
+                chatSearch: '=?',
                 changeCurrentRequest: '&'
             },
             replace: true,

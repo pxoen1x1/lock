@@ -18,27 +18,23 @@
           flex
           layout="row"
           layout-align="start center"
-          ng-submit="vm.reply(null, vm.replyMessage[vm.currentChat.id], vm.currentChat, vm.currentRequest)">
+          ng-submit="vm.reply(null, vm.replyMessage[vm.currentChat.id], vm.currentChat)">
       <md-input-container flex md-no-float>
               <textarea placeholder="Type and hit enter to send message"
                         md-no-autogrow
                         ng-if="vm.selectedTab === 'chats' || !vm.currentBid"
                         ng-class="{ 'grow': vm.textareaGrow[vm.currentChat.id] }"
-                        ng-keydown="vm.reply($event, vm.replyMessage[vm.currentChat.id], vm.currentChat, vm.currentRequest)"
+                        ng-keydown="vm.reply($event, vm.replyMessage[vm.currentChat.id], vm.currentChat)"
                         ng-model="vm.replyMessage[vm.currentChat.id]">
               </textarea>
       </md-input-container>
       <div layout="row" layout-xs="column" layout-align=" center center"
-           ng-class="{ disabled: (vm.selectedTab === 'bids' && vm.currentBid) ||
-                       vm.currentRequest.status === vm.requestStatus.CLOSED ||
-                      (vm.currentRequest.status !== vm.requestStatus.NEW && vm.currentRequest.executor.id !== vm.currentChat.specialist.id) }">
+           ng-class="{ disabled: (vm.selectedTab === 'bids' && vm.currentBid) || vm.isChatDisabled() }">
         <md-button type="button"
                    class="md-button-blue md-mini"
                    aria-label="Load Photo"
                    file-uploader
-                   file-uploader-disabled="(vm.selectedTab === 'bids' && vm.currentBid) ||
-                       vm.currentRequest.status === vm.requestStatus.CLOSED ||
-                      (vm.currentRequest.status !== vm.requestStatus.NEW && vm.currentRequest.executor.id !== vm.currentChat.specialist.id)"
+                   file-uploader-disabled="(vm.selectedTab === 'bids' && vm.currentBid) || vm.isChatDisabled()"
                    auto-upload="true"
                    upload-file-url="{{ vm.baseUrl + '/api/chats/' + vm.currentChat.id + '/messages/file' }}"
                    is-single-file="true"

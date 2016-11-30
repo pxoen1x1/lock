@@ -4,7 +4,8 @@
      ng-class="{ 'user': vm.message.sender.id === vm.currentUser.id }">
   <div class="avatar"
        ng-style="{ 'background-image': 'url(' + (vm.message.sender.portrait ?
-       vm.baseUrl + vm.message.sender.portrait : vm.defaultPortrait) + ')' }">
+       vm.baseUrl + vm.message.sender.portrait : vm.defaultPortrait) + ')' }"
+       ng-click="vm.showChatMemberInfo(vm.message.sender)">
   </div>
   <div class="bubble">
     <div class="message"

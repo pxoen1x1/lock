@@ -15,7 +15,7 @@
                 bids: '=',
                 currentBid: '=',
                 currentRequest: '=',
-                selectSpecialist: '&'
+                chatSearch: '=?'
             },
             replace: true,
             templateUrl: 'chat/directives/bid-list/client-bid-list.html'
@@ -81,8 +81,6 @@
             }
 
             vm.currentBid = currentBid;
-
-            vm.selectSpecialist({specialist: currentBid.specialist});
 
             if (!$mdMedia('gt-md')) {
                 $mdSidenav('left-sidenav').close();

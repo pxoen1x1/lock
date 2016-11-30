@@ -86,9 +86,6 @@ let getBidRawQuery = `SELECT bid.id,
                              specialist_details.latitude AS 'specialist.details.latitude',
                              specialist_details.longitude AS 'specialist.details.longitude',
                              specialist_details.rating AS 'specialist.details.rating',
-                             specialist_details_license.id AS 'specialist.details.license.id',
-                             specialist_details_license.number AS 'specialist.details.license.number',
-                             specialist_details_license.date AS 'specialist.details.license.date',
                              specialist_details_workingHours.id AS 'specialist.details.workingHours.id',
                              specialist_details_workingHours.time_from AS 'specialist.details.workingHours.timeFrom',
                              specialist_details_workingHours.time_to AS 'specialist.details.workingHours.timeTo'
@@ -108,8 +105,6 @@ let getBidRawQuery = `SELECT bid.id,
         LEFT JOIN cities AS specialist_address_city ON specialist_address_city.id = specialist_address.city_id
         LEFT JOIN states AS specialist_address_state ON specialist_address_state.id = specialist_address.state_id
         LEFT JOIN user_details AS specialist_details ON specialist_details.user_id = specialist.id
-        LEFT JOIN licenses AS specialist_details_license
-                  ON specialist_details_license.user_details_id = specialist_details.id
         LEFT JOIN working_hours AS specialist_details_workingHours
                   ON specialist_details_workingHours.user_details_id = specialist_details.id`;
 
