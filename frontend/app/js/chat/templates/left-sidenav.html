@@ -10,7 +10,7 @@
            layout-align="start center">
         <i class="material-icons s18">search</i>
         <input type="text"
-               placeholder="Search or start new chat"
+               placeholder="Search the chat"
                flex
                ng-model="vm.chatSearch">
       </div>
@@ -41,15 +41,16 @@
                     messages="vm.messages"
                     current-request="vm.currentRequest"
                     current-chat="vm.currentChat"
+                    chat-search="vm.chatSearch"
                     scroll-chat-disabled="vm.isScrollDisabled"
-                    scroll-chat-to-bottom="vm.isScrollToBottomEnabled"
-                    select-specialist="vm.selectSpecialist(specialist)">
+                    scroll-chat-to-bottom="vm.isScrollToBottomEnabled">
   </client-chat-list>
   <specialist-chat-list ng-if="vm.currentUser.type === vm.userType.SPECIALIST"
                         chats="vm.chats"
                         messages="vm.messages"
                         current-request="vm.currentRequest"
                         current-chat="vm.currentChat"
+                        chat-search="vm.chatSearch"
                         scroll-chat-disabled="vm.isScrollDisabled"
                         scroll-chat-to-bottom="vm.isScrollToBottomEnabled"
                         change-current-request="vm.changeCurrentRequest(request)">
@@ -60,16 +61,17 @@
      flex
      ng-show="vm.selectedTab === 'bids'">
   <client-bid-list ng-if="vm.currentRequest.id && vm.currentUser.type === vm.userType.CLIENT"
-            bids="vm.bids"
-            current-request="vm.currentRequest"
-            current-bid="vm.currentBid"
-            select-specialist="vm.selectSpecialist(specialist)">
+                   bids="vm.bids"
+                   current-request="vm.currentRequest"
+                   current-bid="vm.currentBid"
+                   chat-search="vm.chatSearch">
   </client-bid-list>
   <specialist-bid-list ng-if="vm.currentUser.type === vm.userType.SPECIALIST"
                        bids="vm.bids"
                        current-request="vm.currentRequest"
                        current-bid="vm.currentBid"
                        selected-tab="vm.selectedTab"
+                       chat-search="vm.chatSearch"
                        change-current-request="vm.changeCurrentRequest(request)">
   </specialist-bid-list>
 </div>

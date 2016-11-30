@@ -7,6 +7,7 @@
 
     SpecialistChatController.$inject = [
         '$scope',
+        '$q',
         '$mdSidenav',
         'coreConstants',
         'coreDataservice',
@@ -16,7 +17,7 @@
     ];
 
     /* @ngInject */
-    function SpecialistChatController($scope, $mdSidenav, coreConstants, coreDataservice, chatSocketservice,
+    function SpecialistChatController($scope, $q, $mdSidenav, coreConstants, coreDataservice, chatSocketservice,
                                       currentUserService, currentRequestService) {
         var requestHandler;
         var chatHandler;
@@ -92,16 +93,10 @@
         function changeCurrentRequest(request) {
             if (!request || !request.id) {
 
-                return;
+                return $q.reject('');
             }
 
-            if (vm.requests[request.id]) {
-                vm.currentRequest = vm.requests[request.id];
-
-                return;
-            }
-
-            return getRequest(request)
+            return $q.when(vm.requests[request.id] || getRequest(request))
                 .then(function (request) {
                     vm.requests[request.id] = request;
                     vm.currentRequest = request;

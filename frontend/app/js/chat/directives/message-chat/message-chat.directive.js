@@ -20,8 +20,10 @@
                 currentUser: '=',
                 currentRequest: '=',
                 currentChat: '=',
+                selectedSpecialist: '=',
                 acceptOffer: '&',
-                updateRequestStatus: '&'
+                updateRequestStatus: '&',
+                toggleSidenav: '&'
             },
             replace: true
         };
@@ -96,6 +98,7 @@
 
         vm.confirmOffer = confirmOffer;
         vm.changeRequestStatus = changeRequestStatus;
+        vm.showChatMemberInfo = showChatMemberInfo;
 
         function confirmOffer(message, currentRequest) {
             if (currentRequest.status !== vm.requestStatus.NEW) {
@@ -128,6 +131,17 @@
             };
 
             vm.updateRequestStatus({request: request, status: status});
+        }
+
+        function showChatMemberInfo(selectedMember) {
+            if (vm.currentUser.type !== vm.userType.CLIENT || selectedMember.id === vm.currentUser.id) {
+
+                return;
+            }
+
+            vm.selectedSpecialist = selectedMember;
+
+            vm.toggleSidenav({navID: 'right-sidenav'});
         }
     }
 })();

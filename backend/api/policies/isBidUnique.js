@@ -56,10 +56,9 @@ module.exports = function (req, res, next) {
             (chats) => {
                 if (chats && chats.length > 0) {
                     let chatExists = chats.some(
-                        (chat) => {
-
-                            return chat.specialist === specialist;
-                        }
+                        (chat) => chat.members.some(
+                            (chatMember) => chatMember.id === specialist
+                        )
                     );
 
                     if (chatExists) {

@@ -1,4 +1,4 @@
-/* global sails, Chat */
+/* global sails, ChatService */
 
 /**
  * isChatUnique
@@ -15,9 +15,9 @@ module.exports = function (req, res, next) {
     let params = req.allParams();
 
     let requestId = req.params.requestId;
-    let specialist = params.specialist && params.specialist.id ? params.specialist.id : null;
+    let member = params.member && params.member.id ? params.member.id : null;
 
-    if (!requestId || !specialist) {
+    if (!requestId || !member) {
         sails.log.debug(new Error('Submitted data is invalid.'));
 
         return res.badRequest(
@@ -27,15 +27,14 @@ module.exports = function (req, res, next) {
         );
     }
 
-    Chat.findByRequest(requestId)
+    ChatService.getChats({request: requestId})
         .then(
             (chats) => {
                 if (chats && chats.length > 0) {
                     let chatExists = chats.some(
-                        (chat) => {
-
-                            return chat.specialist === specialist;
-                        }
+                        (chat) => chat.members.some(
+                            (chatMember) => chatMember.id === member
+                        )
                     );
 
                     if (chatExists) {

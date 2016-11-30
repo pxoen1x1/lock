@@ -103,13 +103,13 @@ let User = {
             collection: 'Feedback',
             via: 'executor'
         },
-        chatClients: {
+        chatOwners: {
             collection: 'Chat',
-            via: 'client'
+            via: 'owner'
         },
-        chatSpecialists: {
+        chatMembers: {
             collection: 'Chat',
-            via: 'specialist'
+            via: 'members'
         },
         bidClients: {
             collection: 'Bid',

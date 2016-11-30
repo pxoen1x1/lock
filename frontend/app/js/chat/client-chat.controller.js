@@ -28,8 +28,8 @@
         vm.currentUser = {};
         vm.currentChat = null;
         vm.currentBid = null;
-
         vm.currentRequest = {};
+        vm.selectedSpecialist = {};
 
         vm.leftSidenavView = false;
         vm.selectedTab = 'chats';
@@ -38,7 +38,6 @@
         vm.userType = coreConstants.USER_TYPES;
 
         vm.toggleSidenav = toggleSidenav;
-        vm.selectSpecialist = selectSpecialist;
 
         activate();
 
@@ -62,11 +61,6 @@
                 .then(function (request) {
                     vm.currentRequest = request;
                 });
-        }
-
-
-        function selectSpecialist(specialist) {
-            vm.selectedSpecialist = specialist;
         }
 
         function toggleSidenav(navID) {

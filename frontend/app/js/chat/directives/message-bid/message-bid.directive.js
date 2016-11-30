@@ -45,11 +45,11 @@
 
         function createChat(bid) {
             var request = bid.request;
-            var specialist = {
-                specialist: bid.specialist
+            var member = {
+                member: bid.specialist
             };
 
-            return chatSocketservice.createChat(request, specialist)
+            return chatSocketservice.createChat(request, member)
                 .then(function (createdChat) {
 
                     return createdChat;

@@ -1,4 +1,4 @@
-/* global sails, Chat, ChatService, SocketService */
+/* global sails, ChatService, SocketService, HelperService */
 
 /**
  * ChatController
@@ -10,9 +10,58 @@
 'use strict';
 
 let ChatController = {
-    getClientChats(req, res) {
+    getSpecialistChat(req, res) {
+        let chatId = req.params.chatId;
+
+        let user = req.session.user.id;
+
+        if (!chatId) {
+
+            return res.badRequest(
+                {
+                    message: req.__('Submitted data is invalid.')
+                }
+            );
+        }
+
+        let chat = {
+            id: chatId
+        };
+
+        ChatService.getChat(chat)
+            .then(
+                (foundChat) => {
+                    if (!foundChat.request.executor || foundChat.request.executor.id !== user) {
+                        let hiddenLocation = HelperService.hideLocation(foundChat.request.location);
+
+                        foundChat.request.location = hiddenLocation;
+                    }
+
+                    return [ChatService.getChatMembers(foundChat), foundChat];
+                }
+            )
+            .spread(
+                (members, chat) => {
+                    chat.members = members;
+
+                    res.ok(
+                        {
+                            chat: chat
+                        }
+                    );
+                }
+            )
+            .catch(
+                (err) => {
+                    sails.log.error(err);
+
+                    return res.serverError();
+                }
+            );
+    },
+    getSpecialistChatByRequest(req, res) {
         let requestId = req.params.requestId;
-        let client = req.session.user.id;
+        let member = req.session.user;
 
         if (!requestId) {
 
@@ -23,7 +72,55 @@ let ChatController = {
             );
         }
 
-        ChatService.getChats({request_id: requestId, client_id: client})
+        let request = {
+            id: requestId
+        };
+
+        ChatService.getSpecialistChatByRequest(request, member)
+            .then(
+                (foundChat) => {
+                    if (!foundChat.request.executor || foundChat.request.executor.id !== member.id) {
+                        let hiddenLocation = HelperService.hideLocation(foundChat.request.location);
+
+                        foundChat.request.location = hiddenLocation;
+                    }
+
+                    return [ChatService.getChatMembers(foundChat), foundChat];
+                }
+            )
+            .spread(
+                (members, chat) => {
+                    chat.members = members;
+
+                    res.ok(
+                        {
+                            chat: chat
+                        }
+                    );
+                }
+            )
+            .catch(
+                (err) => {
+                    sails.log.error(err);
+
+                    return res.serverError();
+                }
+            );
+    },
+    getClientChats(req, res) {
+        let requestId = req.params.requestId;
+        let owner = req.session.user.id;
+
+        if (!requestId) {
+
+            return res.badRequest(
+                {
+                    message: req.__('Submitted data is invalid.')
+                }
+            );
+        }
+
+        ChatService.getChats({request: requestId, owner: owner})
             .then(
                 (chats) => res.ok(
                     {
@@ -40,10 +137,9 @@ let ChatController = {
             );
     },
     getSpecialistChats(req, res) {
-        let specialist = req.session.user.id;
+        let member = req.session.user;
 
-        Chat.findBySpecialist(specialist)
-            .populateAll()
+        ChatService.getSpecialistChats(member)
             .then(
                 (chats) => res.ok(
                     {
@@ -59,44 +155,14 @@ let ChatController = {
                 }
             );
     },
-    getSpecialistChatByRequest(req, res) {
-        let requestId = req.params.requestId;
-        let specialist = req.session.user.id;
-
-        if (!requestId) {
-
-            return res.badRequest(
-                {
-                    message: req.__('Submitted data is invalid.')
-                }
-            );
-        }
-
-        Chat.findOne({request: requestId, specialist: specialist})
-            .populateAll()
-            .then(
-                (chat) => res.ok(
-                    {
-                        chat: chat
-                    }
-                )
-            )
-            .catch(
-                (err) => {
-                    sails.log.error(err);
-
-                    return res.serverError();
-                }
-            );
-    },
     createChat(req, res) {
         let params = req.allParams();
 
         let requestId = params.requestId;
-        let specialist = params.specialist && params.specialist.id ? params.specialist.id : null;
-        let client = req.session.user.id;
+        let member = params.member && params.member.id ? params.member : null;
+        let owner = req.session.user.id;
 
-        if (!requestId || !specialist) {
+        if (!requestId || !member) {
 
             return res.badRequest(
                 {
@@ -106,12 +172,12 @@ let ChatController = {
         }
 
         let chat = {
-            client: client,
-            specialist: specialist,
+            owner: owner,
+            members: member,
             request: requestId
         };
 
-        ChatService.createChat(chat)
+        ChatService.createChat(chat, member)
             .then(
                 (createdChat) => {
                     res.ok({
@@ -123,10 +189,17 @@ let ChatController = {
             )
             .then(
                 (chat) => {
-                    let specialistRoom = `user_${chat.specialist.id}`;
+                    if (!chat.members || !chat.members.length) {
+
+                        return;
+                    }
+
+                    let memberRooms = chat.members.map(
+                        (member) => `user_${member.id}`
+                    );
 
                     sails.sockets.broadcast(
-                        specialistRoom,
+                        memberRooms,
                         'chat',
                         {
                             type: 'create',

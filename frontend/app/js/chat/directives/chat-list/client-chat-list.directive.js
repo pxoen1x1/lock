@@ -16,9 +16,9 @@
                 messages: '=',
                 currentRequest: '=',
                 currentChat: '=',
+                chatSearch: '=?',
                 isScrollDisabled: '=?scrollChatDisabled',
-                isScrollToBottomEnabled: '=?scrollChatToBottom',
-                selectSpecialist: '&'
+                isScrollToBottomEnabled: '=?scrollChatToBottom'
             },
             replace: true,
             templateUrl: 'chat/directives/chat-list/client-chat-list.html'
@@ -65,8 +65,6 @@
             }
 
             vm.currentChat = currentChat;
-
-            vm.selectSpecialist({specialist: currentChat.specialist});
 
             vm.isScrollDisabled = true;
             vm.isScrollToBottomEnabled = true;

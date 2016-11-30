@@ -11,15 +11,17 @@ let Chat = {
     tableName: 'chats',
 
     attributes: {
-        client: {
-            model: 'User',
-            required: true,
-            columnName: 'client_id'
+        photo: {
+            type: 'string'
         },
-        specialist: {
+        title: {
+            type: 'string',
+            required: true
+        },
+        owner: {
             model: 'User',
             required: true,
-            columnName: 'specialist_id'
+            columnName: 'owner_id'
         },
         request: {
             model: 'Request',
@@ -30,6 +32,12 @@ let Chat = {
         message: {
             collection: 'Message',
             via: 'chat'
+        },
+        members: {
+            collection: 'User',
+            via: 'chatMembers',
+            dominant: true,
+            required: true,
         }
     }
 };
