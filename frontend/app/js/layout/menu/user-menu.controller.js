@@ -2,26 +2,26 @@
     'use strict';
 
     angular
-        .module('app.provider')
+        .module('app.customer')
         .controller('UserMenuController', UserMenuController);
 
-    UserMenuController.$inject = ['$mdSidenav', 'serviceProviderConstants', 'customerConstants', 'currentUserService', 'conf'];
+    UserMenuController.$inject = ['$mdSidenav', 'serviceProviderConstants', 'customerConstants', 'coreConstants', 'currentUserService', 'conf'];
 
     /* @ngInject */
-    function UserMenuController($mdSidenav, serviceProviderConstants, customerConstants, currentUserService, conf) {
+    function UserMenuController($mdSidenav, serviceProviderConstants, customerConstants, coreConstants, currentUserService, conf) {
         var vm = this;
 
         vm.toggleMenu = toggleMenu;
-    
-        /* 1 - client, 2 - specialist */
-         if (currentUserService.userType === 1) { 
-             vm.menuItems = customerConstants.MENU_ITEMS;
-             vm.profileRoute = 'customer.profile';
+        vm.menuItems = [];
+        vm.profileRoute = '';
 
-         } else if (currentUserService.userType === 2) {
-             vm.menuItems = serviceProviderConstants.MENU_ITEMS;
-             vm.profileRoute = 'provider.profile';
-         }
+        currentUserService.getType()
+            .then(function(type) {
+                return setMenuType(type);
+            })
+            .catch(function(e) {
+                console.log(e);
+            });
 
         currentUserService.getUser()
             .then(function (user) {
@@ -31,6 +31,20 @@
 
                 return vm.profileData;
             });
+
+
+
+        function setMenuType(type) {
+            
+            /* 1 - client, 2 - specialist */
+            if (type === coreConstants.USER_TYPES.SPECIALIST) {
+                vm.menuItems = serviceProviderConstants.MENU_ITEMS;
+                vm.profileRoute = 'provider.profile';
+            } else {
+                vm.menuItems = customerConstants.MENU_ITEMS;
+                vm.profileRoute = 'customer.profile';
+            }
+        }
 
         function toggleMenu() {
             $mdSidenav('left').toggle();
