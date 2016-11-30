@@ -15,7 +15,8 @@
      layout-align="start center"
      ui-sref="{{vm.profileRoute}}"
      ui-sref-active="active"
-     ng-click="vm.toggleMenu()">
+     ng-click="vm.toggleMenu()"
+     ng-if="vm.profileRoute">
     <div class="avatar-wrapper">
       <div class="avatar biggest"
            ng-style="{ 'background-image': 'url(' + (vm.profileData.portrait ?
