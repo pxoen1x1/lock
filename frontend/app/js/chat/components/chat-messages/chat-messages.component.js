@@ -154,6 +154,11 @@
         }
 
         function listenMessageEvent() {
+            if (messageHandler) {
+
+                return;
+            }
+
             messageHandler = chatSocketservice.onMessage(function (message, type) {
                 if (type !== 'create' || !message || !message.chat || !message.chat.id ||
                     !angular.isArray(vm.messages[message.chat.id])) {
@@ -349,7 +354,8 @@
                     return;
                 }
 
-                loadCurrentChatMessages(vm.currentChat);
+                loadCurrentChatMessages(vm.currentChat)
+                    .then(listenMessageEvent);
             });
 
             $scope.$on('$destroy', function () {
