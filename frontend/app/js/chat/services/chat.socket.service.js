@@ -177,13 +177,13 @@
         }
 
         function onRequest(next) {
-            socketService.listener('request', function (event) {
+            return socketService.listener('request', function (event) {
                 next(event.request, event.type, event.isBlast);
             });
         }
 
         function onChat(next) {
-            socketService.listener('chat', function (event) {
+           return socketService.listener('chat', function (event) {
                 next(event.chat, event.type);
             });
         }
@@ -195,7 +195,7 @@
         }
 
         function onMessage(next) {
-            socketService.listener('message', function (event) {
+            return socketService.listener('message', function (event) {
                 next(event.message, event.type);
             });
         }
