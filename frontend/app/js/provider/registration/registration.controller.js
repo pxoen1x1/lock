@@ -50,7 +50,7 @@
 
             return coreDictionary.getLanguages()
                 .then(function (languages) {
-                    vm.languages = languages.languages;
+                    vm.languages = languages;
 
                     return vm.languages;
                 });
@@ -60,7 +60,7 @@
 
             return coreDictionary.getServiceTypes()
                 .then(function (serviceTypes) {
-                    vm.serviceTypes = serviceTypes.serviceTypes;
+                    vm.serviceTypes = serviceTypes;
 
                     return vm.serviceTypes;
                 });
