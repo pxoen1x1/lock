@@ -176,6 +176,24 @@
                     }
                 }
             })
+            .state('customer.requests.request.payment', {
+                parent: 'customer.requests.request',
+                url: '/payment',
+                views: {
+                    'content@customer.requests.request': {
+                        templateUrl: 'customer/request-payment/request-payment.html',
+                        controller: 'CustomerRequestPaymentController',
+                        controllerAs: 'vm'
+                    }
+                },
+                data: {
+                    title: 'Request',
+                    tab: {
+                        title: 'Payment',
+                        icon: 'list'
+                    }
+                }
+            })
             .state('customer.settings', {
                 parent: 'customer',
                 url: '/settings',

@@ -70,6 +70,12 @@ module.exports.policies = {
     LanguageController: {
         'getLanguages': true
     },
+    // --- Splash payments urls ---
+    SplashPaymentController: {
+        //'getMerchants': true
+        '*': true
+    },
+    // --- Splash payments urls ---
 
     RequestController: {
         'confirmOffer': [
