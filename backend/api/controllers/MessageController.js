@@ -120,6 +120,29 @@ let MessageController = {
                 }
             );
     },
+    getTranslatedMessage(req, res) {
+        let messageId = req.params.messageId;
+        let params = req.allParams();
+        let lang = params.lang;
+
+        if (!messageId || !lang || !lang.id) {
+            return res.badRequest({
+                message: req.__('Submitted data is invalid.')
+            });
+        }
+
+        let message = {
+            id: messageId
+        };
+
+        MessageService.getTranslatedMessage(message, lang)
+            .then(
+                (translatedMessage) => res.ok({
+                    id: translatedMessage.message,
+                    message: translatedMessage.translated
+                })
+            );
+    },
     uploadFile(req, res) {
         let chat = req.params.chatId;
 
@@ -143,7 +166,7 @@ let MessageController = {
                 return res.serverError();
             }
 
-            uploadedFiles = uploadedFiles.map((uploadedFile)=> {
+            uploadedFiles = uploadedFiles.map((uploadedFile) => {
 
                 return {
                     fd: uploadedFile.fd.replace(/.+\/assets/, ''),
