@@ -138,8 +138,10 @@ let MessageController = {
         MessageService.getTranslatedMessage(message, lang)
             .then(
                 (translatedMessage) => res.ok({
-                    id: translatedMessage.message,
-                    message: translatedMessage.translated
+                    message: {
+                        id: translatedMessage.message,
+                        message: translatedMessage.translated
+                    }
                 })
             );
     },
