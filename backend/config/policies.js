@@ -168,6 +168,12 @@ module.exports.policies = {
             'isRequestAllowed',
             'isChatMember'
         ],
+        'getTranslatedMessage':[
+            'isSocketRequest',
+            'hasJsonWebToken',
+            'isUserEnabled',
+            'isMessageAllowed'
+        ],
         'uploadFile': [
             'hasJsonWebToken',
             'isUserEnabled',
