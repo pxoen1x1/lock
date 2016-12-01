@@ -172,7 +172,8 @@ module.exports.policies = {
             'isSocketRequest',
             'hasJsonWebToken',
             'isUserEnabled',
-            'isMessageAllowed'
+            'isMessageAllowed',
+            'isLanguageSupported'
         ],
         'uploadFile': [
             'hasJsonWebToken',
