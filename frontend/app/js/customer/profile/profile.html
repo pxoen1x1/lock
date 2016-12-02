@@ -35,6 +35,24 @@
                      aria-label="Edit profile">
             Edit profile
           </md-button>
+          <div layout="row"
+               layout-align="start center">
+            <span class="m-r-sm md-body-2">Language:</span>
+            <span class="md-body-1"
+                  ng-if="!vm.isEditing"
+                  ng-bind="vm.profileData.usingLanguage.name">
+            </span>
+            <md-select flex
+                       aria-label="Language"
+                       ng-if="vm.isEditing"
+                       ng-model-options="{trackBy: '$value.id'}"
+                       ng-model="vm.profileData.usingLanguage">
+              <md-option ng-repeat="language in vm.languages"
+                         ng-value="language">
+                <span ng-bind="language.name"></span>
+              </md-option>
+            </md-select>
+          </div>
         </div>
       </div>
       <div flex-gt-xs="5"></div>
