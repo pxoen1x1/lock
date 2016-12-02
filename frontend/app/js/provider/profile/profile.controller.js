@@ -5,12 +5,21 @@
         .module('app.provider')
         .controller('ProviderProfileController', ProviderProfileController);
 
-    ProviderProfileController.$inject = ['currentUserService', 'coreConstants', 'conf'];
+    ProviderProfileController.$inject = [
+        '$q',
+        'coreConstants',
+        'conf',
+        'coreDictionary',
+        'currentUserService',
+        'usingLanguageService'
+    ];
 
     /* @ngInject */
-    function ProviderProfileController(currentUserService, coreConstants, conf) {
+    function ProviderProfileController($q, coreConstants, conf, coreDictionary, currentUserService,
+                                       usingLanguageService) {
         var vm = this;
 
+        vm.languages = [];
         vm.profileData = {};
 
         vm.datePickerOptions = {
@@ -20,11 +29,21 @@
         vm.isEditing = false;
         vm.fileUploaderOptions = coreConstants.FILE_UPLOADER_OPTIONS;
         vm.newPortrait = '';
-        
+
         vm.updateUser = updateUser;
         vm.getUser = getUser;
 
         activate();
+
+        function getLanguages() {
+
+            return coreDictionary.getLanguages()
+                .then(function (languages) {
+                    vm.languages = languages;
+
+                    return vm.languages;
+                });
+        }
 
         function updateUser(user, isFormValid) {
             if (!isFormValid) {
@@ -61,9 +80,15 @@
                     return vm.profileData;
                 });
         }
-        
+
         function activate() {
-            getUser();
+            $q.all([
+                getUser(),
+                getLanguages()
+            ])
+                .then(function () {
+                    vm.profileData.usingLanguage = vm.profileData.usingLanguage || usingLanguageService.getLanguage();
+                });
         }
     }
 })();
