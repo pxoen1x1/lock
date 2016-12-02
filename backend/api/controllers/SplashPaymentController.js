@@ -83,6 +83,17 @@ let SplashPaymentController = {
             });
     });
     },
+    updateMerchantPayout(req, res) {
+    let payoutId = req.params.payoutId;
+
+        SplashPaymentService.updateMerchantPayout(payoutId)
+            .then((response) => {
+
+            return res.ok({
+                result: response
+            });
+    });
+    },
 
 };
 

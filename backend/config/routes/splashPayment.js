@@ -11,11 +11,11 @@ let splashPaymentRoutes ={
         controller: 'splashPaymentController',
         action: 'getMerchant'
     },
-    'GET /api/splashpayment/merchantscreate': { // replace with POST to /merchants
+    'GET /api/splashpayment/createmerchant': { // replace with POST to /merchants
         controller: 'splashPaymentController',
         action: 'createMerchant'
     },
-    'GET /api/splashpayment/merchantsupdate/:merchantId': { // replace with PUT /merchants
+    'GET /api/splashpayment/updatemerchant/:merchantId': { // replace with PUT /merchants
         controller: 'splashPaymentController',
         action: 'updateMerchant'
     },
@@ -61,15 +61,21 @@ let splashPaymentRoutes ={
      },*/
     /*todo: add DELETE URL (?)*/
 
-    //--- payout ---
-    /* Should be called for each Service provider on registration */
+    //--- payout: schedule of withdrawal ---
+    /* Should be called for each Service provider on registration
+     * entityId - id of merchant entity */
     'GET /api/splashpayment/merchantpayouts/:entityId': {
         controller: 'splashPaymentController',
         action: 'getMerchantPayouts'
     },
-    'GET /api/splashpayment/createmerchantpayout/:entityId': { // replace with POST to /merchantpayouts
+    /* entityId - id of merchant entity */
+    'GET /api/splashpayment/createtpayout/:entityId': { // replace with POST to /payouts
         controller: 'splashPaymentController',
         action: 'createMerchantPayout'
+    },
+    'GET /api/splashpayment/updatepayout/:payoutId': { // replace with PUT to /payouts/:payoutId
+        controller: 'splashPaymentController',
+        action: 'updateMerchantPayout'
     },
 };
 

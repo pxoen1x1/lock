@@ -12,6 +12,7 @@ let SplashPaymentService = {
 
         return this.makeRequest(options);
     },
+
     getMerchant(entityId){
         var options = {
             method: 'GET',
@@ -20,6 +21,7 @@ let SplashPaymentService = {
 
         return this.makeRequest(options);
     },
+
     createMerchant(){
         var options = {
             method: 'POST',
@@ -71,41 +73,15 @@ let SplashPaymentService = {
     };
         return this.makeRequest(options,bodyJson);
     },
+
     updateMerchant(id){
         var options = {
-            method: 'GET',
-            path: '/merchants/'+id
+            method: 'PUT',
+            path: '/entities/'+id
         };
-        //var bodyJson = {
-        //    entity: "g1583ed19c0f985",
+
         var bodyJson = {
-            merchant: {
-                established: "20060101",
-                new: 0,
-                annualCCSales: "500000",
-                status: "0",
-                mcc: "1750" // ??
-            },
-            accounts: [{
-                primary: 1,
-                account: {
-                    method: 8,
-                    routing: "123456789",
-                    number: "1234567890"
-                }
-            }],
-            //"login": "g1abcdefghijklm", // why login field exists in NO login example?
-            name: "Splash Merchant2",
-            email: "nochum@payrix.com",
-            phone: "7185069292",
-            address1: "6565 Taft St.",
-            city: "Hollywood",
-            state: "FL",
-            zip: "33024",
-            country: "USA",
-            website: "http://www.splashpayments.com",
-            type: "2",
-            ein: "123456789"
+            name: "Splash UPDATED Merchant2"
         };
 
         return this.makeRequest(options,bodyJson);
@@ -147,6 +123,23 @@ let SplashPaymentService = {
              return this.makeRequest(options,bodyJson);
             //return accountResponse;
         });
+    },
+
+    updateMerchantPayout(payoutId){
+        var options = {
+            method: 'PUT',
+            path: '/payouts/'+payoutId
+        };
+
+        var bodyJson = {
+            name: "Update2 payout",
+            schedule: 1,
+            um: 1,
+            amount: 2000,
+            start: "20161202" // today
+        };
+
+        return this.makeRequest(options,bodyJson);
     },
 
     getMerchantAccounts(entityId){
