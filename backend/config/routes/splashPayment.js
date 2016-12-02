@@ -42,23 +42,22 @@ let splashPaymentRoutes ={
     /*todo: add DELETE URL (?)*/
 
     //--- customer ---
-    // IS IT REQUIRED??
-/*    'GET /api/splashpayment/txns': {
+    'GET /api/splashpayment/customers': {
      controller: 'splashPaymentController',
-     action: 'getMerchants'
+     action: 'getCustomers'
      },
-     'GET /api/splashpayment/txns/:merchantId': {
+     'GET /api/splashpayment/customers/:customerId': {
      controller: 'splashPaymentController',
-     action: 'getMerchant'
+     action: 'getCustomer'
      },
-     'GET /api/splashpayment/txnscreate': { // replace with POST to /txns
+     'GET /api/splashpayment/createcustomer': { // replace with POST to /customers
      controller: 'splashPaymentController',
-     action: 'createMerchant'
+     action: 'createCustomer'
      },
-     'GET /api/splashpayment/txnsupdate/:merchantId': { // replace with PUT /txns
+    'GET /api/splashpayment/updatecustomer/:customerId': { // replace with PUT /txns
      controller: 'splashPaymentController',
-     action: 'updateMerchant'
-     },*/
+     action: 'updateCustomer'
+     },
     /*todo: add DELETE URL (?)*/
 
     //--- payout: schedule of withdrawal ---

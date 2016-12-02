@@ -56,9 +56,56 @@ let SplashPaymentController = {
                 });
             });
     },
-
-// transaction (txn)
 // customer
+
+    getCustomers(req, res) {
+
+        SplashPaymentService.getCustomers()
+            .then((response) => {
+
+            return res.ok({
+                result: response
+            });
+    });
+
+    },
+
+    getCustomer(req, res) {
+
+        let customerId = req.params.customerId;
+
+        SplashPaymentService.getCustomer(customerId)
+            .then((response) => {
+
+            return res.ok({
+                result: response
+            });
+    });
+    },
+
+    createCustomer(req, res) {
+
+        SplashPaymentService.createCustomer()
+            .then((response) => {
+
+            return res.ok({
+                result: response
+            });
+    });
+    },
+
+    updateCustomer(req, res) {
+    let customerId = req.params.customerId;
+
+        SplashPaymentService.updateCustomer(customerId)
+            .then((response) => {
+
+            return res.ok({
+                result: response
+            });
+    });
+    },
+// transaction (txn)
 
     //--- payout ---
     getMerchantPayouts(req, res) {

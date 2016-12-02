@@ -87,6 +87,54 @@ let SplashPaymentService = {
         return this.makeRequest(options,bodyJson);
     },
 
+    getCustomers(){
+        var options = {
+            method: 'GET',
+            path: '/customers'
+        };
+
+        return this.makeRequest(options);
+    },
+
+    getCustomer(entityId){
+        var options = {
+            method: 'GET',
+            path: '/customers/'+entityId
+        };
+
+        return this.makeRequest(options);
+    },
+
+    createCustomer(){
+        var options = {
+            method: 'POST',
+            path: '/customers'
+        };
+        var bodyJson = {
+            first: "Firstname",
+            last: "Lastname",
+            email: "email@test.com",
+            address1: "address 1",
+            city: "New York",
+            phone: "1234567890" // numeric 10 - 15 symbols
+
+        };
+        return this.makeRequest(options,bodyJson);
+    },
+
+    updateCustomer(id){
+        var options = {
+            method: 'PUT',
+            path: '/customers/'+id
+        };
+
+        var bodyJson = {
+            first: "FirstnameUPDATED"
+        };
+
+        return this.makeRequest(options,bodyJson);
+    },
+
     getMerchantPayouts(entityId){
         var options = {
             method: 'GET',
