@@ -58,6 +58,11 @@ let AuthController = waterlock.waterlocked({
                 }
             )
             .then(
+                (createdUser) => {
+                    return SplashPaymentService.createCustomer(auth)
+                }
+            )
+            .then(
                 (createdUser) => sendConfirmation(createdUser)
             )
             .then(

@@ -105,18 +105,19 @@ let SplashPaymentService = {
         return this.makeRequest(options);
     },
 
-    createCustomer(){
+    createCustomer(auth){
+
         var options = {
             method: 'POST',
             path: '/customers'
         };
         var bodyJson = {
-            first: "Firstname",
-            last: "Lastname",
-            email: "email@test.com",
-            address1: "address 1",
-            city: "New York",
-            phone: "1234567890" // numeric 10 - 15 symbols
+            first: auth.user.firstName, // auth.user.firstName
+            last: auth.user.lastName, // auth.user.lastName
+            email: auth.email, // auth.email
+            address1: "address 1", // !! not defined. is it required ??
+            city: "New York", // !! not defined. is it required ??
+            phone: auth.user.phoneNumber // auth.user.phoneNumber
 
         };
         return this.makeRequest(options,bodyJson);
@@ -212,20 +213,20 @@ let SplashPaymentService = {
     // return new pending promise
     return new Promise((resolve, reject) => {
 
-    var req = https.request(options, (res) => {
-        // temporary data holder
-        const body = [];
-        res.on('data', (chunk) => body.push(chunk));
-        // we are done, resolve promise with those joined chunks
-        res.on('end', () => resolve(body.join('')));
-    });
+        var req = https.request(options, (res) => {
+            // temporary data holder
+            const body = [];
+            res.on('data', (chunk) => body.push(chunk));
+            // we are done, resolve promise with those joined chunks
+            res.on('end', () => resolve(body.join('')));
+        });
 
-    var body = JSON.stringify(bodyJson);
-    req.end(body);
+        var body = JSON.stringify(bodyJson);
+        req.end(body);
 
-        req.on('error', (e) => {
-            console.error(e);
-    });
+            req.on('error', (e) => {
+                console.error(e);
+        });
 
 
     })
