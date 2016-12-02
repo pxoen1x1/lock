@@ -1,0 +1,37 @@
+<md-dialog aria-label="Language" class="using-language-dialog">
+  <form role="form"
+        name="usingLanguageForm"
+        novalidate
+        ng-submit="vm.setLanguage(vm.selectedLanguage, usingLanguageForm.$valid)">
+    <md-toolbar class="md-menu-toolbar md-default-theme">
+      <div class="md-toolbar-tools">
+        <h2>Please, select language</h2>
+      </div>
+    </md-toolbar>
+    <md-dialog-content>
+      <div class="md-dialog-content">
+        <div layout="row"
+             layout-align="start center">
+          <span class="m-r-sm md-body-2">Language:</span>
+          <md-select flex
+                     aria-label="Language"
+                     required
+                     placeholder="Please, select language."
+                     ng-model-options="{trackBy: '$value.id'}"
+                     ng-model="vm.selectedLanguage">
+            <md-option ng-repeat="language in vm.languages track by language.id"
+                       ng-value="language">
+              <span ng-bind="language.name"></span>
+            </md-option>
+          </md-select>
+        </div>
+      </div>
+    </md-dialog-content>
+    <md-dialog-actions layout="column">
+      <button type="submit"
+              class="md-button md-button-blue"
+              flex>Save
+      </button>
+    </md-dialog-actions>
+  </form>
+</md-dialog>
