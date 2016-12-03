@@ -5,12 +5,23 @@
         .module('app')
         .run(runApp);
 
-    runApp.$inject = ['$rootScope', '$state', '$mdDialog', '$mdMedia', 'cfpLoadingBar',
-        'socketService', 'authService', 'toastService', 'coreConstants', 'conf'];
+    runApp.$inject = [
+        '$rootScope',
+        '$state',
+        '$mdDialog',
+        '$mdMedia',
+        'cfpLoadingBar',
+        'socketService',
+        'authService',
+        'usingLanguageService',
+        'toastService',
+        'coreConstants',
+        'conf'
+    ];
 
     /* @ngInject */
     function runApp($rootScope, $state, $mdDialog, $mdMedia, cfpLoadingBar,
-                    socketService, authService, toastService, coreConstants, conf) {
+                    socketService, authService, usingLanguageService, toastService, coreConstants, conf) {
         socketService.onConnect(function () {
             if (authService.isAuthenticated()) {
                 socketService.subscribe();
@@ -24,6 +35,16 @@
 
         $rootScope.$on('$stateChangeStart', function (event, toState) {
             cfpLoadingBar.start();
+
+            if (!usingLanguageService.isLanguageSelected() && toState.name !== 'login') {
+                cfpLoadingBar.complete();
+                event.preventDefault();
+
+                usingLanguageService.showUsingLanguageModal()
+                    .finally(function () {
+                        $state.go(toState.name);
+                    });
+            }
 
             if (toState.data && !authService.authorize(toState.data.isPrivate)) {
                 cfpLoadingBar.complete();
