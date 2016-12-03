@@ -87,7 +87,6 @@
 
     /* @ngInject */
     function MessageChatController(coreConstants, chatConstants, conf, chatSocketservice, usingLanguageService) {
-        var originalMessage = '';
         var vm = this;
 
         vm.isImage = false;
@@ -107,7 +106,6 @@
         vm.confirmOffer = confirmOffer;
         vm.changeRequestStatus = changeRequestStatus;
         vm.showChatMemberInfo = showChatMemberInfo;
-        vm.translateMessage = translateMessage;
 
         function confirmOffer(message, currentRequest) {
             if (currentRequest.status !== vm.requestStatus.NEW) {
@@ -151,33 +149,6 @@
             vm.selectedSpecialist = selectedMember;
 
             vm.toggleSidenav({navID: 'right-sidenav'});
-        }
-
-        function translateMessage(message) {
-            if (vm.isMessageTranslated) {
-                message.message = originalMessage;
-                vm.isMessageTranslated = false;
-
-                return;
-            }
-
-            var language = {
-                lang: usingLanguageService.getLanguage()
-            };
-
-            originalMessage = message.message;
-
-            chatSocketservice.translateMessage(message, language)
-                .then(function (translatedMessage) {
-                    if (translatedMessage.id !== message.id) {
-
-                        return;
-                    }
-
-                    vm.isMessageTranslated = true;
-
-                    message.message = translatedMessage.message;
-                });
         }
     }
 })();
