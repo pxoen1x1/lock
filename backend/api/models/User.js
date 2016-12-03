@@ -79,6 +79,11 @@ let User = {
             columnName: 'is_admin'
         },
 
+        usingLanguage: {
+            model: 'language',
+            columnName: 'using_language_id'
+        },
+
         address: {
             collection: 'Address',
             via: 'user'

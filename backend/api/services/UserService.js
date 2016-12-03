@@ -9,6 +9,7 @@ let UserService = {
         return User.findOneById(user.id)
             .populate('address')
             .populate('auth')
+            .populate('usingLanguage')
             .then(
                 (foundUser) => {
 
