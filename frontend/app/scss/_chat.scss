@@ -208,6 +208,8 @@
         }
 
         .chat-content {
+          padding: 5px 0;
+
           .chat-messages {
             width: 100%;
           }
@@ -219,7 +221,7 @@
 
             .bubble {
               position: relative;
-              padding: 6px 7px 8px 9px;
+              padding: 12px 7px 8px 9px;
               background-color: #FFF;
               box-shadow: 0 1px .5px rgba(0, 0, 0, .13);
               border-radius: 6px;
@@ -236,6 +238,18 @@
                 background-position: 50% 50%;
                 background-repeat: no-repeat;
                 background-size: contain;
+              }
+
+              .translation {
+                position: absolute;
+                top: -12px;
+                right: 12px;
+                cursor: pointer;
+                color: #BBB;
+
+                &.active {
+                  color: $primary-color;
+                }
               }
 
               .message {
