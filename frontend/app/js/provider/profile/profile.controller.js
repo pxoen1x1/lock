@@ -20,7 +20,7 @@
         var vm = this;
 
         vm.languages = [];
-        vm.profileData = {};
+        vm.userProfile = {};
 
         vm.datePickerOptions = {
             maxDate: new Date()
@@ -60,12 +60,12 @@
             return currentUserService.setUser(user)
                 .then(function (user) {
 
-                    vm.profileData = user;
-                    vm.profileData.portrait = user.portrait ? conf.BASE_URL + user.portrait : '';
+                    vm.userProfile = user;
+                    vm.userProfile.portrait = user.portrait ? conf.BASE_URL + user.portrait : '';
                     vm.newPortrait = '';
                     vm.isEditing = false;
 
-                    return vm.profileData;
+                    return vm.userProfile;
                 });
         }
 
@@ -74,10 +74,10 @@
             return currentUserService.getUser()
                 .then(function (user) {
 
-                    vm.profileData = user;
-                    vm.profileData.portrait = user.portrait ? conf.BASE_URL + user.portrait : '';
+                    vm.userProfile = user;
+                    vm.userProfile.portrait = user.portrait ? conf.BASE_URL + user.portrait : '';
 
-                    return vm.profileData;
+                    return vm.userProfile;
                 });
         }
 
@@ -87,7 +87,7 @@
                 getLanguages()
             ])
                 .then(function () {
-                    vm.profileData.usingLanguage = vm.profileData.usingLanguage || usingLanguageService.getLanguage();
+                    vm.userProfile.usingLanguage = vm.userProfile.usingLanguage || usingLanguageService.getLanguage();
                 });
         }
     }
