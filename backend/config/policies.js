@@ -53,7 +53,11 @@ module.exports.policies = {
         '*': true
     },
 
-    UserController: {},
+    UserController: {
+        'getCurrentUser': [
+            'hasJsonWebToken'
+        ]
+    },
 
     StateController: {
         'getStates': true
