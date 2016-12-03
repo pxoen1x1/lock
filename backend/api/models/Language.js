@@ -20,6 +20,10 @@ module.exports = {
             type: 'string'
         },
 
+        user: {
+            collection: 'User',
+            via: 'usingLanguage'
+        },
         userDetails: {
             collection: 'UserDetail',
             via: 'languages'
