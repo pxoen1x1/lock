@@ -8,6 +8,11 @@
        ng-click="vm.showChatMemberInfo(vm.message.sender)">
   </div>
   <div class="bubble">
+    <div class="translation"
+         ng-class="{ active: vm.isMessageTranslated }"
+         ng-click="vm.translateMessage(vm.message)">
+      <i class="material-icons">language</i>
+    </div>
     <div class="message"
          ng-if="!vm.isImage">
       <span ng-bind="vm.message.message"></span>
