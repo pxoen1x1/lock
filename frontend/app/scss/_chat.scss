@@ -214,6 +214,18 @@
             width: 100%;
           }
 
+          .translation {
+            position: absolute;
+            top: -12px;
+            right: 12px;
+            cursor: pointer;
+            color: #BBB;
+
+            &.active {
+              color: $primary-color;
+            }
+          }
+
           .message-row {
             .avatar {
               margin: 0 16px 0 0;
@@ -238,18 +250,6 @@
                 background-position: 50% 50%;
                 background-repeat: no-repeat;
                 background-size: contain;
-              }
-
-              .translation {
-                position: absolute;
-                top: -12px;
-                right: 12px;
-                cursor: pointer;
-                color: #BBB;
-
-                &.active {
-                  color: $primary-color;
-                }
               }
 
               .message {
@@ -305,6 +305,7 @@
           }
 
           .service-message {
+            position: relative;
             width: 95%;
             margin: 10px auto;
 
