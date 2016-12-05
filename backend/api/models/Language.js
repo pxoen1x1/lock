@@ -8,23 +8,34 @@
 'use strict';
 
 module.exports = {
-  autoCreatedAt: false,
-  autoUpdatedAt: false,
-  tableName: 'languages',
+    autoCreatedAt: false,
+    autoUpdatedAt: false,
+    tableName: 'languages',
 
-  attributes: {
-    name: {
-      type: 'string'
-    },
+    attributes: {
+        name: {
+            type: 'string'
+        },
+        code: {
+            type: 'string'
+        },
 
-    userDetails: {
-      collection: 'UserDetail',
-      via: 'languages'
-    },
-    requests: {
-      collection: 'Request',
-      via: 'language'
+        user: {
+            collection: 'User',
+            via: 'usingLanguage'
+        },
+        userDetails: {
+            collection: 'UserDetail',
+            via: 'languages'
+        },
+        requests: {
+            collection: 'Request',
+            via: 'language'
+        },
+        translatedMessages: {
+            collection: 'TranslatedMessage',
+            via: 'language'
+        }
     }
-  }
 };
 

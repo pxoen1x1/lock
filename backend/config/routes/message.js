@@ -12,6 +12,10 @@ let messageRoutes = {
     'POST /api/chats/:chatId/messages/file' : {
         controller: 'MessageController',
         action: 'uploadFile'
+    },
+    'POST /api/messages/:messageId/translate' : {
+        controller: 'MessageController',
+        action: 'getTranslatedMessage'
     }
 };
 
