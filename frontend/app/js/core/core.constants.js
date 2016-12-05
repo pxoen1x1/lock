@@ -16,6 +16,10 @@
                 limit: 50
             },
             DATE_FORMAT: 'MMM/dd/yyyy hh:mm a',
+            DEFAULT_LANGUAGE: {
+                name: 'English',
+                code: 'en'
+            },
             USER_TYPES: {
                 'CLIENT': 1,
                 'SPECIALIST': 2,

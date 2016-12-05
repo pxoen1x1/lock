@@ -13,7 +13,7 @@
            layout-align-gt-xs="start start"
            flex-gt-xs="25">
         <img class="profile-avatar"
-             ng-src="{{vm.newPortrait || vm.profileData.portrait || coreConstants.IMAGES.defaultPortrait}}"
+             ng-src="{{vm.newPortrait || vm.userProfile.portrait || coreConstants.IMAGES.defaultPortrait}}"
              alt="photo"/>
         <div flex="5"></div>
         <div class="actions"
@@ -35,6 +35,24 @@
                      aria-label="Edit profile">
             Edit profile
           </md-button>
+          <div layout="row"
+               layout-align="start center">
+            <span class="m-r-sm md-body-2">Language:</span>
+            <span class="md-body-1"
+                  ng-if="!vm.isEditing"
+                  ng-bind="vm.userProfile.usingLanguage.name">
+            </span>
+            <md-select flex
+                       aria-label="Language"
+                       ng-if="vm.isEditing"
+                       ng-model-options="{trackBy: '$value.id'}"
+                       ng-model="vm.userProfile.usingLanguage">
+              <md-option ng-repeat="language in vm.languages"
+                         ng-value="language">
+                <span ng-bind="language.name"></span>
+              </md-option>
+            </md-select>
+          </div>
         </div>
       </div>
       <div flex-gt-xs="5"></div>
@@ -49,17 +67,17 @@
                layout-align="center center"
                layout-align-gt-xs="start center">
             <div class="md-display-1">
-              <span class="vertical-middle" ng-bind="vm.profileData.fullName"></span>
-              <i ng-if="vm.profileData.isEnabled" class="material-icons vertical-middle verified">verified_user</i>
+              <span class="vertical-middle" ng-bind="vm.userProfile.fullName"></span>
+              <i ng-if="vm.userProfile.isEnabled" class="material-icons vertical-middle verified">verified_user</i>
             </div>
           </div>
           <div class="section first">
             <span class="md-body-2">Email:</span>
-            <span class="md-body-1" ng-bind="vm.profileData.auth.email"></span>
+            <span class="md-body-1" ng-bind="vm.userProfile.auth.email"></span>
           </div>
           <div class="section">
             <span class="md-body-2">Phone:</span>
-            <span class="md-body-1" ng-bind="vm.profileData.phoneNumber"></span>
+            <span class="md-body-1" ng-bind="vm.userProfile.phoneNumber"></span>
           </div>
           <div class="section">
             <span class="md-body-2">Requests:</span>
@@ -74,7 +92,7 @@
         <div ng-if="vm.isEditing">
           <form name="editForm"
                 novalidate
-                ng-submit="vm.updateUser(vm.profileData, editForm.$valid)">
+                ng-submit="vm.updateUser(vm.userProfile, editForm.$valid)">
             <p>Name: <sup>*</sup></p>
             <div layout="row">
               <md-input-container class="md-block" flex>
@@ -82,14 +100,14 @@
                 <input name="firstName"
                        required
                        ng-maxlength="20"
-                       ng-model="vm.profileData.firstName">
+                       ng-model="vm.userProfile.firstName">
               </md-input-container>
               <md-input-container class="md-block" flex>
                 <label>Last name</label>
                 <input name="lastName"
                        required
                        ng-maxlength="20"
-                       ng-model="vm.profileData.lastName">
+                       ng-model="vm.userProfile.lastName">
               </md-input-container>
             </div>
             <p>Email: <sup>*</sup></p>
@@ -100,7 +118,7 @@
                      email-validation
                      availability-validation
                      ng-model-options="{ 'debounce': 400 }"
-                     ng-model="vm.profileData.auth.email">
+                     ng-model="vm.userProfile.auth.email">
               <div ng-messages="editForm.email.$error">
                 <div ng-message="email">That doesn't look like a valid email.</div>
                 <div ng-message="availability">This email already exists.</div>
@@ -114,7 +132,7 @@
                      ui-us-phone-number
                      availability-validation
                      ng-model-options="{ 'debounce': 400 }"
-                     ng-model="vm.profileData.phoneNumber">
+                     ng-model="vm.userProfile.phoneNumber">
               <div ng-messages="editForm.phoneNumber.$error">
                 <span ng-message="usPhoneNumber">That doesn't look like a valid phone number.</span>
                 <span ng-message="availability">This phone number already exists.</span>

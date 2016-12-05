@@ -21,6 +21,7 @@
             createChat: createChat,
             createBid: createBid,
             sendMessage: sendMessage,
+            translateMessage: translateMessage,
             deleteBid: deleteBid,
             declineBid: declineBid,
             onRequest: onRequest,
@@ -154,6 +155,17 @@
             }
         }
 
+        function translateMessage(message, language) {
+
+            return $sails.post(conf.URL_PREFIX + 'messages/' + message.id + '/translate', language)
+                .then(translateMessageComplete);
+
+            function translateMessageComplete(response) {
+
+                return response.data.message;
+            }
+        }
+
         function declineBid(bid) {
 
             return $sails.put(conf.URL_PREFIX + 'client/bids/' + bid.id + '/refuse')
@@ -183,7 +195,7 @@
         }
 
         function onChat(next) {
-           return socketService.listener('chat', function (event) {
+            return socketService.listener('chat', function (event) {
                 next(event.chat, event.type);
             });
         }

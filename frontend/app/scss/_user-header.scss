@@ -37,18 +37,18 @@
 
 }
 
-@media only screen and (min-device-width: 320px) and (max-device-width: 600px) {
+@media only screen and (max-device-width: 600px) {
+  .menu {
+    .md-toolbar-tools {
+      padding: 0;
+    }
 
-  .md-toolbar-tools {
-    padding: 0;
+    .md-toolbar-tools > .md-button:first-child {
+      margin-left: 0;
+    }
+
+    .md-toolbar-tools > .md-button:last-child {
+      margin-right: 0;
+    }
   }
-
-  .md-toolbar-tools>.md-button:first-child {
-    margin-left: 0;
-  }
-
-  .md-toolbar-tools>.md-button:last-child {
-    margin-right: 0;
-  }
-
 }
