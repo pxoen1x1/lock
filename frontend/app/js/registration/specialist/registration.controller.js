@@ -2,15 +2,22 @@
     'use strict';
 
     angular
-        .module('app.provider')
-        .controller('ProviderRegistrationController', ProviderRegistrationController);
+        .module('app.registration')
+        .controller('SpecialistRegistrationController', SpecialistRegistrationController);
 
-    ProviderRegistrationController.$inject = ['$q', '$state', 'coreDataservice', 'coreConstants', 'coreDictionary',
-        'authService', 'serviceProviderConstants'];
+    SpecialistRegistrationController.$inject = [
+        '$q',
+        '$state',
+        'coreDataservice',
+        'coreConstants',
+        'coreDictionary',
+        'authService',
+        'registrationConstants'
+    ];
 
     /* @ngInject */
-    function ProviderRegistrationController($q, $state, coreDataservice, coreConstants, coreDictionary,
-                                            authService, serviceProviderConstants) {
+    function SpecialistRegistrationController($q, $state, coreDataservice, coreConstants, coreDictionary, authService,
+                                              registrationConstants) {
         var promises = {
             getState: null
         };
@@ -33,7 +40,7 @@
             minDate: new Date()
         };
         vm.timePickerOptions = coreConstants.MD_PICKERS_OPTIONS.timePicker;
-        vm.registrationSteps = serviceProviderConstants.REGISTRATION_STEPS;
+        vm.registrationSteps = registrationConstants.SPECIALIST_REGISTRATION_STEPS;
         vm.validSteps = {};
         vm.currentStep = 0;
 
