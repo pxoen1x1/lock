@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('app.customer')
+        .module('app.registration')
         .controller('RegistrationHeaderController', RegistrationHeaderController);
 
     RegistrationHeaderController.$inject = ['$rootScope', '$state', 'authService'];
@@ -18,7 +18,7 @@
 
         activate();
 
-        $rootScope.$on('$stateChangeStart', function (fromState, toState, fromParams, toParams) {
+        $rootScope.$on('$stateChangeStart', function (fromState, toState) {
             vm.pageTitles = createPageTitles(toState);
         });
 
@@ -28,7 +28,7 @@
             if (!state.parent) {
                 return vm.pageTitles;
             }
-            
+
             while (state.parent) {
                 if (state.data && state.data.title) {
                     pageTitles.unshift({
@@ -45,6 +45,5 @@
         function activate() {
             vm.pageTitles = createPageTitles($state.current);
         }
-
     }
 })();
