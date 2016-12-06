@@ -165,16 +165,14 @@
 }
 
 @media only screen and (max-device-width: 600px) {
-  .customer, .provider, .group, .admin {
-    .content {
-      .container {
-        &.map-content {
-          overflow: hidden;
-          min-height: 0;
+  .content {
+    .container {
+      &.map-content {
+        overflow: hidden;
+        min-height: 0;
 
-          .container-content {
-            padding: 0;
-          }
+        .container-content {
+          padding: 0;
         }
       }
     }

@@ -1,7 +1,9 @@
-.customer, .provider, .group, .admin {
-  height: 100vh;
-  overflow-x: hidden;
+body > div,
+.wrapper {
+  height: 100%;
+}
 
+.wrapper {
   a {
     text-decoration: none;
   }
@@ -62,7 +64,7 @@
 }
 
 @media only screen and (max-device-width: 600px) {
-  .customer, .provider, .group, .admin {
+  .wrapper {
     .content-wrapper {
       background-color: #fff;
     }

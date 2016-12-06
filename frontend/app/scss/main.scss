@@ -91,6 +91,13 @@ $panel-background-color: rgb(245, 245, 245);
     }
   }
 
+  &.button-login {
+    &, &:hover {
+      background-color: $primary-color;
+      color: #fff;
+    }
+  }
+
   .disabled &, &[disabled], &.disabled {
     &, &:hover, &:focus {
       cursor: default;
@@ -124,12 +131,7 @@ $panel-background-color: rgb(245, 245, 245);
   md-dialog-actions {
     padding-left: 0;
   }
-  .button-login,
-  .button-login:hover {
-    width: 100%;
-    background-color: $primary-color;
-    color: #FFF;
-  }
+
   .md-input-message-animation {
     width: 195px;
   }
@@ -335,7 +337,7 @@ md-content {
 @import 'icons';
 @import 'md-select';
 @import 'reset';
-@import 'provider';
+@import 'registration';
 @import 'customer';
 @import 'group';
 @import 'admin';
