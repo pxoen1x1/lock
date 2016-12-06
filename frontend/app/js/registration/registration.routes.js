@@ -24,6 +24,16 @@
                     }
                 }
             })
+            .state('registration.customer', {
+                url: '/client/registration',
+                views: {
+                    'content@registration': {
+                        templateUrl: 'registration/customer-registration/customer-registration.html',
+                        controller: 'CustomerRegistrationController',
+                        controllerAs: 'vm'
+                    },
+                }
+            })
             .state('registration.provider', {
                 url: '/provider/registration',
                 views: {
