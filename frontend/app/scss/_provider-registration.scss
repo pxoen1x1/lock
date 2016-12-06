@@ -8,7 +8,6 @@
   }
 
   .button-back-min, .button-login-min {
-    min-width: 52px;
     padding: 0;
     -webkit-border-radius: 0;
     -moz-border-radius: 0;
@@ -220,9 +219,9 @@
     }
   }
 
-  @media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
+  @media only screen and (max-device-width: 480px) {
     .md-toolbar-tools {
-      padding: 0;
+      padding: 2px;
     }
     .registration {
       background: none;
