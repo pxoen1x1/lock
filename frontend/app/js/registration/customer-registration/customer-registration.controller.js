@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('app.customer')
+        .module('app.registration')
         .controller('CustomerRegistrationController', CustomerRegistrationController);
 
     CustomerRegistrationController.$inject = ['$state', 'authService'];
