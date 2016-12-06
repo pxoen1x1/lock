@@ -38,7 +38,7 @@
                 url: '/provider/registration',
                 views: {
                     'content@registration': {
-                        templateUrl: 'registration/specialist/registration.html',
+                        templateUrl: 'registration/specialist-registration/specialist-registration.html',
                         controller: 'SpecialistRegistrationController',
                         controllerAs: 'vm'
                     }
