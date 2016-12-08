@@ -34,22 +34,6 @@
                     isPrivate: true
                 }
             })
-            .state('group.registration', {
-                url: '/registration',
-                views: {
-                    'content@root': {
-                        templateUrl: 'group/layout/registration-layout.html'
-                    },
-                    'content@group.registration': {
-                        templateUrl: 'group/registration/registration.html',
-                        controller: 'GroupRegistrationController',
-                        controllerAs: 'vm'
-                    },
-                    'header@group.registration': {
-                        templateUrl: 'layout/header/registration-header.html'
-                    }
-                }
-            })
             .state('group.dashboard', {
                 parent: 'group',
                 url: '/dashboard',
