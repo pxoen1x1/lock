@@ -128,6 +128,14 @@ let User = {
             collection: 'Message',
             via: 'sender'
         },
+        groups: {
+            collection: 'Group',
+            via: 'admin'
+        },
+        groupMembers: {
+            collection: 'Group',
+            via: 'members'
+        },
 
         fullName() {
 
