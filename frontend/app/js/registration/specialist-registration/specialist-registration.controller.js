@@ -133,9 +133,10 @@
                 delete user.groups;
             }
 
+            auth.user = user;
+
             var params = {
-                auth: auth,
-                user: user
+                auth: auth
             };
 
             createUser(params);
