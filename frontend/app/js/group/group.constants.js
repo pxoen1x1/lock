@@ -28,6 +28,11 @@
             ],
             MENU_ITEMS: [
                 'group.dashboard'
+            ],
+            DASHBOARD_TABBAR_ITEMS: [
+                'group.dashboard.new',
+                'group.dashboard.current',
+                'group.dashboard.history'
             ]
         });
 })();
