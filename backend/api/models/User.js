@@ -78,6 +78,10 @@ let User = {
             defaultsTo: false,
             columnName: 'is_admin'
         },
+        spMerchantId: {
+            type: 'string',
+            columnName: 'sp_merchant_id'
+        },
 
         address: {
             collection: 'Address',

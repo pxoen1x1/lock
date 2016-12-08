@@ -37,8 +37,9 @@ let SplashPaymentController = {
             });
     },
     createMerchant(req, res) {
+    let user = req.session.user;
 
-        SplashPaymentService.createMerchant()
+        SplashPaymentService.createMerchant(user, req.body)
             .then((response) => {
 
                 return res.ok({

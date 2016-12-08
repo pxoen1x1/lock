@@ -10,10 +10,17 @@
     /* @ngInject */
     function currentUserService($q, coreDataservice, localService, coreConstants) {
         var getUserPromise;
+        var getUserPaymentPromise;
+        var getMerchantPromise;
         var userType;
 
         var service = {
             getUser: getUser,
+            getMerchant: getMerchant,
+            updateMerchant: updateMerchant,
+            getMerchantAccount: getMerchantAccount,
+            getUserPayment: getUserPayment,
+            setUserPayment: setUserPayment,
             setUser: setUser,
             getType: getType,
             clearType: clearType
@@ -59,6 +66,61 @@
         function getUserFromHttpFailed(error) {
 
             return error;
+        }
+
+        function getMerchant(){
+
+            getMerchantPromise = coreDataservice.getCurrentMerchant();
+
+            return getMerchantPromise
+                .then(function(merchant){
+                    return merchant.data;
+                })
+                .catch(function(error){return error;});
+        }
+
+        function getMerchantAccount(){
+
+            getMerchantPromise = coreDataservice.getCurrentUserPayment();
+
+            return getMerchantPromise
+                .then(function(merchant){
+                    return merchant.data;
+                })
+                .catch(function(error){return error;});
+        }
+
+        function getUserPayment(){
+
+            getUserPaymentPromise = coreDataservice.getCurrentUserPayment();
+
+            return getUserPaymentPromise
+                .then(function(userPayment){
+                    return userPayment.data;
+                })
+                .catch(function(error){return error;});
+        }
+
+        function setUserPayment(userPayment){
+
+            var setUserPaymentPromise = coreDataservice.setCurrentUserPayment(userPayment);
+
+            return setUserPaymentPromise
+                .then(function(userPayment){
+                    return userPayment.data;
+                })
+                .catch(function(error){return error;});
+        }
+
+        function updateMerchant(merchantData){
+
+            var merchantDataPromise = coreDataservice.updateMerchant(merchantData);
+
+            return merchantDataPromise
+                .then(function(merchantData){
+                    return merchantData.data;
+                })
+                .catch(function(error){return error;});
         }
 
         function setUser(user) {

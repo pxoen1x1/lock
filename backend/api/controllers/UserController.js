@@ -42,6 +42,134 @@ let UserController = waterlock.actions.user({
                 }
             );
     },
+    getMerchant(req, res){
+        let user = req.session.user;
+
+        if (!user) {
+
+            return res.forbidden({
+                message: req.__('You are not permitted to perform this action.')
+            });
+        }
+
+        if(!user.spMerchantId){
+            return res.ok({
+                userPayment: []
+            })
+        }
+
+        SplashPaymentService.getMerchantEntity(user.spMerchantId)
+            .then(
+                (merchantEntity) => {
+
+            return res.ok(
+                {
+                    merchantEntity: JSON.parse(merchantEntity)
+                }
+            );
+        }
+        )
+        .catch(
+                (err) => {
+                sails.log.error(err);
+
+            return res.serverError();
+        }
+        );
+    },
+    updateMerchant(req, res){
+        let user = req.session.user;
+
+        if (!user) {
+
+            return res.forbidden({
+                message: req.__('You are not permitted to perform this action.')
+            });
+        }
+
+        if(!user.spMerchantId){
+            return res.ok({
+                merchantData: []
+            })
+        }
+
+        SplashPaymentService.updateMerchant(user.spMerchantId,req.body)
+            .then(
+                (merchantEntity) => {
+
+            return res.ok(
+                {
+                    merchantEntity: JSON.parse(merchantEntity)
+                }
+            );
+        }
+        )
+        .catch(
+                (err) => {
+                sails.log.error(err);
+
+            return res.serverError();
+        }
+        );
+    },
+    getCurrentUserPayment(req, res){
+        let user = req.session.user;
+
+        if (!user) {
+
+            return res.forbidden({
+                message: req.__('You are not permitted to perform this action.')
+            });
+        }
+
+        UserService.getUserPayment(user)
+            .then(
+                (userPayment) => {
+
+            return res.ok(
+                {
+                    userPayment: userPayment
+                }
+            );
+        }
+        )
+        .catch(
+                (err) => {
+                sails.log.error(err);
+
+            return res.serverError();
+        }
+        );
+    },
+    setCurrentUserPayment(req, res){
+        let user = req.session.user;
+
+        if (!user) {
+
+            return res.forbidden({
+                message: req.__('You are not permitted to perform this action.')
+            });
+        }
+
+        UserService.setUserPayment(user, req.body)
+            .then(
+                (userPayment) => {
+
+            return res.ok(
+                {
+                    userPayment: userPayment
+                }
+            );
+        }
+        )
+        .catch(
+                (err) => {
+                sails.log.error(err);
+
+            return res.serverError();
+        }
+        );
+    },
     getUserById(req, res) {
         let userId = req.params.id;
 

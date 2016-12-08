@@ -11,6 +11,10 @@
     function coreDataservice($http, request, conf) {
         var service = {
             getCurrentUser: getCurrentUser,
+            getCurrentMerchant: getCurrentMerchant,
+            updateMerchant: updateMerchant,
+            getCurrentUserPayment: getCurrentUserPayment,
+            setCurrentUserPayment: setCurrentUserPayment,
             getUser: getUser,
             getFeedbacks: getFeedbacks,
             getServiceTypes: getServiceTypes,
@@ -36,6 +40,40 @@
             return request.httpWithTimeout({
                 url: conf.BASE_URL + conf.URL_PREFIX + 'user',
                 method: 'GET'
+            });
+        }
+
+        function getCurrentMerchant() {
+
+            return request.httpWithTimeout({
+                url: conf.BASE_URL + conf.URL_PREFIX + 'merchant',
+                method: 'GET'
+            });
+        }
+
+        function updateMerchant(merchantData) {
+
+            return request.httpWithTimeout({
+                url: conf.BASE_URL + conf.URL_PREFIX + 'merchant',
+                method: 'PUT',
+                data: merchantData
+            });
+        }
+
+        function getCurrentUserPayment() {
+
+            return request.httpWithTimeout({
+                url: conf.BASE_URL + conf.URL_PREFIX + 'userpayment',
+                method: 'GET'
+            });
+        }
+
+        function setCurrentUserPayment(paymentData) {
+
+            return request.httpWithTimeout({
+                url: conf.BASE_URL + conf.URL_PREFIX + 'userpayment',
+                method: 'POST',
+                data: paymentData
             });
         }
 

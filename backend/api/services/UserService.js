@@ -1,4 +1,4 @@
-/* global User, UserDetailService, HelperService */
+/* global User, UserDetailService, HelperService, SplashPaymentService */
 
 'use strict';
 
@@ -22,6 +22,38 @@ let UserService = {
                         );
                 }
             );
+    },
+    getUserPayment(user) {
+        return SplashPaymentService.getMerchantAccounts(user.spMerchantId).then((merchantAccounts)=>{
+                return JSON.parse(merchantAccounts);
+            });
+    },
+    setUserPayment(user,paymentData) {
+        if(!user.spMerchantId){
+            // 1. create Merchant
+            return SplashPaymentService.createMerchant(user,paymentData).then((merchantResponse)=>{
+                var merchantArray = JSON.parse(merchantResponse);
+                var merchantAccounts = merchantArray[0].accounts;
+                user.spAccountEntity = merchantAccounts[0].entity;
+
+                // 2. set merchant entity id
+                return UserService.update({id: user.id}, user).then(()=>{
+                        return merchantAccounts;
+                // 3. create account
+                /*                    return SplashPaymentService.createMerchantAccounts(user.spAccountEntity,paymentData).then((merchantAccounts)=>{
+                 return JSON.parse(merchantAccounts);
+                 });*/
+                // 4. create payout ??
+                 })
+            });
+
+        }else{
+            return SplashPaymentService.deleteMerchantAccounts(user.spMerchantId).then((res)=>{
+                return SplashPaymentService.createMerchantAccounts(user.spMerchantId,paymentData).then((merchantAccounts)=>{
+                    return JSON.parse(merchantAccounts);
+                });
+            });
+        }
     },
     findServiceProviders(params) {
         let rawQuery = `

@@ -10,7 +10,7 @@ let SplashPaymentService = {
             path: '/merchants'
         };
 
-        return this.makeRequest(options);
+        return SplashPaymentService.makeRequest(options);
     },
 
     getMerchant(entityId){
@@ -19,10 +19,10 @@ let SplashPaymentService = {
             path: '/merchants/'+entityId
         };
 
-        return this.makeRequest(options);
+        return SplashPaymentService.makeRequest(options);
     },
 
-    createMerchant(){
+    createMerchant(user,paymentData){ //(auth)
         var options = {
             method: 'POST',
             path: '/entities'
@@ -31,60 +31,79 @@ let SplashPaymentService = {
         merchant: {
             members: [{
                 primary: 1,
-                country: "USA",
-                address1: "6565 Taft St.",
-                city: "Hollywood",
-                state: "FL",
-                zip: "33024",
-                phone: "7185069292",
-                first: "Nochum",
-                last: "Sossonko",
-                dob: "19750101",
-                title: "CEO",
-                ownership: 8500,
-                email: "nochum@payrix.com"
+                // address if not required then not include
+                //country: "USA", // copy from fields below
+                //address1: "6565 Taft St.", // copy from fields below
+                //city: "Hollywood", // copy from fields below
+                //state: "FL", // copy from fields below
+                //zip: "33024", //  copy from fields below
+                phone: user.phoneNumber,
+                first: user.firstName,
+                last: user.lastName,
+                dob: "19750101", // ! required
+                title: "Director", // if no required then not inculde for individuals
+                ownership: 10000, // ! required
+                email: "aaa@aa.aa"
             }],
-                established: "20060101",
-                new: 0,
-                annualCCSales: "500000",
-                status: "0",
-                mcc: "1750" // ??
+            //established: "20060101", // -
+        new: 0, // An indicator that specifies whether the Merchant is new to credit card processing. A value of '1' means new
+        annualCCSales: "500000", // ???
+        status: "0",
+        mcc: "1750"  // required.
         },
         accounts: [{
-            primary: 1,
-            account: {
-                method: 8,
-                routing: "123456789",
-                number: "1234567890"
-            }
-        }],
-            //"login": "g1abcdefghijklm", // why login field exists in NO login example?
-            name: "Splash Merchant2",
-            email: "nochum@payrix.com",
-            phone: "7185069292",
-            address1: "6565 Taft St.",
-            city: "Hollywood",
-            state: "FL",
-            zip: "33024",
-            country: "USA",
-            website: "http://www.splashpayments.com",
-            type: "2",
-            ein: "123456789"
+        primary: 1,
+        account: {
+            method: 8, // ??
+            routing: paymentData.routing,
+            number: paymentData.number
+        }
+        }], /**/
+            name: user.lastName +' '+user.firstName, // last + first +  (fullname)
+            email: "aaa@aa.aa",// !required
+            phone: user.phoneNumber,
+            address1: "6565 Taft St.", // !required link address database table
+            city: "Hollywood", // !required
+            state: "FL", // !required
+            zip: "33024", // !required
+            country: "USA", // USA
+            //website: "http://www.splashpayments.com", // -
+            /**
+             * Company type (+0 = Sole Proprietorship, 1 = Corporation, 2 = LLC,
+             * 3 = Partnership, +4 = Association, 5 = Non Profit, 6 = Governmental)
+             */
+            type: "0", // if Group then set '2'
+            //ein: "123456789" // Federal tax id number (not required for Sole Proprietorship)
     };
-        return this.makeRequest(options,bodyJson);
+        return SplashPaymentService.makeRequest(options,bodyJson);
     },
 
-    updateMerchant(id){
-        var options = {
-            method: 'PUT',
-            path: '/entities/'+id
-        };
+    updateMerchant(id,merchantData){
 
-        var bodyJson = {
-            name: "Splash UPDATED Merchant2"
-        };
+        return SplashPaymentService.getMerchant(id)
+            .then(function(merchantResp){
+                var merchant = JSON.parse(merchantResp);
+                if(merchant.length == 0){
+                    return false; // todo: should return promiise?? Promise.reject('merchant not created yet');
+                }
+                    return merchant[0].entity;
+            })
+            .then(function(entityId){
+                var options = {
+                    method: 'PUT',
+                    path: '/entities/'+entityId
+                };
 
-        return this.makeRequest(options,bodyJson);
+                var bodyJson = {
+                    address1: merchantData.address1,
+                    state: merchantData.state,
+                    city: merchantData.city,
+                    zip: merchantData.zip
+                };
+
+                return SplashPaymentService.makeRequest(options,bodyJson);
+    }).catch(console.log.bind(console));
+
     },
 
     getCustomers(){
@@ -93,7 +112,7 @@ let SplashPaymentService = {
             path: '/customers'
         };
 
-        return this.makeRequest(options);
+        return SplashPaymentService.makeRequest(options);
     },
 
     getCustomer(entityId){
@@ -102,7 +121,7 @@ let SplashPaymentService = {
             path: '/customers/'+entityId
         };
 
-        return this.makeRequest(options);
+        return SplashPaymentService.makeRequest(options);
     },
 
     createCustomer(auth){
@@ -115,12 +134,12 @@ let SplashPaymentService = {
             first: auth.user.firstName, // auth.user.firstName
             last: auth.user.lastName, // auth.user.lastName
             email: auth.email, // auth.email
-            address1: "address 1", // !! not defined. is it required ??
-            city: "New York", // !! not defined. is it required ??
+         //   address1: "address 1", // !! not defined. is it required ??
+        //    city: "New York", // !! not defined. is it required ??
             phone: auth.user.phoneNumber // auth.user.phoneNumber
 
         };
-        return this.makeRequest(options,bodyJson);
+        return SplashPaymentService.makeRequest(options,bodyJson);
     },
 
     updateCustomer(id){
@@ -133,7 +152,7 @@ let SplashPaymentService = {
             first: "FirstnameUPDATED"
         };
 
-        return this.makeRequest(options,bodyJson);
+        return SplashPaymentService.makeRequest(options,bodyJson);
     },
 
     getMerchantPayouts(entityId){
@@ -142,7 +161,7 @@ let SplashPaymentService = {
             path: '/payouts',
             headers:{'SEARCH':'entity[equals]='+entityId}
         };
-        return this.makeRequest(options);
+        return SplashPaymentService.makeRequest(options);
     },
 
     createMerchantPayout(entityId){
@@ -169,7 +188,7 @@ let SplashPaymentService = {
                  amount: 10000,
                  start: "20161201" // today
              };
-             return this.makeRequest(options,bodyJson);
+             return SplashPaymentService.makeRequest(options,bodyJson);
             //return accountResponse;
         });
     },
@@ -188,16 +207,89 @@ let SplashPaymentService = {
             start: "20161202" // today
         };
 
-        return this.makeRequest(options,bodyJson);
+        return SplashPaymentService.makeRequest(options,bodyJson);
     },
 
-    getMerchantAccounts(entityId){
-        var options = {
-                method: 'GET',
-                path: '/accounts',
-                headers:{'SEARCH':'entity[equals]='+entityId}
-            }; //+'&and[][active][equals]=1&and[][verified][equals]=1'} //??
-        return this.makeRequest(options);
+    getMerchantEntity(Id){
+
+        return this.getMerchant(Id).then((merchantResp)=>{
+                var merchant = JSON.parse(merchantResp);
+                if(merchant.length == 0){
+                    return false; // todo: should return promiise?? Promise.reject('merchant not created yet');
+                }
+
+                var options = {
+                    method: 'GET',
+                    path: '/entities/'+merchant[0].entity
+                };
+                return SplashPaymentService.makeRequest(options);
+        }).catch(console.log.bind(console));
+    },
+
+    getMerchantAccounts(Id){
+
+        return this.getMerchant(Id).then((merchantResp)=>{
+                var merchant = JSON.parse(merchantResp);
+                if(merchant.length == 0){
+                    return false; // todo: should return promiise?? Promise.reject('merchant not created yet');
+                }
+
+                var options = {
+                    method: 'GET',
+                    path: '/accounts',
+                    headers:{'SEARCH':'entity[equals]='+merchant[0].entity}
+                };
+                return SplashPaymentService.makeRequest(options);
+        }).catch(console.log.bind(console));
+    },
+
+    createMerchantAccounts(Id,paymentData){
+
+        return SplashPaymentService.getMerchant(Id)
+            .then(function(merchant){
+                var merchantResonse = JSON.parse(merchant);
+                var entityId = merchantResonse[0].entity;
+                var options = {
+                    method: 'POST',
+                    path: '/accounts'
+                };
+
+                var bodyJson = {
+                    "entity":entityId, // merchant entity like "g158418cf1e8276"
+                    "account": {
+                        "method": "8", // The type of the Account. This field is specified as an integer. Valid values are: '8': Checking account '9': Savings account '10': Corporate checking account, and '11': Corporate savings account
+                        "routing": paymentData.routing,
+                        "number": paymentData.number
+                    },
+                    "name":"******" + paymentData.number.substring(paymentData.number.length-4, paymentData.number.length),  // get number and hide all symbols except 4 last
+                    "primary":"1", // always 1 cause only one account allowed
+                    "status":"0", //  '0': Not Ready. The account holder is not yet ready to verify the Account. '1': Ready. The account is ready to be verified. '2': Challenged - the account has processed the challenge. '3': Verified. The Account has been verified. '4': Manual. There has been an issue during verification, and further attempts to verify the Account will require manual intervention.
+                    "currency":"USD" // only USD supported
+                };
+
+                return SplashPaymentService.makeRequest(options,bodyJson);
+            }).catch(function (err) {
+                console.log(err);
+            });
+    },
+
+    deleteMerchantAccounts(merchantId){
+        return SplashPaymentService.getMerchantAccounts(merchantId)
+            .then((accountsString)=>{
+                var accounts = JSON.parse(accountsString);
+                if(!accounts || accounts.lenght == 0){
+                    return false;
+                }
+                var arrayOfPromises = accounts.map(function(account){
+                    var options = {
+                        method: 'DELETE',
+                        path: '/accounts/'+account.id
+                    };
+
+                    return SplashPaymentService.makeRequest(options);
+                });
+                return Promise.all(arrayOfPromises);
+            });
     },
 
 
@@ -205,7 +297,9 @@ let SplashPaymentService = {
     const https = require('https');
 
     options.host = 'test-api.splashpayments.com';
-    options.headers = {}; // ??? todo replace
+    if(!options.headers){
+        options.headers = {};
+    }
     options.headers['Content-Type'] = 'application/json';
     options.headers['APIKEY'] = '33629206d38422c644df7e0d9d7838b0';
 
@@ -216,7 +310,12 @@ let SplashPaymentService = {
         var req = https.request(options, (res) => {
             // temporary data holder
             const body = [];
-            res.on('data', (chunk) => body.push(chunk));
+            res.on('data', (chunk) =>
+            {
+                var response = JSON.parse(chunk);
+                body.push(JSON.stringify(response.response.data));
+                //body.push(chunk)
+            });
             // we are done, resolve promise with those joined chunks
             res.on('end', () => resolve(body.join('')));
         });
