@@ -30,6 +30,10 @@ let License = {
         userDetail: {
             model: 'UserDetail',
             columnName: 'user_details_id'
+        },
+        group: {
+            model: 'Group',
+            columnName: 'group_id'
         }
     }
 };
