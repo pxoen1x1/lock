@@ -39,9 +39,10 @@
                 return;
             }
 
+            auth.user = user;
+
             var params = {
-                auth: auth,
-                user: user
+                auth: auth
             };
 
             return authService.register(params)
