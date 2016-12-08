@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('app.customer')
+        .module('app.registration')
         .controller('CustomerRegistrationController', CustomerRegistrationController);
 
     CustomerRegistrationController.$inject = ['$state', 'authService'];
@@ -39,9 +39,10 @@
                 return;
             }
 
+            auth.user = user;
+
             var params = {
-                auth: auth,
-                user: user
+                auth: auth
             };
 
             return authService.register(params)

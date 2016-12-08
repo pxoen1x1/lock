@@ -24,7 +24,7 @@
 
 </head>
 <body>
-<div ui-view autoscroll="true"></div>
+<div class="wrapper" ui-view autoscroll="true"></div>
 
 <!-- build:vendorjs(.) /js/vendor.js -->
 <script src="/vendor/sails.io.js/dist/sails.io.js"></script>
@@ -98,6 +98,13 @@
 <script src="/js/home/home.module.js"></script>
 <script src="/js/home/home.controller.js"></script>
 
+<script src="/js/registration/registration.module.js"></script>
+<script src="/js/registration/registration.routes.js"></script>
+<script src="/js/registration/registration.constants.js"></script>
+<script src="/js/registration/layout/header/header.controller.js"></script>
+<script src="/js/registration/customer-registration/customer-registration.controller.js"></script>
+<script src="/js/registration/specialist-registration/specialist-registration.controller.js"></script>
+
 <script src="/js/chat/chat.module.js"></script>
 <script src="/js/chat/chat.constants.js"></script>
 <script src="/js/chat/services/chat.socket.service.js"></script>
@@ -122,8 +129,6 @@
 <script src="/js/customer/customer.run.js"></script>
 <script src="/js/customer/services/customer.dataservice.js"></script>
 <script src="/js/customer/components/client-map-viewer/client-map-viewer.component.js"></script>
-<script src="/js/customer/registration/registration.controller.js"></script>
-<script src="/js/layout/header/registration-header.controller.js"></script>
 <script src="/js/layout/header/user-header.controller.js"></script>
 <script src="/js/layout/menu/customer-menu.controller.js"></script>
 <script src="/js/customer/profile/profile.controller.js"></script>
@@ -145,7 +150,6 @@
 <script src="/js/provider/services/geo.service.js"></script>
 <script src="/js/provider/directives/specialist-map-viewer/specialist-map-viewer.directive.js"></script>
 <script src="/js/provider/directives/request-action-buttons/request-action-buttons.directive.js"></script>
-<script src="/js/provider/registration/registration.controller.js"></script>
 <script src="/js/layout/menu/provider-menu.controller.js"></script>
 <script src="/js/provider/profile/profile.controller.js"></script>
 <script src="/js/provider/public-profile/public-profile.controller.js"></script>

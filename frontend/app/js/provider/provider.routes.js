@@ -33,22 +33,6 @@
                     title: 'Specialist'
                 }
             })
-            .state('provider.registration', {
-                url: '/registration',
-                views: {
-                    'content@root': {
-                        templateUrl: 'provider/layout/registration-layout.html'
-                    },
-                    'content@provider.registration': {
-                        templateUrl: 'provider/registration/registration.html',
-                        controller: 'ProviderRegistrationController',
-                        controllerAs: 'vm'
-                    },
-                    'header@provider.registration': {
-                        templateUrl: 'layout/header/registration-header.html'
-                    }
-                }
-            })
             .state('provider.messages', {
                 parent: 'provider',
                 url: '/messages',

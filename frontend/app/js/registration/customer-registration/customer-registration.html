@@ -1,4 +1,4 @@
-<div class="registration"
+<div class="registration-content customer"
      flex
      layout="column"
      layout-align="center center">
@@ -71,6 +71,7 @@
             <input type="email"
                    name="email"
                    required
+                   autocomplete="off"
                    email-validation
                    availability-validation
                    ng-model-options="{ 'debounce': 400 }"
@@ -88,6 +89,7 @@
             <input type="password"
                    name="password"
                    required
+                   autocomplete="off"
                    password-validation
                    ng-model="vm.auth.password">
             <div ng-messages="registrationForm.password.$error">

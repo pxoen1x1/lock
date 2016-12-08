@@ -1,46 +1,57 @@
-.customer, .provider, .group, .admin {
+.header {
 
-  .header {
-
-    .root {
-      text-transform: uppercase;
-      font-size: 16px;
-      font-weight: 400;
-      margin-left: 8px;
-
-      a {
-        vertical-align: middle;
-      }
-
-      a:hover {
-        color: $primary-color;
-      }
-
-      i.material-icons {
-        vertical-align: middle;
-        font-size: 20px;
-        font-weight: 600;
-        cursor: default;
-      }
-    }
-
-    .root.bold {
-      font-size: 18px;
-      font-weight: 400;
-    }
-
-    md-icon i {
-      vertical-align: top;
-    }
-
+  a {
+    vertical-align: middle;
+    text-align: center;
   }
 
+  .root {
+    text-transform: uppercase;
+    font-size: 16px;
+    font-weight: 400;
+    margin-left: 8px;
+
+    a:hover {
+      color: $primary-color;
+    }
+
+    i.material-icons {
+      vertical-align: middle;
+      font-size: 22px;
+      cursor: default;
+    }
+  }
+
+  .root.bold {
+    font-size: 18px;
+  }
+
+  md-icon i {
+    vertical-align: top;
+  }
+
+  .registration {
+
+    .button-back-min, .button-login-min {
+      padding: 0;
+      -webkit-border-radius: 0;
+      -moz-border-radius: 0;
+      border-radius: 0;
+      text-align: center;
+    }
+    
+    .button-back-min i, .button-login-min i {
+      vertical-align: middle;
+      text-align: center;
+      /*color: $primary-color;*/
+    }
+  }
 }
 
 @media only screen and (max-device-width: 600px) {
   .menu {
     .md-toolbar-tools {
-      padding: 0;
+      padding: 2px;
     }
 
     .md-toolbar-tools > .md-button:first-child {
@@ -49,6 +60,12 @@
 
     .md-toolbar-tools > .md-button:last-child {
       margin-right: 0;
+    }
+  }
+
+  .registration {
+    .md-toolbar-tools {
+      padding: 0 2px;
     }
   }
 }

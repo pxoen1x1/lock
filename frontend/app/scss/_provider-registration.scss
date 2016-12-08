@@ -1,51 +1,7 @@
-.provider {
-  .md-toolbar-tools {
-    .button-login,
-    .button-login:hover {
-      background-color: $primary-color;
-      color: #fff;
-    }
-  }
-
-  .button-back-min, .button-login-min {
-    display: none;
-    min-width: 52px;
-    padding: 0;
-    margin: 0 !important;
-    -webkit-border-radius: 0;
-    -moz-border-radius: 0;
-    border-radius: 0;
-    font-size: 100%;
-    height: 100%;
-    text-align: center;
-  }
-  .button-back-min i, .button-login-min i {
-    display: table-cell;
-    vertical-align: middle;
-    text-align: center;
-    /*color: $primary-color;*/
-  }
-  .registration {
-
-    .page-name {
-      text-align: center;
-      font-weight: 300;
-      font-size: 26px;
-    }
-
-    .registration {
-      background: url(https://newevolutiondesigns.com/images/freebies/google-material-design-wallpaper-2.jpg) no-repeat;
-      background-attachment: fixed;
-      background-size: cover;
-      min-height: 100%;
-    }
-
-    .form-wrapper {
-      padding: 25px 0 25px 0;
-    }
+.registration-content {
+  &.provider {
 
     .registration-form {
-      min-width: 320px;
       width: 620px;
       background: #fff;
       box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .2), 0 1px 1px 0 rgba(0, 0, 0, .14), 0 2px 1px -1px rgba(0, 0, 0, .12);
@@ -90,8 +46,6 @@
       align-items: center;
       position: relative;
       height: 72px;
-      min-height: 72px;
-      max-height: 72px;
       line-height: 24px;
       margin: 0;
       padding: 24px 12px;
@@ -117,7 +71,7 @@
       font-weight: 600;
     }
     .stepper-navigation-item .title {
-      color: rgba(0, 0, 0, .54);
+      color: $secondary-text-color;
       padding-right: 16px;
     }
     .stepper-navigation-item.current .title {
@@ -210,6 +164,7 @@
     .service-remove {
       padding-top: 10px;
       margin-left: 10px;
+      color: $secondary-text-color;
 
       i {
         cursor: pointer;
@@ -224,44 +179,28 @@
       max-width: 120px;
     }
   }
+}
 
-  @media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
-    .button-back, .button-login {
-      display: none;
-    }
-    .button-back-min, .button-login-min {
-      display: table;
-    }
-    .md-toolbar-tools {
-      padding: 0;
-    }
-    .registration {
-      background: none;
-    }
-    .registration-form {
-      padding: 20px;
-      box-shadow: none;
-    }
-    .form-wrapper {
-      padding: 0;
-    }
-    .stepper-steps {
-      padding: 0;
-    }
-    .stepper-navigation-item {
-      display: none;
-    }
-    .stepper-navigation-item::before {
-      display: none;
-    }
-    .page-name {
-      font-size: 19px;
-    }
-    .stepper-navigation, md-divider {
-      display: none;
-    }
-    .form-wrapper, .registration-form {
-      padding-top: 0;
+@media only screen and (max-device-width: 480px) {
+  .registration-content {
+    &.provider {
+
+      .stepper-steps {
+        padding: 0;
+      }
+      .stepper-navigation-item {
+        display: none;
+      }
+      .stepper-navigation-item::before {
+        display: none;
+      }
+
+      .stepper-navigation, md-divider {
+        display: none;
+      }
+      .form-wrapper, .registration-form {
+        padding-top: 0;
+      }
     }
   }
 }
