@@ -25,24 +25,26 @@
         var vm = this;
 
         vm.user = {
-            details: {
-                licenses: [{}]
-            }
+            details: {},
+            groups: {}
         };
         vm.auth = {};
-
         vm.states = [];
         vm.languages = [];
         vm.serviceTypes = [];
-        vm.procedures = [];
+        vm.licenses = [{}];
+        vm.validSteps = {};
+        vm.currentStep = 0;
+
+        vm.isAgreeWithAgreement = false;
+        vm.isCompanyRegistrationSelected = false;
 
         vm.datePickerOptions = {
             minDate: new Date()
         };
+
         vm.timePickerOptions = coreConstants.MD_PICKERS_OPTIONS.timePicker;
         vm.registrationSteps = registrationConstants.SPECIALIST_REGISTRATION_STEPS;
-        vm.validSteps = {};
-        vm.currentStep = 0;
 
         vm.goToNextStep = goToNextStep;
         vm.goToPrevStep = goToPrevStep;
@@ -121,6 +123,16 @@
                 return;
             }
 
+            if (vm.isCompanyRegistrationSelected) {
+                user.groups.licenses = remoleInvalidLicenses(vm.licenses);
+
+                delete user.details;
+            } else {
+                user.details.licenses = remoleInvalidLicenses(vm.licenses);
+
+                delete user.groups;
+            }
+
             var params = {
                 auth: auth,
                 user: user
@@ -130,11 +142,21 @@
         }
 
         function addLicenseForm() {
-            vm.user.details.licenses.push({});
+
+            vm.licenses.push({});
         }
 
         function removeLicenseForm(index) {
-            vm.user.details.licenses.splice(index, 1);
+            vm.licenses.splice(index, 1);
+        }
+
+        function remoleInvalidLicenses(licenses) {
+            licenses = licenses.filter(function (license) {
+
+                return license.number && (license.state && license.state.id) && license.date;
+            });
+
+            return licenses;
         }
 
         function activate() {
