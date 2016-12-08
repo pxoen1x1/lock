@@ -71,7 +71,7 @@
       font-weight: 600;
     }
     .stepper-navigation-item .title {
-      color: rgba(0, 0, 0, .54);
+      color: $secondary-text-color;
       padding-right: 16px;
     }
     .stepper-navigation-item.current .title {
@@ -164,6 +164,7 @@
     .service-remove {
       padding-top: 10px;
       margin-left: 10px;
+      color: $secondary-text-color;
 
       i {
         cursor: pointer;
