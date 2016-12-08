@@ -52,6 +52,24 @@
                     },
                     isPrivate: true
                 }
+            })
+            .state('group.dashboard.new', {
+                parent: 'group.dashboard',
+                url: '/new',
+                views: {
+                    'content@group.dashboard': {
+                        templateUrl: 'group/dashboard-new/dashboard-new.html',
+                        controller: 'GroupNewRequestsController',
+                        controllerAs: 'vm'
+                    }
+                },
+                data: {
+                    title: 'New',
+                    tab: {
+                        title: 'New',
+                        icon: 'whatshot'
+                    }
+                }
             });
     }
 })();
