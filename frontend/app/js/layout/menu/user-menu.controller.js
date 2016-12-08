@@ -18,16 +18,17 @@
         activate();
 
         function getUser() {
+
             return currentUserService.getUser()
                 .then(function(user) {
                     vm.userProfile = user;
                     vm.userProfile.portrait = user.portrait ? conf.BASE_URL + user.portrait : '';
+                    
                     return vm.userProfile;
                 });
         }
 
         function getUserType() {
-
             return currentUserService.getType()
                 .then(function(userType) {
                     return userType;
@@ -35,7 +36,6 @@
         }
 
         function setMenuType(type) {
-            
             /* 1 - client, 2 - specialist */
             if (type === coreConstants.USER_TYPES.SPECIALIST) {
                 vm.menuItems = serviceProviderConstants.MENU_ITEMS;
@@ -51,7 +51,6 @@
         }
 
         function activate() {
-            
             getUser()
                 .then(function() {
                     return getUserType();
@@ -60,6 +59,5 @@
                     setMenuType(userType);
                 });
         }
-        
     }
 })();
