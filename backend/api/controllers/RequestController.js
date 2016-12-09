@@ -122,7 +122,6 @@ let RequestController = {
                         items: requests.items,
                         currentPageNumber: +pagination.page,
                         totalCount: requests.count,
-
                     }
                 )
             )
