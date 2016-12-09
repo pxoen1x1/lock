@@ -36,10 +36,17 @@
 
         activate();
 
-        function getAllRequests(queryOptions) {
+        function getAllRequests() {
             if (promises.getAllRequests) {
                 promises.getAllRequests.cancel();
             }
+
+            var queryOptions = {
+                'status[]': [coreConstants.REQUEST_STATUSES.PENDING, coreConstants.REQUEST_STATUSES.IN_PROGRESS],
+                order: vm.queryOptions.orderBy.replace(/-(\w+)/, '$1 DESC'),
+                limit: vm.queryOptions.limit,
+                page: vm.queryOptions.page
+            };
 
             promises.getAllRequests = groupDataservice.getRequests(queryOptions);
 
@@ -51,14 +58,8 @@
         }
 
         function getRequests() {
-            var queryOptions = {
-                'status[]': [coreConstants.REQUEST_STATUSES.PENDING, coreConstants.REQUEST_STATUSES.IN_PROGRESS],
-                order: vm.queryOptions.orderBy.replace(/-(\w+)/, '$1 DESC'),
-                limit: vm.queryOptions.limit,
-                page: vm.queryOptions.page
-            };
 
-            return getAllRequests(queryOptions)
+            return getAllRequests()
                 .then(function (requests) {
                     vm.requests = requests.items;
                     vm.paginationOptions.totalCount = requests.totalCount;
@@ -73,14 +74,7 @@
                 return;
             }
 
-            var queryOptions = {
-                status: '!' + coreConstants.REQUEST_STATUSES.CLOSED,
-                order: vm.queryOptions.orderBy.replace(/-(\w+)/, '$1 DESC'),
-                limit: vm.queryOptions.limit,
-                page: vm.queryOptions.page
-            };
-
-            return getAllRequests(queryOptions)
+            return getAllRequests()
                 .then(function (requests) {
                     vm.requests = vm.requests.concat(requests.items);
                     vm.paginationOptions.totalCount = requests.totalCount;
