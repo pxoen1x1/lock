@@ -157,15 +157,7 @@ let SplashPaymentService = {
         return SplashPaymentService.makeRequest(options);
     },
 
-    createMerchantPayout(entityId){
-        // get active account
-        var accountResponsePromise = this.getMerchantAccounts(entityId);
-        return accountResponsePromise.then((accountResponse)=>{
-            var response = JSON.parse(accountResponse);
-            var data = response.response.data;
-            if(data.lehgth = 0) return false; // ??? what to return if wrong data received ???
-
-            var accountToken = data[0].token;
+    createMerchantPayout(entityId,accountToken){
 
             var options = {
                  method: 'POST',
@@ -179,11 +171,9 @@ let SplashPaymentService = {
                  schedule: 1,
                  um: 1,
                  amount: 10000,
-                 start: "20161201" // today
+                 start: SplashPaymentService.getDateString() // today
              };
              return SplashPaymentService.makeRequest(options,bodyJson);
-            //return accountResponse;
-        });
     },
 
     updateMerchantPayout(payoutId){
@@ -266,6 +256,23 @@ let SplashPaymentService = {
             });
     },
 
+    updateMerchantAccount(accountId,paymentData){
+        var options = {
+            method: 'PUT',
+            path: '/accounts/'+accountId
+        };
+
+        var bodyJson = {
+            "account": {
+                "routing": paymentData.routing,
+                "number": paymentData.number
+            },
+            "name":"******" + paymentData.number.substring(paymentData.number.length-4, paymentData.number.length),  // get number and hide all symbols except 4 last
+        };
+
+        return SplashPaymentService.makeRequest(options,bodyJson);
+    },
+
     deleteMerchantAccounts(merchantId){
         return SplashPaymentService.getMerchantAccounts(merchantId)
             .then((accountsString)=>{
@@ -325,6 +332,15 @@ let SplashPaymentService = {
 
 
     })
+    },
+    getDateString(){
+
+        var d = new Date();
+        var day = d.getDate();
+        if(day < 10) { day = '0'+day;}
+        var month = d.getMonth();
+        if(month < 10) { month = '0'+month;}
+        return d.getYear + month + day;
     }
 };
 

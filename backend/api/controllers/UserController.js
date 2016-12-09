@@ -103,6 +103,7 @@ let UserController = waterlock.actions.user({
                     })
                     .then((merchant)=>{
                         return SplashPaymentService.getMerchantEntity(merchant.id)
+                    })
                     .then(
                         (merchantEntity) => {
                         return res.ok(
@@ -119,7 +120,6 @@ let UserController = waterlock.actions.user({
                         return res.serverError();
                     }
                     );
-            });
         }else{
             SplashPaymentService.updateMerchantEntity(user.spMerchantId,params.merchantData)
                 .then(

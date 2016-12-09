@@ -29,31 +29,33 @@ let UserService = {
             });
     },
     setUserPayment(user,paymentData) {
-        if(!user.spMerchantId){
-            // 1. create Merchant
-            return SplashPaymentService.createMerchant(user,paymentData).then((merchantResponse)=>{
-                var merchantArray = JSON.parse(merchantResponse);
-                var merchantAccounts = merchantArray[0].accounts;
-                user.spAccountEntity = merchantAccounts[0].entity;
 
-                // 2. set merchant entity id
-                return UserService.update({id: user.id}, user).then(()=>{
-                        return merchantAccounts;
-                // 3. create account
-                /*                    return SplashPaymentService.createMerchantAccounts(user.spAccountEntity,paymentData).then((merchantAccounts)=>{
-                 return JSON.parse(merchantAccounts);
-                 });*/
-                // 4. create payout ??
-                 })
-            });
+        return SplashPaymentService.getMerchantAccounts(user.spMerchantId).then((merchantAccounts)=>{
+            var account;
+            var accountsArray;
+            var merchantAccounts = JSON.parse(merchantAccounts);
 
-        }else{
-            return SplashPaymentService.deleteMerchantAccounts(user.spMerchantId).then((res)=>{
-                return SplashPaymentService.createMerchantAccounts(user.spMerchantId,paymentData).then((merchantAccounts)=>{
-                    return JSON.parse(merchantAccounts);
-                });
-            });
-        }
+            if(merchantAccounts.length == 0){
+                return SplashPaymentService.createMerchantAccounts(user.spMerchantId,paymentData)
+                    .then((merchantAccounts)=>{
+                        accountsArray = JSON.parse(merchantAccounts);
+                        account = accountsArray[0];
+                        return SplashPaymentService.getMerchantEntity(user.spMerchantId);
+                        })
+                    .then((merchantEntities)=>{
+                        var merchantArray = JSON.parse(merchantEntities);
+                        var merchantEntity = merchantArray[0];
+                        SplashPaymentService.createMerchantPayout(merchantEntity.id,account.token);
+                        return accountsArray;
+                    });
+            }else{
+                return SplashPaymentService.updateMerchantAccount(merchantAccounts[0].id,paymentData)
+                    .then(function(merchantAccounts){
+                        return JSON.parse(merchantAccounts);
+                    })
+            }
+        });
+
     },
     findServiceProviders(params) {
         let rawQuery = `
