@@ -70,6 +70,24 @@
                         icon: 'whatshot'
                     }
                 }
+            })
+            .state('group.dashboard.current', {
+                parent: 'group.dashboard',
+                url: '/current',
+                views: {
+                    'content@group.dashboard': {
+                        templateUrl: 'group/dashboard-current/dashboard-current.html',
+                        controller: 'GroupDashboardCurrentController',
+                        controllerAs: 'vm'
+                    }
+                },
+                data: {
+                    title: 'Current',
+                    tab: {
+                        title: 'Current',
+                        icon: 'list'
+                    }
+                }
             });
     }
 })();
