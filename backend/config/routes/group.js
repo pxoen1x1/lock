@@ -1,10 +1,5 @@
 'use strict';
 
-let groupRoutes = {
-    'GET /api/group/requests':{
-        controller: 'RequestController',
-        action: 'getGroupRequests'
-    }
-};
+let groupRoutes = {};
 
 module.exports.routes = groupRoutes;
