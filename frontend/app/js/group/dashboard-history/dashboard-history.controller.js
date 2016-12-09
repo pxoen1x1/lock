@@ -3,12 +3,12 @@
 
     angular
         .module('app.group')
-        .controller('GroupDashboardCurrentController', GroupDashboardCurrentController);
+        .controller('GroupDashboardHistoryController', GroupDashboardHistoryController);
 
-    GroupDashboardCurrentController.$inject = ['$mdMedia', 'coreConstants', 'groupDataservice', 'conf'];
+    GroupDashboardHistoryController.$inject = ['$mdMedia', 'coreConstants', 'groupDataservice', 'conf'];
 
     /* @ngInject */
-    function GroupDashboardCurrentController($mdMedia, coreConstants, groupDataservice, conf) {
+    function GroupDashboardHistoryController($mdMedia, coreConstants, groupDataservice, conf) {
         var promises = {
             getAllRequests: null
         };
@@ -42,7 +42,7 @@
             }
 
             var queryOptions = {
-                'status[]': [coreConstants.REQUEST_STATUSES.PENDING, coreConstants.REQUEST_STATUSES.IN_PROGRESS],
+                'status[]': [coreConstants.REQUEST_STATUSES.DONE, coreConstants.REQUEST_STATUSES.CLOSED],
                 order: vm.queryOptions.orderBy.replace(/-(\w+)/, '$1 DESC'),
                 limit: vm.queryOptions.limit,
                 page: vm.queryOptions.page
