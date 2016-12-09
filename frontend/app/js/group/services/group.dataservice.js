@@ -9,8 +9,19 @@
 
     /* @ngInject */
     function groupDataservice($http, request, conf) {
-        var service = {};
+        var service = {
+            getSpecialistsRequests: getSpecialistsRequests
+        };
 
         return service;
+
+        function getSpecialistsRequests(params) {
+
+            return request.httpWithTimeout({
+                url: conf.BASE_URL + conf.URL_PREFIX + 'group/requests',
+                method: 'GET',
+                params: params
+            });
+        }
     }
 })();
