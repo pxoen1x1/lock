@@ -42,7 +42,7 @@ let UserController = waterlock.actions.user({
                 }
             );
     },
-    getMerchant(req, res){
+    getMerchantEntity(req, res){
         let user = req.session.user;
 
         if (!user) {
@@ -54,7 +54,7 @@ let UserController = waterlock.actions.user({
 
         if(!user.spMerchantId){
             return res.ok({
-                userPayment: []
+                merchantEntity: []
             })
         }
 
@@ -77,8 +77,10 @@ let UserController = waterlock.actions.user({
         }
         );
     },
-    updateMerchant(req, res){
-        let user = req.session.user;
+    updateMerchantEntity(req, res){
+        var user = req.session.user;
+        var params = req.allParams();
+        var email = params.auth.email;
 
         if (!user) {
 
@@ -88,29 +90,55 @@ let UserController = waterlock.actions.user({
         }
 
         if(!user.spMerchantId){
-            return res.ok({
-                merchantData: []
-            })
-        }
 
-        SplashPaymentService.updateMerchant(user.spMerchantId,req.body)
-            .then(
-                (merchantEntity) => {
+            return SplashPaymentService.createMerchant(user,params.merchantData,email)
+                    .then((merchantResponse)=>{
+                        var merchantArray = JSON.parse(merchantResponse);
+                        var merchant = merchantArray[0].merchant;
+                        user.spMerchantId = merchant.id;
 
-            return res.ok(
-                {
-                    merchantEntity: JSON.parse(merchantEntity)
-                }
+                        return UserService.update({id: user.id}, user).then(()=>{
+                                return merchant;
+                        })
+                    })
+                    .then((merchant)=>{
+                        return SplashPaymentService.getMerchantEntity(merchant.id)
+                    .then(
+                        (merchantEntity) => {
+                        return res.ok(
+                            {
+                                merchantEntity: JSON.parse(merchantEntity)
+                            }
+                        );
+                    }
+                    )
+                    .catch(
+                            (err) => {
+                            sails.log.error(err);
+
+                        return res.serverError();
+                    }
+                    );
+            });
+        }else{
+            SplashPaymentService.updateMerchantEntity(user.spMerchantId,params.merchantData)
+                .then(
+                    (merchantEntity) => {
+                return res.ok(
+                    {
+                        merchantEntity: JSON.parse(merchantEntity)
+                    }
+                );
+            }
+            )
+            .catch(
+                    (err) => {
+                    sails.log.error(err);
+
+                return res.serverError();
+            }
             );
         }
-        )
-        .catch(
-                (err) => {
-                sails.log.error(err);
-
-            return res.serverError();
-        }
-        );
     },
     getCurrentUserPayment(req, res){
         let user = req.session.user;

@@ -60,33 +60,24 @@
 
             return currentUserService.setUserPayment(userPayment)
                 .then(function (userPayment) {
-                    //vm.profileData.paymentData = [];
                     vm.profileData.paymentData = userPayment.userPayment;
                     vm.isEditingPayment = false;
-                    console.log(vm.profileData.paymentData);
-                    console.log('--2-');
                     return vm.profileData;
-/*                    vm.profileData = user;
-                    vm.profileData.portrait = user.portrait ? conf.BASE_URL + user.portrait : '';
-                    vm.newPortrait = '';
-                    vm.isEditing = false;
-
-                    return vm.profileData;*/
                 });
         }
 
-        function updateMerchant(merchantData, isFormValid) {
+        function updateMerchant(profileData, isFormValid) {
             if (!isFormValid) {
                 return;
             }
 
-            return currentUserService.updateMerchant(merchantData)
+            return currentUserService.updateMerchant(profileData)
                 .then(function (merchant) {
-                    vm.profileData.merchantData = merchant.merchantEntity[0];;
+                    vm.profileData.merchantData = merchant.merchantEntity[0];
+                    vm.profileData.spMerchantId = vm.profileData.merchantData.id;
+                    return currentUserService.setUserToLocalStorage(vm.profileData);
+                }).then(function(user){
                     vm.isEditingMerchant = false;
-                    console.log(vm.profileData.merchantData);
-                    console.log('--2-');
-                    return vm.profileData;
                 });
         }
 
@@ -107,9 +98,10 @@
                             return currentUserService.getMerchant()
                         })
                         .then(function(merchant){
-                            vm.profileData.merchantData = merchant.merchantEntity[0];
-                            console.log(vm.profileData.merchantData);
-                            return vm.profileData;
+                            if(merchant.merchantEntity.length > 0){
+                                vm.profileData.merchantData = merchant.merchantEntity[0];
+                                return vm.profileData;
+                            }
                         });
                 });
         }

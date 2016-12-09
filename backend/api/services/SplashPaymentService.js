@@ -22,7 +22,7 @@ let SplashPaymentService = {
         return SplashPaymentService.makeRequest(options);
     },
 
-    createMerchant(user,paymentData){ //(auth)
+    createMerchant(user,merchantData, email){
         var options = {
             method: 'POST',
             path: '/entities'
@@ -43,7 +43,7 @@ let SplashPaymentService = {
                 dob: "19750101", // ! required
                 title: "Director", // if no required then not inculde for individuals
                 ownership: 10000, // ! required
-                email: "aaa@aa.aa"
+                email: email
             }],
             //established: "20060101", // -
         new: 0, // An indicator that specifies whether the Merchant is new to credit card processing. A value of '1' means new
@@ -51,21 +51,14 @@ let SplashPaymentService = {
         status: "0",
         mcc: "1750"  // required.
         },
-        accounts: [{
-        primary: 1,
-        account: {
-            method: 8, // ??
-            routing: paymentData.routing,
-            number: paymentData.number
-        }
-        }], /**/
-            name: user.lastName +' '+user.firstName, // last + first +  (fullname)
-            email: "aaa@aa.aa",// !required
+        accounts: [],
+            name: user.lastName +' '+user.firstName,
+            email: email,// !required
             phone: user.phoneNumber,
-            address1: "6565 Taft St.", // !required link address database table
-            city: "Hollywood", // !required
-            state: "FL", // !required
-            zip: "33024", // !required
+            address1: merchantData.address1, // !required
+            city: merchantData.city, // !required
+            state: merchantData.state, // !required
+            zip: merchantData.zip, // !required
             country: "USA", // USA
             //website: "http://www.splashpayments.com", // -
             /**
@@ -78,7 +71,7 @@ let SplashPaymentService = {
         return SplashPaymentService.makeRequest(options,bodyJson);
     },
 
-    updateMerchant(id,merchantData){
+    updateMerchantEntity(id, merchantData){
 
         return SplashPaymentService.getMerchant(id)
             .then(function(merchantResp){
@@ -313,8 +306,11 @@ let SplashPaymentService = {
             res.on('data', (chunk) =>
             {
                 var response = JSON.parse(chunk);
+                if(!response.response || !response.response.data){
+                    console.log(response);
+                    return Promise.reject('unhandled response from SP');
+                }
                 body.push(JSON.stringify(response.response.data));
-                //body.push(chunk)
             });
             // we are done, resolve promise with those joined chunks
             res.on('end', () => resolve(body.join('')));
@@ -323,8 +319,8 @@ let SplashPaymentService = {
         var body = JSON.stringify(bodyJson);
         req.end(body);
 
-            req.on('error', (e) => {
-                console.error(e);
+        req.on('error', (e) => {
+            console.error(e);
         });
 
 

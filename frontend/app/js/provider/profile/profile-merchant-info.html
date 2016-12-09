@@ -29,7 +29,7 @@
 <div ng-if="vm.isEditingMerchant">
     <form name="editMerchantForm"
           novalidate
-          ng-submit="vm.updateMerchant(vm.profileData.merchantData, editMerchantForm.$valid)">
+          ng-submit="vm.updateMerchant(vm.profileData, editMerchantForm.$valid)">
         <div layout="row">
             <md-input-container class="md-block" flex>
                 <label>Address</label>

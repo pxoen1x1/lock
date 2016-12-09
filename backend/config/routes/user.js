@@ -9,17 +9,17 @@ let userRoutes = {
         controller: 'UserController',
         action: 'getCurrentUserPayment'
     },
-    'GET /api/merchant': {
-        controller: 'UserController',
-        action: 'getMerchant'
-    },
-    'PUT /api/merchant': {
-        controller: 'UserController',
-        action: 'updateMerchant'
-    },
     'POST /api/userpayment': {
         controller: 'UserController',
         action: 'setCurrentUserPayment'
+    },
+    'GET /api/merchantentity': {
+        controller: 'UserController',
+        action: 'getMerchantEntity'
+    },
+    'PUT /api/merchantentity': {
+        controller: 'UserController',
+        action: 'updateMerchantEntity'
     },
     'GET /api/users/:id': {
         controller: 'UserController',

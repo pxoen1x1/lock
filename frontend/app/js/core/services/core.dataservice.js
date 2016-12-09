@@ -46,7 +46,7 @@
         function getCurrentMerchant() {
 
             return request.httpWithTimeout({
-                url: conf.BASE_URL + conf.URL_PREFIX + 'merchant',
+                url: conf.BASE_URL + conf.URL_PREFIX + 'merchantentity',
                 method: 'GET'
             });
         }
@@ -54,7 +54,7 @@
         function updateMerchant(merchantData) {
 
             return request.httpWithTimeout({
-                url: conf.BASE_URL + conf.URL_PREFIX + 'merchant',
+                url: conf.BASE_URL + conf.URL_PREFIX + 'merchantentity',
                 method: 'PUT',
                 data: merchantData
             });
