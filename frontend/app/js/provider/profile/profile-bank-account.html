@@ -5,6 +5,7 @@
          layout-align-gt-xs="start center">
     </div>
     <div><h2>Bank account</h2></div>
+    <div ng-if="!vm.profileData.merchantData">Fill Merchant info before adding bank account</div>
     <div ng-repeat="account in vm.profileData.paymentData">
         <div class="section first">
             <span class="md-body-2">name:</span>
