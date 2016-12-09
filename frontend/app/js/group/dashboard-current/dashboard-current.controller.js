@@ -41,7 +41,7 @@
                 promises.getAllRequests.cancel();
             }
 
-            promises.getAllRequests = groupDataservice.getSpecialistsRequests(queryOptions);
+            promises.getAllRequests = groupDataservice.getRequests(queryOptions);
 
             return promises.getAllRequests
                 .then(function (response) {

@@ -10,12 +10,12 @@
     /* @ngInject */
     function groupDataservice($http, request, conf) {
         var service = {
-            getSpecialistsRequests: getSpecialistsRequests
+            getRequests: getRequests
         };
 
         return service;
 
-        function getSpecialistsRequests(params) {
+        function getRequests(params) {
 
             return request.httpWithTimeout({
                 url: conf.BASE_URL + conf.URL_PREFIX + 'group/requests',
