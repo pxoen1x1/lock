@@ -88,6 +88,24 @@
                         icon: 'list'
                     }
                 }
+            })
+            .state('group.dashboard.history', {
+                parent: 'group.dashboard',
+                url: '/history',
+                views: {
+                    'content@group.dashboard': {
+                        templateUrl: 'group/dashboard-history/dashboard-history.html',
+                        controller: 'GroupDashboardHistoryController',
+                        controllerAs: 'vm'
+                    }
+                },
+                data: {
+                    title: 'History',
+                    tab: {
+                        title: 'History',
+                        icon: 'history'
+                    }
+                }
             });
     }
 })();
