@@ -5,12 +5,13 @@
         .module('app.group')
         .factory('groupDataservice', groupDataservice);
 
-    groupDataservice.$inject = ['$http', 'request', 'conf'];
+    groupDataservice.$inject = ['$sails', 'request', 'conf'];
 
     /* @ngInject */
-    function groupDataservice($http, request, conf) {
+    function groupDataservice($sails, request, conf) {
         var service = {
-            getRequests: getRequests
+            getRequests: getRequests,
+            getMembers: getMembers
         };
 
         return service;
@@ -22,6 +23,17 @@
                 method: 'GET',
                 params: params
             });
+        }
+
+        function getMembers(params) {
+
+            return $sails.get(conf.URL_PREFIX + 'group/members', params)
+                .then(getMembersComplete);
+
+            function getMembersComplete(response) {
+
+                return response.data;
+            }
         }
     }
 })();

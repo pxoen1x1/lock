@@ -314,6 +314,20 @@ md-content {
   }
 }
 
+.status-icon {
+  position: absolute;
+  top: 26px;
+  left: 30px;
+  border-radius: 50%;
+  background-color: #FFF;
+  color: $success-color;
+
+  &.unavailable {
+    color: #FFF;
+    background-color: $warning-color;
+  }
+}
+
 .infinite-scroll-wrapper {
   height: 100%;
   overflow: hidden;
@@ -348,7 +362,7 @@ md-content {
 @import 'user-header';
 @import 'user-menu';
 @import 'layout';
-@import 'request';
+@import 'list-content';
 @import 'tab-bar';
 @import 'maps';
 @import 'md-dialog';

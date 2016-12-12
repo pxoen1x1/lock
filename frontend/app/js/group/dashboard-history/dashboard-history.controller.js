@@ -62,7 +62,7 @@
             return getAllRequests()
                 .then(function (requests) {
                     vm.requests = requests.items;
-                    vm.paginationOptions.totalCount = requests.totalCount;
+                    vm.queryOptions.totalCount = requests.totalCount;
 
                     return vm.requests;
                 });
@@ -77,10 +77,10 @@
             return getAllRequests()
                 .then(function (requests) {
                     vm.requests = vm.requests.concat(requests.items);
-                    vm.paginationOptions.totalCount = requests.totalCount;
+                    vm.queryOptions.totalCount = requests.totalCount;
 
                     vm.isAllRequestsLoaded = vm.queryOptions.page * vm.queryOptions.limit >=
-                        vm.paginationOptions.totalCount;
+                        vm.queryOptions.totalCount;
 
                     vm.queryOptions.page++;
 

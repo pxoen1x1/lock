@@ -15,10 +15,10 @@
              ng-style="{ 'background-image': 'url(' + (bid.specialist.portrait ?
              vm.baseUrl + bid.specialist.portrait : vm.defaultPortrait) + ')' }">
         </div>
-        <i class="material-icons s14 status"
+        <i class="material-icons s14 status-icon"
            ng-if="bid.specialist.details.isAvailable">check_circle
         </i>
-        <i class="material-icons s14 status unavailable"
+        <i class="material-icons s14 status-icon unavailable"
            ng-if="!bid.specialist.details.isAvailable">schedule
         </i>
       </div>
