@@ -35,6 +35,6 @@ module.exports = {
     hookTimeout: 120000,
 
     port: 1338,
-    baseUrl: 'https://lockheal.com',
-    homePage: 'https://lockheal.com'
+    baseUrl: 'http://localhost',
+    homePage: 'http://localhost'
 };
