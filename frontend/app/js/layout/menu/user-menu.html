@@ -20,7 +20,7 @@
     <div class="avatar-wrapper">
       <div class="avatar biggest"
            ng-style="{ 'background-image': 'url(' + (vm.userProfile.portrait ?
-                   conf.baseUrl + vm.userProfile.portrait : coreConstants.IMAGES.defaultPortrait) + ')' }">
+                   vm.baseUrl + vm.userProfile.portrait : vm.defaultPortrait) + ')' }">
       </div>
     </div>
     <div class="name">

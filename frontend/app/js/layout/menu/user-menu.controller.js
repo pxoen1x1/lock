@@ -5,7 +5,14 @@
         .module('app.customer')
         .controller('UserMenuController', UserMenuController);
 
-    UserMenuController.$inject = ['$mdSidenav', 'serviceProviderConstants', 'customerConstants', 'coreConstants', 'currentUserService', 'conf'];
+    UserMenuController.$inject = [
+        '$mdSidenav',
+        'serviceProviderConstants',
+        'customerConstants',
+        'coreConstants',
+        'currentUserService',
+        'conf'
+        ];
 
     /* @ngInject */
     function UserMenuController($mdSidenav, serviceProviderConstants, customerConstants, coreConstants, currentUserService, conf) {
@@ -14,6 +21,9 @@
         vm.toggleMenu = toggleMenu;
         vm.menuItems = [];
         vm.profileState = '';
+        
+        vm.defaultPortrait = coreConstants.IMAGES.defaultPortrait;
+        vm.baseUrl = conf.BASE_URL;
 
         activate();
 
@@ -22,7 +32,6 @@
             return currentUserService.getUser()
                 .then(function(user) {
                     vm.userProfile = user;
-                    vm.userProfile.portrait = user.portrait ? conf.BASE_URL + user.portrait : '';
                     
                     return vm.userProfile;
                 });
