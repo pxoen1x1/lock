@@ -565,20 +565,6 @@
     }
   }
 
-  .status {
-    position: absolute;
-    top: 28px;
-    left: 28px;
-    border-radius: 50%;
-    background-color: #FFF;
-    color: $success-color;
-
-    &.unavailable {
-      color: #FFF;
-      background-color: $warning-color;
-    }
-  }
-
   .avatar {
     font-size: 17px;
     font-weight: 500;
