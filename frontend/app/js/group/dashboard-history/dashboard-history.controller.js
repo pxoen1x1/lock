@@ -9,10 +9,6 @@
 
     /* @ngInject */
     function GroupDashboardHistoryController($mdMedia, coreConstants, groupDataservice, conf) {
-        var promises = {
-            getAllRequests: null
-        };
-
         var vm = this;
 
         vm.requests = [];
@@ -31,35 +27,29 @@
             totalCount: 0
         };
 
-        vm.getRequests = getRequests;
-        vm.getMoreRequests = getMoreRequests;
+        vm.getHistoryRequests = getHistoryRequests;
+        vm.loadMoreHistoryRequests = loadMoreHistoryRequests;
 
         activate();
 
-        function getAllRequests() {
-            if (promises.getAllRequests) {
-                promises.getAllRequests.cancel();
-            }
-
+        function getRequests() {
             var queryOptions = {
-                'status[]': [coreConstants.REQUEST_STATUSES.DONE, coreConstants.REQUEST_STATUSES.CLOSED],
+                'status': [coreConstants.REQUEST_STATUSES.DONE, coreConstants.REQUEST_STATUSES.CLOSED],
                 order: vm.queryOptions.orderBy.replace(/-(\w+)/, '$1 DESC'),
                 limit: vm.queryOptions.limit,
                 page: vm.queryOptions.page
             };
 
-            promises.getAllRequests = groupDataservice.getRequests(queryOptions);
+            return groupDataservice.getRequests(queryOptions)
+                .then(function (requests) {
 
-            return promises.getAllRequests
-                .then(function (response) {
-
-                    return response.data;
+                    return requests;
                 });
         }
 
-        function getRequests() {
+        function getHistoryRequests() {
 
-            return getAllRequests()
+            return getRequests()
                 .then(function (requests) {
                     vm.requests = requests.items;
                     vm.queryOptions.totalCount = requests.totalCount;
@@ -68,13 +58,13 @@
                 });
         }
 
-        function getMoreRequests() {
+        function loadMoreHistoryRequests() {
             if (vm.isAllRequestsLoaded) {
 
                 return;
             }
 
-            return getAllRequests()
+            return getRequests()
                 .then(function (requests) {
                     vm.requests = vm.requests.concat(requests.items);
                     vm.queryOptions.totalCount = requests.totalCount;
@@ -90,7 +80,7 @@
 
         function activate() {
             if ($mdMedia('gt-xs')) {
-                getRequests();
+                getHistoryRequests();
             }
         }
     }
