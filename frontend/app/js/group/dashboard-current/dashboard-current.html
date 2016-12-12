@@ -104,7 +104,7 @@
          infinite-scroll
          autoloading-enabled="true"
          scroll-disabled="vm.isAllRequestsLoaded"
-         on-scroll="vm.getMoreRequests()">
+         on-scroll="vm.loadMoreCurrentRequests()">
       <a class="list card"
          ui-sref="provider.dashboard.request.view({ requestId: request.id })"
          ng-repeat="request in vm.requests track by request.id">
