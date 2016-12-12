@@ -31,6 +31,7 @@
         function getUserType() {
             return currentUserService.getType()
                 .then(function(userType) {
+
                     return userType;
                 });
         }
@@ -53,6 +54,7 @@
         function activate() {
             getUser()
                 .then(function() {
+
                     return getUserType();
                 })
                 .then(function(userType) {
