@@ -16,12 +16,12 @@
                  md-order="vm.queryOptions.orderBy"
                  md-on-reorder="vm.getHistoryRequests">
           <tr md-row>
+            <th md-column>
+              <span>Executor</span>
+            </th>
             <th md-column
                 md-order-by="createdAt">
               <span>Date</span>
-            </th>
-            <th md-column>
-              <span>Customer</span>
             </th>
             <th md-column>
               <span>Type of service</span>
@@ -43,22 +43,22 @@
           <tr md-row
               ui-sref="provider.dashboard.request.view({ requestId: request.id })"
               ng-repeat="request in vm.requests track by request.id">
-            <td md-cell>
-              <span ng-bind="request.createdAt | altDate"></span>
-            </td>
-            <td class="td-customer"
-                layout="row"
-                layout-align="start center"
-                md-cell>
-              <div class="avatar-wrapper">
-                <div class="avatar"
-                     ng-style="{ 'background-image': 'url(' + (request.owner.portrait ?
-                   vm.baseUrl + request.owner.portrait : vm.defaultPortrait) + ')' }">
+            <td md-cell="">
+              <div layout="row" layout-align="start center">
+                <div class="avatar-wrapper">
+                  <div class="md-avatar avatar"
+                       ng-style="{ 'background-image': 'url(' + (request.executor.portrait ?
+                     vm.baseUrl + request.executor.portrait : vm.defaultPortrait) + ')' }">
+                  </div>
+                </div>
+                <div class="name"
+                     flex
+                     ng-bind="request.executor.fullName">
                 </div>
               </div>
-              <div class="contact-name" flex>
-                <span ng-bind="request.owner.fullName"></span>
-              </div>
+            </td>
+            <td md-cell>
+              <span ng-bind="request.createdAt | altDate"></span>
             </td>
             <td md-cell>
               <span ng-bind="request.serviceType.name"></span>
@@ -131,7 +131,7 @@
             </div>
           </div>
         </div>
-        <div class="item item-body" layout="row">
+        <div class="item item-body">
           <div layout="row">
             <div layout="column"
                  flex="50">
@@ -160,6 +160,21 @@
                       ng-bind="request.location.address">
             </span>
               </div>
+            </div>
+          </div>
+          <md-divider></md-divider>
+          <div class="m-t-sm"
+               layout="row"
+               layout-align="start center">
+            <div class="avatar-wrapper">
+              <div class="md-avatar avatar"
+                   ng-style="{ 'background-image': 'url(' + (request.executor.portrait ?
+                     vm.baseUrl + request.executor.portrait : vm.defaultPortrait) + ')' }">
+              </div>
+            </div>
+            <div class="name"
+                 flex
+                 ng-bind="request.executor.fullName">
             </div>
           </div>
         </div>

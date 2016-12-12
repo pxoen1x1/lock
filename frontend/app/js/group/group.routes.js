@@ -70,6 +70,60 @@
                         icon: 'whatshot'
                     }
                 }
+            })
+            .state('group.dashboard.current', {
+                parent: 'group.dashboard',
+                url: '/current',
+                views: {
+                    'content@group.dashboard': {
+                        templateUrl: 'group/dashboard-current/dashboard-current.html',
+                        controller: 'GroupDashboardCurrentController',
+                        controllerAs: 'vm'
+                    }
+                },
+                data: {
+                    title: 'Current',
+                    tab: {
+                        title: 'Current',
+                        icon: 'list'
+                    }
+                }
+            })
+            .state('group.dashboard.history', {
+                parent: 'group.dashboard',
+                url: '/history',
+                views: {
+                    'content@group.dashboard': {
+                        templateUrl: 'group/dashboard-history/dashboard-history.html',
+                        controller: 'GroupDashboardHistoryController',
+                        controllerAs: 'vm'
+                    }
+                },
+                data: {
+                    title: 'History',
+                    tab: {
+                        title: 'History',
+                        icon: 'history'
+                    }
+                }
+            })
+            .state('group.members', {
+                parent: 'group',
+                url: '/members',
+                views: {
+                    'content@group': {
+                        templateUrl: 'group/members/members.html',
+                        controller: 'GroupMembersController',
+                        controllerAs: 'vm'
+                    }
+                },
+                data: {
+                    title: 'Members',
+                    menu: {
+                        icon: 'list',
+                        title: 'Members'
+                    }
+                }
             });
     }
 })();

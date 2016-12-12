@@ -1,4 +1,4 @@
-.request-list-content table.md-table td.md-cell.request-status, .request-status {
+.list-content table.md-table td.md-cell.request-status, .request-status {
   &.new {
     color: $success-color;
   }
@@ -16,7 +16,7 @@
   }
 }
 
-.request-list-content {
+.list-content {
   .container-content {
     overflow: auto;
   }

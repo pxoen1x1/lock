@@ -2,17 +2,13 @@
     'use strict';
 
     angular
-        .module('app.provider')
-        .controller('ProviderDashboardHistoryController', ProviderDashboardHistoryController);
+        .module('app.group')
+        .controller('GroupDashboardCurrentController', GroupDashboardCurrentController);
 
-    ProviderDashboardHistoryController.$inject = ['$mdMedia', 'coreConstants', 'serviceProviderDataservice', 'conf'];
+    GroupDashboardCurrentController.$inject = ['$mdMedia', 'coreConstants', 'groupDataservice', 'conf'];
 
     /* @ngInject */
-    function ProviderDashboardHistoryController($mdMedia, coreConstants, serviceProviderDataservice, conf) {
-        var promises = {
-            getAllRequests: null
-        };
-
+    function GroupDashboardCurrentController($mdMedia, coreConstants, groupDataservice, conf) {
         var vm = this;
 
         vm.requests = [];
@@ -31,33 +27,27 @@
             totalCount: 0
         };
 
-        vm.getHistoryRequests = getHistoryRequests;
-        vm.loadMoreHistoryRequests = loadMoreHistoryRequests;
+        vm.getCurrentRequests = getCurrentRequests;
+        vm.loadMoreCurrentRequests = loadMoreCurrentRequests;
 
         activate();
 
         function getRequests() {
-            if (promises.getRequests) {
-                promises.getRequests.cancel();
-            }
-
             var queryOptions = {
-                status: [coreConstants.REQUEST_STATUSES.DONE, coreConstants.REQUEST_STATUSES.CLOSED],
+                'status': [coreConstants.REQUEST_STATUSES.PENDING, coreConstants.REQUEST_STATUSES.IN_PROGRESS],
                 order: vm.queryOptions.orderBy.replace(/-(\w+)/, '$1 DESC'),
                 limit: vm.queryOptions.limit,
                 page: vm.queryOptions.page
             };
 
-            promises.getRequests = serviceProviderDataservice.getRequests(queryOptions);
+            return groupDataservice.getRequests(queryOptions)
+                .then(function (requests) {
 
-            return promises.getRequests
-                .then(function (response) {
-
-                    return response.data;
+                    return requests;
                 });
         }
 
-        function getHistoryRequests() {
+        function getCurrentRequests() {
 
             return getRequests()
                 .then(function (requests) {
@@ -68,7 +58,7 @@
                 });
         }
 
-        function loadMoreHistoryRequests() {
+        function loadMoreCurrentRequests() {
             if (vm.isAllRequestsLoaded) {
 
                 return;
@@ -79,8 +69,7 @@
                     vm.requests = vm.requests.concat(requests.items);
                     vm.queryOptions.totalCount = requests.totalCount;
 
-                    vm.isAllRequestsLoaded = vm.queryOptions.page * vm.queryOptions.limit >=
-                        vm.queryOptions.totalCount;
+                    vm.isAllRequestsLoaded = vm.queryOptions.page * vm.queryOptions.limit >= vm.queryOptions.totalCount;
 
                     vm.queryOptions.page++;
 
@@ -90,7 +79,7 @@
 
         function activate() {
             if ($mdMedia('gt-xs')) {
-                getHistoryRequests();
+                getCurrentRequests();
             }
         }
     }

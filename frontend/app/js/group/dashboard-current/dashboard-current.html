@@ -4,8 +4,8 @@
   <div class="container"
        ng-if="$mdMedia('gt-xs')">
     <div class="container-title">
-      <i class="material-icons">history</i>
-      <span>History</span>
+      <i class="material-icons">list</i>
+      <span>Current</span>
       <span>⋅</span>
       <span ng-bind="vm.queryOptions.totalCount"></span>
     </div>
@@ -14,14 +14,17 @@
         <table md-table>
           <thead md-head
                  md-order="vm.queryOptions.orderBy"
-                 md-on-reorder="vm.getHistoryRequests">
+                 md-on-reorder="vm.getCurrentRequests">
           <tr md-row>
+            <th md-column>
+              <span>Executor</span>
+            </th>
             <th md-column
                 md-order-by="createdAt">
-              <span>Date</span>
+              <span>Created</span>
             </th>
             <th md-column>
-              <span>Customer</span>
+              <span>For Date</span>
             </th>
             <th md-column>
               <span>Type of service</span>
@@ -43,22 +46,25 @@
           <tr md-row
               ui-sref="provider.dashboard.request.view({ requestId: request.id })"
               ng-repeat="request in vm.requests track by request.id">
+            <td md-cell="">
+              <div layout="row" layout-align="start center">
+                <div class="avatar-wrapper">
+                  <div class="md-avatar avatar"
+                       ng-style="{ 'background-image': 'url(' + (request.executor.portrait ?
+                     vm.baseUrl + request.executor.portrait : vm.defaultPortrait) + ')' }">
+                  </div>
+                </div>
+                <div class="name"
+                     flex
+                     ng-bind="request.executor.fullName">
+                </div>
+              </div>
+            </td>
             <td md-cell>
               <span ng-bind="request.createdAt | altDate"></span>
             </td>
-            <td class="td-customer"
-                layout="row"
-                layout-align="start center"
-                md-cell>
-              <div class="avatar-wrapper">
-                <div class="avatar"
-                     ng-style="{ 'background-image': 'url(' + (request.owner.portrait ?
-                   vm.baseUrl + request.owner.portrait : vm.defaultPortrait) + ')' }">
-                </div>
-              </div>
-              <div class="contact-name" flex>
-                <span ng-bind="request.owner.fullName"></span>
-              </div>
+            <td md-cell>
+              <span ng-bind="request.forDate ? (request.forDate | date: vm.dateFormat) : 'Now'"></span>
             </td>
             <td md-cell>
               <span ng-bind="request.serviceType.name"></span>
@@ -87,19 +93,18 @@
                            md-limit-options="vm.paginationOptions.limitOptions"
                            md-page="vm.queryOptions.page"
                            md-total="{{ vm.queryOptions.totalCount }}"
-                           md-on-paginate="vm.getHistoryRequests"
+                           md-on-paginate="vm.getCurrentRequests"
                            md-page-select>
       </md-table-pagination>
     </div>
   </div>
-
   <div class="infinite-scroll-wrapper"
        ng-if="!$mdMedia('gt-xs')">
     <div class="infinite-scroll-container cards"
          infinite-scroll
          autoloading-enabled="true"
          scroll-disabled="vm.isAllRequestsLoaded"
-         on-scroll="vm.loadMoreHistoryRequests()">
+         on-scroll="vm.loadMoreCurrentRequests()">
       <a class="list card"
          ui-sref="provider.dashboard.request.view({ requestId: request.id })"
          ng-repeat="request in vm.requests track by request.id">
@@ -131,7 +136,7 @@
             </div>
           </div>
         </div>
-        <div class="item item-body" layout="row">
+        <div class="item item-body">
           <div layout="row">
             <div layout="column"
                  flex="50">
@@ -160,6 +165,21 @@
                       ng-bind="request.location.address">
             </span>
               </div>
+            </div>
+          </div>
+          <md-divider></md-divider>
+          <div class="m-t-sm"
+               layout="row"
+               layout-align="start center">
+            <div class="avatar-wrapper">
+              <div class="md-avatar avatar"
+                   ng-style="{ 'background-image': 'url(' + (request.executor.portrait ?
+                     vm.baseUrl + request.executor.portrait : vm.defaultPortrait) + ')' }">
+              </div>
+            </div>
+            <div class="name"
+                 flex
+                 ng-bind="request.executor.fullName">
             </div>
           </div>
         </div>

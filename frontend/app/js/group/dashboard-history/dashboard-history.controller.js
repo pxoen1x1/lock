@@ -2,17 +2,13 @@
     'use strict';
 
     angular
-        .module('app.provider')
-        .controller('ProviderDashboardHistoryController', ProviderDashboardHistoryController);
+        .module('app.group')
+        .controller('GroupDashboardHistoryController', GroupDashboardHistoryController);
 
-    ProviderDashboardHistoryController.$inject = ['$mdMedia', 'coreConstants', 'serviceProviderDataservice', 'conf'];
+    GroupDashboardHistoryController.$inject = ['$mdMedia', 'coreConstants', 'groupDataservice', 'conf'];
 
     /* @ngInject */
-    function ProviderDashboardHistoryController($mdMedia, coreConstants, serviceProviderDataservice, conf) {
-        var promises = {
-            getAllRequests: null
-        };
-
+    function GroupDashboardHistoryController($mdMedia, coreConstants, groupDataservice, conf) {
         var vm = this;
 
         vm.requests = [];
@@ -37,23 +33,17 @@
         activate();
 
         function getRequests() {
-            if (promises.getRequests) {
-                promises.getRequests.cancel();
-            }
-
             var queryOptions = {
-                status: [coreConstants.REQUEST_STATUSES.DONE, coreConstants.REQUEST_STATUSES.CLOSED],
+                'status': [coreConstants.REQUEST_STATUSES.DONE, coreConstants.REQUEST_STATUSES.CLOSED],
                 order: vm.queryOptions.orderBy.replace(/-(\w+)/, '$1 DESC'),
                 limit: vm.queryOptions.limit,
                 page: vm.queryOptions.page
             };
 
-            promises.getRequests = serviceProviderDataservice.getRequests(queryOptions);
+            return groupDataservice.getRequests(queryOptions)
+                .then(function (requests) {
 
-            return promises.getRequests
-                .then(function (response) {
-
-                    return response.data;
+                    return requests;
                 });
         }
 

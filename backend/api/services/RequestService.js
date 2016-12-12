@@ -142,6 +142,56 @@ let RequestService = {
                 (requests) => HelperService.formatQueryResult(requests)
             );
     },
+    getGroupRequests(user, filters) {
+        let tableAlias = 'request';
+
+        let criteria = {
+            where: {},
+            sorting: filters.sorting,
+            skip: (filters.pagination.page - 1) * filters.pagination.limit,
+            limit: filters.pagination.limit
+        };
+
+        if (filters.status) {
+            if (filters.status.indexOf('!') === 0) {
+                criteria.where.status = {
+                    '!': filters.status.replace('!', '')
+                };
+            } else {
+                criteria.where.status = filters.status;
+            }
+        }
+
+        let getGroupRequestsRawQuery = `${getRequestsRawQuery} JOIN groups AS gr ON gr.admin_id = ?
+            JOIN group_members__user_groupmembers AS gu ON gu.group_members = gr.id
+            WHERE request.executor_id = gu.user_groupMembers`;
+
+        let rawQuery = HelperService.buildQuery(getGroupRequestsRawQuery, criteria, tableAlias);
+
+        let getSpecialistsRequestsQueryAsync = promise.promisify(Request.query);
+
+        return getSpecialistsRequestsQueryAsync(rawQuery, [user.id])
+            .then(
+                (requests) => {
+                    let data = [user.id];
+
+                    rawQuery = rawQuery.replace(/^SELECT[\s|\S]*FROM/i, 'SELECT COUNT (*) FROM');
+                    rawQuery = rawQuery.replace(/LEFT JOIN [\s|\S]*executor_details.id/i, '');
+                    rawQuery = rawQuery.replace(/\sOFFSET \d+/i, '');
+
+                    return [HelperService.formatQueryResult(requests), this._getRequestsCountBYQuery(rawQuery, data)];
+                }
+            )
+            .spread(
+                (requests, count) => {
+
+                    return {
+                        items: requests,
+                        count: count
+                    };
+                }
+            );
+    },
     getRequestById(request){
         let rawQuery = `${getRequestsRawQuery} WHERE request.id = ?`;
 
@@ -172,7 +222,31 @@ let RequestService = {
             .then(
                 (updatedRequests) => this.getRequestById(updatedRequests[0])
             );
-    }
+    },
+    _getRequestsCountBYQuery(rawQuery, data){
+        data = data || [];
+
+        if (!rawQuery || !Array.isArray((data))) {
+
+            return Promise.reject(new Error('Query or data is empty.'));
+        }
+
+        let getRequestsCountQueryAsync = promise.promisify(Request.query);
+
+        return getRequestsCountQueryAsync(rawQuery, data)
+            .then(
+                (requestsCount) => {
+                    if (!requestsCount || requestsCount.length === 0) {
+                        return 0;
+                    }
+
+                    requestsCount = requestsCount[0];
+
+                    return Object.keys(requestsCount)
+                        .map(key => requestsCount[key])[0];
+                }
+            );
+    },
 };
 
 module.exports = RequestService;
