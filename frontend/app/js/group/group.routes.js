@@ -106,6 +106,24 @@
                         icon: 'history'
                     }
                 }
+            })
+            .state('group.members', {
+                parent: 'group',
+                url: '/members',
+                views: {
+                    'content@group': {
+                        templateUrl: 'group/members/members.html',
+                        controller: 'GroupMembersController',
+                        controllerAs: 'vm'
+                    }
+                },
+                data: {
+                    title: 'Members',
+                    menu: {
+                        icon: 'list',
+                        title: 'Members'
+                    }
+                }
             });
     }
 })();
