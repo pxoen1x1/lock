@@ -19,17 +19,17 @@
      ng-if="vm.profileState">
     <div class="avatar-wrapper">
       <div class="avatar biggest"
-           ng-style="{ 'background-image': 'url(' + (vm.profileData.portrait ?
-                   conf.baseUrl + vm.profileData.portrait : coreConstants.IMAGES.defaultPortrait) + ')' }">
+           ng-style="{ 'background-image': 'url(' + (vm.userProfile.portrait ?
+                   conf.baseUrl + vm.userProfile.portrait : coreConstants.IMAGES.defaultPortrait) + ')' }">
       </div>
     </div>
     <div class="name">
-      <i class="material-icons" ng-if="vm.profileData.isEmailConfirmed">
+      <i class="material-icons" ng-if="vm.userProfile.isEmailConfirmed">
         verified_user
       </i>
-      <span ng-bind="vm.profileData.fullName"></span>
+      <span ng-bind="vm.userProfile.fullName"></span>
     </div>
-    <div class="email" ng-bind="vm.profileData.auth.email"></div>
+    <div class="email" ng-bind="vm.userProfile.auth.email"></div>
   </a>
   <div class="navigation" layout="column">
     <div class="navigation-item"

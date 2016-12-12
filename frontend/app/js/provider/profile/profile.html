@@ -108,14 +108,14 @@
           </div>
           <div class="section">
             <span class="md-body-2">License:</span>
-            <span class="md-body-1" ng-bind="vm.profileData.details.licenses[0].number"></span>
+            <span class="md-body-1" ng-bind="vm.userProfile.details.licenses[0].number"></span>
             until
-            <span class="md-body-1" ng-bind="vm.profileData.details.licenses[0].date | date: 'MM/dd/yyyy'"></span>
+            <span class="md-body-1" ng-bind="vm.userProfile.details.licenses[0].date | date: 'MM/dd/yyyy'"></span>
           </div>
           <div class="section">
             <span class="md-body-2">Services:</span>
             <span class="md-body-1"
-                  ng-repeat="service in vm.profileData.details.serviceTypes"
+                  ng-repeat="service in vm.userProfile.details.serviceTypes track by service.id"
                   ng-bind="service.name + ' (' + (service.price | currency:'$') + ')' + ($last ? '':', ')">
             </span>
           </div>
@@ -188,7 +188,7 @@
             <p>License information: <sup>*</sup></p>
               <div class="licenses"
                    flex
-                   ng-repeat="license in vm.profileData.details.licenses track by $index">
+                   ng-repeat="license in vm.userProfile.details.licenses track by $index">
                 <div layout-gt-xs="column">
                   <div layout="row">
                     <md-input-container class="md-block">
@@ -196,7 +196,7 @@
                       <input type="text"
                             name="licenseNumber"
                             required
-                            ng-model="vm.profileData.details.licenses[$index].number">
+                            ng-model="vm.userProfile.details.licenses[$index].number">
                       <div ng-messages="editForm.licenseNumber.$error">
                         <div ng-message="required">Please, enter a license number.</div>
                       </div>
@@ -209,7 +209,7 @@
                                 name="state"
                                 required
                                 ng-change="vm.resetSelectedCity(); vm.getCities(vm.user.address.state.id)"
-                                ng-model="vm.profileData.details.licenses[$index].state">
+                                ng-model="vm.userProfile.details.licenses[$index].state">
                         <md-option ng-repeat="state in vm.states track by state.id"
                                   ng-value="state">
                           <span ng-bind="::state.state"></span>
@@ -227,7 +227,7 @@
                                        mdp-min-date="vm.datePickerOptions.maxDate"
                                        date-formatter
                                        ng-required
-                                       ng-model="vm.profileData.details.licenses[$index].date">
+                                       ng-model="vm.userProfile.details.licenses[$index].date">
                       </mdp-date-picker>
                       <div class="validation-messages"
                           ng-messages="editForm.licenseDate.$error">
@@ -240,15 +240,15 @@
                         flex-gt-xs="5"
                         layout="column"
                         layout-align="start center"
-                        ng-click="vm.profileData.details.licenses.splice($index, 1)"
-                        ng-if="vm.profileData.details.licenses.length > 1">
+                        ng-click="vm.userProfile.details.licenses.splice($index, 1)"
+                        ng-if="vm.userProfile.details.licenses.length > 1">
                       <i class="material-icons">delete</i>
                     </div>
                   </div>
                 </div>
               </div>
             <div layout-gt-xs="row">
-              <md-button ng-click="vm.profileData.details.licenses.push({})">Add more</md-button>
+              <md-button ng-click="vm.userProfile.details.licenses.push({})">Add more</md-button>
             </div>
             <p>Services</p>
             <div layout-gt-xs="row">
@@ -258,7 +258,7 @@
                 <md-select aria-label="Services"
                           multiple
                           required
-                          ng-model="vm.profileData.details.serviceTypes">
+                          ng-model="vm.userProfile.details.serviceTypes">
                   <md-option ng-repeat="serviceType in vm.serviceTypes track by serviceType.id"
                             ng-value="serviceType.id">
                     <span ng-bind="serviceType.name"></span>
@@ -268,11 +268,11 @@
               <md-input-container class="md-block"
                                   flex="100"
                                   flex-gt-xs="30"
-                                  ng-if="vm.profileData.servicePrices.length > 0">
+                                  ng-if="vm.userProfile.servicePrices.length > 0">
                 <label>Price $</label>
                 <input type="text"
                        name="price"
-                       ng-required="service.name || vm.profileData.serviceTypes.length > 1"
+                       ng-required="service.name || vm.userProfile.serviceTypes.length > 1"
                        ng-model="service.price">
               </md-input-container>
             </div>
