@@ -14,7 +14,7 @@
         <table md-table>
           <thead md-head
                  md-order="vm.queryOptions.orderBy"
-                 md-on-reorder="vm.getRequests">
+                 md-on-reorder="vm.getHistoryRequests">
           <tr md-row>
             <th md-column>
               <span>Executor</span>
@@ -87,7 +87,7 @@
                            md-limit-options="vm.paginationOptions.limitOptions"
                            md-page="vm.queryOptions.page"
                            md-total="{{ vm.queryOptions.totalCount }}"
-                           md-on-paginate="vm.getRequests"
+                           md-on-paginate="vm.getHistoryRequests"
                            md-page-select>
       </md-table-pagination>
     </div>
@@ -99,7 +99,7 @@
          infinite-scroll
          autoloading-enabled="true"
          scroll-disabled="vm.isAllRequestsLoaded"
-         on-scroll="vm.getMoreRequests()">
+         on-scroll="vm.loadMoreHistoryRequests()">
       <a class="list card"
          ui-sref="provider.dashboard.request.view({ requestId: request.id })"
          ng-repeat="request in vm.requests track by request.id">
