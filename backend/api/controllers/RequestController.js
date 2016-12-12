@@ -115,7 +115,13 @@ let RequestController = {
         pagination.limit = params.limit || sails.config.application.queryLimit;
         pagination.page = params.page || 1;
 
-        RequestService.getGroupRequests(user, status, sorting, pagination)
+        let filters = {
+            status: status,
+            sorting: sorting,
+            pagination: pagination
+        };
+
+        RequestService.getGroupRequests(user, filters)
             .then(
                 (requests) => res.ok(
                     {

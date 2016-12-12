@@ -142,23 +142,23 @@ let RequestService = {
                 (requests) => HelperService.formatQueryResult(requests)
             );
     },
-    getGroupRequests(user, status, sorting, pagination) {
+    getGroupRequests(user, filters) {
         let tableAlias = 'request';
 
         let criteria = {
             where: {},
-            sorting: sorting,
-            skip: (pagination.page - 1) * pagination.limit,
-            limit: pagination.limit
+            sorting: filters.sorting,
+            skip: (filters.pagination.page - 1) * filters.pagination.limit,
+            limit: filters.pagination.limit
         };
 
-        if (status) {
-            if (status.indexOf('!') === 0) {
+        if (filters.status) {
+            if (filters.status.indexOf('!') === 0) {
                 criteria.where.status = {
-                    '!': status.replace('!', '')
+                    '!': filters.status.replace('!', '')
                 };
             } else {
-                criteria.where.status = status;
+                criteria.where.status = filters.status;
             }
         }
 
