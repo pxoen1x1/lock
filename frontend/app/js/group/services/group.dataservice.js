@@ -18,11 +18,13 @@
 
         function getRequests(params) {
 
-            return request.httpWithTimeout({
-                url: conf.BASE_URL + conf.URL_PREFIX + 'group/requests',
-                method: 'GET',
-                params: params
-            });
+            return $sails.get(conf.URL_PREFIX + 'group/requests', params)
+                .then(getRequestsComplete);
+
+            function getRequestsComplete(response) {
+
+                return response.data;
+            }
         }
 
         function getMembers(params) {
