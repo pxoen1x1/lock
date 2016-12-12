@@ -79,6 +79,11 @@ let User = {
             columnName: 'is_admin'
         },
 
+        usingLanguage: {
+            model: 'language',
+            columnName: 'using_language_id'
+        },
+
         address: {
             collection: 'Address',
             via: 'user'
@@ -122,6 +127,14 @@ let User = {
         messageSenders: {
             collection: 'Message',
             via: 'sender'
+        },
+        groups: {
+            collection: 'Group',
+            via: 'admin'
+        },
+        groupMembers: {
+            collection: 'Group',
+            via: 'members'
         },
 
         fullName() {

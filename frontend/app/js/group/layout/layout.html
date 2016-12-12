@@ -1,4 +1,4 @@
-<div class="group" layout="row">
+<div class="wrapper" layout="row">
   <md-sidenav ui-view="menu"
               class="menu"
               md-component-id="left"
@@ -7,14 +7,15 @@
               md-whiteframe="4"
               layout="column"
               flex>
-
   </md-sidenav>
   <div layout="column" flex>
     <div class="header" ui-view="header"></div>
     <div class="content-wrapper" flex>
-      <md-content class="content anim-in-out anim-fade"
-                  ui-view="content"
-                  data-anim-speed="400">
+      <md-content class="content anim-in-out anim-fade group"
+                  data-anim-speed="400"
+                  layout="column"
+                  flex
+                  ui-view="content">
       </md-content>
     </div>
   </div>

@@ -103,6 +103,42 @@ let RequestController = {
                 }
             );
     },
+    getGroupRequests(req, res) {
+        let params = req.allParams();
+        let status = params.status;
+
+        let user = req.session.user;
+
+        let sorting = params.order || 'updatedAt DESC';
+        let pagination = {};
+
+        pagination.limit = params.limit || sails.config.application.queryLimit;
+        pagination.page = params.page || 1;
+
+        let filters = {
+            status: status,
+            sorting: sorting,
+            pagination: pagination
+        };
+
+        RequestService.getGroupRequests(user, filters)
+            .then(
+                (requests) => res.ok(
+                    {
+                        items: requests.items,
+                        currentPageNumber: +pagination.page,
+                        totalCount: requests.count,
+                    }
+                )
+            )
+            .catch(
+                (err) => {
+                    sails.log.debug(err);
+
+                    res.serverError();
+                }
+            );
+    },
     getSpecialistNewRequests(req, res) {
         let params = req.allParams();
         let status = sails.config.requests.STATUSES.NEW;

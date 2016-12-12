@@ -1,0 +1,118 @@
+<div class="list-content"
+     layout="column">
+  <div class="container"
+       ng-if="$mdMedia('gt-xs')">
+    <div class="container-title">
+      <i class="material-icons">list</i>
+      <span>Current</span>
+      <span>⋅</span>
+      <span ng-bind="vm.queryOptions.totalCount"></span>
+    </div>
+    <div class="container-content">
+      <md-table-container>
+        <table md-table>
+          <thead md-head
+                 md-order="vm.queryOptions.orderBy"
+                 md-on-reorder="vm.getRequests">
+          <tr md-row>
+            <th md-column></th>
+            <th md-column>
+              <span>Name</span>
+            </th>
+            <th md-column>
+              <span>Email</span>
+            </th>
+            <th md-column>
+              <span>Phone Number</span>
+            </th>
+          </tr>
+          </thead>
+          <tbody md-body>
+          <tr md-row
+              ui-sref="provider.dashboard.member.view({ requestId: member.id })"
+              ng-repeat="member in vm.members track by member.id">
+            <td md-cell>
+              <div class="avatar-wrapper">
+                <div class="md-avatar avatar"
+                     ng-style="{ 'background-image': 'url(' + (member.portrait ?
+                     vm.baseUrl + member.portrait : vm.defaultPortrait) + ')' }">
+                </div>
+                <i class="material-icons s14 status-icon"
+                   ng-if="member.details.isAvailable">check_circle
+                </i>
+                <i class="material-icons s14 status-icon unavailable"
+                   ng-if="!member.details.isAvailable">schedule
+                </i>
+              </div>
+            </td>
+            <td md-cell>
+              <div class="name"
+                   flex
+                   ng-bind="member.fullName">
+              </div>
+            </td>
+            <td md-cell>
+              <span ng-bind="member.auth.email"></span>
+            </td>
+            <td md-cell>
+              <span ng-bind="member.phoneNumber | tel"></span>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </md-table-container>
+      <md-table-pagination md-limit="vm.queryOptions.limit"
+                           md-limit-options="vm.paginationOptions.limitOptions"
+                           md-page="vm.queryOptions.page"
+                           md-total="{{ vm.queryOptions.totalCount }}"
+                           md-on-paginate="vm.getGroupMembers"
+                           md-page-select>
+      </md-table-pagination>
+    </div>
+  </div>
+  <div class="infinite-scroll-wrapper"
+       layout="column" flex
+       ng-if="!$mdMedia('gt-xs')">
+    <div class="infinite-scroll-container cards"
+         infinite-scroll
+         autoloading-enabled="true"
+         scroll-disabled="vm.isAllMembersLoaded"
+         on-scroll="vm.loadMoreGroupMembers()">
+      <a class="list card"
+         ui-sref="provider.dashboard.member.view({ requestId: member.id })"
+         ng-repeat="member in vm.members track by member.id">
+        <div class="item item-header" layout="row" layout-align="start center">
+          <div class="avatar-wrapper">
+            <div class="avatar"
+                 ng-style="{ 'background-image': 'url(' + (member.portrait ?
+                 vm.baseUrl + member.portrait : vm.defaultPortrait) + ')' }">
+            </div>
+            <i class="material-icons s14 status-icon"
+               ng-if="member.details.isAvailable">check_circle
+            </i>
+            <i class="material-icons s14 status-icon unavailable"
+               ng-if="!member.details.isAvailable">schedule
+            </i>
+          </div>
+          <div class="contact-name" flex>
+            <span ng-bind="member.fullName"></span>
+          </div>
+        </div>
+        <div class="item item-body">
+          <div layout="column">
+            <div>
+              <span class="md-body-2">Email:</span>
+              <span class="md-body-1" ng-bind="member.auth.email"></span>
+            </div>
+            <div>
+              <span class="md-body-2">Phone Number:</span>
+              <span class="md-body-1"
+                    ng-bind="member.phoneNumber | tel">
+              </span>
+            </div>
+          </div>
+        </div>
+      </a>
+    </div>
+  </div>
+</div>

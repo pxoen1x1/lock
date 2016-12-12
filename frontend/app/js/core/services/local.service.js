@@ -8,17 +8,21 @@
     function localService() {
         var authKeyName = 'auth';
         var userKeyName = 'user';
+        var languageKeyName = 'language';
 
         var service = {
             get: get,
             getAuth: getAuth,
             getUser: getUser,
+            getLanguage: getLanguage,
             set: set,
             setAuth: setAuth,
             setUser: setUser,
+            setLanguage: setLanguage,
             remove: remove,
             removeAuth: removeAuth,
             removeUser: removeUser,
+            removeLanguage: removeLanguage,
             clear: clear
         };
 
@@ -54,7 +58,23 @@
 
         }
 
+        function getLanguage() {
+            var language = get(languageKeyName);
+
+            try {
+                return angular.fromJson(language);
+            }
+            catch (err) {
+
+                return language;
+            }
+        }
+
         function set(key, value) {
+            if (!key || !value) {
+
+                return;
+            }
 
             return localStorage.setItem(key, value);
         }
@@ -67,6 +87,11 @@
         function setUser(user) {
 
             return set(userKeyName, JSON.stringify(user));
+        }
+
+        function setLanguage(language) {
+
+            return set(languageKeyName, JSON.stringify(language));
         }
 
         function remove(key) {
@@ -82,6 +107,11 @@
         function removeUser() {
 
             return remove(userKeyName);
+        }
+
+        function removeLanguage() {
+
+            return remove(languageKeyName);
         }
 
         function clear() {

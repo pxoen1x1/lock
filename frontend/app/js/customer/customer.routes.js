@@ -33,24 +33,6 @@
                     title: 'Client'
                 }
             })
-            .state('customer.registration', {
-                url: '/registration',
-                views: {
-                    'content@root': {
-                        templateUrl: 'customer/layout/registration-layout.html'
-                    },
-                    'content@customer.registration': {
-                        templateUrl: 'customer/registration/registration.html',
-                        controller: 'CustomerRegistrationController',
-                        controllerAs: 'vm'
-                    },
-                    'header@customer.registration': {
-                        templateUrl: 'layout/header/registration-header.html',
-                        controller: 'RegistrationHeaderController',
-                        controllerAs: 'vm'
-                    }
-                }
-            })
             .state('customer.newRequest', {
                 parent: 'customer',
                 url: '/request/new',

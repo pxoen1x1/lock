@@ -1,0 +1,189 @@
+<div class="list-content"
+     layout="column"
+     flex>
+  <div class="container"
+       ng-if="$mdMedia('gt-xs')">
+    <div class="container-title">
+      <i class="material-icons">list</i>
+      <span>Current</span>
+      <span>⋅</span>
+      <span ng-bind="vm.queryOptions.totalCount"></span>
+    </div>
+    <div class="container-content">
+      <md-table-container>
+        <table md-table>
+          <thead md-head
+                 md-order="vm.queryOptions.orderBy"
+                 md-on-reorder="vm.getCurrentRequests">
+          <tr md-row>
+            <th md-column>
+              <span>Executor</span>
+            </th>
+            <th md-column
+                md-order-by="createdAt">
+              <span>Created</span>
+            </th>
+            <th md-column>
+              <span>For Date</span>
+            </th>
+            <th md-column>
+              <span>Type of service</span>
+            </th>
+            <th md-column>
+              <span>Location</span>
+            </th>
+            <th md-column
+                md-order-by="cost">
+              <span>Cost</span>
+            </th>
+            <th md-column
+                md-order-by="status">
+              <span>Status</span>
+            </th>
+          </tr>
+          </thead>
+          <tbody md-body>
+          <tr md-row
+              ui-sref="provider.dashboard.request.view({ requestId: request.id })"
+              ng-repeat="request in vm.requests track by request.id">
+            <td md-cell="">
+              <div layout="row" layout-align="start center">
+                <div class="avatar-wrapper">
+                  <div class="md-avatar avatar"
+                       ng-style="{ 'background-image': 'url(' + (request.executor.portrait ?
+                     vm.baseUrl + request.executor.portrait : vm.defaultPortrait) + ')' }">
+                  </div>
+                </div>
+                <div class="name"
+                     flex
+                     ng-bind="request.executor.fullName">
+                </div>
+              </div>
+            </td>
+            <td md-cell>
+              <span ng-bind="request.createdAt | altDate"></span>
+            </td>
+            <td md-cell>
+              <span ng-bind="request.forDate ? (request.forDate | date: vm.dateFormat) : 'Now'"></span>
+            </td>
+            <td md-cell>
+              <span ng-bind="request.serviceType.name"></span>
+            </td>
+            <td class="text-truncate td-description" md-cell>
+              <span ng-bind="request.location.address"></span>
+            </td>
+            <td class="td-cost" md-cell>
+              <span ng-bind="request.cost ? '$' + request.cost : '–'"></span>
+            </td>
+            <td class="request-status"
+                md-cell
+                ng-class="{
+                  'new': request.status === vm.requestStatus.NEW,
+                  'pending': request.status === vm.requestStatus.PENDING,
+                  'in-progress': request.status === vm.requestStatus.IN_PROGRESS || request.status === vm.requestStatus.DONE,
+                  'closed': request.status === vm.requestStatus.CLOSED
+                }">
+              <span ng-bind="vm.requestStatus[request.status]"></span>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </md-table-container>
+      <md-table-pagination md-limit="vm.queryOptions.limit"
+                           md-limit-options="vm.paginationOptions.limitOptions"
+                           md-page="vm.queryOptions.page"
+                           md-total="{{ vm.queryOptions.totalCount }}"
+                           md-on-paginate="vm.getCurrentRequests"
+                           md-page-select>
+      </md-table-pagination>
+    </div>
+  </div>
+  <div class="infinite-scroll-wrapper"
+       ng-if="!$mdMedia('gt-xs')">
+    <div class="infinite-scroll-container cards"
+         infinite-scroll
+         autoloading-enabled="true"
+         scroll-disabled="vm.isAllRequestsLoaded"
+         on-scroll="vm.loadMoreCurrentRequests()">
+      <a class="list card"
+         ui-sref="provider.dashboard.request.view({ requestId: request.id })"
+         ng-repeat="request in vm.requests track by request.id">
+        <div class="item item-header" layout="row">
+          <div layout="row"
+               layout-align="start center"
+               flex>
+            <div class="avatar-wrapper">
+              <div class="avatar"
+                   ng-style="{ 'background-image': 'url(' + (request.owner.portrait ?
+                 vm.baseUrl + request.owner.portrait : vm.defaultPortrait) + ')' }">
+              </div>
+            </div>
+            <div class="contact-name" flex>
+              <span ng-bind="request.owner.fullName"></span>
+            </div>
+          </div>
+          <div layout="column"
+               layout-align="center end">
+            <div class="secondary-text" ng-bind="request.createdAt | altDate"></div>
+            <div class="request-status"
+                 ng-class="{
+                 'new': request.status === vm.requestStatus.NEW,
+                 'pending': request.status === vm.requestStatus.PENDING,
+                 'in-progress': request.status === vm.requestStatus.IN_PROGRESS || request.status === vm.requestStatus.DONE,
+                 'closed': request.status === vm.requestStatus.CLOSED
+               }">
+              <span ng-bind="vm.requestStatus[request.status]"></span>
+            </div>
+          </div>
+        </div>
+        <div class="item item-body">
+          <div layout="row">
+            <div layout="column"
+                 flex="50">
+              <div>
+                <span class="md-body-2">Type of service:</span>
+                <span class="md-body-1" ng-bind="request.serviceType.name"></span>
+              </div>
+              <div ng-if="request.language.name">
+                <span class="md-body-2">Language:</span>
+                <span class="md-body-1"
+                      ng-bind="request.language.name">
+          </span>
+              </div>
+            </div>
+            <div layout="column"
+                 flex="50">
+              <div>
+                <span class="md-body-2">For Date:</span>
+                <span class="md-body-1"
+                      ng-bind="request.forDate ? (request.forDate | date: vm.dateFormat) : 'Now'">
+          </span>
+              </div>
+              <div ng-if="request.location">
+                <span class="md-body-2">Location:</span>
+                <span class="md-body-1"
+                      ng-bind="request.location.address">
+            </span>
+              </div>
+            </div>
+          </div>
+          <md-divider></md-divider>
+          <div class="m-t-sm"
+               layout="row"
+               layout-align="start center">
+            <div class="avatar-wrapper">
+              <div class="md-avatar avatar"
+                   ng-style="{ 'background-image': 'url(' + (request.executor.portrait ?
+                     vm.baseUrl + request.executor.portrait : vm.defaultPortrait) + ')' }">
+              </div>
+            </div>
+            <div class="name"
+                 flex
+                 ng-bind="request.executor.fullName">
+            </div>
+          </div>
+        </div>
+      </a>
+    </div>
+  </div>
+</div>

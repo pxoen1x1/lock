@@ -53,7 +53,11 @@ module.exports.policies = {
         '*': true
     },
 
-    UserController: {},
+    UserController: {
+        'getCurrentUser': [
+            'hasJsonWebToken'
+        ]
+    },
 
     StateController: {
         'getStates': true
@@ -167,6 +171,13 @@ module.exports.policies = {
             'isUserEnabled',
             'isRequestAllowed',
             'isChatMember'
+        ],
+        'getTranslatedMessage':[
+            'isSocketRequest',
+            'hasJsonWebToken',
+            'isUserEnabled',
+            'isMessageAllowed',
+            'isLanguageSupported'
         ],
         'uploadFile': [
             'hasJsonWebToken',

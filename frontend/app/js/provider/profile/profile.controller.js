@@ -5,13 +5,22 @@
         .module('app.provider')
         .controller('ProviderProfileController', ProviderProfileController);
 
-    ProviderProfileController.$inject = ['currentUserService', 'coreConstants', 'conf'];
+    ProviderProfileController.$inject = [
+        '$q',
+        'coreConstants',
+        'conf',
+        'coreDictionary',
+        'currentUserService',
+        'usingLanguageService'
+    ];
 
     /* @ngInject */
-    function ProviderProfileController(currentUserService, coreConstants, conf) {
+    function ProviderProfileController($q, coreConstants, conf, coreDictionary, currentUserService,
+                                       usingLanguageService) {
         var vm = this;
 
-        vm.profileData = {};
+        vm.languages = [];
+        vm.userProfile = {};
 
         vm.datePickerOptions = {
             maxDate: new Date()
@@ -20,11 +29,21 @@
         vm.isEditing = false;
         vm.fileUploaderOptions = coreConstants.FILE_UPLOADER_OPTIONS;
         vm.newPortrait = '';
-        
+
         vm.updateUser = updateUser;
         vm.getUser = getUser;
 
         activate();
+
+        function getLanguages() {
+
+            return coreDictionary.getLanguages()
+                .then(function (languages) {
+                    vm.languages = languages;
+
+                    return vm.languages;
+                });
+        }
 
         function updateUser(user, isFormValid) {
             if (!isFormValid) {
@@ -41,12 +60,12 @@
             return currentUserService.setUser(user)
                 .then(function (user) {
 
-                    vm.profileData = user;
-                    vm.profileData.portrait = user.portrait ? conf.BASE_URL + user.portrait : '';
+                    vm.userProfile = user;
+                    vm.userProfile.portrait = user.portrait ? conf.BASE_URL + user.portrait : '';
                     vm.newPortrait = '';
                     vm.isEditing = false;
 
-                    return vm.profileData;
+                    return vm.userProfile;
                 });
         }
 
@@ -55,15 +74,21 @@
             return currentUserService.getUser()
                 .then(function (user) {
 
-                    vm.profileData = user;
-                    vm.profileData.portrait = user.portrait ? conf.BASE_URL + user.portrait : '';
+                    vm.userProfile = user;
+                    vm.userProfile.portrait = user.portrait ? conf.BASE_URL + user.portrait : '';
 
-                    return vm.profileData;
+                    return vm.userProfile;
                 });
         }
-        
+
         function activate() {
-            getUser();
+            $q.all([
+                getUser(),
+                getLanguages()
+            ])
+                .then(function () {
+                    vm.userProfile.usingLanguage = vm.userProfile.usingLanguage || usingLanguageService.getLanguage();
+                });
         }
     }
 })();

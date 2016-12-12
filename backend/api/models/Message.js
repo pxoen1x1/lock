@@ -42,6 +42,10 @@ let Message = {
             model: 'Chat',
             required: true,
             columnName: 'chat_id'
+        },
+        translatedMessages: {
+            collection: 'TranslatedMessage',
+            via: 'message'
         }
     },
 

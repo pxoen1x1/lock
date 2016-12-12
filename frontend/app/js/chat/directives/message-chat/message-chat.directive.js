@@ -77,13 +77,20 @@
         }
     }
 
-    MessageChatController.$inject = ['coreConstants', 'chatConstants', 'conf'];
+    MessageChatController.$inject = [
+        'coreConstants',
+        'chatConstants',
+        'conf',
+        'chatSocketservice',
+        'usingLanguageService'
+    ];
 
     /* @ngInject */
-    function MessageChatController(coreConstants, chatConstants, conf) {
+    function MessageChatController(coreConstants, chatConstants, conf, chatSocketservice, usingLanguageService) {
         var vm = this;
 
         vm.isImage = false;
+        vm.isMessageTranslated = false;
 
         vm.baseUrl = conf.BASE_URL;
         vm.defaultPortrait = coreConstants.IMAGES.defaultPortrait;

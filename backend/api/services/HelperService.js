@@ -13,9 +13,6 @@ let HelperService = {
         return buffer.toString('hex');
     },
     buildQuery(query, criteria, tableAlias) {
-        query = query || ``;
-        tableAlias = tableAlias ? `${tableAlias}.` : ``;
-
         if (!criteria || typeof criteria !== 'object') {
 
             return query;
@@ -30,7 +27,7 @@ let HelperService = {
 
         let whereCriteria = criteria.where || criteria;
 
-        query += this._buildQuery(whereCriteria, tableAlias);
+        query = this._buildQuery(query, whereCriteria, tableAlias);
 
         query += criteria.sorting ? ` ORDER BY ${criteria.sorting}` : ``;
         query += criteria.limit ? ` LIMIT ${criteria.limit}` : ``;
@@ -74,19 +71,22 @@ let HelperService = {
 
         return location;
     },
-    _buildQuery(criteria, tableAlias) {
+    _buildQuery(query, criteria, tableAlias) {
         if (!criteria || typeof criteria !== 'object') {
 
             return typeof criteria;
         }
 
-        let query = ``;
+        query = query || ``;
+        tableAlias = tableAlias ? `${tableAlias}.` : ``;
 
         let criteriaKeys = Object.keys(criteria);
         let index = 0;
+        let whereRegex = /where/gi;
+        let doesQueryContainWhereClause = whereRegex.test(query);
 
         if (criteriaKeys.length > 0) {
-            query = ` WHERE`;
+            query += doesQueryContainWhereClause ? ` AND` : ` WHERE`;
 
             criteriaKeys.forEach(
                 (key) => {
@@ -122,7 +122,7 @@ let HelperService = {
         let query = ` ${tableAlias}${criterionKey}`;
 
         if (Array.isArray(criterionValues)) {
-            query += ` in (${criterionValues.join(',')})`;
+            query += ` IN (${criterionValues.join(',')})`;
         } else if (criterionValues !== null && typeof criterionValues === 'object') {
             let criterionModifiers = Object.keys(criterionValues);
             let index = 0;
