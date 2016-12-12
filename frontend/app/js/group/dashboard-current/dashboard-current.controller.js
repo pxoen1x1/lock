@@ -77,10 +77,9 @@
             return getAllRequests()
                 .then(function (requests) {
                     vm.requests = vm.requests.concat(requests.items);
-                    vm.paginationOptions.totalCount = requests.totalCount;
+                    vm.queryOptions.totalCount = requests.totalCount;
 
-                    vm.isAllRequestsLoaded = vm.queryOptions.page * vm.queryOptions.limit >=
-                        vm.paginationOptions.totalCount;
+                    vm.isAllRequestsLoaded = vm.queryOptions.page * vm.queryOptions.limit >= vm.queryOptions.totalCount;
 
                     vm.queryOptions.page++;
 
