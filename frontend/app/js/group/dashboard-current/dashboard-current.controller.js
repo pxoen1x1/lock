@@ -28,7 +28,7 @@
         };
 
         vm.getCurrentRequests = getCurrentRequests;
-        vm.getMoreRequests = getMoreRequests;
+        vm.loadMoreCurrentRequests = loadMoreCurrentRequests;
 
         activate();
 
@@ -58,7 +58,7 @@
                 });
         }
 
-        function getMoreRequests() {
+        function loadMoreCurrentRequests() {
             if (vm.isAllRequestsLoaded) {
 
                 return;
