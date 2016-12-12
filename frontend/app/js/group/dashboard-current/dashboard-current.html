@@ -14,7 +14,7 @@
         <table md-table>
           <thead md-head
                  md-order="vm.queryOptions.orderBy"
-                 md-on-reorder="vm.getRequests">
+                 md-on-reorder="vm.getCurrentRequests">
           <tr md-row>
             <th md-column>
               <span>Executor</span>
@@ -93,7 +93,7 @@
                            md-limit-options="vm.paginationOptions.limitOptions"
                            md-page="vm.queryOptions.page"
                            md-total="{{ vm.queryOptions.totalCount }}"
-                           md-on-paginate="vm.getRequests"
+                           md-on-paginate="vm.getCurrentRequests"
                            md-page-select>
       </md-table-pagination>
     </div>
