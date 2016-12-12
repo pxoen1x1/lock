@@ -10,7 +10,7 @@
     /* @ngInject */
     function ProviderDashboardCurrentController($mdMedia, coreConstants, serviceProviderDataservice, conf) {
         var promises = {
-            getAllRequests: null
+            getRequests: null
         };
 
         var vm = this;
@@ -31,62 +31,56 @@
             totalCount: 0
         };
 
-        vm.getRequests = getRequests;
-        vm.getMoreRequests = getMoreRequests;
+        vm.getCurrentRequests = getCurrentRequests;
+        vm.loadMoreCurrentRequests = loadMoreCurrentRequests;
 
         activate();
 
-        function getAllRequests(queryOptions) {
-            if (promises.getAllRequests) {
-                promises.getAllRequests.cancel();
+        function getRequests() {
+            if (promises.getRequests) {
+                promises.getRequests.cancel();
             }
 
-            promises.getAllRequests = serviceProviderDataservice.getRequests(queryOptions);
+            var queryOptions = {
+                status: '!' + coreConstants.REQUEST_STATUSES.CLOSED,
+                order: vm.queryOptions.orderBy.replace(/-(\w+)/, '$1 DESC'),
+                limit: vm.queryOptions.limit,
+                page: vm.queryOptions.page
+            };
 
-            return promises.getAllRequests
+            promises.getRequests = serviceProviderDataservice.getRequests(queryOptions);
+
+            return promises.getRequests
                 .then(function (response) {
 
                     return response.data;
                 });
         }
 
-        function getRequests() {
-            var queryOptions = {
-                status: '!' + coreConstants.REQUEST_STATUSES.CLOSED,
-                order: vm.queryOptions.orderBy.replace(/-(\w+)/, '$1 DESC'),
-                limit: vm.queryOptions.limit,
-                page: vm.queryOptions.page
-            };
+        function getCurrentRequests() {
 
-            return getAllRequests(queryOptions)
+            return getRequests()
                 .then(function (requests) {
                     vm.requests = requests.items;
-                    vm.paginationOptions.totalCount = requests.totalCount;
+                    vm.queryOptions.totalCount = requests.totalCount;
 
                     return vm.requests;
                 });
         }
 
-        function getMoreRequests() {
+        function loadMoreCurrentRequests() {
             if (vm.isAllRequestsLoaded) {
 
                 return;
             }
 
-            var queryOptions = {
-                status: '!' + coreConstants.REQUEST_STATUSES.CLOSED,
-                order: vm.queryOptions.orderBy.replace(/-(\w+)/, '$1 DESC'),
-                limit: vm.queryOptions.limit,
-                page: vm.queryOptions.page
-            };
-
-            return getAllRequests(queryOptions)
+            return getRequests()
                 .then(function (requests) {
                     vm.requests = vm.requests.concat(requests.items);
-                    vm.paginationOptions.totalCount = requests.totalCount;
+                    vm.queryOptions.totalCount = requests.totalCount;
 
                     vm.isAllRequestsLoaded = vm.queryOptions.page * vm.queryOptions.limit >=
-                        vm.paginationOptions.totalCount;
+                        vm.queryOptions.totalCount;
 
                     vm.queryOptions.page++;
 
@@ -96,7 +90,7 @@
 
         function activate() {
             if ($mdMedia('gt-xs')) {
-                getRequests();
+                getCurrentRequests();
             }
         }
     }
