@@ -67,6 +67,14 @@
 
   }
 
+  md-input-container, mdp-date-picker .md-button .md-icon-button, .md-block {
+    margin: 0;
+  }
+
+  .md-datepicker-input {
+      max-width: 120px;
+    }
+
 }
 
 .profile-content.mobile {
