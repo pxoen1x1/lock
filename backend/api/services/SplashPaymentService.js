@@ -193,6 +193,27 @@ let SplashPaymentService = {
         return SplashPaymentService.makeRequest(options,bodyJson);
     },
 
+    createMerchantFee(entityId){
+
+        var options = {
+            method: 'POST',
+            path: '/fees'
+        };
+
+        var bodyJson = {
+            "name": "Service Fee",
+            "um": "1",
+            "amount": 2500,
+            "schedule": "7",
+            "start": SplashPaymentService.getDateString(), // today
+            //"org": "g1abcdefghijklm",
+            "forentity": sails.config.serviceSplashPaymentEntityId, // service provider entity
+            "entity": entityId // service's entity
+        };
+
+        return SplashPaymentService.makeRequest(options,bodyJson);
+    },
+
     getMerchantEntity(Id){
 
         return this.getMerchant(Id).then((merchantResp)=>{
@@ -338,9 +359,10 @@ let SplashPaymentService = {
         var d = new Date();
         var day = d.getDate();
         if(day < 10) { day = '0'+day;}
-        var month = d.getMonth();
+        var month = d.getMonth() +1;
         if(month < 10) { month = '0'+month;}
-        return d.getYear + month + day;
+        var year = d.getFullYear();
+        return String(year) + String(month) + String(day);
     }
 };
 

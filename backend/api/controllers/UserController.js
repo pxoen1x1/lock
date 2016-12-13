@@ -90,25 +90,25 @@ let UserController = waterlock.actions.user({
         }
 
         if(!user.spMerchantId){
-
+            var merchantEntityArr;
+            var merchantArray;
             return SplashPaymentService.createMerchant(user,params.merchantData,email)
                     .then((merchantResponse)=>{
-                        var merchantArray = JSON.parse(merchantResponse);
-                        var merchant = merchantArray[0].merchant;
-                        user.spMerchantId = merchant.id;
-
-                        return UserService.update({id: user.id}, user).then(()=>{
-                                return merchant;
-                        })
+                        merchantArray = JSON.parse(merchantResponse);
+                        user.spMerchantId = merchantArray[0].merchant.id;
+// todo: fix ! merchant entity doesnt return
+                        UserService.update({id: user.id}, user);
+                        return SplashPaymentService.getMerchantEntity(user.spMerchantId);
                     })
-                    .then((merchant)=>{
-                        return SplashPaymentService.getMerchantEntity(merchant.id)
+                    .then((merchantEntityRes)=>{
+                        merchantEntityArr = JSON.parse(merchantEntityRes);
+                        return SplashPaymentService.createMerchantFee(merchantEntityArr[0].id);
                     })
                     .then(
-                        (merchantEntity) => {
+                        (feeResult) => {
                         return res.ok(
                             {
-                                merchantEntity: JSON.parse(merchantEntity)
+                                merchantEntity: merchantEntityArr
                             }
                         );
                     }
