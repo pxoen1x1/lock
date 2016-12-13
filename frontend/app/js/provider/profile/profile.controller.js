@@ -11,20 +11,28 @@
         'conf',
         'coreDictionary',
         'currentUserService',
-        'usingLanguageService'
+        'usingLanguageService',
+        'coreDataservice'
     ];
 
     /* @ngInject */
-    function ProviderProfileController($q, coreConstants, conf, coreDictionary, currentUserService,
+    function ProviderProfileController($q, coreConstants, coreDataservice, conf, coreDictionary, currentUserService,
                                        usingLanguageService) {
         var vm = this;
 
         vm.languages = [];
         vm.userProfile = {};
 
-        vm.datePickerOptions = {
-            maxDate: new Date()
+        var promises = {
+            getState: null
         };
+
+        vm.profileData = {};
+        vm.datePickerOptions = {
+            minDate: new Date()
+        };
+        vm.states = [];
+        vm.serviceTypes = [];
 
         vm.isEditing = false;
         vm.fileUploaderOptions = coreConstants.FILE_UPLOADER_OPTIONS;
@@ -84,11 +92,39 @@
         function activate() {
             $q.all([
                 getUser(),
-                getLanguages()
+                getLanguages(),
+                getStates(),
+                getServiceTypes()
             ])
                 .then(function () {
                     vm.userProfile.usingLanguage = vm.userProfile.usingLanguage || usingLanguageService.getLanguage();
                 });
         }
+        
+        function getStates() {
+            if (promises.getStates) {
+                promises.getStates.cancel();
+            }
+
+            promises.getStates = coreDataservice.getStates();
+
+            return promises.getStates
+                .then(function (response) {
+                    vm.states = response.data.states;
+
+                    return vm.states;
+                });
+        }
+
+        function getServiceTypes() {
+
+            return coreDictionary.getServiceTypes()
+                .then(function (serviceTypes) {
+                    vm.serviceTypes = serviceTypes.serviceTypes;
+
+                    return vm.serviceTypes;
+                });
+        }
+        
     }
 })();

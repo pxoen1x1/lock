@@ -108,22 +108,15 @@
           </div>
           <div class="section">
             <span class="md-body-2">License:</span>
-            <span class="md-body-1" ng-bind="vm.userProfile.details.license[0].number"></span>
-            from
-            <span class="md-body-1" ng-bind="vm.userProfile.details.license[0].date | date: 'MM/dd/yyyy'"></span>
-          </div>
-          <div class="section">
-            <span class="md-body-2">Working hours:</span>
-            <span class="md-body-1"
-                  ng-repeat="workingHours in vm.userProfile.details.workingHours track by workingHours.id"
-                  ng-bind="(workingHours.timeFrom | date: 'hh:mm a') + ' – ' + (workingHours.timeTo | date: 'hh:mm a') + ($last ? '':', ')">
-            </span>
+            <span class="md-body-1" ng-bind="vm.userProfile.details.licenses[0].number"></span>
+            until
+            <span class="md-body-1" ng-bind="vm.userProfile.details.licenses[0].date | date: 'MM/dd/yyyy'"></span>
           </div>
           <div class="section">
             <span class="md-body-2">Services:</span>
             <span class="md-body-1"
-                  ng-repeat="service in vm.userProfile.details.servicePrices track by service.id"
-                  ng-bind="service.serviceName + ' (' + (service.price | currency:'$') + ')' + ($last ? '':', ')">
+                  ng-repeat="service in vm.userProfile.details.serviceTypes track by service.id"
+                  ng-bind="service.name + ' (' + (service.price | currency:'$') + ')' + ($last ? '':', ')">
             </span>
           </div>
         </div>
@@ -193,75 +186,95 @@
               </div>
             </md-input-container>
             <p>License information: <sup>*</sup></p>
-            <div layout="row">
-              <md-input-container class="md-block">
-                <label>License Number</label>
-                <input type="text"
-                       name="licenseNumber"
-                       required
-                       ng-model="vm.userProfile.details.license[0].number">
-                <div ng-messages="editForm.licenseNumber.$error">
-                  <div ng-message="required">Please, enter a license number.</div>
+              <div class="licenses"
+                   flex
+                   ng-repeat="license in vm.userProfile.details.licenses track by $index">
+                <div layout-gt-xs="column">
+                  <div layout="row">
+                    <md-input-container class="md-block">
+                      <label>License Number</label>
+                      <input type="text"
+                            name="licenseNumber"
+                            required
+                            ng-model="vm.userProfile.details.licenses[$index].number">
+                      <div ng-messages="editForm.licenseNumber.$error">
+                        <div ng-message="required">Please, enter a license number.</div>
+                      </div>
+                    </md-input-container>
+                    <md-input-container class="md-block"
+                                        flex="100"
+                                        flex-gt-xs="30">
+                      <label>State</label>
+                      <md-select role="listbox"
+                                name="state"
+                                required
+                                ng-change="vm.resetSelectedCity(); vm.getCities(vm.user.address.state.id)"
+                                ng-model="vm.userProfile.details.licenses[$index].state">
+                        <md-option ng-repeat="state in vm.states track by state.id"
+                                  ng-value="state">
+                          <span ng-bind="::state.state"></span>
+                        </md-option>
+                      </md-select>
+                      <div ng-messages="editForm.state.$error">
+                        <div ng-message="required">State is required.</div>
+                      </div>
+                    </md-input-container>
+                    <md-input-container class="md-block license-date"
+                                        layout="row"
+                                        required>
+                      <mdp-date-picker name="licenseDate"
+                                       mdp-placeholder="License Date"
+                                       mdp-min-date="vm.datePickerOptions.maxDate"
+                                       date-formatter
+                                       ng-required
+                                       ng-model="vm.userProfile.details.licenses[$index].date">
+                      </mdp-date-picker>
+                      <div class="validation-messages"
+                          ng-messages="editForm.licenseDate.$error">
+                        <div ng-message="valid">The entered value is not a date!</div>
+                        <div ng-message="mindate">Date is too early!</div>
+                      </div>
+                    </md-input-container>
+                    <div class="service-price-remove"
+                        flex="100"
+                        flex-gt-xs="5"
+                        layout="column"
+                        layout-align="start center"
+                        ng-click="vm.userProfile.details.licenses.splice($index, 1)"
+                        ng-if="vm.userProfile.details.licenses.length > 1">
+                      <i class="material-icons">delete</i>
+                    </div>
+                  </div>
                 </div>
-              </md-input-container>
-              <mdp-date-picker name="licenseDate"
-                               mdp-placeholder="License Date"
-                               mdp-max-date="vm.datePickerOptions.maxDate"
-                               date-formatter
-                               ng-required
-                               ng-model="vm.userProfile.details.license[0].date">
-              </mdp-date-picker>
-            </div>
-            <div class="validation-messages"
-                 ng-messages="editForm.licenseDate.$error">
-              <div ng-message="valid">The entered value is not a date!</div>
-              <div ng-message="maxdate">Date is too late!</div>
+              </div>
+            <div layout-gt-xs="row">
+              <md-button ng-click="vm.userProfile.details.licenses.push({})">Add more</md-button>
             </div>
             <p>Services</p>
-            <div layout-gt-xs="row"
-                 layout="column"
-                 ng-repeat="service in vm.userProfile.details.servicePrices track by service.id">
+            <div layout-gt-xs="row">
               <input type="hidden" ng-model="service.id" ng-value="$index">
-              <md-input-container flex="100"
-                                  flex-gt-xs="65">
-                <label>Service procedure</label>
-                <input type="text"
-                       name="serviceName"
-                       ng-required="service.price || vm.userProfile.servicePrices.length > 1"
-                       ng-model="service.serviceName">
+              <md-input-container class="md-block" flex>
+                <label>Service types</label>
+                <md-select aria-label="Services"
+                          multiple
+                          required
+                          ng-model="vm.userProfile.details.serviceTypes">
+                  <md-option ng-repeat="serviceType in vm.serviceTypes track by serviceType.id"
+                            ng-value="serviceType.id">
+                    <span ng-bind="serviceType.name"></span>
+                  </md-option>
+                </md-select>
               </md-input-container>
               <md-input-container class="md-block"
                                   flex="100"
-                                  flex-gt-xs="30">
+                                  flex-gt-xs="30"
+                                  ng-if="vm.userProfile.servicePrices.length > 0">
                 <label>Price $</label>
                 <input type="text"
                        name="price"
-                       ng-required="service.serviceName || vm.userProfile.servicePrices.length > 1"
+                       ng-required="service.name || vm.userProfile.serviceTypes.length > 1"
                        ng-model="service.price">
               </md-input-container>
-              <div class="service-price-remove"
-                   flex="100"
-                   flex-gt-xs="5"
-                   layout="column"
-                   layout-align="start center"
-                   ng-click="vm.userProfile.details.servicePrices.splice($index, 1)"
-                   ng-if="vm.userProfile.details.servicePrices.length > 1">
-                <i class="material-icons">indeterminate_check_box</i>
-              </div>
-            </div>
-            <md-button ng-click="vm.userProfile.details.servicePrices.push({})">Add</md-button>
-            <p>Working hours:</p>
-            <div layout="row">
-              <mdp-time-picker name="timeFrom"
-                               mdp-placeholder="From"
-                               mdp-auto-switch="true"
-                               ng-model="vm.userProfile.details.workingHours[0].timeFrom">
-              </mdp-time-picker>
-              <mdp-time-picker name="timeTo"
-                               mdp-placeholder="To"
-                               mdp-auto-switch="true"
-                               ng-model="vm.userProfile.details.workingHours[0].timeTo">
-              </mdp-time-picker>
             </div>
             <md-button type="submit"
                        class="md-raised md-warn"
