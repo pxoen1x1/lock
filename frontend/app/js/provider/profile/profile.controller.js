@@ -7,16 +7,16 @@
 
     ProviderProfileController.$inject = [
         '$q',
-        'coreConstants',
         'conf',
+        'coreConstants',
+        'coreDataservice',
         'coreDictionary',
         'currentUserService',
         'usingLanguageService',
-        'coreDataservice'
     ];
 
     /* @ngInject */
-    function ProviderProfileController($q, coreConstants, coreDataservice, conf, coreDictionary, currentUserService,
+    function ProviderProfileController($q, conf, coreConstants, coreDataservice, coreDictionary, currentUserService,
                                        usingLanguageService) {
         var vm = this;
 
