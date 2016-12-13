@@ -29,7 +29,7 @@
           </thead>
           <tbody md-body>
           <tr md-row
-              ui-sref="provider.dashboard.member.view({ requestId: member.id })"
+              ui-sref="group.members.info({ memberId: member.id })"
               ng-repeat="member in vm.members track by member.id">
             <td md-cell>
               <div class="avatar-wrapper">
@@ -79,7 +79,7 @@
          scroll-disabled="vm.isAllMembersLoaded"
          on-scroll="vm.loadMoreGroupMembers()">
       <a class="list card"
-         ui-sref="provider.dashboard.member.view({ requestId: member.id })"
+         ui-sref="group.members.info({ memberId: member.id })"
          ng-repeat="member in vm.members track by member.id">
         <div class="item item-header" layout="row" layout-align="start center">
           <div class="avatar-wrapper">
