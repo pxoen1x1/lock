@@ -6,8 +6,8 @@
         .controller('GroupMemberInfoController', GroupMemberInfoController);
 
     GroupMemberInfoController.$inject = [
-        '$q',
         '$stateParams',
+        'uiGmapIsReady',
         'coreConstants',
         'conf',
         'groupDataservice',
@@ -15,7 +15,8 @@
     ];
 
     /* @ngInject */
-    function GroupMemberInfoController($q, $stateParams, coreConstants, conf, groupDataservice, geocoderService) {
+    function GroupMemberInfoController($stateParams, uiGmapIsReady, coreConstants, conf, groupDataservice,
+                                       geocoderService) {
         var memberId = $stateParams.memberId;
 
         var vm = this;
@@ -83,23 +84,19 @@
         }
 
         function activate() {
-            getGroupMember()
+            uiGmapIsReady.promise(1)
+                .then(getGroupMember)
                 .then(function () {
                     if (!vm.member.details || !vm.member.details.latitude || !vm.member.details.longitude) {
 
                         return getCurrentCoordinates();
                     }
 
-                    setMapCenter(vm.member.details);
-
                     vm.map.memberMarker.options.visible = !!(vm.member.details.latitude && vm.member.details.longitude);
 
-                    return $q.reject();
+                    return vm.member.details;
                 })
-                .then(function (currentCoordinates) {
-
-                    setMapCenter(currentCoordinates);
-                });
+                .then(setMapCenter);
         }
     }
 })();

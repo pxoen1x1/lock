@@ -6,7 +6,10 @@ let UserDetailService = {
     getUserDetailByUser(user) {
 
         return UserDetail.findOneByUser(user.id)
-            .populateAll()
+            .populate('licenses')
+            .populate('serviceTypes')
+            .populate('languages')
+            .populate('workingHours')
             .then(
                 (foundUserDetail) => {
 

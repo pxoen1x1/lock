@@ -172,7 +172,7 @@ module.exports.policies = {
             'isRequestAllowed',
             'isChatMember'
         ],
-        'getTranslatedMessage':[
+        'getTranslatedMessage': [
             'isSocketRequest',
             'hasJsonWebToken',
             'isUserEnabled',
@@ -184,6 +184,14 @@ module.exports.policies = {
             'isUserEnabled',
             'isRequestAllowed',
             'isChatMember'
+        ]
+    },
+
+    GroupController: {
+        'getGroupMember': [
+            'hasJsonWebToken',
+            'isUserEnabled',
+            'isGroupMember'
         ]
     },
 

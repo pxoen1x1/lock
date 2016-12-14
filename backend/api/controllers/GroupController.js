@@ -1,4 +1,4 @@
-/* global sails, GroupService */
+/* global sails, GroupService, UserService */
 /**
  * GroupController
  *
@@ -9,6 +9,25 @@
 'use strict';
 
 let GroupController = {
+    getGroupMember(req, res){
+        let memberId = req.params.memberId;
+
+        UserService.getUser({id: memberId})
+            .then(
+                (foundUser) => res.ok(
+                    {
+                        user: foundUser
+                    }
+                )
+            )
+            .catch(
+                (err) => {
+                    sails.log.error(err);
+
+                    return res.serverError();
+                }
+            );
+    },
     getGroupMembers(req, res) {
         let params = req.allParams();
 
