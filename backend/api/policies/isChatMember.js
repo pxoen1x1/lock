@@ -48,7 +48,6 @@ module.exports = function (req, res, next) {
                 if (!isChatMembers && !isChatOwner) {
                     sails.log.debug(new Error('You are not permitted to perform this action.'));
 
-
                     return res.forbidden(
                         {
                             message: req.__('You are not permitted to perform this action.')
