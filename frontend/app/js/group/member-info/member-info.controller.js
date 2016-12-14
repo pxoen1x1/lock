@@ -8,6 +8,7 @@
     GroupMemberInfoController.$inject = [
         '$q',
         '$stateParams',
+        'uiGmapIsReady',
         'coreConstants',
         'conf',
         'groupDataservice',
@@ -15,7 +16,8 @@
     ];
 
     /* @ngInject */
-    function GroupMemberInfoController($q, $stateParams, coreConstants, conf, groupDataservice, geocoderService) {
+    function GroupMemberInfoController($q, $stateParams, uiGmapIsReady, coreConstants, conf, groupDataservice,
+                                       geocoderService) {
         var memberId = $stateParams.memberId;
 
         var vm = this;
@@ -73,13 +75,16 @@
         function setMapCenter(coordinates) {
             if (!coordinates || !coordinates.latitude || !coordinates.longitude) {
 
-                return;
+                return $q.reject();
             }
 
-            vm.map.center = {
-                latitude: coordinates.latitude,
-                longitude: coordinates.longitude
-            };
+            return uiGmapIsReady.promise(1)
+                .then(function () {
+                    vm.map.center = {
+                        latitude: coordinates.latitude,
+                        longitude: coordinates.longitude
+                    };
+                });
         }
 
         function activate() {
@@ -90,15 +95,13 @@
                         return getCurrentCoordinates();
                     }
 
-                    setMapCenter(vm.member.details);
-
                     vm.map.memberMarker.options.visible = !!(vm.member.details.latitude && vm.member.details.longitude);
 
-                    return $q.reject();
+                    return vm.member.details;
                 })
-                .then(function (currentCoordinates) {
+                .then(function (coordinates) {
 
-                    setMapCenter(currentCoordinates);
+                    setMapCenter(coordinates);
                 });
         }
     }
