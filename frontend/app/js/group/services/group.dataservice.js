@@ -11,7 +11,8 @@
     function groupDataservice($sails, request, conf) {
         var service = {
             getRequests: getRequests,
-            getMembers: getMembers
+            getMembers: getMembers,
+            getMember: getMember
         };
 
         return service;
@@ -35,6 +36,17 @@
             function getMembersComplete(response) {
 
                 return response.data;
+            }
+        }
+
+        function getMember(member) {
+
+            return $sails.get(conf.URL_PREFIX + 'group/members/' + member.id)
+                .then(getMemberComplete);
+
+            function getMemberComplete(response) {
+
+                return response.data.user;
             }
         }
     }
