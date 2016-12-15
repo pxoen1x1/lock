@@ -120,7 +120,7 @@
 
             return coreDictionary.getServiceTypes()
                 .then(function (serviceTypes) {
-                    vm.serviceTypes = serviceTypes.serviceTypes;
+                    vm.serviceTypes = serviceTypes;
 
                     return vm.serviceTypes;
                 });
