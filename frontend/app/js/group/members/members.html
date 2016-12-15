@@ -2,11 +2,16 @@
      layout="column">
   <div class="container"
        ng-if="$mdMedia('gt-xs')">
-    <div class="container-title">
-      <i class="material-icons">list</i>
-      <span>Current</span>
-      <span>⋅</span>
-      <span ng-bind="vm.queryOptions.totalCount"></span>
+    <div class="container-title" layout="row" layout-align="start center">
+      <div flex>
+        <i class="material-icons">list</i>
+        <span>Current</span>
+        <span>⋅</span>
+        <span ng-bind="vm.queryOptions.totalCount"></span>
+      </div>
+      <div layout="row" layout-align="end center">
+        <member-invitation></member-invitation>
+      </div>
     </div>
     <div class="container-content">
       <md-table-container>
@@ -73,7 +78,13 @@
   <div class="infinite-scroll-wrapper"
        layout="column" flex
        ng-if="!$mdMedia('gt-xs')">
+    <div class="p-h-sm m-r-sm">
+      <member-invitation layout="row"
+                         layout-align="end center">
+      </member-invitation>
+    </div>
     <div class="infinite-scroll-container cards"
+         flex
          infinite-scroll
          autoloading-enabled="true"
          scroll-disabled="vm.isAllMembersLoaded"
