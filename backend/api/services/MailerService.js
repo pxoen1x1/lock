@@ -61,6 +61,22 @@ let MailerService = {
                 () => user
             );
     },
+    sendGroupInvitation(user, group, invitation) {
+        let templatePath = sails.config.application.mailer.templates.groupInvitation;
+
+        let options = {};
+        options.user = user;
+        options.email = user.auth.email;
+        options.group = group;
+
+        options.url = `${HOST}${sails.config.application.urls.groupInvitation}` +
+            `?token=${invitation.token}`;
+
+        return this.sendMail(templatePath, options)
+            .then(
+                () => invitation
+            );
+    },
 
     sendMail(templatePath, options) {
 
