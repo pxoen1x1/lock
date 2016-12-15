@@ -12,7 +12,8 @@
         var service = {
             getRequests: getRequests,
             getMembers: getMembers,
-            getMember: getMember
+            getMember: getMember,
+            inviteMember: inviteMember
         };
 
         return service;
@@ -45,6 +46,17 @@
                 .then(getMemberComplete);
 
             function getMemberComplete(response) {
+
+                return response.data.user;
+            }
+        }
+
+        function inviteMember(email) {
+
+            return $sails.post(conf.URL_PREFIX + 'group/members/invite', email)
+                .then(inviteMemberComplete);
+
+            function inviteMemberComplete(response) {
 
                 return response.data.user;
             }
