@@ -8,6 +8,10 @@ let groupRoutes = {
     'GET /api/group/members': {
         controller: 'GroupController',
         action: 'getGroupMembers'
+    },
+    'POST /api/group/members/invite': {
+        controller: 'GroupController',
+        action: 'inviteMember'
     }
 };
 

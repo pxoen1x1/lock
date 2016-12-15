@@ -59,6 +59,37 @@ let GroupController = {
                     return res.serverError();
                 }
             );
+    },
+    inviteMember(req, res) {
+        let email = req.body.email;
+        let user = req.session.user;
+
+        if (!email) {
+
+            return res.badRequest(
+                {
+                    message: req.__('Submitted data is invalid.')
+                }
+            );
+        }
+
+        GroupService.inviteMember(user, email)
+            .then(
+                (groupInvitation) => res.created(
+                    {
+                        invitation: groupInvitation
+                    }
+                )
+            )
+            .catch(
+                (err) => {
+                    sails.log.error(err);
+
+                    let message = err.isToSend ? {message: err.message} : null;
+
+                    return res.serverError(message);
+                }
+            );
     }
 };
 
