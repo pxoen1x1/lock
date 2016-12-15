@@ -21,6 +21,14 @@ let userRoutes = {
         controller: 'UserController',
         action: 'updateMerchantEntity'
     },
+    'GET /api/customer': {
+        controller: 'UserController',
+        action: 'getCustomer'
+    },
+    'PUT /api/customer': {
+        controller: 'UserController',
+        action: 'updateCustomer'
+    },
     'GET /api/users/:id': {
         controller: 'UserController',
         action: 'getUserById'

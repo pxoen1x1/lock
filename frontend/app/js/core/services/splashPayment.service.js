@@ -10,7 +10,8 @@
     function splashPaymentService(request, conf) {
         var service = {
             getMerchants: getMerchants,
-            getMerchant: getMerchant
+            getMerchant: getMerchant,
+            createAuthTxn: createAuthTxn
         };
 
         return service;
@@ -24,6 +25,7 @@
                 params: {}
             });
         }
+
         function getMerchant(id) {
 
             return request.httpWithTimeout({
@@ -31,6 +33,14 @@
                 //url: 'https://test-api.splashpayments.com/members',
                 method: 'GET',
                 params: {}
+            });
+        }
+
+        function createAuthTxn(txnData) {
+            return request.httpWithTimeout({
+                url: conf.BASE_URL + conf.URL_PREFIX + 'splashpayment/authtxn',
+                method: 'POST',
+                params: txnData
             });
         }
     }

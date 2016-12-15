@@ -20,6 +20,10 @@
                   ng-class="{ disabled: vm.request.status !== vm.requestStatus.NEW }"
                   ui-sref="customer.requests.request.payment({ requestId: vm.request.id })">PAY
           </button>
+
+          <md-button class="md-primary md-raised" ng-click="vm.showPaymentModal($event)"  >
+            PAY modal
+          </md-button>
           <button class="md-button md-button-red"
                   ng-class="{ disabled: vm.request.status !== vm.requestStatus.NEW }"
                   ng-click="vm.closeRequest(vm.request)">CLOSE

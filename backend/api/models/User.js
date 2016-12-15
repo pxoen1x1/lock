@@ -82,6 +82,10 @@ let User = {
             type: 'string',
             columnName: 'sp_merchant_id'
         },
+        spCustomerId: {
+            type: 'string',
+            columnName: 'sp_customer_id'
+        },
 
         address: {
             collection: 'Address',

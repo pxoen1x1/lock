@@ -42,6 +42,96 @@ let UserController = waterlock.actions.user({
                 }
             );
     },
+    getCustomer(req, res){
+        let user = req.session.user;
+
+        if (!user) {
+
+            return res.forbidden({
+                message: req.__('You are not permitted to perform this action.')
+            });
+        }
+
+        if(!user.spCustomerId){
+            return res.ok({
+                customer: false
+            })
+        }
+
+        SplashPaymentService.getCustomer(user.spCustomerId)
+            .then(
+                (customer) => {
+
+            return res.ok(
+                {
+                    customer: JSON.parse(customer)
+                }
+            );
+        }
+        )
+        .catch(
+                (err) => {
+                sails.log.error(err);
+
+            return res.serverError();
+        }
+        );
+    },
+    updateCustomer(req, res){
+        var user = req.session.user;
+        var params = req.allParams();
+        var email = params.auth.email;
+
+        if (!user) {
+
+            return res.forbidden({
+                message: req.__('You are not permitted to perform this action.')
+            });
+        }
+
+        if(!user.spCustomerId){
+            return false; // todo: return errors
+        }
+/*            return SplashPaymentService.createCustomer(user, params.customerData, email) //,
+                    .then((customerResponse)=>{
+                        customerArray = JSON.parse(customerResponse);
+                        user.spCustomerId = customerArray[0].customer.id;
+
+                        UserService.update({id: user.id}, user);
+
+                        return res.ok(
+                            {
+                                merchantEntity: customerArray
+                            }
+                        );
+                    })
+                    .catch(
+                            (err) => {
+                            sails.log.error(err);
+
+                        return res.serverError();
+                    }
+                    );*/
+    //    }else{
+            SplashPaymentService.updateCustomer(user.spCustomerId, params.customerData)
+                .then(
+                    (customer) => {
+                return res.ok(
+                    {
+                        customer: JSON.parse(customer)
+                    }
+                );
+            }
+            )
+            .catch(
+                    (err) => {
+                    sails.log.error(err);
+
+                return res.serverError();
+            }
+            );
+    //    }
+    },
     getMerchantEntity(req, res){
         let user = req.session.user;
 
@@ -96,7 +186,7 @@ let UserController = waterlock.actions.user({
                     .then((merchantResponse)=>{
                         merchantArray = JSON.parse(merchantResponse);
                         user.spMerchantId = merchantArray[0].merchant.id;
-// todo: fix ! merchant entity doesnt return
+
                         UserService.update({id: user.id}, user);
                         return SplashPaymentService.getMerchantEntity(user.spMerchantId);
                     })

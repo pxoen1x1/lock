@@ -48,7 +48,7 @@ let SplashPaymentService = {
             //established: "20060101", // -
         new: 0, // An indicator that specifies whether the Merchant is new to credit card processing. A value of '1' means new
         annualCCSales: "500000", // ???
-        status: "0",
+        status: "1",
         mcc: "1750"  // required.
         },
         accounts: [],
@@ -117,19 +117,21 @@ let SplashPaymentService = {
         return SplashPaymentService.makeRequest(options);
     },
 
-    createCustomer(auth){
+    createCustomer(user, email){ // customerData,
 
         var options = {
             method: 'POST',
             path: '/customers'
         };
         var bodyJson = {
-            first: auth.user.firstName, // auth.user.firstName
-            last: auth.user.lastName, // auth.user.lastName
-            email: auth.email, // auth.email
-         //   address1: "address 1", // !! not defined. is it required ??
-        //    city: "New York", // !! not defined. is it required ??
-            phone: auth.user.phoneNumber // auth.user.phoneNumber
+            first: user.firstName, // auth.user.firstName
+            last: user.lastName, // auth.user.lastName
+            email: email, // auth.email
+        //    address1: customerData.address1, // !! not defined. is it required ??
+        //    city: customerData.city, // !! not defined. is it required ??
+        //    state: customerData.state, // !! not defined. is it required ??
+        //    zip: customerData.zip, // !! not defined. is it required ??
+            phone: user.phoneNumber // auth.user.phoneNumber
 
         };
         return SplashPaymentService.makeRequest(options,bodyJson);
@@ -142,7 +144,15 @@ let SplashPaymentService = {
         };
 
         var bodyJson = {
-            first: "FirstnameUPDATED"
+            first: user.firstName, // auth.user.firstName
+            last: user.lastName, // auth.user.lastName
+            email: email, // auth.email
+            address1: customerData.address1, // !! not defined. is it required ??
+            city: customerData.city, // !! not defined. is it required ??
+            state: customerData.state, // !! not defined. is it required ??
+            zip: customerData.zip, // !! not defined. is it required ??
+            phone: auth.user.phoneNumber // auth.user.phoneNumber
+
         };
 
         return SplashPaymentService.makeRequest(options,bodyJson);
@@ -313,6 +323,79 @@ let SplashPaymentService = {
             });
     },
 
+    createAuthTxn(params){
+
+        var method = 0;
+
+        var options = {
+            method: 'POST',
+            path: '/txns'
+        };
+
+    var firstNum = params.cardNumber.charAt(0);
+
+    switch (firstNum){
+        case "4":
+            method = 2;
+            break;
+        case "5":
+            method = 3;
+            break;
+        default:
+            return false; //Promise.reject("Incorrect card number"); // nothing happens! unhandled rejection
+    }
+
+        var bodyJson = {
+            "payment": {
+                /**
+                 * Method of payment (1 = American Express, 2 = Visa, 3 = Master Card,
+                 * 4 = Diners Club, 5 = Discover, 6 = Paypal [not yet implemented],
+                 * 7 = Debit Card, 8 = eCheck Checking, 9 = eCheck Savings, 10 = eCheck
+                 * Corporate Checking, 11 = eCheck Corporate Savings)
+                 *
+                 *  AMEX starts with a 3
+                 VISA starts with a 4
+                 MC starts with a 5
+                 DISCOVER starts with a 6
+                 */
+                "method": method,
+                "number": params.cardNumber,//"4242424242424242",
+                "cvv": params.cvv
+            },
+            "expiration": "0120",
+            /**
+             * Type of transaction (1 = Sale, 2 = Auth, 3 = Capture, 4 = Auth Reversal,
+             * 5 = Refund, 6 = Reserved for future use, 7 = eCheck Sale,
+             * 8 = eCheck Refund, 9 = eCheck PreSale Notification, 10 = eCheck PreRefund
+             * Notification, 11 = eCheck Retry failed sale, 12 = eCheck Verification, 13 =
+             * eCheck Sale/Retry Cancellation
+             */
+            "type": "2",
+            /**
+             * Transaction amount in cents
+             */
+            "total": 5000,
+            "address1": "6565 Taft St.",
+            "city": "Hollywood",
+            "state": "FL",
+            "zip": "33024",
+            "email": "nochum@payrix.com",
+            "phone": "7185069292",
+            "first": "Nochum",
+            "last": "Sossonko",
+            /**
+             * Merchant ID that is running this transaction
+             */
+            "merchant": "g1abcdefghijklm",
+            /**
+             * The transaction origin (1 = Terminal, 2 = eCommerce, 3 = Mail Order or
+             * Telephone Order)
+             */
+            "origin": 2
+        };
+
+        return SplashPaymentService.makeRequest(options,bodyJson);
+    },
 
     makeRequest(options, bodyJson){
     const https = require('https');

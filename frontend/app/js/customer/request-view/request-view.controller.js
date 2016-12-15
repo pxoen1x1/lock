@@ -13,12 +13,13 @@
         'chatSocketservice',
         'currentRequestService',
         'customerDataservice',
+        'splashPaymentService',
         'conf'
     ];
 
     /* @ngInject */
     function CustomerViewRequestController($stateParams, $mdDialog, coreConstants, coreDataservice,
-                                           chatSocketservice, currentRequestService, customerDataservice, conf) {
+                                           chatSocketservice, currentRequestService, customerDataservice, splashPaymentService, conf) {
         var promises = {
             getRequest: null,
             getFeedback: null
@@ -49,6 +50,7 @@
         vm.closeRequest = closeRequest;
         vm.setRequestStatusAsDone = setRequestStatusAsDone;
         vm.addFeedback = addFeedback;
+        vm.showPaymentModal = showPaymentModal;
 
         activate();
 
@@ -180,6 +182,36 @@
                     getFeedback();
                 });
         }
+
+
+        function PaymentDialogController($scope, $mdDialog) {
+
+            $scope.createAuthTxn = function(txnData,isValid) {
+                if(!isValid){
+                    return false;
+                }
+                console.log(txnData);
+                return splashPaymentService.createAuthTxn(txnData);
+                $mdDialog.hide();
+            };
+        }
+
+        function showPaymentModal(ev) {
+            $mdDialog.show({
+                    controller: PaymentDialogController,
+                    templateUrl: 'customer/request-view/payment-modal.html',
+                    parent: angular.element(document.body),
+                    targetEvent: ev,
+                    clickOutsideToClose:true,
+                //    fullscreen: $scope.customFullscreen // Only for -xs, -sm breakpoints.
+                });/*
+                .then(function(answer) {
+                    console.log(answer);
+                    var status = 'You said the information was "' + answer + '".';
+                }, function() {
+                    var status = 'You cancelled the dialog.';
+                });*/
+        };
 
         function activate() {
             getRequest()

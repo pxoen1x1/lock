@@ -5,31 +5,25 @@
         .module('app.customer')
         .controller('CustomerRequestPaymentController', CustomerRequestPaymentController);
 
-    CustomerRequestPaymentController.$inject = ['splashPaymentService', 'request'];
+    CustomerRequestPaymentController.$inject = ['splashPaymentService'];
 
     /* @ngInject */
     function CustomerRequestPaymentController(splashPaymentService, request) {
 
         var vm = this;
-        vm.getMerchants = getMerchants;
-        vm.getMerchant = getMerchant;
-        vm.callBackend = callBackend;
+        vm.txnData = {};
+        vm.createAuthTxn = createAuthTxn;
 
 
-        function getMerchants() {
-            return splashPaymentService.getMerchants();
-        }
 
-        function getMerchant(id) {
-            return splashPaymentService.getMerchant(id);
-        }
+        function createAuthTxn(txnData, isFormValid) {
+            alert('asdasds');
+            if (!isFormValid) {
 
+                return;
+            }
+            return splashPaymentService.createAuthTxn(txnData);
 
-        function callBackend(state, params) {
-            return request.httpWithTimeout({
-                url: conf.BASE_URL + conf.URL_PREFIX + 'lists/languages',
-                method: 'GET'
-            });
         }
 
     }

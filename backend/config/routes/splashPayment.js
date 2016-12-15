@@ -22,6 +22,10 @@ let splashPaymentRoutes ={
     /*todo: add DELETE URL (?)*/
 
     //--- transaction (txn) ---
+    'POST /api/splashpayment/authtxn': {
+     controller: 'splashPaymentController',
+     action: 'createAuthTxn'
+     },
     // ! support of urls below not implemented yet !
 /*    'GET /api/splashpayment/txns': {
         controller: 'splashPaymentController',

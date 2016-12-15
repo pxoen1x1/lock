@@ -142,6 +142,17 @@ let SplashPaymentController = {
             });
     });
     },
+    createAuthTxn(req, res) {
+    var params = req.allParams();
+
+        SplashPaymentService.createAuthTxn(params)
+            .then((response) => {
+
+            return res.ok({
+                result: response
+            });
+    });
+    },
 
 };
 

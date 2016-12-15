@@ -1,0 +1,28 @@
+request payment
+<div>
+    <form name="txnForm"
+          novalidate
+          ng-submit="createAuthTxn(vm.txnData, txnForm.$valid)">
+        <div layout="row">
+            <md-input-container class="md-block" flex>
+                <label>Number</label>
+                <input name="cardNumber"
+                       required
+                       ng-maxlength="20"
+                       ng-model="vm.txnData.cardNumber">
+            </md-input-container>
+            <md-input-container class="md-block" flex>
+                <label>cvv</label>
+                <input name="cardCvv"
+                       required
+                       ng-maxlength="20"
+                       ng-model="vm.txnData.cvv">
+            </md-input-container>
+        </div>
+        <md-button type="submit"
+                   class="md-raised md-warn"
+                   aria-label="PAY">
+            PAY
+        </md-button>
+    </form>
+</div>
