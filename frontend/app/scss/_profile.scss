@@ -67,13 +67,51 @@
 
   }
 
-  md-input-container, mdp-date-picker .md-button .md-icon-button, .md-block {
+  .licenses {
+    display: flex;
+   
+    &:last-child {
+      max-height: 30px;
+    }
+  }
+
+  md-input-container {
     margin: 0;
   }
 
   .md-datepicker-input {
-      max-width: 120px;
+      min-width: 80px;
+  }
+
+  mdp-date-picker {
+ 
+    .md-button.md-icon-button {
+      margin: 0
+      }
+
+  }
+
+  .license-number {
+    min-width: 100px;
+  }
+
+  .license-date {
+    md-input-container {
+      width: 100px;
     }
+  }
+
+  .service-remove {
+    padding-top: 10px;
+
+    i {
+      cursor: pointer;
+    }
+  }
+  
+  p {
+    margin-top: 0;
+  }
 
 }
 
