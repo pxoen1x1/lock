@@ -84,15 +84,17 @@
         }
 
         function activate() {
-            uiGmapIsReady.promise(1)
-                .then(getGroupMember)
+            getGroupMember()
+                .then(function () {
+                    vm.map.memberMarker.options.visible = !!(vm.member.details.latitude && vm.member.details.longitude);
+
+                    return uiGmapIsReady.promise(1);
+                })
                 .then(function () {
                     if (!vm.member.details || !vm.member.details.latitude || !vm.member.details.longitude) {
 
                         return getCurrentCoordinates();
                     }
-
-                    vm.map.memberMarker.options.visible = !!(vm.member.details.latitude && vm.member.details.longitude);
 
                     return vm.member.details;
                 })
