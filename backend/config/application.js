@@ -8,11 +8,11 @@ let application = {
         bidDefaultMessage: 'Please, start a chat with me.'
     },
     emailVerificationEnabled: true,
-    tokenExpirationTime: 24*3600*1000,
+    tokenExpirationTime: 7*24*3600*1000,
     urls: {
         emailConfirmation: '/auth/email/confirm',
         passwordResetRequest: '/auth/password/reset',
-        groupInvitation: '/api/group/members/invite'
+        groupInvitation: '/group/members/invite'
     },
     mailer: {
         from: `LockHeal <no-reply@lockheal.com>`,
