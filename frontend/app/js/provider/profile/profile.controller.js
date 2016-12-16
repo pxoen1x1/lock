@@ -40,6 +40,8 @@
 
         vm.updateUser = updateUser;
         vm.getUser = getUser;
+        vm.addLicenseForm = addLicenseForm;
+        vm.removeLicenseForm = removeLicenseForm;
 
         activate();
 
@@ -87,6 +89,15 @@
 
                     return vm.userProfile;
                 });
+        }
+
+        function addLicenseForm() {
+
+            vm.userProfile.details.licenses.push({});
+        }
+
+        function removeLicenseForm(index) {
+            vm.userProfile.details.licenses.splice(index, 1);
         }
 
         function activate() {

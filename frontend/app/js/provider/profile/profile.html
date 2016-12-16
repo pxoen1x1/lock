@@ -220,7 +220,7 @@
                         flex-gt-xs="5"
                         layout="column"
                         layout-align="start center"
-                        ng-click="vm.userProfile.details.licenses.splice($index, 1)"
+                        ng-click="vm.removeLicenseForm($index)"
                         ng-if="vm.userProfile.details.licenses.length > 1">
                       <i class="material-icons">delete</i>
                     </div>
@@ -228,7 +228,7 @@
                 </div>
               </div>
             <div layout-gt-xs="row">
-              <md-button ng-click="vm.userProfile.details.licenses.push({})">Add more</md-button>
+              <md-button class="add-license-btn" ng-click="vm.addLicenseForm()">Add license</md-button>
             </div>
             <p>Services</p>
             <div layout-gt-xs="row">
