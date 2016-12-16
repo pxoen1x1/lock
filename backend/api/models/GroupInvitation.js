@@ -16,7 +16,7 @@ let GroupInvitation = {
             required: true
         },
         expiration: {
-            type: 'date',
+            type: 'datetime',
             required: true
         },
 
