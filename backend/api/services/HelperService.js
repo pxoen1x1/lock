@@ -12,6 +12,23 @@ let HelperService = {
 
         return buffer.toString('hex');
     },
+    saveModel(model){
+        let promise = new Promise(
+            (resolve, reject) => {
+                model.save(
+                    (err) => {
+                        if (err) {
+
+                            return reject(err);
+                        }
+
+                        resolve(model);
+                    }
+                );
+            });
+
+        return promise;
+    },
     buildQuery(query, criteria, tableAlias) {
         if (!criteria || typeof criteria !== 'object') {
 
