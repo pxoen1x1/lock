@@ -5,13 +5,17 @@
         .module('app.provider')
         .controller('ProviderProfileController', ProviderProfileController);
 
-    ProviderProfileController.$inject = ['currentUserService', 'coreConstants', 'conf'];
+    ProviderProfileController.$inject = ['currentUserService', 'coreConstants', 'conf', 'bankAccountTypes', 'geo'];
 
     /* @ngInject */
-    function ProviderProfileController(currentUserService, coreConstants, conf) {
+    function ProviderProfileController(currentUserService, coreConstants, conf, bankAccountTypes, geo) {
         var vm = this;
 
         vm.profileData = {};
+        vm.profileData.merchantData = {};
+        vm.profileData.paymentData = {};
+        vm.bankAccountTypes = bankAccountTypes;
+        vm.states = geo.states;
 
         vm.datePickerOptions = {
             maxDate: new Date()
@@ -73,9 +77,14 @@
 
             return currentUserService.updateMerchant(profileData)
                 .then(function (merchant) {
+                    if(merchant.merchantEntity.length == 0){
+                        console.log('error during saving merchant data');
+                        return false;
+                    }
                     vm.profileData.merchantData = merchant.merchantEntity[0];
                     vm.profileData.spMerchantId = vm.profileData.merchantData.id;
                     return currentUserService.setUserToLocalStorage(vm.profileData);
+
                 }).then(function(user){
                     vm.isEditingMerchant = false;
                 });

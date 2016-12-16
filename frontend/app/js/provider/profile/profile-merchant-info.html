@@ -41,10 +41,11 @@
 
             <md-input-container class="md-block" flex>
                 <label>State</label>
-                <input name="State"
-                       required
-                       ng-maxlength="20"
-                       ng-model="vm.profileData.merchantData.state">
+                <md-select ng-model="vm.profileData.merchantData.state">
+                    <md-option ng-repeat="state in vm.states" ng-value="state.code">
+                        {{state.code}}
+                    </md-option>
+                </md-select>
             </md-input-container>
 
             <md-input-container class="md-block" flex>
@@ -69,5 +70,7 @@
                    ng-if="vm.isEditingMerchant">
             Save
         </md-button>
+        <md-button ng-click="vm.isEditingMerchant = false" ng-if="vm.isEditingMerchant">Cancel</md-button>
+
     </form>
 </div>

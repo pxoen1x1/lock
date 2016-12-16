@@ -257,7 +257,7 @@ let SplashPaymentService = {
         }).catch(console.log.bind(console));
     },
 
-    createMerchantAccounts(Id,paymentData){
+    createMerchantAccount(Id,paymentData){
 
         return SplashPaymentService.getMerchant(Id)
             .then(function(merchant){
@@ -271,7 +271,7 @@ let SplashPaymentService = {
                 var bodyJson = {
                     "entity":entityId, // merchant entity like "g158418cf1e8276"
                     "account": {
-                        "method": "8", // The type of the Account. This field is specified as an integer. Valid values are: '8': Checking account '9': Savings account '10': Corporate checking account, and '11': Corporate savings account
+                        "method": paymentData.method, // The type of the Account. This field is specified as an integer. Valid values are: '8': Checking account '9': Savings account '10': Corporate checking account, and '11': Corporate savings account
                         "routing": paymentData.routing,
                         "number": paymentData.number
                     },
@@ -295,6 +295,7 @@ let SplashPaymentService = {
 
         var bodyJson = {
             "account": {
+                "method": paymentData.method,
                 "routing": paymentData.routing,
                 "number": paymentData.number
             },

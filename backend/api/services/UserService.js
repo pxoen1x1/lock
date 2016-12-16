@@ -36,7 +36,7 @@ let UserService = {
             var merchantAccounts = JSON.parse(merchantAccounts);
 
             if(merchantAccounts.length == 0){
-                return SplashPaymentService.createMerchantAccounts(user.spMerchantId,paymentData)
+                return SplashPaymentService.createMerchantAccount(user.spMerchantId,paymentData)
                     .then((merchantAccounts)=>{
                         accountsArray = JSON.parse(merchantAccounts);
                         account = accountsArray[0];

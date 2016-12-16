@@ -40,6 +40,14 @@
           ng-submit="vm.setUserPayment(vm.profileData.payment, editPaymentForm.$valid)">
         <div layout="row">
             <md-input-container class="md-block" flex>
+                <label>Type of Account</label>
+                <md-select ng-model="vm.profileData.payment.method">
+                    <md-option ng-repeat="type in vm.bankAccountTypes" ng-value="type.code">
+                        {{type.name}}
+                    </md-option>
+                </md-select>
+            </md-input-container>
+            <md-input-container class="md-block" flex>
                 <label>paymentRouting</label>
                 <input name="paymentRouting"
                        required
@@ -60,5 +68,6 @@
                    ng-if="vm.isEditingPayment">
             Save
         </md-button>
+        <md-button ng-click="vm.isEditingPayment = false" ng-if="vm.isEditingPayment">Cancel</md-button>
     </form>
 </div>
