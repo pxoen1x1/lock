@@ -192,7 +192,8 @@ module.exports.policies = {
             'hasJsonWebToken',
             'isUserEnabled',
             'isGroupMember'
-        ]
+        ],
+        'joinMember': ['isGroupInvitationValid']
     },
 
     SocketController: {
