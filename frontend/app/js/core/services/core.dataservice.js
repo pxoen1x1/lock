@@ -13,8 +13,11 @@
             getCurrentUser: getCurrentUser,
             getCurrentMerchant: getCurrentMerchant,
             updateMerchant: updateMerchant,
+            getCurrentCustomer: getCurrentCustomer,
+            updateCurrentCustomer: updateCurrentCustomer,
             getCurrentUserPayment: getCurrentUserPayment,
             setCurrentUserPayment: setCurrentUserPayment,
+            createAuthTxn: createAuthTxn,
             getUser: getUser,
             getFeedbacks: getFeedbacks,
             getServiceTypes: getServiceTypes,
@@ -40,6 +43,23 @@
             return request.httpWithTimeout({
                 url: conf.BASE_URL + conf.URL_PREFIX + 'user',
                 method: 'GET'
+            });
+        }
+
+        function getCurrentCustomer() {
+
+            return request.httpWithTimeout({
+                url: conf.BASE_URL + conf.URL_PREFIX + 'customer',
+                method: 'GET'
+            });
+        }
+
+        function updateCurrentCustomer(customerData) {
+
+            return request.httpWithTimeout({
+                url: conf.BASE_URL + conf.URL_PREFIX + 'customer',
+                method: 'PUT',
+                data: customerData
             });
         }
 
@@ -74,6 +94,14 @@
                 url: conf.BASE_URL + conf.URL_PREFIX + 'userpayment',
                 method: 'POST',
                 data: paymentData
+            });
+        }
+
+        function createAuthTxn(txnData) {
+            return request.httpWithTimeout({
+                url: conf.BASE_URL + conf.URL_PREFIX + 'splashpayment/authtxn',
+                method: 'POST',
+                params: txnData
             });
         }
 

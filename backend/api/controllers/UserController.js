@@ -80,7 +80,6 @@ let UserController = waterlock.actions.user({
     updateCustomer(req, res){
         var user = req.session.user;
         var params = req.allParams();
-        var email = params.auth.email;
 
         if (!user) {
 
@@ -113,23 +112,22 @@ let UserController = waterlock.actions.user({
                     }
                     );*/
     //    }else{
-            SplashPaymentService.updateCustomer(user.spCustomerId, params.customerData)
-                .then(
-                    (customer) => {
-                return res.ok(
-                    {
-                        customer: JSON.parse(customer)
-                    }
-                );
-            }
-            )
-            .catch(
-                    (err) => {
-                    sails.log.error(err);
+            UserService.getUser(user)
+                .then((foundUser) => {
+                    return SplashPaymentService.updateCustomer(user.spCustomerId, user, foundUser.auth.email, params.customerData)
+                })
+                .then((customer) => {
+                    return res.ok(
+                        {
+                            customer: JSON.parse(customer)
+                        });
+                })
+                .catch(
+                        (err) => {
+                        sails.log.error(err);
 
-                return res.serverError();
-            }
-            );
+                    return res.serverError();
+                });
     //    }
     },
     getMerchantEntity(req, res){

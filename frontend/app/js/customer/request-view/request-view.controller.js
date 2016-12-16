@@ -13,13 +13,13 @@
         'chatSocketservice',
         'currentRequestService',
         'customerDataservice',
-        'splashPaymentService',
+        'currentUserService',
         'conf'
     ];
 
     /* @ngInject */
     function CustomerViewRequestController($stateParams, $mdDialog, coreConstants, coreDataservice,
-                                           chatSocketservice, currentRequestService, customerDataservice, splashPaymentService, conf) {
+                                           chatSocketservice, currentRequestService, customerDataservice, currentUserService, conf) {
         var promises = {
             getRequest: null,
             getFeedback: null
@@ -191,7 +191,7 @@
                     return false;
                 }
                 console.log(txnData);
-                return splashPaymentService.createAuthTxn(txnData);
+                return currentUserService.createAuthTxn(txnData);
                 $mdDialog.hide();
             };
         }

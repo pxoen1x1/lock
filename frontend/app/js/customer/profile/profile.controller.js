@@ -12,7 +12,7 @@
         var vm = this;
 
         vm.profileData = {};
-        vm.customerData = {};
+        vm.profileData.customerData = {};
         vm.isEditing = false;
         vm.fileUploaderOptions = coreConstants.FILE_UPLOADER_OPTIONS;
         vm.newPortrait = '';
@@ -23,22 +23,20 @@
 
         activate();
 
-        function updateUser(customerData, isFormValid) {
+        function updateCustomer(customerData, isFormValid) {
             if (!isFormValid) {
 
                 return;
             }
 
 
-            return splashPaymentService.updateCustomer(user)
-                .then(function (user) {
-                    
-                    vm.profileData = user;
-                    vm.profileData.portrait = user.portrait ? conf.BASE_URL + user.portrait : '';
-                    vm.newPortrait = '';
-                    vm.isEditing = false;
-
+            return currentUserService.updateCustomer(customerData)
+                .then(function (customer) {
+                    console.log(customer);
+                    vm.profileData.customerData = customer.customer[0];
                     return vm.profileData;
+                }).then(function(){
+                    vm.isEditingCustomer = false;
                 });
         }
 
@@ -74,7 +72,16 @@
                     vm.profileData = user;
                     vm.profileData.portrait = user.portrait ? conf.BASE_URL + user.portrait : '';
 
-                    return vm.profileData;
+                    return currentUserService.getCustomer()
+                        .then(function(customer){
+                            console.log(customer.customer[0]);
+
+                            if(!customer){
+                                console.log('error during receiving customer');
+                            }
+                            vm.profileData.customerData = customer.customer[0];
+                            return vm.profileData;
+                        });
                 });
         }
 

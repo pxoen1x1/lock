@@ -7,19 +7,19 @@
     <div>
         <div class="section first">
             <span class="md-body-2">Address:</span>
-            <span class="md-body-1" ng-bind="vm.customerData.address1"></span>
+            <span class="md-body-1" ng-bind="vm.profileData.customerData.address1"></span>
         </div>
         <div class="section">
             <span class="md-body-2">State:</span>
-            <span class="md-body-1" ng-bind="vm.customerData.state"></span>
+            <span class="md-body-1" ng-bind="vm.profileData.customerData.state"></span>
         </div>
         <div class="section">
             <span class="md-body-2">City:</span>
-            <span class="md-body-1" ng-bind="vm.customerData.city"></span>
+            <span class="md-body-1" ng-bind="vm.profileData.customerData.city"></span>
         </div>
         <div class="section">
             <span class="md-body-2">ZIP:</span>
-            <span class="md-body-1" ng-bind="vm.customerData.zip"></span>
+            <span class="md-body-1" ng-bind="vm.profileData.customerData.zip"></span>
         </div>
     </div>
     <md-button ng-if="!vm.isEditingCustomer" ng-click="vm.isEditingCustomer = true"">Edit</md-button>
@@ -29,14 +29,14 @@
 <div ng-if="vm.isEditingCustomer">
     <form name="editCustomerForm"
           novalidate
-          ng-submit="vm.updateCustomer(vm.customerData, editCustomerForm.$valid)">
+          ng-submit="vm.updateCustomer(vm.profileData, editCustomerForm.$valid)">
         <div layout="row">
             <md-input-container class="md-block" flex>
                 <label>Address</label>
                 <input name="address"
                        required
                        ng-maxlength="20"
-                       ng-model="vm.customerData.address1">
+                       ng-model="vm.profileData.customerData.address1">
             </md-input-container>
 
             <md-input-container class="md-block" flex>
@@ -44,7 +44,7 @@
                 <input name="State"
                        required
                        ng-maxlength="20"
-                       ng-model="vm.customerData.state">
+                       ng-model="vm.profileData.customerData.state">
             </md-input-container>
 
             <md-input-container class="md-block" flex>
@@ -52,7 +52,7 @@
                 <input name="City"
                        required
                        ng-maxlength="20"
-                       ng-model="vm.customerData.city">
+                       ng-model="vm.profileData.customerData.city">
             </md-input-container>
 
             <md-input-container class="md-block" flex>
@@ -60,7 +60,7 @@
                 <input name="Zip"
                        required
                        ng-maxlength="20"
-                       ng-model="vm.customerData.zip">
+                       ng-model="vm.profileData.customerData.zip">
             </md-input-container>
         </div>
         <md-button type="submit"

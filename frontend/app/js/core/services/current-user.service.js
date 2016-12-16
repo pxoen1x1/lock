@@ -19,6 +19,8 @@
             getMerchant: getMerchant,
             updateMerchant: updateMerchant,
             getMerchantAccount: getMerchantAccount,
+            getCustomer: getCustomer,
+            updateCustomer: updateCustomer,
             setUserToLocalStorage: setUserToLocalStorage,
             getUserPayment: getUserPayment,
             setUserPayment: setUserPayment,
@@ -63,7 +65,6 @@
         function getUserFromHttpComplete(response) {
 
             var currentUser = response.data.user;
-
             localService.setUser(currentUser);
 
             return currentUser;
@@ -121,6 +122,37 @@
         function updateMerchant(profileData){
 
             var merchantDataPromise = coreDataservice.updateMerchant(profileData);
+
+            return merchantDataPromise
+                .then(function(merchantData){
+                    return merchantData.data;
+                })
+                .catch(function(error){return error;});
+        }
+
+        function createAuthTxn(txnData){
+
+            var txnDataPromise = coreDataservice.createAuthTxn(txnData);
+
+            return txnDataPromise
+                .then(function(txnData){
+                    return txnData;
+                })
+                .catch(function(error){return error;});
+        }
+
+        function getCustomer(){
+
+            return coreDataservice.getCurrentCustomer()
+                    .then(function(customerData){
+                        return customerData.data;
+                    })
+                    .catch(function(error){return error;});
+        }
+
+        function updateCustomer(profileData){
+
+            var merchantDataPromise = coreDataservice.updateCurrentCustomer(profileData);
 
             return merchantDataPromise
                 .then(function(merchantData){

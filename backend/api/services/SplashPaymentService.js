@@ -137,7 +137,7 @@ let SplashPaymentService = {
         return SplashPaymentService.makeRequest(options,bodyJson);
     },
 
-    updateCustomer(id){
+    updateCustomer(id,user,email,customerData){
         var options = {
             method: 'PUT',
             path: '/customers/'+id
@@ -151,7 +151,7 @@ let SplashPaymentService = {
             city: customerData.city, // !! not defined. is it required ??
             state: customerData.state, // !! not defined. is it required ??
             zip: customerData.zip, // !! not defined. is it required ??
-            phone: auth.user.phoneNumber // auth.user.phoneNumber
+            phone: user.phoneNumber // auth.user.phoneNumber
 
         };
 

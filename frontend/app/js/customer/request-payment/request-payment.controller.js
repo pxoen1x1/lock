@@ -5,10 +5,10 @@
         .module('app.customer')
         .controller('CustomerRequestPaymentController', CustomerRequestPaymentController);
 
-    CustomerRequestPaymentController.$inject = ['splashPaymentService'];
+    CustomerRequestPaymentController.$inject = ['currentUserService'];
 
     /* @ngInject */
-    function CustomerRequestPaymentController(splashPaymentService, request) {
+    function CustomerRequestPaymentController(currentUserService, request) {
 
         var vm = this;
         vm.txnData = {};
@@ -17,12 +17,11 @@
 
 
         function createAuthTxn(txnData, isFormValid) {
-            alert('asdasds');
             if (!isFormValid) {
 
                 return;
             }
-            return splashPaymentService.createAuthTxn(txnData);
+            return currentUserService.createAuthTxn(txnData);
 
         }
 
