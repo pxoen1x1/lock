@@ -29,6 +29,10 @@ let Group = {
         licenses: {
             collection: 'License',
             via: 'group'
+        },
+        invitations: {
+            collection: 'GroupInvitation',
+            via: 'group'
         }
     }
 };

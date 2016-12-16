@@ -1,4 +1,4 @@
-/* global Group, HelperService */
+/* global sails, Group, GroupInvitation, AuthService, UserService, MailerService, HelperService */
 
 /**
  * GroupService
@@ -7,6 +7,7 @@
 'use strict';
 
 let promise = require('bluebird');
+let tokenExpirationTime = sails.config.application.tokenExpirationTime;
 
 let getGroupMembersRawQuery = `SELECT user.id,
                                       user.first_name AS firstName,
@@ -91,6 +92,96 @@ let GroupService = {
                         items: members,
                         count: count
                     };
+                }
+            );
+    },
+    joinMember(token) {
+
+        return GroupInvitation.findOneByToken(token)
+            .then(
+                (invitation) => {
+
+                    return [invitation, Group.findOneById(invitation.group)];
+                }
+            )
+            .spread(
+                (invitation, group) => {
+                    group.members.add(invitation.user);
+
+                    return [invitation, HelperService.saveModel(group)];
+                }
+            )
+            .spread(
+                (invitation, group) => {
+
+                    return [group, GroupInvitation.destroy({id: invitation.id})];
+                }
+            )
+            .spread(
+                (group) => (group)
+            );
+    },
+    inviteMember(user, email) {
+        let error = new Error();
+
+        return AuthService.findAuth({email: email})
+            .then(
+                (auth) => {
+                    if (!auth) {
+                        error.message = `User not found.`;
+                        error.isToSend = true;
+
+                        return Promise.reject(error);
+                    }
+
+                    return [
+                        UserService.getUser({id: auth.user}),
+                        Group.findOneByAdmin(user.id)
+                            .populate('members')
+                    ];
+                }
+            )
+            .spread(
+                (user, group) => {
+                    if (!user.details) {
+                        error.message = `User is not specialist.`;
+                        error.isToSend = true;
+
+                        return Promise.reject(error);
+                    }
+
+                    let isGroupMember = group.members.some(
+                        (member) => member.id === user.id
+                    );
+
+                    if (isGroupMember) {
+                        error.message = `User is member of group already.`;
+                        error.isToSend = true;
+
+                        return Promise.reject(error);
+                    }
+
+                    let token = HelperService.generateToken();
+                    let tokenExpiration = (new Date(Date.now() + tokenExpirationTime)).toISOString();
+
+                    let groupInvitation = {
+                        token: token,
+                        group: group,
+                        user: user,
+                        expiration: tokenExpiration
+                    };
+
+                    return [
+                        user,
+                        group,
+                        GroupInvitation.findOrCreate({user: groupInvitation.user.id}, groupInvitation)
+                    ];
+                }
+            )
+            .spread(
+                (user, group, invitation) => {
+
+                    return MailerService.sendGroupInvitation(user, group, invitation);
                 }
             );
     },

@@ -12,6 +12,15 @@ let GroupController = {
     getGroupMember(req, res){
         let memberId = req.params.memberId;
 
+        if (!memberId) {
+
+            return res.badRequest(
+                {
+                    message: req.__('Submitted data is invalid.')
+                }
+            );
+        }
+
         UserService.getUser({id: memberId})
             .then(
                 (foundUser) => res.ok(
@@ -57,6 +66,67 @@ let GroupController = {
                     sails.log.error(err);
 
                     return res.serverError();
+                }
+            );
+    },
+    joinMember(req, res) {
+        let token = req.param('token');
+
+        if (!token) {
+
+            return res.badRequest(
+                {
+                    message: req.__('Submitted data is invalid.')
+                }
+            );
+        }
+
+        GroupService.joinMember(token)
+            .then(
+                (group) => res.render(
+                    'joinMember',
+                    {
+                        group: group,
+                        homePage: sails.config.homePage
+                    }
+                )
+            )
+            .catch(
+                (err) => {
+                    sails.log.error(err);
+
+                    return res.serverError();
+                }
+            );
+    },
+    inviteMember(req, res) {
+        let email = req.body.email;
+        let user = req.session.user;
+
+        if (!email) {
+
+            return res.badRequest(
+                {
+                    message: req.__('Submitted data is invalid.')
+                }
+            );
+        }
+
+        GroupService.inviteMember(user, email)
+            .then(
+                (groupInvitation) => res.created(
+                    {
+                        invitation: groupInvitation
+                    }
+                )
+            )
+            .catch(
+                (err) => {
+                    sails.log.error(err);
+
+                    let message = err.isToSend ? {message: req.__(err.message)} : null;
+
+                    return res.serverError(message);
                 }
             );
     }
