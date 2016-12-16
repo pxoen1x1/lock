@@ -1,5 +1,7 @@
 'use strict';
 
+let appConfig = require('../application');
+
 let groupRoutes = {
     'GET /api/group/members/:memberId': {
         controller: 'GroupController',
@@ -8,6 +10,10 @@ let groupRoutes = {
     'GET /api/group/members': {
         controller: 'GroupController',
         action: 'getGroupMembers'
+    },
+    [`GET ${appConfig.application.urls.groupInvitation}`]: {
+        controller: 'GroupController',
+        action: 'joinMember'
     },
     'POST /api/group/members/invite': {
         controller: 'GroupController',

@@ -95,6 +95,32 @@ let GroupService = {
                 }
             );
     },
+    joinMember(token) {
+
+        return GroupInvitation.findOneByToken(token)
+            .then(
+                (invitation) => {
+
+                    return [invitation, Group.findOneById(invitation.group)];
+                }
+            )
+            .spread(
+                (invitation, group) => {
+                    group.members.add(invitation.user);
+
+                    return [invitation, HelperService.saveModel(group)];
+                }
+            )
+            .spread(
+                (invitation, group) => {
+
+                    return [group, GroupInvitation.destroy({id: invitation.id})];
+                }
+            )
+            .spread(
+                (group) => (group)
+            );
+    },
     inviteMember(user, email) {
         let error = new Error();
 
@@ -108,11 +134,15 @@ let GroupService = {
                         return Promise.reject(error);
                     }
 
-                    return [Group.findOneByAdmin(user.id), UserService.getUser({id: auth.user})];
+                    return [
+                        UserService.getUser({id: auth.user}),
+                        Group.findOneByAdmin(user.id)
+                            .populate('members')
+                    ];
                 }
             )
             .spread(
-                (group, user) => {
+                (user, group) => {
                     if (!user.details) {
                         error.message = `User is not specialist.`;
                         error.isToSend = true;
@@ -142,13 +172,14 @@ let GroupService = {
                     };
 
                     return [
-                        group,
                         user,
-                        GroupInvitation.findOrCreate({user: groupInvitation.user.id}, groupInvitation)];
+                        group,
+                        GroupInvitation.findOrCreate({user: groupInvitation.user.id}, groupInvitation)
+                    ];
                 }
             )
             .spread(
-                (group, user, invitation) => {
+                (user, group, invitation) => {
 
                     return MailerService.sendGroupInvitation(user, group, invitation);
                 }

@@ -12,6 +12,15 @@ let GroupController = {
     getGroupMember(req, res){
         let memberId = req.params.memberId;
 
+        if (!memberId) {
+
+            return res.badRequest(
+                {
+                    message: req.__('Submitted data is invalid.')
+                }
+            );
+        }
+
         UserService.getUser({id: memberId})
             .then(
                 (foundUser) => res.ok(
@@ -60,6 +69,36 @@ let GroupController = {
                 }
             );
     },
+    joinMember(req, res) {
+        let token = req.param('token');
+
+        if (!token) {
+
+            return res.badRequest(
+                {
+                    message: req.__('Submitted data is invalid.')
+                }
+            );
+        }
+
+        GroupService.joinMember(token)
+            .then(
+                (group) => res.render(
+                    'joinMember',
+                    {
+                        group: group,
+                        homePage: sails.config.homePage
+                    }
+                )
+            )
+            .catch(
+                (err) => {
+                    sails.log.error(err);
+
+                    return res.serverError();
+                }
+            );
+    },
     inviteMember(req, res) {
         let email = req.body.email;
         let user = req.session.user;
@@ -85,7 +124,7 @@ let GroupController = {
                 (err) => {
                     sails.log.error(err);
 
-                    let message = err.isToSend ? {message: err.message} : null;
+                    let message = err.isToSend ? {message: req.__(err.message)} : null;
 
                     return res.serverError(message);
                 }
