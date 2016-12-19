@@ -6,7 +6,7 @@ set :environment, "development"
 set :deploy_to, "/srv/www/lockheal"
 set :deploy_via, :remote_cache
 set :copy_strategy, :checkout
-set :keep_releases, 3
+set :keep_releases, 1
 set :use_sudo, false
 set :copy_compression, :bz2
 set :normalize_asset_timestamps, false
