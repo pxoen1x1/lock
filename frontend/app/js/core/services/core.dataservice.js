@@ -15,6 +15,7 @@
             updateMerchant: updateMerchant,
             getCurrentCustomer: getCurrentCustomer,
             updateCurrentCustomer: updateCurrentCustomer,
+            updateCustomerCard: updateCustomerCard,
             getCurrentUserPayment: getCurrentUserPayment,
             setCurrentUserPayment: setCurrentUserPayment,
             createAuthTxn: createAuthTxn,
@@ -60,6 +61,15 @@
                 url: conf.BASE_URL + conf.URL_PREFIX + 'customer',
                 method: 'PUT',
                 data: customerData
+            });
+        }
+
+        function updateCustomerCard(cardData) {
+
+            return request.httpWithTimeout({
+                url: conf.BASE_URL + conf.URL_PREFIX + 'customercard',
+                method: 'PUT',
+                data: cardData
             });
         }
 

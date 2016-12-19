@@ -86,6 +86,10 @@ let User = {
             type: 'string',
             columnName: 'sp_customer_id'
         },
+        spCardNumber: {
+            type: 'string',
+            columnName: 'sp_card_number'
+        },
 
         address: {
             collection: 'Address',

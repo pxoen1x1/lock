@@ -21,6 +21,7 @@
             getMerchantAccount: getMerchantAccount,
             getCustomer: getCustomer,
             updateCustomer: updateCustomer,
+            updateCustomerCard: updateCustomerCard,
             setUserToLocalStorage: setUserToLocalStorage,
             getUserPayment: getUserPayment,
             setUserPayment: setUserPayment,
@@ -157,6 +158,17 @@
             return merchantDataPromise
                 .then(function(merchantData){
                     return merchantData.data;
+                })
+                .catch(function(error){return error;});
+        }
+
+        function updateCustomerCard(cardData){
+
+            var customerCardPromise = coreDataservice.updateCustomerCard(cardData);
+
+            return customerCardPromise
+                .then(function(cardData){
+                    return cardData.data;
                 })
                 .catch(function(error){return error;});
         }

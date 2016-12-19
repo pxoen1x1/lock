@@ -86,7 +86,7 @@
                     return currentUserService.setUserToLocalStorage(vm.profileData);
 
                 }).then(function(user){
-                    vm.isEditingMerchant = false;
+                    vm.isEditingCard = false;
                 });
         }
 

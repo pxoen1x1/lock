@@ -1,72 +1,52 @@
-<div ng-hide="vm.isEditingCustomer" flex="100">
+<div ng-hide="vm.isEditingCard" flex="100">
     <div layout="column"
          layout-gt-xs="row"
          layout-align="center center"
          layout-align-gt-xs="start center">
     </div>
-    <div>
+    <div nd-if="vm.profileData.spCardNumber">
         <div class="section first">
-            <span class="md-body-2">Address:</span>
-            <span class="md-body-1" ng-bind="vm.profileData.customerData.address1"></span>
-        </div>
-        <div class="section">
-            <span class="md-body-2">State:</span>
-            <span class="md-body-1" ng-bind="vm.profileData.customerData.state"></span>
-        </div>
-        <div class="section">
-            <span class="md-body-2">City:</span>
-            <span class="md-body-1" ng-bind="vm.profileData.customerData.city"></span>
-        </div>
-        <div class="section">
-            <span class="md-body-2">ZIP:</span>
-            <span class="md-body-1" ng-bind="vm.profileData.customerData.zip"></span>
+            <span class="md-body-2">Number:</span>
+            <span>***</span><span class="md-body-1" ng-bind="vm.profileData.spCardNumber"></span>
         </div>
     </div>
-    <md-button ng-if="!vm.isEditingCustomer" ng-click="vm.isEditingCustomer = true"">Edit</md-button>
+    <md-button ng-if="!vm.isEditingCard" ng-click="vm.isEditingCard = true"">Edit</md-button>
 
 </div>
 
-<div ng-if="vm.isEditingCustomer">
-    <form name="editCustomerForm"
+<div ng-if="vm.isEditingCard">
+    <form name="editCardForm"
           novalidate
-          ng-submit="vm.updateCustomer(vm.profileData, editCustomerForm.$valid)">
+          ng-submit="vm.updateCustomerCard(vm.cardData, editCardForm.$valid)">
         <div layout="row">
             <md-input-container class="md-block" flex>
-                <label>Address</label>
-                <input name="address"
+                <label>Number</label>
+                <input name="number"
                        required
                        ng-maxlength="20"
-                       ng-model="vm.profileData.customerData.address1">
+                       ng-model="vm.cardData.number">
             </md-input-container>
 
             <md-input-container class="md-block" flex>
-                <label>State</label>
-                <input name="State"
+                <label>CVV</label>
+                <input name="cvv"
                        required
-                       ng-maxlength="20"
-                       ng-model="vm.profileData.customerData.state">
+                       ng-maxlength="3"
+                       ng-model="vm.cardData.cvv">
             </md-input-container>
 
             <md-input-container class="md-block" flex>
-                <label>City</label>
-                <input name="City"
+                <label>Expiration date MMYY</label>
+                <input name="expiration"
                        required
-                       ng-maxlength="20"
-                       ng-model="vm.profileData.customerData.city">
-            </md-input-container>
-
-            <md-input-container class="md-block" flex>
-                <label>ZIP</label>
-                <input name="Zip"
-                       required
-                       ng-maxlength="20"
-                       ng-model="vm.profileData.customerData.zip">
+                       ng-maxlength="4"
+                       ng-model="vm.cardData.expiration">
             </md-input-container>
         </div>
         <md-button type="submit"
                    class="md-raised md-warn"
                    aria-label="Save"
-                   ng-if="vm.isEditingCustomer">
+                   ng-if="vm.isEditingCard">
             Save
         </md-button>
     </form>

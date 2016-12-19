@@ -13,12 +13,15 @@
 
         vm.profileData = {};
         vm.profileData.customerData = {};
+        vm.profileData.paymentData = {};
+        vm.cardData = {};
         vm.isEditing = false;
         vm.fileUploaderOptions = coreConstants.FILE_UPLOADER_OPTIONS;
         vm.newPortrait = '';
         
         vm.updateUser = updateUser;
         vm.updateCustomer = updateCustomer;
+        vm.updateCustomerCard = updateCustomerCard;
         vm.getUser = getUser;
 
         activate();
@@ -32,11 +35,26 @@
 
             return currentUserService.updateCustomer(customerData)
                 .then(function (customer) {
-                    console.log(customer);
                     vm.profileData.customerData = customer.customer[0];
                     return vm.profileData;
                 }).then(function(){
                     vm.isEditingCustomer = false;
+                });
+        }
+
+        function updateCustomerCard(cardData, isFormValid) {
+            if (!isFormValid) {
+                return;
+            }
+
+            return currentUserService.updateCustomerCard(cardData)
+                .then(function (user) {
+                    if(user){
+                        vm.profileData = user;
+                        return currentUserService.setUserToLocalStorage(vm.profileData);
+                    }
+                }).then(function(){
+                    vm.isEditingCard = false;
                 });
         }
 
@@ -74,7 +92,6 @@
 
                     return currentUserService.getCustomer()
                         .then(function(customer){
-                            console.log(customer.customer[0]);
 
                             if(!customer){
                                 console.log('error during receiving customer');

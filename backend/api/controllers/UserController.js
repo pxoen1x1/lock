@@ -130,6 +130,43 @@ let UserController = waterlock.actions.user({
                 });
     //    }
     },
+    updateCustomerCard(req, res){
+        var user = req.session.user;
+        let userId = req.session.user.id;
+        var params = req.allParams();
+
+        if (!user) {
+
+            return res.forbidden({
+                message: req.__('You are not permitted to perform this action.')
+            });
+        }
+
+        if(!user.spCustomerId){
+            return false; // todo: return errors
+        }
+
+        SplashPaymentService.deleteCustomerTokens(user.spCustomerId)
+            .then(() => {
+                return SplashPaymentService.createCustomerToken(user.spCustomerId, params)
+            })
+            .then((tokenData) => {
+                var tokens = JSON.parse(tokenData);
+                user.spCardNumber = tokens[0].payment.number;
+                return User.update({id: userId}, user);
+            })
+            .then(
+                    (updatedUsers) => {
+                    return res.ok(updatedUsers[0]);
+                }
+            )
+            .catch(
+                    (err) => {
+                    sails.log.error(err);
+
+                return res.serverError();
+            });
+    },
     getMerchantEntity(req, res){
         let user = req.session.user;
 

@@ -158,6 +158,53 @@ let SplashPaymentService = {
         return SplashPaymentService.makeRequest(options,bodyJson);
     },
 
+    getCustomerTokens(customerId){
+        var options = {
+            method: 'GET',
+            path: '/tokens',
+            headers:{'SEARCH':'customer[equals]='+customerId}
+        };
+        return SplashPaymentService.makeRequest(options);
+    },
+
+    createCustomerToken(customerId,params){
+        var options = {
+            method: 'POST',
+            path: '/tokens'
+        };
+
+        var bodyJson = {
+            "customer": customerId,
+            "payment": {
+                "method": SplashPaymentService.getPaymentMethod(params.number),
+                "number": params.number,
+                "cvv": params.cvv
+            },
+            "expiration": params.expiration
+        };
+
+        return SplashPaymentService.makeRequest(options,bodyJson);
+    },
+
+    deleteCustomerTokens(customerId){
+        return SplashPaymentService.getCustomerTokens(customerId)
+            .then((tokensString)=>{
+                var tokens = JSON.parse(tokensString);
+                if(!tokens || tokens.length == 0){
+                    return false;
+                }
+                var arrayOfPromises = tokens.map(function(token){
+                    var options = {
+                        method: 'DELETE',
+                        path: '/tokens/'+token.id
+                    };
+
+                    return SplashPaymentService.makeRequest(options);
+                });
+                return Promise.all(arrayOfPromises);
+            });
+    },
+
     getMerchantPayouts(entityId){
         var options = {
             method: 'GET',
@@ -326,25 +373,12 @@ let SplashPaymentService = {
 
     createAuthTxn(params){
 
-        var method = 0;
+        var method = SplashPaymentService.getPaymentMethod(params.cardNumber);
 
         var options = {
             method: 'POST',
             path: '/txns'
         };
-
-    var firstNum = params.cardNumber.charAt(0);
-
-    switch (firstNum){
-        case "4":
-            method = 2;
-            break;
-        case "5":
-            method = 3;
-            break;
-        default:
-            return false; //Promise.reject("Incorrect card number"); // nothing happens! unhandled rejection
-    }
 
         var bodyJson = {
             "payment": {
@@ -401,12 +435,12 @@ let SplashPaymentService = {
     makeRequest(options, bodyJson){
     const https = require('https');
 
-    options.host = 'test-api.splashpayments.com';
+    options.host = 'test-api.splashpayments.com'; // todo: move to constants
     if(!options.headers){
         options.headers = {};
     }
     options.headers['Content-Type'] = 'application/json';
-    options.headers['APIKEY'] = '33629206d38422c644df7e0d9d7838b0';
+    options.headers['APIKEY'] = '33629206d38422c644df7e0d9d7838b0'; // todo: move to constants
 
 
     // return new pending promise
@@ -447,6 +481,39 @@ let SplashPaymentService = {
         if(month < 10) { month = '0'+month;}
         var year = d.getFullYear();
         return String(year) + String(month) + String(day);
+    },
+
+    getPaymentMethod(cardNumber)
+    {
+        var method = 0;
+        var firstNum = cardNumber.charAt(0);
+
+        /**
+         * Method of payment (1 = American Express, 2 = Visa, 3 = Master Card,
+         * 4 = Diners Club, 5 = Discover, 6 = Paypal [not yet implemented],
+         * 7 = Debit Card, 8 = eCheck Checking, 9 = eCheck Savings, 10 = eCheck
+         * Corporate Checking, 11 = eCheck Corporate Savings)
+         *
+         *  AMEX starts with a 3
+         VISA starts with a 4
+         MC starts with a 5
+         DISCOVER starts with a 6
+         */
+        switch (firstNum){
+            case "3":
+                method = 1;
+                break;
+            case "4":
+                method = 2;
+                break;
+            case "5":
+                method = 3;
+                break;
+            default:
+                return false; //Promise.reject("Incorrect card number"); // nothing happens! unhandled rejection
+        }
+
+        return method;
     }
 };
 
