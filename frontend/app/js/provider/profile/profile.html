@@ -102,11 +102,15 @@
             <span class="md-body-2">Phone:</span>
             <span class="md-body-1" ng-bind="vm.userProfile.phoneNumber"></span>
           </div>
-          <div class="section">
-            <span class="md-body-2">License:</span>
-            <span class="md-body-1" ng-bind="vm.userProfile.details.licenses[0].number"></span>
-            until
-            <span class="md-body-1" ng-bind="vm.userProfile.details.licenses[0].date | date: 'MM/dd/yyyy'"></span>
+          <div class="section" layout="row">
+            <span class="md-body-2">Licenses:</span>
+            <div layout="column">
+              <div layout="row" ng-repeat="license in vm.userProfile.details.licenses track by $index">
+                <span class="md-body-1" ng-bind="vm.userProfile.details.licenses[$index].number"></span>
+                &nbsp; until
+                <span class="md-body-1" ng-bind="vm.userProfile.details.licenses[$index].date | date: 'MM/dd/yyyy'"></span>
+              </div>
+            </div>
           </div>
           <div class="section">
             <span class="md-body-2">Services:</span>
@@ -206,7 +210,7 @@
                                      ng-model="vm.userProfile.details.licenses[$index].date">
                     </mdp-date-picker>
                     <div class="validation-messages"
-                        ng-messages="editForm.licenseDate.$error">
+                         ng-messages="editForm.licenseDate.$error">
                       <div ng-message="valid">The entered value is not a date!</div>
                       <div ng-message="mindate">Date is too early!</div>
                     </div>
@@ -231,11 +235,11 @@
               <md-input-container class="md-block" flex>
                 <label>Service types</label>
                 <md-select aria-label="Services"
-                          multiple
-                          required
-                          ng-model="vm.userProfile.details.serviceTypes">
+                           multiple
+                           required
+                           ng-model="vm.userProfile.details.serviceTypes">
                   <md-option ng-repeat="serviceType in vm.serviceTypes track by serviceType.id"
-                            ng-value="serviceType.id">
+                             ng-value="serviceType.id">
                     <span ng-bind="serviceType.name"></span>
                   </md-option>
                 </md-select>
