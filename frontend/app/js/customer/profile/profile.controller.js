@@ -14,7 +14,6 @@
         vm.profileData = {};
         vm.profileData.customerData = {};
         vm.profileData.paymentData = {};
-        vm.cardData = {};
         vm.isEditing = false;
         vm.fileUploaderOptions = coreConstants.FILE_UPLOADER_OPTIONS;
         vm.newPortrait = '';

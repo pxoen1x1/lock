@@ -176,11 +176,11 @@ let SplashPaymentService = {
         var bodyJson = {
             "customer": customerId,
             "payment": {
-                "method": SplashPaymentService.getPaymentMethod(params.number),
-                "number": params.number,
-                "cvv": params.cvv
+                "method": SplashPaymentService.getPaymentMethod(params.txnData.cardNumber),
+                "number": params.txnData.cardNumber,
+                "cvv": params.txnData.cvv
             },
-            "expiration": params.expiration
+            "expiration": params.txnData.expiration
         };
 
         return SplashPaymentService.makeRequest(options,bodyJson);
@@ -369,6 +369,34 @@ let SplashPaymentService = {
                 });
                 return Promise.all(arrayOfPromises);
             });
+    },
+
+    createTxn(token,params){
+        var options = {
+            method: 'POST',
+            path: '/txns'
+        };
+
+        var bodyJson = {
+            token: token,
+            merchant: params.merchantId,
+            amount: params.amount,
+            /**
+             * Type of transaction (1 = Sale, 2 = Auth, 3 = Capture, 4 = Auth Reversal,
+             * 5 = Refund, 6 = Reserved for future use, 7 = eCheck Sale,
+             * 8 = eCheck Refund, 9 = eCheck PreSale Notification, 10 = eCheck PreRefund
+             * Notification, 11 = eCheck Retry failed sale, 12 = eCheck Verification, 13 =
+             * eCheck Sale/Retry Cancellation
+             */
+            type: 1,
+            /**
+             * The transaction origin (1 = Terminal, 2 = eCommerce, 3 = Mail Order or
+             * Telephone Order)
+             */
+            "origin": 2
+        };
+
+        return SplashPaymentService.makeRequest(options,bodyJson);
     },
 
     createAuthTxn(params){

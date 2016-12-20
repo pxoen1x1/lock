@@ -12,16 +12,16 @@
 
         var vm = this;
         vm.txnData = {};
-        vm.createAuthTxn = createAuthTxn;
+        vm.createTokenAndTxn = createTokenAndTxn;
 
 
 
-        function createAuthTxn(txnData, isFormValid) {
+        function createTokenAndTxn(txnData, isFormValid) {
             if (!isFormValid) {
 
                 return;
             }
-            return currentUserService.createAuthTxn(txnData);
+            return currentUserService.createTokenAndTxn(txnData);
 
         }
 

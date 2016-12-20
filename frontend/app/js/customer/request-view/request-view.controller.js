@@ -183,15 +183,81 @@
                 });
         }
 
-
         function PaymentDialogController($scope, $mdDialog) {
+            currentUserService.getUser()
+                .then(function (user) {
+                    $scope.customerCardNumber = user.spCardNumber;
+                });
 
-            $scope.createAuthTxn = function(txnData,isValid) {
+            $scope.payWithLinked = function(){
+                var merchantId = 'g1585415b362c2e';
+                var amount = 1000;
+                return currentUserService.createTxn(merchantId,amount)
+                        .then((res)=>{
+                            $mdDialog.hide();
+
+                            if(res.resTxn.length > 0){
+
+                                $mdDialog.show(
+                                    $mdDialog.alert()
+                                        .parent(angular.element(document.body))
+                                        .clickOutsideToClose(true)
+                                        .title('Successful payment')
+                                        .ariaLabel('Alert Dialog Demo')
+                                        .ok('Close')
+                                );
+
+                            }else{
+
+                                $mdDialog.show(
+                                    $mdDialog.alert()
+                                        .parent(angular.element(document.body))
+                                        .clickOutsideToClose(true)
+                                        .title('Error during payment')
+                                        .ariaLabel('Please contact support')
+                                        .ok('Close')
+                                );
+                            }
+                    }); //todo: check sequrity!!!
+            };
+
+            $scope.payWithNew = function(txnData,isValid) {
+                var merchantId = 'g1585415b362c2e';
+                var amount = 10000;
                 if(!isValid){
                     return false;
                 }
-                console.log(txnData);
-                return currentUserService.createAuthTxn(txnData);
+                return currentUserService.createTokenAndTxn(txnData,merchantId,amount)
+                    .then((res)=>{
+                        $mdDialog.hide();
+
+                    if(res.resTxn.length > 0 && res.user){
+
+                        vm.profileData = res.user;
+                        currentUserService.setUserToLocalStorage(vm.profileData);
+                        $scope.customerCardNumber = res.user.spCardNumber;
+
+                        $mdDialog.show(
+                            $mdDialog.alert()
+                                .parent(angular.element(document.body))
+                                .clickOutsideToClose(true)
+                                .title('Successful payment')
+                                .ariaLabel('Alert Dialog Demo')
+                                .ok('Close')
+                        );
+
+                    }else{
+
+                        $mdDialog.show(
+                            $mdDialog.alert()
+                                .parent(angular.element(document.body))
+                                .clickOutsideToClose(true)
+                                .title('Error during payment')
+                                .ariaLabel('Please contact support')
+                                .ok('Close')
+                        );
+                    }
+                });
                 $mdDialog.hide();
             };
         }

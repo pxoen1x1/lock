@@ -18,7 +18,8 @@
             updateCustomerCard: updateCustomerCard,
             getCurrentUserPayment: getCurrentUserPayment,
             setCurrentUserPayment: setCurrentUserPayment,
-            createAuthTxn: createAuthTxn,
+            createTxn: createTxn,
+            createTokenAndTxn: createTokenAndTxn,
             getUser: getUser,
             getFeedbacks: getFeedbacks,
             getServiceTypes: getServiceTypes,
@@ -107,11 +108,19 @@
             });
         }
 
-        function createAuthTxn(txnData) {
+        function createTxn(txnData) {
             return request.httpWithTimeout({
-                url: conf.BASE_URL + conf.URL_PREFIX + 'splashpayment/authtxn',
+                url: conf.BASE_URL + conf.URL_PREFIX + 'splashpayment/txn',
                 method: 'POST',
-                params: txnData
+                data: txnData
+            });
+        }
+
+        function createTokenAndTxn(params) {
+            return request.httpWithTimeout({
+                url: conf.BASE_URL + conf.URL_PREFIX + 'splashpayment/tokenandtxn',
+                method: 'POST',
+                data: params
             });
         }
 

@@ -1,8 +1,18 @@
-request payment
 <div>
-    <form name="txnForm"
+    <div ng-if="customerCardNumber">
+        <h2>Pay with your card:</h2>
+        <span>***</span><span class="md-body-1" ng-bind="customerCardNumber"></span>
+        <md-button
+                   class="md-raised md-warn"
+                   ng-click="payWithLinked()"
+                   aria-label="PAY">
+            PAY
+        </md-button>
+        <h2>Or link and pay with another one:</h2>
+    </div>
+        <form name="txnForm"
           novalidate
-          ng-submit="createAuthTxn(vm.txnData, txnForm.$valid)">
+          ng-submit="payWithNew(vm.txnData, txnForm.$valid)">
         <div layout="row">
             <md-input-container class="md-block" flex>
                 <label>Number</label>
@@ -17,6 +27,13 @@ request payment
                        required
                        ng-maxlength="20"
                        ng-model="vm.txnData.cvv">
+            </md-input-container>
+            <md-input-container class="md-block" flex>
+                <label>Expiration</label>
+                <input name="expiration"
+                       required
+                       ng-maxlength="4"
+                       ng-model="vm.txnData.expiration">
             </md-input-container>
         </div>
         <md-button type="submit"

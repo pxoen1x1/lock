@@ -323,6 +323,50 @@ let UserController = waterlock.actions.user({
         }
         );
     },
+    createTxn(req, res) {
+        var params = req.allParams();
+        let user = req.session.user;
+
+        SplashPaymentService.getCustomerTokens(user.spCustomerId,params)
+        .then((tokensRes)=>{
+            var tokens = JSON.parse(tokensRes);
+            return tokens[0].token;
+        }).then((token) => {
+            return SplashPaymentService.createTxn(token,params);
+        }).then((response) => {
+            return res.ok({
+                resTxn: JSON.parse(response)
+            });
+        });
+    },
+    createTokenAndTxn(req, res) {
+        let params = req.allParams();
+        let userId = req.session.user.id;
+        let user = req.session.user;
+        let token = {};
+
+        return SplashPaymentService.deleteCustomerTokens(user.spCustomerId)
+        .then(() => {
+            return SplashPaymentService.createCustomerToken(user.spCustomerId, params)
+        })
+        .then((tokenData) => {
+            var tokens = JSON.parse(tokenData);
+            if(tokens.length == 0){
+                return false; // todo: call reject
+            }
+            token = tokens[0];
+            user.spCardNumber = token.payment.number;
+            return User.update({id: userId}, user);
+        }).then((updatedUsers) => {
+            user = updatedUsers[0];
+            return SplashPaymentService.createTxn(token.token,params);
+        }).then((response) => {
+            return res.ok({
+                resTxn: JSON.parse(response),
+                user: user
+            });
+        });
+    },
     getUserById(req, res) {
         let userId = req.params.id;
 

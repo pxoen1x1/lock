@@ -25,6 +25,8 @@
             setUserToLocalStorage: setUserToLocalStorage,
             getUserPayment: getUserPayment,
             setUserPayment: setUserPayment,
+            createTxn: createTxn,
+            createTokenAndTxn: createTokenAndTxn,
             setUser: setUser,
             getType: getType,
             clearType: clearType
@@ -131,13 +133,24 @@
                 .catch(function(error){return error;});
         }
 
-        function createAuthTxn(txnData){
+        function createTxn(merchantId,amount){
 
-            var txnDataPromise = coreDataservice.createAuthTxn(txnData);
+            var customerCardPromise = coreDataservice.createTxn({merchantId: merchantId, amount: amount});
 
-            return txnDataPromise
-                .then(function(txnData){
-                    return txnData;
+            return customerCardPromise
+                .then(function(cardData){
+                    return cardData.data;
+                })
+                .catch(function(error){return error;});
+        }
+
+        function createTokenAndTxn(txnData, merchantId, amount){
+
+            var customerCardPromise = coreDataservice.createTokenAndTxn({txnData: txnData, merchantId: merchantId, amount: amount});
+
+            return customerCardPromise
+                .then(function(cardData){
+                    return cardData.data;
                 })
                 .catch(function(error){return error;});
         }
