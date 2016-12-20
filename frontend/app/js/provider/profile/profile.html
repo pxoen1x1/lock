@@ -188,10 +188,9 @@
                       <md-select role="listbox"
                                 name="state"
                                 required
-                                ng-change="vm.resetSelectedCity(); vm.getCities(vm.user.address.state.id)"
                                 ng-model="vm.userProfile.details.licenses[$index].state">
-                        <md-option ng-repeat="state in vm.states track by state.id"
-                                  ng-value="state">
+                        <md-option ng-repeat="state in vm.states"
+                                   ng-value="state.id">
                           <span ng-bind="::state.state"></span>
                         </md-option>
                       </md-select>
@@ -199,22 +198,18 @@
                         <div ng-message="required">State is required.</div>
                       </div>
                     </md-input-container>
-                    <md-input-container class="md-block license-date"
-                                        layout="row"
-                                        required>
-                      <mdp-date-picker name="licenseDate"
-                                       mdp-placeholder="License Date"
-                                       mdp-min-date="vm.datePickerOptions.maxDate"
-                                       date-formatter
-                                       ng-required
-                                       ng-model="vm.userProfile.details.licenses[$index].date">
-                      </mdp-date-picker>
-                      <div class="validation-messages"
-                          ng-messages="editForm.licenseDate.$error">
-                        <div ng-message="valid">The entered value is not a date!</div>
-                        <div ng-message="mindate">Date is too early!</div>
-                      </div>
-                    </md-input-container>
+                    <mdp-date-picker name="licenseDate"
+                                     mdp-placeholder="Expiration"
+                                     mdp-min-date="vm.datePickerOptions.minDate"
+                                     date-formatter
+                                     ng-required
+                                     ng-model="vm.userProfile.details.licenses[$index].date">
+                    </mdp-date-picker>
+                    <div class="validation-messages"
+                        ng-messages="editForm.licenseDate.$error">
+                      <div ng-message="valid">The entered value is not a date!</div>
+                      <div ng-message="mindate">Date is too early!</div>
+                    </div>
                     <div class="service-remove"
                         flex="100"
                         flex-gt-xs="5"
