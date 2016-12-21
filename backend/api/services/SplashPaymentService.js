@@ -2,6 +2,8 @@
 
 'use strict';
 
+let MERCHANT = sails.config.splashpayment.merchant;
+
 let SplashPaymentService = {
 
     getMerchants(){
@@ -40,16 +42,16 @@ let SplashPaymentService = {
                     phone: user.phoneNumber,
                     first: user.firstName,
                     last: user.lastName,
-                    dob: "19750101", // ! required
-                    title: "Director", // if no required then not inculde for individuals
-                    ownership: 10000, // ! required
+                    dob: MERCHANT.member.dob, // ! required
+                    title: MERCHANT.member.title, // ! required
+                    ownership: MERCHANT.member.ownership, // ! required
                     email: email
                 }],
                 //established: "20060101", // -
-                new: 0, // An indicator that specifies whether the Merchant is new to credit card processing. A value of '1' means new
-                annualCCSales: "500000", // ???
-                status: "1",
-                mcc: "1750"  // required.
+                new: MERCHANT.new, // An indicator that specifies whether the Merchant is new to credit card processing. A value of '1' means new
+                annualCCSales: MERCHANT.annualCCSales, // ???
+                status: MERCHANT.status,
+                mcc: MERCHANT.mcc  // required.
             },
             accounts: [],
             name: user.lastName + ' ' + user.firstName,
@@ -59,13 +61,9 @@ let SplashPaymentService = {
             city: merchantData.city, // !required
             state: merchantData.state, // !required
             zip: merchantData.zip, // !required
-            country: "USA", // USA
+            country: MERCHANT.country, // USA
             //website: "http://www.splashpayments.com", // -
-            /**
-             * Company type (+0 = Sole Proprietorship, 1 = Corporation, 2 = LLC,
-             * 3 = Partnership, +4 = Association, 5 = Non Profit, 6 = Governmental)
-             */
-            type: "0", // if Group then set '2'
+            type: MERCHANT.type, // if Group then set '2'
             //ein: "123456789" // Federal tax id number (not required for Sole Proprietorship)
         };
         return SplashPaymentService.makeRequest(options, bodyJson);

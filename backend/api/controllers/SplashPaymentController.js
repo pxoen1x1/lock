@@ -10,7 +10,7 @@
 'use strict';
 
 
-const SPLASH_PAYMENT = sails.config.splashpayment;
+const BANK_ACCOUNT_TYPES = sails.config.splashpayment.bankAccountTypes;
 
 let SplashPaymentController = {
 
@@ -18,7 +18,7 @@ let SplashPaymentController = {
     // entity ??
     getBankAccountTypes(req, res) {
         return res.ok({
-            result: SPLASH_PAYMENT.bankAccountTypes
+            result: BANK_ACCOUNT_TYPES
         });
     },
 
