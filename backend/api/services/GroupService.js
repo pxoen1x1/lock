@@ -185,6 +185,18 @@ let GroupService = {
                 }
             );
     },
+    removeMember(user, member) {
+
+        return Group.findOneByAdmin(user.id)
+            .populate('members')
+            .then(
+                (group) => {
+                    group.members.remove(member.id);
+
+                    return HelperService.saveModel(group);
+                }
+            );
+    },
     _getGroupMembersCount(rawQuery, data){
         data = data || [];
 

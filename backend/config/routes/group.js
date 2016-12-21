@@ -18,6 +18,10 @@ let groupRoutes = {
     'POST /api/group/members/invite': {
         controller: 'GroupController',
         action: 'inviteMember'
+    },
+    'DELETE /api/group/members/:memberId': {
+        controller: 'GroupController',
+        action: 'removeMember'
     }
 };
 
