@@ -61,12 +61,12 @@ let AuthController = waterlock.waterlocked({
                 (createdUserRes) => {
                     createdUser = createdUserRes;
                     if(!user.userDetail){
-                        return SplashPaymentService.createCustomer(user, auth.email) // todo: !! create customer only for Clients!
+                        return SplashPaymentService.createCustomer(user, auth.email)
                         .then((customerResponse)=>{
                             var customerArray = JSON.parse(customerResponse);
-                            user.spCustomerId = customerArray[0].id;
+                            createdUser.spCustomerId = customerArray[0].id;
 
-                            UserService.update({id: user.id}, user);
+                            return UserService.update({id: createdUser.id}, createdUser);
 
                         })
                     }
