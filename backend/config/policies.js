@@ -193,12 +193,18 @@ module.exports.policies = {
             'isUserEnabled',
             'isGroupMember'
         ],
-        'joinMember': ['isGroupInvitationValid']
+        'joinMember': [
+            'isGroupInvitationValid'
+        ],
+        'removeMember': [
+            'hasJsonWebToken',
+            'isUserEnabled',
+            'isGroupMember'
+        ]
     },
 
     SocketController: {
-        '*': ['isSocketRequest'],
-        'subscribe': [
+        '*': [
             'isSocketRequest',
             'hasJsonWebToken'
         ]

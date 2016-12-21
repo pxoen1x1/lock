@@ -1,6 +1,24 @@
 <div class="container view-content">
   <div class="container-title">
-    <i class="material-icons">person</i> <span>Member Info</span>
+    <div layout="row" layout-align="end center">
+      <div flex>
+        <i class="material-icons">person</i> <span>Member Info</span>
+      </div>
+      <md-menu md-position-mode="target-right target">
+        <md-button class="md-icon-button"
+                   aria-label="more"
+                   ng-click="$mdOpenMenu()">
+          <i class="material-icons">more_vert</i>
+        </md-button>
+        <md-menu-content width="3">
+          <md-menu-item ng-if="vm.currentRequest.status === vm.requestStatus.NEW">
+            <md-button member-removal="vm.member"
+                       on-remove="vm.removeMember()">Remove
+            </md-button>
+          </md-menu-item>
+        </md-menu-content>
+      </md-menu>
+    </div>
   </div>
   <div class="container-content">
     <div layout="row" layout-xs="column">

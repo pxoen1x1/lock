@@ -129,6 +129,32 @@ let GroupController = {
                     return res.serverError(message);
                 }
             );
+    },
+    removeMember(req, res) {
+        let memberId = parseInt(req.params.memberId, 10);
+        let user = req.session.user;
+
+        let member = {
+            id: memberId
+        };
+
+        GroupService.removeMember(user, member)
+            .then(
+                () => res.ok(
+                    {
+                        user: member
+                    }
+                )
+            )
+            .catch(
+                (err) => {
+                    sails.log.error(err);
+
+                    let message = err.isToSend ? {message: req.__(err.message)} : null;
+
+                    return res.serverError(message);
+                }
+            );
     }
 };
 
