@@ -231,15 +231,15 @@
             </div>
             <p>Services</p>
             <div layout-gt-xs="row">
-              <input type="hidden" ng-model="service.id" ng-value="$index">
               <md-input-container class="md-block" flex>
                 <label>Service types</label>
                 <md-select aria-label="Services"
                            multiple
                            required
+                           ng-model-options="{trackBy: '$value.id'}"
                            ng-model="vm.userProfile.details.serviceTypes">
                   <md-option ng-repeat="serviceType in vm.serviceTypes track by serviceType.id"
-                             ng-value="serviceType.id">
+                             ng-value="serviceType">
                     <span ng-bind="serviceType.name"></span>
                   </md-option>
                 </md-select>
