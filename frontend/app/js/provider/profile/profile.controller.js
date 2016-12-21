@@ -5,17 +5,22 @@
         .module('app.provider')
         .controller('ProviderProfileController', ProviderProfileController);
 
-    ProviderProfileController.$inject = ['currentUserService', 'coreDataservice', 'coreConstants', 'conf', 'bankAccountTypes', 'geo'];
+    ProviderProfileController.$inject = ['currentUserService', 'coreDataservice', 'coreConstants', 'conf', 'geo'];
 
     /* @ngInject */
-    function ProviderProfileController(currentUserService, coreDataservice, coreConstants, conf, bankAccountTypes, geo) {
+    function ProviderProfileController(currentUserService, coreDataservice, coreConstants, conf, geo) {
         var vm = this;
+
+        var promises = {
+            getBankAccountTypes: null,
+            getStates: null
+        };
 
         vm.profileData = {};
         vm.profileData.merchantData = {};
         vm.profileData.paymentData = {};
-        vm.bankAccountTypes = bankAccountTypes;
-        vm.states = geo.states;
+        vm.bankAccountTypes = [];
+        vm.states = [];
 
         vm.datePickerOptions = {
             maxDate: new Date()
@@ -24,13 +29,45 @@
         vm.isEditing = false;
         vm.fileUploaderOptions = coreConstants.FILE_UPLOADER_OPTIONS;
         vm.newPortrait = '';
-        
+
         vm.updateUser = updateUser;
         vm.setMerchantAccount = setMerchantAccount;
         vm.getUser = getUser;
         vm.updateMerchant = updateMerchant;
 
         activate();
+
+        function getBankAccountTypes() {
+
+            if (promises.getBankAccountTypes) {
+                promises.getBankAccountTypes.cancel();
+            }
+
+            promises.getBankAccountTypes = coreDataservice.getBankAccountTypes();
+
+            return promises.getBankAccountTypes
+                .then(function (bankAccountTypes) {
+                    vm.bankAccountTypes = bankAccountTypes;
+
+                    return vm.bankAccountTypes;
+                });
+        }
+
+
+        function getStates() {
+            if (promises.getStates) {
+                promises.getStates.cancel();
+            }
+
+            promises.getStates = coreDataservice.getStates();
+
+            return promises.getStates
+                .then(function (response) {
+                    vm.states = response.data.states;
+
+                    return vm.states;
+                });
+        }
 
         function updateUser(user, isFormValid) {
             if (!isFormValid) {
@@ -77,7 +114,7 @@
 
             return coreDataservice.updateMerchant(profileData)
                 .then(function (merchantEntity) {
-                    if(!merchantEntity){
+                    if (!merchantEntity) {
                         console.log('error during saving merchant data');
                         return false;
                     }
@@ -85,7 +122,7 @@
                     vm.profileData.spMerchantId = vm.profileData.merchantData.id;
                     return currentUserService.setUserToLocalStorage(vm.profileData);
 
-                }).then(function(user){
+                }).then(function (user) {
                     vm.isEditingMerchant = false;
                 });
         }
@@ -99,24 +136,26 @@
                     vm.profileData.portrait = user.portrait ? conf.BASE_URL + user.portrait : '';
 
                     return coreDataservice.getMerchantAccount()
-                        .then((userPayment)=>{
+                        .then((userPayment)=> {
                             vm.profileData.paymentData = userPayment;
                             return vm.profileData;
                         })
-                        .then(function(){
+                        .then(function () {
                             return coreDataservice.getMerchant()
                         })
-                        .then(function(merchantEntity){
-                            if(merchantEntity){
+                        .then(function (merchantEntity) {
+                            if (merchantEntity) {
                                 vm.profileData.merchantData = merchantEntity;
                                 return vm.profileData;
                             }
                         });
                 });
         }
-        
+
         function activate() {
             getUser();
+            getBankAccountTypes();
+            getStates();
         }
     }
 })();

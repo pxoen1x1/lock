@@ -15,6 +15,7 @@
             updateMerchant: updateMerchant,
             getCurrentCustomer: getCurrentCustomer,
             updateCurrentCustomer: updateCurrentCustomer,
+            getBankAccountTypes: getBankAccountTypes,
             updateCustomerCard: updateCustomerCard,
             getMerchantAccount: getMerchantAccount,
             setMerchantAccount: setMerchantAccount,
@@ -64,6 +65,18 @@
             function updateCurrentCustomerComplete(response) {
 
                 return response;
+            }
+        }
+
+        function getBankAccountTypes() {
+
+            return request.httpWithTimeout({
+                url: conf.BASE_URL + conf.URL_PREFIX + 'splashpayment/bankaccounttypes',
+                method: 'GET'
+            }).then(getBankAccountTypesComplete);
+
+            function getBankAccountTypesComplete(response){
+                return response.data.result;
             }
         }
 

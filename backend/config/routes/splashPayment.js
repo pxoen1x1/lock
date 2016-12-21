@@ -3,6 +3,10 @@
 let splashPaymentRoutes = {
     //--- merchant no login ---
     //--- entity ?? ---
+    'GET /api/splashpayment/bankaccounttypes': {
+        controller: 'splashPaymentController',
+        action: 'getBankAccountTypes'
+    },
     'GET /api/splashpayment/merchants': {
         controller: 'splashPaymentController',
         action: 'getMerchants'

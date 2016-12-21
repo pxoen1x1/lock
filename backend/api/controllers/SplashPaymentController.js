@@ -9,10 +9,19 @@
 
 'use strict';
 
+
+const SPLASH_PAYMENT = sails.config.splashpayment;
+
 let SplashPaymentController = {
 
     // merchant no login (/entities)
     // entity ??
+    getBankAccountTypes(req, res) {
+        return res.ok({
+            result: SPLASH_PAYMENT.bankAccountTypes
+        });
+    },
+
     getMerchants(req, res) {
 
         SplashPaymentService.getMerchants()
