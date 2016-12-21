@@ -5,10 +5,10 @@
         .module('app.core')
         .factory('coreDataservice', coreDataservice);
 
-    coreDataservice.$inject = ['$http', 'request', 'conf'];
+    coreDataservice.$inject = ['$http', 'request', 'conf', '$sails'];
 
     /* @ngInject */
-    function coreDataservice($http, request, conf) {
+    function coreDataservice($http, request, conf, $sails) {
         var service = {
             getCurrentUser: getCurrentUser,
             getCurrentMerchant: getCurrentMerchant,
@@ -58,20 +58,24 @@
 
         function updateCurrentCustomer(customerData) {
 
-            return $http({
-                url: conf.BASE_URL + conf.URL_PREFIX + 'customer',
-                method: 'PUT',
-                data: customerData
-            });
+            return $sails.put(conf.URL_PREFIX + 'customer', customerData)
+                .then(updateCurrentCustomerComplete);
+
+            function updateCurrentCustomerComplete(response) {
+
+                return response;
+            }
         }
 
         function updateCustomerCard(cardData) {
 
-            return $http({
-                url: conf.BASE_URL + conf.URL_PREFIX + 'customercard',
-                method: 'PUT',
-                data: cardData
-            });
+            return $sails.put(conf.URL_PREFIX + 'customercard', cardData)
+                .then(updateCustomerCardComplete);
+
+            function updateCustomerCardComplete(response) {
+
+                return response;
+            }
         }
 
         function getCurrentMerchant() {
@@ -84,11 +88,13 @@
 
         function updateMerchant(merchantData) {
 
-            return $http({
-                url: conf.BASE_URL + conf.URL_PREFIX + 'merchantentity',
-                method: 'PUT',
-                data: merchantData
-            });
+            return $sails.put(conf.URL_PREFIX + 'merchantentity', merchantData)
+                .then(updateMerchantComplete);
+
+            function updateMerchantComplete(response) {
+
+                return response;
+            }
         }
 
         function getCurrentUserPayment() {
@@ -101,27 +107,33 @@
 
         function setCurrentUserPayment(paymentData) {
 
-            return $http({
-                url: conf.BASE_URL + conf.URL_PREFIX + 'userpayment',
-                method: 'POST',
-                data: paymentData
-            });
+            return $sails.post(conf.URL_PREFIX + 'userpayment', paymentData)
+                .then(setCurrentUserPaymentComplete);
+
+            function setCurrentUserPaymentComplete(response) {
+
+                return response;
+            }
         }
 
         function createTxn(txnData) {
-            return $http({
-                url: conf.BASE_URL + conf.URL_PREFIX + 'splashpayment/txn',
-                method: 'POST',
-                data: txnData
-            });
+            return $sails.post(conf.URL_PREFIX + 'splashpayment/txn', txnData)
+                .then(createTxnComplete);
+
+            function createTxnComplete(response) {
+
+                return response;
+            }
         }
 
         function createTokenAndTxn(params) {
-            return $http({
-                url: conf.BASE_URL + conf.URL_PREFIX + 'splashpayment/tokenandtxn',
-                method: 'POST',
-                data: params
-            });
+            return $sails.post(conf.URL_PREFIX + 'splashpayment/tokenandtxn', params)
+                .then(createTokenAndTxnComplete);
+
+            function createTokenAndTxnComplete(response) {
+
+                return response.data.txnData;
+            }
         }
 
         function getUser(userId) {
@@ -201,11 +213,7 @@
 
         function createUser(newUser) {
 
-            return $http({
-                url: conf.BASE_URL + conf.URL_PREFIX + 'user',
-                method: 'POST',
-                data: newUser
-            })
+            return $sails.post(conf.URL_PREFIX + 'user', newUser)
                 .then(createUserComplete);
 
             function createUserComplete(response) {
@@ -217,11 +225,7 @@
         function login(user, type) {
             var loginType = type || 'local';
 
-            return $http({
-                url: conf.BASE_URL + '/auth/login?type=' + loginType,
-                method: 'POST',
-                data: user
-            })
+            return $sails.post('/auth/login?type=' + loginType, user)
                 .then(loginComplete);
 
             function loginComplete(response) {
@@ -232,10 +236,7 @@
 
         function logout() {
 
-            return $http({
-                url: conf.BASE_URL + '/auth/logout',
-                method: 'POST'
-            })
+            return $sails.post('/auth/logout')
                 .then(logoutComplete);
 
             function logoutComplete(response) {
@@ -246,11 +247,7 @@
 
         function resetUserPassword(user) {
 
-            return $http({
-                url: conf.BASE_URL + '/auth/password/reset',
-                method: 'POST',
-                data: user
-            })
+            return $sails.post('/auth/password/reset', user)
                 .then(resetPasswordCompleted);
 
             function resetPasswordCompleted(response) {
@@ -261,11 +258,7 @@
 
         function updateUser(user) {
 
-            return $http({
-                url: conf.BASE_URL + conf.URL_PREFIX + 'user',
-                method: 'PUT',
-                data: user
-            })
+            return $sails.put(conf.URL_PREFIX + 'user', user)
                 .then(updateUserComplete);
 
             function updateUserComplete(response) {
@@ -276,11 +269,7 @@
 
         function acceptOffer(requestId, request) {
 
-            return $http({
-                url: conf.BASE_URL + conf.URL_PREFIX + 'client/requests/' + requestId,
-                method: 'PUT',
-                data: request
-            })
+            return $sails.put(conf.URL_PREFIX + 'client/requests/' + requestId, request)
                 .then(acceptOfferCompleted);
 
             function acceptOfferCompleted(response) {
@@ -291,11 +280,7 @@
 
         function updateRequestStatus(request, status) {
 
-            return $http({
-                url: conf.BASE_URL + conf.URL_PREFIX + 'requests/' + request.id + '/status',
-                method: 'PUT',
-                data: status
-            })
+            return $sails.put(conf.URL_PREFIX + 'requests/' + request.id + '/status', status)
                 .then(updateRequestStatusCompleted);
 
             function updateRequestStatusCompleted(response) {
