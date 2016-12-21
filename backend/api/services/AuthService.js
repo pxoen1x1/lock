@@ -85,7 +85,7 @@ let AuthService = {
                             resetToken: null,
                             password: password
                         }
-                    )
+                        )
                         .then(
                             () => ResetToken.destroy(tokenId)
                         );

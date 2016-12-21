@@ -52,7 +52,7 @@ let UserController = waterlock.actions.user({
             });
         }
 
-        if(!user.spCustomerId){
+        if (!user.spCustomerId) {
             return res.ok({
                 customer: false
             })
@@ -62,20 +62,20 @@ let UserController = waterlock.actions.user({
             .then(
                 (customer) => {
 
-            return res.ok(
-                {
-                    customer: JSON.parse(customer)
+                    return res.ok(
+                        {
+                            customer: JSON.parse(customer)
+                        }
+                    );
+                }
+            )
+            .catch(
+                (err) => {
+                    sails.log.error(err);
+
+                    return res.serverError();
                 }
             );
-        }
-        )
-        .catch(
-                (err) => {
-                sails.log.error(err);
-
-            return res.serverError();
-        }
-        );
     },
     updateCustomer(req, res){
         var user = req.session.user;
@@ -88,47 +88,47 @@ let UserController = waterlock.actions.user({
             });
         }
 
-        if(!user.spCustomerId){
+        if (!user.spCustomerId) {
             return false; // todo: return errors
         }
-/*            return SplashPaymentService.createCustomer(user, params.customerData, email) //,
-                    .then((customerResponse)=>{
-                        customerArray = JSON.parse(customerResponse);
-                        user.spCustomerId = customerArray[0].customer.id;
+        /*            return SplashPaymentService.createCustomer(user, params.customerData, email) //,
+         .then((customerResponse)=>{
+         customerArray = JSON.parse(customerResponse);
+         user.spCustomerId = customerArray[0].customer.id;
 
-                        UserService.update({id: user.id}, user);
+         UserService.update({id: user.id}, user);
 
-                        return res.ok(
-                            {
-                                merchantEntity: customerArray
-                            }
-                        );
-                    })
-                    .catch(
-                            (err) => {
-                            sails.log.error(err);
+         return res.ok(
+         {
+         merchantEntity: customerArray
+         }
+         );
+         })
+         .catch(
+         (err) => {
+         sails.log.error(err);
 
-                        return res.serverError();
-                    }
-                    );*/
-    //    }else{
-            UserService.getUser(user)
-                .then((foundUser) => {
-                    return SplashPaymentService.updateCustomer(user.spCustomerId, user, foundUser.auth.email, params.customerData)
-                })
-                .then((customer) => {
-                    return res.ok(
-                        {
-                            customer: JSON.parse(customer)
-                        });
-                })
-                .catch(
-                        (err) => {
-                        sails.log.error(err);
+         return res.serverError();
+         }
+         );*/
+        //    }else{
+        UserService.getUser(user)
+            .then((foundUser) => {
+                return SplashPaymentService.updateCustomer(user.spCustomerId, user, foundUser.auth.email, params.customerData)
+            })
+            .then((customer) => {
+                return res.ok(
+                    {
+                        customer: JSON.parse(customer)
+                    });
+            })
+            .catch(
+                (err) => {
+                    sails.log.error(err);
 
                     return res.serverError();
                 });
-    //    }
+        //    }
     },
     updateCustomerCard(req, res){
         var user = req.session.user;
@@ -142,7 +142,7 @@ let UserController = waterlock.actions.user({
             });
         }
 
-        if(!user.spCustomerId){
+        if (!user.spCustomerId) {
             return false; // todo: return errors
         }
 
@@ -156,16 +156,16 @@ let UserController = waterlock.actions.user({
                 return User.update({id: userId}, user);
             })
             .then(
-                    (updatedUsers) => {
+                (updatedUsers) => {
                     return res.ok(updatedUsers[0]);
                 }
             )
             .catch(
-                    (err) => {
+                (err) => {
                     sails.log.error(err);
 
-                return res.serverError();
-            });
+                    return res.serverError();
+                });
     },
     getMerchantEntity(req, res){
         let user = req.session.user;
@@ -177,7 +177,7 @@ let UserController = waterlock.actions.user({
             });
         }
 
-        if(!user.spMerchantId){
+        if (!user.spMerchantId) {
             return res.ok({
                 merchantEntity: []
             })
@@ -187,20 +187,20 @@ let UserController = waterlock.actions.user({
             .then(
                 (merchantEntity) => {
 
-            return res.ok(
-                {
-                    merchantEntity: JSON.parse(merchantEntity)
+                    return res.ok(
+                        {
+                            merchantEntity: JSON.parse(merchantEntity)
+                        }
+                    );
+                }
+            )
+            .catch(
+                (err) => {
+                    sails.log.error(err);
+
+                    return res.serverError();
                 }
             );
-        }
-        )
-        .catch(
-                (err) => {
-                sails.log.error(err);
-
-            return res.serverError();
-        }
-        );
     },
     updateMerchantEntity(req, res){
         var user = req.session.user;
@@ -214,55 +214,55 @@ let UserController = waterlock.actions.user({
             });
         }
 
-        if(!user.spMerchantId){
+        if (!user.spMerchantId) {
             var merchantEntityArr;
             var merchantArray;
-            return SplashPaymentService.createMerchant(user,params.merchantData,email)
-                    .then((merchantResponse)=>{
-                        merchantArray = JSON.parse(merchantResponse);
-                        user.spMerchantId = merchantArray[0].merchant.id;
+            return SplashPaymentService.createMerchant(user, params.merchantData, email)
+                .then((merchantResponse)=> {
+                    merchantArray = JSON.parse(merchantResponse);
+                    user.spMerchantId = merchantArray[0].merchant.id;
 
-                        UserService.update({id: user.id}, user);
-                        return SplashPaymentService.getMerchantEntity(user.spMerchantId);
-                    })
-                    .then((merchantEntityRes)=>{
-                        merchantEntityArr = JSON.parse(merchantEntityRes);
-                        return SplashPaymentService.createMerchantFee(merchantEntityArr[0].id);
-                    })
-                    .then(
-                        (feeResult) => {
+                    UserService.update({id: user.id}, user);
+                    return SplashPaymentService.getMerchantEntity(user.spMerchantId);
+                })
+                .then((merchantEntityRes)=> {
+                    merchantEntityArr = JSON.parse(merchantEntityRes);
+                    return SplashPaymentService.createMerchantFee(merchantEntityArr[0].id);
+                })
+                .then(
+                    (feeResult) => {
                         return res.ok(
                             {
                                 merchantEntity: merchantEntityArr
                             }
                         );
                     }
-                    )
-                    .catch(
-                            (err) => {
-                            sails.log.error(err);
+                )
+                .catch(
+                    (err) => {
+                        sails.log.error(err);
 
                         return res.serverError();
                     }
-                    );
-        }else{
-            SplashPaymentService.updateMerchantEntity(user.spMerchantId,params.merchantData)
+                );
+        } else {
+            SplashPaymentService.updateMerchantEntity(user.spMerchantId, params.merchantData)
                 .then(
                     (merchantEntity) => {
-                return res.ok(
-                    {
-                        merchantEntity: JSON.parse(merchantEntity)
+                        return res.ok(
+                            {
+                                merchantEntity: JSON.parse(merchantEntity)
+                            }
+                        );
+                    }
+                )
+                .catch(
+                    (err) => {
+                        sails.log.error(err);
+
+                        return res.serverError();
                     }
                 );
-            }
-            )
-            .catch(
-                    (err) => {
-                    sails.log.error(err);
-
-                return res.serverError();
-            }
-            );
         }
     },
     getCurrentUserPayment(req, res){
@@ -279,20 +279,20 @@ let UserController = waterlock.actions.user({
             .then(
                 (userPayment) => {
 
-            return res.ok(
-                {
-                    userPayment: userPayment
+                    return res.ok(
+                        {
+                            userPayment: userPayment
+                        }
+                    );
+                }
+            )
+            .catch(
+                (err) => {
+                    sails.log.error(err);
+
+                    return res.serverError();
                 }
             );
-        }
-        )
-        .catch(
-                (err) => {
-                sails.log.error(err);
-
-            return res.serverError();
-        }
-        );
     },
     setCurrentUserPayment(req, res){
         let user = req.session.user;
@@ -308,31 +308,31 @@ let UserController = waterlock.actions.user({
             .then(
                 (userPayment) => {
 
-            return res.ok(
-                {
-                    userPayment: userPayment
+                    return res.ok(
+                        {
+                            userPayment: userPayment
+                        }
+                    );
+                }
+            )
+            .catch(
+                (err) => {
+                    sails.log.error(err);
+
+                    return res.serverError();
                 }
             );
-        }
-        )
-        .catch(
-                (err) => {
-                sails.log.error(err);
-
-            return res.serverError();
-        }
-        );
     },
     createTxn(req, res) {
         var params = req.allParams();
         let user = req.session.user;
 
-        SplashPaymentService.getCustomerTokens(user.spCustomerId,params)
-        .then((tokensRes)=>{
-            var tokens = JSON.parse(tokensRes);
-            return tokens[0].token;
-        }).then((token) => {
-            return SplashPaymentService.createTxn(token,params);
+        SplashPaymentService.getCustomerTokens(user.spCustomerId, params)
+            .then((tokensRes)=> {
+                var tokens = JSON.parse(tokensRes);
+                return tokens[0].token;
+            }).then((token) => {
+            return SplashPaymentService.createTxn(token, params);
         }).then((response) => {
             return res.ok({
                 resTxn: JSON.parse(response)
@@ -346,26 +346,26 @@ let UserController = waterlock.actions.user({
         let token = {};
 
         return SplashPaymentService.deleteCustomerTokens(user.spCustomerId)
-        .then(() => {
-            return SplashPaymentService.createCustomerToken(user.spCustomerId, params)
-        })
-        .then((tokenData) => {
-            var tokens = JSON.parse(tokenData);
-            if(tokens.length == 0){
-                return false; // todo: call reject
-            }
-            token = tokens[0];
-            user.spCardNumber = token.payment.number;
-            return User.update({id: userId}, user);
-        }).then((updatedUsers) => {
-            user = updatedUsers[0];
-            return SplashPaymentService.createTxn(token.token,params);
-        }).then((response) => {
-            return res.ok({
-                resTxn: JSON.parse(response),
-                user: user
+            .then(() => {
+                return SplashPaymentService.createCustomerToken(user.spCustomerId, params)
+            })
+            .then((tokenData) => {
+                var tokens = JSON.parse(tokenData);
+                if (tokens.length == 0) {
+                    return false; // todo: call reject
+                }
+                token = tokens[0];
+                user.spCardNumber = token.payment.number;
+                return User.update({id: userId}, user);
+            }).then((updatedUsers) => {
+                user = updatedUsers[0];
+                return SplashPaymentService.createTxn(token.token, params);
+            }).then((response) => {
+                return res.ok({
+                    resTxn: JSON.parse(response),
+                    user: user
+                });
             });
-        });
     },
     getUserById(req, res) {
         let userId = req.params.id;

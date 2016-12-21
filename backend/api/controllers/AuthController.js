@@ -60,15 +60,15 @@ let AuthController = waterlock.waterlocked({
             .then(
                 (createdUserRes) => {
                     createdUser = createdUserRes;
-                    if(!user.userDetail){
+                    if (!user.userDetail) {
                         return SplashPaymentService.createCustomer(user, auth.email)
-                        .then((customerResponse)=>{
-                            var customerArray = JSON.parse(customerResponse);
-                            createdUser.spCustomerId = customerArray[0].id;
+                            .then((customerResponse)=> {
+                                var customerArray = JSON.parse(customerResponse);
+                                createdUser.spCustomerId = customerArray[0].id;
 
-                            return UserService.update({id: createdUser.id}, createdUser);
+                                return UserService.update({id: createdUser.id}, createdUser);
 
-                        })
+                            })
                     }
                 }
             )
@@ -250,11 +250,11 @@ let AuthController = waterlock.waterlocked({
             Promise.resolve();
 
         Promise.all([
-            promiseCheckSSN,
-            promiseCheckPhoneNumber,
-            promiseCheckEmail,
-            promiseGetUser
-        ])
+                promiseCheckSSN,
+                promiseCheckPhoneNumber,
+                promiseCheckEmail,
+                promiseGetUser
+            ])
             .then(
                 (params) => {
                     let userId = params[3] ? params[3].id : null;

@@ -26,7 +26,7 @@ let SplashPaymentController = {
     },
     getMerchant(req, res) {
 
-    let merchantId = req.params.merchantId;
+        let merchantId = req.params.merchantId;
 
         SplashPaymentService.getMerchant(merchantId)
             .then((response) => {
@@ -37,7 +37,7 @@ let SplashPaymentController = {
             });
     },
     createMerchant(req, res) {
-    let user = req.session.user;
+        let user = req.session.user;
 
         SplashPaymentService.createMerchant(user, req.body)
             .then((response) => {
@@ -64,10 +64,10 @@ let SplashPaymentController = {
         SplashPaymentService.getCustomers()
             .then((response) => {
 
-            return res.ok({
-                result: response
+                return res.ok({
+                    result: response
+                });
             });
-    });
 
     },
 
@@ -78,10 +78,10 @@ let SplashPaymentController = {
         SplashPaymentService.getCustomer(customerId)
             .then((response) => {
 
-            return res.ok({
-                result: response
+                return res.ok({
+                    result: response
+                });
             });
-    });
     },
 
     createCustomer(req, res) {
@@ -89,69 +89,69 @@ let SplashPaymentController = {
         SplashPaymentService.createCustomer()
             .then((response) => {
 
-            return res.ok({
-                result: response
+                return res.ok({
+                    result: response
+                });
             });
-    });
     },
 
     updateCustomer(req, res) {
-    let customerId = req.params.customerId;
+        let customerId = req.params.customerId;
 
         SplashPaymentService.updateCustomer(customerId)
             .then((response) => {
 
-            return res.ok({
-                result: response
+                return res.ok({
+                    result: response
+                });
             });
-    });
     },
 // transaction (txn)
 
     //--- payout ---
     getMerchantPayouts(req, res) {
-    let entityId = req.params.entityId;
+        let entityId = req.params.entityId;
 
         SplashPaymentService.getMerchantPayouts(entityId)
             .then((response) => {
 
-            return res.ok({
-                result: response
+                return res.ok({
+                    result: response
+                });
             });
-    });
     },
     createMerchantPayout(req, res) {
-    let entityId = req.params.entityId;
+        let entityId = req.params.entityId;
 
         SplashPaymentService.createMerchantPayout(entityId)
             .then((response) => {
 
-            return res.ok({
-                result: response
+                return res.ok({
+                    result: response
+                });
             });
-    });
     },
     updateMerchantPayout(req, res) {
-    let payoutId = req.params.payoutId;
+        let payoutId = req.params.payoutId;
 
         SplashPaymentService.updateMerchantPayout(payoutId)
             .then((response) => {
 
-            return res.ok({
-                result: response
+                return res.ok({
+                    result: response
+                });
             });
-    });
     },
     createAuthTxn(req, res) {
-    var params = req.allParams();
+        var params = req.allParams();
 
         SplashPaymentService.createAuthTxn(params)
             .then((response) => {
 
-            return res.ok({
-                result: response
+                return res.ok({
+                    result: response
+                });
             });
-    });
     },
 
 };
