@@ -69,6 +69,11 @@
 
             return currentUserService.setUser(user)
                 .then(function (user) {
+                    coreDataservice.updateUser(user);
+
+                    return user;
+                })
+                .then(function (user) {
 
                     vm.userProfile = user;
                     vm.userProfile.portrait = user.portrait ? conf.BASE_URL + user.portrait : '';
@@ -92,7 +97,6 @@
         }
 
         function addLicenseForm() {
-
             vm.userProfile.details.licenses.push({});
         }
 
