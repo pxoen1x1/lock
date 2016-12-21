@@ -58,7 +58,7 @@
 
         function updateCurrentCustomer(customerData) {
 
-            return request.httpWithTimeout({
+            return $http({
                 url: conf.BASE_URL + conf.URL_PREFIX + 'customer',
                 method: 'PUT',
                 data: customerData
@@ -67,7 +67,7 @@
 
         function updateCustomerCard(cardData) {
 
-            return request.httpWithTimeout({
+            return $http({
                 url: conf.BASE_URL + conf.URL_PREFIX + 'customercard',
                 method: 'PUT',
                 data: cardData
@@ -84,7 +84,7 @@
 
         function updateMerchant(merchantData) {
 
-            return request.httpWithTimeout({
+            return $http({
                 url: conf.BASE_URL + conf.URL_PREFIX + 'merchantentity',
                 method: 'PUT',
                 data: merchantData
@@ -101,7 +101,7 @@
 
         function setCurrentUserPayment(paymentData) {
 
-            return request.httpWithTimeout({
+            return $http({
                 url: conf.BASE_URL + conf.URL_PREFIX + 'userpayment',
                 method: 'POST',
                 data: paymentData
@@ -109,7 +109,7 @@
         }
 
         function createTxn(txnData) {
-            return request.httpWithTimeout({
+            return $http({
                 url: conf.BASE_URL + conf.URL_PREFIX + 'splashpayment/txn',
                 method: 'POST',
                 data: txnData
@@ -117,7 +117,7 @@
         }
 
         function createTokenAndTxn(params) {
-            return request.httpWithTimeout({
+            return $http({
                 url: conf.BASE_URL + conf.URL_PREFIX + 'splashpayment/tokenandtxn',
                 method: 'POST',
                 data: params
