@@ -13,7 +13,8 @@
             getRequests: getRequests,
             getMembers: getMembers,
             getMember: getMember,
-            inviteMember: inviteMember
+            inviteMember: inviteMember,
+            removeMemberFromGroup: removeMemberFromGroup
         };
 
         return service;
@@ -57,6 +58,17 @@
                 .then(inviteMemberComplete);
 
             function inviteMemberComplete(response) {
+
+                return response.data.invitation;
+            }
+        }
+
+        function removeMemberFromGroup(member) {
+
+            return $sails.delete(conf.URL_PREFIX + 'group/members/' + member.id)
+                .then(removeMemberFromGroupComplete);
+
+            function removeMemberFromGroupComplete(response) {
 
                 return response.data.user;
             }
