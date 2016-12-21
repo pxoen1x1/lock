@@ -42,14 +42,24 @@
         font-size: 16px;
       }
 
+      //ToDo: replace i tag to md-icon and remove that
       i.material-icons {
         vertical-align: middle;
+      }
+
+      .md-icon-button {
+        width: 26px;
+        height: 36px;
+        padding: 0;
+      }
+
+      md-icon {
+        color: inherit;
       }
 
       span {
         vertical-align: middle;
       }
-
     }
 
     .container-content {
@@ -78,6 +88,10 @@
         overflow: auto;
         margin: 0;
         box-shadow: none;
+
+        .container-title {
+          padding: 10px 10px 0 10px;
+        }
 
         .container-content {
           padding: 10px;
