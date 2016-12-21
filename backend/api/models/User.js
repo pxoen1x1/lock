@@ -136,6 +136,10 @@ let User = {
             collection: 'Group',
             via: 'members'
         },
+        groupInvitationUsers: {
+            collection: 'GroupInvitation',
+            via: 'user'
+        },
 
         fullName() {
 

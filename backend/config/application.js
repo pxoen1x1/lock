@@ -8,10 +8,11 @@ let application = {
         bidDefaultMessage: 'Please, start a chat with me.'
     },
     emailVerificationEnabled: true,
-    resetPasswordExpiresTime: 24*3600*1000,
+    tokenExpirationTime: 7*24*3600*1000,
     urls: {
         emailConfirmation: '/auth/email/confirm',
-        passwordResetRequest: '/auth/password/reset'
+        passwordResetRequest: '/auth/password/reset',
+        groupInvitation: '/group/members/invite'
     },
     mailer: {
         from: `LockHeal <no-reply@lockheal.com>`,
@@ -20,7 +21,8 @@ let application = {
             successRegistration: 'emails/successRegistration',
             confirmRegistration: 'emails/confirmRegistration',
             passwordResetRequest: 'emails/passwordResetRequest',
-            passwordResetConfirmation: 'emails/passwordResetConfirmation'
+            passwordResetConfirmation: 'emails/passwordResetConfirmation',
+            groupInvitation: 'emails/groupInvitation'
         }
     }
 };

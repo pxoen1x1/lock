@@ -124,6 +124,20 @@
                         title: 'Members'
                     }
                 }
+            })
+            .state('group.members.info', {
+                parent: 'group.members',
+                url: '/{memberId:int}',
+                views: {
+                    'content@group': {
+                        templateUrl: 'group/member-info/member-info.html',
+                        controller: 'GroupMemberInfoController',
+                        controllerAs: 'vm'
+                    }
+                },
+                data: {
+                    title: 'Member Info'
+                }
             });
     }
 })();

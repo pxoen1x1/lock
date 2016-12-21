@@ -29,6 +29,7 @@
 
         vm.getGroupMembers = getGroupMembers;
         vm.loadMoreGroupMembers = loadMoreGroupMembers;
+        vm.removeMember = removeMember;
 
         activate();
 
@@ -75,6 +76,18 @@
 
                     return vm.members;
                 });
+        }
+
+        function removeMember(removedMember) {
+            if (!removedMember || !removedMember.id) {
+
+                return;
+            }
+
+            vm.members = vm.members.filter(function (member) {
+
+                return member.id !== removedMember.id;
+            });
         }
 
         function activate() {

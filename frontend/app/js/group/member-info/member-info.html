@@ -1,0 +1,131 @@
+<div class="container view-content">
+  <div class="container-title">
+    <div layout="row" layout-align="end center">
+      <div flex>
+        <i class="material-icons">person</i> <span>Member Info</span>
+      </div>
+      <md-menu md-position-mode="target-right target">
+        <md-button class="md-icon-button"
+                   aria-label="more"
+                   ng-click="$mdOpenMenu()">
+          <i class="material-icons">more_vert</i>
+        </md-button>
+        <md-menu-content width="3">
+          <md-menu-item ng-if="vm.currentRequest.status === vm.requestStatus.NEW">
+            <md-button member-removal="vm.member"
+                       on-remove="vm.removeMember()">Remove
+            </md-button>
+          </md-menu-item>
+        </md-menu-content>
+      </md-menu>
+    </div>
+  </div>
+  <div class="container-content">
+    <div layout="row" layout-xs="column">
+      <div class="p-xs"
+           layout="row"
+           layout-align="start center"
+           flex>
+        <div class="avatar-wrapper">
+          <div class="avatar"
+               ng-style="{ 'background-image': 'url(' + (vm.member.portrait ?
+               vm.baseUrl + vm.member.portrait : vm.defaultPortrait) + ')' }">
+          </div>
+          <i class="material-icons s14 status-icon"
+             ng-if="vm.member.details.isAvailable">check_circle
+          </i>
+          <i class="material-icons s14 status-icon unavailable"
+             ng-if="!vm.member.details.isAvailable">schedule
+          </i>
+        </div>
+        <div layout="column" flex>
+          <span ng-bind="::vm.member.fullName"></span>
+          <star-rating readonly
+                       value="vm.member.details.rating">
+          </star-rating>
+        </div>
+      </div>
+      <div class="p-xs"
+           layout="column"
+           layout-align-xs="center start"
+           flex-gt-xs="40">
+        <div>
+          <span class="md-body-2">Email: </span>
+          <span class="md-body-1"
+                ng-bind="::vm.member.auth.email">
+          </span>
+        </div>
+        <div>
+          <span class="md-body-2">Phone Number: </span>
+          <span class="md-body-1"
+                ng-bind="vm.member.phoneNumber | tel">
+          </span>
+        </div>
+      </div>
+    </div>
+    <div layout="row"
+         layout-xs="column"
+         layout-align="start start">
+      <div class="p-xs"
+           layout="column"
+           flex>
+        <span class="md-body-2">Licenses:</span>
+        <div class="md-body-1"
+             layout="column"
+             layout-align="start start"
+             ng-repeat="license in vm.member.details.licenses track by license.id">
+          <div>
+            <span class="md-body-1">Number: </span>
+            <span class="md-body-1"
+                  ng-bind="license.number">
+            </span>
+          </div>
+          <div>
+            <span class="md-body-1">Date Expiration: </span>
+            <span class="md-body-1"
+                  ng-bind="license.date | date: 'MMM/dd/yyyy'">
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="p-xs"
+           layout="column"
+           flex-gt-xs="40">
+        <div layout="column">
+          <span class="md-body-2">Service Types:</span>
+          <div class="">
+            <span class="md-body-1"
+                  ng-repeat="serviceType in vm.member.details.serviceTypes track by serviceType.id"
+                  ng-bind="serviceType.name + '{{ $last ? '' : ', '}}'">
+            </span>
+          </div>
+        </div>
+        <div class="m-t-xs" layout="column">
+          <span class="md-body-2">Language:</span>
+          <div class="">
+            <span class="md-body-1"
+                  ng-repeat="language in vm.member.details.languages track by language.id"
+                  ng-bind="language.name + '{{ $last ? '' : ', '}}'">
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="p-xs map-wrapper"
+         layout="column">
+      <div class="map-viewer" flex>
+        <ui-gmap-google-map
+            center="vm.map.center"
+            zoom="vm.map.zoom"
+            options="vm.map.options">
+          <ui-gmap-marker idKey="vm.member.id"
+                          coords="vm.member.details"
+                          options="vm.map.memberMarker.options"
+                          fit="false"
+                          pan="true">
+          </ui-gmap-marker>
+        </ui-gmap-google-map>
+      </div>
+    </div>
+  </div>
+</div>

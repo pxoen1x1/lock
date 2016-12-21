@@ -1,0 +1,17 @@
+.member-invitation {
+  md-input-container {
+    font-size: 16px;
+
+    .md-errors-spacer {
+      display: none;
+    }
+  }
+  .md-button {
+    width: 66px;
+    height: 26px;
+    min-width: 60px;
+    min-height: 30px;
+    line-height: 26px;
+    padding: 0;
+  }
+}
