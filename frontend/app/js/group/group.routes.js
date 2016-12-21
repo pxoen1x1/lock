@@ -107,6 +107,21 @@
                     }
                 }
             })
+            .state('group.dashboard.request', {
+                parent: 'group.dashboard',
+                abstract: true,
+                url: '/{requestId:int}',
+                views: {
+                    'content@group': {
+                        templateUrl: 'group/request/request.html',
+                        controller: 'GroupRequestController',
+                        controllerAs: 'vm'
+                    }
+                },
+                data: {
+                    isPrivate: true
+                }
+            })
             .state('group.members', {
                 parent: 'group',
                 url: '/members',

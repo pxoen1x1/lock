@@ -34,6 +34,11 @@
                 'group.dashboard.new',
                 'group.dashboard.current',
                 'group.dashboard.history'
+            ],
+            REQUEST_TABBAR_ITEMS: [
+                'group.dashboard.request.view',
+                'group.dashboard.request.map',
+                'group.dashboard.request.chat'
             ]
         });
 })();
