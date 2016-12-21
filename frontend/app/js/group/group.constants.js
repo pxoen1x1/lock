@@ -36,7 +36,7 @@
                 'group.dashboard.history'
             ],
             REQUEST_TABBAR_ITEMS: [
-                'group.dashboard.request.view',
+                'group.dashboard.request.info',
                 'group.dashboard.request.map',
                 'group.dashboard.request.chat'
             ]

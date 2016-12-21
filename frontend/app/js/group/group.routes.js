@@ -122,6 +122,24 @@
                     isPrivate: true
                 }
             })
+            .state('group.dashboard.request.info', {
+                parent: 'group.dashboard.request',
+                url: '/info',
+                views: {
+                    'content@group.dashboard.request': {
+                        templateUrl: 'group/request-info/request-info.html',
+                        controller: 'GroupRequestInfoController',
+                        controllerAs: 'vm'
+                    }
+                },
+                data: {
+                    title: 'Request',
+                    tab: {
+                        title: 'View',
+                        icon: 'list'
+                    }
+                }
+            })
             .state('group.members', {
                 parent: 'group',
                 url: '/members',
