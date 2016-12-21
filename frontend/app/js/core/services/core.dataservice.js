@@ -11,13 +11,13 @@
     function coreDataservice($http, request, conf, $sails) {
         var service = {
             getCurrentUser: getCurrentUser,
-            getCurrentMerchant: getCurrentMerchant,
+            getMerchant: getMerchant,
             updateMerchant: updateMerchant,
             getCurrentCustomer: getCurrentCustomer,
             updateCurrentCustomer: updateCurrentCustomer,
             updateCustomerCard: updateCustomerCard,
-            getCurrentUserPayment: getCurrentUserPayment,
-            setCurrentUserPayment: setCurrentUserPayment,
+            getMerchantAccount: getMerchantAccount,
+            setMerchantAccount: setMerchantAccount,
             createTxn: createTxn,
             createTokenAndTxn: createTokenAndTxn,
             getUser: getUser,
@@ -78,12 +78,16 @@
             }
         }
 
-        function getCurrentMerchant() {
+        function getMerchant() {
 
             return request.httpWithTimeout({
                 url: conf.BASE_URL + conf.URL_PREFIX + 'merchantentity',
                 method: 'GET'
-            });
+            }).then(getCurrentMerchantComplete);
+
+            function getCurrentMerchantComplete(response){
+                return response.data.merchantEntity;
+            }
         }
 
         function updateMerchant(merchantData) {
@@ -93,26 +97,31 @@
 
             function updateMerchantComplete(response) {
 
-                return response;
+                return response.data.merchantEntity;
             }
         }
 
-        function getCurrentUserPayment() {
+        function getMerchantAccount() {
 
             return request.httpWithTimeout({
-                url: conf.BASE_URL + conf.URL_PREFIX + 'userpayment',
+                url: conf.BASE_URL + conf.URL_PREFIX + 'merchantaccount',
                 method: 'GET'
-            });
+            }).then(getMerchantAccountComplete);
+
+            function getMerchantAccountComplete(response){
+
+                return response.data.userPayment;
+            }
         }
 
-        function setCurrentUserPayment(paymentData) {
+        function setMerchantAccount(paymentData) {
 
-            return $sails.post(conf.URL_PREFIX + 'userpayment', paymentData)
-                .then(setCurrentUserPaymentComplete);
+            return $sails.post(conf.URL_PREFIX + 'merchantaccount', paymentData)
+                .then(setMerchantAccountComplete);
 
-            function setCurrentUserPaymentComplete(response) {
+            function setMerchantAccountComplete(response) {
 
-                return response;
+                return response.data.userPayment;
             }
         }
 

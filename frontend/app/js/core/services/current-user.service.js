@@ -11,20 +11,15 @@
     function currentUserService($q, coreDataservice, localService, coreConstants) {
         var getUserPromise;
         var getUserPaymentPromise;
-        var getMerchantPromise;
         var userType;
 
         var service = {
             getUser: getUser,
-            getMerchant: getMerchant,
-            updateMerchant: updateMerchant,
-            getMerchantAccount: getMerchantAccount,
             getCustomer: getCustomer,
             updateCustomer: updateCustomer,
             updateCustomerCard: updateCustomerCard,
             setUserToLocalStorage: setUserToLocalStorage,
             getUserPayment: getUserPayment,
-            setUserPayment: setUserPayment,
             createTxn: createTxn,
             createTokenAndTxn: createTokenAndTxn,
             setUser: setUser,
@@ -78,28 +73,6 @@
             return error;
         }
 
-        function getMerchant(){
-
-            getMerchantPromise = coreDataservice.getCurrentMerchant();
-
-            return getMerchantPromise
-                .then(function(merchant){
-                    return merchant.data;
-                })
-                .catch(function(error){return error;});
-        }
-
-        function getMerchantAccount(){
-
-            getMerchantPromise = coreDataservice.getCurrentUserPayment();
-
-            return getMerchantPromise
-                .then(function(merchant){
-                    return merchant.data;
-                })
-                .catch(function(error){return error;});
-        }
-
         function getUserPayment(){
 
             getUserPaymentPromise = coreDataservice.getCurrentUserPayment();
@@ -107,28 +80,6 @@
             return getUserPaymentPromise
                 .then(function(userPayment){
                     return userPayment.data;
-                })
-                .catch(function(error){return error;});
-        }
-
-        function setUserPayment(userPayment){
-
-            var setUserPaymentPromise = coreDataservice.setCurrentUserPayment(userPayment);
-
-            return setUserPaymentPromise
-                .then(function(userPayment){
-                    return userPayment.data;
-                })
-                .catch(function(error){return error;});
-        }
-
-        function updateMerchant(profileData){
-
-            var merchantDataPromise = coreDataservice.updateMerchant(profileData);
-
-            return merchantDataPromise
-                .then(function(merchantData){
-                    return merchantData.data;
                 })
                 .catch(function(error){return error;});
         }

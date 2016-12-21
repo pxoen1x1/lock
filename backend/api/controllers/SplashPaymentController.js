@@ -70,6 +70,162 @@ let SplashPaymentController = {
             });
 
     },
+    getMerchantEntity(req, res){
+        let user = req.session.user;
+
+        if (!user) {
+
+            return res.forbidden({
+                message: req.__('You are not permitted to perform this action.')
+            });
+        }
+
+        if (!user.spMerchantId) {
+            return res.ok({
+                merchantEntity: []
+            })
+        }
+
+        SplashPaymentService.getMerchantEntity(user.spMerchantId)
+            .then(
+                (merchantEntity) => {
+
+                    return res.ok(
+                        {
+                            merchantEntity: merchantEntity
+                        }
+                    );
+                }
+            )
+            .catch(
+                (err) => {
+                    sails.log.error(err);
+
+                    return res.serverError();
+                }
+            );
+    },
+    updateMerchantEntity(req, res){
+        var user = req.session.user;
+        var params = req.allParams();
+        var email = params.auth.email;
+
+        if (!user) {
+
+            return res.forbidden({
+                message: req.__('You are not permitted to perform this action.')
+            });
+        }
+
+        if (!user.spMerchantId) {
+            var merchantEntityArr;
+            var merchantArray;
+            return SplashPaymentService.createMerchant(user, params.merchantData, email)
+                .then((merchantResponse)=> {
+                    merchantArray = JSON.parse(merchantResponse);
+                    user.spMerchantId = merchantArray[0].merchant.id;
+
+                    UserService.update({id: user.id}, user);
+                    return SplashPaymentService.getMerchantEntity(user.spMerchantId);
+                })
+                .then((merchantEntity)=> {
+                    return SplashPaymentService.createMerchantFee(merchantEntity.id);
+                })
+                .then(
+                    (feeResult) => {
+                        return res.ok(
+                            {
+                                merchantEntity: merchantEntityArr
+                            }
+                        );
+                    }
+                )
+                .catch(
+                    (err) => {
+                        sails.log.error(err);
+
+                        return res.serverError();
+                    }
+                );
+        } else {
+            SplashPaymentService.updateMerchantEntity(user.spMerchantId, params.merchantData)
+                .then(
+                    (merchantEntity) => {
+                        return res.ok(
+                            {
+                                merchantEntity: merchantEntity
+                            }
+                        );
+                    }
+                )
+                .catch(
+                    (err) => {
+                        sails.log.error(err);
+
+                        return res.serverError();
+                    }
+                );
+        }
+    },
+    getMerchantAccounts(req, res){
+        let user = req.session.user;
+
+        if (!user) {
+
+            return res.forbidden({
+                message: req.__('You are not permitted to perform this action.')
+            });
+        }
+
+        SplashPaymentService.getMerchantAccounts(user.spMerchantId)
+            .then(
+                (merchantAccounts) => {
+
+                    return res.ok(
+                        {
+                            userPayment: merchantAccounts
+                        }
+                    );
+                }
+            )
+            .catch(
+                (err) => {
+                    sails.log.error(err);
+
+                    return res.serverError();
+                }
+            );
+    },
+
+    setMerchantAccount(req, res){
+        let user = req.session.user;
+
+        if (!user) {
+
+            return res.forbidden({
+                message: req.__('You are not permitted to perform this action.')
+            });
+        }
+
+        SplashPaymentService.setMerchantAccount(user, req.body)
+            .then(
+                (userPayment) => {
+
+                    return res.ok(
+                        {
+                            userPayment: userPayment
+                        }
+                    );
+                }
+            )
+            .catch(
+                (err) => {
+                    sails.log.error(err);
+
+                    return res.serverError();
+                }
+            );
+    },
 
     getCustomer(req, res) {
 

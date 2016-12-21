@@ -5,10 +5,10 @@
         .module('app.provider')
         .controller('ProviderProfileController', ProviderProfileController);
 
-    ProviderProfileController.$inject = ['currentUserService', 'coreConstants', 'conf', 'bankAccountTypes', 'geo'];
+    ProviderProfileController.$inject = ['currentUserService', 'coreDataservice', 'coreConstants', 'conf', 'bankAccountTypes', 'geo'];
 
     /* @ngInject */
-    function ProviderProfileController(currentUserService, coreConstants, conf, bankAccountTypes, geo) {
+    function ProviderProfileController(currentUserService, coreDataservice, coreConstants, conf, bankAccountTypes, geo) {
         var vm = this;
 
         vm.profileData = {};
@@ -26,7 +26,7 @@
         vm.newPortrait = '';
         
         vm.updateUser = updateUser;
-        vm.setUserPayment = setUserPayment;
+        vm.setMerchantAccount = setMerchantAccount;
         vm.getUser = getUser;
         vm.updateMerchant = updateMerchant;
 
@@ -56,15 +56,15 @@
                 });
         }
 
-        function setUserPayment(userPayment, isFormValid) {
+        function setMerchantAccount(userPayment, isFormValid) {
             if (!isFormValid) {
 
                 return;
             }
 
-            return currentUserService.setUserPayment(userPayment)
+            return coreDataservice.setMerchantAccount(userPayment)
                 .then(function (userPayment) {
-                    vm.profileData.paymentData = userPayment.userPayment;
+                    vm.profileData.paymentData = userPayment;
                     vm.isEditingPayment = false;
                     return vm.profileData;
                 });
@@ -75,18 +75,18 @@
                 return;
             }
 
-            return currentUserService.updateMerchant(profileData)
-                .then(function (merchant) {
-                    if(merchant.merchantEntity.length == 0){
+            return coreDataservice.updateMerchant(profileData)
+                .then(function (merchantEntity) {
+                    if(!merchantEntity){
                         console.log('error during saving merchant data');
                         return false;
                     }
-                    vm.profileData.merchantData = merchant.merchantEntity[0];
+                    vm.profileData.merchantData = merchantEntity;
                     vm.profileData.spMerchantId = vm.profileData.merchantData.id;
                     return currentUserService.setUserToLocalStorage(vm.profileData);
 
                 }).then(function(user){
-                    vm.isEditingCard = false;
+                    vm.isEditingMerchant = false;
                 });
         }
 
@@ -98,17 +98,17 @@
                     vm.profileData = user;
                     vm.profileData.portrait = user.portrait ? conf.BASE_URL + user.portrait : '';
 
-                    return currentUserService.getMerchantAccount()
-                        .then((merchantAccount)=>{
-                            vm.profileData.paymentData = merchantAccount.userPayment;
+                    return coreDataservice.getMerchantAccount()
+                        .then((userPayment)=>{
+                            vm.profileData.paymentData = userPayment;
                             return vm.profileData;
                         })
                         .then(function(){
-                            return currentUserService.getMerchant()
+                            return coreDataservice.getMerchant()
                         })
-                        .then(function(merchant){
-                            if(merchant.merchantEntity.length > 0){
-                                vm.profileData.merchantData = merchant.merchantEntity[0];
+                        .then(function(merchantEntity){
+                            if(merchantEntity){
+                                vm.profileData.merchantData = merchantEntity;
                                 return vm.profileData;
                             }
                         });

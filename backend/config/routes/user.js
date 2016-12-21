@@ -5,22 +5,6 @@ let userRoutes = {
         controller: 'UserController',
         action: 'getCurrentUser'
     },
-    'GET /api/userpayment': {
-        controller: 'UserController',
-        action: 'getCurrentUserPayment'
-    },
-    'POST /api/userpayment': {
-        controller: 'UserController',
-        action: 'setCurrentUserPayment'
-    },
-    'GET /api/merchantentity': {
-        controller: 'UserController',
-        action: 'getMerchantEntity'
-    },
-    'PUT /api/merchantentity': {
-        controller: 'UserController',
-        action: 'updateMerchantEntity'
-    },
     'GET /api/customer': {
         controller: 'UserController',
         action: 'getCustomer'

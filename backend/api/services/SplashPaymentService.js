@@ -94,7 +94,11 @@ let SplashPaymentService = {
                     zip: merchantData.zip
                 };
 
-                return SplashPaymentService.makeRequest(options, bodyJson);
+                return SplashPaymentService.makeRequest(options, bodyJson)
+                    .then((merchantEntity) => {
+                        var merchantEntityArr = JSON.parse(merchantEntity);
+                        return merchantEntityArr[0];
+                    });
             }).catch(console.log.bind(console));
 
     },
@@ -283,7 +287,11 @@ let SplashPaymentService = {
                 method: 'GET',
                 path: '/entities/' + merchant[0].entity
             };
-            return SplashPaymentService.makeRequest(options);
+            return SplashPaymentService.makeRequest(options)
+                .then((merchantEntity) => {
+                    var merchantEntityArr = JSON.parse(merchantEntity);
+                    return merchantEntityArr[0];
+                });
         }).catch(console.log.bind(console));
     },
 
@@ -300,8 +308,36 @@ let SplashPaymentService = {
                 path: '/accounts',
                 headers: {'SEARCH': 'entity[equals]=' + merchant[0].entity}
             };
-            return SplashPaymentService.makeRequest(options);
+            return SplashPaymentService.makeRequest(options)
+                .then((merchantAccounts) => {
+                    return JSON.parse(merchantAccounts);
+                });
         }).catch(console.log.bind(console));
+    },
+
+    setMerchantAccount(user, paymentData) {
+
+        return SplashPaymentService.getMerchantAccounts(user.spMerchantId).then((merchantAccounts)=> {
+            var accountsArray;
+
+            if (merchantAccounts.length == 0) {
+                return SplashPaymentService.createMerchantAccount(user.spMerchantId, paymentData)
+                    .then((merchantAccounts)=> {
+                        accountsArray = merchantAccounts;
+                        return SplashPaymentService.getMerchantEntity(user.spMerchantId);
+                    })
+                    .then((merchantEntity)=> {
+                        SplashPaymentService.createMerchantPayout(merchantEntity.id, accountsArray[0].token);
+                        return accountsArray;
+                    });
+            } else {
+                return SplashPaymentService.updateMerchantAccount(merchantAccounts[0].id, paymentData)
+                    .then(function (merchantAccounts) {
+                        return merchantAccounts;
+                    })
+            }
+        });
+
     },
 
     createMerchantAccount(Id, paymentData){
@@ -328,7 +364,13 @@ let SplashPaymentService = {
                     "currency": "USD" // only USD supported
                 };
 
-                return SplashPaymentService.makeRequest(options, bodyJson);
+                return SplashPaymentService.makeRequest(options, bodyJson)
+                    .then(createMerchantAccountComplete);
+
+                function createMerchantAccountComplete(response){
+
+                    return JSON.parse(response);
+                }
             }).catch(function (err) {
                 console.log(err);
             });
@@ -349,7 +391,13 @@ let SplashPaymentService = {
             "name": "******" + paymentData.number.substring(paymentData.number.length - 4, paymentData.number.length),  // get number and hide all symbols except 4 last
         };
 
-        return SplashPaymentService.makeRequest(options, bodyJson);
+        return SplashPaymentService.makeRequest(options, bodyJson)
+            .then(updateMerchantAccountComplete);
+
+        function updateMerchantAccountComplete(response){
+
+            return JSON.parse(response)
+        }
     },
 
     deleteMerchantAccounts(merchantId){

@@ -37,7 +37,7 @@
 <div ng-if="vm.isEditingPayment">
     <form name="editPaymentForm"
           novalidate
-          ng-submit="vm.setUserPayment(vm.profileData.payment, editPaymentForm.$valid)">
+          ng-submit="vm.setMerchantAccount(vm.profileData.payment, editPaymentForm.$valid)">
         <div layout="row">
             <md-input-container class="md-block" flex>
                 <label>Type of Account</label>

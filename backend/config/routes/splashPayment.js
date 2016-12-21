@@ -19,6 +19,22 @@ let splashPaymentRoutes = {
         controller: 'splashPaymentController',
         action: 'updateMerchant'
     },
+    'GET /api/merchantentity': {
+        controller: 'splashPaymentController',
+        action: 'getMerchantEntity'
+    },
+    'PUT /api/merchantentity': {
+        controller: 'splashPaymentController',
+        action: 'updateMerchantEntity'
+    },
+    'GET /api/merchantaccount': {
+        controller: 'splashPaymentController',
+        action: 'getMerchantAccounts'
+    },
+    'POST /api/merchantaccount': { //userpayment
+        controller: 'splashPaymentController',
+        action: 'setMerchantAccount'
+    },
     /*todo: add DELETE URL (?)*/
 
     //--- transaction (txn) ---

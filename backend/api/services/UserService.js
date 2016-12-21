@@ -22,18 +22,17 @@ let UserService = {
                         );
                 }
             );
-    },
-    getUserPayment(user) {
+    },/*
+    getUserPayment(user) { // remove this call. use SplashPaymentService.getMerchantAccounts
         return SplashPaymentService.getMerchantAccounts(user.spMerchantId).then((merchantAccounts)=> {
             return JSON.parse(merchantAccounts);
         });
-    },
-    setUserPayment(user, paymentData) {
+    },*/
+    /*setUserPayment(user, paymentData) {
 
         return SplashPaymentService.getMerchantAccounts(user.spMerchantId).then((merchantAccounts)=> {
             var account;
             var accountsArray;
-            var merchantAccounts = JSON.parse(merchantAccounts);
 
             if (merchantAccounts.length == 0) {
                 return SplashPaymentService.createMerchantAccount(user.spMerchantId, paymentData)
@@ -56,7 +55,7 @@ let UserService = {
             }
         });
 
-    },
+    },*/
     findServiceProviders(params) {
         let rawQuery = `
             SELECT  user.id,
