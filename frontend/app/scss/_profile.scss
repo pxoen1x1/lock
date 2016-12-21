@@ -69,19 +69,16 @@
 
   .licenses {
     display: flex;
-   
-    &:last-child {
-      max-height: 30px;
-    }
   }
 
+  .license-container {
+    width: 100%;
+  }
+  
   md-input-container {
     margin: 0;
   }
 
-  .md-datepicker-input {
-      min-width: 80px;
-  }
 
   mdp-date-picker {
  
@@ -96,9 +93,12 @@
   }
 
   mdp-date-picker {
+   
     md-input-container {
       max-width: 100px;
+      min-width: 80px;
     }
+
   }
 
   .service-remove {
