@@ -122,7 +122,7 @@
                     vm.profileData.spMerchantId = vm.profileData.merchantData.id;
                     return currentUserService.setUserToLocalStorage(vm.profileData);
 
-                }).then(function (user) {
+                }).finally(function (user) {
                     vm.isEditingMerchant = false;
                 });
         }

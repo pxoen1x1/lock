@@ -25,12 +25,7 @@ let SplashPaymentController = {
     getMerchants(req, res) {
 
         SplashPaymentService.getMerchants()
-            .then((response) => {
-
-                return res.ok({
-                    result: response
-                });
-            });
+            .then((response) => res.ok({result: response}));
 
     },
     getMerchant(req, res) {
@@ -38,45 +33,25 @@ let SplashPaymentController = {
         let merchantId = req.params.merchantId;
 
         SplashPaymentService.getMerchant(merchantId)
-            .then((response) => {
-
-                return res.ok({
-                    result: response
-                });
-            });
+            .then((response) => res.ok({result: response}));
     },
     createMerchant(req, res) {
         let user = req.session.user;
 
         SplashPaymentService.createMerchant(user, req.body)
-            .then((response) => {
-
-                return res.ok({
-                    result: response
-                });
-            });
+            .then((response) => res.ok({result: response}));
     },
     updateMerchant(req, res) {
 
         SplashPaymentService.updateMerchant()
-            .then((response) => {
-
-                return res.ok({
-                    result: response
-                });
-            });
+            .then((response) => res.ok({result: response}));
     },
 // customer
 
     getCustomers(req, res) {
 
         SplashPaymentService.getCustomers()
-            .then((response) => {
-
-                return res.ok({
-                    result: response
-                });
-            });
+            .then((response) => res.ok({result: response}));
 
     },
     getMerchantEntity(req, res){
@@ -96,16 +71,7 @@ let SplashPaymentController = {
         }
 
         SplashPaymentService.getMerchantEntity(user.spMerchantId)
-            .then(
-                (merchantEntity) => {
-
-                    return res.ok(
-                        {
-                            merchantEntity: merchantEntity
-                        }
-                    );
-                }
-            )
+            .then((merchantEntity) => res.ok({merchantEntity: merchantEntity}))
             .catch(
                 (err) => {
                     sails.log.error(err);
@@ -140,15 +106,7 @@ let SplashPaymentController = {
                 .then((merchantEntity)=> {
                     return SplashPaymentService.createMerchantFee(merchantEntity.id);
                 })
-                .then(
-                    (feeResult) => {
-                        return res.ok(
-                            {
-                                merchantEntity: merchantEntityArr
-                            }
-                        );
-                    }
-                )
+                .then((feeResult) => res.ok({merchantEntity: merchantEntityArr}))
                 .catch(
                     (err) => {
                         sails.log.error(err);
@@ -158,15 +116,7 @@ let SplashPaymentController = {
                 );
         } else {
             SplashPaymentService.updateMerchantEntity(user.spMerchantId, params.merchantData)
-                .then(
-                    (merchantEntity) => {
-                        return res.ok(
-                            {
-                                merchantEntity: merchantEntity
-                            }
-                        );
-                    }
-                )
+                .then((merchantEntity) =>  res.ok({merchantEntity: merchantEntity}))
                 .catch(
                     (err) => {
                         sails.log.error(err);
@@ -187,16 +137,7 @@ let SplashPaymentController = {
         }
 
         SplashPaymentService.getMerchantAccounts(user.spMerchantId)
-            .then(
-                (merchantAccounts) => {
-
-                    return res.ok(
-                        {
-                            userPayment: merchantAccounts
-                        }
-                    );
-                }
-            )
+            .then((merchantAccounts) => res.ok({userPayment: merchantAccounts}))
             .catch(
                 (err) => {
                     sails.log.error(err);
@@ -217,16 +158,7 @@ let SplashPaymentController = {
         }
 
         SplashPaymentService.setMerchantAccount(user, req.body)
-            .then(
-                (userPayment) => {
-
-                    return res.ok(
-                        {
-                            userPayment: userPayment
-                        }
-                    );
-                }
-            )
+            .then((userPayment) => res.ok({userPayment: userPayment}))
             .catch(
                 (err) => {
                     sails.log.error(err);
@@ -241,35 +173,20 @@ let SplashPaymentController = {
         let customerId = req.params.customerId;
 
         SplashPaymentService.getCustomer(customerId)
-            .then((response) => {
-
-                return res.ok({
-                    result: response
-                });
-            });
+            .then((response) => res.ok({result: response}));
     },
 
     createCustomer(req, res) {
 
         SplashPaymentService.createCustomer()
-            .then((response) => {
-
-                return res.ok({
-                    result: response
-                });
-            });
+            .then((response) => res.ok({result: response}));
     },
 
     updateCustomer(req, res) {
         let customerId = req.params.customerId;
 
         SplashPaymentService.updateCustomer(customerId)
-            .then((response) => {
-
-                return res.ok({
-                    result: response
-                });
-            });
+            .then((response) => res.ok({result: response}));
     },
 // transaction (txn)
 
@@ -278,45 +195,25 @@ let SplashPaymentController = {
         let entityId = req.params.entityId;
 
         SplashPaymentService.getMerchantPayouts(entityId)
-            .then((response) => {
-
-                return res.ok({
-                    result: response
-                });
-            });
+            .then((response) => res.ok({result: response}));
     },
     createMerchantPayout(req, res) {
         let entityId = req.params.entityId;
 
         SplashPaymentService.createMerchantPayout(entityId)
-            .then((response) => {
-
-                return res.ok({
-                    result: response
-                });
-            });
+            .then((response) => res.ok({result: response}));
     },
     updateMerchantPayout(req, res) {
         let payoutId = req.params.payoutId;
 
         SplashPaymentService.updateMerchantPayout(payoutId)
-            .then((response) => {
-
-                return res.ok({
-                    result: response
-                });
-            });
+            .then((response) => res.ok({result: response}));
     },
     createAuthTxn(req, res) {
         var params = req.allParams();
 
         SplashPaymentService.createAuthTxn(params)
-            .then((response) => {
-
-                return res.ok({
-                    result: response
-                });
-            });
+            .then((response) => res.ok({result: response}));
     },
 
 };

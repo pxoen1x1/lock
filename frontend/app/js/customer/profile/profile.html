@@ -1,72 +1,73 @@
 <div class="container profile-content"
      ng-class="{'mobile': !$mdMedia('gt-xs')}">
-  <div class="container-title"><i class="material-icons">person</i> <span>Profile</span></div>
-  <div class="container-content">
-    <div layout="column"
-         layout-gt-xs="row"
-         layout-align-gt-xs="start start"
-         layout-align="start center">
-      <div class="profile-left"
-           layout="row"
-           layout-gt-xs="column"
-           layout-align="start center"
-           layout-align-gt-xs="start start"
-           flex-gt-xs="25">
-        <img class="profile-avatar"
-             ng-src="{{vm.newPortrait || vm.profileData.portrait || coreConstants.IMAGES.defaultPortrait}}"
-             alt="photo"/>
-        <div flex="5"></div>
-        <div class="actions"
-             layout="column">
-          <md-button class="md-button-blue"
-                     ng-if="vm.isEditing"
-                     aria-label="Change photo"
-                     file-uploader
-                     is-single-file="true"
-                     allowed-extensions="{{ vm.fileUploaderOptions.allowedFileExtensions.images }}"
-                     max-size="{{ vm.fileUploaderOptions.maxFileSize }}"
-                     selected-file-src="vm.newPortrait">
-            <i class="material-icons vertical-middle">photo_camera</i>
-            <span class="verical-middle">Change photo</span>
-          </md-button>
-          <md-button ng-if="!vm.isEditing"
-                     class="md-button-blue"
-                     ng-click="vm.isEditing = true"
-                     aria-label="Edit profile">
-            Edit profile
-          </md-button>
-        </div>
-      </div>
-      <div flex-gt-xs="5"></div>
-      <div layout="row"
-           class="profile-right"
-           flex-gt-xs="70"
-           layout-align="start center"
-           layout-align-gt-xs="start start">
+    <div class="container-title"><i class="material-icons">person</i> <span>Profile</span></div>
+    <div class="container-content">
+        <div layout="column"
+             layout-gt-xs="row"
+             layout-align-gt-xs="start start"
+             layout-align="start center">
+            <div class="profile-left"
+                 layout="row"
+                 layout-gt-xs="column"
+                 layout-align="start center"
+                 layout-align-gt-xs="start start"
+                 flex-gt-xs="25">
+                <img class="profile-avatar"
+                     ng-src="{{vm.newPortrait || vm.profileData.portrait || coreConstants.IMAGES.defaultPortrait}}"
+                     alt="photo"/>
 
-        <div style="width: 100%;" ng-cloak>
-          <md-content>
-            <md-tabs md-dynamic-height md-border-bottom>
-              <md-tab label="General info">
-                <md-content class="md-padding">
-                  <div ng-include src="'customer/profile/profile-general.html'"></div>
-                </md-content>
-              </md-tab>
-              <md-tab label="Contact info">
-                <md-content class="md-padding">
-                  <div ng-include src="'customer/profile/profile-contact.html'"></div>
-                </md-content>
-              </md-tab>
-              <md-tab label="Payment info">
-                <md-content class="md-padding">
-                  <div ng-include src="'customer/profile/profile-payment.html'"></div>
-                </md-content>
-              </md-tab>
-            </md-tabs>
-          </md-content>
-        </div>
+                <div flex="5"></div>
+                <div class="actions"
+                     layout="column">
+                    <md-button class="md-button-blue"
+                               ng-if="vm.isEditing"
+                               aria-label="Change photo"
+                               file-uploader
+                               is-single-file="true"
+                               allowed-extensions="{{ vm.fileUploaderOptions.allowedFileExtensions.images }}"
+                               max-size="{{ vm.fileUploaderOptions.maxFileSize }}"
+                               selected-file-src="vm.newPortrait">
+                        <i class="material-icons vertical-middle">photo_camera</i>
+                        <span class="verical-middle">Change photo</span>
+                    </md-button>
+                    <md-button ng-if="!vm.isEditing"
+                               class="md-button-blue"
+                               ng-click="vm.isEditing = true"
+                               aria-label="Edit profile">
+                        Edit profile
+                    </md-button>
+                </div>
+            </div>
+            <div flex-gt-xs="5"></div>
+            <div layout="row"
+                 class="profile-right"
+                 flex-gt-xs="70"
+                 layout-align="start center"
+                 layout-align-gt-xs="start start">
 
-      </div>
+                <div style="width: 100%;" ng-cloak>
+                    <md-content>
+                        <md-tabs md-dynamic-height md-border-bottom>
+                            <md-tab label="General info">
+                                <md-content class="md-padding">
+                                    <div ng-include="'customer/profile/profile-general.html'"></div>
+                                </md-content>
+                            </md-tab>
+                            <md-tab label="Contact info">
+                                <md-content class="md-padding">
+                                    <div ng-include="'customer/profile/profile-contact.html'"></div>
+                                </md-content>
+                            </md-tab>
+                            <md-tab label="Payment info">
+                                <md-content class="md-padding">
+                                    <div ng-include="'customer/profile/profile-payment.html'"></div>
+                                </md-content>
+                            </md-tab>
+                        </md-tabs>
+                    </md-content>
+                </div>
+
+            </div>
+        </div>
     </div>
-  </div>
 </div>
