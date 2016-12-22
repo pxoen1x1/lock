@@ -97,7 +97,7 @@ let SplashPaymentService = {
                         var merchantEntityArr = JSON.parse(merchantEntity);
                         return merchantEntityArr[0];
                     });
-            }).catch(console.log.bind(console));
+            });
 
     },
 
@@ -290,7 +290,7 @@ let SplashPaymentService = {
                     var merchantEntityArr = JSON.parse(merchantEntity);
                     return merchantEntityArr[0];
                 });
-        }).catch(console.log.bind(console));
+        });
     },
 
     getMerchantAccounts(Id){
@@ -310,7 +310,7 @@ let SplashPaymentService = {
                 .then((merchantAccounts) => {
                     return JSON.parse(merchantAccounts);
                 });
-        }).catch(console.log.bind(console));
+        });
     },
 
     setMerchantAccount(user, paymentData) {
@@ -365,12 +365,10 @@ let SplashPaymentService = {
                 return SplashPaymentService.makeRequest(options, bodyJson)
                     .then(createMerchantAccountComplete);
 
-                function createMerchantAccountComplete(response){
+                function createMerchantAccountComplete(response) {
 
                     return JSON.parse(response);
                 }
-            }).catch(function (err) {
-                console.log(err);
             });
     },
 
@@ -392,7 +390,7 @@ let SplashPaymentService = {
         return SplashPaymentService.makeRequest(options, bodyJson)
             .then(updateMerchantAccountComplete);
 
-        function updateMerchantAccountComplete(response){
+        function updateMerchantAccountComplete(response) {
 
             return JSON.parse(response)
         }
