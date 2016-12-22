@@ -140,6 +140,24 @@
                     }
                 }
             })
+            .state('group.dashboard.request.map', {
+                parent: 'group.dashboard.request',
+                url: '/map',
+                views: {
+                    'content@group.dashboard.request': {
+                        templateUrl: 'group/request-map/request-map.html',
+                        controller: 'GroupRequestMapController',
+                        controllerAs: 'vm'
+                    }
+                },
+                data: {
+                    title: 'Map',
+                    tab: {
+                        title: 'Map',
+                        icon: 'location_on'
+                    }
+                }
+            })
             .state('group.members', {
                 parent: 'group',
                 url: '/members',
