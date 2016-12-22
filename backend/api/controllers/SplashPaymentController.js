@@ -66,7 +66,7 @@ let SplashPaymentController = {
 
         if (!user.spMerchantId) {
             return res.ok({
-                merchantEntity: []
+                merchantEntity: null
             })
         }
 
@@ -93,20 +93,8 @@ let SplashPaymentController = {
         }
 
         if (!user.spMerchantId) {
-            var merchantEntityArr;
-            var merchantArray;
-            return SplashPaymentService.createMerchant(user, params.merchantData, email)
-                .then((merchantResponse)=> {
-                    merchantArray = JSON.parse(merchantResponse);
-                    user.spMerchantId = merchantArray[0].merchant.id;
-
-                    UserService.update({id: user.id}, user);
-                    return SplashPaymentService.getMerchantEntity(user.spMerchantId);
-                })
-                .then((merchantEntity)=> {
-                    return SplashPaymentService.createMerchantFee(merchantEntity.id);
-                })
-                .then((feeResult) => res.ok({merchantEntity: merchantEntityArr}))
+            return SplashPaymentService.createMerchantFull(user, params.merchantData, email)
+                .then((merchantEntity) => res.ok({merchantEntity: merchantEntity}))
                 .catch(
                     (err) => {
                         sails.log.error(err);
@@ -114,6 +102,7 @@ let SplashPaymentController = {
                         return res.serverError();
                     }
                 );
+
         } else {
             SplashPaymentService.updateMerchantEntity(user.spMerchantId, params.merchantData)
                 .then((merchantEntity) =>  res.ok({merchantEntity: merchantEntity}))

@@ -69,6 +69,21 @@ let SplashPaymentService = {
         return SplashPaymentService.makeRequest(options, bodyJson);
     },
 
+    createMerchantFull(user, merchantData, email){
+
+        var merchantArray;
+
+        return SplashPaymentService.createMerchant(user, merchantData, email)
+            .then((merchantResponse) => {
+                merchantArray = JSON.parse(merchantResponse);
+                user.spMerchantId = merchantArray[0].merchant.id;
+
+                return UserService.update({id: user.id}, user);
+            })
+            .then(() => SplashPaymentService.getMerchantEntity(user.spMerchantId))
+            .then((merchantEntity) => [merchantEntity, SplashPaymentService.createMerchantFee(merchantEntity.id)]);
+    },
+
     updateMerchantEntity(id, merchantData){
 
         return SplashPaymentService.getMerchant(id)
@@ -178,7 +193,7 @@ let SplashPaymentService = {
         var bodyJson = {
             "customer": customerId,
             "payment": {
-                "method": SplashPaymentService.getPaymentMethod(params.txnData.cardNumber),
+                "method": SplashPaymentService._getPaymentMethod(params.txnData.cardNumber),
                 "number": params.txnData.cardNumber,
                 "cvv": params.txnData.cvv
             },
@@ -230,7 +245,7 @@ let SplashPaymentService = {
             schedule: 1,
             um: 1,
             amount: 10000,
-            start: SplashPaymentService.getDateString() // today
+            start: SplashPaymentService._getDateString() // today
         };
         return SplashPaymentService.makeRequest(options, bodyJson);
     },
@@ -264,7 +279,7 @@ let SplashPaymentService = {
             "um": "1",
             "amount": 2500,
             "schedule": "7",
-            "start": SplashPaymentService.getDateString(), // today
+            "start": SplashPaymentService._getDateString(), // today
             //"org": "g1abcdefghijklm",
             "forentity": sails.config.serviceSplashPaymentEntityId, // service provider entity
             "entity": entityId // service's entity
@@ -445,7 +460,7 @@ let SplashPaymentService = {
 
     createAuthTxn(params){
 
-        var method = SplashPaymentService.getPaymentMethod(params.cardNumber);
+        var method = SplashPaymentService._getPaymentMethod(params.cardNumber);
 
         var options = {
             method: 'POST',
@@ -543,7 +558,7 @@ let SplashPaymentService = {
 
         })
     },
-    getDateString(){
+    _getDateString(){
 
         var d = new Date();
         var day = d.getDate();
@@ -558,7 +573,7 @@ let SplashPaymentService = {
         return String(year) + String(month) + String(day);
     },
 
-    getPaymentMethod(cardNumber)
+    _getPaymentMethod(cardNumber)
     {
         var method = 0;
         var firstNum = cardNumber.charAt(0);
