@@ -11,7 +11,8 @@
     function coreDictionary($q, dataCache, coreDataservice) {
         var service = {
             getServiceTypes: getServiceTypes,
-            getLanguages: getLanguages
+            getLanguages: getLanguages,
+            getStates: getStates
         };
 
         return service;
@@ -52,6 +53,28 @@
 
             function getLanguagesFromHttp(cacheId) {
                 return coreDataservice.getLanguages()
+                    .then(function (response) {
+
+                        return getDataFromHttpComplete(cacheId, response);
+                    })
+                    .catch(getDataFromHttpFailed);
+            }
+        }
+
+        function getStates() {
+            var cacheId = 'states';
+            var cache = dataCache.get(cacheId);
+
+            return $q.when(cache || getStatesFromHttp(cacheId))
+                .then(getStatesComplete);
+
+            function getStatesComplete(response) {
+
+                return response.data;
+            }
+
+            function getStatesFromHttp(cacheId) {
+                return coreDataservice.getStates()
                     .then(function (response) {
 
                         return getDataFromHttpComplete(cacheId, response);

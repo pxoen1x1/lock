@@ -5,10 +5,10 @@
         .module('app.provider')
         .controller('ProviderProfileController', ProviderProfileController);
 
-    ProviderProfileController.$inject = ['currentUserService', 'coreDataservice', 'coreConstants', 'conf', 'geo'];
+    ProviderProfileController.$inject = ['currentUserService', 'coreDataservice', 'coreDictionary', 'coreConstants', 'conf'];
 
     /* @ngInject */
-    function ProviderProfileController(currentUserService, coreDataservice, coreConstants, conf, geo) {
+    function ProviderProfileController(currentUserService, coreDataservice, coreDictionary, coreConstants, conf) {
         var vm = this;
 
         var promises = {
@@ -55,15 +55,9 @@
 
 
         function getStates() {
-            if (promises.getStates) {
-                promises.getStates.cancel();
-            }
-
-            promises.getStates = coreDataservice.getStates();
-
-            return promises.getStates
+            return coreDictionary.getStates()
                 .then(function (response) {
-                    vm.states = response.data.states;
+                    vm.states = response.states;
 
                     return vm.states;
                 });

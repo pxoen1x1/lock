@@ -70,6 +70,8 @@ let AuthController = waterlock.waterlocked({
 
                             })
                     }
+
+                    return createdUser;
                 }
             )
             .then(
