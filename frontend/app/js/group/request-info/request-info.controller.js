@@ -11,9 +11,6 @@
     function GroupRequestInfoController($stateParams) {
         var vm = this;
 
-        activate();
-
-        function activate() {
-        }
+        vm.currentRequestId = $stateParams.requestId;
     }
 })();
