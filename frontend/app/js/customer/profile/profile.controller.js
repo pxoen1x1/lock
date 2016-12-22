@@ -47,12 +47,12 @@
             }
 
             return currentUserService.updateCustomerCard(cardData)
-                .then(function (user) {
-                    if(user){
-                        vm.profileData = user;
+                .then(function (spCardNumber) {
+                    if(spCardNumber){
+                        vm.profileData.spCardNumber = spCardNumber;
                         return currentUserService.setUserToLocalStorage(vm.profileData);
                     }
-                }).then(function(){
+                }).finally(function(){
                     vm.isEditingCard = false;
                 });
         }

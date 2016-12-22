@@ -81,13 +81,11 @@
         }
 
         function updateCustomerCard(cardData) {
-
             return $sails.put(conf.URL_PREFIX + 'customercard', cardData)
                 .then(updateCustomerCardComplete);
 
             function updateCustomerCardComplete(response) {
-
-                return response;
+                return response.data;
             }
         }
 

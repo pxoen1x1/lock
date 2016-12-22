@@ -193,14 +193,31 @@ let SplashPaymentService = {
         var bodyJson = {
             "customer": customerId,
             "payment": {
-                "method": SplashPaymentService._getPaymentMethod(params.txnData.cardNumber),
-                "number": params.txnData.cardNumber,
-                "cvv": params.txnData.cvv
+                "method": SplashPaymentService._getPaymentMethod(params.number),
+                "number": params.number,
+                "cvv": params.cvv
             },
-            "expiration": params.txnData.expiration
+            "expiration": params.expiration
         };
 
-        return SplashPaymentService.makeRequest(options, bodyJson);
+        return SplashPaymentService.makeRequest(options, bodyJson)
+            .then((tokenData) =>{
+                var tokens = JSON.parse(tokenData);
+                return tokens[0];
+            });
+    },
+
+    updateCustomerToken(user, spCustomerId, params) {
+
+        return SplashPaymentService.deleteCustomerTokens(spCustomerId)
+            .then(() => {
+                return SplashPaymentService.createCustomerToken(spCustomerId, params)
+            })
+            .then((token) => {
+                user.spCardNumber = token.payment.number;
+                User.update({id: user.id}, user); // todo: how to use spread ??
+                return token.payment.number;
+            });
     },
 
     deleteCustomerTokens(customerId){

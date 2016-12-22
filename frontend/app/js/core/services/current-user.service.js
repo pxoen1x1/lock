@@ -131,8 +131,8 @@
             var customerCardPromise = coreDataservice.updateCustomerCard(cardData);
 
             return customerCardPromise
-                .then(function(cardData){
-                    return cardData.data;
+                .then(function(newCardNum){
+                    return newCardNum;
                 })
                 .catch(function(error){return error;});
         }

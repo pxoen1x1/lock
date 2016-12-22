@@ -89,29 +89,10 @@ let UserController = waterlock.actions.user({
         }
 
         if (!user.spCustomerId) {
+            // Splash Payment customer creates on registration
             return false; // todo: return errors
         }
-        /*            return SplashPaymentService.createCustomer(user, params.customerData, email) //,
-         .then((customerResponse)=>{
-         customerArray = JSON.parse(customerResponse);
-         user.spCustomerId = customerArray[0].customer.id;
 
-         UserService.update({id: user.id}, user);
-
-         return res.ok(
-         {
-         merchantEntity: customerArray
-         }
-         );
-         })
-         .catch(
-         (err) => {
-         sails.log.error(err);
-
-         return res.serverError();
-         }
-         );*/
-        //    }else{
         UserService.getUser(user)
             .then((foundUser) => {
                 return SplashPaymentService.updateCustomer(user.spCustomerId, user, foundUser.auth.email, params.customerData)
@@ -128,36 +109,21 @@ let UserController = waterlock.actions.user({
 
                     return res.serverError();
                 });
-        //    }
     },
     updateCustomerCard(req, res){
         var user = req.session.user;
-        let userId = req.session.user.id;
+        //let userId = req.session.user.id;
         var params = req.allParams();
 
-        if (!user) {
-
-            return res.forbidden({
-                message: req.__('You are not permitted to perform this action.')
-            });
-        }
 
         if (!user.spCustomerId) {
             return false; // todo: return errors
         }
 
-        SplashPaymentService.deleteCustomerTokens(user.spCustomerId)
-            .then(() => {
-                return SplashPaymentService.createCustomerToken(user.spCustomerId, params)
-            })
-            .then((tokenData) => {
-                var tokens = JSON.parse(tokenData);
-                user.spCardNumber = tokens[0].payment.number;
-                return User.update({id: userId}, user);
-            })
+        SplashPaymentService.updateCustomerToken(user, user.spCustomerId, params)
             .then(
-                (updatedUsers) => {
-                    return res.ok(updatedUsers[0]);
+                (spCardNumber) => {
+                    return res.ok(spCardNumber);
                 }
             )
             .catch(
@@ -191,6 +157,7 @@ let UserController = waterlock.actions.user({
 
         return SplashPaymentService.deleteCustomerTokens(user.spCustomerId)
             .then(() => {
+
                 return SplashPaymentService.createCustomerToken(user.spCustomerId, params)
             })
             .then((tokenData) => {
@@ -200,11 +167,13 @@ let UserController = waterlock.actions.user({
                 }
                 token = tokens[0];
                 user.spCardNumber = token.payment.number;
+
                 return User.update({id: userId}, user);
             }).then((updatedUsers) => {
-                user = updatedUsers[0];
-                return SplashPaymentService.createTxn(token.token, params);
-            }).then((response) => {
+
+                return [updatedUsers[0],SplashPaymentService.createTxn(token.token, params)];
+            }).spread((user, response) => {
+
                 return res.ok({
                     resTxn: JSON.parse(response),
                     user: user
