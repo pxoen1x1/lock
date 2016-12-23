@@ -25,7 +25,7 @@
                     },
                     'header@group': {
                         templateUrl: 'layout/header/user-header.html',
-                        controller: 'GroupHeaderController',
+                        controller: 'UserHeaderController',
                         controllerAs: 'vm'
                     }
                 },
