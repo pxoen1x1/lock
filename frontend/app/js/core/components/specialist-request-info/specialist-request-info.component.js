@@ -18,12 +18,12 @@
 
     SpecialistRequestInfoController.$inject = [
         'coreConstants',
-        'serviceProviderDataservice',
+        'coreDataservice',
         'currentRequestService',
         'conf'
     ];
 
-    function SpecialistRequestInfoController(coreConstants, serviceProviderDataservice, currentRequestService, conf) {
+    function SpecialistRequestInfoController(coreConstants, coreDataservice, currentRequestService, conf) {
         var promises = {
             getRequest: null
         };
@@ -55,7 +55,9 @@
                 promises.getRequest.cancel();
             }
 
-            promises.getRequest = serviceProviderDataservice.getRequest(request);
+            var userType = 'specialist';
+
+            promises.getRequest = coreDataservice.getRequest(userType, request);
 
             return promises.getRequest
                 .then(function (response) {
