@@ -207,6 +207,25 @@
                 data: {
                     title: 'Member Info'
                 }
+            })
+            .state('group.messages', {
+                parent: 'group',
+                url: '/messages',
+                views: {
+                    'content@group': {
+                        templateUrl: 'chat/templates/chat.html',
+                        controller: 'SpecialistChatController',
+                        controllerAs: 'vm'
+                    }
+                },
+                data: {
+                    title: 'Messages',
+                    menu: {
+                        icon: 'list',
+                        title: 'Messages'
+                    },
+                    isPrivate: true
+                }
             });
     }
 })();
