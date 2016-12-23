@@ -4,14 +4,14 @@
 
 let Promise = require('bluebird');
 
-let MERCHANT = sails.config.splashpayment.merchant;
+let SPLASH_PAYMENT = sails.config.splashpayment;
 
 let SplashPaymentService = {
 
     getMerchants(){
         var options = {
             method: 'GET',
-            path: '/merchants'
+            path: SPLASH_PAYMENT.endpoints.merchants
         };
 
         return SplashPaymentService.makeRequest(options);
@@ -20,7 +20,7 @@ let SplashPaymentService = {
     getMerchant(entityId){
         var options = {
             method: 'GET',
-            path: '/merchants/' + entityId
+            path: SPLASH_PAYMENT.endpoints.merchants + '/' + entityId
         };
 
         return SplashPaymentService.makeRequest(options);
@@ -29,7 +29,7 @@ let SplashPaymentService = {
     createMerchant(user, merchantData, email){
         var options = {
             method: 'POST',
-            path: '/entities'
+            path: SPLASH_PAYMENT.endpoints.entities
         };
         var bodyJson = {
             merchant: {
@@ -44,16 +44,16 @@ let SplashPaymentService = {
                     phone: user.phoneNumber,
                     first: user.firstName,
                     last: user.lastName,
-                    dob: MERCHANT.member.dob, // ! required
-                    title: MERCHANT.member.title, // ! required
-                    ownership: MERCHANT.member.ownership, // ! required
+                    dob: SPLASH_PAYMENT.merchant.member.dob, // ! required
+                    title: SPLASH_PAYMENT.merchant.member.title, // ! required
+                    ownership: SPLASH_PAYMENT.merchant.member.ownership, // ! required
                     email: email
                 }],
                 //established: "20060101", // -
-                new: MERCHANT.new, // An indicator that specifies whether the Merchant is new to credit card processing. A value of '1' means new
-                annualCCSales: MERCHANT.annualCCSales, // ???
-                status: MERCHANT.status,
-                mcc: MERCHANT.mcc  // required.
+                new: SPLASH_PAYMENT.merchant.new, // An indicator that specifies whether the Merchant is new to credit card processing. A value of '1' means new
+                annualCCSales: SPLASH_PAYMENT.merchant.annualCCSales, // ???
+                status: SPLASH_PAYMENT.merchant.status,
+                mcc: SPLASH_PAYMENT.merchant.mcc  // required.
             },
             accounts: [],
             name: user.lastName + ' ' + user.firstName,
@@ -63,11 +63,12 @@ let SplashPaymentService = {
             city: merchantData.city, // !required
             state: merchantData.state, // !required
             zip: merchantData.zip, // !required
-            country: MERCHANT.country, // USA
+            country: SPLASH_PAYMENT.merchant.country, // USA
             //website: "http://www.splashpayments.com", // -
-            type: MERCHANT.type, // if Group then set '2'
+            type: SPLASH_PAYMENT.merchant.type, // if Group then set '2'
             //ein: "123456789" // Federal tax id number (not required for Sole Proprietorship)
         };
+
         return SplashPaymentService.makeRequest(options, bodyJson);
     },
 
@@ -99,7 +100,7 @@ let SplashPaymentService = {
             .then(function (entityId) {
                 var options = {
                     method: 'PUT',
-                    path: '/entities/' + entityId
+                    path: SPLASH_PAYMENT.endpoints.entities + '/' + entityId
                 };
 
                 var bodyJson = {
@@ -121,7 +122,7 @@ let SplashPaymentService = {
     getCustomers(){
         var options = {
             method: 'GET',
-            path: '/customers'
+            path: SPLASH_PAYMENT.endpoints.customers
         };
 
         return SplashPaymentService.makeRequest(options);
@@ -130,7 +131,7 @@ let SplashPaymentService = {
     getCustomer(entityId){
         var options = {
             method: 'GET',
-            path: '/customers/' + entityId
+            path: SPLASH_PAYMENT.endpoints.customers +'/' + entityId
         };
 
         return SplashPaymentService.makeRequest(options);
@@ -140,7 +141,7 @@ let SplashPaymentService = {
 
         var options = {
             method: 'POST',
-            path: '/customers'
+            path: SPLASH_PAYMENT.endpoints.customers
         };
         var bodyJson = {
             first: user.firstName, // auth.user.firstName
@@ -153,13 +154,14 @@ let SplashPaymentService = {
             phone: user.phoneNumber // auth.user.phoneNumber
 
         };
+        
         return SplashPaymentService.makeRequest(options, bodyJson);
     },
 
     updateCustomer(id, user, email, customerData){
         var options = {
             method: 'PUT',
-            path: '/customers/' + id
+            path: SPLASH_PAYMENT.endpoints.customers + '/' + id
         };
 
         var bodyJson = {
@@ -180,7 +182,7 @@ let SplashPaymentService = {
     getCustomerTokens(customerId){
         var options = {
             method: 'GET',
-            path: '/tokens',
+            path: SPLASH_PAYMENT.endpoints.tokens,
             headers: {'SEARCH': 'customer[equals]=' + customerId}
         };
         return SplashPaymentService.makeRequest(options);
@@ -189,7 +191,7 @@ let SplashPaymentService = {
     createCustomerToken(customerId, params){
         var options = {
             method: 'POST',
-            path: '/tokens'
+            path: SPLASH_PAYMENT.endpoints.tokens
         };
 
         var bodyJson = {
@@ -232,7 +234,7 @@ let SplashPaymentService = {
                 var arrayOfPromises = tokens.map(function (token) {
                     var options = {
                         method: 'DELETE',
-                        path: '/tokens/' + token.id
+                        path: SPLASH_PAYMENT.endpoints.tokens + '/' + token.id
                     };
 
                     return SplashPaymentService.makeRequest(options);
@@ -244,7 +246,7 @@ let SplashPaymentService = {
     getMerchantPayouts(entityId){
         var options = {
             method: 'GET',
-            path: '/payouts',
+            path: SPLASH_PAYMENT.endpoints.payouts,
             headers: {'SEARCH': 'entity[equals]=' + entityId}
         };
         return SplashPaymentService.makeRequest(options);
@@ -254,25 +256,25 @@ let SplashPaymentService = {
 
         var options = {
             method: 'POST',
-            path: '/payouts'
+            path: SPLASH_PAYMENT.endpoints.payouts
         };
 
         var bodyJson = {
             entity: entityId,
             account: accountToken, // ??? like ece7798046b853d39a69446b621aad8b
-            name: "Daily payout",
-            schedule: 1,
-            um: 1,
-            amount: 10000,
+            name: SPLASH_PAYMENT.payout.name,
+            schedule: SPLASH_PAYMENT.payout.schedule,
+            um: SPLASH_PAYMENT.payout.unitOfMeasure,
+            amount: SPLASH_PAYMENT.payout.amount,
             start: SplashPaymentService._getDateString() // today
         };
         return SplashPaymentService.makeRequest(options, bodyJson);
     },
-
+    // not using yet
     updateMerchantPayout(payoutId){
         var options = {
             method: 'PUT',
-            path: '/payouts/' + payoutId
+            path: SPLASH_PAYMENT.endpoints.payouts + '/' + payoutId
         };
 
         var bodyJson = {
@@ -280,7 +282,7 @@ let SplashPaymentService = {
             schedule: 1,
             um: 1,
             amount: 2000,
-            start: "20161202" // today
+            start: SplashPaymentService._getDateString() // today
         };
 
         return SplashPaymentService.makeRequest(options, bodyJson);
@@ -290,18 +292,18 @@ let SplashPaymentService = {
 
         var options = {
             method: 'POST',
-            path: '/fees'
+            path: SPLASH_PAYMENT.endpoints.fees
         };
 
         var bodyJson = {
-            "name": "Service Fee",
-            "um": "1",
-            "amount": 2500,
-            "schedule": "7",
-            "start": SplashPaymentService._getDateString(), // today
-            //"org": "g1abcdefghijklm",
-            "forentity": sails.config.serviceSplashPaymentEntityId, // service provider entity
-            "entity": entityId // service's entity
+            name: SPLASH_PAYMENT.fee.name,
+            um: SPLASH_PAYMENT.fee.unitOfMeasure,
+            amount: SPLASH_PAYMENT.fee.amount,
+            schedule: SPLASH_PAYMENT.fee.schedule,
+            start: SplashPaymentService._getDateString(), // today
+            //org: "g1abcdefghijklm",
+            forentity: sails.config.serviceSplashPaymentEntityId, // service provider entity
+            entity: entityId // service's entity
         };
 
         return SplashPaymentService.makeRequest(options, bodyJson);
@@ -317,7 +319,7 @@ let SplashPaymentService = {
 
             var options = {
                 method: 'GET',
-                path: '/entities/' + merchant[0].entity
+                path: SPLASH_PAYMENT.endpoints.entities + '/' + merchant[0].entity
             };
             return SplashPaymentService.makeRequest(options)
                 .then((merchantEntity) => {
@@ -337,7 +339,7 @@ let SplashPaymentService = {
 
             var options = {
                 method: 'GET',
-                path: '/accounts',
+                path: SPLASH_PAYMENT.endpoints.accounts,
                 headers: {'SEARCH': 'entity[equals]=' + merchant[0].entity}
             };
             return SplashPaymentService.makeRequest(options)
@@ -380,7 +382,7 @@ let SplashPaymentService = {
                 var entityId = merchantResonse[0].entity;
                 var options = {
                     method: 'POST',
-                    path: '/accounts'
+                    path: SPLASH_PAYMENT.endpoints.accounts
                 };
 
                 var bodyJson = {
@@ -391,9 +393,9 @@ let SplashPaymentService = {
                         "number": paymentData.number
                     },
                     "name": "******" + paymentData.number.substring(paymentData.number.length - 4, paymentData.number.length),  // get number and hide all symbols except 4 last
-                    "primary": "1", // always 1 cause only one account allowed
-                    "status": "0", //  '0': Not Ready. The account holder is not yet ready to verify the Account. '1': Ready. The account is ready to be verified. '2': Challenged - the account has processed the challenge. '3': Verified. The Account has been verified. '4': Manual. There has been an issue during verification, and further attempts to verify the Account will require manual intervention.
-                    "currency": "USD" // only USD supported
+                    "primary": SPLASH_PAYMENT.account.primary, // always 1 cause only one account allowed
+                    "status": SPLASH_PAYMENT.account.status, //  '0': Not Ready. The account holder is not yet ready to verify the Account. '1': Ready. The account is ready to be verified. '2': Challenged - the account has processed the challenge. '3': Verified. The Account has been verified. '4': Manual. There has been an issue during verification, and further attempts to verify the Account will require manual intervention.
+                    "currency": SPLASH_PAYMENT.account.currency // only USD supported
                 };
 
                 return SplashPaymentService.makeRequest(options, bodyJson)
@@ -409,7 +411,7 @@ let SplashPaymentService = {
     updateMerchantAccount(accountId, paymentData){
         var options = {
             method: 'PUT',
-            path: '/accounts/' + accountId
+            path: SPLASH_PAYMENT.endpoints.accounts + '/' + accountId
         };
 
         var bodyJson = {
@@ -440,7 +442,7 @@ let SplashPaymentService = {
                 var arrayOfPromises = accounts.map(function (account) {
                     var options = {
                         method: 'DELETE',
-                        path: '/accounts/' + account.id
+                        path: SPLASH_PAYMENT.endpoints.accounts + '/' + account.id
                     };
 
                     return SplashPaymentService.makeRequest(options);
@@ -462,43 +464,32 @@ let SplashPaymentService = {
     createTxn(token, params){
         var options = {
             method: 'POST',
-            path: '/txns'
+            path: SPLASH_PAYMENT.endpoints.txns
         };
 
         var bodyJson = {
             token: token,
             merchant: params.merchantId,
             amount: params.amount,
-            /**
-             * Type of transaction (1 = Sale, 2 = Auth, 3 = Capture, 4 = Auth Reversal,
-             * 5 = Refund, 6 = Reserved for future use, 7 = eCheck Sale,
-             * 8 = eCheck Refund, 9 = eCheck PreSale Notification, 10 = eCheck PreRefund
-             * Notification, 11 = eCheck Retry failed sale, 12 = eCheck Verification, 13 =
-             * eCheck Sale/Retry Cancellation
-             */
-            type: 1,
-            /**
-             * The transaction origin (1 = Terminal, 2 = eCommerce, 3 = Mail Order or
-             * Telephone Order)
-             */
-            "origin": 2
+            type: SPLASH_PAYMENT.txn.type,
+            origin: SPLASH_PAYMENT.txn.origin
         };
 
         return SplashPaymentService.makeRequest(options, bodyJson);
     },
 
-    createAuthTxn(params){
+/*    createAuthTxn(params){
 
         var method = SplashPaymentService._getPaymentMethod(params.cardNumber);
 
         var options = {
             method: 'POST',
-            path: '/txns'
+            path: SPLASH_PAYMENT.endpoints.txns
         };
 
         var bodyJson = {
             "payment": {
-                /**
+                /!**
                  * Method of payment (1 = American Express, 2 = Visa, 3 = Master Card,
                  * 4 = Diners Club, 5 = Discover, 6 = Paypal [not yet implemented],
                  * 7 = Debit Card, 8 = eCheck Checking, 9 = eCheck Savings, 10 = eCheck
@@ -508,23 +499,23 @@ let SplashPaymentService = {
                  VISA starts with a 4
                  MC starts with a 5
                  DISCOVER starts with a 6
-                 */
+                 *!/
                 "method": method,
                 "number": params.cardNumber,//"4242424242424242",
                 "cvv": params.cvv
             },
             "expiration": "0120",
-            /**
+            /!**
              * Type of transaction (1 = Sale, 2 = Auth, 3 = Capture, 4 = Auth Reversal,
              * 5 = Refund, 6 = Reserved for future use, 7 = eCheck Sale,
              * 8 = eCheck Refund, 9 = eCheck PreSale Notification, 10 = eCheck PreRefund
              * Notification, 11 = eCheck Retry failed sale, 12 = eCheck Verification, 13 =
              * eCheck Sale/Retry Cancellation
-             */
+             *!/
             "type": "2",
-            /**
+            /!**
              * Transaction amount in cents
-             */
+             *!/
             "total": 5000,
             "address1": "6565 Taft St.",
             "city": "Hollywood",
@@ -534,19 +525,19 @@ let SplashPaymentService = {
             "phone": "7185069292",
             "first": "Nochum",
             "last": "Sossonko",
-            /**
+            /!**
              * Merchant ID that is running this transaction
-             */
+             *!/
             "merchant": "g1abcdefghijklm",
-            /**
+            /!**
              * The transaction origin (1 = Terminal, 2 = eCommerce, 3 = Mail Order or
              * Telephone Order)
-             */
+             *!/
             "origin": 2
         };
 
         return SplashPaymentService.makeRequest(options, bodyJson);
-    },
+    },*/
 
     createTokenAndTxn(user, params) {
         var token = {}; // todo: use spread ??
@@ -572,12 +563,12 @@ let SplashPaymentService = {
     makeRequest(options, bodyJson){
         const https = require('https');
 
-        options.host = 'test-api.splashpayments.com'; // todo: move to constants
+        options.host = SPLASH_PAYMENT.host;
         if (!options.headers) {
             options.headers = {};
         }
-        options.headers['Content-Type'] = 'application/json';
-        options.headers['APIKEY'] = '33629206d38422c644df7e0d9d7838b0'; // todo: move to constants
+        options.headers['Content-Type'] = SPLASH_PAYMENT.contentType;
+        options.headers['APIKEY'] = SPLASH_PAYMENT.apikey;
 
 
         // return new pending promise

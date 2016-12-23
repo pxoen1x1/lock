@@ -104,7 +104,7 @@ let SplashPaymentController = {
                 );
 
         } else {
-            SplashPaymentService.updateMerchantEntity(user.spMerchantId, params.merchantData)
+            return SplashPaymentService.updateMerchantEntity(user.spMerchantId, params.merchantData)
                 .then((merchantEntity) =>  res.ok({merchantEntity: merchantEntity}))
                 .catch(
                     (err) => {

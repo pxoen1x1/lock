@@ -1,6 +1,19 @@
 'use strict';
 
 let splashpayment = {
+    host : 'test-api.splashpayments.com',
+    contentType : 'application/json',
+    apikey : '33629206d38422c644df7e0d9d7838b0',
+    endpoints: {
+        merchants: '/merchants',
+        entities: '/entities',
+        customers: '/customers',
+        tokens: '/tokens',
+        payouts: '/payouts',
+        fees: '/fees',
+        accounts: '/accounts',
+        txns: '/txns',
+    },
     bankAccountTypes: [
         {code: 8, name: 'Checking account TEST'},
         {code: 9, name: 'Savings account'},
@@ -24,6 +37,48 @@ let splashpayment = {
          * 3 = Partnership, +4 = Association, 5 = Non Profit, 6 = Governmental)
          */
         type: 0 // if Group then set '2'
+    },
+    payout: {
+        name: 'Daily payout',
+        schedule: 1,
+        /**'1': Percentage - the Payout is a percentage of the current available funds for this Entity that should be paid to their Account, specified in the 'amount' field in basis points.
+         * '2': Actual - the Payout is a fixed amount, specified in the 'amount' field as an integer in cents.
+         * '3': Negative percentage - the Payout is a percentage of the balance, specified in the 'amount' field as a negative integer in basis points*/
+        unitOfMeasure: 1,
+        amount: 10000,
+
+    },
+    fee: {
+        name: 'Service Fee',
+        /**Valid values are: '2': The Fee is a fixed amount, specified in the 'amount' field as an integer in cents.
+         * '1': The Fee is a percentage of the transaction amount, specified in the 'amount' field in basis points.
+         * Note that percentage measures only make sense where the Fee schedule is set to trigger the Fee when a transaction event happens, such as an authorization, capture, or refund.
+         * */
+        unitOfMeasure: 1,
+        amount: 2500,
+        /**The schedule that determines when this Fee is triggered to be charged. Valid values are: '1': Daily - the Fee is charged every day. '2': Weekly - the Fee is charged every week. '3': Monthly - the Fee is charged every month. '4': Annually - the Fee is charged every year. '5': Single - the Fee is a one-off charge. '6': Auth - the Fee is triggered at the time of authorization of a transaction. '7': Capture - the Fee triggers at the capture time of a Transaction. '8': Refund - the Fee triggers when a refund transaction is processed. '9': Board - the Fee triggers when the Merchant is boarded. '10': Payout - the Fee triggers when a payout is processed. '11': Chargeback - the Fee triggers when a card chargeback occurs. '12': Overdraft - the Fee triggers when an overdraft usage charge from a bank is levied. '13': Interchange - the Fee triggers when interchange Fees are assessed for the Transactions of this Merchant. '14': Processor - the Fee triggers when the Transactions of this Merchant are processed by a payment processor. '15': ACH failure - the Fee triggers when an automated clearing house failure occurs. '16': Account - the Fee triggers when a bank account is verified.
+         * */
+        schedule: 7
+    },
+    account: {
+        primary: 1,
+        status: 0,
+        currency: "USD",
+    },
+    txn: {
+        /**
+         * Type of transaction (1 = Sale, 2 = Auth, 3 = Capture, 4 = Auth Reversal,
+         * 5 = Refund, 6 = Reserved for future use, 7 = eCheck Sale,
+         * 8 = eCheck Refund, 9 = eCheck PreSale Notification, 10 = eCheck PreRefund
+         * Notification, 11 = eCheck Retry failed sale, 12 = eCheck Verification, 13 =
+         * eCheck Sale/Retry Cancellation
+         */
+        type: 1,
+        /**
+         * The transaction origin (1 = Terminal, 2 = eCommerce, 3 = Mail Order or
+         * Telephone Order)
+         */
+        origin: 2
     }
 };
 
