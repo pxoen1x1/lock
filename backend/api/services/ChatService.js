@@ -185,7 +185,7 @@ let ChatService = {
     getSpecialistChatByRequest(request, member) {
         let rawQuery = `${getChatsRawQuery}
         JOIN  chat_members__user_chatmembers AS cu ON cu.user_chatMembers = ?
-        WHERE chat.request_id = ? LIMIT 1`;
+        WHERE chat.id = cu.chat_members AND chat.request_id = ? LIMIT 1`;
 
         let chatQueryAsync = promise.promisify(Chat.query);
 

@@ -14,7 +14,7 @@
                 'provider.dashboard.history'
             ],
             REQUEST_TABBAR_ITEMS: [
-                'provider.dashboard.request.view',
+                'provider.dashboard.request.info',
                 'provider.dashboard.request.map',
                 'provider.dashboard.request.chat'
             ]

@@ -107,6 +107,75 @@
                     }
                 }
             })
+            .state('group.dashboard.request', {
+                parent: 'group.dashboard',
+                abstract: true,
+                url: '/{requestId:int}',
+                views: {
+                    'content@group': {
+                        templateUrl: 'group/request/request.html',
+                        controller: 'GroupRequestController',
+                        controllerAs: 'vm'
+                    }
+                },
+                data: {
+                    isPrivate: true
+                }
+            })
+            .state('group.dashboard.request.info', {
+                parent: 'group.dashboard.request',
+                url: '/info',
+                views: {
+                    'content@group.dashboard.request': {
+                        templateUrl: 'group/request-info/request-info.html',
+                        controller: 'GroupRequestInfoController',
+                        controllerAs: 'vm'
+                    }
+                },
+                data: {
+                    title: 'Request',
+                    tab: {
+                        title: 'View',
+                        icon: 'list'
+                    }
+                }
+            })
+            .state('group.dashboard.request.map', {
+                parent: 'group.dashboard.request',
+                url: '/map',
+                views: {
+                    'content@group.dashboard.request': {
+                        templateUrl: 'group/request-map/request-map.html',
+                        controller: 'GroupRequestMapController',
+                        controllerAs: 'vm'
+                    }
+                },
+                data: {
+                    title: 'Map',
+                    tab: {
+                        title: 'Map',
+                        icon: 'location_on'
+                    }
+                }
+            })
+            .state('group.dashboard.request.chat', {
+                parent: 'group.dashboard.request',
+                url: '/chat',
+                views: {
+                    'content@group.dashboard.request': {
+                        templateUrl: 'group/request-chat/request-chat.html',
+                        controller: 'GroupRequestChatController',
+                        controllerAs: 'vm'
+                    }
+                },
+                data: {
+                    title: 'Chat',
+                    tab: {
+                        title: 'Chat',
+                        icon: 'chat'
+                    }
+                }
+            })
             .state('group.members', {
                 parent: 'group',
                 url: '/members',
