@@ -20,7 +20,7 @@
                     },
                     'menu@group': {
                         templateUrl: 'layout/menu/user-menu.html',
-                        controller: 'GroupMenuController',
+                        controller: 'UserMenuController',
                         controllerAs: 'vm'
                     },
                     'header@group': {
