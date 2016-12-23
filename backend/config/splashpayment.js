@@ -18,11 +18,12 @@ let splashpayment = {
         status: 1,
         mcc: '1750',
         country: 'USA',
+        //website: "http://www.splashpayments.com", // -
         /**
          * Company type (+0 = Sole Proprietorship, 1 = Corporation, 2 = LLC,
          * 3 = Partnership, +4 = Association, 5 = Non Profit, 6 = Governmental)
          */
-        type: 1
+        type: 0 // if Group then set '2'
     }
 };
 

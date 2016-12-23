@@ -15,13 +15,7 @@
 
         var service = {
             getUser: getUser,
-            getCustomer: getCustomer,
-            updateCustomer: updateCustomer,
-            updateCustomerCard: updateCustomerCard,
             setUserToLocalStorage: setUserToLocalStorage,
-            getUserPayment: getUserPayment,
-            createTxn: createTxn,
-            createTokenAndTxn: createTokenAndTxn,
             setUser: setUser,
             getType: getType,
             clearType: clearType
@@ -71,70 +65,6 @@
         function getUserFromHttpFailed(error) {
 
             return error;
-        }
-
-        function getUserPayment(){
-
-            getUserPaymentPromise = coreDataservice.getCurrentUserPayment();
-
-            return getUserPaymentPromise
-                .then(function(userPayment){
-                    return userPayment.data;
-                })
-                .catch(function(error){return error;});
-        }
-
-        function createTxn(merchantId,amount){
-
-            var customerCardPromise = coreDataservice.createTxn({merchantId: merchantId, amount: amount});
-
-            return customerCardPromise
-                .then(function(cardData){
-                    return cardData.data;
-                })
-                .catch(function(error){return error;});
-        }
-
-        function createTokenAndTxn(txnData, merchantId, amount){
-
-            var customerCardPromise = coreDataservice.createTokenAndTxn({txnData: txnData, merchantId: merchantId, amount: amount});
-
-            return customerCardPromise
-                .then(function(cardData){
-                    return cardData.data;
-                })
-                .catch(function(error){return error;});
-        }
-
-        function getCustomer(){
-
-            return coreDataservice.getCurrentCustomer()
-                    .then(function(customerData){
-                        return customerData.data;
-                    })
-                    .catch(function(error){return error;});
-        }
-
-        function updateCustomer(profileData){
-
-            var merchantDataPromise = coreDataservice.updateCurrentCustomer(profileData);
-
-            return merchantDataPromise
-                .then(function(merchantData){
-                    return merchantData.data;
-                })
-                .catch(function(error){return error;});
-        }
-
-        function updateCustomerCard(cardData){
-
-            var customerCardPromise = coreDataservice.updateCustomerCard(cardData);
-
-            return customerCardPromise
-                .then(function(newCardNum){
-                    return newCardNum;
-                })
-                .catch(function(error){return error;});
         }
 
         function setUser(user) {

@@ -2,6 +2,8 @@
 
 'use strict';
 
+let Promise = require('bluebird');
+
 let MERCHANT = sails.config.splashpayment.merchant;
 
 let SplashPaymentService = {
@@ -447,6 +449,16 @@ let SplashPaymentService = {
             });
     },
 
+    createTxnFull(spCustomerId, params) {
+        return SplashPaymentService.getCustomerTokens(spCustomerId, params)
+            .then((tokensRes)=> {
+                var tokens = JSON.parse(tokensRes);
+                return tokens[0].token;
+            }).then((token) => {
+            return SplashPaymentService.createTxn(token, params);
+        })
+    },
+
     createTxn(token, params){
         var options = {
             method: 'POST',
@@ -536,6 +548,27 @@ let SplashPaymentService = {
         return SplashPaymentService.makeRequest(options, bodyJson);
     },
 
+    createTokenAndTxn(user, params) {
+        var token = {}; // todo: use spread ??
+        return SplashPaymentService.deleteCustomerTokens(user.spCustomerId)
+            .then(() => {
+
+                return SplashPaymentService.createCustomerToken(user.spCustomerId, params.txnData)
+            })
+            .then((tokenRes) => {
+                if (!tokenRes) {
+                    return false; // todo: call reject
+                }
+                token = tokenRes;
+                user.spCardNumber = token.payment.number;
+
+                return User.update({id: user.id}, user);  // todo: use spread ??
+            }).then((updatedUsers) => {
+
+                return [updatedUsers[0].spCardNumber,SplashPaymentService.createTxn(token.token, params)];
+            })
+    },
+
     makeRequest(options, bodyJson){
         const https = require('https');
 
@@ -556,7 +589,7 @@ let SplashPaymentService = {
                 res.on('data', (chunk) => {
                     var response = JSON.parse(chunk);
                     if (!response.response || !response.response.data) {
-                        console.log(response);
+                        sails.log.debug(response);
                         return Promise.reject('unhandled response from SP');
                     }
                     body.push(JSON.stringify(response.response.data));
@@ -569,7 +602,7 @@ let SplashPaymentService = {
             req.end(body);
 
             req.on('error', (e) => {
-                console.error(e);
+                sails.log.error(e);
             });
 
 

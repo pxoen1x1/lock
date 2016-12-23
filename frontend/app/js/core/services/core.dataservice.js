@@ -13,8 +13,8 @@
             getCurrentUser: getCurrentUser,
             getMerchant: getMerchant,
             updateMerchant: updateMerchant,
-            getCurrentCustomer: getCurrentCustomer,
-            updateCurrentCustomer: updateCurrentCustomer,
+            getCustomer: getCustomer,
+            updateCustomer: updateCustomer,
             getBankAccountTypes: getBankAccountTypes,
             updateCustomerCard: updateCustomerCard,
             getMerchantAccount: getMerchantAccount,
@@ -49,22 +49,26 @@
             });
         }
 
-        function getCurrentCustomer() {
+        function getCustomer() {
 
             return request.httpWithTimeout({
                 url: conf.BASE_URL + conf.URL_PREFIX + 'customer',
                 method: 'GET'
-            });
+            }).then(getCustomerComplete);
+
+            function getCustomerComplete(response){
+                return response.data
+            }
         }
 
-        function updateCurrentCustomer(customerData) {
+        function updateCustomer(customerData) {
 
             return $sails.put(conf.URL_PREFIX + 'customer', customerData)
                 .then(updateCurrentCustomerComplete);
 
             function updateCurrentCustomerComplete(response) {
 
-                return response;
+                return response.data;
             }
         }
 
@@ -136,23 +140,22 @@
             }
         }
 
-        function createTxn(txnData) {
-            return $sails.post(conf.URL_PREFIX + 'splashpayment/txn', txnData)
+        function createTxn(merchantId,amount) {
+            return $sails.post(conf.URL_PREFIX + 'splashpayment/txn', {merchantId: merchantId, amount: amount})
                 .then(createTxnComplete);
 
             function createTxnComplete(response) {
 
-                return response;
+                return response.data;
             }
         }
 
-        function createTokenAndTxn(params) {
-            return $sails.post(conf.URL_PREFIX + 'splashpayment/tokenandtxn', params)
+        function createTokenAndTxn(txnData, merchantId, amount) {
+            return $sails.post(conf.URL_PREFIX + 'splashpayment/tokenandtxn', {txnData: txnData, merchantId: merchantId, amount: amount})
                 .then(createTokenAndTxnComplete);
 
             function createTokenAndTxnComplete(response) {
-
-                return response.data.txnData;
+                return response.data;
             }
         }
 

@@ -21,7 +21,7 @@
 
                 return;
             }
-            return currentUserService.createTokenAndTxn(txnData);
+            return core.createTokenAndTxn(txnData);
 
         }
 

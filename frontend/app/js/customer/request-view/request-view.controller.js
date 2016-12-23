@@ -29,6 +29,7 @@
 
         vm.request = {};
         vm.feedback = {};
+        vm.profileData = {};
 
         vm.currentRequestId = $stateParams.requestId;
 
@@ -192,7 +193,7 @@
             $scope.payWithLinked = function(){
                 var merchantId = 'g1585415b362c2e';
                 var amount = 1000;
-                return currentUserService.createTxn(merchantId,amount)
+                return coreDataservice.createTxn(merchantId,amount)
                         .then((res)=>{
                             $mdDialog.hide();
 
@@ -227,15 +228,19 @@
                 if(!isValid){
                     return false;
                 }
-                return currentUserService.createTokenAndTxn(txnData,merchantId,amount)
-                    .then((res)=>{
+                return coreDataservice.createTokenAndTxn(txnData,merchantId,amount)
+                    .then((result)=> {
                         $mdDialog.hide();
 
-                    if(res.resTxn.length > 0 && res.user){
+                        return [result, currentUserService.getUser()];
+                    })
+                    .spread((result,user) => {
 
-                        vm.profileData = res.user;
+                    if(result.resTxn.length > 0 && result.spCardNumber){
+                        vm.profileData = user;
+                        vm.profileData.spCardNumber = result.spCardNumber;
                         currentUserService.setUserToLocalStorage(vm.profileData);
-                        $scope.customerCardNumber = res.user.spCardNumber;
+                        $scope.customerCardNumber = result.spCardNumber;
 
                         $mdDialog.show(
                             $mdDialog.alert()
@@ -258,7 +263,6 @@
                         );
                     }
                 });
-                $mdDialog.hide();
             };
         }
 
@@ -278,6 +282,7 @@
                     var status = 'You cancelled the dialog.';
                 });*/
         };
+
 
         function activate() {
             getRequest()

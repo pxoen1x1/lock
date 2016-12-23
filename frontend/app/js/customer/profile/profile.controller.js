@@ -5,10 +5,10 @@
         .module('app.customer')
         .controller('CustomerProfileController', CustomerProfileController);
 
-    CustomerProfileController.$inject = ['currentUserService', 'coreConstants', 'conf'];
+    CustomerProfileController.$inject = ['currentUserService', 'coreConstants', 'coreDataservice', 'conf'];
 
     /* @ngInject */
-    function CustomerProfileController(currentUserService, coreConstants, conf) {
+    function CustomerProfileController(currentUserService, coreConstants, coreDataservice, conf) {
         var vm = this;
 
         vm.profileData = {};
@@ -32,7 +32,7 @@
             }
 
 
-            return currentUserService.updateCustomer(customerData)
+            return coreDataservice.updateCustomer(customerData)
                 .then(function (customer) {
                     vm.profileData.customerData = customer.customer[0];
                     return vm.profileData;
@@ -46,7 +46,7 @@
                 return;
             }
 
-            return currentUserService.updateCustomerCard(cardData)
+            return coreDataservice.updateCustomerCard(cardData)
                 .then(function (spCardNumber) {
                     if(spCardNumber){
                         vm.profileData.spCardNumber = spCardNumber;
@@ -89,7 +89,7 @@
                     vm.profileData = user;
                     vm.profileData.portrait = user.portrait ? conf.BASE_URL + user.portrait : '';
 
-                    return currentUserService.getCustomer()
+                    return coreDataservice.getCustomer()
                         .then(function(customer){
 
                             if(!customer){
