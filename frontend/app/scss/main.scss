@@ -63,11 +63,24 @@ $panel-background-color: rgb(245, 245, 245);
         }
       }
     }
+
+    &.btn-outline {
+      border-color: $primary-color;
+
+      &, md-icon {
+        color: $primary-color;
+      }
+
+      &:hover {
+        background-color: $primary-color;
+      }
+    }
   }
 
   &.md-button-green {
     &, &.md-fab {
       color: #fff;
+
       &, &:focus {
         background-color: $success-color;
       }
@@ -76,11 +89,24 @@ $panel-background-color: rgb(245, 245, 245);
         background-color: #4CAF50;
       }
     }
+
+    &.btn-outline {
+      border-color: $success-color;
+
+      &, md-icon {
+        color: $success-color;
+      }
+
+      &:hover {
+        background-color: $success-color;
+      }
+    }
   }
 
   &.md-button-red {
     &, &.md-fab {
       color: #fff;
+
       &, &:focus {
         background-color: $error-color;
       }
@@ -88,6 +114,44 @@ $panel-background-color: rgb(245, 245, 245);
       &:hover {
         background-color: #F44336;
       }
+    }
+
+    &.btn-outline {
+      border-color: $error-color;
+
+      &, md-icon {
+        color: $error-color;
+      }
+
+      &:hover {
+        background-color: $error-color;
+      }
+    }
+  }
+
+  &.btn-outline {
+    background-color: #fff;
+    border-width: 1px;
+    border-style: solid;
+
+    &:hover {
+      &, md-icon {
+        color: #fff;
+      }
+    }
+  }
+
+  &.btn-mini {
+    min-width: 10px;
+    min-height: 10px;
+    line-height: 10px;
+    font-size: 10px;
+  }
+
+  &.button-login {
+    &, &:hover {
+      background-color: $primary-color;
+      color: #fff;
     }
   }
 
@@ -124,12 +188,7 @@ $panel-background-color: rgb(245, 245, 245);
   md-dialog-actions {
     padding-left: 0;
   }
-  .button-login,
-  .button-login:hover {
-    width: 100%;
-    background-color: $primary-color;
-    color: #FFF;
-  }
+
   .md-input-message-animation {
     width: 195px;
   }
@@ -312,6 +371,20 @@ md-content {
   }
 }
 
+.status-icon {
+  position: absolute;
+  top: 26px;
+  left: 30px;
+  border-radius: 50%;
+  background-color: #FFF;
+  color: $success-color;
+
+  &.unavailable {
+    color: #FFF;
+    background-color: $warning-color;
+  }
+}
+
 .infinite-scroll-wrapper {
   height: 100%;
   overflow: hidden;
@@ -335,7 +408,7 @@ md-content {
 @import 'icons';
 @import 'md-select';
 @import 'reset';
-@import 'provider';
+@import 'registration';
 @import 'customer';
 @import 'group';
 @import 'admin';
@@ -346,8 +419,9 @@ md-content {
 @import 'user-header';
 @import 'user-menu';
 @import 'layout';
-@import 'request';
+@import 'list-content';
 @import 'tab-bar';
 @import 'maps';
 @import 'md-dialog';
-@import 'margins';
+@import 'margins-and-paddings';
+@import '_group-members';

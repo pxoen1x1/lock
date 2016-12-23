@@ -6,19 +6,18 @@
       <i class="material-icons s28">textsms</i>
     </md-button>
     <div class="chat-contact"
-         ng-if="vm.currentChat.id"
-         ng-click="vm.toggleSidenav({ navID: 'right-sidenav' })">
+         ng-if="vm.currentChat.id">
       <div layout="row"
            layout-align="start center"
            ng-if="vm.currentUser.type === vm.userType.SPECIALIST">
         <div class="avatar-wrapper">
           <div class="avatar"
-               ng-style="{ 'background-image': 'url(' + (vm.currentChat.client.portrait ?
-               vm.baseUrl + vm.currentChat.client.portrait : vm.defaultPortrait) + ')' }">
+               ng-style="{ 'background-image': 'url(' + (vm.currentChat.owner.portrait ?
+               vm.baseUrl + vm.currentChat.owner.portrait : vm.defaultPortrait) + ')' }">
           </div>
         </div>
         <div class="chat-contact-name">
-          <span ng-bind="vm.currentChat.client.fullName"></span>
+          <span ng-bind="vm.currentChat.owner.fullName"></span>
         </div>
       </div>
       <div layout="row"
@@ -26,18 +25,12 @@
            ng-if="vm.currentUser.type === vm.userType.CLIENT">
         <div class="avatar-wrapper">
           <div class="avatar"
-               ng-style="{ 'background-image': 'url(' + (vm.currentChat.specialist.portrait ?
-             vm.baseUrl + vm.currentChat.specialist.portrait : vm.defaultPortrait) + ')' }">
+               ng-style="{ 'background-image': 'url(' + (vm.currentChat.photo ?
+             vm.baseUrl + vm.currentChat.photo : vm.defaultPortrait) + ')' }">
           </div>
-          <i class="material-icons s14 status"
-             ng-if="vm.currentChat.specialist.details.isAvailable">check_circle
-          </i>
-          <i class="material-icons s14 status unavailable"
-             ng-if="!vm.currentChat.specialist.details.isAvailable">schedule
-          </i>
         </div>
         <div class="chat-contact-name">
-          <span ng-bind="vm.currentChat.specialist.fullName"></span>
+          <span ng-bind="vm.currentChat.title"></span>
         </div>
       </div>
     </div>
@@ -53,10 +46,9 @@
           <md-button ng-click="vm.openOfferDialog(vm.currentChat)">Send Offer
           </md-button>
         </md-menu-item>
-        <md-menu-item>
-          <md-button ng-click="vm.toggleSidenav({ navID: 'right-sidenav' })"
-                     aria-label="vm.currentUser.type === vm.userType.CLIENT ? 'Contact Info' : 'Request Info'">
-            <span ng-bind="vm.currentUser.type === vm.userType.CLIENT ? 'Contact Info' : 'Request Info'"></span>
+        <md-menu-item ng-if="vm.currentUser.type !== vm.userType.CLIENT">
+          <md-button ng-click="vm.toggleSidenav({ navID: 'right-sidenav' })">
+            Request Info
           </md-button>
         </md-menu-item>
         <md-menu-item>
@@ -80,8 +72,10 @@
                     current-user="vm.currentUser"
                     current-request="vm.currentRequest"
                     current-chat="vm.currentChat"
+                    selected-specialist="vm.selectedSpecialist"
                     accept-offer="vm.acceptOffer(offer, message)"
                     update-request-status="vm.updateRequestStatus(request, status)"
+                    toggle-sidenav="vm.toggleSidenav({navID: navID})"
                     ng-if="vm.currentUser && vm.currentRequest">
       </message-chat>
     </div>

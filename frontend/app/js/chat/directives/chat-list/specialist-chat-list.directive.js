@@ -16,6 +16,7 @@
                 messages: '=',
                 currentChat: '=',
                 currentRequest: '=?',
+                chatSearch: '=?',
                 isScrollDisabled: '=?scrollChatDisabled',
                 isScrollToBottomEnabled: '=?scrollChatToBottom',
                 changeCurrentRequest: '&'
@@ -27,10 +28,18 @@
         return directive;
     }
 
-    SpecialistChatListController.$inject = ['chatSocketservice', '$mdSidenav', '$mdMedia', 'coreConstants', 'conf'];
+    SpecialistChatListController.$inject = [
+        '$q',
+        'chatSocketservice',
+        '$mdSidenav',
+        '$mdMedia',
+        'coreConstants',
+        'conf'
+    ];
 
     /* @ngInject */
-    function SpecialistChatListController(chatSocketservice, $mdSidenav, $mdMedia, coreConstants, conf) {
+    function SpecialistChatListController($q, chatSocketservice, $mdSidenav, $mdMedia, coreConstants, conf) {
+        var selectedChats = {};
         var vm = this;
 
         vm.chatSearch = '';
@@ -42,6 +51,15 @@
 
         activate();
 
+        function getChat(chat) {
+            if (!chat || !chat.id) {
+
+                return;
+            }
+
+            return $q.when(selectedChats[chat.id] || chatSocketservice.getSpecialistChat(chat));
+        }
+
         function getChats() {
 
             return chatSocketservice.getSpecialistChats()
@@ -52,21 +70,17 @@
                 });
         }
 
-        function changeCurrentChat(currentChat) {
-            if (currentChat === null) {
+        function changeCurrentChat(chat) {
+            if (chat === null) {
                 vm.currentChat = null;
 
                 return;
             }
 
-            if (vm.currentChat && vm.currentChat.id === currentChat.id) {
+            if (vm.currentChat && vm.currentChat.id === chat.id) {
 
                 return;
             }
-
-            vm.currentChat = currentChat;
-
-            vm.changeCurrentRequest({request: currentChat.request});
 
             vm.isScrollDisabled = true;
             vm.isScrollToBottomEnabled = true;
@@ -74,6 +88,17 @@
             if (!$mdMedia('gt-md')) {
                 $mdSidenav('left-sidenav').close();
             }
+
+            getChat(chat)
+                .then(function (chat) {
+                    selectedChats[chat.id] = chat;
+                    vm.currentChat = chat;
+
+                    return vm.currentChat;
+                })
+                .then(function () {
+                    vm.changeCurrentRequest({request: chat.request});
+                });
         }
 
         function activate() {

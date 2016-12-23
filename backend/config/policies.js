@@ -53,7 +53,11 @@ module.exports.policies = {
         '*': true
     },
 
-    UserController: {},
+    UserController: {
+        'getCurrentUser': [
+            'hasJsonWebToken'
+        ]
+    },
 
     StateController: {
         'getStates': true
@@ -104,6 +108,12 @@ module.exports.policies = {
             'isSocketRequest',
             'hasJsonWebToken',
             'isUserEnabled'
+        ],
+        'getSpecialistChat': [
+            'isSocketRequest',
+            'hasJsonWebToken',
+            'isUserEnabled',
+            'isChatMember'
         ],
         'createChat': [
             'isSocketRequest',
@@ -168,6 +178,13 @@ module.exports.policies = {
             'isRequestAllowed',
             'isChatMember'
         ],
+        'getTranslatedMessage': [
+            'isSocketRequest',
+            'hasJsonWebToken',
+            'isUserEnabled',
+            'isMessageAllowed',
+            'isLanguageSupported'
+        ],
         'uploadFile': [
             'hasJsonWebToken',
             'isUserEnabled',
@@ -176,9 +193,24 @@ module.exports.policies = {
         ]
     },
 
+    GroupController: {
+        'getGroupMember': [
+            'hasJsonWebToken',
+            'isUserEnabled',
+            'isGroupMember'
+        ],
+        'joinMember': [
+            'isGroupInvitationValid'
+        ],
+        'removeMember': [
+            'hasJsonWebToken',
+            'isUserEnabled',
+            'isGroupMember'
+        ]
+    },
+
     SocketController: {
-        '*': ['isSocketRequest'],
-        'subscribe': [
+        '*': [
             'isSocketRequest',
             'hasJsonWebToken'
         ]

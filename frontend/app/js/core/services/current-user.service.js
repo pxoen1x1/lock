@@ -50,21 +50,12 @@
             getUserPromise = coreDataservice.getCurrentUser();
 
             return getUserPromise
-                .then(getUserFromHttpComplete)
-                .catch(getUserFromHttpFailed);
+                .then(getUserFromHttpComplete);
         }
 
         function getUserFromHttpComplete(response) {
 
-            var currentUser = response.data.user;
-            localService.setUser(currentUser);
-
-            return currentUser;
-        }
-
-        function getUserFromHttpFailed(error) {
-
-            return error;
+            return response.data.user;
         }
 
         function setUser(user) {

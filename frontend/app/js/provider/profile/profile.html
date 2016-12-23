@@ -7,7 +7,7 @@
     <div flex layout="row" layout-align="end center" class="title-actions">
       <button class="md-button md-button-blue"
               aria-label="Show public profile"
-              ui-sref="provider.profile.public({'profileId': vm.profileData.id})">
+              ui-sref="provider.profile.public({'profileId': vm.userProfile.id})">
         Show public profile
       </button>
     </div>
@@ -24,7 +24,7 @@
            layout-align-gt-xs="start start"
            flex-gt-xs="25">
         <img class="profile-avatar"
-             ng-src="{{vm.newPortrait || vm.profileData.portrait || coreConstants.IMAGES.defaultPortrait}}"
+             ng-src="{{vm.newPortrait || vm.userProfile.portrait || coreConstants.IMAGES.defaultPortrait}}"
              alt="photo"/>
         <div flex="5"></div>
         <div class="actions"
@@ -46,6 +46,24 @@
                      aria-label="Edit profile">
             Edit general info
           </md-button>
+          <div layout="row"
+               layout-align="start center">
+            <span class="m-r-sm md-body-2">Language:</span>
+            <span class="md-body-1"
+                  ng-if="!vm.isEditing"
+                  ng-bind="vm.userProfile.usingLanguage.name">
+            </span>
+            <md-select flex
+                       aria-label="Language"
+                       ng-if="vm.isEditing"
+                       ng-model-options="{trackBy: '$value.id'}"
+                       ng-model="vm.userProfile.usingLanguage">
+              <md-option ng-repeat="language in vm.languages"
+                         ng-value="language">
+                <span ng-bind="language.name"></span>
+              </md-option>
+            </md-select>
+          </div>
         </div>
       </div>
       <div flex-gt-xs="5"></div>
@@ -77,8 +95,6 @@
             </md-tabs>
           </md-content>
         </div>
-
-
       </div>
     </div>
   </div>

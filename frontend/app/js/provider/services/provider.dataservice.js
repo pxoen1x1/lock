@@ -11,7 +11,6 @@
     function serviceProviderDataservice($http, $sails, request, conf) {
         var service = {
             getRequests: getRequests,
-            getRequest: getRequest,
             getChatByRequest: getChatByRequest,
             checkRequestsStatus: checkRequestsStatus,
             updateLocation: updateLocation
@@ -25,14 +24,6 @@
                 url: conf.BASE_URL + conf.URL_PREFIX + 'specialist/requests',
                 method: 'GET',
                 params: params
-            });
-        }
-
-        function getRequest(currentRequest) {
-
-            return request.httpWithTimeout({
-                url: conf.BASE_URL + conf.URL_PREFIX + 'specialist/requests/' + currentRequest.id,
-                method: 'GET'
             });
         }
 

@@ -10,6 +10,7 @@
     /* @ngInject */
     function chatSocketservice($sails, socketService, conf) {
         var service = {
+            getSpecialistChat: getSpecialistChat,
             getClientChats: getClientChats,
             getSpecialistChats: getSpecialistChats,
             getRequestBids: getRequestBids,
@@ -20,6 +21,7 @@
             createChat: createChat,
             createBid: createBid,
             sendMessage: sendMessage,
+            translateMessage: translateMessage,
             deleteBid: deleteBid,
             declineBid: declineBid,
             onRequest: onRequest,
@@ -34,9 +36,20 @@
 
         return service;
 
+        function getSpecialistChat(chat) {
+
+            return $sails.get(conf.URL_PREFIX + 'specialist/chats/' + chat.id)
+                .then(getChatCompleted);
+
+            function getChatCompleted(message) {
+
+                return message.data.chat;
+            }
+        }
+
         function getClientChats(request) {
 
-            return $sails.get(conf.URL_PREFIX + 'client/request/' + request.id + '/chats')
+            return $sails.get(conf.URL_PREFIX + 'client/requests/' + request.id + '/chats')
                 .then(getClientChatsCompleted);
 
             function getClientChatsCompleted(message) {
@@ -58,7 +71,7 @@
 
         function getRequestBids(request) {
 
-            return $sails.get(conf.URL_PREFIX + 'client/request/' + request.id + '/bids')
+            return $sails.get(conf.URL_PREFIX + 'client/requests/' + request.id + '/bids')
                 .then(getRequestBidsCompleted);
 
             function getRequestBidsCompleted(message) {
@@ -102,16 +115,16 @@
 
         function subscribeToChat(chat) {
 
-            return $sails.post(conf.URL_PREFIX + 'chat/' + chat.id + '/subscribe')
+            return $sails.post(conf.URL_PREFIX + 'chats/' + chat.id + '/subscribe')
                 .then(function (message) {
 
                     return message.data;
                 });
         }
 
-        function createChat(request, specialist) {
+        function createChat(request, member) {
 
-            return $sails.post(conf.URL_PREFIX + 'client/request/' + request.id + '/chats', specialist)
+            return $sails.post(conf.URL_PREFIX + 'client/requests/' + request.id + '/chats', member)
                 .then(createChatCompleted);
 
             function createChatCompleted(response) {
@@ -122,7 +135,7 @@
 
         function createBid(request, bid) {
 
-            return $sails.post(conf.URL_PREFIX + 'specialist/request/' + request.id + '/bids', bid)
+            return $sails.post(conf.URL_PREFIX + 'specialist/requests/' + request.id + '/bids', bid)
                 .then(createBidCompleted);
 
             function createBidCompleted(response) {
@@ -137,6 +150,17 @@
                 .then(sendMessageCompleted);
 
             function sendMessageCompleted(response) {
+
+                return response.data.message;
+            }
+        }
+
+        function translateMessage(message, language) {
+
+            return $sails.post(conf.URL_PREFIX + 'messages/' + message.id + '/translate', language)
+                .then(translateMessageComplete);
+
+            function translateMessageComplete(response) {
 
                 return response.data.message;
             }
@@ -165,13 +189,13 @@
         }
 
         function onRequest(next) {
-            socketService.listener('request', function (event) {
+            return socketService.listener('request', function (event) {
                 next(event.request, event.type, event.isBlast);
             });
         }
 
         function onChat(next) {
-            socketService.listener('chat', function (event) {
+            return socketService.listener('chat', function (event) {
                 next(event.chat, event.type);
             });
         }
@@ -183,7 +207,7 @@
         }
 
         function onMessage(next) {
-            socketService.listener('message', function (event) {
+            return socketService.listener('message', function (event) {
                 next(event.message, event.type);
             });
         }

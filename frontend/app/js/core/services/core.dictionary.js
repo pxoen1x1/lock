@@ -26,7 +26,7 @@
 
             function getServiceTypesComplete(response) {
 
-                return response.data;
+                return response.serviceTypes || response.data.serviceTypes;
             }
 
             function getServiceTypesFromHttp(cacheId) {
@@ -48,7 +48,7 @@
 
             function getLanguagesComplete(response) {
 
-                return response.data;
+                return response.languages || response.data.languages;
             }
 
             function getLanguagesFromHttp(cacheId) {
@@ -84,7 +84,7 @@
         }
 
         function getDataFromHttpComplete(cacheId, response) {
-            dataCache.put(cacheId, response);
+            dataCache.put(cacheId, response.data);
 
             return response;
         }

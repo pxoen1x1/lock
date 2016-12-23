@@ -20,33 +20,17 @@
                     },
                     'menu@provider': {
                         templateUrl: 'layout/menu/user-menu.html',
-                        controller: 'ProviderMenuController',
+                        controller: 'UserMenuController',
                         controllerAs: 'vm'
                     },
                     'header@provider': {
                         templateUrl: 'layout/header/user-header.html',
-                        controller: 'ProviderHeaderController',
+                        controller: 'UserHeaderController',
                         controllerAs: 'vm'
                     }
                 },
                 data: {
                     title: 'Specialist'
-                }
-            })
-            .state('provider.registration', {
-                url: '/registration',
-                views: {
-                    'content@root': {
-                        templateUrl: 'provider/layout/registration-layout.html'
-                    },
-                    'content@provider.registration': {
-                        templateUrl: 'provider/registration/registration.html',
-                        controller: 'ProviderRegistrationController',
-                        controllerAs: 'vm'
-                    },
-                    'header@provider.registration': {
-                        templateUrl: 'layout/header/registration-header.html'
-                    }
                 }
             })
             .state('provider.messages', {
@@ -187,13 +171,13 @@
                     isPrivate: true
                 }
             })
-            .state('provider.dashboard.request.view', {
+            .state('provider.dashboard.request.info', {
                 parent: 'provider.dashboard.request',
-                url: '/view',
+                url: '/info',
                 views: {
                     'content@provider.dashboard.request': {
-                        templateUrl: 'provider/request-view/request-view.html',
-                        controller: 'ProviderViewRequestController',
+                        templateUrl: 'provider/request-info/request-info.html',
+                        controller: 'ProviderInfoRequestController',
                         controllerAs: 'vm'
                     }
                 },

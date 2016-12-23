@@ -87,11 +87,11 @@
                 return;
             }
 
-            var specialist = {
-                specialist: selectedSpecialist
+            var member = {
+                member: selectedSpecialist
             };
 
-            return chatSocketservice.createChat(vm.request, specialist)
+            return chatSocketservice.createChat(vm.request, member)
                 .then(function () {
                     $state.go('customer.requests.request.chat');
                 });

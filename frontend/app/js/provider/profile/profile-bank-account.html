@@ -5,8 +5,8 @@
          layout-align-gt-xs="start center">
     </div>
     <div><h2>Bank account</h2></div>
-    <div ng-if="!vm.profileData.merchantData">Fill Merchant info before adding bank account</div>
-    <div ng-repeat="account in vm.profileData.paymentData">
+    <div ng-if="!vm.userProfile.merchantData">Fill Merchant info before adding bank account</div>
+    <div ng-repeat="account in vm.userProfile.paymentData">
         <div class="section first">
             <span class="md-body-2">name:</span>
             <span class="md-body-1" ng-bind="account.name"></span>
@@ -24,8 +24,8 @@
             <span class="md-body-1" ng-bind="account.status"></span>
         </div>
     </div>
-    <md-button ng-if="vm.profileData.paymentData.length == 0 && !vm.isEditingPayment" ng-click="vm.isEditingPayment = true"">Add</md-button>
-    <md-button ng-if="vm.profileData.paymentData.length > 0 && !vm.isEditingPayment" ng-click="vm.isEditingPayment = true">Edit</md-button>
+    <md-button ng-if="vm.userProfile.paymentData.length == 0 && !vm.isEditingPayment" ng-click="vm.isEditingPayment = true"">Add</md-button>
+    <md-button ng-if="vm.userProfile.paymentData.length > 0 && !vm.isEditingPayment" ng-click="vm.isEditingPayment = true">Edit</md-button>
 
     <!--          <md-button ng-if="!vm.isEditingPayment"
                          class="md-button-blue"
@@ -37,11 +37,11 @@
 <div ng-if="vm.isEditingPayment">
     <form name="editPaymentForm"
           novalidate
-          ng-submit="vm.setMerchantAccount(vm.profileData.payment, editPaymentForm.$valid)">
+          ng-submit="vm.setMerchantAccount(vm.userProfile.payment, editPaymentForm.$valid)">
         <div layout="row">
             <md-input-container class="md-block" flex>
                 <label>Type of Account</label>
-                <md-select ng-model="vm.profileData.payment.method">
+                <md-select ng-model="vm.userProfile.payment.method">
                     <md-option ng-repeat="type in vm.bankAccountTypes" ng-value="type.code">
                         {{type.name}}
                     </md-option>
@@ -52,14 +52,14 @@
                 <input name="paymentRouting"
                        required
                        ng-maxlength="20"
-                       ng-model="vm.profileData.payment.routing">
+                       ng-model="vm.userProfile.payment.routing">
             </md-input-container>
             <md-input-container class="md-block" flex>
                 <label>paymentNumber</label>
                 <input name="paymentNumber"
                        required
                        ng-maxlength="20"
-                       ng-model="vm.profileData.payment.number">
+                       ng-model="vm.userProfile.payment.number">
             </md-input-container>
         </div>
         <md-button type="submit"

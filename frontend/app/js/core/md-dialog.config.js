@@ -18,7 +18,7 @@
             var methodHandle = $delegate.show;
 
             function decorateDialogShow() {
-                var args = angular.extend({}, arguments[0], defaultOptions);
+                var args = angular.extend({}, defaultOptions, arguments[0]);
 
                 return methodHandle(args);
             }

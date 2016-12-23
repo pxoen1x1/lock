@@ -20,10 +20,9 @@ let AuthController = waterlock.waterlocked({
     register(req, res) {
         let params = req.allParams();
         let auth = params.auth;
-        let user = params.user;
 
         if ((!auth || !auth.password || !auth.email) ||
-            (!user || !user.firstName || !user.lastName || !user.phoneNumber)) {
+            (!auth.user || !auth.user.firstName || !auth.user.lastName || !auth.user.phoneNumber)) {
 
             return res.badRequest({
                 message: req.__('Submitted data is invalid.')
@@ -34,17 +33,16 @@ let AuthController = waterlock.waterlocked({
 
         criteria.email = auth.email;
 
-        if (user.details) {
-            if (user.details.rating) {
-                delete user.details.rating;
+        if (auth.user.details) {
+            if (auth.user.details.rating) {
+                delete auth.user.details.rating;
             }
 
-            user.userDetail = user.details;
+            auth.user.userDetail = auth.user.details;
 
-            delete user.details;
+            delete auth.user.details;
         }
 
-        auth.user = user;
         var createdUser;
         AuthService.findAuth(criteria)
             .then(
@@ -252,25 +250,25 @@ let AuthController = waterlock.waterlocked({
             Promise.resolve();
 
         Promise.all([
-                promiseCheckSSN,
-                promiseCheckPhoneNumber,
-                promiseCheckEmail,
-                promiseGetUser
-            ])
+            promiseCheckSSN,
+            promiseCheckPhoneNumber,
+            promiseCheckEmail,
+            promiseGetUser
+        ])
             .then(
                 (params) => {
                     let userId = params[3] ? params[3].id : null;
 
                     if (ssn) {
-                        response.ssn = params[0] && userId !== params[0].id ? true : false;
+                        response.ssn = !!(params[0] && userId !== params[0].id);
                     }
 
                     if (phoneNumber) {
-                        response.phoneNumber = params[1] && userId !== params[1].id ? true : false;
+                        response.phoneNumber = !!(params[1] && userId !== params[1].id);
                     }
 
                     if (email) {
-                        response.email = params[2] && userId !== params[2].id ? true : false;
+                        response.email = !!(params[2] && userId !== params[2].id);
                     }
 
                     res.ok(response);

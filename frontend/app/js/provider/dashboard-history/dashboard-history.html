@@ -1,18 +1,20 @@
-<div class="request-list-content">
+<div class="list-content"
+     layout="column"
+     flex>
   <div class="container"
        ng-if="$mdMedia('gt-xs')">
     <div class="container-title">
       <i class="material-icons">history</i>
       <span>History</span>
       <span>⋅</span>
-      <span ng-bind="vm.paginationOptions.totalCount"></span>
+      <span ng-bind="vm.queryOptions.totalCount"></span>
     </div>
     <div class="container-content">
       <md-table-container>
         <table md-table>
           <thead md-head
                  md-order="vm.queryOptions.orderBy"
-                 md-on-reorder="vm.getRequests">
+                 md-on-reorder="vm.getHistoryRequests">
           <tr md-row>
             <th md-column
                 md-order-by="createdAt">
@@ -39,7 +41,7 @@
           </thead>
           <tbody md-body>
           <tr md-row
-              ui-sref="provider.dashboard.request.view({ requestId: request.id })"
+              ui-sref="provider.dashboard.request.info({ requestId: request.id })"
               ng-repeat="request in vm.requests track by request.id">
             <td md-cell>
               <span ng-bind="request.createdAt | altDate"></span>
@@ -84,84 +86,84 @@
       <md-table-pagination md-limit="vm.queryOptions.limit"
                            md-limit-options="vm.paginationOptions.limitOptions"
                            md-page="vm.queryOptions.page"
-                           md-total="{{ vm.paginationOptions.totalCount }}"
-                           md-on-paginate="vm.getRequests"
+                           md-total="{{ vm.queryOptions.totalCount }}"
+                           md-on-paginate="vm.getHistoryRequests"
                            md-page-select>
       </md-table-pagination>
     </div>
   </div>
-</div>
 
-<div class="infinite-scroll-wrapper request-list-content"
-     ng-if="!$mdMedia('gt-xs')">
-  <div class="infinite-scroll-container cards"
-       infinite-scroll
-       autoloading-enabled="true"
-       scroll-disabled="vm.isAllRequestsLoaded"
-       on-scroll="vm.getMoreRequests()">
-    <a class="list card"
-       ui-sref="provider.dashboard.request.view({ requestId: request.id })"
-       ng-repeat="request in vm.requests track by request.id">
-      <div class="item item-header" layout="row">
-        <div layout="row"
-             layout-align="start center"
-             flex>
-          <div class="avatar-wrapper">
-            <div class="avatar"
-                 ng-style="{ 'background-image': 'url(' + (request.owner.portrait ?
+  <div class="infinite-scroll-wrapper"
+       ng-if="!$mdMedia('gt-xs')">
+    <div class="infinite-scroll-container cards"
+         infinite-scroll
+         autoloading-enabled="true"
+         scroll-disabled="vm.isAllRequestsLoaded"
+         on-scroll="vm.loadMoreHistoryRequests()">
+      <a class="list card"
+         ui-sref="provider.dashboard.request.info({ requestId: request.id })"
+         ng-repeat="request in vm.requests track by request.id">
+        <div class="item item-header" layout="row">
+          <div layout="row"
+               layout-align="start center"
+               flex>
+            <div class="avatar-wrapper">
+              <div class="avatar"
+                   ng-style="{ 'background-image': 'url(' + (request.owner.portrait ?
                  vm.baseUrl + request.owner.portrait : vm.defaultPortrait) + ')' }">
+              </div>
+            </div>
+            <div class="contact-name" flex>
+              <span ng-bind="request.owner.fullName"></span>
             </div>
           </div>
-          <div class="contact-name" flex>
-            <span ng-bind="request.owner.fullName"></span>
-          </div>
-        </div>
-        <div layout="column"
-             layout-align="center end">
-          <div class="secondary-text" ng-bind="request.createdAt | altDate"></div>
-          <div class="request-status"
-               ng-class="{
+          <div layout="column"
+               layout-align="center end">
+            <div class="secondary-text" ng-bind="request.createdAt | altDate"></div>
+            <div class="request-status"
+                 ng-class="{
                  'new': request.status === vm.requestStatus.NEW,
                  'pending': request.status === vm.requestStatus.PENDING,
                  'in-progress': request.status === vm.requestStatus.IN_PROGRESS || request.status === vm.requestStatus.DONE,
                  'closed': request.status === vm.requestStatus.CLOSED
                }">
-            <span ng-bind="vm.requestStatus[request.status]"></span>
+              <span ng-bind="vm.requestStatus[request.status]"></span>
+            </div>
           </div>
         </div>
-      </div>
-      <div class="item item-body" layout="row">
-        <div layout="row">
-          <div layout="column"
-               flex="50">
-            <div>
-              <span class="md-body-2">Type of service:</span>
-              <span class="md-body-1" ng-bind="request.serviceType.name"></span>
-            </div>
-            <div ng-if="request.language.name">
-              <span class="md-body-2">Language:</span>
-              <span class="md-body-1"
-                    ng-bind="request.language.name">
+        <div class="item item-body" layout="row">
+          <div layout="row">
+            <div layout="column"
+                 flex="50">
+              <div>
+                <span class="md-body-2">Type of service:</span>
+                <span class="md-body-1" ng-bind="request.serviceType.name"></span>
+              </div>
+              <div ng-if="request.language.name">
+                <span class="md-body-2">Language:</span>
+                <span class="md-body-1"
+                      ng-bind="request.language.name">
           </span>
+              </div>
             </div>
-          </div>
-          <div layout="column"
-               flex="50">
-            <div>
-              <span class="md-body-2">For Date:</span>
-              <span class="md-body-1"
-                    ng-bind="request.forDate ? (request.forDate | date: vm.dateFormat) : 'Now'">
+            <div layout="column"
+                 flex="50">
+              <div>
+                <span class="md-body-2">For Date:</span>
+                <span class="md-body-1"
+                      ng-bind="request.forDate ? (request.forDate | date: vm.dateFormat) : 'Now'">
           </span>
-            </div>
-            <div ng-if="request.location">
-              <span class="md-body-2">Location:</span>
-              <span class="md-body-1"
-                    ng-bind="request.location.address">
+              </div>
+              <div ng-if="request.location">
+                <span class="md-body-2">Location:</span>
+                <span class="md-body-1"
+                      ng-bind="request.location.address">
             </span>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </a>
+      </a>
+    </div>
   </div>
 </div>

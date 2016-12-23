@@ -20,7 +20,7 @@
 
         function authorize(access) {
             if (access) {
-                
+
                 return isAuthenticated();
             }
 
@@ -39,13 +39,16 @@
                     clearData();
                     localService.setAuth(auth);
 
-                    return auth;
+                    return currentUserService.getUser();
                 })
-                .then(function () {
-
-                        return socketService.subscribe();
+                .then(function (currentUser) {
+                    if (currentUser) {
+                        localService.setUser(currentUser);
+                        localService.setLanguage(currentUser.usingLanguage);
                     }
-                );
+
+                    return socketService.subscribe();
+                });
         }
 
         function logout() {
@@ -62,13 +65,18 @@
 
             return coreDataservice.createUser(user)
                 .then(function (auth) {
-                    localService.clear();
+                    clearData();
 
                     localService.setAuth(auth);
 
-                    return auth;
+                    return currentUserService.getUser();
                 })
-                .then(function () {
+                .then(function (currentUser) {
+                    if (currentUser) {
+
+                        localService.setUser(currentUser);
+                        localService.setLanguage(currentUser.usingLanguage);
+                    }
 
                     return socketService.subscribe();
                 });
@@ -76,7 +84,8 @@
 
         function clearData() {
             currentUserService.clearType();
-            localService.clear();
+            localService.removeAuth();
+            localService.removeUser();
         }
     }
 })();

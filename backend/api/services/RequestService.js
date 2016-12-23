@@ -80,9 +80,6 @@ let getRequestsRawQuery = `SELECT request.id,
                                   executor_details.latitude AS 'executor.details.latitude',
                                   executor_details.longitude AS 'executor.details.longitude',
                                   executor_details.rating AS 'executor.details.rating',
-                                  executor_details_license.id AS 'executor.details.license.id',
-                                  executor_details_license.number AS 'executor.details.license.number',
-                                  executor_details_license.date AS 'executor.details.license.date',
                                   executor_details_workingHours.id AS 'executor.details.workingHours.id',
                                   executor_details_workingHours.time_from AS 'executor.details.workingHours.timeFrom',
                                   executor_details_workingHours.time_to AS 'executor.details.workingHours.timeTo'
@@ -101,8 +98,6 @@ let getRequestsRawQuery = `SELECT request.id,
                      LEFT JOIN cities AS executor_address_city ON executor_address_city.id = executor_address.city_id
                      LEFT JOIN states AS executor_address_state ON executor_address_state.id = executor_address.state_id
                      LEFT JOIN user_details AS executor_details ON executor_details.user_id = executor.id
-                     LEFT JOIN licenses AS executor_details_license
-                               ON executor_details_license.user_details_id = executor_details.id
                      LEFT JOIN working_hours AS executor_details_workingHours
                                ON executor_details_workingHours.user_details_id = executor_details.id`;
 
@@ -147,6 +142,56 @@ let RequestService = {
                 (requests) => HelperService.formatQueryResult(requests)
             );
     },
+    getGroupRequests(user, filters) {
+        let tableAlias = 'request';
+
+        let criteria = {
+            where: {},
+            sorting: filters.sorting,
+            skip: (filters.pagination.page - 1) * filters.pagination.limit,
+            limit: filters.pagination.limit
+        };
+
+        if (filters.status) {
+            if (filters.status.indexOf('!') === 0) {
+                criteria.where.status = {
+                    '!': filters.status.replace('!', '')
+                };
+            } else {
+                criteria.where.status = filters.status;
+            }
+        }
+
+        let getGroupRequestsRawQuery = `${getRequestsRawQuery} JOIN groups AS gr ON gr.admin_id = ?
+            JOIN group_members__user_groupmembers AS gu ON gu.group_members = gr.id
+            WHERE request.executor_id = gu.user_groupMembers`;
+
+        let rawQuery = HelperService.buildQuery(getGroupRequestsRawQuery, criteria, tableAlias);
+
+        let getSpecialistsRequestsQueryAsync = promise.promisify(Request.query);
+
+        return getSpecialistsRequestsQueryAsync(rawQuery, [user.id])
+            .then(
+                (requests) => {
+                    let data = [user.id];
+
+                    rawQuery = rawQuery.replace(/^SELECT[\s|\S]*FROM/i, 'SELECT COUNT (*) FROM');
+                    rawQuery = rawQuery.replace(/LEFT JOIN [\s|\S]*executor_details.id/i, '');
+                    rawQuery = rawQuery.replace(/\sOFFSET \d+/i, '');
+
+                    return [HelperService.formatQueryResult(requests), this._getRequestsCountBYQuery(rawQuery, data)];
+                }
+            )
+            .spread(
+                (requests, count) => {
+
+                    return {
+                        items: requests,
+                        count: count
+                    };
+                }
+            );
+    },
     getRequestById(request){
         let rawQuery = `${getRequestsRawQuery} WHERE request.id = ?`;
 
@@ -177,7 +222,31 @@ let RequestService = {
             .then(
                 (updatedRequests) => this.getRequestById(updatedRequests[0])
             );
-    }
+    },
+    _getRequestsCountBYQuery(rawQuery, data){
+        data = data || [];
+
+        if (!rawQuery || !Array.isArray((data))) {
+
+            return Promise.reject(new Error('Query or data is empty.'));
+        }
+
+        let getRequestsCountQueryAsync = promise.promisify(Request.query);
+
+        return getRequestsCountQueryAsync(rawQuery, data)
+            .then(
+                (requestsCount) => {
+                    if (!requestsCount || requestsCount.length === 0) {
+                        return 0;
+                    }
+
+                    requestsCount = requestsCount[0];
+
+                    return Object.keys(requestsCount)
+                        .map(key => requestsCount[key])[0];
+                }
+            );
+    },
 };
 
 module.exports = RequestService;

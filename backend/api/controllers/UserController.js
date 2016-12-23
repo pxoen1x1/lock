@@ -162,7 +162,7 @@ let UserController = waterlock.actions.user({
         if (!userId) {
 
             return res.badRequest({
-                message: req.__('You are not permitted to perform this action.')
+                message: req.__('Submitted data is invalid.')
             });
         }
 

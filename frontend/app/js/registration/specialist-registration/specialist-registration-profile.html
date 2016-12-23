@@ -1,0 +1,104 @@
+<div layout="column">
+  <div layout="row" layout-align="center start">
+    <md-radio-group class="md-primary"
+                    layout="row"
+                    ng-model="vm.isCompanyRegistrationSelected">
+      <md-radio-button ng-value="false"> Individual</md-radio-button>
+      <md-radio-button ng-value="true"> Company</md-radio-button>
+    </md-radio-group>
+  </div>
+  <div flex>
+    <div ng-if="vm.isCompanyRegistrationSelected">
+      <p>Company Info:</p>
+      <div layout="row">
+        <md-input-container class="md-block" flex>
+          <label>Title</label>
+          <input type="text"
+                 name="companyTitle"
+                 required
+                 ng-model="vm.user.groups.title">
+        </md-input-container>
+      </div>
+    </div>
+    <div>
+      <p>Personal information:</p>
+      <div flex layout="row" layout-xs="column">
+        <md-input-container class="md-block" flex>
+          <label>First name</label>
+          <input type="text"
+                 name="firstName"
+                 required
+                 ng-maxlength="20"
+                 ng-model="vm.user.firstName">
+          <div ng-messages="registrationForm.firstName.$error">
+            <div ng-message="maxlength">Your first name is too long.</div>
+          </div>
+        </md-input-container>
+        <md-input-container class="md-block" flex>
+          <label>Last name</label>
+          <input type="text"
+                 name="lastName"
+                 required
+                 ng-maxlength="20"
+                 ng-model="vm.user.lastName">
+          <div ng-messages="registrationForm.lastName.$error">
+            <div ng-message="maxlength">Your last name is too long.</div>
+          </div>
+        </md-input-container>
+      </div>
+      <p>Contact information: <sup>*</sup></p>
+      <div layout-gt-xs="row">
+        <md-input-container class="md-block"
+                            flex="100"
+                            flex-gt-xs="50">
+          <label>Phone number</label>
+          <input type="tel"
+                 name="phoneNumber"
+                 required
+                 ui-us-phone-number
+                 availability-validation
+                 ng-model-options="{ 'debounce': 400 }"
+                 ng-model="vm.user.phoneNumber">
+          <div ng-messages="registrationForm.phoneNumber.$error">
+            <span ng-message="usPhoneNumber">That doesn't look like a valid phone number.</span>
+            <span ng-message="availability">This phone number already exists.</span>
+          </div>
+        </md-input-container>
+        <md-input-container
+            class="md-block"
+            flex="100"
+            flex-gt-xs="50">
+          <label>Email</label>
+          <input type="email"
+                 name="email"
+                 required
+                 autocomplete="off"
+                 email-validation
+                 availability-validation
+                 ng-model-options="{ 'debounce': 400 }"
+                 ng-model="vm.auth.email">
+          <div ng-messages="registrationForm.email.$error">
+            <div ng-message="email">That doesn't look like a valid email.</div>
+            <div ng-message="availability">This email already exists.</div>
+          </div>
+        </md-input-container>
+      </div>
+      <div layout="row">
+        <md-input-container class="md-block" flex>
+          <label>Password</label>
+          <input type="password"
+                 name="password"
+                 required
+                 autocomplete="off"
+                 password-validation
+                 ng-model="vm.auth.password">
+          <div ng-messages="registrationForm.password.$error">
+            <div ng-message="password">
+              Your password must contain 6 characters (at least one number and one letter).
+            </div>
+          </div>
+        </md-input-container>
+      </div>
+    </div>
+  </div>
+</div>

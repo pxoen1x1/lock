@@ -1,4 +1,4 @@
-/* global sails, Chat, HelperService */
+/* global sails, Chat, User, HelperService */
 
 'use strict';
 
@@ -6,135 +6,160 @@ const RANDOM_COORDINATES_COEFFICIENT = sails.config.requests.RANDOM_COORDINATES_
 
 let promise = require('bluebird');
 let getChatsRawQuery = `SELECT chat.id,
-                               chat.createdAt,
-                               chat.updatedAt,
-                               request.id AS 'request.id',
-                               request.for_date AS 'request.forDate',
-                               request.distance AS 'request.distance',
-                               request.description AS 'request.description',
-                               request.cost AS 'request.cost',
-                               request.status AS 'request.status',
-                               request.is_public AS 'request.isPublic',
-                               request.createdAt AS 'request.createdAt',
-                               request.updatedAt AS 'request.updatedAt',
-                               request_language.id AS 'request.language.id',
-                               request_language.name AS 'request.language.name',
-                               request_serviceType.id AS 'request.serviceType.id',
-                               request_serviceType.name AS 'request.serviceType.name',
-                               request_location.id AS 'request.location.id',
-                               request_location.address AS 'request.location.address',
-                               request_location.latitude AS 'request.location.latitude',
-                               request_location.longitude AS 'request.location.longitude',
-                               client.id AS 'client.id',
-                               client.first_name AS 'client.firstName',
-                               client.last_name AS 'client.lastName',
-                               CONCAT_WS(' ', client.first_name, client.last_name) AS 'client.fullName',
-                               client.phone_number AS 'client.phoneNumber',
-                               client.gender AS 'client.gender',
-                               client.birthday AS 'client.birthday',
-                               client.ssn AS 'client.ssn',
-                               client.is_enabled AS 'client.isEnabled',
-                               client.is_email_confirmed AS 'client.isEmailConfirmed',
-                               client.portrait AS 'client.portrait',
-                               client.createdAt AS 'client.createdAt',
-                               client.updatedAt AS'client.updatedAt',
-                               client_auth.id AS 'client.auth.id',
-                               client_auth.email AS 'client.auth.email',
-                               client_address.id AS 'client.address.id',
-                               client_address.address AS 'client.address.address',
-                               client_address.zip AS 'client.address.zip',
-                               client_address_city.id AS 'client.address.city.id',
-                               client_address_city.city AS 'client.address.city.city',
-                               client_address_city.zip AS 'client.address.city.zip',
-                               client_address_city.lat AS 'client.address.city.lat',
-                               client_address_city.lng AS 'client.address.city.lng',
-                               client_address_state.id AS 'client.address.state.id',
-                               client_address_state.state AS 'client.address.state.state',
-                               client_address_state.code AS 'client.address.state.code',
-                               client_lastMessage.id AS 'client.lastMessage.id',
-                               client_lastMessage.message AS 'client.lastMessage.message',
-                               client_lastMessage.type AS 'client.lastMessage.type',
-                               client_lastMessage.is_read AS 'client.lastMessage.isRead',
-                               client_lastMessage.sender_id AS 'client.lastMessage.senderId',
-                               client_lastMessage.chat_id AS 'client.lastMessage.chatId',
-                               client_lastMessage.createdAt AS 'client.lastMessage.createdAt',
-                               client_lastMessage.updatedAt AS 'client.lastMessage.updatedAt',
-                               specialist.id AS 'specialist.id',
-                               specialist.first_name AS 'specialist.firstName',
-                               specialist.last_name AS 'specialist.lastName',
-                               CONCAT_WS(' ', specialist.first_name, specialist.last_name) AS 'specialist.fullName',
-                               specialist.phone_number AS 'specialist.phoneNumber',
-                               specialist.gender AS 'specialist.gender',
-                               specialist.birthday AS 'specialist.birthday',
-                               specialist.ssn AS 'specialist.ssn',
-                               specialist.is_enabled AS 'specialist.isEnabled',
-                               specialist.is_email_confirmed AS 'specialist.isEmailConfirmed',
-                               specialist.portrait AS 'specialist.portrait',
-                               specialist.createdAt AS 'specialist.createdAt',
-                               specialist.updatedAt AS'specialist.updatedAt',
-                               specialist_auth.id AS 'specialist.auth.id',
-                               specialist_auth.email AS 'specialist.auth.email',
-                               specialist_address.id AS 'specialist.address.id',
-                               specialist_address.address AS 'specialist.address.address',
-                               specialist_address.zip AS 'specialist.address.zip',
-                               specialist_address_city.id AS 'specialist.address.city.id',
-                               specialist_address_city.city AS 'specialist.address.city.city',
-                               specialist_address_city.zip AS 'specialist.address.city.zip',
-                               specialist_address_city.lat AS 'specialist.address.city.lat',
-                               specialist_address_city.lng AS 'specialist.address.city.lng',
-                               specialist_address_state.id AS 'specialist.address.state.id',
-                               specialist_address_state.state AS 'specialist.address.state.state',
-                               specialist_address_state.code AS 'specialist.address.state.code',
-                               specialist_details.id AS 'specialist.details.id',
-                               specialist_details.is_available AS 'specialist.details.isAvailable',
-                               specialist_details.is_pro AS 'specialist.details.isPro',
-                               specialist_details.latitude AS 'specialist.details.latitude',
-                               specialist_details.longitude AS 'specialist.details.longitude',
-                               specialist_details.rating AS 'specialist.details.rating',
-                               specialist_details_license.id AS 'specialist.details.license.id',
-                               specialist_details_license.number AS 'specialist.details.license.number',
-                               specialist_details_license.date AS 'specialist.details.license.date',
-                               specialist_details_workingHours.id AS 'specialist.details.workingHours.id',
-                               specialist_details_workingHours.time_from AS 'specialist.details.workingHours.timeFrom',
-                               specialist_details_workingHours.time_to AS 'specialist.details.workingHours.timeTo',
-                               specialist_lastMessage.id AS 'specialist.lastMessage.id',
-                               specialist_lastMessage.message AS 'specialist.lastMessage.message',
-                               specialist_lastMessage.type AS 'specialist.lastMessage.type',
-                               specialist_lastMessage.is_read AS 'specialist.lastMessage.isRead',
-                               specialist_lastMessage.sender_id AS 'specialist.lastMessage.senderId',
-                               specialist_lastMessage.chat_id AS 'specialist.lastMessage.chatId',
-                               specialist_lastMessage.createdAt AS 'specialist.lastMessage.createdAt',
-                               specialist_lastMessage.updatedAt AS 'specialist.lastMessage.updatedAt'
+                       chat.createdAt,
+                       chat.updatedAt,
+                       request.id AS 'request.id',
+                       request.distance AS 'request.distance',
+                       request.description AS 'request.description',
+                       request.for_date AS 'request.forDate',
+                       request.cost AS 'request.cost',
+                       request.status AS 'request.status',
+                       request.is_public AS 'request.isPublic',
+                       request.createdAt AS 'request.createdAt',
+                       request.updatedAt AS 'request.updatedAt',
+                       request_language.id AS 'request.language.id',
+                       request_language.name AS 'request.language.name',
+                       request_serviceType.id AS 'request.serviceType.id',
+                       request_serviceType.name AS 'request.serviceType.name',
+                       request_location.id AS 'request.location.id',
+                       request_location.address AS 'request.location.address',
+                       request_location.latitude AS 'request.location.latitude',
+                       request_location.longitude AS 'request.location.longitude',
+                       request_executor.id AS 'request.executor.id',
+                       request_executor.first_name AS 'request.executor.firstName',
+                       request_executor.last_name AS 'request.executor.lastName',
+                       CONCAT_WS(' ', request_executor.first_name, request_executor.last_name) AS
+                         'request.executor.fullName',
+                       request_executor.phone_number AS 'request.executor.phoneNumber',
+                       request_executor.gender AS 'request.executor.gender',
+                       request_executor.birthday AS 'request.executor.birthday',
+                       request_executor.ssn AS 'request.executor.ssn',
+                       request_executor.is_enabled AS 'request.executor.isEnabled',
+                       request_executor.is_email_confirmed AS 'request.executor.isEmailConfirmed',
+                       request_executor.portrait AS 'request.executor.portrait',
+                       request_executor.createdAt AS 'request.executor.createdAt',
+                       request_executor.updatedAt AS'request.executor.updatedAt',
+                       request_executor_auth.id AS 'request.executor.auth.id',
+                       request_executor_auth.email AS 'request.executor.auth.email',
+                       request_executor_address.id AS 'request.executor.address.id',
+                       request_executor_address.address AS 'request.executor.address.address',
+                       request_executor_address.zip AS 'request.executor.address.zip',
+                       request_executor_address_city.id AS 'request.executor.address.city.id',
+                       request_executor_address_city.city AS 'request.executor.address.city.city',
+                       request_executor_address_city.zip AS 'request.executor.address.city.zip',
+                       request_executor_address_city.lat AS 'request.executor.address.city.lat',
+                       request_executor_address_city.lng AS 'request.executor.address.city.lng',
+                       request_executor_address_state.id AS 'request.executor.address.state.id',
+                       request_executor_address_state.state AS 'request.executor.address.state.state',
+                       request_executor_address_state.code AS 'request.executor.address.state.code',
+                       request_executor_details.id AS 'request.executor.details.id',
+                       request_executor_details.is_available AS 'request.executor.details.isAvailable',
+                       request_executor_details.is_pro AS 'request.executor.details.isPro',
+                       request_executor_details.latitude AS 'request.executor.details.latitude',
+                       request_executor_details.longitude AS 'request.executor.details.longitude',
+                       request_executor_details.rating AS 'request.executor.details.rating',
+                       request_executor_details_workingHours.id AS 'request.executor.details.workingHours.id',
+                       request_executor_details_workingHours.time_from AS
+                         'request.executor.details.workingHours.timeFrom',
+                       request_executor_details_workingHours.time_to AS 'request.executor.details.workingHours.timeTo',
+                       owner.id AS 'owner.id',
+                       owner.first_name AS 'owner.firstName',
+                       owner.last_name AS 'owner.lastName',
+                       CONCAT_WS(' ', owner.first_name, owner.last_name) AS 'owner.fullName',
+                       owner.phone_number AS 'owner.phoneNumber',
+                       owner.gender AS 'owner.gender',
+                       owner.birthday AS 'owner.birthday',
+                       owner.ssn AS 'owner.ssn',
+                       owner.is_enabled AS 'owner.isEnabled',
+                       owner.is_email_confirmed AS 'owner.isEmailConfirmed',
+                       owner.portrait AS 'owner.portrait',
+                       owner.createdAt AS 'owner.createdAt',
+                       owner.updatedAt AS'owner.updatedAt',
+                       owner_auth.id AS 'owner.auth.id',
+                       owner_auth.email AS 'owner.auth.email',
+                       owner_address.id AS 'owner.address.id',
+                       owner_address.address AS 'owner.address.address',
+                       owner_address.zip AS 'owner.address.zip',
+                       owner_address_city.id AS 'owner.address.city.id',
+                       owner_address_city.city AS 'owner.address.city.city',
+                       owner_address_city.zip AS 'owner.address.city.zip',
+                       owner_address_city.lat AS 'owner.address.city.lat',
+                       owner_address_city.lng AS 'owner.address.city.lng',
+                       owner_address_state.id AS 'owner.address.state.id',
+                       owner_address_state.state AS 'owner.address.state.state',
+                       owner_address_state.code AS 'owner.address.state.code',
+                       CONCAT_WS(' ', owner.first_name, owner.last_name) AS 'owner.fullName',
+                       owner.gender AS 'owner.gender',
+                       owner.portrait AS 'owner.portrait',
+                       owner.createdAt AS 'owner.createdAt',
+                       owner.updatedAt AS'owner.updatedAt'
         FROM chats AS chat
         LEFT JOIN requests AS request ON request.id = chat.request_id
         LEFT JOIN languages AS request_language ON request_language.id = request.language_id
         LEFT JOIN service_types AS request_serviceType ON request_serviceType.id = request.service_type_id
         LEFT JOIN locations AS request_location ON request_location.id = request.location_id
-        LEFT JOIN users AS client ON client.id = chat.client_id
-        LEFT JOIN auth AS client_auth ON client_auth.user = client.id
-        LEFT JOIN addresses AS client_address ON client_address.user_id = client.id
-        LEFT JOIN cities AS client_address_city ON client_address_city.id = client_address.city_id
-        LEFT JOIN states AS client_address_state ON client_address_state.id = client_address.state_id
-        LEFT JOIN (SELECT * FROM messages
-                    WHERE updatedAt IN (
-                      SELECT MAX(updatedAt) FROM messages GROUP BY sender_id
-                    )
-                  ) AS client_lastMessage ON client_lastMessage.sender_id = client.id
-        LEFT JOIN users AS specialist ON specialist.id = chat.specialist_id
-        LEFT JOIN auth AS specialist_auth ON specialist_auth.user = specialist.id
-        LEFT JOIN addresses AS specialist_address ON specialist_address.user_id = specialist.id
-        LEFT JOIN cities AS specialist_address_city ON specialist_address_city.id = specialist_address.city_id
-        LEFT JOIN states AS specialist_address_state ON specialist_address_state.id = specialist_address.state_id
-        LEFT JOIN user_details AS specialist_details ON specialist_details.user_id = specialist.id
-        LEFT JOIN licenses AS specialist_details_license
-                  ON specialist_details_license.user_details_id = specialist_details.id
-        LEFT JOIN working_hours AS specialist_details_workingHours
-                  ON specialist_details_workingHours.user_details_id = specialist_details.id
-        LEFT JOIN (SELECT * FROM messages
-                    WHERE updatedAt IN (
-                      SELECT MAX(updatedAt) FROM messages GROUP BY sender_id
-                    )
-                  ) AS specialist_lastMessage ON specialist_lastMessage.sender_id = specialist.id`;
+        LEFT JOIN users AS request_executor ON request_executor.id = request.executor_id
+        LEFT JOIN auth AS request_executor_auth ON request_executor_auth.user = request_executor.id
+        LEFT JOIN addresses AS request_executor_address ON request_executor_address.user_id = request_executor.id
+        LEFT JOIN cities AS request_executor_address_city
+                  ON request_executor_address_city.id = request_executor_address.city_id
+        LEFT JOIN states AS request_executor_address_state
+                  ON request_executor_address_state.id = request_executor_address.state_id
+        LEFT JOIN user_details AS request_executor_details ON request_executor_details.user_id = request_executor.id
+        LEFT JOIN working_hours AS request_executor_details_workingHours
+                  ON request_executor_details_workingHours.user_details_id = request_executor_details.id
+        LEFT JOIN users AS owner ON owner.id = chat.owner_id
+        LEFT JOIN auth AS owner_auth ON owner_auth.user = owner.id
+        LEFT JOIN addresses AS owner_address ON owner_address.user_id = owner.id
+        LEFT JOIN cities AS owner_address_city ON owner_address_city.id = owner_address.city_id
+        LEFT JOIN states AS owner_address_state ON owner_address_state.id = owner_address.state_id`;
+
+let getChatMembersRawQuery = `SELECT member.id,
+                             member.first_name AS 'firstName',
+                             member.last_name AS 'lastName',
+                             CONCAT_WS(' ', member.first_name, member.last_name) AS 'fullName',
+                             member.phone_number AS 'phoneNumber',
+                             member.gender,
+                             member.birthday,
+                             member.ssn,
+                             member.is_enabled AS 'isEnabled',
+                             member.is_email_confirmed AS 'isEmailConfirmed',
+                             member.portrait,
+                             member.createdAt,
+                             member.updatedAt,
+                             member_auth.id AS 'auth.id',
+                             member_auth.email AS 'auth.email',
+                             member_address.id AS 'address.id',
+                             member_address.address AS 'address.address',
+                             member_address.zip AS 'address.zip',
+                             member_address_city.id AS 'address.city.id',
+                             member_address_city.city AS 'address.city.city',
+                             member_address_city.zip AS 'address.city.zip',
+                             member_address_city.lat AS 'address.city.lat',
+                             member_address_city.lng AS 'address.city.lng',
+                             member_address_state.id AS 'address.state.id',
+                             member_address_state.state AS 'address.state.state',
+                             member_address_state.code AS 'address.state.code',
+                             member_details.id AS 'details.id',
+                             member_details.is_available AS 'details.isAvailable',
+                             member_details.is_pro AS 'details.isPro',
+                             member_details.latitude AS 'details.latitude',
+                             member_details.longitude AS 'details.longitude',
+                             member_details.rating AS 'details.rating',
+                             member_details_workingHours.id AS 'details.workingHours.id',
+                             member_details_workingHours.time_from AS 'details.workingHours.timeFrom',
+                             member_details_workingHours.time_to AS 'details.workingHours.timeTo'
+        FROM chats AS chat
+        JOIN  chat_members__user_chatmembers AS cu ON cu.chat_members = chat.id
+        RIGHT JOIN users as member ON member.id = cu.user_chatMembers
+        LEFT JOIN auth AS member_auth ON member_auth.user = member.id
+        LEFT JOIN addresses AS member_address ON member_address.user_id = member.id
+        LEFT JOIN cities AS member_address_city ON member_address_city.id = member_address.city_id
+        LEFT JOIN states AS member_address_state ON member_address_state.id = member_address.state_id
+        LEFT JOIN user_details AS member_details ON member_details.user_id = member.id
+        LEFT JOIN working_hours AS member_details_workingHours
+                  ON member_details_workingHours.user_details_id = member_details.id
+        WHERE chat.id = ?`;
 
 let ChatService = {
     getChat(chat) {
@@ -144,6 +169,28 @@ let ChatService = {
 
         return chatQueryAsync(rawQuery, [chat.id])
             .then(
+                (chat) => HelperService.formatQueryResult(chat)[0]
+            );
+    },
+    getChatMembers(chat) {
+        let rawQuery = getChatMembersRawQuery;
+
+        let chatQueryAsync = promise.promisify(Chat.query);
+
+        return chatQueryAsync(rawQuery, [chat.id])
+            .then(
+                (members) => HelperService.formatQueryResult(members)
+            );
+    },
+    getSpecialistChatByRequest(request, member) {
+        let rawQuery = `${getChatsRawQuery}
+        JOIN  chat_members__user_chatmembers AS cu ON cu.user_chatMembers = ?
+        WHERE chat.id = cu.chat_members AND chat.request_id = ? LIMIT 1`;
+
+        let chatQueryAsync = promise.promisify(Chat.query);
+
+        return chatQueryAsync(rawQuery, [member.id, request.id])
+            .then(
                 (chats) => {
 
                     return HelperService.formatQueryResult(chats)[0];
@@ -151,28 +198,18 @@ let ChatService = {
             );
     },
     getChats(criteria) {
-        let tableAlias = 'chat';
-        let rawQuery = HelperService.buildQuery(getChatsRawQuery, criteria, tableAlias);
 
-        let chatQueryAsync = promise.promisify(Chat.query);
-
-        return chatQueryAsync(rawQuery)
-            .then(
-                (chats) => {
-
-                    return HelperService.formatQueryResult(chats);
-                }
-            );
+        return Chat.find(criteria)
+            .populateAll();
     },
-    getSpecialistChats(criteria) {
-        let tableAlias = 'chat';
-
-        let rawQuery = HelperService.buildQuery(getChatsRawQuery, criteria, tableAlias);
+    getSpecialistChats(member) {
+        let rawQuery = `${getChatsRawQuery}
+        JOIN  chat_members__user_chatmembers AS cu ON cu.user_chatMembers = ?
+        WHERE chat.id = cu.chat_members`;
 
         rawQuery = rawQuery.replace(/\s*request_location.address AS 'request.location.address',/, '');
-        rawQuery = rawQuery.replace(/\s*client.phone_number AS 'client.phoneNumber',/, '');
-        rawQuery = rawQuery.replace(/\s*client_auth.id AS 'client.auth.id',/, '');
-        rawQuery = rawQuery.replace(/\s*client_auth.email AS 'client.auth.email',/, '');
+        rawQuery = rawQuery.replace(/\s*owner.phone_number AS 'owner.phoneNumber',/, '');
+        rawQuery = rawQuery.replace(/\s*owner_auth.email AS 'owner.auth.email',/, '');
 
         rawQuery = rawQuery.replace(
             'request_location.latitude',
@@ -180,12 +217,12 @@ let ChatService = {
         );
         rawQuery = rawQuery.replace(
             'request_location.longitude',
-            `(request_location.longitude + (2*RAND() - 1)/${RANDOM_COORDINATES_COEFFICIENT})`
+            `(request_location.longitude + (2*RAND()-1)/${RANDOM_COORDINATES_COEFFICIENT})`
         );
 
         let chatQueryAsync = promise.promisify(Chat.query);
 
-        return chatQueryAsync(rawQuery)
+        return chatQueryAsync(rawQuery, [member.id])
             .then(
                 (chats) => {
 
@@ -193,11 +230,30 @@ let ChatService = {
                 }
             );
     },
-    createChat(chat) {
+    createChat(chat, member) {
 
-        return Chat.create(chat)
+        return User.findOne({id: member.id})
             .then(
-                (chat) => this.getChat(chat)
+                (user) => {
+                    if (!user) {
+
+                        return Promise.reject('User not found.');
+                    }
+
+                    if (user.group) {
+                        chat.title = user.group.name;
+                        chat.photo = user.group.photo;
+                    } else {
+                        chat.title = user.fullName();
+                        chat.photo = user.portrait;
+                    }
+
+                    return Chat.create(chat);
+                }
+            )
+            .then(
+                (chat) => Chat.findOneById(chat.id)
+                    .populateAll()
             );
     }
 };

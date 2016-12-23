@@ -20,8 +20,10 @@
                 currentUser: '=',
                 currentRequest: '=',
                 currentChat: '=',
+                selectedSpecialist: '=',
                 acceptOffer: '&',
-                updateRequestStatus: '&'
+                updateRequestStatus: '&',
+                toggleSidenav: '&'
             },
             replace: true
         };
@@ -75,13 +77,20 @@
         }
     }
 
-    MessageChatController.$inject = ['coreConstants', 'chatConstants', 'conf'];
+    MessageChatController.$inject = [
+        'coreConstants',
+        'chatConstants',
+        'conf',
+        'chatSocketservice',
+        'usingLanguageService'
+    ];
 
     /* @ngInject */
-    function MessageChatController(coreConstants, chatConstants, conf) {
+    function MessageChatController(coreConstants, chatConstants, conf, chatSocketservice, usingLanguageService) {
         var vm = this;
 
         vm.isImage = false;
+        vm.isMessageTranslated = false;
 
         vm.baseUrl = conf.BASE_URL;
         vm.defaultPortrait = coreConstants.IMAGES.defaultPortrait;
@@ -96,6 +105,7 @@
 
         vm.confirmOffer = confirmOffer;
         vm.changeRequestStatus = changeRequestStatus;
+        vm.showChatMemberInfo = showChatMemberInfo;
 
         function confirmOffer(message, currentRequest) {
             if (currentRequest.status !== vm.requestStatus.NEW) {
@@ -128,6 +138,17 @@
             };
 
             vm.updateRequestStatus({request: request, status: status});
+        }
+
+        function showChatMemberInfo(selectedMember) {
+            if (vm.currentUser.type !== vm.userType.CLIENT || selectedMember.id === vm.currentUser.id) {
+
+                return;
+            }
+
+            vm.selectedSpecialist = selectedMember;
+
+            vm.toggleSidenav({navID: 'right-sidenav'});
         }
     }
 })();

@@ -4,10 +4,10 @@
          layout-align="center center"
          layout-align-gt-xs="start center">
     </div>
-    <div nd-if="vm.profileData.spCardNumber">
+    <div nd-if="vm.userProfile.spCardNumber">
         <div class="section first">
             <span class="md-body-2">Number:</span>
-            <span>***</span><span class="md-body-1" ng-bind="vm.profileData.spCardNumber"></span>
+            <span>***</span><span class="md-body-1" ng-bind="vm.userProfile.spCardNumber"></span>
         </div>
     </div>
     <md-button ng-if="!vm.isEditingCard" ng-click="vm.isEditingCard = true"">Edit</md-button>

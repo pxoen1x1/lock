@@ -91,6 +91,11 @@ let User = {
             columnName: 'sp_card_number'
         },
 
+        usingLanguage: {
+            model: 'language',
+            columnName: 'using_language_id'
+        },
+
         address: {
             collection: 'Address',
             via: 'user'
@@ -115,13 +120,13 @@ let User = {
             collection: 'Feedback',
             via: 'executor'
         },
-        chatClients: {
+        chatOwners: {
             collection: 'Chat',
-            via: 'client'
+            via: 'owner'
         },
-        chatSpecialists: {
+        chatMembers: {
             collection: 'Chat',
-            via: 'specialist'
+            via: 'members'
         },
         bidClients: {
             collection: 'Bid',
@@ -134,6 +139,18 @@ let User = {
         messageSenders: {
             collection: 'Message',
             via: 'sender'
+        },
+        groups: {
+            collection: 'Group',
+            via: 'admin'
+        },
+        groupMembers: {
+            collection: 'Group',
+            via: 'members'
+        },
+        groupInvitationUsers: {
+            collection: 'GroupInvitation',
+            via: 'user'
         },
 
         fullName() {

@@ -1,0 +1,26 @@
+<div class="container map-content"
+     layout="column"
+     flex>
+  <div class="container-title" layout="row">
+    <div flex>
+      <i class="material-icons">location_on</i>
+      <span>Map</span>
+    </div>
+    <request-action-buttons position-mode="target-right target"
+                            current-request="vm.request">
+    </request-action-buttons>
+  </div>
+  <div class="container-content"
+       layout="column"
+       flex>
+    <div class="map-wrapper"
+         layout="column"
+         flex>
+      <specialist-map-viewer class="map-viewer"
+                             flex
+                             ng-if="vm.request.id"
+                             selected-request="vm.request">
+      </specialist-map-viewer>
+    </div>
+  </div>
+</div>

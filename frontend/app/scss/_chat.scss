@@ -184,7 +184,6 @@
           }
 
           .chat-contact {
-            cursor: pointer;
             min-width: 0;
 
             .avatar {
@@ -209,8 +208,22 @@
         }
 
         .chat-content {
+          padding: 5px 0;
+
           .chat-messages {
             width: 100%;
+          }
+
+          .translation {
+            position: absolute;
+            top: -12px;
+            right: 12px;
+            cursor: pointer;
+            color: #BBB;
+
+            &.active {
+              color: $primary-color;
+            }
           }
 
           .message-row {
@@ -220,7 +233,7 @@
 
             .bubble {
               position: relative;
-              padding: 6px 7px 8px 9px;
+              padding: 12px 7px 8px 9px;
               background-color: #FFF;
               box-shadow: 0 1px .5px rgba(0, 0, 0, .13);
               border-radius: 6px;
@@ -292,6 +305,7 @@
           }
 
           .service-message {
+            position: relative;
             width: 95%;
             margin: 10px auto;
 
@@ -302,7 +316,7 @@
               .message {
                 padding: 16px;
                 font-size: 17px;
-                color: rgba(0, 0, 0, .54);
+                color: $secondary-text-color;
                 font-weight: 500;
 
                 .subtitle {
@@ -548,20 +562,6 @@
     .avatar {
       margin-top: 0;
       margin-bottom: 0;
-    }
-  }
-
-  .status {
-    position: absolute;
-    top: 28px;
-    left: 28px;
-    border-radius: 50%;
-    background-color: #FFF;
-    color: $success-color;
-
-    &.unavailable {
-      color: #FFF;
-      background-color: $warning-color;
     }
   }
 

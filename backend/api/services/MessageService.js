@@ -1,4 +1,4 @@
-/* global Message, Chat */
+/* global Message, Chat, Language, TranslatedMessage, TranslatorService */
 
 'use strict';
 
@@ -37,6 +37,42 @@ let MessageService = {
             )
             .then(
                 (createdMessage) => Message.findOneById(createdMessage.id).populateAll()
+            );
+    },
+    getTranslatedMessage(message, lang) {
+
+        return TranslatedMessage.findOne({message: message.id, language: lang.id})
+            .then(
+                (translatedMessage) => {
+
+                    return translatedMessage || this._translateMessage(message, lang);
+                }
+            );
+    },
+    _translateMessage(message, lang){
+
+        return Promise.all([
+            Message.findOneById(message.id),
+            Language.findOneById(lang.id)
+        ])
+            .then(
+                (values) => {
+                    let foundMessage = values[0];
+                    let language = values[1];
+
+                    return TranslatorService.translateText(foundMessage.message, language.code);
+                }
+            )
+            .then(
+                (translatedText) => {
+                    let translatedMessage = {
+                        translated: translatedText,
+                        message: message,
+                        language: lang
+                    };
+
+                    return TranslatedMessage.create(translatedMessage);
+                }
             );
     }
 };

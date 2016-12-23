@@ -29,6 +29,10 @@ let requestRoutes = {
         controller: 'UserController',
         action: 'findServiceProviders'
     },
+    'GET /api/group/requests': {
+        controller: 'RequestController',
+        action: 'getGroupRequests'
+    },
     'POST /api/client/requests': {
         controller: 'RequestController',
         action: 'createRequest'

@@ -123,7 +123,7 @@ let BidController = {
             );
     },
     refuseBidByClient(req, res) {
-        let bid = req.params.bid;
+        let bid = req.params.bidId;
 
         if (!bid) {
 
@@ -178,7 +178,7 @@ let BidController = {
             );
     },
     deleteBid(req, res) {
-        let bid = req.params.bid;
+        let bid = req.params.bidId;
 
         Bid.destroy({id: bid})
             .then(

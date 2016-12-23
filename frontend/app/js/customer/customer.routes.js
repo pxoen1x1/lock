@@ -20,35 +20,17 @@
                     },
                     'menu@customer': {
                         templateUrl: 'layout/menu/user-menu.html',
-                        controller: 'CustomerMenuController',
+                        controller: 'UserMenuController',
                         controllerAs: 'vm'
                     },
                     'header@customer': {
                         templateUrl: 'layout/header/user-header.html',
-                        controller: 'CustomerHeaderController',
+                        controller: 'UserHeaderController',
                         controllerAs: 'vm'
                     }
                 },
                 data: {
                     title: 'Client'
-                }
-            })
-            .state('customer.registration', {
-                url: '/registration',
-                views: {
-                    'content@root': {
-                        templateUrl: 'customer/layout/registration-layout.html'
-                    },
-                    'content@customer.registration': {
-                        templateUrl: 'customer/registration/registration.html',
-                        controller: 'CustomerRegistrationController',
-                        controllerAs: 'vm'
-                    },
-                    'header@customer.registration': {
-                        templateUrl: 'layout/header/registration-header.html',
-                        controller: 'RegistrationHeaderController',
-                        controllerAs: 'vm'
-                    }
                 }
             })
             .state('customer.newRequest', {

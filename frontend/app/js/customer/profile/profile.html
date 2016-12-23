@@ -1,73 +1,148 @@
 <div class="container profile-content"
      ng-class="{'mobile': !$mdMedia('gt-xs')}">
-    <div class="container-title"><i class="material-icons">person</i> <span>Profile</span></div>
-    <div class="container-content">
-        <div layout="column"
-             layout-gt-xs="row"
-             layout-align-gt-xs="start start"
-             layout-align="start center">
-            <div class="profile-left"
-                 layout="row"
-                 layout-gt-xs="column"
-                 layout-align="start center"
-                 layout-align-gt-xs="start start"
-                 flex-gt-xs="25">
-                <img class="profile-avatar"
-                     ng-src="{{vm.newPortrait || vm.profileData.portrait || coreConstants.IMAGES.defaultPortrait}}"
-                     alt="photo"/>
-
-                <div flex="5"></div>
-                <div class="actions"
-                     layout="column">
-                    <md-button class="md-button-blue"
-                               ng-if="vm.isEditing"
-                               aria-label="Change photo"
-                               file-uploader
-                               is-single-file="true"
-                               allowed-extensions="{{ vm.fileUploaderOptions.allowedFileExtensions.images }}"
-                               max-size="{{ vm.fileUploaderOptions.maxFileSize }}"
-                               selected-file-src="vm.newPortrait">
-                        <i class="material-icons vertical-middle">photo_camera</i>
-                        <span class="verical-middle">Change photo</span>
-                    </md-button>
-                    <md-button ng-if="!vm.isEditing"
-                               class="md-button-blue"
-                               ng-click="vm.isEditing = true"
-                               aria-label="Edit profile">
-                        Edit profile
-                    </md-button>
-                </div>
-            </div>
-            <div flex-gt-xs="5"></div>
-            <div layout="row"
-                 class="profile-right"
-                 flex-gt-xs="70"
-                 layout-align="start center"
-                 layout-align-gt-xs="start start">
-
-                <div style="width: 100%;" ng-cloak>
-                    <md-content>
-                        <md-tabs md-dynamic-height md-border-bottom>
-                            <md-tab label="General info">
-                                <md-content class="md-padding">
-                                    <div ng-include="'customer/profile/profile-general.html'"></div>
-                                </md-content>
-                            </md-tab>
-                            <md-tab label="Contact info">
-                                <md-content class="md-padding">
-                                    <div ng-include="'customer/profile/profile-contact.html'"></div>
-                                </md-content>
-                            </md-tab>
-                            <md-tab label="Payment info">
-                                <md-content class="md-padding">
-                                    <div ng-include="'customer/profile/profile-payment.html'"></div>
-                                </md-content>
-                            </md-tab>
-                        </md-tabs>
-                    </md-content>
-                </div>
-
-            </div>
+  <div class="container-title"><i class="material-icons">person</i> <span>Profile</span></div>
+  <div class="container-content">
+    <div layout="column"
+         layout-gt-xs="row"
+         layout-align-gt-xs="start start"
+         layout-align="start center">
+      <div class="profile-left"
+           layout="row"
+           layout-gt-xs="column"
+           layout-align="start center"
+           layout-align-gt-xs="start start"
+           flex-gt-xs="25">
+        <img class="profile-avatar"
+             ng-src="{{vm.newPortrait || vm.userProfile.portrait || coreConstants.IMAGES.defaultPortrait}}"
+             alt="photo"/>
+        <div flex="5"></div>
+        <div class="actions"
+             layout="column">
+          <md-button class="md-button-blue"
+                     ng-if="vm.isEditing"
+                     aria-label="Change photo"
+                     file-uploader
+                     is-single-file="true"
+                     allowed-extensions="{{ vm.fileUploaderOptions.allowedFileExtensions.images }}"
+                     max-size="{{ vm.fileUploaderOptions.maxFileSize }}"
+                     selected-file-src="vm.newPortrait">
+            <i class="material-icons vertical-middle">photo_camera</i>
+            <span class="verical-middle">Change photo</span>
+          </md-button>
+          <md-button ng-if="!vm.isEditing"
+                     class="md-button-blue"
+                     ng-click="vm.isEditing = true"
+                     aria-label="Edit profile">
+            Edit profile
+          </md-button>
+          <div layout="row"
+               layout-align="start center">
+            <span class="m-r-sm md-body-2">Language:</span>
+            <span class="md-body-1"
+                  ng-if="!vm.isEditing"
+                  ng-bind="vm.userProfile.usingLanguage.name">
+            </span>
+            <md-select flex
+                       aria-label="Language"
+                       ng-if="vm.isEditing"
+                       ng-model-options="{trackBy: '$value.id'}"
+                       ng-model="vm.userProfile.usingLanguage">
+              <md-option ng-repeat="language in vm.languages"
+                         ng-value="language">
+                <span ng-bind="language.name"></span>
+              </md-option>
+            </md-select>
+          </div>
         </div>
+      </div>
+      <div flex-gt-xs="5"></div>
+      <div layout="row"
+           class="profile-right"
+           flex-gt-xs="70"
+           layout-align="start center"
+           layout-align-gt-xs="start start">
+
+          <div style="width: 100%;" ng-cloak>
+              <md-content>
+                  <md-tabs md-dynamic-height md-border-bottom>
+                      <md-tab label="General info">
+                          <md-content class="md-padding">
+                              <div ng-include="'customer/profile/profile-general.html'"></div>
+                          </md-content>
+                      </md-tab>
+                      <md-tab label="Contact info">
+                          <md-content class="md-padding">
+                              <div ng-include="'customer/profile/profile-contact.html'"></div>
+                          </md-content>
+                      </md-tab>
+                      <md-tab label="Payment info">
+                          <md-content class="md-padding">
+                              <div ng-include="'customer/profile/profile-payment.html'"></div>
+                          </md-content>
+                      </md-tab>
+                  </md-tabs>
+              </md-content>
+          </div>
+
+        <div ng-if="vm.isEditing">
+          <form name="editForm"
+                novalidate
+                ng-submit="vm.updateUser(vm.userProfile, editForm.$valid)">
+            <p>Name: <sup>*</sup></p>
+            <div layout="row">
+              <md-input-container class="md-block" flex>
+                <label>First name</label>
+                <input name="firstName"
+                       required
+                       ng-maxlength="20"
+                       ng-model="vm.userProfile.firstName">
+              </md-input-container>
+              <md-input-container class="md-block" flex>
+                <label>Last name</label>
+                <input name="lastName"
+                       required
+                       ng-maxlength="20"
+                       ng-model="vm.userProfile.lastName">
+              </md-input-container>
+            </div>
+            <p>Email: <sup>*</sup></p>
+            <md-input-container class="md-block" flex>
+              <label>Email</label>
+              <input name="email"
+                     required
+                     email-validation
+                     availability-validation
+                     ng-model-options="{ 'debounce': 400 }"
+                     ng-model="vm.userProfile.auth.email">
+              <div ng-messages="editForm.email.$error">
+                <div ng-message="email">That doesn't look like a valid email.</div>
+                <div ng-message="availability">This email already exists.</div>
+              </div>
+            </md-input-container>
+            <p>Phone number:</p>
+            <md-input-container class="md-block" flex>
+              <label>Phone number</label>
+              <input type="tel"
+                     name="phoneNumber"
+                     ui-us-phone-number
+                     availability-validation
+                     ng-model-options="{ 'debounce': 400 }"
+                     ng-model="vm.userProfile.phoneNumber">
+              <div ng-messages="editForm.phoneNumber.$error">
+                <span ng-message="usPhoneNumber">That doesn't look like a valid phone number.</span>
+                <span ng-message="availability">This phone number already exists.</span>
+              </div>
+            </md-input-container>
+
+            <md-button type="submit"
+                       class="md-raised md-warn"
+                       aria-label="Save"
+                       ng-if="vm.isEditing">
+              Save
+            </md-button>
+          </form>
+        </div>
+      </div>
     </div>
+  </div>
 </div>

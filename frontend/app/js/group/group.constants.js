@@ -27,7 +27,18 @@
                 }
             ],
             MENU_ITEMS: [
-                'group.dashboard'
+                'group.dashboard',
+                'group.members'
+            ],
+            DASHBOARD_TABBAR_ITEMS: [
+                'group.dashboard.new',
+                'group.dashboard.current',
+                'group.dashboard.history'
+            ],
+            REQUEST_TABBAR_ITEMS: [
+                'group.dashboard.request.info',
+                'group.dashboard.request.map',
+                'group.dashboard.request.chat'
             ]
         });
 })();

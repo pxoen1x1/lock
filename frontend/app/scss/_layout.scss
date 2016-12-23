@@ -1,7 +1,8 @@
-.customer, .provider, .group, .admin {
-  height: 100vh;
-  overflow-x: hidden;
+.wrapper {
+  height: 100%;
+}
 
+.wrapper {
   a {
     text-decoration: none;
   }
@@ -37,14 +38,28 @@
       padding: 24px 24px 0 24px;
       font-size: 20px;
 
+      .secondary-text {
+        font-size: 16px;
+      }
+
+      //ToDo: replace i tag to md-icon and remove that
       i.material-icons {
         vertical-align: middle;
+      }
+
+      .md-icon-button {
+        width: 26px;
+        height: 36px;
+        padding: 0;
+      }
+
+      md-icon {
+        color: inherit;
       }
 
       span {
         vertical-align: middle;
       }
-
     }
 
     .container-content {
@@ -62,7 +77,7 @@
 }
 
 @media only screen and (max-device-width: 600px) {
-  .customer, .provider, .group, .admin {
+  .wrapper {
     .content-wrapper {
       background-color: #fff;
     }
@@ -75,7 +90,7 @@
         box-shadow: none;
 
         .container-title {
-          display: none;
+          padding: 10px 10px 0 10px;
         }
 
         .container-content {

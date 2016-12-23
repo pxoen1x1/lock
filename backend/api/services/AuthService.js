@@ -9,19 +9,8 @@ let jwt = require('jwt-simple');
 
 let AuthService = {
     findAuth(criteria) {
-        let promise = new Promise((resolve, reject)=> {
-            waterlock.engine.findAuth(criteria,
-                (err, user) => {
-                    if (err) {
 
-                        return reject(err);
-                    }
-
-                    return resolve(user);
-                });
-        });
-
-        return promise;
+        return Auth.findOne(criteria);
     },
     findOrCreateAuth(criteria, attributes) {
         let promise = new Promise((resolve, reject) => {
