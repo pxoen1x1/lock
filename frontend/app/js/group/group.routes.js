@@ -158,6 +158,24 @@
                     }
                 }
             })
+            .state('group.dashboard.request.chat', {
+                parent: 'group.dashboard.request',
+                url: '/chat',
+                views: {
+                    'content@group.dashboard.request': {
+                        templateUrl: 'group/request-chat/request-chat.html',
+                        controller: 'GroupRequestChatController',
+                        controllerAs: 'vm'
+                    }
+                },
+                data: {
+                    title: 'Chat',
+                    tab: {
+                        title: 'Chat',
+                        icon: 'chat'
+                    }
+                }
+            })
             .state('group.members', {
                 parent: 'group',
                 url: '/members',
