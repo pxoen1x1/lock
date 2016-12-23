@@ -7,16 +7,16 @@
 
     CustomerProfileController.$inject = [
         '$q',
-        'coreConstants',
-        'conf',
         'coreDictionary',
         'currentUserService',
+        'coreConstants',
         'coreDataservice',
+        'conf',
         'usingLanguageService'];
 
     /* @ngInject */
-    function CustomerProfileController($q, coreConstants, conf, coreDictionary, coreDataservice, currentUserService,
-                                       usingLanguageService) {
+    function CustomerProfileController($q, coreDictionary, currentUserService, coreConstants, coreDataservice, conf,
+    usingLanguageService) {
         var vm = this;
 
         vm.userProfile = {};
