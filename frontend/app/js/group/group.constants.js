@@ -3,7 +3,7 @@
 
     angular
         .module('app.group')
-        .constant('groupConstants',{
+        .constant('groupConstants', {
             REGISTRATION_STEPS: [
                 {
                     id: 1,
@@ -28,7 +28,8 @@
             ],
             MENU_ITEMS: [
                 'group.dashboard',
-                'group.members'
+                'group.members',
+                'group.messages'
             ],
             DASHBOARD_TABBAR_ITEMS: [
                 'group.dashboard.new',
