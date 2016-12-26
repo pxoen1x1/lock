@@ -470,7 +470,7 @@ let SplashPaymentService = {
         var bodyJson = {
             token: token,
             merchant: params.merchantId,
-            amount: params.amount,
+            total: params.amount * 100, // total amount in cents
             type: SPLASH_PAYMENT.txn.type,
             origin: SPLASH_PAYMENT.txn.origin
         };

@@ -28,10 +28,10 @@
         return directive;
     }
 
-    MessageBidController.$inject = ['$scope', 'chatSocketservice', 'coreConstants', 'chatConstants'];
+    MessageBidController.$inject = ['$scope', 'chatSocketservice', 'coreConstants', 'chatConstants', '$mdDialog', 'currentUserService', 'coreDataservice'];
 
     /* @ngInject */
-    function MessageBidController($scope, chatSocketservice, coreConstants, chatConstants) {
+    function MessageBidController($scope, chatSocketservice, coreConstants, chatConstants, $mdDialog, currentUserService, coreDataservice) {
         var vm = this;
 
         vm.defaultPortrait = coreConstants.IMAGES.defaultPortrait;
@@ -42,6 +42,7 @@
         vm.startChat = startChat;
         vm.acceptBid = acceptBid;
         vm.declineBid = declineBid;
+        vm.showPaymentModal = showPaymentModal;
 
         function createChat(bid) {
             var request = bid.request;
@@ -90,7 +91,7 @@
                 });
         }
 
-        function acceptBid(currentBid, currentRequest) {
+        function acceptBid(currentBid, currentRequest) { //
             if (currentRequest.status !== vm.requestStatus.NEW) {
 
                 return;
@@ -134,5 +135,121 @@
                     vm.selectedTab = vm.bids.length > 0 ? vm.selectedTab : 'chats';
                 });
         }
+
+
+        function PaymentDialogController($scope, $mdDialog) {
+            currentUserService.getUser()
+                .then(function (user) {
+                    $scope.customerCardNumber = user.spCardNumber;
+                });
+
+            $scope.payWithLinked = function(){
+                return coreDataservice.getUser(vm.currentBid.specialist.id)
+                    .then(function(response) {
+
+                        var specialist = response.data.user;
+                        return coreDataservice.createTxn(specialist.spMerchantId,vm.currentBid.cost)
+                    })
+                    .then((res)=>{
+                        $mdDialog.hide();
+
+                        if(res.resTxn.length > 0){
+
+                            $mdDialog.show(
+                                $mdDialog.alert()
+                                    .parent(angular.element(document.body))
+                                    .clickOutsideToClose(true)
+                                    .title('Successful payment')
+                                    .ariaLabel('Alert Dialog Demo')
+                                    .ok('Close')
+                            );
+
+                            vm.acceptBid(vm.currentBid, vm.currentRequest);
+
+                        }else{
+
+                            $mdDialog.show(
+                                $mdDialog.alert()
+                                    .parent(angular.element(document.body))
+                                    .clickOutsideToClose(true)
+                                    .title('Error during payment')
+                                    .ariaLabel('Please contact support')
+                                    .ok('Close')
+                            );
+                        }
+                    }); //todo: check sequrity!!!
+            };
+
+            $scope.payWithNew = function(txnData,isValid) {
+
+                if(!isValid){
+                    return false;
+                }
+
+                var tokenAndTxnResult;
+
+                return coreDataservice.getUser(vm.currentBid.specialist.id)
+                    .then(function(response) {
+                        var specialist = response.data.user;
+
+                        return coreDataservice.createTokenAndTxn(txnData,specialist.spMerchantId,vm.currentBid.cost)
+                    })
+                    .then((result)=> {
+                        tokenAndTxnResult = result; //todo: redo with spread
+
+                        return currentUserService.getUser();
+                    })
+                    .then((user) => {
+
+                        if(tokenAndTxnResult.resTxn.length > 0 && tokenAndTxnResult.spCardNumber){
+                            vm.profileData = user;
+                            vm.profileData.spCardNumber = tokenAndTxnResult.spCardNumber;
+                            currentUserService.setUserToLocalStorage(vm.profileData);
+                            $scope.customerCardNumber = tokenAndTxnResult.spCardNumber;
+
+                            $mdDialog.hide();
+                            $mdDialog.show(
+                                $mdDialog.alert()
+                                    .parent(angular.element(document.body))
+                                    .clickOutsideToClose(true)
+                                    .title('Successful payment')
+                                    .ariaLabel('Alert Dialog Demo')
+                                    .ok('Close')
+                            );
+
+                            vm.acceptBid(vm.currentBid, vm.currentRequest)
+
+                        }else{
+
+                            $mdDialog.show(
+                                $mdDialog.alert()
+                                    .parent(angular.element(document.body))
+                                    .clickOutsideToClose(true)
+                                    .title('Error during payment')
+                                    .ariaLabel('Please contact support')
+                                    .ok('Close')
+                            );
+                        }
+                    });
+            };
+        }
+
+        function showPaymentModal(ev) {
+            $mdDialog.show({
+                controller: PaymentDialogController,
+                templateUrl: 'customer/request-view/payment-modal.html',
+                parent: angular.element(document.body),
+                targetEvent: ev,
+                clickOutsideToClose:true,
+                //    fullscreen: $scope.customFullscreen // Only for -xs, -sm breakpoints.
+            });/*
+             .then(function(answer) {
+             console.log(answer);
+             var status = 'You said the information was "' + answer + '".';
+             }, function() {
+             var status = 'You cancelled the dialog.';
+             });*/
+        };
+
     }
 })();

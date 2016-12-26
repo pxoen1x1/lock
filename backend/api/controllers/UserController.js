@@ -81,16 +81,11 @@ let UserController = waterlock.actions.user({
         var user = req.session.user;
         var params = req.allParams();
 
-        if (!user) {
-
-            return res.forbidden({
-                message: req.__('You are not permitted to perform this action.')
-            });
-        }
-
         if (!user.spCustomerId) {
             // Splash Payment customer creates on registration
-            return false; // todo: return errors
+            return res.forbidden({
+                message: req.__('Customer not created yet') // todo: move to policy
+            });
         }
 
         UserService.getUser(user)
@@ -117,7 +112,9 @@ let UserController = waterlock.actions.user({
 
 
         if (!user.spCustomerId) {
-            return false; // todo: return errors
+            return res.forbidden({
+                message: req.__('Customer not created yet') // todo: move to policy
+            });
         }
 
         SplashPaymentService.updateCustomerToken(user, user.spCustomerId, params)
