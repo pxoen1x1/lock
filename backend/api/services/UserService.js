@@ -10,6 +10,7 @@ let UserService = {
             .populate('address')
             .populate('auth')
             .populate('usingLanguage')
+            .populate('groups')
             .then(
                 (foundUser) => {
 

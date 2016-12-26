@@ -44,7 +44,7 @@
           </thead>
           <tbody md-body>
           <tr md-row
-              ui-sref="provider.dashboard.request.view({ requestId: request.id })"
+              ui-sref="group.dashboard.request.info({ requestId: request.id })"
               ng-repeat="request in vm.requests track by request.id">
             <td md-cell="">
               <div layout="row" layout-align="start center">
@@ -106,7 +106,7 @@
          scroll-disabled="vm.isAllRequestsLoaded"
          on-scroll="vm.loadMoreCurrentRequests()">
       <a class="list card"
-         ui-sref="provider.dashboard.request.view({ requestId: request.id })"
+         ui-sref="group.dashboard.request.info({ requestId: request.id })"
          ng-repeat="request in vm.requests track by request.id">
         <div class="item item-header" layout="row">
           <div layout="row"

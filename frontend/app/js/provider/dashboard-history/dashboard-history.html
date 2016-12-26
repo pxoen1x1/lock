@@ -41,7 +41,7 @@
           </thead>
           <tbody md-body>
           <tr md-row
-              ui-sref="provider.dashboard.request.view({ requestId: request.id })"
+              ui-sref="provider.dashboard.request.info({ requestId: request.id })"
               ng-repeat="request in vm.requests track by request.id">
             <td md-cell>
               <span ng-bind="request.createdAt | altDate"></span>
@@ -101,7 +101,7 @@
          scroll-disabled="vm.isAllRequestsLoaded"
          on-scroll="vm.loadMoreHistoryRequests()">
       <a class="list card"
-         ui-sref="provider.dashboard.request.view({ requestId: request.id })"
+         ui-sref="provider.dashboard.request.info({ requestId: request.id })"
          ng-repeat="request in vm.requests track by request.id">
         <div class="item item-header" layout="row">
           <div layout="row"

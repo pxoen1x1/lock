@@ -79,6 +79,11 @@ let ChatController = {
         ChatService.getSpecialistChatByRequest(request, member)
             .then(
                 (foundChat) => {
+                    if(!foundChat){
+
+                        return [];
+                    }
+
                     if (!foundChat.request.executor || foundChat.request.executor.id !== member.id) {
                         let hiddenLocation = HelperService.hideLocation(foundChat.request.location);
 
@@ -90,7 +95,9 @@ let ChatController = {
             )
             .spread(
                 (members, chat) => {
-                    chat.members = members;
+                    if (chat) {
+                        chat.members = members;
+                    }
 
                     res.ok(
                         {

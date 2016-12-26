@@ -171,13 +171,13 @@
                     isPrivate: true
                 }
             })
-            .state('provider.dashboard.request.view', {
+            .state('provider.dashboard.request.info', {
                 parent: 'provider.dashboard.request',
-                url: '/view',
+                url: '/info',
                 views: {
                     'content@provider.dashboard.request': {
-                        templateUrl: 'provider/request-view/request-view.html',
-                        controller: 'ProviderViewRequestController',
+                        templateUrl: 'provider/request-info/request-info.html',
+                        controller: 'ProviderInfoRequestController',
                         controllerAs: 'vm'
                     }
                 },

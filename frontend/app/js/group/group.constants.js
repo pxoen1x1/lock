@@ -3,7 +3,7 @@
 
     angular
         .module('app.group')
-        .constant('groupConstants',{
+        .constant('groupConstants', {
             REGISTRATION_STEPS: [
                 {
                     id: 1,
@@ -27,13 +27,19 @@
                 }
             ],
             MENU_ITEMS: [
-                'group.dashboard',
-                'group.members'
+                'group.dashboard.new',
+                'group.members',
+                'group.messages'
             ],
             DASHBOARD_TABBAR_ITEMS: [
                 'group.dashboard.new',
                 'group.dashboard.current',
                 'group.dashboard.history'
+            ],
+            REQUEST_TABBAR_ITEMS: [
+                'group.dashboard.request.info',
+                'group.dashboard.request.map',
+                'group.dashboard.request.chat'
             ]
         });
 })();
