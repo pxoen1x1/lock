@@ -8,7 +8,7 @@
       <button class="md-button md-button-blue"
               aria-label="Show public profile"
               ui-sref="provider.profile.public({'profileId': vm.userProfile.id})">
-        Show public profile
+        Show public<wbr> profile
       </button>
     </div>
   </div>
@@ -23,14 +23,22 @@
            layout-align="start center"
            layout-align-gt-xs="start start"
            flex-gt-xs="25">
-        <img class="profile-avatar"
-             ng-src="{{vm.newPortrait || vm.userProfile.portrait || coreConstants.IMAGES.defaultPortrait}}"
-             alt="photo"/>
+        <div class="avatar-wrapper">
+          <div class="profile-avatar"
+               file-uploader
+              is-single-file="true"
+              allowed-extensions="{{ vm.fileUploaderOptions.allowedFileExtensions.images }}"
+              max-size="{{ vm.fileUploaderOptions.maxFileSize }}"
+              selected-file-src="vm.newPortrait"
+              ng-style="{ 'background-image': 'url(' + (vm.userProfile.portrait ?
+                      vm.baseUrl + vm.userProfile.portrait : vm.defaultPortrait)           + ')' }">
+          </div>
+        </div>
         <div flex="5"></div>
         <div class="actions"
              layout="column">
           <md-button class="md-button-blue"
-                     ng-if="vm.isEditing"
+                     ng-if="vm.isEditing && $mdMedia('gt-xs')"
                      aria-label="Change photo"
                      file-uploader
                      is-single-file="true"
@@ -90,8 +98,6 @@
                  layout-align="center center"
                  layout-align-gt-xs="end center">
               <star-rating value="vm.userProfile.rating" readonly></star-rating>
-              <span class="divider-dot">⋅</span>
-              <span ng-bind="vm.userProfile.rating"></span>
             </div>
           </div>
           <div class="section first">
@@ -102,15 +108,15 @@
             <span class="md-body-2">Phone:</span>
             <span class="md-body-1" ng-bind="vm.userProfile.phoneNumber"></span>
           </div>
-          <div class="section">
-            <span class="md-body-2">Social Security Number:</span>
-            <span class="md-body-1" ng-bind="vm.userProfile.ssn"></span>
-          </div>
-          <div class="section">
-            <span class="md-body-2">License:</span>
-            <span class="md-body-1" ng-bind="vm.userProfile.details.licenses[0].number"></span>
-            until
-            <span class="md-body-1" ng-bind="vm.userProfile.details.licenses[0].date | date: 'MM/dd/yyyy'"></span>
+          <div class="section" layout="row">
+            <span class="md-body-2">Licenses:</span>
+            <div layout="column">
+              <div layout="row" ng-repeat="license in vm.userProfile.details.licenses track by $index">
+                <span class="md-body-1" ng-bind="vm.userProfile.details.licenses[$index].number"></span>
+                &nbsp;until
+                <span class="md-body-1" ng-bind="vm.userProfile.details.licenses[$index].date | date: 'MM/dd/yyyy'"></span>
+              </div>
+            </div>
           </div>
           <div class="section">
             <span class="md-body-2">Services:</span>
@@ -170,110 +176,79 @@
                 <span ng-message="availability">This phone number already exists.</span>
               </div>
             </md-input-container>
-            <p>Social Security Number: <sup>*</sup></p>
-            <md-input-container class="md-block" flex>
-              <label>Social Security Number</label>
-              <input type="text"
-                     name="ssn"
-                     required
-                     ng-pattern="/^[0-9]{3}-?[0-9]{2}-?[0-9]{4}$/"
-                     availability-validation
-                     ng-model-options="{ 'debounce': 400 }"
-                     ng-model="vm.userProfile.ssn">
-              <div ng-messages="editForm.ssn.$error">
-                <div ng-message="pattern">That doesn't look like a valid SSN.</div>
-                <div ng-message="availability">This SSN already exists.</div>
-              </div>
-            </md-input-container>
             <p>License information: <sup>*</sup></p>
-              <div class="licenses"
-                   flex
-                   ng-repeat="license in vm.userProfile.details.licenses track by $index">
-                <div layout-gt-xs="column">
-                  <div layout="row">
-                    <md-input-container class="md-block">
-                      <label>License Number</label>
-                      <input type="text"
-                            name="licenseNumber"
-                            required
-                            ng-model="vm.userProfile.details.licenses[$index].number">
-                      <div ng-messages="editForm.licenseNumber.$error">
-                        <div ng-message="required">Please, enter a license number.</div>
-                      </div>
-                    </md-input-container>
-                    <md-input-container class="md-block"
-                                        flex="100"
-                                        flex-gt-xs="30">
-                      <label>State</label>
-                      <md-select role="listbox"
-                                name="state"
-                                required
-                                ng-change="vm.resetSelectedCity(); vm.getCities(vm.user.address.state.id)"
-                                ng-model="vm.userProfile.details.licenses[$index].state">
-                        <md-option ng-repeat="state in vm.states track by state.id"
-                                  ng-value="state">
-                          <span ng-bind="::state.state"></span>
-                        </md-option>
-                      </md-select>
-                      <div ng-messages="editForm.state.$error">
-                        <div ng-message="required">State is required.</div>
-                      </div>
-                    </md-input-container>
-                    <md-input-container class="md-block license-date"
-                                        layout="row"
-                                        required>
-                      <mdp-date-picker name="licenseDate"
-                                       mdp-placeholder="License Date"
-                                       mdp-min-date="vm.datePickerOptions.maxDate"
-                                       date-formatter
-                                       ng-required
-                                       ng-model="vm.userProfile.details.licenses[$index].date">
-                      </mdp-date-picker>
-                      <div class="validation-messages"
-                          ng-messages="editForm.licenseDate.$error">
-                        <div ng-message="valid">The entered value is not a date!</div>
-                        <div ng-message="mindate">Date is too early!</div>
-                      </div>
-                    </md-input-container>
-                    <div class="service-price-remove"
-                        flex="100"
-                        flex-gt-xs="5"
-                        layout="column"
-                        layout-align="start center"
-                        ng-click="vm.userProfile.details.licenses.splice($index, 1)"
-                        ng-if="vm.userProfile.details.licenses.length > 1">
-                      <i class="material-icons">delete</i>
+            <div class="licenses"
+                  ng-repeat="license in vm.userProfile.details.licenses track by $index">
+              <div layout-gt-xs="column" class="license-container">
+                <div layout="row">
+                  <md-input-container class="md-block license-number">
+                    <label>License Number</label>
+                    <input type="text"
+                          name="licenseNumber"
+                          required
+                          ng-model="vm.userProfile.details.licenses[$index].number">
+                    <div ng-messages="editForm.licenseNumber.$error">
+                      <div ng-message="required">Please, enter a license number.</div>
                     </div>
+                  </md-input-container>
+                  <md-input-container class="md-block license-state"
+                                      flex="100"
+                                      flex-gt-xs="30">
+                    <label>State</label>
+                    <md-select role="listbox"
+                              name="state"
+                              required
+                              ng-model="vm.userProfile.details.licenses[$index].state">
+                      <md-option ng-repeat="state in vm.states"
+                                  ng-value="state.id">
+                        <span ng-bind="::state.state"></span>
+                      </md-option>
+                    </md-select>
+                    <div ng-messages="editForm.state.$error">
+                      <div ng-message="required">State is required.</div>
+                    </div>
+                  </md-input-container>
+                  <mdp-date-picker name="licenseDate"
+                                    mdp-placeholder="Expiration"
+                                    mdp-min-date="vm.datePickerOptions.minDate"
+                                    date-formatter
+                                    ng-required
+                                    ng-model="vm.userProfile.details.licenses[$index].date">
+                  </mdp-date-picker>
+                  <div class="validation-messages"
+                        ng-messages="editForm.licenseDate.$error">
+                    <div ng-message="valid">The entered value is not a date!</div>
+                    <div ng-message="mindate">Date is too early!</div>
+                  </div>
+                  <div class="service-remove"
+                      flex="100"
+                      flex-gt-xs="5"
+                      layout="column"
+                      layout-align="start center"
+                      ng-click="vm.removeLicenseForm($index)"
+                      ng-if="vm.userProfile.details.licenses.length > 1">
+                    <i class="material-icons">delete</i>
                   </div>
                 </div>
               </div>
+            </div>
             <div layout-gt-xs="row">
-              <md-button ng-click="vm.userProfile.details.licenses.push({})">Add more</md-button>
+              <md-button class="add-license-btn" ng-click="vm.addLicenseForm()">Add license</md-button>
             </div>
             <p>Services</p>
             <div layout-gt-xs="row">
-              <input type="hidden" ng-model="service.id" ng-value="$index">
               <md-input-container class="md-block" flex>
                 <label>Service types</label>
                 <md-select aria-label="Services"
-                          multiple
-                          required
-                          ng-model="vm.userProfile.details.serviceTypes">
+                           multiple
+                           required
+                           ng-model-options="{trackBy: '$value.id'}"
+                           ng-model="vm.userProfile.details.serviceTypes">
                   <md-option ng-repeat="serviceType in vm.serviceTypes track by serviceType.id"
-                            ng-value="serviceType.id">
+                             ng-value="serviceType">
                     <span ng-bind="serviceType.name"></span>
                   </md-option>
                 </md-select>
-              </md-input-container>
-              <md-input-container class="md-block"
-                                  flex="100"
-                                  flex-gt-xs="30"
-                                  ng-if="vm.userProfile.servicePrices.length > 0">
-                <label>Price $</label>
-                <input type="text"
-                       name="price"
-                       ng-required="service.name || vm.userProfile.serviceTypes.length > 1"
-                       ng-model="service.price">
               </md-input-container>
             </div>
             <md-button type="submit"

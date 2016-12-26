@@ -37,9 +37,13 @@
         vm.isEditing = false;
         vm.fileUploaderOptions = coreConstants.FILE_UPLOADER_OPTIONS;
         vm.newPortrait = '';
+        vm.baseUrl = conf.BASE_URL;
+        vm.defaultPortrait = coreConstants.IMAGES.defaultPortrait;
 
         vm.updateUser = updateUser;
         vm.getUser = getUser;
+        vm.addLicenseForm = addLicenseForm;
+        vm.removeLicenseForm = removeLicenseForm;
 
         activate();
 
@@ -67,9 +71,13 @@
 
             return currentUserService.setUser(user)
                 .then(function (user) {
+                    coreDataservice.updateUser(user);
+
+                    return user;
+                })
+                .then(function (user) {
 
                     vm.userProfile = user;
-                    vm.userProfile.portrait = user.portrait ? conf.BASE_URL + user.portrait : '';
                     vm.newPortrait = '';
                     vm.isEditing = false;
 
@@ -83,10 +91,17 @@
                 .then(function (user) {
 
                     vm.userProfile = user;
-                    vm.userProfile.portrait = user.portrait ? conf.BASE_URL + user.portrait : '';
 
                     return vm.userProfile;
                 });
+        }
+
+        function addLicenseForm() {
+            vm.userProfile.details.licenses.push({});
+        }
+
+        function removeLicenseForm(index) {
+            vm.userProfile.details.licenses.splice(index, 1);
         }
 
         function activate() {
@@ -120,7 +135,7 @@
 
             return coreDictionary.getServiceTypes()
                 .then(function (serviceTypes) {
-                    vm.serviceTypes = serviceTypes.serviceTypes;
+                    vm.serviceTypes = serviceTypes;
 
                     return vm.serviceTypes;
                 });

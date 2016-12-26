@@ -22,6 +22,7 @@
 
         vm.toggleMenu = toggleMenu;
         vm.menuItems = [];
+
         vm.profileState = '';
 
         vm.defaultPortrait = coreConstants.IMAGES.defaultPortrait;

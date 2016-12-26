@@ -40,17 +40,10 @@
         <span class="md-body-1" ng-bind="vm.profileData.createdAt | altDate"></span>
       </div>
       <div class="section">
-        <span class="md-body-2">Working hours:</span>
-            <span class="md-body-1"
-                  ng-repeat="workingHours in vm.profileData.details.workingHours track by workingHours.id"
-                  ng-bind="(workingHours.timeFrom | date: 'hh:mm a') + ' – ' + (workingHours.timeTo | date: 'hh:mm a') + ($last ? '':', ')">
-            </span>
-      </div>
-      <div class="section">
         <span class="md-body-2">Services:</span>
             <span class="md-body-1"
-                  ng-repeat="service in vm.profileData.details.servicePrices track by service.id"
-                  ng-bind="service.serviceName + ' (' + (service.price | currency:'$') + ')' + ($last ? '':', ')">
+                  ng-repeat="service in vm.profileData.details.serviceTypes"
+                  ng-bind="service.name">
             </span>
       </div>
     </div>

@@ -51,12 +51,6 @@
                 <span class="m-l-xs">- Estimated time of arrival:</span>
                 <span ng-bind="vm.selectedSpecialist.duration.text"></span>
               </div>
-              <div ng-if="vm.selectedSpecialist.details.workingHours &&
-                          vm.request.status !== vm.requestStatus.IN_PROGRESS">
-                <span class="m-l-xs">- Working hours:</span>
-                <span ng-bind="vm.selectedSpecialist.details.workingHours.timeFrom | date: 'HH:mm a'"></span> -
-                <span ng-bind="vm.selectedSpecialist.details.workingHours.timeTo | date: 'HH:mm a'"></span>
-              </div>
             </div>
             <div class="md-subhead status"
                  ng-class="{ 'not-available': !vm.selectedSpecialist.details.isAvailable }"
