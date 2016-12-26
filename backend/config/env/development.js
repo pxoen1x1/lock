@@ -23,7 +23,7 @@ module.exports = {
             host: 'lockhealdb.c6qxt1uj9j0m.us-east-1.rds.amazonaws.com',
             user: 'lockheal',
             password: '10ckhe@1',
-            database: 'lockleah',
+            database: 'lockheal',
             charset: 'utf8',
             collation: 'utf8_general_ci'
         }
