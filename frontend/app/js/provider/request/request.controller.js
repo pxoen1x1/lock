@@ -5,10 +5,10 @@
         .module('app.provider')
         .controller('ProviderRequestController', ProviderRequestController);
 
-    ProviderRequestController.$inject = ['$state', 'serviceProviderConstants'];
+    ProviderRequestController.$inject = ['serviceProviderConstants'];
 
     /* @ngInject */
-    function ProviderRequestController($state, serviceProviderConstants) {
+    function ProviderRequestController(serviceProviderConstants) {
         var vm = this;
 
         vm.tabBarItems = serviceProviderConstants.REQUEST_TABBAR_ITEMS;

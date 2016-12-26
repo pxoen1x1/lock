@@ -1,32 +1,33 @@
 (function () {
     'use strict';
 
-    angular
-        .module('app.provider')
-        .controller('ProviderViewRequestController', ProviderViewRequestController);
+    var specialistRequestInfoConfig = {
+        controller: SpecialistRequestInfoController,
+        controllerAs: 'vm',
+        templateUrl: 'core/components/specialist-request-info/specialist-request-info.html',
+        replaced: true,
+        bindings: {
+            requestId: '<',
+            mapOptions: '<?'
+        }
+    };
 
-    ProviderViewRequestController.$inject = [
-        '$stateParams',
+    angular
+        .module('app.core')
+        .component('specialistRequestInfo', specialistRequestInfoConfig);
+
+    SpecialistRequestInfoController.$inject = [
         'coreConstants',
-        'serviceProviderDataservice',
+        'coreDataservice',
         'currentRequestService',
         'conf'
     ];
 
-    /* @ngInject */
-    function ProviderViewRequestController($stateParams, coreConstants, serviceProviderDataservice,
-                                           currentRequestService, conf) {
+    function SpecialistRequestInfoController(coreConstants, coreDataservice, currentRequestService, conf) {
         var promises = {
             getRequest: null
         };
-
-        var vm = this;
-
-        vm.request = {};
-
-        vm.currentRequestId = $stateParams.requestId;
-
-        vm.mapOptions = {
+        var mapOptionsDefault = {
             zoom: 14,
             scrollwheel: false,
             streetViewControl: false,
@@ -35,6 +36,12 @@
             zoomControl: false,
             disableDoubleClickZoom: true
         };
+
+        var vm = this;
+
+        vm.request = {};
+
+        vm.mapOptions = vm.mapOptions || mapOptionsDefault;
 
         vm.baseUrl = conf.BASE_URL;
         vm.dateFormat = coreConstants.DATE_FORMAT;
@@ -48,7 +55,9 @@
                 promises.getRequest.cancel();
             }
 
-            promises.getRequest = serviceProviderDataservice.getRequest(request);
+            var userType = 'specialist';
+
+            promises.getRequest = coreDataservice.getRequest(userType, request);
 
             return promises.getRequest
                 .then(function (response) {
@@ -59,7 +68,7 @@
 
         function getRequest() {
             var currentRequest = {
-                id: vm.currentRequestId
+                id: vm.requestId
             };
 
             getRequestById(currentRequest)

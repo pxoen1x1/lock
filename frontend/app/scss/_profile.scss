@@ -95,15 +95,6 @@
     margin: 0;
   }
 
-
-  mdp-date-picker {
- 
-    .md-button.md-icon-button {
-      margin: 0
-      }
-
-  }
-
   .license-number {
     min-width: 50px;
     overflow: hidden;
@@ -114,7 +105,11 @@
   }
 
   mdp-date-picker {
-   
+
+    .md-button.md-icon-button {
+      margin: 0
+    }
+
     md-input-container {
       max-width: 100px;
       min-width: 50px;
@@ -232,6 +227,9 @@
         margin-bottom: 16px;
       }
 
+      .md-button-blue {
+        line-height: normal;
+      }
     }
 
 }
