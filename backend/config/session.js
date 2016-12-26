@@ -63,7 +63,7 @@ module.exports.session = {
   // pass: <redis auth password>,
   // prefix: 'sess:',
 
-  host: 'lockheal-001.dvklc9.0001.use1.cache.amazonaws.com',
+  host: 'localhost',
   port: 6379,
   ttl: 365 * 24 * 60 * 60,
   db: 0,

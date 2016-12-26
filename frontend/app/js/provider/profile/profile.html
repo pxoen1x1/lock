@@ -8,7 +8,7 @@
       <button class="md-button md-button-blue"
               aria-label="Show public profile"
               ui-sref="provider.profile.public({'profileId': vm.userProfile.id})">
-        Show public profile
+        Show public<wbr> profile
       </button>
     </div>
   </div>
@@ -25,6 +25,11 @@
            flex-gt-xs="25">
         <div class="avatar-wrapper">
           <div class="profile-avatar"
+               file-uploader
+              is-single-file="true"
+              allowed-extensions="{{ vm.fileUploaderOptions.allowedFileExtensions.images }}"
+              max-size="{{ vm.fileUploaderOptions.maxFileSize }}"
+              selected-file-src="vm.newPortrait"
               ng-style="{ 'background-image': 'url(' + (vm.userProfile.portrait ?
                       vm.baseUrl + vm.userProfile.portrait : vm.defaultPortrait)           + ')' }">
             <img class="profile-avatar" ng-src=""/>
@@ -33,17 +38,6 @@
         <div flex="5"></div>
         <div class="actions"
              layout="column">
-          <md-button class="md-button-blue"
-                     ng-if="vm.isEditing"
-                     aria-label="Change photo"
-                     file-uploader
-                     is-single-file="true"
-                     allowed-extensions="{{ vm.fileUploaderOptions.allowedFileExtensions.images }}"
-                     max-size="{{ vm.fileUploaderOptions.maxFileSize }}"
-                     selected-file-src="vm.newPortrait">
-            <i class="material-icons vertical-middle">photo_camera</i>
-            <span class="verical-middle">Change photo</span>
-          </md-button>
           <md-button ng-if="!vm.isEditing"
                      class="md-button-blue"
                      ng-click="vm.isEditing = true"
@@ -109,7 +103,7 @@
             <div layout="column">
               <div layout="row" ng-repeat="license in vm.userProfile.details.licenses track by $index">
                 <span class="md-body-1" ng-bind="vm.userProfile.details.licenses[$index].number"></span>
-                &nbsp; until
+                &nbsp;until
                 <span class="md-body-1" ng-bind="vm.userProfile.details.licenses[$index].date | date: 'MM/dd/yyyy'"></span>
               </div>
             </div>
