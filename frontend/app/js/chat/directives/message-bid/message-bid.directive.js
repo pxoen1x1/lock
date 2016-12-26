@@ -138,12 +138,25 @@
 
 
         function PaymentDialogController($scope, $mdDialog) {
+
+            $scope.txnData = {};
+            $scope.selectPayWithNew = null;
             currentUserService.getUser()
                 .then(function (user) {
                     $scope.customerCardNumber = user.spCardNumber;
                 });
 
+            $scope.Pay = function(){
+
+              if($scope.selectPayWithNew){
+                  $scope.payWithNew($scope.txnData); // todo: how to send txnForm.$valid here
+              }else{
+                  $scope.payWithLinked();
+              }
+            };
+
             $scope.payWithLinked = function(){
+
                 return coreDataservice.getUser(vm.currentBid.specialist.id)
                     .then(function(response) {
 
@@ -157,20 +170,17 @@
 
                             $mdDialog.show(
                                 $mdDialog.alert()
-                                    .parent(angular.element(document.body))
                                     .clickOutsideToClose(true)
                                     .title('Successful payment')
-                                    .ariaLabel('Alert Dialog Demo')
+                                    .ariaLabel('Successful payment')
                                     .ok('Close')
                             );
 
                             vm.acceptBid(vm.currentBid, vm.currentRequest);
-
                         }else{
 
                             $mdDialog.show(
                                 $mdDialog.alert()
-                                    .parent(angular.element(document.body))
                                     .clickOutsideToClose(true)
                                     .title('Error during payment')
                                     .ariaLabel('Please contact support')
@@ -180,11 +190,11 @@
                     }); //todo: check sequrity!!!
             };
 
-            $scope.payWithNew = function(txnData,isValid) {
+            $scope.payWithNew = function(txnData) { // ,isValid
 
-                if(!isValid){
+                /*if(!isValid){
                     return false;
-                }
+                }*/
 
                 var tokenAndTxnResult;
 
@@ -210,10 +220,9 @@
                             $mdDialog.hide();
                             $mdDialog.show(
                                 $mdDialog.alert()
-                                    .parent(angular.element(document.body))
                                     .clickOutsideToClose(true)
                                     .title('Successful payment')
-                                    .ariaLabel('Alert Dialog Demo')
+                                    .ariaLabel('Successful payment')
                                     .ok('Close')
                             );
 
@@ -223,7 +232,6 @@
 
                             $mdDialog.show(
                                 $mdDialog.alert()
-                                    .parent(angular.element(document.body))
                                     .clickOutsideToClose(true)
                                     .title('Error during payment')
                                     .ariaLabel('Please contact support')
@@ -232,6 +240,10 @@
                         }
                     });
             };
+
+            $scope.cancel = function(){
+                $mdDialog.cancel();
+            }
         }
 
         function showPaymentModal(ev) {
