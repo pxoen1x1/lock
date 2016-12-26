@@ -27,7 +27,7 @@
                 }
             ],
             MENU_ITEMS: [
-                'group.dashboard',
+                'group.dashboard.new',
                 'group.members',
                 'group.messages'
             ],
