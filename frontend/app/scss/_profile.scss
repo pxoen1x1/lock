@@ -109,11 +109,16 @@
     overflow: hidden;
   }
 
+  .license-state {
+    min-width: 50px;
+  }
+
   mdp-date-picker {
    
     md-input-container {
       max-width: 100px;
-      min-width: 80px;
+      min-width: 50px;
+      overflow: hidden;
     }
 
     ::-webkit-inner-spin-button {
@@ -180,9 +185,13 @@
     background-size: cover;
   }
 
-  md-dialog .mdp-datepicker .md-dialog-fullscreen {
-    min-height: 0px;
-    min-width: 0px;
+  md-dialog {
+    .mdp-datepicker {
+      .md-dialog-fullscreen {
+        min-height: 0px;
+        min-width: 0px;
+      }
+    }
   }
 
   .profile-left {
