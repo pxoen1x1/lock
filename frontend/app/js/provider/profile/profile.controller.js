@@ -37,6 +37,8 @@
         vm.isEditing = false;
         vm.fileUploaderOptions = coreConstants.FILE_UPLOADER_OPTIONS;
         vm.newPortrait = '';
+        vm.baseUrl = conf.BASE_URL;
+        vm.defaultPortrait = coreConstants.IMAGES.defaultPortrait;
 
         vm.updateUser = updateUser;
         vm.getUser = getUser;
@@ -76,7 +78,6 @@
                 .then(function (user) {
 
                     vm.userProfile = user;
-                    vm.userProfile.portrait = user.portrait ? conf.BASE_URL + user.portrait : '';
                     vm.newPortrait = '';
                     vm.isEditing = false;
 
@@ -90,7 +91,6 @@
                 .then(function (user) {
 
                     vm.userProfile = user;
-                    vm.userProfile.portrait = user.portrait ? conf.BASE_URL + user.portrait : '';
 
                     return vm.userProfile;
                 });
