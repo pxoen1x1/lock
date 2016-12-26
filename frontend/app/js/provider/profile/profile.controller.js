@@ -12,7 +12,7 @@
         'coreDataservice',
         'coreDictionary',
         'currentUserService',
-        'usingLanguageService',
+        'usingLanguageService'
     ];
 
     /* @ngInject */

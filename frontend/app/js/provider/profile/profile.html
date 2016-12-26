@@ -10,6 +10,21 @@
               ui-sref="provider.profile.public({'profileId': vm.userProfile.id})">
         Show public profile
       </button>
+      <md-menu>
+        <md-button aria-label="Open phone interactions menu" class="md-icon-button" ng-click="mdMenuConfig.openMenu($mdOpenMenu, $event)">
+          <md-icon md-menu-origin>more_vert</md-icon>
+        </md-button>
+        <md-menu-content width="4">
+          <md-menu-item>
+            <md-button ui-sref="provider.profile.public({'profileId': vm.userProfile.id})"
+                       aria-label="Show public profile">
+              <md-icon md-menu-align-target>person</md-icon>
+              Show public profile
+            </md-button>
+          </md-menu-item>
+        </md-menu-content>
+      </md-menu>
+
     </div>
   </div>
   <div class="container-content">
@@ -27,7 +42,7 @@
           <div class="profile-avatar"
               ng-style="{ 'background-image': 'url(' + (vm.userProfile.portrait ?
                       vm.baseUrl + vm.userProfile.portrait : vm.defaultPortrait)           + ')' }">
-            <img class="profile-avatar" ng-src=""/>
+            <!--<img class="profile-avatar" ng-src=""/>-->
           </div>
         </div>
         <div flex="5"></div>
