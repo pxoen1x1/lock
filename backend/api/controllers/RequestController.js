@@ -200,12 +200,14 @@ let RequestController = {
                         });
                     }
 
-                    if (foundRequest.executor.phoneNumber) {
-                        delete foundRequest.executor.phoneNumber;
-                    }
+                    if(foundRequest.executor) {
+                        if (foundRequest.executor.phoneNumber) {
+                            delete foundRequest.executor.phoneNumber;
+                        }
 
-                    if (foundRequest.executor.auth) {
-                        delete foundRequest.executor.auth;
+                        if (foundRequest.executor.auth) {
+                            delete foundRequest.executor.auth;
+                        }
                     }
 
                     return res.ok({
