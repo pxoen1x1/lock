@@ -25,22 +25,22 @@
                 <form name="txnForm"
                       novalidate
                       ng-submit="payWithNew(txnData, txnForm.$valid)">
-                    <div layout="row">
-                        <md-input-container class="md-block" flex>
+                    <div>
+                        <md-input-container class="md-block" flex="50">
                             <label>Number</label>
                             <input name="number"
                                    required
                                    ng-maxlength="20"
                                    ng-model="txnData.number">
                         </md-input-container>
-                        <md-input-container class="md-block" flex>
+                        <md-input-container class="md-block" flex="20">
                             <label>CVV</label>
                             <input name="cardCvv"
                                    required
                                    ng-maxlength="20"
                                    ng-model="txnData.cvv">
                         </md-input-container>
-                        <md-input-container class="md-block" flex>
+                        <md-input-container class="md-block" flex="30">
                             <label>Expiration</label>
                             <input name="expiration"
                                    required
