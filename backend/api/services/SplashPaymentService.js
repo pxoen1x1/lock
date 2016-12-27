@@ -451,17 +451,17 @@ let SplashPaymentService = {
             });
     },
 
-    createTxnFull(spCustomerId, params) {
+    createAuthTxnByToken(spCustomerId, params) {
         return SplashPaymentService.getCustomerTokens(spCustomerId, params)
             .then((tokensRes)=> {
                 var tokens = JSON.parse(tokensRes);
                 return tokens[0].token;
             }).then((token) => {
-            return SplashPaymentService.createTxn(token, params);
+            return SplashPaymentService.createAuthTxn(token, params);
         })
     },
 
-    createTxn(token, params){
+    createAuthTxn(token, params){
         var options = {
             method: 'POST',
             path: SPLASH_PAYMENT.endpoints.txns
@@ -471,75 +471,30 @@ let SplashPaymentService = {
             token: token,
             merchant: params.merchantId,
             total: params.amount * 100, // total amount in cents
-            type: SPLASH_PAYMENT.txn.type,
+            type: SPLASH_PAYMENT.txn.types.auth,
             origin: SPLASH_PAYMENT.txn.origin
         };
 
         return SplashPaymentService.makeRequest(options, bodyJson);
     },
 
-/*    createAuthTxn(params){
-
-        var method = SplashPaymentService._getPaymentMethod(params.cardNumber);
-
+    createCaptureTxn(merchantId, fortxn){
         var options = {
             method: 'POST',
             path: SPLASH_PAYMENT.endpoints.txns
         };
 
         var bodyJson = {
-            "payment": {
-                /!**
-                 * Method of payment (1 = American Express, 2 = Visa, 3 = Master Card,
-                 * 4 = Diners Club, 5 = Discover, 6 = Paypal [not yet implemented],
-                 * 7 = Debit Card, 8 = eCheck Checking, 9 = eCheck Savings, 10 = eCheck
-                 * Corporate Checking, 11 = eCheck Corporate Savings)
-                 *
-                 *  AMEX starts with a 3
-                 VISA starts with a 4
-                 MC starts with a 5
-                 DISCOVER starts with a 6
-                 *!/
-                "method": method,
-                "number": params.cardNumber,//"4242424242424242",
-                "cvv": params.cvv
-            },
-            "expiration": "0120",
-            /!**
-             * Type of transaction (1 = Sale, 2 = Auth, 3 = Capture, 4 = Auth Reversal,
-             * 5 = Refund, 6 = Reserved for future use, 7 = eCheck Sale,
-             * 8 = eCheck Refund, 9 = eCheck PreSale Notification, 10 = eCheck PreRefund
-             * Notification, 11 = eCheck Retry failed sale, 12 = eCheck Verification, 13 =
-             * eCheck Sale/Retry Cancellation
-             *!/
-            "type": "2",
-            /!**
-             * Transaction amount in cents
-             *!/
-            "total": 5000,
-            "address1": "6565 Taft St.",
-            "city": "Hollywood",
-            "state": "FL",
-            "zip": "33024",
-            "email": "nochum@payrix.com",
-            "phone": "7185069292",
-            "first": "Nochum",
-            "last": "Sossonko",
-            /!**
-             * Merchant ID that is running this transaction
-             *!/
-            "merchant": "g1abcdefghijklm",
-            /!**
-             * The transaction origin (1 = Terminal, 2 = eCommerce, 3 = Mail Order or
-             * Telephone Order)
-             *!/
-            "origin": 2
+            fortxn: fortxn,
+            merchant: merchantId,
+            type: SPLASH_PAYMENT.txn.types.capture,
+            origin: SPLASH_PAYMENT.txn.origin
         };
 
         return SplashPaymentService.makeRequest(options, bodyJson);
-    },*/
+    },
 
-    createTokenAndTxn(user, params) {
+    createTokenAndAuthTxn(user, params) {
         var token = {}; // todo: use spread ??
         return SplashPaymentService.deleteCustomerTokens(user.spCustomerId)
             .then(() => {
@@ -556,7 +511,7 @@ let SplashPaymentService = {
                 return User.update({id: user.id}, user);  // todo: use spread ??
             }).then((updatedUsers) => {
 
-                return [updatedUsers[0].spCardNumber,SplashPaymentService.createTxn(token.token, params)];
+                return [updatedUsers[0].spCardNumber,SplashPaymentService.createAuthTxn(token.token, params)];
             })
     },
 
@@ -580,7 +535,7 @@ let SplashPaymentService = {
                 res.on('data', (chunk) => {
                     var response = JSON.parse(chunk);
                     if (!response.response || !response.response.data) {
-                        sails.log.debug(response);
+                        sails.log.error(response);
                         return Promise.reject('unhandled response from SP');
                     }
                     body.push(JSON.stringify(response.response.data));

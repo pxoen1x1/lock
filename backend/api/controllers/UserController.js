@@ -130,29 +130,6 @@ let UserController = waterlock.actions.user({
                     return res.serverError();
                 });
     },
-    createTxn(req, res) {
-        var params = req.allParams();
-        let user = req.session.user;
-
-        SplashPaymentService.createTxnFull(user.spCustomerId, params)
-            .then((response) => {
-            return res.ok({
-                resTxn: JSON.parse(response)
-            });
-        });
-    },
-    createTokenAndTxn(req, res) {
-        let params = req.allParams();
-        let user = req.session.user;
-
-        return SplashPaymentService.createTokenAndTxn(user, params)
-            .spread((spCardNumber, txnData) => {
-                return res.ok({
-                    resTxn: JSON.parse(txnData),
-                    spCardNumber: spCardNumber
-                });
-            });
-    },
     getUserById(req, res) {
         let userId = req.params.id;
 

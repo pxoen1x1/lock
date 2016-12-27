@@ -67,17 +67,22 @@ let splashpayment = {
     },
     txn: {
         /**
+         * The transaction origin (1 = Terminal, 2 = eCommerce, 3 = Mail Order or
+         * Telephone Order)
+         */
+
+        /**
          * Type of transaction (1 = Sale, 2 = Auth, 3 = Capture, 4 = Auth Reversal,
          * 5 = Refund, 6 = Reserved for future use, 7 = eCheck Sale,
          * 8 = eCheck Refund, 9 = eCheck PreSale Notification, 10 = eCheck PreRefund
          * Notification, 11 = eCheck Retry failed sale, 12 = eCheck Verification, 13 =
          * eCheck Sale/Retry Cancellation
          */
-        type: 1,
-        /**
-         * The transaction origin (1 = Terminal, 2 = eCommerce, 3 = Mail Order or
-         * Telephone Order)
-         */
+        types: {
+            auth: 2,
+            capture: 3,
+            authReversal: 4
+        },
         origin: 2
     }
 };

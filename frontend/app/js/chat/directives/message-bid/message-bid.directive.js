@@ -91,7 +91,7 @@
                 });
         }
 
-        function acceptBid(currentBid, currentRequest) { //
+        function acceptBid(currentBid, currentRequest) {
             if (currentRequest.status !== vm.requestStatus.NEW) {
 
                 return;
@@ -161,7 +161,7 @@
                     .then(function(response) {
 
                         var specialist = response.data.user;
-                        return coreDataservice.createTxn(specialist.spMerchantId,vm.currentBid.cost)
+                        return coreDataservice.createAuthTxn(specialist.spMerchantId, vm.currentBid.cost, vm.currentRequest.id)
                     })
                     .then((res)=>{
                         $mdDialog.hide();
@@ -176,7 +176,7 @@
                                     .ok('Close')
                             );
 
-                            vm.acceptBid(vm.currentBid, vm.currentRequest);
+                            vm.acceptBid(vm.currentBid, vm.currentRequest); // todo: uncomment
                         }else{
 
                             $mdDialog.show(
@@ -202,7 +202,7 @@
                     .then(function(response) {
                         var specialist = response.data.user;
 
-                        return coreDataservice.createTokenAndTxn(txnData,specialist.spMerchantId,vm.currentBid.cost)
+                        return coreDataservice.createTokenAndAuthTxn(txnData,specialist.spMerchantId,vm.currentBid.cost)
                     })
                     .then((result)=> {
                         tokenAndTxnResult = result; //todo: redo with spread
@@ -226,7 +226,7 @@
                                     .ok('Close')
                             );
 
-                            vm.acceptBid(vm.currentBid, vm.currentRequest)
+                            vm.acceptBid(vm.currentBid, vm.currentRequest) // todo: uncomment
 
                         }else{
 

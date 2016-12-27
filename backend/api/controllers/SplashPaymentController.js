@@ -11,6 +11,7 @@
 
 
 const BANK_ACCOUNT_TYPES = sails.config.splashpayment.bankAccountTypes;
+const TRANSACTION_TYPES = sails.config.splashpayment.txn.types;
 
 let SplashPaymentController = {
 
@@ -177,8 +178,67 @@ let SplashPaymentController = {
         SplashPaymentService.updateCustomer(customerId)
             .then((response) => res.ok({result: response}));
     },
-// transaction (txn)
 
+    // transaction (txn)
+    createAuthTxn(req, res) {
+        var params = req.allParams();
+        let user = req.session.user;
+
+        SplashPaymentService.createAuthTxnByToken(user.spCustomerId, params)
+            .then((response) => {
+                var txnArr = JSON.parse(response);
+
+                if(txnArr.length == 0){
+                    return res.serverError();
+                }
+
+                return [txnArr, RequestService.getRequestById({id: params.requestId})];
+            })
+            .spread((txnArr, request) => {
+                request.spAuthTxnId = txnArr[0].id;
+
+                return [txnArr, RequestService.updateRequest(request)];
+            })
+            .then((txnArr) => {
+
+                return res.ok({
+                    resTxn: txnArr
+                })
+            });
+    },
+    createCaptureTxn(req, res) {
+        var params = req.allParams();
+
+        RequestService.getRequestById({id: params.requestId})
+            .then((request) => {
+
+                return SplashPaymentService.createCaptureTxn(request.executor.spMerchantId, request.spAuthTxnId)
+            })
+            .then((response) => {
+                var txnArr = JSON.parse(response);
+
+                if(txnArr.length > 0){
+                    return res.ok({
+                        resTxn: true
+                    })
+                }else{
+                    return res.serverError();
+                }
+
+            });
+    },
+    createTokenAndAuthTxn(req, res) {
+        let params = req.allParams();
+        let user = req.session.user;
+
+        return SplashPaymentService.createTokenAndAuthTxn(user, params)
+            .spread((spCardNumber, txnData) => {
+                return res.ok({
+                    resTxn: JSON.parse(txnData),
+                    spCardNumber: spCardNumber
+                });
+            });
+    },
     //--- payout ---
     getMerchantPayouts(req, res) {
         let entityId = req.params.entityId;
@@ -197,14 +257,7 @@ let SplashPaymentController = {
 
         SplashPaymentService.updateMerchantPayout(payoutId)
             .then((response) => res.ok({result: response}));
-    },
-    createAuthTxn(req, res) {
-        var params = req.allParams();
-
-        SplashPaymentService.createAuthTxn(params)
-            .then((response) => res.ok({result: response}));
-    },
-
+    }
 };
 
 module.exports = SplashPaymentController;

@@ -46,6 +46,18 @@ let splashPaymentRoutes = {
         controller: 'splashPaymentController',
         action: 'createAuthTxn'
     },
+    'POST /api/splashpayment/capturetxn': {
+        controller: 'splashPaymentController',
+        action: 'createCaptureTxn'
+    },
+    'POST /api/splashpayment/tokenandauthtxn': {
+        controller: 'splashPaymentController',
+        action: 'createTokenAndAuthTxn'
+    },
+/*    'POST /api/splashpayment/txn': { // disabled
+        controller: 'splashPaymentController',
+        action: 'createTxn'
+    },*/
     // ! support of urls below not implemented yet !
     /*    'GET /api/splashpayment/txns': {
      controller: 'splashPaymentController',

@@ -19,8 +19,9 @@
             updateCustomerCard: updateCustomerCard,
             getMerchantAccount: getMerchantAccount,
             setMerchantAccount: setMerchantAccount,
-            createTxn: createTxn,
-            createTokenAndTxn: createTokenAndTxn,
+            createAuthTxn: createAuthTxn,
+            createCaptureTxn: createCaptureTxn,
+            createTokenAndAuthTxn: createTokenAndAuthTxn,
             getUser: getUser,
             getFeedbacks: getFeedbacks,
             getServiceTypes: getServiceTypes,
@@ -56,7 +57,7 @@
                 method: 'GET'
             }).then(getCustomerComplete);
 
-            function getCustomerComplete(response){
+            function getCustomerComplete(response) {
                 return response.data
             }
         }
@@ -79,7 +80,7 @@
                 method: 'GET'
             }).then(getBankAccountTypesComplete);
 
-            function getBankAccountTypesComplete(response){
+            function getBankAccountTypesComplete(response) {
                 return response.data.result;
             }
         }
@@ -100,7 +101,7 @@
                 method: 'GET'
             }).then(getCurrentMerchantComplete);
 
-            function getCurrentMerchantComplete(response){
+            function getCurrentMerchantComplete(response) {
                 return response.data.merchantEntity;
             }
         }
@@ -123,7 +124,7 @@
                 method: 'GET'
             }).then(getMerchantAccountComplete);
 
-            function getMerchantAccountComplete(response){
+            function getMerchantAccountComplete(response) {
 
                 return response.data.userPayment;
             }
@@ -140,8 +141,12 @@
             }
         }
 
-        function createTxn(merchantId,amount) {
-            return $sails.post(conf.URL_PREFIX + 'splashpayment/txn', {merchantId: merchantId, amount: amount})
+        function createAuthTxn(merchantId, amount, requestId) {
+            return $sails.post(conf.URL_PREFIX + 'splashpayment/authtxn', {
+                    merchantId: merchantId,
+                    amount: amount,
+                    requestId: requestId
+                })
                 .then(createTxnComplete);
 
             function createTxnComplete(response) {
@@ -150,11 +155,25 @@
             }
         }
 
-        function createTokenAndTxn(txnData, merchantId, amount) {
-            return $sails.post(conf.URL_PREFIX + 'splashpayment/tokenandtxn', {txnData: txnData, merchantId: merchantId, amount: amount})
-                .then(createTokenAndTxnComplete);
+        function createTokenAndAuthTxn(txnData, merchantId, amount) {
+            return $sails.post(conf.URL_PREFIX + 'splashpayment/tokenandauthtxn', {
+                    txnData: txnData,
+                    merchantId: merchantId,
+                    amount: amount
+                })
+                .then(createTokenAndAuthTxnComplete);
 
-            function createTokenAndTxnComplete(response) {
+            function createTokenAndAuthTxnComplete(response) {
+                return response.data;
+            }
+        }
+
+        function createCaptureTxn(requestId) {
+            return $sails.post(conf.URL_PREFIX + 'splashpayment/capturetxn', {requestId: requestId})
+                .then(createCaptureTxnComplete);
+
+            function createCaptureTxnComplete(response) {
+
                 return response.data;
             }
         }

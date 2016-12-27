@@ -25,14 +25,6 @@ let userRoutes = {
         controller: 'UserController',
         action: 'updateUser'
     },
-    'POST /api/splashpayment/txn': {
-        controller: 'UserController',
-        action: 'createTxn'
-    },
-    'POST /api/splashpayment/tokenandtxn': {
-        controller: 'UserController',
-        action: 'createTokenAndTxn'
-    },
 };
 
 module.exports.routes = userRoutes;
