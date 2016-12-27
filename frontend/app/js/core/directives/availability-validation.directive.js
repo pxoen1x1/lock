@@ -19,6 +19,7 @@
         return directive;
 
         function link(scope, element, attrs, ngModel) {
+            var prevModelValue;
             var promises = {
                 getAvailabilityInfo: null
             };
@@ -26,15 +27,15 @@
             ngModel.$asyncValidators.availability = verifyAvailability;
 
             function verifyAvailability(modelValue) {
-                if (!ngModel.$valid || (Object.keys(ngModel.$error).length === 1 && ngModel.$error.availability) ||
-                    !modelValue) {
+                if (prevModelValue === modelValue) {
 
-                    return $q.resolve();
+                    return ngModel.$error.availability ? $q.reject() : $q.resolve();
                 }
 
                 var field = {};
 
                 field[attrs.name] = modelValue;
+                prevModelValue = modelValue;
 
                 if (promises.getAvailabilityInfo) {
                     promises.getAvailabilityInfo.cancel();
