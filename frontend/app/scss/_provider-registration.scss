@@ -175,8 +175,28 @@
       flex-basis: 28%;
     }
 
-    .md-datepicker-input {
-      max-width: 120px;
+     mdp-date-picker {
+
+      .md-button.md-icon-button {
+        margin: 0
+      }
+
+      md-input-container {
+        max-width: 120px;
+        min-width: 50px;
+        overflow: hidden;
+      }
+
+      ::-webkit-inner-spin-button {
+        display: none;
+      }
+      ::-webkit-calendar-picker-indicator {
+        display: none;
+      }
+      ::-webkit-clear-button {
+        display: none;
+      }
+
     }
   }
 }

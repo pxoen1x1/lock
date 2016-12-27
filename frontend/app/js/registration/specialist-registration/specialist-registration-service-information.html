@@ -53,12 +53,12 @@
       <md-input-container class="md-block"
                           layout="row"
                           required>
-        <md-datepicker name="licenseDate"
-                       md-placeholder="Expiration {{ vm.licenses[$index].number ? '*': '' }}"
-                       md-min-date="vm.datePickerOptions.minDate"
-                       ng-required="vm.licenses[$index].number"
-                       ng-model="vm.licenses[$index].date">
-        </md-datepicker>
+        <mdp-date-picker name="licenseDate"
+                         md-placeholder="Expiration {{ vm.licenses[$index].number ? '*': '' }}"
+                         mdp-min-date="vm.datePickerOptions.minDate"
+                         ng-required="vm.licenses[$index].number"
+                         ng-model="vm.licenses[$index].date">
+        </mdp-date-picker>
         <div class="validation-messages"
              ng-messages="registrationForm.licenseDate.$error">
           <div ng-message="invalid">The entered value is not a date!</div>
