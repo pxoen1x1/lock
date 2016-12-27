@@ -11,16 +11,31 @@
               ui-sref="provider.profile.public({'profileId': vm.userProfile.id})">
         Show public<wbr> profile
       </button>
-      <md-menu ng-if="!$mdMedia('gt-xs')">
-        <md-button aria-label="Open phone interactions menu" class="md-icon-button" ng-click="mdMenuConfig.openMenu($mdOpenMenu, $event)">
-          <md-icon md-menu-origin>more_vert</md-icon>
+
+      <md-menu md-position-mode="target-right target"
+               ng-if="!$mdMedia('gt-xs')">
+        <md-button class="md-icon-button"
+                   aria-label="more"
+                   ng-click="$mdOpenMenu()">
+          <i class="material-icons dropdown-menu-icon">more_vert</i>
         </md-button>
-        <md-menu-content width="4">
+        <md-menu-content width="3">
           <md-menu-item>
             <md-button ui-sref="provider.profile.public({'profileId': vm.userProfile.id})"
                        aria-label="Show public profile">
-              <md-icon md-menu-align-target>person</md-icon>
+              <i class="material-icons vertical-middle">person</i>
               Show public profile
+            </md-button>
+          </md-menu-item>
+          <md-menu-item ng-if="vm.isEditing">
+            <md-button aria-label="Change photo"
+                       file-uploader
+                       is-single-file="true"
+                       allowed-extensions="{{ vm.fileUploaderOptions.allowedFileExtensions.images }}"
+                       max-size="{{ vm.fileUploaderOptions.maxFileSize }}"
+                       selected-file-src="vm.newPortrait">
+              <i class="material-icons vertical-middle">photo_camera</i>
+              <span class="verical-middle">Change photo</span>
             </md-button>
           </md-menu-item>
         </md-menu-content>
@@ -41,12 +56,7 @@
            flex-gt-xs="25">
         <div class="avatar-wrapper">
           <div class="profile-avatar"
-               file-uploader
-              is-single-file="true"
-              allowed-extensions="{{ vm.fileUploaderOptions.allowedFileExtensions.images }}"
-              max-size="{{ vm.fileUploaderOptions.maxFileSize }}"
-              selected-file-src="vm.newPortrait"
-              ng-style="{ 'background-image': 'url(' + (vm.userProfile.portrait ?
+               ng-style="{ 'background-image': 'url(' + (vm.userProfile.portrait ?
                       vm.baseUrl + vm.userProfile.portrait : vm.defaultPortrait)           + ')' }">
           </div>
         </div>
