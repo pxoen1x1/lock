@@ -14,12 +14,13 @@
         'currentRequestService',
         'customerDataservice',
         'currentUserService',
-        'conf'
+        'conf',
+        '$q'
     ];
 
     /* @ngInject */
     function CustomerViewRequestController($stateParams, $mdDialog, coreConstants, coreDataservice,
-                                           chatSocketservice, currentRequestService, customerDataservice, currentUserService, conf) {
+                                           chatSocketservice, currentRequestService, customerDataservice, currentUserService, conf, $q) {
         var promises = {
             getRequest: null,
             getFeedback: null
@@ -49,6 +50,7 @@
         vm.dateFormat = coreConstants.DATE_FORMAT;
 
         vm.closeRequest = closeRequest;
+        vm.cancelRequest = cancelRequest;
         vm.setRequestStatusAsDone = setRequestStatusAsDone;
         vm.addFeedback = addFeedback;
 
@@ -148,6 +150,40 @@
                 });
         }
 
+        function cancelRequest(request) {
+            if (!request || vm.request.status !== vm.requestStatus.IN_PROGRESS) {
+
+                return;
+            }
+
+            return coreDataservice.reverseAuthTxn(request.id)
+                .then((response) => {
+                    if (response.result != true) {
+                        $mdDialog.show(
+                            $mdDialog.alert()
+                                .clickOutsideToClose(true)
+                                .title('Error during cancelling payment')
+                                .textContent('Please contact support')
+                                .ok('Close')
+                        );
+
+                        return $q.reject('');
+                    }
+
+                    var status = {
+                        status: coreConstants.REQUEST_STATUSES.NEW
+                    };
+
+                    return changeRequestStatus(request, status);
+                })
+                .then(function (request) {
+                    vm.request = request;
+                    currentRequestService.setRequest(vm.request);
+
+                    return vm.request;
+                });
+        }
+
         function setRequestStatusAsDone(request) {
             if (!request || vm.request.status !== vm.requestStatus.DONE) {
 
@@ -168,10 +204,10 @@
                     return changeRequestStatus(request, status);
                 })
                 .then(function (request) {
-                        vm.request = request;
-                        currentRequestService.setRequest(vm.request);
+                    vm.request = request;
+                    currentRequestService.setRequest(vm.request);
 
-                        return vm.request;
+                    return vm.request;
                 });
         }
 
@@ -179,13 +215,13 @@
             event.preventDefault();
 
             $mdDialog.show({
-                templateUrl: 'customer/feedback/feedback.html',
-                controller: 'CustomerFeedbackController',
-                controllerAs: 'vm',
-                locals: {
-                    requestInfo: request
-                }
-            })
+                    templateUrl: 'customer/feedback/feedback.html',
+                    controller: 'CustomerFeedbackController',
+                    controllerAs: 'vm',
+                    locals: {
+                        requestInfo: request
+                    }
+                })
                 .then(function () {
                     getFeedback();
                 });

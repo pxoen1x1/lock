@@ -50,6 +50,10 @@ let splashPaymentRoutes = {
         controller: 'splashPaymentController',
         action: 'createCaptureTxn'
     },
+    'POST /api/splashpayment/reverseauthtxn': {
+        controller: 'splashPaymentController',
+        action: 'createReverseAuthTxn'
+    },
     'POST /api/splashpayment/tokenandauthtxn': {
         controller: 'splashPaymentController',
         action: 'createTokenAndAuthTxn'

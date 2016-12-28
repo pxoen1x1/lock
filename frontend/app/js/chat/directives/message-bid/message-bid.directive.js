@@ -183,7 +183,7 @@
                                 $mdDialog.alert()
                                     .clickOutsideToClose(true)
                                     .title('Error during payment')
-                                    .ariaLabel('Please contact support')
+                                    .textContent('Please contact support')
                                     .ok('Close')
                             );
                         }
@@ -234,7 +234,7 @@
                                 $mdDialog.alert()
                                     .clickOutsideToClose(true)
                                     .title('Error during payment')
-                                    .ariaLabel('Please contact support')
+                                    .textContent('Please contact support')
                                     .ok('Close')
                             );
                         }

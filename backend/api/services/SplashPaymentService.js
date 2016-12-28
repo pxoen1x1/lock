@@ -154,7 +154,7 @@ let SplashPaymentService = {
             phone: user.phoneNumber // auth.user.phoneNumber
 
         };
-        
+
         return SplashPaymentService.makeRequest(options, bodyJson);
     },
 
@@ -452,7 +452,7 @@ let SplashPaymentService = {
     },
 
     createAuthTxnByToken(spCustomerId, params) {
-        return SplashPaymentService.getCustomerTokens(spCustomerId, params)
+        return SplashPaymentService.getCustomerTokens(spCustomerId)
             .then((tokensRes)=> {
                 var tokens = JSON.parse(tokensRes);
                 return tokens[0].token;
@@ -478,20 +478,56 @@ let SplashPaymentService = {
         return SplashPaymentService.makeRequest(options, bodyJson);
     },
 
-    createCaptureTxn(merchantId, fortxn){
-        var options = {
-            method: 'POST',
-            path: SPLASH_PAYMENT.endpoints.txns
-        };
+    createCaptureTxn(spCustomerId, merchantId, fortxn){
 
-        var bodyJson = {
-            fortxn: fortxn,
-            merchant: merchantId,
-            type: SPLASH_PAYMENT.txn.types.capture,
-            origin: SPLASH_PAYMENT.txn.origin
-        };
+        return SplashPaymentService.getCustomerTokens(spCustomerId)
+            .then((tokensRes)=> {
+                var tokens = JSON.parse(tokensRes);
 
-        return SplashPaymentService.makeRequest(options, bodyJson);
+                return tokens[0].token;
+            })
+            .then((token) => {
+
+                var options = {
+                    method: 'POST',
+                    path: SPLASH_PAYMENT.endpoints.txns
+                };
+
+                var bodyJson = {
+                    token: token,
+                    fortxn: fortxn,
+                    merchant: merchantId,
+                    type: SPLASH_PAYMENT.txn.types.capture,
+                    origin: SPLASH_PAYMENT.txn.origin
+                };
+
+                return SplashPaymentService.makeRequest(options, bodyJson);
+            });
+    },
+
+    createReverseAuthTxn(spCustomerId, merchantId, fortxn){
+
+        return SplashPaymentService.getCustomerTokens(spCustomerId)
+            .then((tokensRes)=> {
+                var tokens = JSON.parse(tokensRes);
+                return tokens[0].token;
+            })
+            .then((token) => {
+                var options = {
+                    method: 'POST',
+                    path: SPLASH_PAYMENT.endpoints.txns
+                };
+
+                var bodyJson = {
+                    token: token,
+                    fortxn: fortxn,
+                    merchant: merchantId,
+                    type: SPLASH_PAYMENT.txn.types.authReversal,
+                    origin: SPLASH_PAYMENT.txn.origin
+                };
+
+                return SplashPaymentService.makeRequest(options, bodyJson);
+            });
     },
 
     createTokenAndAuthTxn(user, params) {
