@@ -75,6 +75,7 @@
         vm.onFileLoaded = onFileLoaded;
         vm.startSpeechRecognition = startSpeechRecognition;
         vm.isChatDisabled = isChatDisabled;
+        vm.joinGroupMember = joinGroupMember;
 
         activate();
 
@@ -335,6 +336,17 @@
             });
 
             return isRequestClosed || (isRequestNew && !isRequestExecutorChatMember);
+        }
+
+        function joinGroupMember() {
+
+            return $mdDialog.show({
+                templateUrl: 'group/find-group-member-dialog/find-group-member-dialog.html',
+                controller: 'FindGroupMemberDialogController',
+                controllerAs: 'vm'
+            })
+                .then(function () {
+                });
         }
 
         function activate() {
