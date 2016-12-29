@@ -18,7 +18,6 @@ module.exports = function (req, res, next) {
     if (!chat) {
         sails.log.debug(new Error('Submitted data is invalid.'));
 
-
         return res.badRequest({
             message: req.__('Submitted data is invalid.')
         });

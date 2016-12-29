@@ -12,10 +12,14 @@
 'use strict';
 
 module.exports = function (req, res, next) {
-    let memberId = parseInt(req.params.memberId, 10);
+    let params = req.allParams();
+    let memberId = req.params.memberId || params.member.id;
     let user = req.session.user;
 
+    memberId = parseInt(memberId, 10);
+
     if (!memberId) {
+        sails.log.debug(new Error('Submitted data is invalid.'));
 
         return res.badRequest({
             message: req.__('Submitted data is invalid.')
