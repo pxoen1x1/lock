@@ -122,6 +122,13 @@ module.exports.policies = {
             'hasJsonWebToken',
             'isUserEnabled',
             'isChatMember'
+        ],
+        'joinGroupMemberToChat': [
+            'isSocketRequest',
+            'hasJsonWebToken',
+            'isUserEnabled',
+            'isChatMember',
+            'isGroupMember'
         ]
     },
 
