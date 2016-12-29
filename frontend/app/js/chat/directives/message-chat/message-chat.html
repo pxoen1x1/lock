@@ -20,6 +20,9 @@
       <div ng-style="{ 'background-image': 'url(' + vm.baseUrl + vm.message.message + ')' }"></div>
     </a>
     <div class="time secondary-text">
+      <span class="m-r-sm"
+            ng-if="vm.message.sender.id !== vm.currentUser.id"
+            ng-bind="vm.message.sender.fullName"></span>
       <span ng-bind="vm.message.updatedAt | altDate"></span>
     </div>
   </div>

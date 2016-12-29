@@ -47,7 +47,7 @@
                 data: {
                     title: 'Dashboard',
                     menu: {
-                        icon: 'list',
+                        icon: 'dashboard',
                         title: 'Dashboard'
                     },
                     isPrivate: true
@@ -189,7 +189,7 @@
                 data: {
                     title: 'Members',
                     menu: {
-                        icon: 'list',
+                        icon: 'people',
                         title: 'Members'
                     }
                 }

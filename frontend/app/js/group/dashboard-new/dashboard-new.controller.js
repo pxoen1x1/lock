@@ -27,7 +27,7 @@
         vm.pagination = {
             totalCount: 0,
             currentPageNumber: 1,
-            limit: 5
+            limit: coreConstants.PAGINATION_OPTIONS.limit
         };
 
         vm.loadPrevRequests = loadPrevRequests;

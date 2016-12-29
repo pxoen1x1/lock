@@ -64,7 +64,7 @@
               <span ng-bind="member.phoneNumber | tel"></span>
             </td>
             <td md-cell>
-              <md-button class="md-button-red btn-outline btn-mini"
+              <md-button class="md-button-red md-button-outline md-button-mini"
                          member-removal="member"
                          on-remove="vm.removeMember(member)"
                          ng-click="$event.stopPropagation()">
@@ -119,7 +119,7 @@
               <span ng-bind="member.fullName"></span>
             </div>
           </div>
-          <md-button class="md-button-red btn-outline btn-mini"
+          <md-button class="md-button-red md-button-outline md-button-mini"
                      member-removal="member"
                      on-remove="vm.removeMember(member)"
                      ng-click="$event.stopPropagation(); $event.preventDefault()">

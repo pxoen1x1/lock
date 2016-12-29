@@ -51,20 +51,23 @@ $panel-background-color: rgb(245, 245, 245);
 
 .md-button {
   &.md-button-blue {
-    &, &.md-fab {
-      &, &:not([disabled]) {
-        color: #fff;
-        &, &:focus {
-          background-color: $primary-color;
-        }
 
-        &:hover {
-          background-color: rgb(0, 145, 234);
-        }
+    &, &.md-fab {
+
+      &, md-icon {
+        color: #fff;
+      }
+
+      &, &:focus {
+        background-color: $primary-color;
+      }
+
+      &:hover {
+        background-color: rgb(0, 145, 234);
       }
     }
 
-    &.btn-outline {
+    &.md-button-outline {
       border-color: $primary-color;
 
       &, md-icon {
@@ -79,7 +82,10 @@ $panel-background-color: rgb(245, 245, 245);
 
   &.md-button-green {
     &, &.md-fab {
-      color: #fff;
+
+      &, md-icon {
+        color: #fff;
+      }
 
       &, &:focus {
         background-color: $success-color;
@@ -90,7 +96,7 @@ $panel-background-color: rgb(245, 245, 245);
       }
     }
 
-    &.btn-outline {
+    &.md-button-outline {
       border-color: $success-color;
 
       &, md-icon {
@@ -105,7 +111,9 @@ $panel-background-color: rgb(245, 245, 245);
 
   &.md-button-red {
     &, &.md-fab {
-      color: #fff;
+      &, md-icon {
+        color: #fff;
+      }
 
       &, &:focus {
         background-color: $error-color;
@@ -116,7 +124,7 @@ $panel-background-color: rgb(245, 245, 245);
       }
     }
 
-    &.btn-outline {
+    &.md-button-outline {
       border-color: $error-color;
 
       &, md-icon {
@@ -129,7 +137,7 @@ $panel-background-color: rgb(245, 245, 245);
     }
   }
 
-  &.btn-outline {
+  &.md-button-outline {
     background-color: #fff;
     border-width: 1px;
     border-style: solid;
@@ -141,7 +149,22 @@ $panel-background-color: rgb(245, 245, 245);
     }
   }
 
-  &.btn-mini {
+  &.md-fab {
+    &.md-button-mini {
+      width: 34px;
+      height: 34px;
+
+      md-icon {
+        min-width: 10px;
+        min-height: 10px;
+
+        font-size: 18px;
+        line-height: 18px;
+      }
+    }
+  }
+
+  &.md-button-mini {
     min-width: 10px;
     min-height: 10px;
     line-height: 10px;

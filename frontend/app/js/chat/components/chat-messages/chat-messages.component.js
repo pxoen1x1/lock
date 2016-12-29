@@ -75,6 +75,7 @@
         vm.onFileLoaded = onFileLoaded;
         vm.startSpeechRecognition = startSpeechRecognition;
         vm.isChatDisabled = isChatDisabled;
+        vm.joinGroupMember = joinGroupMember;
 
         activate();
 
@@ -335,6 +336,35 @@
             });
 
             return isRequestClosed || (isRequestNew && !isRequestExecutorChatMember);
+        }
+
+        function joinGroupMember() {
+
+            return $mdDialog.show({
+                templateUrl: 'group/find-group-member-dialog/find-group-member-dialog.html',
+                controller: 'FindGroupMemberDialogController',
+                controllerAs: 'vm',
+                bindToController: true,
+                locals: {
+                    chatMembers: vm.currentChat.members
+                }
+            })
+                .then(function (selectedGroupMember) {
+                    var member = {
+                        member: selectedGroupMember
+                    };
+
+                    return chatSocketservice.joinGroupMemberToChat(vm.currentChat, member);
+                })
+                .then(function (member) {
+                        if (!angular.isArray(vm.currentChat.members)) {
+
+                            return;
+                        }
+
+                        vm.currentChat.members.push(member);
+                    }
+                );
         }
 
         function activate() {
