@@ -362,7 +362,6 @@
                             return;
                         }
 
-                        console.log(member);/////
                         vm.currentChat.members.push(member);
                     }
                 );
