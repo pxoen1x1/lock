@@ -95,6 +95,34 @@ let GroupService = {
                 }
             );
     },
+    searchGroupMember(user, query, pagination) {
+        let offset = (pagination.page - 1) * pagination.limit;
+
+        let rawQuery = `${getGroupMembersRawQuery} WHERE gr.admin_id = ${user.id} AND
+            (user.first_name LIKE '${query}%' OR user.last_name LIKE '${query}%' OR auth.email LIKE '${query}%')
+            LIMIT ${pagination.limit} OFFSET ${offset}`;
+
+        let searchGroupMemberQueryAsync = promise.promisify(Group.query);
+
+        return searchGroupMemberQueryAsync(rawQuery)
+            .then(
+                (members) => {
+                    rawQuery = rawQuery.replace(/^SELECT[\s|\S]*FROM/i, 'SELECT COUNT (*) FROM');
+                    rawQuery = rawQuery.replace(/\sOFFSET \d+/i, '');
+
+                    return [HelperService.formatQueryResult(members), this._getGroupMembersCount(rawQuery)];
+                }
+            )
+            .spread(
+                (members, count) => {
+
+                    return {
+                        items: members,
+                        count: count
+                    };
+                }
+            );
+    },
     joinMember(token) {
 
         return GroupInvitation.findOneByToken(token)

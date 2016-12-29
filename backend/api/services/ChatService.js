@@ -255,6 +255,21 @@ let ChatService = {
                 (chat) => Chat.findOneById(chat.id)
                     .populateAll()
             );
+    },
+    joinGroupMemberToChat(chat, member) {
+
+        return Chat.findOneById(chat.id)
+            .populate('members')
+            .then(
+                (chat) => {
+                    chat.members.add(member);
+
+                    return [User.findOneById(member.id), HelperService.saveModel(chat)];
+                }
+            )
+            .spread(
+                (user) => user
+            );
     }
 };
 

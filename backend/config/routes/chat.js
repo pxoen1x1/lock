@@ -24,7 +24,11 @@ let chatRoutes = {
     'POST /api/chats/:chatId/subscribe': {
         controller: 'ChatController',
         action: 'subscribeToChat'
-    }
+    },
+    'POST /api/group/chats/:chatId/members/join': {
+        controller: 'ChatController',
+        action: 'joinGroupMemberToChat'
+    },
 };
 
 module.exports.routes = chatRoutes;

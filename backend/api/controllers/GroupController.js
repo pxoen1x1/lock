@@ -69,6 +69,44 @@ let GroupController = {
                 }
             );
     },
+    searchGroupMember(req, res) {
+        let params = req.allParams();
+        let query = params.query;
+
+        if (!query || query.length < 3) {
+
+            return res.badRequest(
+                {
+                    message: req.__('Submitted data is invalid.')
+                }
+            );
+        }
+
+        let user = req.session.user;
+
+        let pagination = {};
+
+        pagination.limit = params.limit || sails.config.application.queryLimit;
+        pagination.page = params.page || 1;
+
+        GroupService.searchGroupMember(user, query, pagination)
+            .then(
+                (members) => res.ok(
+                    {
+                        items: members.items,
+                        currentPageNumber: +pagination.page,
+                        totalCount: members.count
+                    }
+                )
+            )
+            .catch(
+                (err) => {
+                    sails.log.error(err);
+
+                    return res.serverError();
+                }
+            );
+    },
     joinMember(req, res) {
         let token = req.param('token');
 
