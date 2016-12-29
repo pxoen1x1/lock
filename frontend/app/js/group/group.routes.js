@@ -189,7 +189,7 @@
                 data: {
                     title: 'Members',
                     menu: {
-                        icon: 'group',
+                        icon: 'people',
                         title: 'Members'
                     }
                 }
