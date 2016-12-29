@@ -39,6 +39,10 @@ let splashPaymentRoutes = {
         controller: 'splashPaymentController',
         action: 'setMerchantAccount'
     },
+    'GET /api/merchantfunds': {
+        controller: 'splashPaymentController',
+        action: 'getMerchantFunds'
+    },
     /*todo: add DELETE URL (?)*/
 
     //--- transaction (txn) ---
@@ -106,6 +110,14 @@ let splashPaymentRoutes = {
     'GET /api/splashpayment/merchantpayouts/:entityId': {
         controller: 'splashPaymentController',
         action: 'getMerchantPayouts'
+    },
+    'GET /api/splashpayment/iscreatedtodayspayout': {
+        controller: 'splashPaymentController',
+        action: 'isCreatedTodaysPayout'
+    },
+    'GET /api/splashpayment/withdrawal': {
+        controller: 'splashPaymentController',
+        action: 'withdrawal'
     },
     /* entityId - id of merchant entity */
     'GET /api/splashpayment/createtpayout/:entityId': { // replace with POST to /payouts

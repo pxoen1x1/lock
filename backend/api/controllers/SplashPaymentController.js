@@ -158,6 +158,24 @@ let SplashPaymentController = {
             );
     },
 
+    getMerchantFunds(req, res){
+        let user = req.session.user;
+
+        if (!user.spMerchantId) {
+            return Promise.reject();
+        }
+
+        SplashPaymentService.getMerchantFunds(user.spMerchantId)
+            .then((merchantFunds) => res.ok({merchantFunds: merchantFunds}))
+            .catch(
+                (err) => {
+                    sails.log.error(err);
+
+                    return res.serverError();
+                }
+            );
+    },
+
     getCustomer(req, res) {
 
         let customerId = req.params.customerId;
@@ -281,6 +299,53 @@ let SplashPaymentController = {
 
         SplashPaymentService.createMerchantPayout(entityId)
             .then((response) => res.ok({result: response}));
+    },
+    isCreatedTodaysPayout(req, res) {
+        let user = req.session.user;
+
+        if(!user.spMerchantId){
+            res.serverError('merchant was not found');
+        }
+
+        SplashPaymentService.getMerchantEntity(user.spMerchantId)
+            .then((entity) => {
+                return SplashPaymentService.isCreatedMerchantTodaysPayout(entity.id);
+            })
+            .then((created) => {
+
+                res.ok({result: created});
+            })
+            .catch(
+                (err) => {
+                    return res.badRequest({
+                        message: req.__(err)
+                    });
+                }
+            );
+    },
+    withdrawal(req, res) {
+        let user = req.session.user;
+
+        if(!user.spMerchantId){
+            res.serverError('merchant was not found');
+        }
+
+        SplashPaymentService.withdrawal(user.spMerchantId)
+            .then((payoutArray) => {
+
+                if(payoutArray.length > 0){
+                    res.ok({result: true});
+                }else{
+                    res.serverError('withdrawal failed');
+                }
+            })
+            .catch(
+                (err) => {
+                    return res.badRequest({
+                        message: req.__(err)
+                    });
+                }
+            );
     },
     updateMerchantPayout(req, res) {
         let payoutId = req.params.payoutId;

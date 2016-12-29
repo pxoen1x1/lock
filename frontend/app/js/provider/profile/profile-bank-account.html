@@ -1,9 +1,24 @@
+<div>
+    <div><h2>Account balance</h2></div>
+    <div class="section">
+        <span class="md-body-2">$ </span><span  class="md-body-1" ng-bind="vm.userProfile.merchantFunds"></span>
+    </div>
+    <div layout="row">
+        <md-button class="md-button-blue"
+                   ng-disabled="!vm.enableWithdrawals"
+                   ng-click="vm.withdrawal()"
+                   aria-label="Edit profile">Withdrawal
+        </md-button>
+    </div>
+</div>
+
 <div ng-hide="vm.isEditingPayment" flex="100">
     <div layout="column"
          layout-gt-xs="row"
          layout-align="center center"
          layout-align-gt-xs="start center">
     </div>
+
     <div><h2>Bank account</h2></div>
     <div ng-if="!vm.userProfile.merchantData">Fill Merchant info before adding bank account</div>
     <div ng-repeat="account in vm.userProfile.paymentData">

@@ -19,6 +19,9 @@
             updateCustomerCard: updateCustomerCard,
             getMerchantAccount: getMerchantAccount,
             setMerchantAccount: setMerchantAccount,
+            getMerchantFunds: getMerchantFunds,
+            isCreatedTodaysPayout: isCreatedTodaysPayout,
+            withdrawal: withdrawal,
             createAuthTxn: createAuthTxn,
             reverseAuthTxn: reverseAuthTxn,
             createCaptureTxn: createCaptureTxn,
@@ -139,6 +142,45 @@
             function setMerchantAccountComplete(response) {
 
                 return response.data.userPayment;
+            }
+        }
+
+        function getMerchantFunds() {
+
+            return request.httpWithTimeout({
+                url: conf.BASE_URL + conf.URL_PREFIX + 'merchantfunds',
+                method: 'GET'
+            }).then(getMerchantFundsComplete);
+
+            function getMerchantFundsComplete(response) {
+
+                return response.data.merchantFunds;
+            }
+        }
+
+        function isCreatedTodaysPayout() {
+
+            return request.httpWithTimeout({
+                url: conf.BASE_URL + conf.URL_PREFIX + 'splashpayment/iscreatedtodayspayout',
+                method: 'GET'
+            }).then(isCreatedTodaysPayoutComplete);
+
+            function isCreatedTodaysPayoutComplete(response) {
+
+                return response.data;
+            }
+        }
+
+        function withdrawal() {
+
+            return request.httpWithTimeout({
+                url: conf.BASE_URL + conf.URL_PREFIX + 'splashpayment/withdrawal',
+                method: 'GET'
+            }).then(withdrawalComplete);
+
+            function withdrawalComplete(response) {
+
+                return response.data;
             }
         }
 

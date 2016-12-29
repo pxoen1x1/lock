@@ -13,17 +13,20 @@
         'coreDictionary',
         'currentUserService',
         'usingLanguageService',
+        '$mdDialog'
     ];
 
     /* @ngInject */
     function ProviderProfileController($q, conf, coreConstants, coreDataservice, coreDictionary, currentUserService,
-                                       usingLanguageService) {
+                                       usingLanguageService, $mdDialog) {
         var vm = this;
 
         vm.languages = [];
         vm.userProfile = {};
         vm.userProfile.merchantData = {};
         vm.userProfile.paymentData = {};
+        vm.userProfile.merchantFunds = {};
+        vm.enableWithdrawals = false;
 
         var promises = {
             getBankAccountTypes: null,
@@ -47,6 +50,7 @@
         vm.setMerchantAccount = setMerchantAccount;
         vm.getUser = getUser;
         vm.updateMerchant = updateMerchant;
+        vm.withdrawal = withdrawal;
 
         activate();
 
@@ -134,6 +138,26 @@
                 });
         }
 
+        function withdrawal() {
+            coreDataservice.withdrawal(vm.userProfile.merchantData.id)
+                .then(function (result) {
+                    if(result == true){
+                        $mdDialog.alert()
+                            .clickOutsideToClose(true)
+                            .title('Withdrawals request created')
+                            .ok('Close')
+
+                        vm.enableWithdrawals = false;
+                    }else{
+                        $mdDialog.alert()
+                            .clickOutsideToClose(true)
+                            .title('Error during withdrawals')
+                            .textContent('Please contact support')
+                            .ok('Close')
+                    }
+                })
+        }
+
         function getUser() {
 
             return currentUserService.getUser()
@@ -153,8 +177,20 @@
                         .then(function (merchantEntity) {
                             if (merchantEntity) {
                                 vm.userProfile.merchantData = merchantEntity;
-                                return vm.userProfile;
                             }
+
+                            return coreDataservice.getMerchantFunds();
+                        })
+                        .then(function (funds) {
+                            vm.userProfile.merchantFunds = funds.available / 100; // in cents
+
+                            return coreDataservice.isCreatedTodaysPayout()
+                        })
+                        .then(function(payoutCreated){
+                            if(!payoutCreated){
+                                vm.enableWithdrawals = true;
+                            }
+                            return vm.userProfile;
                         });
                 });
         }
