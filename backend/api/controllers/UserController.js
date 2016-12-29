@@ -45,17 +45,11 @@ let UserController = waterlock.actions.user({
     getCustomer(req, res){
         let user = req.session.user;
 
-        if (!user) {
-
-            return res.forbidden({
-                message: req.__('You are not permitted to perform this action.')
-            });
-        }
-
         if (!user.spCustomerId) {
-            return res.ok({
-                customer: false
-            })
+
+            return res.badRequest({
+                message: req.__('User has not spCustomerId')
+            });
         }
 
         SplashPaymentService.getCustomer(user.spCustomerId)
@@ -112,8 +106,8 @@ let UserController = waterlock.actions.user({
 
 
         if (!user.spCustomerId) {
-            return res.forbidden({
-                message: req.__('Customer not created yet') // todo: move to policy
+            return res.badRequest({
+                message: req.__('User has not Customer Id')
             });
         }
 

@@ -58,13 +58,6 @@ let SplashPaymentController = {
     getMerchantEntity(req, res){
         let user = req.session.user;
 
-        if (!user) {
-
-            return res.forbidden({
-                message: req.__('You are not permitted to perform this action.')
-            });
-        }
-
         if (!user.spMerchantId) {
             return res.ok({
                 merchantEntity: null
@@ -86,45 +79,26 @@ let SplashPaymentController = {
         var params = req.allParams();
         var email = params.auth.email;
 
-        if (!user) {
+        return this._saveMerchant(user, params, email)
+            .then((merchantEntity) => res.ok({merchantEntity: merchantEntity}))
+            .catch(
+                (err) => {
+                    sails.log.error(err);
 
-            return res.forbidden({
-                message: req.__('You are not permitted to perform this action.')
-            });
-        }
+                    return res.serverError();
+                }
+            );
+    },
+    _saveMerchant(user, params, email) {
+        if(!user.spMerchantId) {
 
-        if (!user.spMerchantId) {
             return SplashPaymentService.createMerchantFull(user, params.merchantData, email)
-                .then((merchantEntity) => res.ok({merchantEntity: merchantEntity}))
-                .catch(
-                    (err) => {
-                        sails.log.error(err);
-
-                        return res.serverError();
-                    }
-                );
-
-        } else {
-            return SplashPaymentService.updateMerchantEntity(user.spMerchantId, params.merchantData)
-                .then((merchantEntity) =>  res.ok({merchantEntity: merchantEntity}))
-                .catch(
-                    (err) => {
-                        sails.log.error(err);
-
-                        return res.serverError();
-                    }
-                );
         }
+
+        return SplashPaymentService.updateMerchantEntity(user.spMerchantId, params.merchantData)
     },
     getMerchantAccounts(req, res){
         let user = req.session.user;
-
-        if (!user) {
-
-            return res.forbidden({
-                message: req.__('You are not permitted to perform this action.')
-            });
-        }
 
         SplashPaymentService.getMerchantAccounts(user.spMerchantId)
             .then((merchantAccounts) => res.ok({userPayment: merchantAccounts}))
@@ -139,13 +113,6 @@ let SplashPaymentController = {
 
     setMerchantAccount(req, res){
         let user = req.session.user;
-
-        if (!user) {
-
-            return res.forbidden({
-                message: req.__('You are not permitted to perform this action.')
-            });
-        }
 
         SplashPaymentService.setMerchantAccount(user, req.body)
             .then((userPayment) => res.ok({userPayment: userPayment}))
@@ -163,20 +130,41 @@ let SplashPaymentController = {
         let customerId = req.params.customerId;
 
         SplashPaymentService.getCustomer(customerId)
-            .then((response) => res.ok({result: response}));
+            .then((response) => res.ok({result: response}))
+            .catch(
+                    (err) => {
+                        sails.log.error(err);
+
+                        return res.serverError();
+                    }
+                );
     },
 
     createCustomer(req, res) {
 
         SplashPaymentService.createCustomer()
-            .then((response) => res.ok({result: response}));
+            .then((response) => res.ok({result: response}))
+            .catch(
+                (err) => {
+                    sails.log.error(err);
+
+                    return res.serverError();
+                }
+            );
     },
 
     updateCustomer(req, res) {
         let customerId = req.params.customerId;
 
         SplashPaymentService.updateCustomer(customerId)
-            .then((response) => res.ok({result: response}));
+            .then((response) => res.ok({result: response}))
+            .catch(
+                (err) => {
+                    sails.log.error(err);
+
+                    return res.serverError();
+                }
+            );
     },
 
     // transaction (txn)
@@ -189,7 +177,7 @@ let SplashPaymentController = {
                 var txnArr = JSON.parse(response);
 
                 if(txnArr.length == 0){
-                    return res.serverError();
+                    throw new Error('Transaction was not created');
                 }
 
                 return [txnArr, RequestService.getRequestById({id: params.requestId})];
@@ -204,7 +192,14 @@ let SplashPaymentController = {
                 return res.ok({
                     resTxn: txnArr
                 })
-            });
+            })
+            .catch(
+            (err) => {
+                sails.log.error(err);
+
+                return res.serverError();
+            }
+        );
     },
     createCaptureTxn(req, res) {
         var params = req.allParams();
@@ -222,10 +217,17 @@ let SplashPaymentController = {
                         resTxn: true
                     })
                 }else{
-                    return res.serverError();
+                    throw new Error('Transaction was not created');
                 }
 
-            });
+            })
+            .catch(
+                (err) => {
+                    sails.log.error(err);
+
+                    return res.serverError();
+                }
+            );
     },
     createTokenAndAuthTxn(req, res) {
         let params = req.allParams();
@@ -237,26 +239,54 @@ let SplashPaymentController = {
                     resTxn: JSON.parse(txnData),
                     spCardNumber: spCardNumber
                 });
-            });
+            })
+            .catch(
+                (err) => {
+                    sails.log.error(err);
+
+                    return res.serverError();
+                }
+            );
     },
     //--- payout ---
     getMerchantPayouts(req, res) {
         let entityId = req.params.entityId;
 
         SplashPaymentService.getMerchantPayouts(entityId)
-            .then((response) => res.ok({result: response}));
+            .then((response) => res.ok({result: response}))
+            .catch(
+                (err) => {
+                    sails.log.error(err);
+
+                    return res.serverError();
+                }
+            );
     },
     createMerchantPayout(req, res) {
         let entityId = req.params.entityId;
 
         SplashPaymentService.createMerchantPayout(entityId)
-            .then((response) => res.ok({result: response}));
+            .then((response) => res.ok({result: response}))
+            .catch(
+                (err) => {
+                    sails.log.error(err);
+
+                    return res.serverError();
+                }
+            );
     },
     updateMerchantPayout(req, res) {
         let payoutId = req.params.payoutId;
 
         SplashPaymentService.updateMerchantPayout(payoutId)
-            .then((response) => res.ok({result: response}));
+            .then((response) => res.ok({result: response}))
+            .catch(
+                (err) => {
+                    sails.log.error(err);
+
+                    return res.serverError();
+                }
+            );
     }
 };
 
