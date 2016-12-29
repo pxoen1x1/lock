@@ -1,15 +1,15 @@
 <md-dialog class="send-offer" aria-label="Find Group Member">
   <form role="form"
-        name="findGroupMemberForm"
+        name="joinGroupMemberForm"
         autocomplete="off"
         novalidate
-        ng-submit="vm.selectGroupMember(vm.selectedGroupMember, findGroupMemberForm.$valid)">
+        ng-submit="vm.selectGroupMember(vm.selectedGroupMember, joinGroupMemberForm.$valid)">
     <md-toolbar class="md-menu-toolbar md-default-theme">
       <div class="md-toolbar-tools"
            layout="row"
            layout-align="start center">
         <div flex>
-          <h2>Find Group Member</h2>
+          <h2>Join Group Member</h2>
         </div>
         <div layout-align="end center">
           <md-button class="md-icon-button"
@@ -31,6 +31,11 @@
     </md-toolbar>
     <md-dialog-content>
       <div class="md-dialog-content">
+        <div layout="row"
+             layout-align="center start"
+             ng-if="vm.isAllGroupMemberLoaded && vm.members.length === 0">
+          <span>group member is not found.</span>
+        </div>
         <div ng-if="vm.members.length !== 0">
           <md-table-container class="infinite-scroll-container">
             <table md-table>
@@ -42,19 +47,20 @@
                 <th md-column>
                   Email
                 </th>
-                <th md-column=""></th>
+                <th md-column></th>
               </tr>
               </thead>
               <tbody md-body>
               <tr md-row ng-repeat="member in vm.members track by member.id">
                 <td md-cell flex>
-                  <span ng-bind="member.fullName"></span>
+                  <span ng-bind="::member.fullName"></span>
                 </td>
                 <td md-cell>
-                  <span ng-bind="member.auth.email"></span>
+                  <span ng-bind="::member.auth.email"></span>
                 </td>
                 <td md-cell>
                   <md-button class="md-button-blue md-button-mini"
+                             ng-if="!vm.isChatMember(member)"
                              ng-click="vm.joinGroupMember(member)">
                     <md-icon>add</md-icon>
                   </md-button>

@@ -5,10 +5,10 @@
         .module('app.group')
         .controller('FindGroupMemberDialogController', FindGroupMemberDialogController);
 
-    FindGroupMemberDialogController.$inject = ['$q', '$mdDialog', 'groupDataservice', 'coreConstants'];
+    FindGroupMemberDialogController.$inject = ['$q', '$mdDialog', 'groupDataservice', 'coreConstants', 'chatMembers'];
 
     /* @ngInject */
-    function FindGroupMemberDialogController($q, $mdDialog, groupDataservice, coreConstants) {
+    function FindGroupMemberDialogController($q, $mdDialog, groupDataservice, coreConstants, chatMembers) {
         var prevGroupMemberQuery = '';
         var vm = this;
 
@@ -26,6 +26,7 @@
         vm.loadGroupMember = loadGroupMember;
         vm.changeGroupMemberQuery = changeGroupMemberQuery;
         vm.joinGroupMember = joinGroupMember;
+        vm.isChatMember = isChatMember;
         vm.cancel = cancel;
 
         activate();
@@ -81,6 +82,18 @@
             vm.pagination.currentPageNumber = 1;
 
             loadGroupMember(vm.groupMemberQuery);
+        }
+
+        function isChatMember(groupMember) {
+            if (!angular.isArray(chatMembers)) {
+
+                return false;
+            }
+
+            return chatMembers.some(function (chatMember) {
+
+                return chatMember.id === groupMember.id;
+            });
         }
 
         function joinGroupMember(groupMember) {
