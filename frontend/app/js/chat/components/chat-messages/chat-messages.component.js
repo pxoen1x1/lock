@@ -354,17 +354,18 @@
                         member: selectedGroupMember
                     };
 
-                    return chatSocketservice.joinGroupMemberToChat(vm.currentChat, member)
-                        .then(function () {
-                                if (!angular.isArray(vm.currentChat.members)) {
+                    return chatSocketservice.joinGroupMemberToChat(vm.currentChat, member);
+                })
+                .then(function (member) {
+                        if (!angular.isArray(vm.currentChat.members)) {
 
-                                    return;
-                                }
+                            return;
+                        }
 
-                                vm.currentChat.members.push(selectedGroupMember);
-                            }
-                        );
-                });
+                        console.log(member);/////
+                        vm.currentChat.members.push(member);
+                    }
+                );
         }
 
         function activate() {

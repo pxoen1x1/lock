@@ -152,7 +152,7 @@
 
             function joinGroupMemberToChatComplete(response) {
 
-                return response.data.chat;
+                return response.data.user;
             }
         }
 
