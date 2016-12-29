@@ -7,7 +7,7 @@ let groupRoutes = {
         controller: 'GroupController',
         action: 'getGroupMembers'
     },
-    'GET /api/group/members/search?': {
+    'GET /api/group/members/search': {
         controller: 'GroupController',
         action: 'searchGroupMember'
     },
