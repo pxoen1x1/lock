@@ -343,9 +343,27 @@
             return $mdDialog.show({
                 templateUrl: 'group/find-group-member-dialog/find-group-member-dialog.html',
                 controller: 'FindGroupMemberDialogController',
-                controllerAs: 'vm'
+                controllerAs: 'vm',
+                bindToController: true,
+                locals: {
+                    chatMembers: vm.currentChat.members
+                }
             })
-                .then(function () {
+                .then(function (selectedGroupMember) {
+                    var member = {
+                        member: selectedGroupMember
+                    };
+
+                    return chatSocketservice.joinGroupMemberToChat(vm.currentChat, member)
+                        .then(function () {
+                                if (!angular.isArray(vm.currentChat.members)) {
+
+                                    return;
+                                }
+
+                                vm.currentChat.members.push(selectedGroupMember);
+                            }
+                        );
                 });
         }
 
