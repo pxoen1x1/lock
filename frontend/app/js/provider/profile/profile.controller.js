@@ -35,6 +35,7 @@
         vm.serviceTypes = [];
 
         vm.isEditing = false;
+        vm.licensesPresent = '';
         vm.fileUploaderOptions = coreConstants.FILE_UPLOADER_OPTIONS;
         vm.newPortrait = '';
         vm.baseUrl = conf.BASE_URL;
@@ -46,6 +47,16 @@
         vm.removeLicenseForm = removeLicenseForm;
 
         activate();
+
+        function licensesPresent() {
+            if (vm.userProfile.details.licenses.length === 0) {
+
+                return vm.licensesPresent = false;
+            } else {
+
+                return vm.licensesPresent = true;
+            }
+        }
 
         function getLanguages() {
 
@@ -113,9 +124,10 @@
             ])
                 .then(function () {
                     vm.userProfile.usingLanguage = vm.userProfile.usingLanguage || usingLanguageService.getLanguage();
+                    licensesPresent();
                 });
         }
-        
+
         function getStates() {
             if (promises.getStates) {
                 promises.getStates.cancel();
@@ -140,6 +152,6 @@
                     return vm.serviceTypes;
                 });
         }
-        
+
     }
 })();

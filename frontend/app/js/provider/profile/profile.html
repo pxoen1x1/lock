@@ -26,11 +26,11 @@
         <div class="avatar-wrapper">
           <div class="profile-avatar"
                file-uploader
-              is-single-file="true"
-              allowed-extensions="{{ vm.fileUploaderOptions.allowedFileExtensions.images }}"
-              max-size="{{ vm.fileUploaderOptions.maxFileSize }}"
-              selected-file-src="vm.newPortrait"
-              ng-style="{ 'background-image': 'url(' + (vm.userProfile.portrait ?
+               is-single-file="true"
+               allowed-extensions="{{ vm.fileUploaderOptions.allowedFileExtensions.images }}"
+               max-size="{{ vm.fileUploaderOptions.maxFileSize }}"
+               selected-file-src="vm.newPortrait"
+               ng-style="{ 'background-image': 'url(' + (vm.userProfile.portrait ?
                       vm.baseUrl + vm.userProfile.portrait : vm.defaultPortrait)           + ')' }">
           </div>
         </div>
@@ -108,7 +108,7 @@
             <span class="md-body-2">Phone:</span>
             <span class="md-body-1" ng-bind="vm.userProfile.phoneNumber"></span>
           </div>
-          <div class="section" layout="row">
+          <div class="section" layout="row" ng-if="vm.licensesPresent">
             <span class="md-body-2">Licenses:</span>
             <div layout="column">
               <div layout="row" ng-repeat="license in vm.userProfile.details.licenses track by $index">
@@ -241,7 +241,6 @@
                 <label>Service types</label>
                 <md-select aria-label="Services"
                            multiple
-                           required
                            ng-model-options="{trackBy: '$value.id'}"
                            ng-model="vm.userProfile.details.serviceTypes">
                   <md-option ng-repeat="serviceType in vm.serviceTypes track by serviceType.id"
