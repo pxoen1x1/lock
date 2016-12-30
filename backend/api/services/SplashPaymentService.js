@@ -564,16 +564,16 @@ let SplashPaymentService = {
     },
     _getDateString(){
 
-        var d = new Date();
-        var day = d.getDate();
+        let d = new Date();
+        let day = d.getDate();
         if (day < 10) {
             day = '0' + day;
         }
-        var month = d.getMonth() + 1;
+        let month = d.getMonth() + 1;
         if (month < 10) {
             month = '0' + month;
         }
-        var year = d.getFullYear();
+        let year = d.getFullYear();
         return String(year) + String(month) + String(day);
     }
 };

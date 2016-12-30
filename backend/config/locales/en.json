@@ -48,5 +48,6 @@
   "Subscribed successfully.": "Subscribed successfully.",
   "Unsubscribed successfully.": "Unsubscribed successfully.",
   "This is not a socket request.": "This is not a socket request.",
-  "Please, check data.": "Please, check data."
+  "Please, check data.": "Please, check data.",
+  "User has not Customer Id.": "User has not Customer Id."
 }

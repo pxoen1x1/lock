@@ -48,7 +48,7 @@ let UserController = waterlock.actions.user({
         if (!user.spCustomerId) {
 
             return res.badRequest({
-                message: req.__('User has not spCustomerId')
+                message: req.__('User has not Customer Id.')
             });
         }
 
@@ -78,7 +78,7 @@ let UserController = waterlock.actions.user({
         if (!user.spCustomerId) {
             // Splash Payment customer creates on registration
             return res.forbidden({
-                message: req.__('Customer not created yet') // todo: move to policy
+                message: req.__('User has not Customer Id.')
             });
         }
 
@@ -107,7 +107,7 @@ let UserController = waterlock.actions.user({
 
         if (!user.spCustomerId) {
             return res.badRequest({
-                message: req.__('User has not Customer Id')
+                message: req.__('User has not Customer Id.')
             });
         }
 
