@@ -24,7 +24,7 @@
                    ng-model="vm.bid.message">
           </md-input-container>
         </div>
-        <div layout="row">
+        <div layout="row" ng-if="vm.currentUserType === vm.userTypes.SPECIALIST">
           <md-input-container class="md-block" flex>
             <label>Cost (USD)</label>
             <input type="number"
