@@ -94,7 +94,7 @@ let SplashPaymentService = {
                 var merchant = JSON.parse(merchantResp);
                 if (merchant.length == 0) {
 
-                    return Promise.reject('merchant not created yet');
+                    return Promise.reject('Merchant was not found');
                 }
 
                 return merchant[0].entity;
@@ -327,7 +327,7 @@ let SplashPaymentService = {
         return this.getMerchant(Id).then((merchantResp)=> {
             var merchant = JSON.parse(merchantResp);
             if (merchant.length == 0) {
-                return false; // todo: should return promiise?? Promise.reject('merchant not created yet');
+                return Promise.reject('Merchant was not found');
             }
 
             var options = {
@@ -347,7 +347,7 @@ let SplashPaymentService = {
         return this.getMerchant(Id).then((merchantResp)=> {
             var merchant = JSON.parse(merchantResp);
             if (merchant.length == 0) {
-                return false; // todo: should return promiise?? Promise.reject('merchant not created yet');
+                Promise.reject('Merchant was not found');
             }
 
             var options = {
@@ -543,7 +543,7 @@ let SplashPaymentService = {
                 res.on('data', (chunk) => {
                     var response = JSON.parse(chunk);
                     if (!response.response || !response.response.data) {
-                        sails.log.error(response);
+
                         return Promise.reject('unhandled response from SP');
                     }
                     body.push(JSON.stringify(response.response.data));
