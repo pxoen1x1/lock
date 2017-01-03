@@ -23,8 +23,8 @@
           <md-menu-item>
             <md-button ui-sref="provider.profile.public({'profileId': vm.userProfile.id})"
                        aria-label="Show public profile">
-              <md-icon class="vertical-middle">person</md-icon>
-              Show public profile
+              <md-icon>person</md-icon>
+              <span class="vertical-middle">Show public profile</span>
             </md-button>
           </md-menu-item>
           <md-menu-item ng-if="vm.isEditing">
@@ -34,7 +34,7 @@
                        allowed-extensions="{{ vm.fileUploaderOptions.allowedFileExtensions.images }}"
                        max-size="{{ vm.fileUploaderOptions.maxFileSize }}"
                        selected-file-src="vm.newPortrait">
-                <md-icon class="vertical-middle">photo_camera</md-icon>
+                <md-icon>photo_camera</md-icon>
               <span class="verical-middle">Change photo</span>
             </md-button>
           </md-menu-item>
@@ -55,7 +55,7 @@
            layout-align-gt-xs="start start"
            flex-gt-xs="25">
         <div class="avatar-wrapper">
-          <div class="profile-avatar"</div>
+          <div class="profile-avatar"></div>
         </div>
         <div flex="5"></div>
         <div class="actions"
