@@ -90,7 +90,7 @@ let SplashPaymentController = {
             );
     },
     _saveMerchant(user, params, email) {
-        if(!user.spMerchantId) {
+        if (!user.spMerchantId) {
 
             return SplashPaymentService.createMerchantFull(user, params.merchantData, email)
         }
@@ -150,12 +150,12 @@ let SplashPaymentController = {
         SplashPaymentService.getCustomer(customerId)
             .then((response) => res.ok({result: response}))
             .catch(
-                    (err) => {
-                        sails.log.error(err);
+                (err) => {
+                    sails.log.error(err);
 
-                        return res.serverError();
-                    }
-                );
+                    return res.serverError();
+                }
+            );
     },
 
     createCustomer(req, res) {
@@ -194,7 +194,7 @@ let SplashPaymentController = {
             .then((response) => {
                 var txnArr = JSON.parse(response);
 
-                if(txnArr.length == 0){
+                if (txnArr.length == 0) {
                     throw new Error('Transaction was not created');
                 }
 
@@ -212,12 +212,12 @@ let SplashPaymentController = {
                 })
             })
             .catch(
-            (err) => {
-                sails.log.error(err);
+                (err) => {
+                    sails.log.error(err);
 
-                return res.serverError();
-            }
-        );
+                    return res.serverError();
+                }
+            );
     },
     createCaptureTxn(req, res) {
         var params = req.allParams();
@@ -230,13 +230,16 @@ let SplashPaymentController = {
             .then((response) => {
                 var txnArr = JSON.parse(response);
 
-                if(txnArr.length > 0){
-                    return res.ok({
-                        resTxn: true
-                    })
-                }else{
+                if (txnArr.length === 0) {
+
                     throw new Error('Transaction was not created');
                 }
+
+                return res.ok(
+                    {
+                        resTxn: true
+                    }
+                )
 
             })
             .catch(
@@ -259,11 +262,11 @@ let SplashPaymentController = {
             .spread((request, response) => {
                 var txnArr = JSON.parse(response);
 
-                if(txnArr.length > 0){
+                if (txnArr.length > 0) {
                     request.spAuthTxnId = null;
 
                     return RequestService.updateRequest(request);
-                }else{
+                } else {
 
                     return Promise.reject('Error during creating reverse transaction');
                 }
@@ -326,8 +329,10 @@ let SplashPaymentController = {
     isCreatedTodaysPayout(req, res) {
         let user = req.session.user;
 
-        if(!user.spMerchantId){
-            res.serverError('merchant was not found');
+        if (!user.spMerchantId) {
+            res.notFound({
+                message: req.__('Merchant was not found.')
+            });
         }
 
         SplashPaymentService.getMerchantEntity(user.spMerchantId)
@@ -340,33 +345,33 @@ let SplashPaymentController = {
             })
             .catch(
                 (err) => {
-                    return res.badRequest({
-                        message: req.__(err)
-                    });
+                    sails.log.error(err);
+
+                    return res.serverError();
                 }
             );
     },
     withdrawal(req, res) {
         let user = req.session.user;
 
-        if(!user.spMerchantId){
+        if (!user.spMerchantId) {
             res.serverError('merchant was not found');
         }
 
         SplashPaymentService.withdrawal(user.spMerchantId)
             .then((payoutArray) => {
 
-                if(payoutArray.length > 0){
-                    res.ok({result: true});
-                }else{
-                    res.serverError('withdrawal failed');
+                if (payoutArray.length <= 0) {
+                    throw new Error('Payout request was not created');
                 }
+
+                res.ok({result: true});
             })
             .catch(
                 (err) => {
-                    return res.badRequest({
-                        message: req.__(err)
-                    });
+                    sails.log.error(err);
+
+                    return res.serverError();
                 }
             );
     },

@@ -134,7 +134,6 @@
             return coreDataservice.updateMerchant(userProfile)
                 .then(function (merchantEntity) {
                     if (!merchantEntity) {
-                        console.log('error during saving merchant data');
                         return false;
                     }
                     vm.userProfile.merchantData = merchantEntity;

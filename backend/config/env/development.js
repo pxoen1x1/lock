@@ -21,12 +21,9 @@ module.exports = {
         developmentMysqlServer: {
             adapter: 'sails-mysql',
             host: 'localhost',
-            user: 'root',
-            password: 'redalert',
+            user: 'locksmith',
+            password: 'l0ck$m1th_p@$$',
             database: 'locksmith'
-            charset: 'utf8',
-            collation: 'utf8_general_ci'
-
         }
     },
 
@@ -35,10 +32,10 @@ module.exports = {
         migrate: 'alter'
     },
 
-    hookTimeout: 360000,
+    hookTimeout: 120000,
 
     port: 1338,
-    baseUrl: 'http://localhost',
-    homePage: 'http://localhost:9000/',
+    baseUrl: 'https://lockheal.com',
+    homePage: 'https://lockheal.com',
     serviceSplashPaymentEntityId: 'g1583617cdeaff5'
 };

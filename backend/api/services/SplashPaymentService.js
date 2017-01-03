@@ -197,7 +197,7 @@ let SplashPaymentService = {
         };
 
         let firstNum = parseInt(params.number.charAt(0), 10);
-        if(SPLASH_PAYMENT.payment_methods[firstNum].method == undefined){
+        if(SPLASH_PAYMENT.payment_methods[firstNum].method === undefined){
 
             return Promise.reject('This type of cards not supports');
         }
@@ -230,7 +230,7 @@ let SplashPaymentService = {
 
                 return [token.payment.number, User.update({id: user.id}, user)];
             })
-            .spread((paymentNumber, updatedUser) => {
+            .spread((paymentNumber) => {
 
                 return paymentNumber;
             });
@@ -374,11 +374,7 @@ let SplashPaymentService = {
         return SplashPaymentService.makeRequest(options)
             .then((payoutsData) =>{
                 var payouts = JSON.parse(payoutsData);
-                if(payouts.length > 0){
-                    return true;
-                }else{
-                    return false;
-                }
+                return payouts.length > 0;
             });
     },
 

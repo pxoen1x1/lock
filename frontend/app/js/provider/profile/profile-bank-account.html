@@ -41,13 +41,6 @@
     </div>
     <md-button ng-if="vm.userProfile.paymentData.length == 0 && !vm.isEditingPayment" ng-click="vm.isEditingPayment = true"">Add</md-button>
     <md-button ng-if="vm.userProfile.paymentData.length > 0 && !vm.isEditingPayment" ng-click="vm.isEditingPayment = true">Edit</md-button>
-
-    <!--          <md-button ng-if="!vm.isEditingPayment"
-                         class="md-button-blue"
-                         ng-click="vm.isEditingPayment = true"
-                         aria-label="Edit p">
-                Edit profile
-              </md-button>-->
 </div>
 <div ng-if="vm.isEditingPayment">
     <form name="editPaymentForm"
