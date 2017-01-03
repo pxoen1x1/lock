@@ -1,0 +1,87 @@
+
+<div ng-hide="vm.isEditing" flex="100">
+    <div layout="column"
+         layout-gt-xs="row"
+         layout-align="center center"
+         layout-align-gt-xs="start center">
+        <div class="md-display-1">
+            <span class="vertical-middle" ng-bind="vm.userProfile.fullName"></span>
+            <i ng-if="vm.userProfile.isEnabled" class="material-icons vertical-middle verified">verified_user</i>
+        </div>
+    </div>
+    <div class="section first">
+        <span class="md-body-2">Email:</span>
+        <span class="md-body-1" ng-bind="vm.userProfile.auth.email"></span>
+    </div>
+    <div class="section">
+        <span class="md-body-2">Phone:</span>
+        <span class="md-body-1" ng-bind="vm.userProfile.phoneNumber"></span>
+    </div>
+    <div class="section">
+        <span class="md-body-2">Requests:</span>
+        <span class="md-body-1" ng-bind=""></span>
+    </div>
+    <div class="section">
+        <span class="md-body-2">Spent:</span>
+        <span class="md-body-1" ng-bind=""></span>
+    </div>
+</div>
+
+<div ng-if="vm.isEditing">
+    <form name="editForm"
+          novalidate
+          ng-submit="vm.updateUser(vm.userProfile, editForm.$valid)">
+        <p>Name: <sup>*</sup></p>
+        <div layout="row">
+            <md-input-container class="md-block" flex>
+                <label>First name</label>
+                <input name="firstName"
+                       required
+                       ng-maxlength="20"
+                       ng-model="vm.userProfile.firstName">
+            </md-input-container>
+            <md-input-container class="md-block" flex>
+                <label>Last name</label>
+                <input name="lastName"
+                       required
+                       ng-maxlength="20"
+                       ng-model="vm.userProfile.lastName">
+            </md-input-container>
+        </div>
+        <p>Email: <sup>*</sup></p>
+        <md-input-container class="md-block" flex>
+            <label>Email</label>
+            <input name="email"
+                   required
+                   email-validation
+                   availability-validation
+                   ng-model-options="{ 'debounce': 400 }"
+                   ng-model="vm.userProfile.auth.email">
+            <div ng-messages="editForm.email.$error">
+                <div ng-message="email">That doesn't look like a valid email.</div>
+                <div ng-message="availability">This email already exists.</div>
+            </div>
+        </md-input-container>
+        <p>Phone number:</p>
+        <md-input-container class="md-block" flex>
+            <label>Phone number</label>
+            <input type="tel"
+                   name="phoneNumber"
+                   ui-us-phone-number
+                   availability-validation
+                   ng-model-options="{ 'debounce': 400 }"
+                   ng-model="vm.userProfile.phoneNumber">
+            <div ng-messages="editForm.phoneNumber.$error">
+                <span ng-message="usPhoneNumber">That doesn't look like a valid phone number.</span>
+                <span ng-message="availability">This phone number already exists.</span>
+            </div>
+        </md-input-container>
+
+        <md-button type="submit"
+                   class="md-raised md-warn"
+                   aria-label="Save"
+                   ng-if="vm.isEditing">
+            Save
+        </md-button>
+    </form>
+</div>

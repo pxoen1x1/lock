@@ -57,7 +57,10 @@ let Request = {
             model: 'User',
             columnName: 'executor_id'
         },
-
+        spAuthTxnId: {
+            type: 'string',
+            columnName: 'sp_auth_txn_id'
+        },
         feedbacks: {
             collection: 'Feedback',
             via: 'request'

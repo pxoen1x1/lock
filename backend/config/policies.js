@@ -75,6 +75,7 @@ module.exports.policies = {
         'getLanguages': true
     },
 
+
     RequestController: {
         'confirmOffer': [
             'hasJsonWebToken',
