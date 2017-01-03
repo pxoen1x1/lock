@@ -356,7 +356,7 @@ let SplashPaymentService = {
             schedule: SPLASH_PAYMENT.fee.schedule,
             start: SplashPaymentService._getDateString(), // today
             //org: "g1abcdefghijklm",
-            entity: sails.config.serviceSplashPaymentEntityId, // service's entity
+            entity: SPLASH_PAYMENT.serviceSplashPaymentEntityId, // service's entity
             forentity: entityId // service provider entity
         };
 
