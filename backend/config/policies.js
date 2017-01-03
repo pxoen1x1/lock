@@ -179,7 +179,7 @@ module.exports.policies = {
             'isRequestAllowed',
             'isChatMember'
         ],
-        'getTranslatedMessage': [
+        'translateMessage': [
             'isSocketRequest',
             'hasJsonWebToken',
             'isUserEnabled',
