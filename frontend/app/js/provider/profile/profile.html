@@ -55,10 +55,7 @@
            layout-align-gt-xs="start start"
            flex-gt-xs="25">
         <div class="avatar-wrapper">
-          <div class="profile-avatar"
-               ng-style="{ 'background-image': 'url(' + (vm.userProfile.portrait ?
-                      vm.baseUrl + vm.userProfile.portrait : vm.defaultPortrait)           + ')' }">
-          </div>
+          <div class="profile-avatar"</div>
         </div>
         <div flex="5"></div>
         <div class="actions"
@@ -134,7 +131,7 @@
             <span class="md-body-2">Phone:</span>
             <span class="md-body-1" ng-bind="vm.userProfile.phoneNumber"></span>
           </div>
-          <div class="section" layout="row">
+          <div class="section" layout="row" ng-if="vm.licensesPresent">
             <span class="md-body-2">Licenses:</span>
             <div layout="column">
               <div layout="row" ng-repeat="license in vm.userProfile.details.licenses track by $index">
@@ -144,7 +141,7 @@
               </div>
             </div>
           </div>
-          <div class="section">
+          <div class="section" ng-if="vm.servicesPresent">
             <span class="md-body-2">Services:</span>
             <span class="md-body-1"
                   ng-repeat="service in vm.userProfile.details.serviceTypes track by service.id"
@@ -202,7 +199,7 @@
                 <span ng-message="availability">This phone number already exists.</span>
               </div>
             </md-input-container>
-            <p>License information: <sup>*</sup></p>
+            <p>License information:</p>
             <div class="licenses"
                   ng-repeat="license in vm.userProfile.details.licenses track by $index">
               <div layout-gt-xs="column" class="license-container">
@@ -251,8 +248,7 @@
                       flex-gt-xs="5"
                       layout="column"
                       layout-align="start center"
-                      ng-click="vm.removeLicenseForm($index)"
-                      ng-if="vm.userProfile.details.licenses.length > 1">
+                      ng-click="vm.removeLicenseForm($index)">
                     <i class="material-icons">delete</i>
                   </div>
                 </div>
@@ -267,7 +263,6 @@
                 <label>Service types</label>
                 <md-select aria-label="Services"
                            multiple
-                           required
                            ng-model-options="{trackBy: '$value.id'}"
                            ng-model="vm.userProfile.details.serviceTypes">
                   <md-option ng-repeat="serviceType in vm.serviceTypes track by serviceType.id"
