@@ -28,10 +28,10 @@
         return directive;
     }
 
-    MessageBidController.$inject = ['$scope', 'chatSocketservice', 'coreConstants', 'chatConstants', '$mdDialog', 'currentUserService', 'coreDataservice'];
+    MessageBidController.$inject = ['$scope', 'chatSocketservice', 'coreConstants', 'chatConstants', '$mdDialog'];
 
     /* @ngInject */
-    function MessageBidController($scope, chatSocketservice, coreConstants, chatConstants, $mdDialog, currentUserService, coreDataservice) {
+    function MessageBidController($scope, chatSocketservice, coreConstants, chatConstants, $mdDialog) {
         var vm = this;
 
         vm.defaultPortrait = coreConstants.IMAGES.defaultPortrait;
@@ -137,130 +137,21 @@
         }
 
 
-        function PaymentDialogController($scope, $mdDialog) {
-
-            $scope.txnData = {};
-            $scope.selectPayWithNew = null;
-            currentUserService.getUser()
-                .then(function (user) {
-                    $scope.customerCardNumber = user.spCardNumber;
-                });
-
-            $scope.Pay = function(){
-
-              if($scope.selectPayWithNew){
-                  $scope.payWithNew($scope.txnData); // todo: how to send txnForm.$valid here
-              }else{
-                  $scope.payWithLinked();
-              }
-            };
-
-            $scope.payWithLinked = function(){
-
-                return coreDataservice.getUser(vm.currentBid.specialist.id)
-                    .then(function(response) {
-
-                        var specialist = response.data.user;
-                        return coreDataservice.createAuthTxn(specialist.spMerchantId, vm.currentBid.cost, vm.currentRequest.id)
-                    })
-                    .then((res)=>{
-                        $mdDialog.hide();
-
-                        if(res.resTxn.length > 0){
-
-                            $mdDialog.show(
-                                $mdDialog.alert()
-                                    .clickOutsideToClose(true)
-                                    .title('Successful payment')
-                                    .ariaLabel('Successful payment')
-                                    .ok('Close')
-                            );
-
-                            vm.acceptBid(vm.currentBid, vm.currentRequest); // todo: uncomment
-                        }else{
-
-                            $mdDialog.show(
-                                $mdDialog.alert()
-                                    .clickOutsideToClose(true)
-                                    .title('Error during payment')
-                                    .ariaLabel('Please contact support')
-                                    .ok('Close')
-                            );
-                        }
-                    }); //todo: check sequrity!!!
-            };
-
-            $scope.payWithNew = function(txnData) { // ,isValid
-
-                /*if(!isValid){
-                    return false;
-                }*/
-
-                var tokenAndTxnResult;
-
-                return coreDataservice.getUser(vm.currentBid.specialist.id)
-                    .then(function(response) {
-                        var specialist = response.data.user;
-
-                        return coreDataservice.createTokenAndAuthTxn(txnData,specialist.spMerchantId,vm.currentBid.cost)
-                    })
-                    .then((result)=> {
-                        tokenAndTxnResult = result; //todo: redo with spread
-
-                        return currentUserService.getUser();
-                    })
-                    .then((user) => {
-
-                        if(tokenAndTxnResult.resTxn.length > 0 && tokenAndTxnResult.spCardNumber){
-                            vm.profileData = user;
-                            vm.profileData.spCardNumber = tokenAndTxnResult.spCardNumber;
-                            currentUserService.setUserToLocalStorage(vm.profileData);
-                            $scope.customerCardNumber = tokenAndTxnResult.spCardNumber;
-
-                            $mdDialog.hide();
-                            $mdDialog.show(
-                                $mdDialog.alert()
-                                    .clickOutsideToClose(true)
-                                    .title('Successful payment')
-                                    .ariaLabel('Successful payment')
-                                    .ok('Close')
-                            );
-
-                            vm.acceptBid(vm.currentBid, vm.currentRequest) // todo: uncomment
-
-                        }else{
-
-                            $mdDialog.show(
-                                $mdDialog.alert()
-                                    .clickOutsideToClose(true)
-                                    .title('Error during payment')
-                                    .ariaLabel('Please contact support')
-                                    .ok('Close')
-                            );
-                        }
-                    });
-            };
-
-            $scope.cancel = function(){
-                $mdDialog.cancel();
-            }
-        }
-
         function showPaymentModal(ev) {
             $mdDialog.show({
-                controller: PaymentDialogController,
-                templateUrl: 'customer/request-view/payment-modal.html',
+                controller: 'PaymentDialogController',
+                controllerAs: 'vm',
+                templateUrl: 'chat/payment-dialog/payment-dialog.html',
                 parent: angular.element(document.body),
                 targetEvent: ev,
                 clickOutsideToClose:true,
-                //    fullscreen: $scope.customFullscreen // Only for -xs, -sm breakpoints.
-            });/*
-             .then(function(answer) {
-             console.log(answer);
-             var status = 'You said the information was "' + answer + '".';
-             }, function() {
-             var status = 'You cancelled the dialog.';
-             });*/
+                locals: { currentBid: vm.currentBid, currentRequest: vm.currentRequest }
+            })
+             .then(function(paymentResult) {
+                 if(paymentResult){
+                     vm.acceptBid(vm.currentBid, vm.currentRequest);
+                 }
+             });
         };
 
     }

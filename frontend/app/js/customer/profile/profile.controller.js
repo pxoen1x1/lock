@@ -69,10 +69,13 @@
 
             return coreDataservice.updateCustomerCard(cardData)
                 .then(function (spCardNumber) {
-                    if(spCardNumber){
-                        vm.userProfile.spCardNumber = spCardNumber;
-                        return currentUserService.setUserToLocalStorage(vm.userProfile);
+                    if(!spCardNumber){
+                        return;
                     }
+
+                    vm.userProfile.spCardNumber = spCardNumber;
+
+                    return currentUserService.setUserToLocalStorage(vm.userProfile);
                 }).finally(function(){
                     vm.isEditingCard = false;
                 });
@@ -115,10 +118,10 @@
                     return coreDataservice.getCustomer()
                         .then(function(customer){
 
-                            if(!customer){
-                                console.log('error during receiving customer');
+                            if(customer){
+                                vm.userProfile.customerData = customer.customer[0];
                             }
-                            vm.userProfile.customerData = customer.customer[0];
+
                             return vm.userProfile;
                         });
                 });

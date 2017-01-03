@@ -77,7 +77,10 @@ module.exports.policies = {
     // --- Splash payments urls ---
     SplashPaymentController: {
         //'getMerchants': true
-        '*': 'hasJsonWebToken'
+        '*': [
+            'hasJsonWebToken',
+            'isUserEnabled'
+        ]
     },
     // --- Splash payments urls ---
 

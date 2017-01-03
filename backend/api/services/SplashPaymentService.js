@@ -9,7 +9,7 @@ let SPLASH_PAYMENT = sails.config.splashpayment;
 let SplashPaymentService = {
 
     getMerchants(){
-        var options = {
+        let options = {
             method: 'GET',
             path: SPLASH_PAYMENT.endpoints.merchants
         };
@@ -18,7 +18,7 @@ let SplashPaymentService = {
     },
 
     getMerchant(entityId){
-        var options = {
+        let options = {
             method: 'GET',
             path: SPLASH_PAYMENT.endpoints.merchants + '/' + entityId
         };
@@ -27,11 +27,11 @@ let SplashPaymentService = {
     },
 
     createMerchant(user, merchantData, email){
-        var options = {
+        let options = {
             method: 'POST',
             path: SPLASH_PAYMENT.endpoints.entities
         };
-        var bodyJson = {
+        let bodyJson = {
             merchant: {
                 members: [{
                     primary: 1,
@@ -93,8 +93,10 @@ let SplashPaymentService = {
             .then(function (merchantResp) {
                 var merchant = JSON.parse(merchantResp);
                 if (merchant.length == 0) {
-                    return false; // todo: should return promiise?? Promise.reject('merchant not created yet');
+
+                    return Promise.reject('Merchant was not found');
                 }
+
                 return merchant[0].entity;
             })
             .then(function (entityId) {
@@ -194,10 +196,16 @@ let SplashPaymentService = {
             path: SPLASH_PAYMENT.endpoints.tokens
         };
 
+        let firstNum = parseInt(params.number.charAt(0), 10);
+        if(SPLASH_PAYMENT.payment_methods[firstNum].method == undefined){
+
+            return Promise.reject('This type of cards not supports');
+        }
+
         var bodyJson = {
             "customer": customerId,
             "payment": {
-                "method": SplashPaymentService._getPaymentMethod(params.number),
+                "method": SPLASH_PAYMENT.payment_methods[firstNum].method,
                 "number": params.number,
                 "cvv": params.cvv
             },
@@ -215,12 +223,16 @@ let SplashPaymentService = {
 
         return SplashPaymentService.deleteCustomerTokens(spCustomerId)
             .then(() => {
+
                 return SplashPaymentService.createCustomerToken(spCustomerId, params)
             })
             .then((token) => {
-                user.spCardNumber = token.payment.number;
-                User.update({id: user.id}, user); // todo: how to use spread ??
-                return token.payment.number;
+
+                return [token.payment.number, User.update({id: user.id}, user)];
+            })
+            .spread((paymentNumber, updatedUser) => {
+
+                return paymentNumber;
             });
     },
 
@@ -229,7 +241,8 @@ let SplashPaymentService = {
             .then((tokensString)=> {
                 var tokens = JSON.parse(tokensString);
                 if (!tokens || tokens.length == 0) {
-                    return false;
+
+                    return Promise.resolve(); // nothing to delete
                 }
                 var arrayOfPromises = tokens.map(function (token) {
                     var options = {
@@ -314,7 +327,7 @@ let SplashPaymentService = {
         return this.getMerchant(Id).then((merchantResp)=> {
             var merchant = JSON.parse(merchantResp);
             if (merchant.length == 0) {
-                return false; // todo: should return promiise?? Promise.reject('merchant not created yet');
+                return Promise.reject('Merchant was not found');
             }
 
             var options = {
@@ -334,7 +347,7 @@ let SplashPaymentService = {
         return this.getMerchant(Id).then((merchantResp)=> {
             var merchant = JSON.parse(merchantResp);
             if (merchant.length == 0) {
-                return false; // todo: should return promiise?? Promise.reject('merchant not created yet');
+                Promise.reject('Merchant was not found');
             }
 
             var options = {
@@ -357,12 +370,7 @@ let SplashPaymentService = {
             if (merchantAccounts.length == 0) {
                 return SplashPaymentService.createMerchantAccount(user.spMerchantId, paymentData)
                     .then((merchantAccounts)=> {
-                        accountsArray = merchantAccounts;
-                        return SplashPaymentService.getMerchantEntity(user.spMerchantId);
-                    })
-                    .then((merchantEntity)=> {
-                        SplashPaymentService.createMerchantPayout(merchantEntity.id, accountsArray[0].token);
-                        return accountsArray;
+                        return merchantAccounts;
                     });
             } else {
                 return SplashPaymentService.updateMerchantAccount(merchantAccounts[0].id, paymentData)
@@ -437,7 +445,7 @@ let SplashPaymentService = {
             .then((accountsString)=> {
                 var accounts = JSON.parse(accountsString);
                 if (!accounts || accounts.lenght == 0) {
-                    return false;
+                    return Promise.resolve(); // nothing to delete
                 }
                 var arrayOfPromises = accounts.map(function (account) {
                     var options = {
@@ -503,7 +511,7 @@ let SplashPaymentService = {
             })
             .then((tokenRes) => {
                 if (!tokenRes) {
-                    return false; // todo: call reject
+                    return Promise.reject('Error during saving payment info')
                 }
                 token = tokenRes;
                 user.spCardNumber = token.payment.number;
@@ -535,7 +543,7 @@ let SplashPaymentService = {
                 res.on('data', (chunk) => {
                     var response = JSON.parse(chunk);
                     if (!response.response || !response.response.data) {
-                        sails.log.error(response);
+
                         return Promise.reject('unhandled response from SP');
                     }
                     body.push(JSON.stringify(response.response.data));
@@ -556,50 +564,17 @@ let SplashPaymentService = {
     },
     _getDateString(){
 
-        var d = new Date();
-        var day = d.getDate();
+        let d = new Date();
+        let day = d.getDate();
         if (day < 10) {
             day = '0' + day;
         }
-        var month = d.getMonth() + 1;
+        let month = d.getMonth() + 1;
         if (month < 10) {
             month = '0' + month;
         }
-        var year = d.getFullYear();
+        let year = d.getFullYear();
         return String(year) + String(month) + String(day);
-    },
-
-    _getPaymentMethod(cardNumber)
-    {
-        var method = 0;
-        var firstNum = cardNumber.charAt(0);
-
-        /**
-         * Method of payment (1 = American Express, 2 = Visa, 3 = Master Card,
-         * 4 = Diners Club, 5 = Discover, 6 = Paypal [not yet implemented],
-         * 7 = Debit Card, 8 = eCheck Checking, 9 = eCheck Savings, 10 = eCheck
-         * Corporate Checking, 11 = eCheck Corporate Savings)
-         *
-         *  AMEX starts with a 3
-         VISA starts with a 4
-         MC starts with a 5
-         DISCOVER starts with a 6
-         */
-        switch (firstNum) {
-            case "3":
-                method = 1;
-                break;
-            case "4":
-                method = 2;
-                break;
-            case "5":
-                method = 3;
-                break;
-            default:
-                return false; //Promise.reject("Incorrect card number"); // nothing happens! unhandled rejection
-        }
-
-        return method;
     }
 };
 

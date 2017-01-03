@@ -20,6 +20,31 @@ let splashpayment = {
         {code: 10, name: 'Corporate checking account'},
         {code: 11, name: 'Corporate savings account'}
     ],
+    /**
+     * Method of payment (1 = American Express, 2 = Visa, 3 = Master Card,
+     * 4 = Diners Club, 5 = Discover, 6 = Paypal [not yet implemented],
+     * 7 = Debit Card, 8 = eCheck Checking, 9 = eCheck Savings, 10 = eCheck
+     * Corporate Checking, 11 = eCheck Corporate Savings)
+     *
+     *  AMEX starts with a 3
+     VISA starts with a 4
+     MC starts with a 5
+     DISCOVER starts with a 6
+     */
+    payment_methods: {
+        3: {
+            name: 'American Express',
+            method: 1
+        },
+        4: {
+            name: 'Visa',
+            method: 2
+        },
+        5: {
+            name: 'Master Card',
+            method: 3
+        }
+    },
     merchant: {
         member: {
             dob: '19750101',
