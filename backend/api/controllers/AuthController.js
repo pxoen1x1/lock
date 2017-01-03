@@ -43,6 +43,7 @@ let AuthController = waterlock.waterlocked({
             delete auth.user.details;
         }
 
+        var createdUser;
         AuthService.findAuth(criteria)
             .then(
                 (foundUser) => {
@@ -52,6 +53,23 @@ let AuthController = waterlock.waterlocked({
                     }
 
                     return AuthService.findOrCreateAuth(criteria, auth);
+                }
+            )
+            .then(
+                (createdUserRes) => {
+                    createdUser = createdUserRes;
+                    if (!user.userDetail) {
+                        return SplashPaymentService.createCustomer(user, auth.email)
+                            .then((customerResponse)=> {
+                                var customerArray = JSON.parse(customerResponse);
+                                createdUser.spCustomerId = customerArray[0].id;
+
+                                return UserService.update({id: createdUser.id}, createdUser);
+
+                            })
+                    }
+
+                    return createdUser;
                 }
             )
             .then(

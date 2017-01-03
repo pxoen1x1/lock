@@ -17,6 +17,10 @@
         <div>Details</div>
         <div class="text-right" flex>
           <button class="md-button md-button-red"
+                  ng-if="vm.request.status == vm.requestStatus.IN_PROGRESS"
+                  ng-click="vm.cancelRequest(vm.request)">CANCEL
+          </button>
+          <button class="md-button md-button-red"
                   ng-class="{ disabled: vm.request.status !== vm.requestStatus.NEW }"
                   ng-click="vm.closeRequest(vm.request)">CLOSE
           </button>

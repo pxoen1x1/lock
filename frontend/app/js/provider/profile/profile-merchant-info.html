@@ -1,0 +1,76 @@
+<div ng-hide="vm.isEditingMerchant" flex="100">
+    <div layout="column"
+         layout-gt-xs="row"
+         layout-align="center center"
+         layout-align-gt-xs="start center">
+    </div>
+    <div>
+        <div class="section first">
+            <span class="md-body-2">Address:</span>
+            <span class="md-body-1" ng-bind="vm.userProfile.merchantData.address1"></span>
+        </div>
+        <div class="section">
+            <span class="md-body-2">State:</span>
+            <span class="md-body-1" ng-bind="vm.userProfile.merchantData.state"></span>
+        </div>
+        <div class="section">
+            <span class="md-body-2">City:</span>
+            <span class="md-body-1" ng-bind="vm.userProfile.merchantData.city"></span>
+        </div>
+        <div class="section">
+            <span class="md-body-2">ZIP:</span>
+            <span class="md-body-1" ng-bind="vm.userProfile.merchantData.zip"></span>
+        </div>
+    </div>
+    <md-button ng-if="!vm.isEditingMerchant" ng-click="vm.isEditingMerchant = true"">Edit</md-button>
+
+</div>
+
+<div ng-if="vm.isEditingMerchant">
+    <form name="editMerchantForm"
+          novalidate
+          ng-submit="vm.updateMerchant(vm.userProfile, editMerchantForm.$valid)">
+        <div layout="row">
+            <md-input-container class="md-block" flex>
+                <label>Address</label>
+                <input name="paymentRouting"
+                       required
+                       ng-maxlength="20"
+                       ng-model="vm.userProfile.merchantData.address1">
+            </md-input-container>
+
+            <md-input-container class="md-block" flex>
+                <label>State</label>
+                <md-select ng-model="vm.userProfile.merchantData.state">
+                    <md-option ng-repeat="state in vm.states" ng-value="state.code">
+                        {{state.code}}
+                    </md-option>
+                </md-select>
+            </md-input-container>
+
+            <md-input-container class="md-block" flex>
+                <label>City</label>
+                <input name="City"
+                       required
+                       ng-maxlength="20"
+                       ng-model="vm.userProfile.merchantData.city">
+            </md-input-container>
+
+            <md-input-container class="md-block" flex>
+                <label>ZIP</label>
+                <input name="Zip"
+                       required
+                       ng-maxlength="20"
+                       ng-model="vm.userProfile.merchantData.zip">
+            </md-input-container>
+        </div>
+        <md-button type="submit"
+                   class="md-raised md-warn"
+                   aria-label="Save"
+                   ng-if="vm.isEditingMerchant">
+            Save
+        </md-button>
+        <md-button ng-click="vm.isEditingMerchant = false" ng-if="vm.isEditingMerchant">Cancel</md-button>
+
+    </form>
+</div>

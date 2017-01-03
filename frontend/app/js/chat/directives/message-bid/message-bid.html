@@ -32,7 +32,7 @@
                ng-click="vm.startChat(vm.currentBid, vm.currentRequest)">Start Chat
     </md-button>
     <md-button ng-if="vm.currentBid.cost"
-               ng-click="vm.acceptBid(vm.currentBid, vm.currentRequest)">Accept
+               ng-click="vm.showPaymentModal($event)">Accept
     </md-button>
     <md-button ng-click="vm.declineBid(vm.currentBid, vm.currentRequest)">Decline</md-button>
   </md-card-actions>
