@@ -49,5 +49,6 @@
                    ng-if="vm.isEditingCard">
             Save
         </md-button>
+        <md-button ng-if="vm.isEditingCard" ng-click="vm.isEditingCard = false">Cancel</md-button>
     </form>
 </div>
