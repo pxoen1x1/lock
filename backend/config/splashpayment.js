@@ -13,6 +13,7 @@ let splashpayment = {
         fees: '/fees',
         accounts: '/accounts',
         txns: '/txns',
+        funds: '/funds',
     },
     bankAccountTypes: [
         {code: 8, name: 'Checking account TEST'},
@@ -64,8 +65,10 @@ let splashpayment = {
         type: 0 // if Group then set '2'
     },
     payout: {
-        name: 'Daily payout',
-        schedule: 1,
+        name: 'Withdrawal request',
+        /** '1': Daily - the Payout is paid every day. '2': Weekly - the Payout is paid every week. '3': Monthly - the Payout is paid every month. '4': Annually - the Payout is paid every year. '5': Single - the Payout is a one-off payment.
+         * */
+        schedule: 5,
         /**'1': Percentage - the Payout is a percentage of the current available funds for this Entity that should be paid to their Account, specified in the 'amount' field in basis points.
          * '2': Actual - the Payout is a fixed amount, specified in the 'amount' field as an integer in cents.
          * '3': Negative percentage - the Payout is a percentage of the balance, specified in the 'amount' field as a negative integer in basis points*/
