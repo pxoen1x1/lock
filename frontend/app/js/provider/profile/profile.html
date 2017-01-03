@@ -1,6 +1,8 @@
 <div class="container profile-content"
      ng-class="{'mobile': !$mdMedia('gt-xs')}">
-  <div class="container-title" layout="row">
+  <div class="container-title"
+       layout="row"
+       layout-align="start center">
     <div flex>
       <i class="material-icons">person</i> <span>Profile</span>
     </div>
@@ -9,7 +11,9 @@
               aria-label="Show public profile"
               ng-if="$mdMedia('gt-xs')"
               ui-sref="provider.profile.public({'profileId': vm.userProfile.id})">
-        Show public<wbr> profile
+        Show public
+        <wbr>
+        profile
       </button>
 
       <md-menu md-position-mode="target-right target"
@@ -17,7 +21,7 @@
         <md-button class="md-icon-button"
                    aria-label="more"
                    ng-click="$mdOpenMenu()">
-          <md-icon class="dropdown-menu-icon">more_vert</md-icon>
+          <md-icon>more_vert</md-icon>
         </md-button>
         <md-menu-content width="3">
           <md-menu-item>
@@ -34,7 +38,7 @@
                        allowed-extensions="{{ vm.fileUploaderOptions.allowedFileExtensions.images }}"
                        max-size="{{ vm.fileUploaderOptions.maxFileSize }}"
                        selected-file-src="vm.newPortrait">
-                <md-icon>photo_camera</md-icon>
+              <md-icon>photo_camera</md-icon>
               <span class="verical-middle">Change photo</span>
             </md-button>
           </md-menu-item>
@@ -137,7 +141,8 @@
               <div layout="row" ng-repeat="license in vm.userProfile.details.licenses track by $index">
                 <span class="md-body-1" ng-bind="vm.userProfile.details.licenses[$index].number"></span>
                 &nbsp;until
-                <span class="md-body-1" ng-bind="vm.userProfile.details.licenses[$index].date | date: 'MM/dd/yyyy'"></span>
+                <span class="md-body-1"
+                      ng-bind="vm.userProfile.details.licenses[$index].date | date: 'MM/dd/yyyy'"></span>
               </div>
             </div>
           </div>
@@ -201,15 +206,15 @@
             </md-input-container>
             <p>License information:</p>
             <div class="licenses"
-                  ng-repeat="license in vm.userProfile.details.licenses track by $index">
+                 ng-repeat="license in vm.userProfile.details.licenses track by $index">
               <div layout-gt-xs="column" class="license-container">
                 <div layout="row">
                   <md-input-container class="md-block license-number">
                     <label>License Number</label>
                     <input type="text"
-                          name="licenseNumber"
-                          required
-                          ng-model="vm.userProfile.details.licenses[$index].number">
+                           name="licenseNumber"
+                           required
+                           ng-model="vm.userProfile.details.licenses[$index].number">
                     <div ng-messages="editForm.licenseNumber.$error">
                       <div ng-message="required">Please, enter a license number.</div>
                     </div>
@@ -219,11 +224,11 @@
                                       flex-gt-xs="30">
                     <label>State</label>
                     <md-select role="listbox"
-                              name="state"
-                              required
-                              ng-model="vm.userProfile.details.licenses[$index].state">
+                               name="state"
+                               required
+                               ng-model="vm.userProfile.details.licenses[$index].state">
                       <md-option ng-repeat="state in vm.states"
-                                  ng-value="state.id">
+                                 ng-value="state.id">
                         <span ng-bind="::state.state"></span>
                       </md-option>
                     </md-select>
@@ -232,23 +237,23 @@
                     </div>
                   </md-input-container>
                   <mdp-date-picker name="licenseDate"
-                                    mdp-placeholder="Expiration"
-                                    mdp-min-date="vm.datePickerOptions.minDate"
-                                    date-formatter
-                                    ng-required
-                                    ng-model="vm.userProfile.details.licenses[$index].date">
+                                   mdp-placeholder="Expiration"
+                                   mdp-min-date="vm.datePickerOptions.minDate"
+                                   date-formatter
+                                   ng-required
+                                   ng-model="vm.userProfile.details.licenses[$index].date">
                   </mdp-date-picker>
                   <div class="validation-messages"
-                        ng-messages="editForm.licenseDate.$error">
+                       ng-messages="editForm.licenseDate.$error">
                     <div ng-message="valid">The entered value is not a date!</div>
                     <div ng-message="mindate">Date is too early!</div>
                   </div>
                   <div class="service-remove"
-                      flex="100"
-                      flex-gt-xs="5"
-                      layout="column"
-                      layout-align="start center"
-                      ng-click="vm.removeLicenseForm($index)">
+                       flex="100"
+                       flex-gt-xs="5"
+                       layout="column"
+                       layout-align="start center"
+                       ng-click="vm.removeLicenseForm($index)">
                     <i class="material-icons">delete</i>
                   </div>
                 </div>
