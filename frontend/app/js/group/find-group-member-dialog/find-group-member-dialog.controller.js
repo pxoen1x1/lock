@@ -47,7 +47,7 @@
         }
 
         function loadGroupMember(query) {
-            if (query.length < 3) {
+            if (query.length < 3 || vm.isAllGroupMemberLoaded) {
 
                 return $q.reject();
             }
@@ -80,6 +80,7 @@
             }
 
             vm.pagination.currentPageNumber = 1;
+            vm.isAllGroupMemberLoaded = false;
 
             loadGroupMember(vm.groupMemberQuery);
         }
