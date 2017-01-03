@@ -216,7 +216,6 @@
                 .then(reverseAuthTxnComplete);
 
             function reverseAuthTxnComplete(response) {
-console.log(response);
                 return response.data;
             }
         }
