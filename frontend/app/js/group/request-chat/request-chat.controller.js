@@ -48,7 +48,7 @@
             return currentUserService.getUser()
                 .then(function (currentUser) {
                     vm.currentUser = currentUser;
-                    vm.currentUser.type = coreConstants.USER_TYPES.SPECIALIST;
+                    vm.currentUser.type = coreConstants.USER_TYPES.GROUP_ADMIN;
 
                     return vm.currentUser;
                 });
@@ -87,7 +87,6 @@
 
             return serviceProviderDataservice.getChatByRequest(request)
                 .then(function (chat) {
-                    console.log(chat);
                     vm.currentChat = chat;
 
                     return vm.currentChat;

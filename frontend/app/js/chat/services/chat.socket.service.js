@@ -20,6 +20,7 @@
             subscribeToChat: subscribeToChat,
             createChat: createChat,
             createBid: createBid,
+            joinGroupMemberToChat: joinGroupMemberToChat,
             sendMessage: sendMessage,
             translateMessage: translateMessage,
             deleteBid: deleteBid,
@@ -141,6 +142,17 @@
             function createBidCompleted(response) {
 
                 return response.data.bid;
+            }
+        }
+
+        function joinGroupMemberToChat(chat, member) {
+
+            return $sails.post(conf.URL_PREFIX + 'group/chats/' + chat.id + '/members/join', member)
+                .then(joinGroupMemberToChatComplete);
+
+            function joinGroupMemberToChatComplete(response) {
+
+                return response.data.user;
             }
         }
 

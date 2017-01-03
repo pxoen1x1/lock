@@ -9,7 +9,7 @@
          ng-if="vm.currentChat.id">
       <div layout="row"
            layout-align="start center"
-           ng-if="vm.currentUser.type === vm.userType.SPECIALIST">
+           ng-if="vm.currentUser.type !== vm.userType.CLIENT">
         <div class="avatar-wrapper">
           <div class="avatar"
                ng-style="{ 'background-image': 'url(' + (vm.currentChat.owner.portrait ?
@@ -38,12 +38,13 @@
       <md-button class="md-icon-button"
                  aria-label="more"
                  ng-click="$mdOpenMenu()">
-        <i class="material-icons">more_vert</i>
+        <md-icon>more_vert</md-icon>
       </md-button>
       <md-menu-content width="3">
         <md-menu-item
             ng-if="vm.currentUser.type !== vm.userType.CLIENT && vm.currentRequest.status === vm.requestStatus.NEW">
-          <md-button ng-click="vm.openOfferDialog(vm.currentChat)">Send Offer
+          <md-button ng-click="vm.openOfferDialog(vm.currentChat)">
+            Send Offer
           </md-button>
         </md-menu-item>
         <md-menu-item ng-if="vm.currentUser.type !== vm.userType.CLIENT">
@@ -51,9 +52,14 @@
             Request Info
           </md-button>
         </md-menu-item>
-        <md-menu-item>
-          <md-button ng-click="vm.closeChat()">Close Chat</md-button>
+        <md-menu-item ng-if="vm.currentUser.type === vm.userType.GROUP_ADMIN">
+          <md-button ng-click="vm.joinGroupMember()">
+            Join Group Member
+          </md-button>
         </md-menu-item>
+        <!--<md-menu-item>
+          <md-button ng-click="vm.closeChat()">Close Chat</md-button>
+        </md-menu-item>-->
       </md-menu-content>
     </md-menu>
   </div>
@@ -80,7 +86,7 @@
       </message-chat>
     </div>
     <div class="chat-message"
-         ng-if="vm.currentUser.type === vm.userType.SPECIALIST &&
+         ng-if="vm.currentUser.type !== vm.userType.CLIENT &&
          (vm.currentRequest.executor && vm.currentRequest.executor.id !== vm.currentUser.id)"
          ng-include="'chat/templates/system-message-unselected-specialist.html'">
     </div>

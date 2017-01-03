@@ -51,9 +51,18 @@
             return currentUserService.getUser()
                 .then(function (currentUser) {
                     vm.currentUser = currentUser;
-                    vm.currentUser.type = coreConstants.USER_TYPES.SPECIALIST;
 
                     return vm.currentUser;
+                });
+        }
+
+        function getCurrentUserType() {
+
+            return currentUserService.getType()
+                .then(function (userType) {
+                    vm.currentUser.type = userType;
+
+                    return userType;
                 });
         }
 
@@ -134,6 +143,7 @@
 
         function activate() {
             getCurrentUser()
+                .then(getCurrentUserType)
                 .then(function () {
                     listenRequestEvent();
                     listenChatEvent();

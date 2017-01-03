@@ -243,11 +243,12 @@ let AuthController = waterlock.waterlocked({
 
         let response = {};
 
+        let hasToken = req.headers.authorization && req.headers.authorization.match('Bearer');
+
         let promiseCheckSSN = ssn ? UserService.getUserBySSN(ssn) : Promise.resolve();
         let promiseCheckPhoneNumber = phoneNumber ? UserService.getUserByPhoneNumber(phoneNumber) : Promise.resolve();
         let promiseCheckEmail = email ? AuthService.getAuthByEmail(email) : Promise.resolve();
-        let promiseGetUser = req.headers && req.headers.authorization ? AuthService.getUserByToken(req) :
-            Promise.resolve();
+        let promiseGetUser = hasToken ? AuthService.getUserByToken(req) : Promise.resolve();
 
         Promise.all([
             promiseCheckSSN,

@@ -200,6 +200,16 @@ let RequestController = {
                         });
                     }
 
+                    if(foundRequest.executor) {
+                        if (foundRequest.executor.phoneNumber) {
+                            delete foundRequest.executor.phoneNumber;
+                        }
+
+                        if (foundRequest.executor.auth) {
+                            delete foundRequest.executor.auth;
+                        }
+                    }
+
                     return res.ok({
                         request: foundRequest
                     });
@@ -234,9 +244,19 @@ let RequestController = {
                         foundRequest.location = hiddenLocation;
                     }
 
-                    return res.ok({
-                        request: foundRequest
-                    });
+                    if (foundRequest.owner.phoneNumber) {
+                        delete foundRequest.owner.phoneNumber;
+                    }
+
+                    if (foundRequest.owner.auth) {
+                        delete foundRequest.owner.auth;
+                    }
+
+                    return res.ok(
+                        {
+                            request: foundRequest
+                        }
+                    );
                 }
             )
             .catch(

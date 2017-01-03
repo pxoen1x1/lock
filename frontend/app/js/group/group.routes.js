@@ -20,12 +20,12 @@
                     },
                     'menu@group': {
                         templateUrl: 'layout/menu/user-menu.html',
-                        controller: 'GroupMenuController',
+                        controller: 'UserMenuController',
                         controllerAs: 'vm'
                     },
                     'header@group': {
                         templateUrl: 'layout/header/user-header.html',
-                        controller: 'GroupHeaderController',
+                        controller: 'UserHeaderController',
                         controllerAs: 'vm'
                     }
                 },
@@ -47,7 +47,7 @@
                 data: {
                     title: 'Dashboard',
                     menu: {
-                        icon: 'list',
+                        icon: 'dashboard',
                         title: 'Dashboard'
                     },
                     isPrivate: true
@@ -189,7 +189,7 @@
                 data: {
                     title: 'Members',
                     menu: {
-                        icon: 'list',
+                        icon: 'people',
                         title: 'Members'
                     }
                 }
@@ -206,6 +206,25 @@
                 },
                 data: {
                     title: 'Member Info'
+                }
+            })
+            .state('group.messages', {
+                parent: 'group',
+                url: '/messages',
+                views: {
+                    'content@group': {
+                        templateUrl: 'chat/templates/chat.html',
+                        controller: 'SpecialistChatController',
+                        controllerAs: 'vm'
+                    }
+                },
+                data: {
+                    title: 'Messages',
+                    menu: {
+                        icon: 'list',
+                        title: 'Messages'
+                    },
+                    isPrivate: true
                 }
             });
     }

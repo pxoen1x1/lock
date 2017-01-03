@@ -2,7 +2,7 @@
   <form name="inviteMemberForm"
         novalidate
         ng-submit="vm.inviteNewMember(vm.newMemberEmail, inviteMemberForm.$valid)">
-    <md-input-container class="m-n" flex>
+    <md-input-container class="m-none" flex>
       <label>Email</label>
       <input type="email"
              name="email"
@@ -14,7 +14,7 @@
       </div>
     </md-input-container>
     <md-button type="submit"
-               class="md-button-blue m-n">Invite
+               class="md-button-blue m-none">Invite
     </md-button>
   </form>
 </div>

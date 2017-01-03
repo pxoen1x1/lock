@@ -8,7 +8,7 @@
       <button class="md-button md-button-blue"
               aria-label="Show public profile"
               ui-sref="provider.profile.public({'profileId': vm.userProfile.id})">
-        Show public profile
+        Show public<wbr> profile
       </button>
     </div>
   </div>
@@ -23,14 +23,22 @@
            layout-align="start center"
            layout-align-gt-xs="start start"
            flex-gt-xs="25">
-        <img class="profile-avatar"
-             ng-src="{{vm.newPortrait || vm.userProfile.portrait || coreConstants.IMAGES.defaultPortrait}}"
-             alt="photo"/>
+        <div class="avatar-wrapper">
+          <div class="profile-avatar"
+               file-uploader
+              is-single-file="true"
+              allowed-extensions="{{ vm.fileUploaderOptions.allowedFileExtensions.images }}"
+              max-size="{{ vm.fileUploaderOptions.maxFileSize }}"
+              selected-file-src="vm.newPortrait"
+              ng-style="{ 'background-image': 'url(' + (vm.userProfile.portrait ?
+                      vm.baseUrl + vm.userProfile.portrait : vm.defaultPortrait)           + ')' }">
+          </div>
+        </div>
         <div flex="5"></div>
         <div class="actions"
              layout="column">
           <md-button class="md-button-blue"
-                     ng-if="vm.isEditing"
+                     ng-if="vm.isEditing && $mdMedia('gt-xs')"
                      aria-label="Change photo"
                      file-uploader
                      is-single-file="true"
