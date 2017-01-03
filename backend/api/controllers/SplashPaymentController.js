@@ -207,7 +207,7 @@ let SplashPaymentController = {
         RequestService.getRequestById({id: params.requestId})
             .then((request) => {
 
-                return SplashPaymentService.createCaptureTxn(request.executor.spMerchantId, request.spAuthTxnId)
+                return SplashPaymentService.createCaptureTxn(request.owner.spCustomerId, request.executor.spMerchantId, request.spAuthTxnId)
             })
             .then((response) => {
                 var txnArr = JSON.parse(response);
@@ -229,12 +229,42 @@ let SplashPaymentController = {
                 }
             );
     },
+    createReverseAuthTxn(req, res) {
+        var params = req.allParams();
+
+
+        RequestService.getRequestById({id: params.requestId})
+            .then((request) => {
+
+                return [request, SplashPaymentService.createReverseAuthTxn(request.owner.spCustomerId, request.executor.spMerchantId, request.spAuthTxnId)];
+            })
+            .spread((request, response) => {
+                var txnArr = JSON.parse(response);
+
+                if(txnArr.length > 0){
+                    request.spAuthTxnId = null;
+
+                    return RequestService.updateRequest(request);
+                }else{
+
+                    return Promise.reject('Error during creating reverse transaction');
+                }
+
+            })
+            .then((request) => {
+
+                return res.ok({
+                    request: request
+                });
+            });
+    },
     createTokenAndAuthTxn(req, res) {
         let params = req.allParams();
         let user = req.session.user;
 
         return SplashPaymentService.createTokenAndAuthTxn(user, params)
             .spread((spCardNumber, txnData) => {
+
                 return res.ok({
                     resTxn: JSON.parse(txnData),
                     spCardNumber: spCardNumber

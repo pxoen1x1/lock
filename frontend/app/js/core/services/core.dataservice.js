@@ -20,6 +20,7 @@
             getMerchantAccount: getMerchantAccount,
             setMerchantAccount: setMerchantAccount,
             createAuthTxn: createAuthTxn,
+            reverseAuthTxn: reverseAuthTxn,
             createCaptureTxn: createCaptureTxn,
             createTokenAndAuthTxn: createTokenAndAuthTxn,
             getUser: getUser,
@@ -164,6 +165,16 @@
                 .then(createTokenAndAuthTxnComplete);
 
             function createTokenAndAuthTxnComplete(response) {
+                return response.data;
+            }
+        }
+
+        function reverseAuthTxn(requestId) {
+            return $sails.post(conf.URL_PREFIX + 'splashpayment/reverseauthtxn', {requestId: requestId})
+                .then(reverseAuthTxnComplete);
+
+            function reverseAuthTxnComplete(response) {
+console.log(response);
                 return response.data;
             }
         }
