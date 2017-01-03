@@ -118,7 +118,7 @@
               </div>
             </div>
           </div>
-          <div class="section">
+          <div class="section" ng-if="vm.servicesPresent">
             <span class="md-body-2">Services:</span>
             <span class="md-body-1"
                   ng-repeat="service in vm.userProfile.details.serviceTypes track by service.id"
@@ -176,7 +176,7 @@
                 <span ng-message="availability">This phone number already exists.</span>
               </div>
             </md-input-container>
-            <p>License information: <sup>*</sup></p>
+            <p>License information:</p>
             <div class="licenses"
                   ng-repeat="license in vm.userProfile.details.licenses track by $index">
               <div layout-gt-xs="column" class="license-container">
@@ -225,8 +225,7 @@
                       flex-gt-xs="5"
                       layout="column"
                       layout-align="start center"
-                      ng-click="vm.removeLicenseForm($index)"
-                      ng-if="vm.userProfile.details.licenses.length > 1">
+                      ng-click="vm.removeLicenseForm($index)">
                     <i class="material-icons">delete</i>
                   </div>
                 </div>
