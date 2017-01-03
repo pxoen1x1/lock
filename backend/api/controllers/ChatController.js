@@ -263,11 +263,32 @@ let ChatController = {
 
         ChatService.joinGroupMemberToChat(chat, member)
             .then(
-                (member) => res.ok(
-                    {
-                        user: member
-                    }
-                )
+                (member) => {
+                    res.ok(
+                        {
+                            user: member
+                        }
+                    );
+
+                    return [member, ChatService.getChat(chat)];
+
+
+                }
+            )
+            .spread(
+                (member, chat) => {
+                    let memberRoom = `user_${member.id}`;
+
+                    sails.sockets.broadcast(
+                        memberRoom,
+                        'chat',
+                        {
+                            type: 'create',
+                            chat: chat
+                        },
+                        req
+                    );
+                }
             )
             .catch(
                 (err) => {
