@@ -6,6 +6,7 @@
         .controller('CustomerViewRequestController', CustomerViewRequestController);
 
     CustomerViewRequestController.$inject = [
+        '$q',
         '$stateParams',
         '$mdDialog',
         'coreConstants',
@@ -13,14 +14,12 @@
         'chatSocketservice',
         'currentRequestService',
         'customerDataservice',
-        'currentUserService',
-        'conf',
-        '$q'
+        'conf'
     ];
 
     /* @ngInject */
-    function CustomerViewRequestController($stateParams, $mdDialog, coreConstants, coreDataservice,
-                                           chatSocketservice, currentRequestService, customerDataservice, currentUserService, conf, $q) {
+    function CustomerViewRequestController($q, $stateParams, $mdDialog, coreConstants, coreDataservice,
+                                           chatSocketservice, currentRequestService, customerDataservice, conf) {
         var promises = {
             getRequest: null,
             getFeedback: null
@@ -157,8 +156,8 @@
             }
 
             return coreDataservice.reverseAuthTxn(request.id)
-                .then((response) => {
-                    if (response.result != true) {
+                .then(function (response) {
+                    if (response.result !== true) {
                         $mdDialog.show(
                             $mdDialog.alert()
                                 .clickOutsideToClose(true)
@@ -191,9 +190,9 @@
             }
 
             return coreDataservice.createCaptureTxn(request.id)
-                .then((res)=> {
+                .then(function (res) {
+                    if (res.resTxn.length === 0) {
 
-                    if (res.resTxn.length == 0) {
                         return $q.reject();
                     }
 
@@ -215,13 +214,13 @@
             event.preventDefault();
 
             $mdDialog.show({
-                    templateUrl: 'customer/feedback/feedback.html',
-                    controller: 'CustomerFeedbackController',
-                    controllerAs: 'vm',
-                    locals: {
-                        requestInfo: request
-                    }
-                })
+                templateUrl: 'customer/feedback/feedback.html',
+                controller: 'CustomerFeedbackController',
+                controllerAs: 'vm',
+                locals: {
+                    requestInfo: request
+                }
+            })
                 .then(function () {
                     getFeedback();
                 });

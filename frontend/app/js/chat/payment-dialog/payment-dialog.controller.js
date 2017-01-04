@@ -8,7 +8,8 @@
         .module('app.chat')
         .controller('PaymentDialogController', PaymentDialogController);
 
-    PaymentDialogController.$inject = ['currentUserService', 'coreDataservice', '$mdDialog', 'currentBid', 'currentRequest'];
+    PaymentDialogController.$inject =
+        ['currentUserService', 'coreDataservice', '$mdDialog', 'currentBid', 'currentRequest'];
 
     /* @ngInject */
     function PaymentDialogController(currentUserService, coreDataservice, $mdDialog, currentBid, currentRequest) {
@@ -37,11 +38,11 @@
 
             return coreDataservice.getUser(currentBid.specialist.id)
                 .then(function (response) {
-
                     var specialist = response.data.user;
-                    return coreDataservice.createAuthTxn(specialist.spMerchantId, currentBid.cost, currentRequest.id)
+
+                    return coreDataservice.createAuthTxn(specialist.spMerchantId, currentBid.cost, currentRequest.id);
                 })
-                .then((res)=> {
+                .then(function (res) {
                     $mdDialog.hide({result: true});
 
                     if (res.resTxn.length > 0) {
@@ -62,11 +63,11 @@
                         );
                     }
                 }); //todo: check sequrity!!!
-        };
+        }
 
-        function payWithNew(txnData,isValid) {
+        function payWithNew(txnData, isValid) {
 
-            if(!isValid){
+            if (!isValid) {
 
                 return false;
             }
@@ -77,14 +78,14 @@
                 .then(function (response) {
                     var specialist = response.data.user;
 
-                    return coreDataservice.createTokenAndAuthTxn(txnData, specialist.spMerchantId, currentBid.cost)
+                    return coreDataservice.createTokenAndAuthTxn(txnData, specialist.spMerchantId, currentBid.cost);
                 })
-                .then((result)=> {
+                .then(function (result) {
                     tokenAndTxnResult = result; //todo: redo with spread
 
                     return currentUserService.getUser();
                 })
-                .then((user) => {
+                .then(function (user) {
 
                     if (tokenAndTxnResult.resTxn.length > 0 && tokenAndTxnResult.spCardNumber) {
                         vm.profileData = user;
@@ -100,7 +101,6 @@
                                 .title('Successful payment')
                                 .ok('Close')
                         );
-
                     } else {
                         $mdDialog.show(
                             $mdDialog.alert()
@@ -111,7 +111,7 @@
                         );
                     }
                 });
-        };
+        }
 
         function cancel() {
             $mdDialog.cancel();
