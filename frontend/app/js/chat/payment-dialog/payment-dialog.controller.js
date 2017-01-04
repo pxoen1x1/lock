@@ -8,8 +8,13 @@
         .module('app.chat')
         .controller('PaymentDialogController', PaymentDialogController);
 
-    PaymentDialogController.$inject =
-        ['currentUserService', 'coreDataservice', '$mdDialog', 'currentBid', 'currentRequest'];
+    PaymentDialogController.$inject = [
+        'currentUserService',
+        'coreDataservice',
+        '$mdDialog',
+        'currentBid',
+        'currentRequest'
+    ];
 
     /* @ngInject */
     function PaymentDialogController(currentUserService, coreDataservice, $mdDialog, currentBid, currentRequest) {
