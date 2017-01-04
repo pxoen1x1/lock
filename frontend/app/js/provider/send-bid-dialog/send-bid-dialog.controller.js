@@ -5,18 +5,37 @@
         .module('app.provider')
         .controller('SendBidDialogController', SendBidDialogController);
 
-    SendBidDialogController.$inject = ['$mdDialog', 'currentRequest', 'chatSocketservice'];
+    SendBidDialogController.$inject = [
+        '$mdDialog',
+        'currentRequest',
+        'chatSocketservice',
+        'currentUserService',
+        'coreConstants'
+    ];
 
     /* @ngInject */
-    function SendBidDialogController($mdDialog, currentRequest, chatSocketservice) {
+    function SendBidDialogController($mdDialog, currentRequest, chatSocketservice, currentUserService, coreConstants) {
         var vm = this;
 
         vm.bid = {};
+        vm.currentUserType = null;
+
+        vm.userTypes = coreConstants.USER_TYPES;
 
         vm.createBid = createBid;
         vm.cancel = cancel;
 
         activate();
+
+        function getCurrentUserType() {
+
+            return currentUserService.getType()
+                .then(function (currentUserType) {
+                    vm.currentUserType = currentUserType;
+
+                    return vm.currentUserType;
+                });
+        }
 
         function createBid(bid, isFormValid) {
             if (!isFormValid) {
@@ -40,6 +59,7 @@
         }
 
         function activate() {
+            getCurrentUserType();
         }
     }
 })();

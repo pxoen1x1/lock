@@ -1,15 +1,51 @@
 <div class="container profile-content"
      ng-class="{'mobile': !$mdMedia('gt-xs')}">
-  <div class="container-title" layout="row">
-    <div flex>
+  <div class="container-title"
+       layout="row"
+       layout-align="start center">
+    <div ng-click="vm.isEditing = false"
+         flex>
       <i class="material-icons">person</i> <span>Profile</span>
     </div>
     <div flex layout="row" layout-align="end center" class="title-actions">
       <button class="md-button md-button-blue"
               aria-label="Show public profile"
+              ng-if="$mdMedia('gt-xs')"
               ui-sref="provider.profile.public({'profileId': vm.userProfile.id})">
-        Show public<wbr> profile
+        Show public
+        <wbr>
+        profile
       </button>
+
+      <md-menu md-position-mode="target-right target"
+               ng-if="!$mdMedia('gt-xs')">
+        <md-button class="md-icon-button"
+                   aria-label="more"
+                   ng-click="$mdOpenMenu()">
+          <md-icon>more_vert</md-icon>
+        </md-button>
+        <md-menu-content width="3">
+          <md-menu-item>
+            <md-button ui-sref="provider.profile.public({'profileId': vm.userProfile.id})"
+                       aria-label="Show public profile">
+              <md-icon>person</md-icon>
+              <span class="vertical-middle">Show public profile</span>
+            </md-button>
+          </md-menu-item>
+          <md-menu-item ng-if="vm.isEditing">
+            <md-button aria-label="Change photo"
+                       file-uploader
+                       is-single-file="true"
+                       allowed-extensions="{{ vm.fileUploaderOptions.allowedFileExtensions.images }}"
+                       max-size="{{ vm.fileUploaderOptions.maxFileSize }}"
+                       selected-file-src="vm.newPortrait">
+              <md-icon>photo_camera</md-icon>
+              <span class="verical-middle">Change photo</span>
+            </md-button>
+          </md-menu-item>
+        </md-menu-content>
+      </md-menu>
+
     </div>
   </div>
   <div class="container-content">
@@ -26,12 +62,12 @@
         <div class="avatar-wrapper">
           <div class="profile-avatar"
                file-uploader
-              is-single-file="true"
-              allowed-extensions="{{ vm.fileUploaderOptions.allowedFileExtensions.images }}"
-              max-size="{{ vm.fileUploaderOptions.maxFileSize }}"
-              selected-file-src="vm.newPortrait"
-              ng-style="{ 'background-image': 'url(' + (vm.userProfile.portrait ?
-                      vm.baseUrl + vm.userProfile.portrait : vm.defaultPortrait)           + ')' }">
+               is-single-file="true"
+               allowed-extensions="{{ vm.fileUploaderOptions.allowedFileExtensions.images }}"
+               max-size="{{ vm.fileUploaderOptions.maxFileSize }}"
+               selected-file-src="vm.newPortrait"
+               ng-style="{ 'background-image': 'url(' + (vm.userProfile.portrait ?
+               vm.baseUrl + vm.userProfile.portrait : vm.defaultPortrait)           + ')' }">
           </div>
         </div>
         <div flex="5"></div>
@@ -81,7 +117,6 @@
            layout-align="start center"
            layout-align-gt-xs="start start">
 
-
         <div style="width: 100%;" ng-cloak>
           <md-content>
             <md-tabs md-dynamic-height md-border-bottom>
@@ -102,6 +137,7 @@
               </md-tab>
             </md-tabs>
           </md-content>
+
         </div>
       </div>
     </div>

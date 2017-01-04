@@ -43,6 +43,8 @@
         };
 
         vm.isEditing = false;
+        vm.licensesPresent = '';
+        vm.servicesPresent = '';
         vm.fileUploaderOptions = coreConstants.FILE_UPLOADER_OPTIONS;
         vm.newPortrait = '';
         vm.baseUrl = conf.BASE_URL;
@@ -128,19 +130,23 @@
 
         function updateMerchant(userProfile, isFormValid) {
             if (!isFormValid) {
+
                 return;
             }
 
             return coreDataservice.updateMerchant(userProfile)
                 .then(function (merchantEntity) {
                     if (!merchantEntity) {
+
                         return false;
                     }
+
                     vm.userProfile.merchantData = merchantEntity;
                     vm.userProfile.spMerchantId = vm.userProfile.merchantData.id;
+
                     return currentUserService.setUserToLocalStorage(vm.userProfile);
 
-                }).finally(function (user) {
+                }).finally(function () {
                     vm.isEditingMerchant = false;
                 });
         }
@@ -148,21 +154,21 @@
         function withdrawal() {
             coreDataservice.withdrawal(vm.userProfile.merchantData.id)
                 .then(function (result) {
-                    if(result == true){
+                    if (result === true) {
                         $mdDialog.alert()
                             .clickOutsideToClose(true)
                             .title('Withdrawals request created')
-                            .ok('Close')
+                            .ok('Close');
 
                         vm.enableWithdrawals = false;
-                    }else{
+                    } else {
                         $mdDialog.alert()
                             .clickOutsideToClose(true)
                             .title('Error during withdrawals')
                             .textContent('Please contact support')
-                            .ok('Close')
+                            .ok('Close');
                     }
-                })
+                });
         }
 
         function getUser() {
@@ -173,12 +179,14 @@
                     vm.userProfile = user;
 
                     return coreDataservice.getMerchantAccount()
-                        .then((userPayment)=> {
+                        .then(function (userPayment) {
                             vm.userProfile.paymentData = userPayment;
+
                             return vm.userProfile;
                         })
                         .then(function () {
-                            return coreDataservice.getMerchant()
+
+                            return coreDataservice.getMerchant();
                         })
                         .then(function (merchantEntity) {
                             if (merchantEntity) {
@@ -190,12 +198,13 @@
                         .then(function (funds) {
                             vm.userProfile.merchantFunds = funds.available / 100; // in cents
 
-                            return coreDataservice.isCreatedTodaysPayout()
+                            return coreDataservice.isCreatedTodaysPayout();
                         })
-                        .then(function(payoutCreated){
-                            if(!payoutCreated){
+                        .then(function (payoutCreated) {
+                            if (!payoutCreated) {
                                 vm.enableWithdrawals = true;
                             }
+
                             return vm.userProfile;
                         });
                 });
@@ -219,9 +228,11 @@
             ])
                 .then(function () {
                     vm.userProfile.usingLanguage = vm.userProfile.usingLanguage || usingLanguageService.getLanguage();
+                    vm.licensesPresent = vm.userProfile.details.licenses.length !== 0;
+                    vm.servicesPresent = vm.userProfile.details.serviceTypes.length !== 0;
                 });
         }
-        
+
         function getStates() {
             return coreDictionary.getStates()
                 .then(function (response) {
@@ -240,6 +251,5 @@
                     return vm.serviceTypes;
                 });
         }
-        
     }
 })();
