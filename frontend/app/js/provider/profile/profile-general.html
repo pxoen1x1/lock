@@ -1,0 +1,179 @@
+<div ng-hide="vm.isEditing" flex="100">
+    <div layout="column"
+         layout-gt-xs="row"
+         layout-align="center center"
+         layout-align-gt-xs="start center">
+        <div class="md-display-1">
+            <span class="vertical-middle" ng-bind="vm.userProfile.fullName"></span>
+            <i class="material-icons vertical-middle verified"
+               ng-if="vm.userProfile.isPro">
+                verified_user
+            </i>
+        </div>
+        <div class="profile-rating"
+             flex
+             layout="row"
+             layout-align="center center"
+             layout-align-gt-xs="end center">
+            <star-rating value="vm.userProfile.rating" readonly></star-rating>
+        </div>
+    </div>
+    <div class="section first">
+        <span class="md-body-2">Email:</span>
+        <span class="md-body-1" ng-bind="vm.userProfile.auth.email"></span>
+    </div>
+    <div class="section">
+        <span class="md-body-2">Phone:</span>
+        <span class="md-body-1" ng-bind="vm.userProfile.phoneNumber"></span>
+    </div>
+    <div class="section" layout="row">
+        <span class="md-body-2">Licenses:</span>
+        <div layout="column">
+            <div layout="row" ng-repeat="license in vm.userProfile.details.licenses track by $index">
+                <span class="md-body-1" ng-bind="vm.userProfile.details.licenses[$index].number"></span>
+                &nbsp;until
+                <span class="md-body-1" ng-bind="vm.userProfile.details.licenses[$index].date | date: 'MM/dd/yyyy'"></span>
+            </div>
+        </div>
+    </div>
+    <div class="section">
+        <span class="md-body-2">Services:</span>
+            <span class="md-body-1"
+                  ng-repeat="service in vm.userProfile.details.serviceTypes track by service.id"
+                  ng-bind="service.name + ' (' + (service.price | currency:'$') + ')' + ($last ? '':', ')">
+            </span>
+    </div>
+</div>
+<div ng-if="vm.isEditing">
+    <form name="editForm"
+          novalidate
+          ng-submit="vm.updateUser(vm.userProfile, editForm.$valid)">
+        <p>Name: <sup>*</sup></p>
+        <div layout="row">
+            <md-input-container class="md-block" flex>
+                <label>First name</label>
+                <input name="firstName"
+                       required
+                       ng-maxlength="20"
+                       ng-model="vm.userProfile.firstName">
+            </md-input-container>
+            <md-input-container class="md-block" flex>
+                <label>Last name</label>
+                <input name="lastName"
+                       required
+                       ng-maxlength="20"
+                       ng-model="vm.userProfile.lastName">
+            </md-input-container>
+        </div>
+        <p>Email: <sup>*</sup></p>
+        <md-input-container class="md-block" flex>
+            <label>Email</label>
+            <input name="email"
+                   required
+                   email-validation
+                   availability-validation
+                   ng-model-options="{ 'debounce': 400 }"
+                   ng-model="vm.userProfile.auth.email">
+            <div ng-messages="editForm.email.$error">
+                <div ng-message="email">That doesn't look like a valid email.</div>
+                <div ng-message="availability">This email already exists.</div>
+            </div>
+        </md-input-container>
+        <p>Phone number: <sup>*</sup></p>
+        <md-input-container class="md-block" flex>
+            <label>Phone number</label>
+            <input type="tel"
+                   name="phoneNumber"
+                   required
+                   ui-us-phone-number
+                   availability-validation
+                   ng-model-options="{ 'debounce': 400 }"
+                   ng-model="vm.userProfile.phoneNumber">
+            <div ng-messages="editForm.phoneNumber.$error">
+                <span ng-message="usPhoneNumber">That doesn't look like a valid phone number.</span>
+                <span ng-message="availability">This phone number already exists.</span>
+            </div>
+        </md-input-container>
+        <p>License information: <sup>*</sup></p>
+        <div class="licenses"
+             ng-repeat="license in vm.userProfile.details.licenses track by $index">
+            <div layout-gt-xs="column" class="license-container">
+                <div layout="row">
+                    <md-input-container class="md-block license-number">
+                        <label>License Number</label>
+                        <input type="text"
+                               name="licenseNumber"
+                               required
+                               ng-model="vm.userProfile.details.licenses[$index].number">
+                        <div ng-messages="editForm.licenseNumber.$error">
+                            <div ng-message="required">Please, enter a license number.</div>
+                        </div>
+                    </md-input-container>
+                    <md-input-container class="md-block license-state"
+                                        flex="100"
+                                        flex-gt-xs="30">
+                        <label>State</label>
+                        <md-select role="listbox"
+                                   name="state"
+                                   required
+                                   ng-model="vm.userProfile.details.licenses[$index].state">
+                            <md-option ng-repeat="state in vm.states"
+                                       ng-value="state.id">
+                                <span ng-bind="::state.state"></span>
+                            </md-option>
+                        </md-select>
+                        <div ng-messages="editForm.state.$error">
+                            <div ng-message="required">State is required.</div>
+                        </div>
+                    </md-input-container>
+                    <mdp-date-picker name="licenseDate"
+                                     mdp-placeholder="Expiration"
+                                     mdp-min-date="vm.datePickerOptions.minDate"
+                                     date-formatter
+                                     ng-required
+                                     ng-model="vm.userProfile.details.licenses[$index].date">
+                    </mdp-date-picker>
+                    <div class="validation-messages"
+                         ng-messages="editForm.licenseDate.$error">
+                        <div ng-message="valid">The entered value is not a date!</div>
+                        <div ng-message="mindate">Date is too early!</div>
+                    </div>
+                    <div class="service-remove"
+                         flex="100"
+                         flex-gt-xs="5"
+                         layout="column"
+                         layout-align="start center"
+                         ng-click="vm.removeLicenseForm($index)"
+                         ng-if="vm.userProfile.details.licenses.length > 1">
+                        <i class="material-icons">delete</i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div layout-gt-xs="row">
+            <md-button class="add-license-btn" ng-click="vm.addLicenseForm()">Add license</md-button>
+        </div>
+        <p>Services</p>
+        <div layout-gt-xs="row">
+            <md-input-container class="md-block" flex>
+                <label>Service types</label>
+                <md-select aria-label="Services"
+                           multiple
+                           required
+                           ng-model-options="{trackBy: '$value.id'}"
+                           ng-model="vm.userProfile.details.serviceTypes">
+                    <md-option ng-repeat="serviceType in vm.serviceTypes track by serviceType.id"
+                               ng-value="serviceType">
+                        <span ng-bind="serviceType.name"></span>
+                    </md-option>
+                </md-select>
+            </md-input-container>
+        </div>
+        <md-button type="submit"
+                   class="md-raised md-warn"
+                   aria-label="Save"
+                   ng-if="vm.isEditing">
+            Save
+        </md-button>
+    </form>
+</div>

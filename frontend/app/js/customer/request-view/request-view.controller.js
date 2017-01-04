@@ -6,6 +6,7 @@
         .controller('CustomerViewRequestController', CustomerViewRequestController);
 
     CustomerViewRequestController.$inject = [
+        '$q',
         '$stateParams',
         '$mdDialog',
         'coreConstants',
@@ -17,7 +18,7 @@
     ];
 
     /* @ngInject */
-    function CustomerViewRequestController($stateParams, $mdDialog, coreConstants, coreDataservice,
+    function CustomerViewRequestController($q, $stateParams, $mdDialog, coreConstants, coreDataservice,
                                            chatSocketservice, currentRequestService, customerDataservice, conf) {
         var promises = {
             getRequest: null,
@@ -28,6 +29,7 @@
 
         vm.request = {};
         vm.feedback = {};
+        vm.profileData = {};
 
         vm.currentRequestId = $stateParams.requestId;
 
@@ -47,6 +49,7 @@
         vm.dateFormat = coreConstants.DATE_FORMAT;
 
         vm.closeRequest = closeRequest;
+        vm.cancelRequest = cancelRequest;
         vm.setRequestStatusAsDone = setRequestStatusAsDone;
         vm.addFeedback = addFeedback;
 
@@ -146,17 +149,59 @@
                 });
         }
 
+        function cancelRequest(request) {
+            if (!request || vm.request.status !== vm.requestStatus.IN_PROGRESS) {
+
+                return;
+            }
+
+            return coreDataservice.reverseAuthTxn(request.id)
+                .then(function (response) {
+                    if (response.result !== true) {
+                        $mdDialog.show(
+                            $mdDialog.alert()
+                                .clickOutsideToClose(true)
+                                .title('Error during cancelling payment')
+                                .textContent('Please contact support')
+                                .ok('Close')
+                        );
+
+                        return $q.reject('');
+                    }
+
+                    var status = {
+                        status: coreConstants.REQUEST_STATUSES.NEW
+                    };
+
+                    return changeRequestStatus(request, status);
+                })
+                .then(function (request) {
+                    vm.request = request;
+                    currentRequestService.setRequest(vm.request);
+
+                    return vm.request;
+                });
+        }
+
         function setRequestStatusAsDone(request) {
             if (!request || vm.request.status !== vm.requestStatus.DONE) {
 
                 return;
             }
 
-            var status = {
-                status: coreConstants.REQUEST_STATUSES.CLOSED
-            };
+            return coreDataservice.createCaptureTxn(request.id)
+                .then(function (res) {
+                    if (res.resTxn.length === 0) {
 
-            return changeRequestStatus(request, status)
+                        return $q.reject();
+                    }
+
+                    var status = {
+                        status: coreConstants.REQUEST_STATUSES.CLOSED
+                    };
+
+                    return changeRequestStatus(request, status);
+                })
                 .then(function (request) {
                     vm.request = request;
                     currentRequestService.setRequest(vm.request);

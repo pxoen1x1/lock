@@ -87,7 +87,7 @@
                      class="md-button-blue"
                      ng-click="vm.isEditing = true"
                      aria-label="Edit profile">
-            Edit profile
+            Edit general info
           </md-button>
           <div layout="row"
                layout-align="start center">
@@ -115,6 +115,7 @@
            flex-gt-xs="70"
            layout-align="start center"
            layout-align-gt-xs="start start">
+
         <div ng-hide="vm.isEditing" flex="100">
           <div layout="column"
                layout-gt-xs="row"
@@ -292,6 +293,28 @@
               Save
             </md-button>
           </form>
+
+        <div style="width: 100%;" ng-cloak>
+          <md-content>
+            <md-tabs md-dynamic-height md-border-bottom>
+              <md-tab label="General info">
+                <md-content class="md-padding">
+                  <div ng-include="'provider/profile/profile-general.html'"></div>
+                </md-content>
+              </md-tab>
+              <md-tab label="Merchant info">
+                <md-content class="md-padding">
+                  <div ng-include="'provider/profile/profile-merchant-info.html'"></div>
+                </md-content>
+              </md-tab>
+              <md-tab label="Bank account">
+                <md-content class="md-padding">
+                  <div ng-include="'provider/profile/profile-bank-account.html'"></div>
+                </md-content>
+              </md-tab>
+            </md-tabs>
+          </md-content>
+
         </div>
       </div>
     </div>

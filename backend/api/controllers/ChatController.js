@@ -79,7 +79,7 @@ let ChatController = {
         ChatService.getSpecialistChatByRequest(request, member)
             .then(
                 (foundChat) => {
-                    if(!foundChat){
+                    if (!foundChat) {
 
                         return [];
                     }
@@ -227,13 +227,6 @@ let ChatController = {
     subscribeToChat(req, res) {
         let chat = req.params.chatId;
 
-        if (!chat) {
-
-            return res.forbidden({
-                message: req.__('You are not permitted to perform this action.')
-            });
-        }
-
         let roomName = `chat_${chat}`;
 
         SocketService.subscribe(req.socket, roomName)
@@ -249,6 +242,61 @@ let ChatController = {
 
                 res.serverError();
             });
+    },
+    joinGroupMemberToChat(req, res) {
+        let params = req.allParams();
+        let chatId = req.params.chatId;
+        let member = params.member;
+
+        if (!chatId || !member || !member.id) {
+
+            return res.badRequest(
+                {
+                    message: req.__('Submitted data is invalid.')
+                }
+            );
+        }
+
+        let chat = {
+            id: chatId
+        };
+
+        ChatService.joinGroupMemberToChat(chat, member)
+            .then(
+                (member) => {
+                    res.ok(
+                        {
+                            user: member
+                        }
+                    );
+
+                    return [member, ChatService.getChat(chat)];
+
+
+                }
+            )
+            .spread(
+                (member, chat) => {
+                    let memberRoom = `user_${member.id}`;
+
+                    sails.sockets.broadcast(
+                        memberRoom,
+                        'chat',
+                        {
+                            type: 'create',
+                            chat: chat
+                        },
+                        req
+                    );
+                }
+            )
+            .catch(
+                (err) => {
+                    sails.log.error(err);
+
+                    return res.serverError();
+                }
+            );
     }
 };
 

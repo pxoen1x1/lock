@@ -39,7 +39,7 @@ let MessageService = {
                 (createdMessage) => Message.findOneById(createdMessage.id).populateAll()
             );
     },
-    getTranslatedMessage(message, lang) {
+    translateMessage(message, lang) {
 
         return TranslatedMessage.findOne({message: message.id, language: lang.id})
             .then(

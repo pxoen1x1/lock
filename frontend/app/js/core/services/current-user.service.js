@@ -10,10 +10,12 @@
     /* @ngInject */
     function currentUserService($q, coreDataservice, localService, coreConstants) {
         var getUserPromise;
+        var getUserPaymentPromise;
         var userType;
 
         var service = {
             getUser: getUser,
+            setUserToLocalStorage: setUserToLocalStorage,
             setUser: setUser,
             getType: getType,
             clearType: clearType
@@ -33,6 +35,11 @@
         function getUserFromLocalStorage() {
 
             return localService.getUser();
+        }
+
+        function setUserToLocalStorage(currentUser) {
+
+            return localService.setUser(currentUser);
         }
 
         function getUserFromHttp() {

@@ -75,6 +75,7 @@ module.exports.policies = {
         'getLanguages': true
     },
 
+
     RequestController: {
         'confirmOffer': [
             'hasJsonWebToken',
@@ -122,6 +123,13 @@ module.exports.policies = {
             'hasJsonWebToken',
             'isUserEnabled',
             'isChatMember'
+        ],
+        'joinGroupMemberToChat': [
+            'isSocketRequest',
+            'hasJsonWebToken',
+            'isUserEnabled',
+            'isChatMember',
+            'isGroupMember'
         ]
     },
 
@@ -172,7 +180,15 @@ module.exports.policies = {
             'isRequestAllowed',
             'isChatMember'
         ],
-        'getTranslatedMessage': [
+        'createOffer': [
+            'isSocketRequest',
+            'hasJsonWebToken',
+            'isUserEnabled',
+            'isRequestAllowed',
+            'isChatMember',
+            'isCreateOfferAllowed'
+        ],
+        'translateMessage': [
             'isSocketRequest',
             'hasJsonWebToken',
             'isUserEnabled',

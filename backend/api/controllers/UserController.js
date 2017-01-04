@@ -42,6 +42,88 @@ let UserController = waterlock.actions.user({
                 }
             );
     },
+    getCustomer(req, res){
+        let user = req.session.user;
+
+        if (!user.spCustomerId) {
+
+            return res.badRequest({
+                message: req.__('User has not Customer Id.')
+            });
+        }
+
+        SplashPaymentService.getCustomer(user.spCustomerId)
+            .then(
+                (customer) => {
+
+                    return res.ok(
+                        {
+                            customer: JSON.parse(customer)
+                        }
+                    );
+                }
+            )
+            .catch(
+                (err) => {
+                    sails.log.error(err);
+
+                    return res.serverError();
+                }
+            );
+    },
+    updateCustomer(req, res){
+        var user = req.session.user;
+        var params = req.allParams();
+
+        if (!user.spCustomerId) {
+            // Splash Payment customer creates on registration
+            return res.forbidden({
+                message: req.__('User has not Customer Id.')
+            });
+        }
+
+        UserService.getUser(user)
+            .then((foundUser) => {
+                return SplashPaymentService.updateCustomer(user.spCustomerId, user, foundUser.auth.email, params.customerData)
+            })
+            .then((customer) => {
+                return res.ok(
+                    {
+                        customer: JSON.parse(customer)
+                    });
+            })
+            .catch(
+                (err) => {
+                    sails.log.error(err);
+
+                    return res.serverError();
+                });
+    },
+    updateCustomerCard(req, res){
+        var user = req.session.user;
+        //let userId = req.session.user.id;
+        var params = req.allParams();
+
+
+        if (!user.spCustomerId) {
+            return res.badRequest({
+                message: req.__('User has not Customer Id.')
+            });
+        }
+
+        SplashPaymentService.updateCustomerToken(user, user.spCustomerId, params)
+            .then(
+                (spCardNumber) => {
+                    return res.ok(spCardNumber);
+                }
+            )
+            .catch(
+                (err) => {
+                    sails.log.error(err);
+
+                    return res.serverError();
+                });
+    },
     getUserById(req, res) {
         let userId = req.params.id;
 

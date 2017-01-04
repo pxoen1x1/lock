@@ -41,7 +41,7 @@ module.exports = function (req, res, next) {
 
                 if ((foundRequest.owner !== user && foundRequest.executor !== user) ||
                     (foundRequest.executor === user && (status === STATUS.NEW || status === STATUS.CLOSED)) ||
-                    (foundRequest.owner === user && status !== STATUS.CLOSED)) {
+                    (foundRequest.owner === user && status !== STATUS.CLOSED && status !== STATUS.NEW)) {
                     sails.log.debug(new Error('You are not permitted to perform this action.'));
 
                     return res.forbidden(

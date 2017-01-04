@@ -12,27 +12,35 @@
         'coreDataservice',
         'coreDictionary',
         'currentUserService',
-        'usingLanguageService'
+        'usingLanguageService',
+        '$mdDialog'
     ];
 
     /* @ngInject */
     function ProviderProfileController($q, conf, coreConstants, coreDataservice, coreDictionary, currentUserService,
-                                       usingLanguageService) {
+                                       usingLanguageService, $mdDialog) {
         var vm = this;
 
         vm.languages = [];
         vm.userProfile = {};
+        vm.userProfile.merchantData = {};
+        vm.userProfile.paymentData = {};
+        vm.userProfile.merchantFunds = {};
+        vm.enableWithdrawals = false;
 
         var promises = {
-            getState: null
+            getBankAccountTypes: null,
+            getStates: null
         };
 
-        vm.profileData = {};
+
+        vm.bankAccountTypes = [];
+        vm.states = [];
+        vm.serviceTypes = [];
+
         vm.datePickerOptions = {
             minDate: new Date()
         };
-        vm.states = [];
-        vm.serviceTypes = [];
 
         vm.isEditing = false;
         vm.licensesPresent = '';
@@ -43,9 +51,12 @@
         vm.defaultPortrait = coreConstants.IMAGES.defaultPortrait;
 
         vm.updateUser = updateUser;
+        vm.setMerchantAccount = setMerchantAccount;
         vm.getUser = getUser;
         vm.addLicenseForm = addLicenseForm;
         vm.removeLicenseForm = removeLicenseForm;
+        vm.updateMerchant = updateMerchant;
+        vm.withdrawal = withdrawal;
 
         activate();
 
@@ -56,6 +67,22 @@
                     vm.languages = languages;
 
                     return vm.languages;
+                });
+        }
+
+        function getBankAccountTypes() {
+
+            if (promises.getBankAccountTypes) {
+                promises.getBankAccountTypes.cancel();
+            }
+
+            promises.getBankAccountTypes = coreDataservice.getBankAccountTypes();
+
+            return promises.getBankAccountTypes
+                .then(function (bankAccountTypes) {
+                    vm.bankAccountTypes = bankAccountTypes;
+
+                    return vm.bankAccountTypes;
                 });
         }
 
@@ -73,7 +100,7 @@
 
             return currentUserService.setUser(user)
                 .then(function (user) {
-                    coreDataservice.updateUser(user);
+                    coreDataservice.updateUser(user); //todo: ?? set and then update ??
 
                     return user;
                 })
@@ -87,6 +114,63 @@
                 });
         }
 
+        function setMerchantAccount(userPayment, isFormValid) {
+            if (!isFormValid) {
+
+                return;
+            }
+
+            return coreDataservice.setMerchantAccount(userPayment)
+                .then(function (userPayment) {
+                    vm.userProfile.paymentData = userPayment;
+                    vm.isEditingPayment = false;
+                    return vm.userProfile;
+                });
+        }
+
+        function updateMerchant(userProfile, isFormValid) {
+            if (!isFormValid) {
+
+                return;
+            }
+
+            return coreDataservice.updateMerchant(userProfile)
+                .then(function (merchantEntity) {
+                    if (!merchantEntity) {
+
+                        return false;
+                    }
+
+                    vm.userProfile.merchantData = merchantEntity;
+                    vm.userProfile.spMerchantId = vm.userProfile.merchantData.id;
+
+                    return currentUserService.setUserToLocalStorage(vm.userProfile);
+
+                }).finally(function () {
+                    vm.isEditingMerchant = false;
+                });
+        }
+
+        function withdrawal() {
+            coreDataservice.withdrawal(vm.userProfile.merchantData.id)
+                .then(function (result) {
+                    if (result === true) {
+                        $mdDialog.alert()
+                            .clickOutsideToClose(true)
+                            .title('Withdrawals request created')
+                            .ok('Close');
+
+                        vm.enableWithdrawals = false;
+                    } else {
+                        $mdDialog.alert()
+                            .clickOutsideToClose(true)
+                            .title('Error during withdrawals')
+                            .textContent('Please contact support')
+                            .ok('Close');
+                    }
+                });
+        }
+
         function getUser() {
 
             return currentUserService.getUser()
@@ -94,7 +178,37 @@
 
                     vm.userProfile = user;
 
-                    return vm.userProfile;
+                 //   return vm.userProfile; //ToDo: It must be fixed by Y_Bobrov
+
+                    return coreDataservice.getMerchantAccount()
+                        .then(function (userPayment) {
+                            vm.userProfile.paymentData = userPayment;
+
+                            return vm.userProfile;
+                        })
+                        .then(function () {
+
+                            return coreDataservice.getMerchant();
+                        })
+                        .then(function (merchantEntity) {
+                            if (merchantEntity) {
+                                vm.userProfile.merchantData = merchantEntity;
+                            }
+
+                            return coreDataservice.getMerchantFunds();
+                        })
+                        .then(function (funds) {
+                            vm.userProfile.merchantFunds = funds.available / 100; // in cents
+
+                            return coreDataservice.isCreatedTodaysPayout();
+                        })
+                        .then(function (payoutCreated) {
+                            if (!payoutCreated) {
+                                vm.enableWithdrawals = true;
+                            }
+
+                            return vm.userProfile;
+                        });
                 });
         }
 
@@ -111,6 +225,7 @@
                 getUser(),
                 getLanguages(),
                 getStates(),
+                getBankAccountTypes(),
                 getServiceTypes()
             ])
                 .then(function () {
@@ -121,15 +236,9 @@
         }
 
         function getStates() {
-            if (promises.getStates) {
-                promises.getStates.cancel();
-            }
-
-            promises.getStates = coreDataservice.getStates();
-
-            return promises.getStates
+            return coreDictionary.getStates()
                 .then(function (response) {
-                    vm.states = response.data.states;
+                    vm.states = response.states;
 
                     return vm.states;
                 });
@@ -144,6 +253,5 @@
                     return vm.serviceTypes;
                 });
         }
-
     }
 })();
