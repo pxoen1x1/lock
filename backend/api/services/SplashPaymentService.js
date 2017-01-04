@@ -425,8 +425,9 @@ let SplashPaymentService = {
 
         return this.getMerchant(Id).then((merchantResp)=> {
             var merchant = JSON.parse(merchantResp);
-            if (merchant.length == 0) {
-                Promise.reject('Merchant was not found');
+            if (merchant.length === 0) {
+
+                return Promise.reject('Merchant was not found');
             }
 
             var options = {
@@ -443,10 +444,11 @@ let SplashPaymentService = {
 
     setMerchantAccount(user, paymentData) {
 
-        return SplashPaymentService.getMerchantAccounts(user.spMerchantId).then((merchantAccounts)=> {
+        return SplashPaymentService.getMerchantAccounts(user.spMerchantId)
+            .then((merchantAccounts)=> {
             var accountsArray;
 
-            if (merchantAccounts.length == 0) {
+            if (merchantAccounts.length === 0) {
                 return SplashPaymentService.createMerchantAccount(user.spMerchantId, paymentData)
                     .then((merchantAccounts)=> {
                         return merchantAccounts;
