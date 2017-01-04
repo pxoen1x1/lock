@@ -59,7 +59,15 @@
            layout-align-gt-xs="start start"
            flex-gt-xs="25">
         <div class="avatar-wrapper">
-          <div class="profile-avatar"></div>
+          <div class="profile-avatar"
+               file-uploader
+               is-single-file="true"
+               allowed-extensions="{{ vm.fileUploaderOptions.allowedFileExtensions.images }}"
+               max-size="{{ vm.fileUploaderOptions.maxFileSize }}"
+               selected-file-src="vm.newPortrait"
+               ng-style="{ 'background-image': 'url(' + (vm.userProfile.portrait ?
+               vm.baseUrl + vm.userProfile.portrait : vm.defaultPortrait)           + ')' }">
+          </div>
         </div>
         <div flex="5"></div>
         <div class="actions"
