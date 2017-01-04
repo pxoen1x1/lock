@@ -23,6 +23,7 @@
         return directive;
 
         function link(scope, element, attrs) {
+            console.log(scope.vm);
             var isCompileAsMenu = typeof attrs.viewMode === 'undefined' && attrs.viewMode !== 'buttons';
 
             if ($mdMedia('gt-xs') && !isCompileAsMenu) {
@@ -44,18 +45,31 @@
         'coreConstants',
         'coreDataservice',
         'geocoderService',
-        'currentRequestService'
+        'currentRequestService',
+        'currentUserService'
     ];
 
     /* @ngInject */
     function RequestActionButtonsController($mdDialog, coreConstants, coreDataservice, geocoderService,
-                                            currentRequestService) {
+                                            currentRequestService, currentUserService) {
         var vm = this;
 
         vm.requestStatus = coreConstants.REQUEST_STATUSES;
 
         vm.openBidDialog = openBidDialog;
         vm.changeRequestStatus = changeRequestStatus;
+
+        activate();
+
+        function getCurrentUser() {
+
+            return currentUserService.getUser()
+                .then(function (currentUser) {
+                    vm.currentUser = currentUser;
+
+                    return vm.currentUser;
+                });
+        }
 
         function openBidDialog(request) {
             return $mdDialog.show({
@@ -97,6 +111,9 @@
                     currentRequestService.setRequest(vm.currentRequest);
                 });
         }
-    }
 
+        function activate() {
+            getCurrentUser();
+        }
+    }
 })();

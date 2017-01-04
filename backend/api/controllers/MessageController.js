@@ -64,7 +64,7 @@ let MessageController = {
         let message = params.message;
         let sender = req.session.user.id;
 
-        if ((!message || !message.message || !chat) || (message.type === MESSAGE_TYPE.OFFER && !message.cost)) {
+        if (!message || !message.message || !chat) {
 
             return res.badRequest(
                 {
@@ -82,8 +82,6 @@ let MessageController = {
         if (message.cost) {
             newMessage.cost = message.cost;
         }
-
-        message.sender = sender;
 
         MessageService.create({id: chat}, newMessage)
             .then(
@@ -120,7 +118,69 @@ let MessageController = {
                 }
             );
     },
-    getTranslatedMessage(req, res) {
+    createOffer(req, res) {
+        let params = req.allParams();
+
+        let chatId = req.params.chatId;
+        let offer = params.offer;
+        let sender = params.offer.executor || req.session.user;
+
+        if (!chatId || !offer || !offer.message || !offer.cost) {
+
+            return res.badRequest(
+                {
+                    message: req.__('Submitted data is invalid.')
+                }
+            );
+        }
+
+        let chat = {
+            id: chatId
+        };
+
+        let newMessage = {
+            message: offer.message,
+            cost: offer.cost,
+            type: MESSAGE_TYPE.OFFER,
+            sender: sender
+        };
+
+        MessageService.create(chat, newMessage)
+            .then(
+                (message) => {
+                    res.created(
+                        {
+                            message: message
+                        }
+                    );
+
+                    return message;
+                }
+            )
+            .then(
+                (message) => {
+                    let roomName = `chat_${message.chat.id}`;
+
+                    sails.sockets.broadcast(
+                        roomName,
+                        'message',
+                        {
+                            type: 'create',
+                            message: message
+                        },
+                        req
+                    );
+                }
+            )
+            .catch(
+                (err) => {
+                    sails.log.error(err);
+
+                    return res.serverError();
+                }
+            );
+    },
+    translateMessage(req, res) {
         let messageId = req.params.messageId;
         let params = req.allParams();
         let lang = params.lang;
@@ -135,7 +195,7 @@ let MessageController = {
             id: messageId
         };
 
-        MessageService.getTranslatedMessage(message, lang)
+        MessageService.translateMessage(message, lang)
             .then(
                 (translatedMessage) => res.ok({
                     message: {

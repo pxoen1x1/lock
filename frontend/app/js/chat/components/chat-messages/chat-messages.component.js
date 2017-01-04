@@ -222,17 +222,13 @@
         function openOfferDialog(currentChat) {
 
             return $mdDialog.show({
-                templateUrl: 'chat/templates/offer-dialog.html',
+                templateUrl: 'chat/offer-dialog/offer-dialog.html',
                 controller: 'OfferDialogController',
-                controllerAs: 'vm'
+                controllerAs: 'vm',
+                locals: {
+                    currentChat: vm.currentChat
+                }
             })
-                .then(function (offer) {
-                    var message = {
-                        message: offer
-                    };
-
-                    return sendMessage(currentChat, message);
-                })
                 .then(function (message) {
                     vm.messages[currentChat.id].push(message);
 
