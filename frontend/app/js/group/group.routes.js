@@ -226,6 +226,21 @@
                     },
                     isPrivate: true
                 }
+            })
+            .state('group.profile', {
+                parent: 'group',
+                url: '/profile',
+                views: {
+                    'content@group': {
+                        templateUrl: 'group/profile/profile.html',
+                        controller: 'GroupProfileController',
+                        controllerAs: 'vm'
+                    }
+                },
+                data: {
+                    title: 'Profile',
+                    isPrivate: true
+                }
             });
     }
 })();
