@@ -3,4 +3,7 @@
 
 var gulp = require('gulp');
 
-gulp.task('default', ['serve:app']);
+gulp.task('default', [
+    'serve:admin',
+    'serve:app'
+]);
