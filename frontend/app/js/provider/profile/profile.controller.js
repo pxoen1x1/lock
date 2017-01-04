@@ -178,8 +178,6 @@
 
                     vm.userProfile = user;
 
-                    // return vm.userProfile; //ToDo: It must be fixed by Y_Bobrov
-
                     return coreDataservice.getMerchantAccount()
                         .then(function (userPayment) {
                             vm.userProfile.paymentData = userPayment;
