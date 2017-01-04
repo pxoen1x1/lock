@@ -26,21 +26,22 @@
         <span class="md-body-2">Phone:</span>
         <span class="md-body-1" ng-bind="vm.userProfile.phoneNumber"></span>
     </div>
-    <div class="section" layout="row">
+    <div class="section" layout="row" ng-if="vm.licensesPresent">
         <span class="md-body-2">Licenses:</span>
         <div layout="column">
             <div layout="row" ng-repeat="license in vm.userProfile.details.licenses track by $index">
                 <span class="md-body-1" ng-bind="vm.userProfile.details.licenses[$index].number"></span>
                 &nbsp;until
-                <span class="md-body-1" ng-bind="vm.userProfile.details.licenses[$index].date | date: 'MM/dd/yyyy'"></span>
+                <span class="md-body-1"
+                      ng-bind="vm.userProfile.details.licenses[$index].date | date: 'MM/dd/yyyy'"></span>
             </div>
         </div>
     </div>
-    <div class="section">
+    <div class="section" ng-if="vm.servicesPresent">
         <span class="md-body-2">Services:</span>
-            <span class="md-body-1"
-                  ng-repeat="service in vm.userProfile.details.serviceTypes track by service.id"
-                  ng-bind="service.name + ' (' + (service.price | currency:'$') + ')' + ($last ? '':', ')">
+        <span class="md-body-1"
+              ng-repeat="service in vm.userProfile.details.serviceTypes track by service.id"
+              ng-bind="service.name + ' (' + (service.price | currency:'$') + ')' + ($last ? '':', ')">
             </span>
     </div>
 </div>
@@ -94,7 +95,7 @@
                 <span ng-message="availability">This phone number already exists.</span>
             </div>
         </md-input-container>
-        <p>License information: <sup>*</sup></p>
+        <p>License information:</p>
         <div class="licenses"
              ng-repeat="license in vm.userProfile.details.licenses track by $index">
             <div layout-gt-xs="column" class="license-container">
@@ -143,8 +144,7 @@
                          flex-gt-xs="5"
                          layout="column"
                          layout-align="start center"
-                         ng-click="vm.removeLicenseForm($index)"
-                         ng-if="vm.userProfile.details.licenses.length > 1">
+                         ng-click="vm.removeLicenseForm($index)">
                         <i class="material-icons">delete</i>
                     </div>
                 </div>
@@ -159,7 +159,6 @@
                 <label>Service types</label>
                 <md-select aria-label="Services"
                            multiple
-                           required
                            ng-model-options="{trackBy: '$value.id'}"
                            ng-model="vm.userProfile.details.serviceTypes">
                     <md-option ng-repeat="serviceType in vm.serviceTypes track by serviceType.id"
