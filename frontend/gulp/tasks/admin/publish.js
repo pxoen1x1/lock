@@ -3,7 +3,4 @@
 
 var gulp = require('gulp');
 
-gulp.task('default', [
-    'serve:admin',
-    'serve:app'
-]);
+gulp.task('publish:admin', ['browsersync:admin:production']);
