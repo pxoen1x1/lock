@@ -172,8 +172,6 @@
 
                     vm.userProfile = user;
 
-                    return vm.userProfile;
-
                     return coreDataservice.getMerchantAccount()
                         .then((userPayment)=> {
                             vm.userProfile.paymentData = userPayment;

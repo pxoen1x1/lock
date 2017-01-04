@@ -100,6 +100,12 @@ let SplashPaymentController = {
     getMerchantAccounts(req, res){
         let user = req.session.user;
 
+        if (!user.spMerchantId) {
+            return res.ok({
+                userPayment: null
+            })
+        }
+
         SplashPaymentService.getMerchantAccounts(user.spMerchantId)
             .then((merchantAccounts) => res.ok({userPayment: merchantAccounts}))
             .catch(
