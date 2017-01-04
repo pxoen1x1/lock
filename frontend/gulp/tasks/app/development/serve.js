@@ -6,4 +6,4 @@ var gulp = require('gulp');
 /**
  * Start webserver task and then watch files for changes
  */
-gulp.task('serve', ['browsersync', 'watch']);
+gulp.task('serve:app', ['browsersync:app', 'watch:app']);

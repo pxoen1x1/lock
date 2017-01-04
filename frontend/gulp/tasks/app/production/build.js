@@ -7,12 +7,12 @@ var runSequence = require('run-sequence');
 /**
  * Run all tasks needed for a build in defined order
  */
-gulp.task('build:production', function (callback) {
-    runSequence('build',
+gulp.task('build:app:production', function (callback) {
+    runSequence('build:app',
         [
-            'copy:fonts',
-            'usemin',
-            'imagemin'
+            'copy:fonts:app',
+            'usemin:app',
+            'imagemin:app'
         ],
         callback);
 });

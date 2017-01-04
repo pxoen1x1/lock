@@ -4,10 +4,10 @@
 var gulp = require('gulp');
 var browsersync = require('browser-sync');
 
-var config = require('../../config');
-var browsersyncOptions = config.browsersync.development;
+var config = require('../../../config');
+var browsersyncOptions = config.browsersync.app.development;
 
-gulp.task('browsersync', ['build'], function () {
+gulp.task('browsersync:app', ['build:app'], function () {
     
     return browsersync(browsersyncOptions);
 });

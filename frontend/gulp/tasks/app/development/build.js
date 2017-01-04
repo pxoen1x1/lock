@@ -7,12 +7,12 @@ var runSequence = require('run-sequence');
 /**
  * Run all tasks needed for a build in defined order
  */
-gulp.task('build', function (callback) {
-    runSequence('delete',
+gulp.task('build:app', function (callback) {
+    runSequence('delete:app',
         [
-            'sass',
-            'copy:styles',
-            'ngtemplate'
+            'sass:app',
+            'copy:styles:app',
+            'ngtemplate:app'
         ],
         callback);
 });

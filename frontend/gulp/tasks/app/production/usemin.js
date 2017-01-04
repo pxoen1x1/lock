@@ -11,13 +11,13 @@ var replace = require('gulp-replace');
 var rev = require('gulp-rev');
 var size = require('gulp-size');
 
-var config = require('../../config');
-var userminOptions = config.usemin;
+var config = require('../../../config');
+var userminOptions = config.usemin.app;
 var htmlminOptions = config.htmlmin.options;
 var replaceOptions = config.replace;
 
 
-gulp.task('usemin', function () {
+gulp.task('usemin:app', function () {
     return gulp.src(userminOptions.src)
         .pipe(usemin({
             css: [
