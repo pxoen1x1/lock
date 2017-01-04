@@ -180,6 +180,14 @@ module.exports.policies = {
             'isRequestAllowed',
             'isChatMember'
         ],
+        'createOffer': [
+            'isSocketRequest',
+            'hasJsonWebToken',
+            'isUserEnabled',
+            'isRequestAllowed',
+            'isChatMember',
+            'isCreateOfferAllowed'
+        ],
         'translateMessage': [
             'isSocketRequest',
             'hasJsonWebToken',
