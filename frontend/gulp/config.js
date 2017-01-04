@@ -12,8 +12,8 @@ var paths = {
     },
     admin: {
         src: 'admin/',
-        development: 'dist/admin/development',
-        production: 'dist/admin/production',
+        development: 'dist/admin/development/',
+        production: 'dist/admin/production/',
     },
     vendor: 'vendor/'
 };
