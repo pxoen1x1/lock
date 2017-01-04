@@ -78,6 +78,18 @@ let User = {
             defaultsTo: false,
             columnName: 'is_admin'
         },
+        spMerchantId: {
+            type: 'string',
+            columnName: 'sp_merchant_id'
+        },
+        spCustomerId: {
+            type: 'string',
+            columnName: 'sp_customer_id'
+        },
+        spCardNumber: {
+            type: 'string',
+            columnName: 'sp_card_number'
+        },
 
         usingLanguage: {
             model: 'language',

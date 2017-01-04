@@ -13,6 +13,7 @@
             getRequests: getRequests,
             getMembers: getMembers,
             getMember: getMember,
+            searchGroupMember: searchGroupMember,
             inviteMember: inviteMember,
             removeMemberFromGroup: removeMemberFromGroup
         };
@@ -49,6 +50,17 @@
             function getMemberComplete(response) {
 
                 return response.data.user;
+            }
+        }
+
+        function searchGroupMember(params) {
+
+            return $sails.get(conf.URL_PREFIX + 'group/members/search', params)
+                .then(findGroupMemberComplete);
+
+            function findGroupMemberComplete(response) {
+
+                return response.data;
             }
         }
 

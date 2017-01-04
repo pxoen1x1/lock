@@ -28,10 +28,10 @@
         return directive;
     }
 
-    MessageBidController.$inject = ['$scope', 'chatSocketservice', 'coreConstants', 'chatConstants'];
+    MessageBidController.$inject = ['$scope', 'chatSocketservice', 'coreConstants', 'chatConstants', '$mdDialog'];
 
     /* @ngInject */
-    function MessageBidController($scope, chatSocketservice, coreConstants, chatConstants) {
+    function MessageBidController($scope, chatSocketservice, coreConstants, chatConstants, $mdDialog) {
         var vm = this;
 
         vm.defaultPortrait = coreConstants.IMAGES.defaultPortrait;
@@ -42,6 +42,7 @@
         vm.startChat = startChat;
         vm.acceptBid = acceptBid;
         vm.declineBid = declineBid;
+        vm.showPaymentModal = showPaymentModal;
 
         function createChat(bid) {
             var request = bid.request;
@@ -134,5 +135,24 @@
                     vm.selectedTab = vm.bids.length > 0 ? vm.selectedTab : 'chats';
                 });
         }
+
+
+        function showPaymentModal(ev) {
+            $mdDialog.show({
+                controller: 'PaymentDialogController',
+                controllerAs: 'vm',
+                templateUrl: 'chat/payment-dialog/payment-dialog.html',
+                parent: angular.element(document.body),
+                targetEvent: ev,
+                clickOutsideToClose:true,
+                locals: { currentBid: vm.currentBid, currentRequest: vm.currentRequest }
+            })
+             .then(function(paymentResult) {
+                 if(paymentResult){
+                     vm.acceptBid(vm.currentBid, vm.currentRequest);
+                 }
+             });
+        };
+
     }
 })();

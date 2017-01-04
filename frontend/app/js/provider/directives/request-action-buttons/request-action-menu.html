@@ -1,6 +1,8 @@
 <md-menu md-position-mode="{{ vm.positionMode}}"
-         ng-if="vm.currentRequest.status !== vm.requestStatus.DONE ||
-         vm.currentRequest.status === vm.requestStatus.CLOSED">
+         ng-if="vm.currentRequest.status === vm.requestStatus.NEW ||
+         (vm.currentRequest.executor.id === vm.currentUser.id &&
+         (vm.currentRequest.status !== vm.requestStatus.DONE ||
+         vm.currentRequest.status === vm.requestStatus.CLOSED))">
   <md-button class="md-icon-button"
              aria-label="more"
              ng-click="$mdOpenMenu()">
@@ -12,20 +14,22 @@
         Send Bid
       </md-button>
     </md-menu-item>
-    <md-menu-item ng-if="vm.currentRequest.status === vm.requestStatus.PENDING">
-      <md-button ng-click="vm.changeRequestStatus(vm.currentRequest, vm.requestStatus.IN_PROGRESS)">
-        Start
-      </md-button>
-    </md-menu-item>
-    <md-menu-item ng-if="vm.currentRequest.status === vm.requestStatus.IN_PROGRESS">
-      <md-button ng-click="vm.changeRequestStatus(vm.currentRequest, vm.requestStatus.PENDING)">
-        Pause
-      </md-button>
-    </md-menu-item>
-    <md-menu-item ng-if="vm.currentRequest.status === vm.requestStatus.IN_PROGRESS">
-      <md-button ng-click="vm.changeRequestStatus(vm.currentRequest, vm.requestStatus.DONE)">
-        Done
-      </md-button>
-    </md-menu-item>
+    <div ng-if="vm.currentRequest.executor.id === vm.currentUser.id">
+      <md-menu-item ng-if="vm.currentRequest.status === vm.requestStatus.PENDING">
+        <md-button ng-click="vm.changeRequestStatus(vm.currentRequest, vm.requestStatus.IN_PROGRESS)">
+          Start
+        </md-button>
+      </md-menu-item>
+      <md-menu-item ng-if="vm.currentRequest.status === vm.requestStatus.IN_PROGRESS">
+        <md-button ng-click="vm.changeRequestStatus(vm.currentRequest, vm.requestStatus.PENDING)">
+          Pause
+        </md-button>
+      </md-menu-item>
+      <md-menu-item ng-if="vm.currentRequest.status === vm.requestStatus.IN_PROGRESS">
+        <md-button ng-click="vm.changeRequestStatus(vm.currentRequest, vm.requestStatus.DONE)">
+          Done
+        </md-button>
+      </md-menu-item>
+    </div>
   </md-menu-content>
 </md-menu>

@@ -7,18 +7,21 @@
 
     CustomerProfileController.$inject = [
         '$q',
-        'coreConstants',
-        'conf',
         'coreDictionary',
         'currentUserService',
+        'coreConstants',
+        'coreDataservice',
+        'conf',
         'usingLanguageService'];
 
     /* @ngInject */
-    function CustomerProfileController($q, coreConstants, conf, coreDictionary, currentUserService,
-                                       usingLanguageService) {
+    function CustomerProfileController($q, coreDictionary, currentUserService, coreConstants, coreDataservice, conf,
+    usingLanguageService) {
         var vm = this;
 
         vm.userProfile = {};
+        vm.userProfile.customerData = {};
+        vm.userProfile.paymentData = {};
         vm.newPortrait = '';
         vm.languages = [];
 
@@ -27,6 +30,8 @@
         vm.fileUploaderOptions = coreConstants.FILE_UPLOADER_OPTIONS;
 
         vm.updateUser = updateUser;
+        vm.updateCustomer = updateCustomer;
+        vm.updateCustomerCard = updateCustomerCard;
         vm.getUser = getUser;
 
         activate();
@@ -41,12 +46,47 @@
                 });
         }
 
-        function updateUser(user, isFormValid) {
+        function updateCustomer(customerData, isFormValid) {
             if (!isFormValid) {
 
                 return;
             }
 
+
+            return coreDataservice.updateCustomer(customerData)
+                .then(function (customer) {
+                    vm.userProfile.customerData = customer.customer[0];
+                    return vm.userProfile;
+                }).then(function(){
+                    vm.isEditingCustomer = false;
+                });
+        }
+
+        function updateCustomerCard(cardData, isFormValid) {
+            if (!isFormValid) {
+                return;
+            }
+
+            return coreDataservice.updateCustomerCard(cardData)
+                .then(function (spCardNumber) {
+                    if(!spCardNumber){
+                        return;
+                    }
+
+                    vm.userProfile.spCardNumber = spCardNumber;
+
+                    return currentUserService.setUserToLocalStorage(vm.userProfile);
+                }).finally(function(){
+                    vm.isEditingCard = false;
+                });
+        }
+
+        function updateUser(user, isFormValid) {
+            if (!isFormValid) {
+
+                return;
+            }
+            
             if (vm.newPortrait) {
                 user.portrait = {
                     base64: vm.newPortrait
@@ -55,6 +95,7 @@
 
             return currentUserService.setUser(user)
                 .then(function (user) {
+                    
                     vm.userProfile = user;
                     vm.userProfile.portrait = user.portrait ? conf.BASE_URL + user.portrait : '';
                     vm.newPortrait = '';
@@ -70,10 +111,19 @@
 
             return currentUserService.getUser()
                 .then(function (user) {
+
                     vm.userProfile = user;
                     vm.userProfile.portrait = user.portrait ? conf.BASE_URL + user.portrait : '';
 
-                    return vm.userProfile;
+                    return coreDataservice.getCustomer()
+                        .then(function(customer){
+
+                            if(customer){
+                                vm.userProfile.customerData = customer.customer[0];
+                            }
+
+                            return vm.userProfile;
+                        });
                 });
         }
 

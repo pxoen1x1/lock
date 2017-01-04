@@ -45,7 +45,7 @@
                     scroll-chat-disabled="vm.isScrollDisabled"
                     scroll-chat-to-bottom="vm.isScrollToBottomEnabled">
   </client-chat-list>
-  <specialist-chat-list ng-if="vm.currentUser.type === vm.userType.SPECIALIST"
+  <specialist-chat-list ng-if="vm.currentUser.type !== vm.userType.CLIENT"
                         chats="vm.chats"
                         messages="vm.messages"
                         current-request="vm.currentRequest"
@@ -66,7 +66,7 @@
                    current-bid="vm.currentBid"
                    chat-search="vm.chatSearch">
   </client-bid-list>
-  <specialist-bid-list ng-if="vm.currentUser.type === vm.userType.SPECIALIST"
+  <specialist-bid-list ng-if="vm.currentUser.type !== vm.userType.CLIENT"
                        bids="vm.bids"
                        current-request="vm.currentRequest"
                        current-bid="vm.currentBid"

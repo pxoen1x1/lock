@@ -20,7 +20,9 @@
             subscribeToChat: subscribeToChat,
             createChat: createChat,
             createBid: createBid,
+            joinGroupMemberToChat: joinGroupMemberToChat,
             sendMessage: sendMessage,
+            createOffer: createOffer,
             translateMessage: translateMessage,
             deleteBid: deleteBid,
             declineBid: declineBid,
@@ -144,12 +146,34 @@
             }
         }
 
+        function joinGroupMemberToChat(chat, member) {
+
+            return $sails.post(conf.URL_PREFIX + 'group/chats/' + chat.id + '/members/join', member)
+                .then(joinGroupMemberToChatComplete);
+
+            function joinGroupMemberToChatComplete(response) {
+
+                return response.data.user;
+            }
+        }
+
         function sendMessage(chat, message) {
 
             return $sails.post(conf.URL_PREFIX + 'chats/' + chat.id + '/messages', message)
                 .then(sendMessageCompleted);
 
             function sendMessageCompleted(response) {
+
+                return response.data.message;
+            }
+        }
+
+        function createOffer(chat, offer) {
+
+            return $sails.post(conf.URL_PREFIX + 'chats/' + chat.id + '/offer', offer)
+                .then(createOfferCompleted);
+
+            function createOfferCompleted(response) {
 
                 return response.data.message;
             }

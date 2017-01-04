@@ -1,0 +1,84 @@
+<md-dialog class="send-offer" aria-label="Find Group Member">
+  <form role="form"
+        name="joinGroupMemberForm"
+        autocomplete="off"
+        novalidate
+        ng-submit="vm.selectGroupMember(vm.selectedGroupMember, joinGroupMemberForm.$valid)">
+    <md-toolbar class="md-menu-toolbar md-default-theme">
+      <div class="md-toolbar-tools"
+           layout="row"
+           layout-align="start center">
+        <div flex>
+          <h2>Join Group Member</h2>
+        </div>
+        <div layout-align="end center">
+          <md-button class="md-icon-button"
+                     aria-label="Close Dialog"
+                     ng-click="vm.cancel()">
+            <md-icon>close</md-icon>
+          </md-button>
+        </div>
+      </div>
+      <div class="md-subheader" layout="row" layout-align="end center">
+        <md-input-container class="m-none m-w-sm">
+          <label>Name or Email</label>
+          <input type="text"
+                 ng-model-options="{ debounce: 400 }"
+                 ng-change="vm.changeGroupMemberQuery()"
+                 ng-model="vm.groupMemberQuery">
+        </md-input-container>
+      </div>
+    </md-toolbar>
+    <md-dialog-content>
+      <div class="md-dialog-content">
+        <div layout="row"
+             layout-align="center start"
+             ng-if="vm.isAllGroupMemberLoaded && vm.members.length === 0">
+          <span>group member is not found.</span>
+        </div>
+        <div ng-if="vm.members.length !== 0">
+          <md-table-container class="infinite-scroll-container">
+            <table md-table>
+              <thead md-head>
+              <tr md-row>
+                <th md-column>
+                  Name
+                </th>
+                <th md-column>
+                  Email
+                </th>
+                <th md-column></th>
+              </tr>
+              </thead>
+              <tbody md-body>
+              <tr md-row ng-repeat="member in vm.members track by member.id">
+                <td md-cell flex>
+                  <span ng-bind="::member.fullName"></span>
+                </td>
+                <td md-cell>
+                  <span ng-bind="::member.auth.email"></span>
+                </td>
+                <td md-cell>
+                  <md-button class="md-button-blue md-button-mini"
+                             ng-if="!vm.isChatMember(member)"
+                             ng-click="vm.joinGroupMember(member)">
+                    <md-icon>add</md-icon>
+                  </md-button>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </md-table-container>
+        </div>
+      </div>
+    </md-dialog-content>
+    <md-dialog-actions ng-if="!vm.isAllGroupMemberLoaded && vm.members.length > 0"
+                       layout="row"
+                       layout-align="center center">
+      <md-button class="md-button-blue md-fab md-button-mini"
+                 ng-click="vm.loadGroupMember(vm.groupMemberQuery)">
+        <md-icon>replay</md-icon>
+      </md-button>
+    </md-dialog-actions>
+  </form>
+</md-dialog>
