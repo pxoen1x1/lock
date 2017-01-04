@@ -178,7 +178,7 @@
 
                     vm.userProfile = user;
 
-                 //   return vm.userProfile; //ToDo: It must be fixed by Y_Bobrov
+                    // return vm.userProfile; //ToDo: It must be fixed by Y_Bobrov
 
                     return coreDataservice.getMerchantAccount()
                         .then(function (userPayment) {
@@ -230,8 +230,8 @@
             ])
                 .then(function () {
                     vm.userProfile.usingLanguage = vm.userProfile.usingLanguage || usingLanguageService.getLanguage();
-                    vm.licensesPresent = vm.userProfile.details.licenses.length === 0;
-                    vm.servicesPresent = vm.userProfile.details.serviceTypes.length === 0;
+                    vm.licensesPresent = vm.userProfile.details.licenses.length !== 0;
+                    vm.servicesPresent = vm.userProfile.details.serviceTypes.length !== 0;
                 });
         }
 
