@@ -2,12 +2,13 @@
 'use strict';
 
 var gulp = require('gulp');
-var browsersync = require('browser-sync');
+var browserSync = require('browser-sync');
 
 var config = require('../../../config');
-var browsersyncOptions = config.browsersync.app.development;
+var browserSyncOptions = config.browsersync.app.development;
 
 gulp.task('browsersync:app', ['build:app'], function () {
-    
-    return browsersync(browsersyncOptions);
+    var bsApp = browserSync.create('app');
+
+    bsApp.init(browserSyncOptions);
 });
