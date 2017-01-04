@@ -49,26 +49,6 @@
 
         activate();
 
-        function licensesPresent() {
-            if (vm.userProfile.details.licenses.length === 0) {
-
-                return vm.licensesPresent = false;
-            } else {
-
-                return vm.licensesPresent = true;
-            }
-        }
-
-        function servicesPresent() {
-            if (vm.userProfile.details.serviceTypes.length === 0) {
-
-                return vm.servicesPresent = false;
-            } else {
-
-                return vm.servicesPresent = true;
-            }
-        }
-
         function getLanguages() {
 
             return coreDictionary.getLanguages()
@@ -135,8 +115,8 @@
             ])
                 .then(function () {
                     vm.userProfile.usingLanguage = vm.userProfile.usingLanguage || usingLanguageService.getLanguage();
-                    licensesPresent();
-                    servicesPresent();
+                    vm.licensesPresent = vm.userProfile.details.licenses.length === 0;
+                    vm.servicesPresent = vm.userProfile.details.serviceTypes.length === 0;
                 });
         }
 
