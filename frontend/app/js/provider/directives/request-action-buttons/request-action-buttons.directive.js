@@ -23,7 +23,6 @@
         return directive;
 
         function link(scope, element, attrs) {
-            console.log(scope.vm);
             var isCompileAsMenu = typeof attrs.viewMode === 'undefined' && attrs.viewMode !== 'buttons';
 
             if ($mdMedia('gt-xs') && !isCompileAsMenu) {

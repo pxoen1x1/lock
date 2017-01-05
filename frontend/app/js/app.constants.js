@@ -7,4 +7,4 @@
             BASE_URL: 'https://lockheal.com',
             URL_PREFIX: '/api/'
         });
-})(); 
+})();
