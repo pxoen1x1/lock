@@ -20,10 +20,12 @@ module.exports = {
     connections: {
         developmentMysqlServer: {
             adapter: 'sails-mysql',
-            host: 'localhost',
-            user: 'locksmith',
-            password: 'l0ck$m1th_p@$$',
-            database: 'locksmith'
+            host: 'lockhealdb.c6qxt1uj9j0m.us-east-1.rds.amazonaws.com',
+            user: 'lockheal',
+            password: '10ckhe@1',
+            database: 'lockheal',
+            charset: 'utf8',
+            collation: 'utf8_general_ci'
         }
     },
 
@@ -34,7 +36,7 @@ module.exports = {
 
     hookTimeout: 120000,
 
-    port: 1338,
-    baseUrl: 'http://localhost:1338',
-    homePage: 'http://localhost:9000/'
+    port: 1337,
+    baseUrl: 'https://lockheal.com',
+    homePage: 'https://lockheal.com'
 };
