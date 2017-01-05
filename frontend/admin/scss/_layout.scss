@@ -1,0 +1,14 @@
+html {
+  font-size: 62.5%;
+  line-height: 1.4;
+}
+
+body {
+  font-size: 1.6rem;
+
+  &.docs-body {
+    overflow: hidden;
+    max-width: 100%;
+    max-height: 100%;
+  }
+}
