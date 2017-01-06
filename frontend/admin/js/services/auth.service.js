@@ -5,10 +5,10 @@
         .module('app')
         .factory('authService', authService);
 
-    authService.$inject = ['adminDataService', 'socketService', 'localService', 'currentUserService'];
+    authService.$inject = ['adminDataService', 'socketService', 'localService', 'currentUserService', 'errorService'];
 
     /* @ngInject */
-    function authService(adminDataService, socketService, localService, currentUserService) {
+    function authService(adminDataService, socketService, localService, currentUserService, errorService) {
         var service = {
             authorize: authorize,
             isAuthenticated: isAuthenticated,
@@ -41,8 +41,22 @@
                     return currentUserService.getUser();
                 })
                 .then(function (currentUser) {
+                    if (!currentUser.isAdmin) {
+
+                        return logout()
+                            .then(function () {
+                                var error = new errorService.CustomError();
+                                error.message = 'Please, sign in as administrator.';
+                                error.isShown = true;
+
+                                return error.reject();
+                            });
+                    }
+
+                    return currentUser;
+                })
+                .then(function (currentUser) {
                     if (currentUser) {
-                        localService.setUser(currentUser);
                         localService.setLanguage(currentUser.usingLanguage);
                     }
 
