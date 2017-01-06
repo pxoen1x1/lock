@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('app.core', ['pascalprecht.translate'])
+        .module('app.core')
         .config(['$translateProvider', function ($translateProvider) {
 
             var translations = {
