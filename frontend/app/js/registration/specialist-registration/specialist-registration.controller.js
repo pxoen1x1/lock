@@ -31,8 +31,6 @@
         vm.auth = {};
         vm.states = [];
         vm.languages = [];
-        vm.serviceTypes = [];
-        vm.licenses = [{}];
         vm.validSteps = {};
         vm.currentStep = 0;
 
@@ -50,8 +48,6 @@
         vm.goToPrevStep = goToPrevStep;
         vm.goToStep = goToStep;
         vm.createNewUser = createNewUser;
-        vm.addLicenseForm = addLicenseForm;
-        vm.removeLicenseForm = removeLicenseForm;
 
         activate();
 
@@ -62,16 +58,6 @@
                     vm.languages = languages;
 
                     return vm.languages;
-                });
-        }
-
-        function getServiceTypes() {
-
-            return coreDictionary.getServiceTypes()
-                .then(function (serviceTypes) {
-                    vm.serviceTypes = serviceTypes;
-
-                    return vm.serviceTypes;
                 });
         }
 
@@ -140,24 +126,6 @@
             };
 
             createUser(params);
-        }
-
-        function addLicenseForm() {
-
-            vm.licenses.push({});
-        }
-
-        function removeLicenseForm(index) {
-            vm.licenses.splice(index, 1);
-        }
-
-        function remoleInvalidLicenses(licenses) {
-            licenses = licenses.filter(function (license) {
-
-                return license.number && (license.state && license.state.id) && license.date;
-            });
-
-            return licenses;
         }
 
         function activate() {
