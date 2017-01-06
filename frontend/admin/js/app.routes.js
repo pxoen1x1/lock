@@ -19,12 +19,12 @@
                     }
                 }
             })
-            .state('home', {
-                url: '/',
+            .state('login', {
+                url: '/login',
                 views: {
                     '@': {
-                        templateUrl: 'home/home.html',
-                        controller: 'HomeController',
+                        templateUrl: 'login/login.html',
+                        controller: 'LoginController',
                         controllerAs: 'vm'
                     }
                 }
