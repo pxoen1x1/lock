@@ -18,9 +18,6 @@
     /* @ngInject */
     function SpecialistRegistrationController($q, $state, coreDataservice, coreConstants, coreDictionary, authService,
                                               registrationConstants) {
-        var promises = {
-            getState: null
-        };
 
         var vm = this;
 
@@ -29,8 +26,6 @@
             groups: {}
         };
         vm.auth = {};
-        vm.states = [];
-        vm.languages = [];
         vm.validSteps = {};
         vm.currentStep = 0;
 
@@ -48,33 +43,6 @@
         vm.goToPrevStep = goToPrevStep;
         vm.goToStep = goToStep;
         vm.createNewUser = createNewUser;
-
-        activate();
-
-        function getLanguages() {
-
-            return coreDictionary.getLanguages()
-                .then(function (languages) {
-                    vm.languages = languages;
-
-                    return vm.languages;
-                });
-        }
-
-        function getStates() {
-            if (promises.getStates) {
-                promises.getStates.cancel();
-            }
-
-            promises.getStates = coreDataservice.getStates();
-
-            return promises.getStates
-                .then(function (response) {
-                    vm.states = response.data.states;
-
-                    return vm.states;
-                });
-        }
 
         function createUser(user) {
 
@@ -126,14 +94,6 @@
             };
 
             createUser(params);
-        }
-
-        function activate() {
-            $q.all([
-                getLanguages(),
-                getServiceTypes(),
-                getStates()
-            ]);
         }
     }
 })();
