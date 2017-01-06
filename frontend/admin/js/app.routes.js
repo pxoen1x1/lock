@@ -27,6 +27,9 @@
                         controller: 'LoginController',
                         controllerAs: 'vm'
                     }
+                },
+                data: {
+                    isPublic: true
                 }
             })
             .state('dashboard', {
