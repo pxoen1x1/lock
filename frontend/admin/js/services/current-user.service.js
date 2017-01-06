@@ -5,10 +5,10 @@
         .module('app')
         .factory('currentUserService', currentUserService);
 
-    currentUserService.$inject = ['$q', 'adminDataService', 'localService'];
+    currentUserService.$inject = ['adminDataService', 'localService', 'errorService'];
 
     /* @ngInject */
-    function currentUserService($q, adminDataService, localService) {
+    function currentUserService(adminDataService, localService, errorService) {
         var service = {
             getUser: getUser,
             isAdmin: isAdmin
@@ -18,19 +18,12 @@
 
         function getUser() {
             if (!isAuthenticated()) {
+                var error = new errorService.CustomError();
+                error.message = 'You are not logged.';
+                error.isShown = true;
 
-                return $q.reject(new Error('You are not logged.'));
+                return error.reject();
             }
-
-            return $q.when(getUserFromLocalStorage() || getUserFromHttp());
-        }
-
-        function getUserFromLocalStorage() {
-
-            return localService.getUser();
-        }
-
-        function getUserFromHttp() {
 
             return adminDataService.getCurrentUser()
                 .then(getUserFromHttpComplete);
