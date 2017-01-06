@@ -16,6 +16,9 @@
                 views: {
                     '@': {
                         templateUrl: 'layout/layout.html'
+                    },
+                    'menu@root': {
+                        templateUrl: 'layout/menu.html'
                     }
                 }
             })
