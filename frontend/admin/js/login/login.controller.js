@@ -5,10 +5,10 @@
         .module('app')
         .controller('LoginController', LoginController);
 
-    LoginController.$inject = ['$state', 'authService', 'currentUserService'];
+    LoginController.$inject = ['$state', 'authService', 'toastService'];
 
     /* @ngInject */
-    function LoginController($state, authService, currentUserService) {
+    function LoginController($state, authService, toastService) {
         var vm = this;
 
         vm.user = {};
@@ -22,15 +22,6 @@
             return authService.login(user);
         }
 
-        function logout() {
-
-            return authService.logout();
-        }
-
-        function isCurrentUserAdmin() {
-
-            return currentUserService.isAdmin();
-        }
 
         function submit(user, isFromValid) {
             if (!isFromValid) {
@@ -39,15 +30,13 @@
             }
 
             login(user)
-                .then(isCurrentUserAdmin)
-                .then(function (isAdmin) {
-                    console.log(isAdmin);
-                    if (!isAdmin) {
-
-                        return logout();
-                    }
-
+                .then(function () {
                     $state.go('dashboard');
+                })
+                .catch(function (error) {
+                    if (error.isShown) {
+                        toastService.error(error.message);
+                    }
                 });
         }
 
