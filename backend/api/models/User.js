@@ -169,8 +169,21 @@ let User = {
         }
     }),
 
-    beforeCreate: waterlock.models.user.beforeCreate,
-    beforeUpdate: waterlock.models.user.beforeUpdate
+    beforeValidate(user, next) {
+        if (user.isAdmin) {
+            user.isAdmin = false;
+        }
+
+        next();
+    },
+    beforeUpdate(user, next) {
+        if (user.id) {
+            delete user.id;
+        }
+
+        next();
+    },
+    beforeCreate: waterlock.models.user.beforeCreate
 };
 
 module.exports = User;
