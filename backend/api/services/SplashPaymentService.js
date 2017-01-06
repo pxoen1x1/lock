@@ -1,13 +1,11 @@
-/*global Promise*/
+/* global sails, User, UserService */
 
 'use strict';
 
-let Promise = require('bluebird');
-
-let SPLASH_PAYMENT = sails.config.splashpayment;
+const https = require('https');
+const SPLASH_PAYMENT = sails.config.splashpayment;
 
 let SplashPaymentService = {
-
     getMerchants(){
         let options = {
             method: 'GET',
@@ -50,7 +48,8 @@ let SplashPaymentService = {
                     email: email
                 }],
                 //established: "20060101", // -
-                new: SPLASH_PAYMENT.merchant.new, // An indicator that specifies whether the Merchant is new to credit card processing. A value of '1' means new
+                new: SPLASH_PAYMENT.merchant.new, // An indicator that specifies whether the Merchant is new to credit
+                                                  // card processing. A value of '1' means new
                 annualCCSales: SPLASH_PAYMENT.merchant.annualCCSales, // ???
                 status: SPLASH_PAYMENT.merchant.status,
                 mcc: SPLASH_PAYMENT.merchant.mcc  // required.
@@ -73,56 +72,66 @@ let SplashPaymentService = {
     },
 
     createMerchantFull(user, merchantData, email){
-
-        var merchantArray;
+        let merchantArray;
 
         return SplashPaymentService.createMerchant(user, merchantData, email)
-            .then((merchantResponse) => {
-                merchantArray = JSON.parse(merchantResponse);
-                user.spMerchantId = merchantArray[0].merchant.id;
+            .then(
+                (merchantResponse) => {
+                    merchantArray = JSON.parse(merchantResponse);
+                    user.spMerchantId = merchantArray[0].merchant.id;
 
-                return UserService.update({id: user.id}, user);
-            })
-            .then(() => SplashPaymentService.getMerchantEntity(user.spMerchantId))
-            .then((merchantEntity) => [merchantEntity, SplashPaymentService.createMerchantFee(merchantEntity.id)]);
+                    return UserService.update({id: user.id}, user);
+                }
+            )
+            .then(
+                () => SplashPaymentService.getMerchantEntity(user.spMerchantId)
+            )
+            .then(
+                (merchantEntity) => [merchantEntity, SplashPaymentService.createMerchantFee(merchantEntity.id)]
+            );
     },
 
     updateMerchantEntity(id, merchantData){
 
         return SplashPaymentService.getMerchant(id)
-            .then(function (merchantResp) {
-                var merchant = JSON.parse(merchantResp);
-                if (merchant.length == 0) {
+            .then(
+                (merchantResp) => {
+                    let merchant = JSON.parse(merchantResp);
 
-                    return Promise.reject('Merchant was not found');
+                    if (merchant.length === 0) {
+
+                        return Promise.reject('Merchant was not found');
+                    }
+
+                    return merchant[0].entity;
                 }
+            )
+            .then(
+                (entityId) => {
+                    let options = {
+                        method: 'PUT',
+                        path: `${SPLASH_PAYMENT.endpoints.entities}/${entityId}`
+                    };
 
-                return merchant[0].entity;
-            })
-            .then(function (entityId) {
-                var options = {
-                    method: 'PUT',
-                    path: SPLASH_PAYMENT.endpoints.entities + '/' + entityId
-                };
+                    let bodyJson = {
+                        address1: merchantData.address1,
+                        state: merchantData.state,
+                        city: merchantData.city,
+                        zip: merchantData.zip
+                    };
 
-                var bodyJson = {
-                    address1: merchantData.address1,
-                    state: merchantData.state,
-                    city: merchantData.city,
-                    zip: merchantData.zip
-                };
+                    return SplashPaymentService.makeRequest(options, bodyJson);
+                }
+            )
+            .then((merchantEntity) => {
+                let merchantEntityArr = JSON.parse(merchantEntity);
 
-                return SplashPaymentService.makeRequest(options, bodyJson)
-                    .then((merchantEntity) => {
-                        var merchantEntityArr = JSON.parse(merchantEntity);
-                        return merchantEntityArr[0];
-                    });
+                return merchantEntityArr[0];
             });
-
     },
 
     getCustomers(){
-        var options = {
+        let options = {
             method: 'GET',
             path: SPLASH_PAYMENT.endpoints.customers
         };
@@ -131,21 +140,20 @@ let SplashPaymentService = {
     },
 
     getCustomer(entityId){
-        var options = {
+        let options = {
             method: 'GET',
-            path: SPLASH_PAYMENT.endpoints.customers +'/' + entityId
+            path: SPLASH_PAYMENT.endpoints.customers + '/' + entityId
         };
 
         return SplashPaymentService.makeRequest(options);
     },
 
     createCustomer(user, email){ // customerData,
-
-        var options = {
+        let options = {
             method: 'POST',
             path: SPLASH_PAYMENT.endpoints.customers
         };
-        var bodyJson = {
+        let bodyJson = {
             first: user.firstName, // auth.user.firstName
             last: user.lastName, // auth.user.lastName
             email: email, // auth.email
@@ -154,19 +162,18 @@ let SplashPaymentService = {
             //    state: customerData.state, // !! not defined. is it required ??
             //    zip: customerData.zip, // !! not defined. is it required ??
             phone: user.phoneNumber // auth.user.phoneNumber
-
         };
 
         return SplashPaymentService.makeRequest(options, bodyJson);
     },
 
     updateCustomer(id, user, email, customerData){
-        var options = {
+        let options = {
             method: 'PUT',
             path: SPLASH_PAYMENT.endpoints.customers + '/' + id
         };
 
-        var bodyJson = {
+        let bodyJson = {
             first: user.firstName, // auth.user.firstName
             last: user.lastName, // auth.user.lastName
             email: email, // auth.email
@@ -182,54 +189,62 @@ let SplashPaymentService = {
     },
 
     getCustomerTokens(customerId){
-        var options = {
+        let options = {
             method: 'GET',
             path: SPLASH_PAYMENT.endpoints.tokens,
             headers: {'SEARCH': 'customer[equals]=' + customerId}
         };
+
         return SplashPaymentService.makeRequest(options);
     },
 
     createCustomerToken(customerId, params){
-        var options = {
+        let options = {
             method: 'POST',
             path: SPLASH_PAYMENT.endpoints.tokens
         };
-
         let firstNum = parseInt(params.number.charAt(0), 10);
-        if(SPLASH_PAYMENT.payment_methods[firstNum].method === undefined){
+
+        if (SPLASH_PAYMENT.payment_methods[firstNum].method === undefined) {
 
             return Promise.reject('This type of cards not supports');
         }
 
-        var bodyJson = {
-            "customer": customerId,
-            "payment": {
-                "method": SPLASH_PAYMENT.payment_methods[firstNum].method,
-                "number": params.number,
-                "cvv": params.cvv
+        let bodyJson = {
+            'customer': customerId,
+            'payment': {
+                'method': SPLASH_PAYMENT.payment_methods[firstNum].method,
+                'number': params.number,
+                'cvv': params.cvv
             },
-            "expiration": params.expiration
+            'expiration': params.expiration
         };
 
         return SplashPaymentService.makeRequest(options, bodyJson)
-            .then((tokenData) =>{
-                var tokens = JSON.parse(tokenData);
-                return tokens[0];
-            });
+            .then(
+                (tokenData) => {
+                    let tokens = JSON.parse(tokenData);
+
+                    return tokens[0];
+                }
+            );
     },
 
     updateCustomerToken(user, spCustomerId, params) {
 
         return SplashPaymentService.deleteCustomerTokens(spCustomerId)
-            .then(() => {
+            .then(
+                () => {
 
-                return SplashPaymentService.createCustomerToken(spCustomerId, params)
-            })
-            .then((token) => {
+                    return SplashPaymentService.createCustomerToken(spCustomerId, params);
+                }
+            )
+            .then(
+                (token) => {
 
-                return [token.payment.number, User.update({id: user.id}, user)];
-            })
+                    return [token.payment.number, User.update({id: user.id}, user)];
+                }
+            )
             .spread((paymentNumber) => {
 
                 return paymentNumber;
@@ -238,41 +253,48 @@ let SplashPaymentService = {
 
     deleteCustomerTokens(customerId){
         return SplashPaymentService.getCustomerTokens(customerId)
-            .then((tokensString)=> {
-                var tokens = JSON.parse(tokensString);
-                if (!tokens || tokens.length == 0) {
+            .then((tokensString) => {
+                let tokens = JSON.parse(tokensString);
+
+                if (!tokens || tokens.length === 0) {
 
                     return Promise.resolve(); // nothing to delete
                 }
-                var arrayOfPromises = tokens.map(function (token) {
-                    var options = {
-                        method: 'DELETE',
-                        path: SPLASH_PAYMENT.endpoints.tokens + '/' + token.id
-                    };
 
-                    return SplashPaymentService.makeRequest(options);
-                });
+                let arrayOfPromises = tokens.map(
+                    (token) => {
+                        let options = {
+                            method: 'DELETE',
+                            path: `${SPLASH_PAYMENT.endpoints.tokens}/${token.id}`
+                        };
+
+                        return SplashPaymentService.makeRequest(options);
+                    }
+                );
+
                 return Promise.all(arrayOfPromises);
             });
     },
 
     getMerchantPayouts(entityId){
-        var options = {
+        let options = {
             method: 'GET',
             path: SPLASH_PAYMENT.endpoints.payouts,
-            headers: {'SEARCH': 'entity[equals]=' + entityId}
+            headers: {
+                'SEARCH': `entity[equals]=${entityId}`
+            }
         };
+
         return SplashPaymentService.makeRequest(options);
     },
 
     createMerchantPayout(entityId, accountToken){
-
-        var options = {
+        let options = {
             method: 'POST',
             path: SPLASH_PAYMENT.endpoints.payouts
         };
 
-        var bodyJson = {
+        let bodyJson = {
             entity: entityId,
             account: accountToken, // ??? like ece7798046b853d39a69446b621aad8b
             name: SPLASH_PAYMENT.payout.name,
@@ -281,58 +303,68 @@ let SplashPaymentService = {
             amount: SPLASH_PAYMENT.payout.amount,
             start: SplashPaymentService._getDateString() // today
         };
+
         return SplashPaymentService.makeRequest(options, bodyJson);
     },
 
     withdrawal(Id){
 
         return SplashPaymentService.getMerchantEntity(Id)
-            .then((merchantEntity) => {
-                return [merchantEntity,SplashPaymentService.isCreatedMerchantTodaysPayout(merchantEntity.id)];
-            })
-            .spread((merchantEntity,payoutCreated) =>{
-                if(payoutCreated){
+            .then(
+                (merchantEntity) => {
 
-                    return Promise.reject('Payout already created');
+                    return [merchantEntity, SplashPaymentService.isCreatedMerchantTodaysPayout(merchantEntity.id)];
                 }
+            )
+            .spread(
+                (merchantEntity, payoutCreated) => {
+                    if (payoutCreated) {
 
-                return [merchantEntity.id,SplashPaymentService.getMerchantAccounts(Id)];
-            })
-            .spread((entityId, accounts) => {
-                var accountToken = accounts[0].token;
+                        return Promise.reject('Payout already created');
+                    }
 
-                var options = {
-                    method: 'POST',
-                    path: SPLASH_PAYMENT.endpoints.payouts
-                };
+                    return [merchantEntity.id, SplashPaymentService.getMerchantAccounts(Id)];
+                }
+            )
+            .spread(
+                (entityId, accounts) => {
+                    let accountToken = accounts[0].token;
 
-                var bodyJson = {
-                    entity: entityId,
-                    account: accountToken, // ??? like ece7798046b853d39a69446b621aad8b
-                    name: SPLASH_PAYMENT.payout.name,
-                    schedule: SPLASH_PAYMENT.payout.schedule,
-                    um: SPLASH_PAYMENT.payout.unitOfMeasure,
-                    amount: SPLASH_PAYMENT.payout.amount,
-                    start: SplashPaymentService._getDateString() // today
-                };
-                return SplashPaymentService.makeRequest(options, bodyJson);
-            })
-            .then((payoutResponse) => {
-                var payoutArray = JSON.parse(payoutResponse);
+                    let options = {
+                        method: 'POST',
+                        path: SPLASH_PAYMENT.endpoints.payouts
+                    };
 
-                return payoutArray;
-            })
+                    let bodyJson = {
+                        entity: entityId,
+                        account: accountToken, // ??? like ece7798046b853d39a69446b621aad8b
+                        name: SPLASH_PAYMENT.payout.name,
+                        schedule: SPLASH_PAYMENT.payout.schedule,
+                        um: SPLASH_PAYMENT.payout.unitOfMeasure,
+                        amount: SPLASH_PAYMENT.payout.amount,
+                        start: SplashPaymentService._getDateString() // today
+                    };
 
+                    return SplashPaymentService.makeRequest(options, bodyJson);
+                }
+            )
+            .then(
+                (payoutResponse) => {
+                    let payoutArray = JSON.parse(payoutResponse);
+
+                    return payoutArray;
+                }
+            );
     },
     // not using yet
     updateMerchantPayout(payoutId){
-        var options = {
+        let options = {
             method: 'PUT',
             path: SPLASH_PAYMENT.endpoints.payouts + '/' + payoutId
         };
 
-        var bodyJson = {
-            name: "Update2 payout",
+        let bodyJson = {
+            name: 'Update2 payout',
             schedule: 1,
             um: 1,
             amount: 2000,
@@ -343,13 +375,12 @@ let SplashPaymentService = {
     },
 
     createMerchantFee(entityId){
-
-        var options = {
+        let options = {
             method: 'POST',
             path: SPLASH_PAYMENT.endpoints.fees
         };
 
-        var bodyJson = {
+        let bodyJson = {
             name: SPLASH_PAYMENT.fee.name,
             um: SPLASH_PAYMENT.fee.unitOfMeasure,
             amount: SPLASH_PAYMENT.fee.amount,
@@ -364,199 +395,257 @@ let SplashPaymentService = {
     },
 
     isCreatedMerchantTodaysPayout(entityId){
-
-        var options = {
+        let options = {
             method: 'GET',
             path: SPLASH_PAYMENT.endpoints.payouts,
-            headers: {'SEARCH': 'and[][entity][equals]=' + entityId + '&and[][start][equals]=' + SplashPaymentService._getDateString()}
+            headers: {
+                'SEARCH': `and[][entity][equals]=${entityId} &and[][start][equals]=${this._getDateString()}`
+            }
         };
 
         return SplashPaymentService.makeRequest(options)
-            .then((payoutsData) =>{
-                var payouts = JSON.parse(payoutsData);
-                return payouts.length > 0;
-            });
+            .then(
+                (payoutsData) => {
+                    let payouts = JSON.parse(payoutsData);
+
+                    return payouts.length > 0;
+                }
+            );
     },
 
     getMerchantEntity(Id){
 
-        return this.getMerchant(Id).then((merchantResp)=> {
-            var merchant = JSON.parse(merchantResp);
-            if (merchant.length == 0) {
-                return Promise.reject('Merchant was not found');
-            }
+        return this.getMerchant(Id)
+            .then(
+                (merchantResp) => {
+                    let merchant = JSON.parse(merchantResp);
 
-            var options = {
-                method: 'GET',
-                path: SPLASH_PAYMENT.endpoints.entities + '/' + merchant[0].entity
-            };
-            return SplashPaymentService.makeRequest(options)
-                .then((merchantEntity) => {
-                    var merchantEntityArr = JSON.parse(merchantEntity);
+                    if (merchant.length === 0) {
+
+                        return Promise.reject('Merchant was not found');
+                    }
+
+                    let options = {
+                        method: 'GET',
+                        path: SPLASH_PAYMENT.endpoints.entities + '/' + merchant[0].entity
+                    };
+
+                    return SplashPaymentService.makeRequest(options);
+                }
+            )
+            .then(
+                (merchantEntity) => {
+                    let merchantEntityArr = JSON.parse(merchantEntity);
+
                     return merchantEntityArr[0];
-                });
-        });
+                }
+            );
     },
 
     getMerchantFunds(Id){
 
         return this.getMerchant(Id)
-            .then((merchantResp)=> {
-                var merchant = JSON.parse(merchantResp);
-                if (merchant.length == 0) {
-                    return Promise.reject('merchant was not found');
+            .then(
+                (merchantResp) => {
+                    let merchant = JSON.parse(merchantResp);
+
+                    if (merchant.length === 0) {
+
+                        return Promise.reject('merchant was not found');
+                    }
+
+                    let options = {
+                        method: 'GET',
+                        path: SPLASH_PAYMENT.endpoints.funds,
+                        headers: {
+                            'SEARCH': `entity[equals]=${merchant[0].entity}`
+                        }
+                    };
+
+                    return SplashPaymentService.makeRequest(options);
                 }
-
-                var options = {
-                    method: 'GET',
-                    path: SPLASH_PAYMENT.endpoints.funds,
-                    headers: {'SEARCH': 'entity[equals]=' + merchant[0].entity}
-                };
-
-                return SplashPaymentService.makeRequest(options);
-            })
+            )
             .then((merchantFundsResponse) => {
-                var merchantFundsArr = JSON.parse(merchantFundsResponse)
+                let merchantFundsArr = JSON.parse(merchantFundsResponse);
+
                 return merchantFundsArr[0];
             });
     },
 
     getMerchantAccounts(Id){
 
-        return this.getMerchant(Id).then((merchantResp)=> {
-            var merchant = JSON.parse(merchantResp);
-            if (merchant.length === 0) {
+        return this.getMerchant(Id)
+            .then(
+                (merchantResp) => {
+                    let merchant = JSON.parse(merchantResp);
 
-                return Promise.reject('Merchant was not found');
-            }
+                    if (merchant.length === 0) {
 
-            var options = {
-                method: 'GET',
-                path: SPLASH_PAYMENT.endpoints.accounts,
-                headers: {'SEARCH': 'entity[equals]=' + merchant[0].entity}
-            };
-            return SplashPaymentService.makeRequest(options)
-                .then((merchantAccounts) => {
-                    return JSON.parse(merchantAccounts);
-                });
-        });
+                        return Promise.reject('Merchant was not found');
+                    }
+
+                    let options = {
+                        method: 'GET',
+                        path: SPLASH_PAYMENT.endpoints.accounts,
+                        headers: {
+                            'SEARCH': `entity[equals]=${merchant[0].entity}`
+                        }
+                    };
+
+                    return SplashPaymentService.makeRequest(options);
+                }
+            )
+            .then(
+                (merchantAccounts) => JSON.parse(merchantAccounts)
+            );
     },
 
     setMerchantAccount(user, paymentData) {
 
         return SplashPaymentService.getMerchantAccounts(user.spMerchantId)
-            .then((merchantAccounts)=> {
-            var accountsArray;
+            .then(
+                (merchantAccounts) => {
 
-            if (merchantAccounts.length === 0) {
-                return SplashPaymentService.createMerchantAccount(user.spMerchantId, paymentData)
-                    .then((merchantAccounts)=> {
-                        return merchantAccounts;
-                    });
-            } else {
-                return SplashPaymentService.updateMerchantAccount(merchantAccounts[0].id, paymentData)
-                    .then(function (merchantAccounts) {
-                        return merchantAccounts;
-                    })
-            }
-        });
+                    if (merchantAccounts.length === 0) {
 
+                        return SplashPaymentService.createMerchantAccount(user.spMerchantId, paymentData);
+                    } else {
+
+                        return SplashPaymentService.updateMerchantAccount(merchantAccounts[0].id, paymentData);
+                    }
+                }
+            );
     },
 
     createMerchantAccount(Id, paymentData){
 
         return SplashPaymentService.getMerchant(Id)
-            .then(function (merchant) {
-                var merchantResonse = JSON.parse(merchant);
-                var entityId = merchantResonse[0].entity;
-                var options = {
-                    method: 'POST',
-                    path: SPLASH_PAYMENT.endpoints.accounts
-                };
+            .then(
+                (merchant) => {
+                    let merchantResonse = JSON.parse(merchant);
+                    let entityId = merchantResonse[0].entity;
+                    let options = {
+                        method: 'POST',
+                        path: SPLASH_PAYMENT.endpoints.accounts
+                    };
 
-                var bodyJson = {
-                    "entity": entityId, // merchant entity like "g158418cf1e8276"
-                    "account": {
-                        "method": paymentData.method, // The type of the Account. This field is specified as an integer. Valid values are: '8': Checking account '9': Savings account '10': Corporate checking account, and '11': Corporate savings account
-                        "routing": paymentData.routing,
-                        "number": paymentData.number
-                    },
-                    "name": "******" + paymentData.number.substring(paymentData.number.length - 4, paymentData.number.length),  // get number and hide all symbols except 4 last
-                    "primary": SPLASH_PAYMENT.account.primary, // always 1 cause only one account allowed
-                    "status": SPLASH_PAYMENT.account.status, //  '0': Not Ready. The account holder is not yet ready to verify the Account. '1': Ready. The account is ready to be verified. '2': Challenged - the account has processed the challenge. '3': Verified. The Account has been verified. '4': Manual. There has been an issue during verification, and further attempts to verify the Account will require manual intervention.
-                    "currency": SPLASH_PAYMENT.account.currency // only USD supported
-                };
+                    let bodyJson = {
+                        'entity': entityId, // merchant entity like "g158418cf1e8276"
+                        'account': {
+                            'method': paymentData.method, // The type of the Account.
+                                                          // This field is specified as an integer.
+                                                          // Valid values are:
+                                                          // '8': Checking account
+                                                          // '9': Savings account
+                                                          // '10': Corporate checking account, and
+                                                          // '11': Corporate savings account
+                            'routing': paymentData.routing,
+                            'number': paymentData.number
+                        },
+                        'name': '******' +
+                        paymentData.number.substring(paymentData.number.length - 4, paymentData.number.length),  // get
+                                                                                                                 // number
+                                                                                                                 // and
+                                                                                                                 // hide
+                                                                                                                 // all
+                                                                                                                 // symbols
+                                                                                                                 // except
+                                                                                                                 // 4
+                                                                                                                 // last
+                        'primary': SPLASH_PAYMENT.account.primary, // always 1 cause only one account allowed
+                        'status': SPLASH_PAYMENT.account.status, //  '0': Not Ready. The account holder is not yet
+                                                                 // ready to verify the Account. '1': Ready. The
+                                                                 // account is ready to be verified. '2': Challenged -
+                                                                 // the account has processed the challenge. '3':
+                                                                 // Verified. The Account has been verified. '4':
+                                                                 // Manual. There has been an issue during
+                                                                 // verification, and further attempts to verify the
+                                                                 // Account will require manual intervention.
+                        'currency': SPLASH_PAYMENT.account.currency // only USD supported
+                    };
 
-                return SplashPaymentService.makeRequest(options, bodyJson)
-                    .then(createMerchantAccountComplete);
-
-                function createMerchantAccountComplete(response) {
-
-                    return JSON.parse(response);
+                    return SplashPaymentService.makeRequest(options, bodyJson);
                 }
-            });
+            )
+            .then(
+                (response) => JSON.parse(response)
+            );
     },
 
     updateMerchantAccount(accountId, paymentData){
-        var options = {
+        let options = {
             method: 'PUT',
             path: SPLASH_PAYMENT.endpoints.accounts + '/' + accountId
         };
 
-        var bodyJson = {
-            "account": {
-                "method": paymentData.method,
-                "routing": paymentData.routing,
-                "number": paymentData.number
+        let bodyJson = {
+            'account': {
+                'method': paymentData.method,
+                'routing': paymentData.routing,
+                'number': paymentData.number
             },
-            "name": "******" + paymentData.number.substring(paymentData.number.length - 4, paymentData.number.length),  // get number and hide all symbols except 4 last
+            'name': '******' + paymentData.number.substring(paymentData.number.length - 4, paymentData.number.length),
+            // get number and hide all symbols except 4 last
         };
 
         return SplashPaymentService.makeRequest(options, bodyJson)
-            .then(updateMerchantAccountComplete);
-
-        function updateMerchantAccountComplete(response) {
-
-            return JSON.parse(response)
-        }
+            .then(
+                (response) => JSON.parse(response)
+            );
     },
 
     deleteMerchantAccounts(merchantId){
-        return SplashPaymentService.getMerchantAccounts(merchantId)
-            .then((accountsString)=> {
-                var accounts = JSON.parse(accountsString);
-                if (!accounts || accounts.lenght == 0) {
-                    return Promise.resolve(); // nothing to delete
-                }
-                var arrayOfPromises = accounts.map(function (account) {
-                    var options = {
-                        method: 'DELETE',
-                        path: SPLASH_PAYMENT.endpoints.accounts + '/' + account.id
-                    };
 
-                    return SplashPaymentService.makeRequest(options);
-                });
-                return Promise.all(arrayOfPromises);
-            });
+        return SplashPaymentService.getMerchantAccounts(merchantId)
+            .then(
+                (accountsString) => {
+                    let accounts = JSON.parse(accountsString);
+
+                    if (!accounts || accounts.lenght === 0) {
+
+                        return Promise.resolve(); // nothing to delete
+                    }
+
+                    let arrayOfPromises = accounts.map(
+                        (account) => {
+                            let options = {
+                                method: 'DELETE',
+                                path: SPLASH_PAYMENT.endpoints.accounts + '/' + account.id
+                            };
+
+                            return SplashPaymentService.makeRequest(options);
+                        }
+                    );
+
+                    return Promise.all(arrayOfPromises);
+                }
+            );
     },
 
     createAuthTxnByToken(spCustomerId, params) {
+
         return SplashPaymentService.getCustomerTokens(spCustomerId)
-            .then((tokensRes)=> {
-                var tokens = JSON.parse(tokensRes);
-                return tokens[0].token;
-            }).then((token) => {
-            return SplashPaymentService.createAuthTxn(token, params);
-        })
+            .then(
+                (tokensRes) => {
+                    let tokens = JSON.parse(tokensRes);
+
+                    return tokens[0].token;
+                }
+            ).then(
+                (token) => {
+
+                    return SplashPaymentService.createAuthTxn(token, params);
+                }
+            );
     },
 
     createAuthTxn(token, params){
-        var options = {
+        let options = {
             method: 'POST',
             path: SPLASH_PAYMENT.endpoints.txns
         };
 
-        var bodyJson = {
+        let bodyJson = {
             token: token,
             merchant: params.merchantId,
             total: params.amount * 100, // total amount in cents
@@ -570,127 +659,146 @@ let SplashPaymentService = {
     createCaptureTxn(spCustomerId, merchantId, fortxn){
 
         return SplashPaymentService.getCustomerTokens(spCustomerId)
-            .then((tokensRes)=> {
-                var tokens = JSON.parse(tokensRes);
+            .then(
+                (tokensRes) => {
+                    let tokens = JSON.parse(tokensRes);
 
-                return tokens[0].token;
-            })
-            .then((token) => {
+                    return tokens[0].token;
+                }
+            )
+            .then(
+                (token) => {
+                    let options = {
+                        method: 'POST',
+                        path: SPLASH_PAYMENT.endpoints.txns
+                    };
 
-                var options = {
-                    method: 'POST',
-                    path: SPLASH_PAYMENT.endpoints.txns
-                };
+                    let bodyJson = {
+                        token: token,
+                        fortxn: fortxn,
+                        merchant: merchantId,
+                        type: SPLASH_PAYMENT.txn.types.capture,
+                        origin: SPLASH_PAYMENT.txn.origin
+                    };
 
-                var bodyJson = {
-                    token: token,
-                    fortxn: fortxn,
-                    merchant: merchantId,
-                    type: SPLASH_PAYMENT.txn.types.capture,
-                    origin: SPLASH_PAYMENT.txn.origin
-                };
-
-                return SplashPaymentService.makeRequest(options, bodyJson);
-            });
+                    return SplashPaymentService.makeRequest(options, bodyJson);
+                }
+            );
     },
 
     createReverseAuthTxn(spCustomerId, merchantId, fortxn){
 
         return SplashPaymentService.getCustomerTokens(spCustomerId)
-            .then((tokensRes)=> {
-                var tokens = JSON.parse(tokensRes);
-                return tokens[0].token;
-            })
-            .then((token) => {
-                var options = {
-                    method: 'POST',
-                    path: SPLASH_PAYMENT.endpoints.txns
-                };
+            .then(
+                (tokensRes) => {
+                    let tokens = JSON.parse(tokensRes);
 
-                var bodyJson = {
-                    token: token,
-                    fortxn: fortxn,
-                    merchant: merchantId,
-                    type: SPLASH_PAYMENT.txn.types.authReversal,
-                    origin: SPLASH_PAYMENT.txn.origin
-                };
+                    return tokens[0].token;
+                }
+            )
+            .then(
+                (token) => {
+                    let options = {
+                        method: 'POST',
+                        path: SPLASH_PAYMENT.endpoints.txns
+                    };
 
-                return SplashPaymentService.makeRequest(options, bodyJson);
-            });
+                    let bodyJson = {
+                        token: token,
+                        fortxn: fortxn,
+                        merchant: merchantId,
+                        type: SPLASH_PAYMENT.txn.types.authReversal,
+                        origin: SPLASH_PAYMENT.txn.origin
+                    };
+
+                    return SplashPaymentService.makeRequest(options, bodyJson);
+                }
+            );
     },
 
     createTokenAndAuthTxn(user, params) {
-        var token = {}; // todo: use spread ??
+
         return SplashPaymentService.deleteCustomerTokens(user.spCustomerId)
-            .then(() => {
+            .then(
+                () => SplashPaymentService.createCustomerToken(user.spCustomerId, params.txnData)
+            )
+            .then(
+                (token) => {
+                    if (!token) {
 
-                return SplashPaymentService.createCustomerToken(user.spCustomerId, params.txnData)
-            })
-            .then((tokenRes) => {
-                if (!tokenRes) {
-                    return Promise.reject('Error during saving payment info')
+                        return Promise.reject('Error during saving payment info');
+                    }
+
+                    user.spCardNumber = token.payment.number;
+
+                    return [token, User.update({id: user.id}, user)];
                 }
-                token = tokenRes;
-                user.spCardNumber = token.payment.number;
-
-                return User.update({id: user.id}, user);  // todo: use spread ??
-            }).then((updatedUsers) => {
-
-                return [updatedUsers[0].spCardNumber,SplashPaymentService.createAuthTxn(token.token, params)];
-            })
+            )
+            .spread(
+                (token, updatedUsers) => [
+                    updatedUsers[0].spCardNumber,
+                    SplashPaymentService.createAuthTxn(token.token, params)
+                ]
+            );
     },
 
     makeRequest(options, bodyJson){
-        const https = require('https');
-
         options.host = SPLASH_PAYMENT.host;
+
         if (!options.headers) {
             options.headers = {};
         }
+
         options.headers['Content-Type'] = SPLASH_PAYMENT.contentType;
-        options.headers['APIKEY'] = SPLASH_PAYMENT.apikey;
+        options.headers.APIKEY = SPLASH_PAYMENT.apikey;
 
 
         // return new pending promise
-        return new Promise((resolve, reject) => {
+        return new Promise(
+            (resolve, reject) => {
+                let req = https.request(options, (res) => {
+                    // temporary data holder
+                    const body = [];
 
-            var req = https.request(options, (res) => {
-                // temporary data holder
-                const body = [];
-                res.on('data', (chunk) => {
-                    var response = JSON.parse(chunk);
-                    if (!response.response || !response.response.data) {
+                    res.on('data', (chunk) => {
+                        let response = JSON.parse(chunk);
 
-                        return Promise.reject('unhandled response from SP');
-                    }
-                    body.push(JSON.stringify(response.response.data));
+                        if (!response.response || !response.response.data) {
+
+                            return reject('unhandled response from SP');
+                        }
+
+                        body.push(JSON.stringify(response.response.data));
+                    });
+
+                    // we are done, resolve promise with those joined chunks
+                    res.on('end', () => resolve(body.join('')));
                 });
-                // we are done, resolve promise with those joined chunks
-                res.on('end', () => resolve(body.join('')));
+
+                let body = JSON.stringify(bodyJson);
+
+                req.end(body);
+
+                req.on('error', (e) => {
+                    sails.log.error(e);
+                });
             });
-
-            var body = JSON.stringify(bodyJson);
-            req.end(body);
-
-            req.on('error', (e) => {
-                sails.log.error(e);
-            });
-
-
-        })
     },
     _getDateString(){
-
         let d = new Date();
+
         let day = d.getDate();
+        let month = d.getMonth() + 1;
+        let year = d.getFullYear();
+
         if (day < 10) {
             day = '0' + day;
         }
-        let month = d.getMonth() + 1;
+
         if (month < 10) {
             month = '0' + month;
         }
-        let year = d.getFullYear();
+
         return String(year) + String(month) + String(day);
     }
 };
