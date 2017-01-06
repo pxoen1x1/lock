@@ -28,6 +28,17 @@
                         controllerAs: 'vm'
                     }
                 }
+            })
+            .state('dashboard', {
+                parent: 'root',
+                url: '/',
+                views: {
+                    'content@root': {
+                        templateUrl: 'dashboard/dashboard.html',
+                        controller: 'DashboardController',
+                        controllerAs: 'vm'
+                    }
+                }
             });
 
         $urlRouterProvider.otherwise('/');
