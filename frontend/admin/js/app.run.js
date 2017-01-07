@@ -20,10 +20,13 @@
         $rootScope.$state = $state;
         $rootScope.$mdMedia = $mdMedia;
 
+
         $rootScope.$on('$stateChangeStart', function (event, toState) {
             cfpLoadingBar.start();
 
             var isStatePublic = !!(toState.data && toState.data.isPublic);
+
+            $rootScope.MENU_ITEMS = getMenuItems();
 
             if (!authService.authorize(isStatePublic)) {
                 cfpLoadingBar.complete();
@@ -44,5 +47,21 @@
         $rootScope.$on('$stateNotFound', function () {
             cfpLoadingBar.complete();
         });
+
+        function getMenuItems() {
+            var menuItems = [];
+            var states = $state.get();
+
+            states.forEach(function (state) {
+                if (state.data && state.data.menuItem) {
+                    var menuItem = state.data.menuItem;
+                    menuItem.state = state.name;
+
+                    menuItems.push(menuItem);
+                }
+            });
+
+            return menuItems;
+        }
     }
 })();

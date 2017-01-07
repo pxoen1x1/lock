@@ -35,18 +35,24 @@
                     isPublic: true
                 }
             })
-            .state('dashboard', {
+            .state('users', {
                 parent: 'root',
-                url: '/',
+                url: '/users',
                 views: {
                     'content@root': {
                         templateUrl: 'dashboard/dashboard.html',
                         controller: 'DashboardController',
                         controllerAs: 'vm'
                     }
+                },
+                data: {
+                    menuItem: {
+                        title: 'Users',
+                        icon: 'people'
+                    }
                 }
             });
 
-        $urlRouterProvider.otherwise('/');
+        $urlRouterProvider.otherwise('/users');
     }
 })();
