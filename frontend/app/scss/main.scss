@@ -52,7 +52,7 @@ $panel-background-color: rgb(245, 245, 245);
 .md-button {
   &.md-button-blue {
 
-    &, &.md-fab {
+    &, &:not([disabled]), &.md-fab {
 
       &, md-icon {
         color: #fff;
@@ -81,7 +81,7 @@ $panel-background-color: rgb(245, 245, 245);
   }
 
   &.md-button-green {
-    &, &.md-fab {
+    &, &:not([disabled]), &.md-fab {
 
       &, md-icon {
         color: #fff;
@@ -110,7 +110,7 @@ $panel-background-color: rgb(245, 245, 245);
   }
 
   &.md-button-red {
-    &, &.md-fab {
+    &, &:not([disabled]), &.md-fab {
       &, md-icon {
         color: #fff;
       }
