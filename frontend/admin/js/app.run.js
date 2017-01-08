@@ -10,12 +10,11 @@
         '$state',
         '$mdMedia',
         'cfpLoadingBar',
-        'authService',
-        'toastService'
+        'authService'
     ];
 
     /* @ngInject */
-    function runApp($rootScope, $state, $mdMedia, cfpLoadingBar, authService, toastService) {
+    function runApp($rootScope, $state, $mdMedia, cfpLoadingBar, authService) {
 
         $rootScope.$state = $state;
         $rootScope.$mdMedia = $mdMedia;
@@ -24,15 +23,13 @@
         $rootScope.$on('$stateChangeStart', function (event, toState) {
             cfpLoadingBar.start();
 
-            var isStatePublic = !!(toState.data && toState.data.isPublic);
-
             $rootScope.MENU_ITEMS = getMenuItems();
+
+            var isStatePublic = !!(toState.data && toState.data.isPublic);
 
             if (!authService.authorize(isStatePublic)) {
                 cfpLoadingBar.complete();
                 event.preventDefault();
-
-                toastService.warning('Please log in.');
 
                 $state.go('login');
             }
@@ -56,6 +53,7 @@
                 if (state.data && state.data.menuItem) {
                     var menuItem = state.data.menuItem;
                     menuItem.state = state.name;
+                    menuItem.title = state.data.title;
 
                     menuItems.push(menuItem);
                 }
