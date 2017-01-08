@@ -17,13 +17,14 @@
         };
         return service;
 
-        function authorize(access) {
-            if (access) {
+        function authorize(isPublicPage) {
 
-                return isAuthenticated();
+            if (isPublicPage) {
+
+                return true;
             }
 
-            return true;
+            return isAuthenticated();
         }
 
         function isAuthenticated() {
@@ -76,7 +77,6 @@
 
         function clearData() {
             localService.removeAuth();
-            localService.removeUser();
         }
     }
 })();
