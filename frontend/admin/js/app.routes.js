@@ -19,6 +19,9 @@
                     },
                     'menu@root': {
                         templateUrl: 'layout/menu.html'
+                    },
+                    'header@root': {
+                        templateUrl: 'layout/header.html'
                     }
                 }
             })
@@ -46,8 +49,8 @@
                     }
                 },
                 data: {
+                    title: 'Users',
                     menuItem: {
-                        title: 'Users',
                         icon: 'people'
                     }
                 }
