@@ -31,7 +31,7 @@
 
             login(user)
                 .then(function () {
-                    $state.go('dashboard');
+                    $state.go('users');
                 })
                 .catch(function (error) {
                     if (error.isShown) {
