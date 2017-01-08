@@ -3,12 +3,12 @@
 
     angular
         .module('app')
-        .controller('DashboardController', DashboardController);
+        .controller('UsersController', UsersController);
 
-    DashboardController.$inject = ['$state'];
+    UsersController.$inject = ['$state'];
 
     /* @ngInject */
-    function DashboardController($state) {
+    function UsersController($state) {
         var vm = this;
 
         activate();

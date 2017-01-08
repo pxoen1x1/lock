@@ -43,8 +43,8 @@
                 url: '/users',
                 views: {
                     'content@root': {
-                        templateUrl: 'dashboard/dashboard.html',
-                        controller: 'DashboardController',
+                        templateUrl: 'users/users.html',
+                        controller: 'UsersController',
                         controllerAs: 'vm'
                     }
                 },
