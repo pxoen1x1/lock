@@ -179,7 +179,6 @@
                 .then(function (user) {
 
                     vm.userProfile = user;
-                    vm.nonChangedUserProfile = user;
 
                     return coreDataservice.getMerchantAccount()
                         .then(function (userPayment) {
@@ -224,6 +223,7 @@
         function cancelEditing() {
             vm.userProfile = vm.nonChangedUserProfile;
             vm.isEditingCustomer = false;
+            vm.isEditing = false;
         }
 
         function activate() {
