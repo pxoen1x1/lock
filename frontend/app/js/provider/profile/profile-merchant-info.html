@@ -4,7 +4,7 @@
          layout-align="center center"
          layout-align-gt-xs="start center">
     </div>
-    <div>
+    <div layout="column">
         <div class="section first">
             <span class="md-body-2">Address:</span>
             <span class="md-body-1" ng-bind="vm.userProfile.merchantData.address1"></span>
@@ -30,7 +30,7 @@
     <form name="editMerchantForm"
           novalidate
           ng-submit="vm.updateMerchant(vm.userProfile, editMerchantForm.$valid)">
-        <div layout="row">
+        <div layout="column">
             <md-input-container class="md-block" flex>
                 <label>Address</label>
                 <input name="paymentRouting"
@@ -70,7 +70,10 @@
                    ng-if="vm.isEditingMerchant">
             Save
         </md-button>
-        <md-button ng-click="vm.isEditingMerchant = false" ng-if="vm.isEditingMerchant">Cancel</md-button>
+        <md-button ng-click="vm.cancelEditing()"
+                   ng-if="vm.isEditingMerchant">
+            Cancel
+        </md-button>
 
     </form>
 </div>

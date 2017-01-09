@@ -174,5 +174,9 @@
                    ng-if="vm.isEditing">
             Save
         </md-button>
+        <md-button ng-if="vm.isEditing"
+                   ng-click="vm.cancelEditing()">
+            Cancel
+        </md-button>
     </form>
 </div>
