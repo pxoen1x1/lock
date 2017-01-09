@@ -3,6 +3,12 @@
   a {
     vertical-align: middle;
     text-align: center;
+
+    &.md-button {
+      &, md-icon {
+        color: $primary-color;
+      }
+    }
   }
 
   .root {
@@ -26,8 +32,29 @@
     font-size: 18px;
   }
 
-  md-icon i {
-    vertical-align: top;
+  .md-button {
+    width: auto;
+    height: auto;
+    min-width: 40px;
+    min-height: 40px;
+    line-height: 40px;
+    margin: 0;
+
+    &.button-back {
+      md-icon {
+        font-size: 28px;
+      }
+    }
+
+    .fa {
+      width: 22px;
+      height: 22px;
+      min-width: 22px;
+      min-height: 22px;
+      font-size: 22px;
+      line-height: 1;
+      margin: auto;
+    }
   }
 
   .registration {
@@ -39,7 +66,7 @@
       border-radius: 0;
       text-align: center;
     }
-    
+
     .button-back-min i, .button-login-min i {
       vertical-align: middle;
       text-align: center;
@@ -60,12 +87,6 @@
 
     .md-toolbar-tools > .md-button:last-child {
       margin-right: 0;
-    }
-  }
-
-  .registration {
-    .md-toolbar-tools {
-      padding: 0 2px;
     }
   }
 }
