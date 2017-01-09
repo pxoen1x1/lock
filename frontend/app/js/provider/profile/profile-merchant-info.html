@@ -42,8 +42,8 @@
             <md-input-container class="md-block" flex>
                 <label>State</label>
                 <md-select ng-model="vm.userProfile.merchantData.state">
-                    <md-option ng-repeat="state in vm.states" ng-value="state.code">
-                        {{state.code}}
+                    <md-option ng-repeat="state in vm.states" ng-value="state.state">
+                        <span ng-bind="state.state"></span>
                     </md-option>
                 </md-select>
             </md-input-container>
@@ -70,10 +70,5 @@
                    ng-if="vm.isEditingMerchant">
             Save
         </md-button>
-        <md-button ng-click="vm.cancelEditing()"
-                   ng-if="vm.isEditingMerchant">
-            Cancel
-        </md-button>
-
     </form>
 </div>
