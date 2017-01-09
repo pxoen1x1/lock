@@ -7,18 +7,19 @@
 
     translateProviderConfig.$inject = [
         '$translateProvider',
-        'localService'
+        'localService',
+        'translations.js'
     ];
 
     /* @ngInject */
-    function translateProviderConfig($translateProvider, localService) {
+    function translateProviderConfig($translateProvider, localService, translations) {
 
-        var translations_EN = {
+        var translations_en = {
             PROFILE: 'Profile'
         };
 
         $translateProvider
-            .translations('en', translations_EN)
+            .translations('en', translations_en)
             .preferredLanguage('en');
     }
 })();
