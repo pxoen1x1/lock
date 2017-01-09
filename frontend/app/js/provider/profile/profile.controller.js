@@ -26,6 +26,7 @@
         vm.userProfile.merchantData = {};
         vm.userProfile.paymentData = {};
         vm.userProfile.merchantFunds = {};
+        vm.nonChangedUserProfile = {};
         vm.enableWithdrawals = false;
 
         var promises = {
@@ -55,6 +56,7 @@
         vm.getUser = getUser;
         vm.addLicenseForm = addLicenseForm;
         vm.removeLicenseForm = removeLicenseForm;
+        vm.cancelEditing = cancelEditing;
         vm.updateMerchant = updateMerchant;
         vm.withdrawal = withdrawal;
 
@@ -177,6 +179,7 @@
                 .then(function (user) {
 
                     vm.userProfile = user;
+                    vm.nonChangedUserProfile = user;
 
                     return coreDataservice.getMerchantAccount()
                         .then(function (userPayment) {
@@ -216,6 +219,11 @@
 
         function removeLicenseForm(index) {
             vm.userProfile.details.licenses.splice(index, 1);
+        }
+
+        function cancelEditing() {
+            vm.userProfile = vm.nonChangedUserProfile;
+            vm.isEditingCustomer = false;
         }
 
         function activate() {
