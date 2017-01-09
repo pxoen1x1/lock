@@ -1,48 +1,39 @@
 <div class="registration">
-  <md-toolbar class="md-menu-toolbar md-whiteframe-1dp md-default-theme">
+  <md-toolbar class="md-menu-toolbar" md-whiteframe="1">
     <div class="md-toolbar-tools">
-      <md-button class="button-back"
-                 ng-if="$mdMedia('gt-xs')"
-                 ng-href="/">
-        <i class="fa fa-angle-left" aria-hidden="true"></i> Go Back
-      </md-button>
-      <a class="button-back-min"
+      <a class="md-button button-back"
+         layout="row"
+         layout-align="center center"
          aria-label="Go Back"
-         ng-if="$mdMedia('xs')"
-         ng-href="/">
-        <i class="fa fa-angle-left" aria-hidden="true"></i>
+         ui-sref="home">
+        <md-icon>navigate_before</md-icon>
+        <span hide-xs="">Go Back</span>
       </a>
-      <span flex></span>
-      <h2 class="page-name">Locksmith / Registration</h2>
-      <span flex></span>
-      <div ng-if="$mdMedia('gt-xs')">
-        <md-button class="button-login"
-                   ui-sref="login"
-                   ng-if="!vm.isAuthenticated()">
-          Log in <i class="fa fa-sign-in" aria-hidden="true"></i>
-        </md-button>
-        <md-button class="button-login"
-                   ng-click="vm.logout()"
-                   ng-if="vm.isAuthenticated()">
-          Log out <i class="fa fa-sign-out" aria-hidden="true"></i>
-        </md-button>
+      <div layout="row" layout-align="center center" flex>
+        <h2 class="page-name">Registration</h2>
       </div>
-      <div ng-if="$mdMedia('xs')">
-        <a class="button-login-min"
+      <div>
+        <a class="md-button button-login"
+           layout="row"
+           layout-align="center center"
            aria-label="Log in"
            ui-sref="login"
-           flex
-           layout-align="center center"
            ng-if="!vm.isAuthenticated()">
-          <i class="fa fa-sign-in" aria-hidden="true"></i>
+          <i class="fa fa-sign-in"
+             aria-hidden="true">
+          </i>
+          <span class="m-l-xs" hide-xs>Log in</span>
         </a>
-        <a class="button-login-min"
-           aria-label="Log in"
-           ng-click="vm.logout()"
-           flex
+        <a class="md-button button-login"
+           layout="row"
            layout-align="center center"
-           ng-if="vm.isAuthenticated()">
-          <i class="fa fa-sign-out" aria-hidden="true"></i>
+           aria-label="Log out"
+           ng-if="vm.isAuthenticated()"
+           logout>
+          <i class="fa fa-sign-out"
+             aria-hidden="true">
+          </i>
+          <span class="m-l-xs" hide-xs>Log out</span>
         </a>
       </div>
     </div>
