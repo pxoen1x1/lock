@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('app.core')
+        .module('app')
         .factory('httpInterceptors', httpInterceptors);
 
     httpInterceptors.$inject = ['$q', '$injector'];

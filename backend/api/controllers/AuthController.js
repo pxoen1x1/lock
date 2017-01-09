@@ -1,4 +1,4 @@
-/* global sails, waterlock, User, AuthService, MailerService, JwtService, UserService */
+/* global sails, waterlock, User, AuthService, MailerService, JwtService, UserService, SplashPaymentService */
 /**
  * AuthController
  *
@@ -33,17 +33,16 @@ let AuthController = waterlock.waterlocked({
 
         criteria.email = auth.email;
 
-        if (auth.user.details) {
-            if (auth.user.details.rating) {
-                delete auth.user.details.rating;
-            }
+        if (auth.user.id) {
+            delete auth.user.id;
+        }
 
+        if (auth.user.details) {
             auth.user.userDetail = auth.user.details;
 
             delete auth.user.details;
         }
 
-        var createdUser;
         AuthService.findAuth(criteria)
             .then(
                 (foundUser) => {
@@ -56,17 +55,17 @@ let AuthController = waterlock.waterlocked({
                 }
             )
             .then(
-                (createdUserRes) => {
-                    createdUser = createdUserRes;
-                    if (!user.userDetail) {
-                        return SplashPaymentService.createCustomer(user, auth.email)
-                            .then((customerResponse)=> {
+                (createdUser) => {
+                    if (!createdUser.userDetail) {
+
+                        return SplashPaymentService.createCustomer(createdUser, auth.email)
+                            .then((customerResponse) => {
                                 var customerArray = JSON.parse(customerResponse);
                                 createdUser.spCustomerId = customerArray[0].id;
 
                                 return UserService.update({id: createdUser.id}, createdUser);
 
-                            })
+                            });
                     }
 
                     return createdUser;

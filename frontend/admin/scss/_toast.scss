@@ -1,0 +1,17 @@
+md-toast.md-success-toast-theme {
+  .md-toast-content {
+    background-color: $success-color;
+  }
+}
+
+md-toast.md-warning-toast-theme {
+  .md-toast-content {
+    background-color: $warning-color;
+  }
+}
+
+md-toast.md-error-toast-theme {
+  .md-toast-content {
+    background-color: $error-color;
+  }
+}

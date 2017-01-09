@@ -2,13 +2,13 @@
     'use strict';
 
     angular
-        .module('app.home')
-        .controller('HomeController', HomeController);
+        .module('app')
+        .controller('UsersController', UsersController);
 
-    HomeController.$inject = ['$state'];
+    UsersController.$inject = ['$state'];
 
     /* @ngInject */
-    function HomeController($state) {
+    function UsersController($state) {
         var vm = this;
 
         activate();

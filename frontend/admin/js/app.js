@@ -4,16 +4,10 @@
     angular.module('app', [
         'ui.router',                // Client-side Single Page Application routing framework for AngularJS.
         'ngMaterial',               // Angular Material is both a UI Component framework.
-        'ngSanitize',               // The ngSanitize module provides functionality to sanitize HTML.
+        'ngAria',                   // AngularJS module for making accessibility easy
+        'ngAnimate',                // AngularJS module for animations
         'ngMessages',
-        'angularMoment',            // AngularJS directive and filters for Moment.JS.
-        'angular-loading-bar',
-        'md.data.table',
-        'ngAnimate',
-        'anim-in-out',
-        'ui.utils.masks',           // Opinionated angular input masks.
-        'uiGmapgoogle-maps',
-        'checklist-model',          // AngularJS directive for list of checkboxes.
-        'ngSails'                  // Module allows to use Sails.JS's awesome socket.io api with AngularJS.
+        'angular-loading-bar',      // An automatic loading bar using angular interceptors
+        'ngSails',                  // Module allows to use Sails.JS's awesome socket.io api with AngularJS.
     ]);
 })();

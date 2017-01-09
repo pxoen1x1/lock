@@ -16,21 +16,46 @@
                 views: {
                     '@': {
                         templateUrl: 'layout/layout.html'
+                    },
+                    'menu@root': {
+                        templateUrl: 'layout/menu.html'
+                    },
+                    'header@root': {
+                        templateUrl: 'layout/header.html'
                     }
                 }
             })
-            .state('home', {
+            .state('login', {
+                url: '/login',
+                views: {
+                    '@': {
+                        templateUrl: 'login/login.html',
+                        controller: 'LoginController',
+                        controllerAs: 'vm'
+                    }
+                },
+                data: {
+                    isPublic: true
+                }
+            })
+            .state('users', {
                 parent: 'root',
-                url: '/',
+                url: '/users',
                 views: {
                     'content@root': {
-                        templateUrl: 'home/home.html',
-                        controller: 'HomeController',
+                        templateUrl: 'users/users.html',
+                        controller: 'UsersController',
                         controllerAs: 'vm'
+                    }
+                },
+                data: {
+                    title: 'Users',
+                    menuItem: {
+                        icon: 'people'
                     }
                 }
             });
 
-        $urlRouterProvider.otherwise('/');
+        $urlRouterProvider.otherwise('/users');
     }
 })();

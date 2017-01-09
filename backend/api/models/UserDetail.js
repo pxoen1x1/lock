@@ -66,6 +66,15 @@ let UserDetail = {
             via: 'userDetails',
             dominant: true
         }
+    },
+
+    beforeValidate(userDetails, next){
+        if (userDetails.rating) {
+
+            delete userDetails.rating;
+        }
+
+        next();
     }
 };
 

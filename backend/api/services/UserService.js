@@ -24,40 +24,40 @@ let UserService = {
                         );
                 }
             );
-    },/*
-    getUserPayment(user) { // remove this call. use SplashPaymentService.getMerchantAccounts
-        return SplashPaymentService.getMerchantAccounts(user.spMerchantId).then((merchantAccounts)=> {
-            return JSON.parse(merchantAccounts);
-        });
-    },*/
+    }, /*
+     getUserPayment(user) { // remove this call. use SplashPaymentService.getMerchantAccounts
+     return SplashPaymentService.getMerchantAccounts(user.spMerchantId).then((merchantAccounts)=> {
+     return JSON.parse(merchantAccounts);
+     });
+     },*/
     /*setUserPayment(user, paymentData) {
 
-        return SplashPaymentService.getMerchantAccounts(user.spMerchantId).then((merchantAccounts)=> {
-            var account;
-            var accountsArray;
+     return SplashPaymentService.getMerchantAccounts(user.spMerchantId).then((merchantAccounts)=> {
+     var account;
+     var accountsArray;
 
-            if (merchantAccounts.length == 0) {
-                return SplashPaymentService.createMerchantAccount(user.spMerchantId, paymentData)
-                    .then((merchantAccounts)=> {
-                        accountsArray = JSON.parse(merchantAccounts);
-                        account = accountsArray[0];
-                        return SplashPaymentService.getMerchantEntity(user.spMerchantId);
-                    })
-                    .then((merchantEntities)=> {
-                        var merchantArray = JSON.parse(merchantEntities);
-                        var merchantEntity = merchantArray[0];
-                        SplashPaymentService.createMerchantPayout(merchantEntity.id, account.token);
-                        return accountsArray;
-                    });
-            } else {
-                return SplashPaymentService.updateMerchantAccount(merchantAccounts[0].id, paymentData)
-                    .then(function (merchantAccounts) {
-                        return JSON.parse(merchantAccounts);
-                    })
-            }
-        });
+     if (merchantAccounts.length == 0) {
+     return SplashPaymentService.createMerchantAccount(user.spMerchantId, paymentData)
+     .then((merchantAccounts)=> {
+     accountsArray = JSON.parse(merchantAccounts);
+     account = accountsArray[0];
+     return SplashPaymentService.getMerchantEntity(user.spMerchantId);
+     })
+     .then((merchantEntities)=> {
+     var merchantArray = JSON.parse(merchantEntities);
+     var merchantEntity = merchantArray[0];
+     SplashPaymentService.createMerchantPayout(merchantEntity.id, account.token);
+     return accountsArray;
+     });
+     } else {
+     return SplashPaymentService.updateMerchantAccount(merchantAccounts[0].id, paymentData)
+     .then(function (merchantAccounts) {
+     return JSON.parse(merchantAccounts);
+     })
+     }
+     });
 
-    },*/
+     },*/
     findServiceProviders(params) {
         let rawQuery = `
             SELECT  user.id,
@@ -130,9 +130,9 @@ let UserService = {
                 (createdUser) => createdUser
             );
     },
-    update(queryKey, updatedUser) {
+    update(criteria, updatedUser) {
 
-        return User.findOne(queryKey)
+        return User.findOne(criteria)
             .then((user) => {
                 if (!user) {
 
@@ -141,16 +141,7 @@ let UserService = {
 
                 user = Object.assign(user, updatedUser);
 
-                user.save(
-                    (err) => {
-                        if (err) {
-
-                            return Promise.reject(err);
-                        }
-
-                        return user;
-                    }
-                );
+                return HelperService.saveModel(user);
             });
     },
     getUserBySSN(ssn) {

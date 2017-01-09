@@ -1,4 +1,9 @@
-<div flex
-     layout="column"
-     ui-view="content">
+<div layout="row" ui-view="menu"></div>
+<div layout="column"
+     flex>
+  <div ui-view="header"></div>
+  <div layout="column"
+       flex
+       ui-view="content">
+  </div>
 </div>

@@ -7,4 +7,11 @@ $secondary-text-color: rgba(0, 0, 0, .54);
 $disabled-color: rgba(0, 0, 0, 0.38);
 $disabled-background-color: rgba(0, 0, 0, 0.12);
 
+@import 'layout';
+@import 'menu';
+@import 'header';
+@import 'texts';
+@import 'buttons';
+@import 'toast';
 @import 'margins-and-paddings';
+@import 'login';
