@@ -35,7 +35,11 @@
         }
 
         function responseError(response) {
-            if (response.data && response.data.message) {
+            if (response.data) {
+                if (angular.isString(response.data)) {
+                    response.data = JSON.parse(response.data);
+                }
+
                 var toast = $injector.get('toastService');
                 var reg = /^20+.$/;
                 var isStatusOk = reg.test(response.status);
