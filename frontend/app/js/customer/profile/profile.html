@@ -12,9 +12,12 @@
            layout-align="start center"
            layout-align-gt-xs="start start"
            flex-gt-xs="25">
-        <img class="profile-avatar"
-             ng-src="{{vm.newPortrait || vm.userProfile.portrait || coreConstants.IMAGES.defaultPortrait}}"
-             alt="photo"/>
+        <div class="avatar-wrapper">
+          <div class="profile-avatar"
+               ng-style="{ 'background-image': 'url(' + (vm.userProfile.portrait ?
+               vm.baseUrl + vm.userProfile.portrait : vm.defaultPortrait)           + ')' }">
+          </div>
+        </div>
         <div flex="5"></div>
         <div class="actions"
              layout="column">
@@ -62,7 +65,7 @@
            layout-align="start center"
            layout-align-gt-xs="start start">
 
-          <div style="width: 100%;" ng-cloak>
+          <div flex ng-cloak>
               <md-content>
                   <md-tabs md-dynamic-height md-border-bottom>
                       <md-tab label="General info">

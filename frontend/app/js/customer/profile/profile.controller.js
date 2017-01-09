@@ -24,6 +24,8 @@
         vm.userProfile.paymentData = {};
         vm.newPortrait = '';
         vm.languages = [];
+        vm.baseUrl = conf.BASE_URL;
+        vm.defaultPortrait = coreConstants.IMAGES.defaultPortrait;
 
         vm.isEditing = false;
 
