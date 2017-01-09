@@ -14,7 +14,6 @@
         vm.pageTitles = [];
 
         vm.isAuthenticated = authService.isAuthenticated;
-        vm.logout = authService.logout;
 
         activate();
 
