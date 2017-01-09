@@ -57,10 +57,7 @@
 
         function getAdminsGroup() {
 
-            return request.httpWithTimeout({
-                url: conf.BASE_URL + conf.URL_PREFIX + 'group',
-                method: 'GET'
-            }).then(getAdminsGroupComplete);
+            return $sails.get(conf.URL_PREFIX + 'group').then(getAdminsGroupComplete);
 
             function getAdminsGroupComplete(response) {
                 return response.data.group;
@@ -75,7 +72,7 @@
             }).then(getCustomerComplete);
 
             function getCustomerComplete(response) {
-                return response.data
+                return response.data;
             }
         }
 

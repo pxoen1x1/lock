@@ -25,7 +25,7 @@
         vm.userProfile = {};
         vm.userProfile.merchantData = {};
         vm.userProfile.paymentData = {};
-        vm.userProfile.merchantFunds = {};
+        vm.userProfile.merchantFunds = 0;
         vm.enableWithdrawals = false;
 
         var promises = {
@@ -148,11 +148,11 @@
         function withdrawal() {
             coreDataservice.withdrawal(vm.userProfile.merchantData.id)
                 .then(function (result) {
-                    if(result == true){
+                    if(result === true){
                         $mdDialog.alert()
                             .clickOutsideToClose(true)
                             .title('Withdrawals request created')
-                            .ok('Close')
+                            .ok('Close');
 
                         vm.enableWithdrawals = false;
                     }else{
@@ -160,9 +160,9 @@
                             .clickOutsideToClose(true)
                             .title('Error during withdrawals')
                             .textContent('Please contact support')
-                            .ok('Close')
+                            .ok('Close');
                     }
-                })
+                });
         }
 
         function getUser() {
@@ -172,15 +172,14 @@
 
                     vm.userProfile = user;
 
-                    return vm.userProfile;
-
                     return coreDataservice.getMerchantAccount()
-                        .then((userPayment)=> {
+                        .then(function (userPayment) {
                             vm.userProfile.paymentData = userPayment;
                             return vm.userProfile;
                         })
                         .then(function () {
-                            return coreDataservice.getMerchant()
+
+                            return coreDataservice.getMerchant();
                         })
                         .then(function (merchantEntity) {
                             if (merchantEntity) {
@@ -190,9 +189,11 @@
                             return coreDataservice.getMerchantFunds();
                         })
                         .then(function (funds) {
-                            vm.userProfile.merchantFunds = funds.available / 100; // in cents
+                            if(funds && funds.available){
+                                vm.userProfile.merchantFunds = funds.available / 100; // in cents
+                            }
 
-                            return coreDataservice.isCreatedTodaysPayout()
+                            return coreDataservice.isCreatedTodaysPayout();
                         })
                         .then(function(payoutCreated){
                             if(!payoutCreated){

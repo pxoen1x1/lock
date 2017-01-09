@@ -24,7 +24,7 @@
         vm.userProfile = {};
         vm.userProfile.merchantData = {};
         vm.userProfile.paymentData = {};
-        vm.userProfile.merchantFunds = {};
+        vm.userProfile.merchantFunds = 0;
         vm.userProfile.licenses = {};
         vm.enableWithdrawals = false;
 
@@ -139,7 +139,7 @@
                     vm.userProfile.spMerchantId = vm.userProfile.merchantData.id;
                     return currentUserService.setUserToLocalStorage(vm.userProfile);
 
-                }).finally(function (user) {
+                }).finally(function () {
                     vm.isEditingMerchant = false;
                 });
         }
@@ -147,11 +147,11 @@
         function withdrawal() {
             coreDataservice.withdrawal(vm.userProfile.merchantData.id)
                 .then(function (result) {
-                    if (result == true) {
+                    if (result === true) {
                         $mdDialog.alert()
                             .clickOutsideToClose(true)
                             .title('Withdrawals request created')
-                            .ok('Close')
+                            .ok('Close');
 
                         vm.enableWithdrawals = false;
                     } else {
@@ -159,49 +159,54 @@
                             .clickOutsideToClose(true)
                             .title('Error during withdrawals')
                             .textContent('Please contact support')
-                            .ok('Close')
+                            .ok('Close');
                     }
-                })
+                });
         }
 
         function getUser() {
 
             return currentUserService.getUser()
-                        .then(function (user) {
-                            vm.userProfile = user;
+                .then(function (user) {
+                    vm.userProfile = user;
 
-                            return coreDataservice.getAdminsGroup();
-                        })
-                        .then((group)=> {
-                            vm.userProfile.licenses = group.licenses;
-console.log(group)
-                            return coreDataservice.getMerchantAccount()
-                        })
-                        .then((userPayment)=> {
-                            vm.userProfile.paymentData = userPayment;
-                            return vm.userProfile;
-                        })
-                        .then(function () {
-                            return coreDataservice.getMerchant()
-                        })
-                        .then(function (merchantEntity) {
-                            if (merchantEntity) {
-                                vm.userProfile.merchantData = merchantEntity;
-                            }
+                    return coreDataservice.getAdminsGroup();
+                })
+                .then(function (group) {
+                    vm.userProfile.licenses = group.licenses;
 
-                            return coreDataservice.getMerchantFunds();
-                        })
-                        .then(function (funds) {
-                            vm.userProfile.merchantFunds = funds.available / 100; // in cents
+                    return coreDataservice.getMerchantAccount();
+                })
+                .then(function (userPayment) {
+                    vm.userProfile.paymentData = userPayment;
 
-                            return coreDataservice.isCreatedTodaysPayout()
-                        })
-                        .then(function(payoutCreated){
-                            if(!payoutCreated){
-                                vm.enableWithdrawals = true;
-                            }
-                            return vm.userProfile;
-                        });
+                    return vm.userProfile;
+                })
+                .then(function () {
+
+                    return coreDataservice.getMerchant();
+                })
+                .then(function (merchantEntity) {
+                    if (merchantEntity) {
+                        vm.userProfile.merchantData = merchantEntity;
+                    }
+
+                    return coreDataservice.getMerchantFunds();
+                })
+                .then(function (funds) {
+                    if(funds && funds.available){
+                        vm.userProfile.merchantFunds = funds.available / 100; // in cents
+                    }
+
+                    return coreDataservice.isCreatedTodaysPayout();
+                })
+                .then(function (payoutCreated) {
+                    if (!payoutCreated && vm.userProfile.merchantFunds > 0) {
+                        vm.enableWithdrawals = true;
+                    }
+
+                    return vm.userProfile;
+                });
         }
 
         function addLicenseForm() {
@@ -224,11 +229,11 @@ console.log(group)
 
         function activate() {
             $q.all([
-                    getUser(),
-                    getLanguages(),
-                    getBankAccountTypes(),
-                    getStates(),
-                ]);
+                getUser(),
+                getLanguages(),
+                getBankAccountTypes(),
+                getStates()
+            ]);
         }
 
     }

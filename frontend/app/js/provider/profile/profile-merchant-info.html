@@ -43,7 +43,7 @@
                 <label>State</label>
                 <md-select ng-model="vm.userProfile.merchantData.state">
                     <md-option ng-repeat="state in vm.states" ng-value="state.code">
-                        {{state.code}}
+                        <span ng-bind="state.state"></span>
                     </md-option>
                 </md-select>
             </md-input-container>

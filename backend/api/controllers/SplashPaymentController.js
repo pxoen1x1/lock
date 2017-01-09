@@ -11,7 +11,6 @@
 
 
 const BANK_ACCOUNT_TYPES = sails.config.splashpayment.bankAccountTypes;
-const TRANSACTION_TYPES = sails.config.splashpayment.txn.types;
 
 let SplashPaymentController = {
 
@@ -61,7 +60,7 @@ let SplashPaymentController = {
         if (!user.spMerchantId) {
             return res.ok({
                 merchantEntity: null
-            })
+            });
         }
 
         SplashPaymentService.getMerchantEntity(user.spMerchantId)
@@ -93,12 +92,19 @@ let SplashPaymentController = {
         if (!user.spMerchantId) {
 
             return SplashPaymentService.createMerchantFull(user, params.merchantData, email)
+                .then((merchantEntity) => res.ok({merchantEntity: merchantEntity}));
         }
 
-        return SplashPaymentService.updateMerchantEntity(user.spMerchantId, params.merchantData)
+        return SplashPaymentService.updateMerchantEntity(user.spMerchantId, params.merchantData);
     },
     getMerchantAccounts(req, res){
         let user = req.session.user;
+
+        if (!user.spMerchantId) {
+            return res.ok({
+                userPayment: null
+            });
+        }
 
         SplashPaymentService.getMerchantAccounts(user.spMerchantId)
             .then((merchantAccounts) => res.ok({userPayment: merchantAccounts}))
@@ -129,7 +135,9 @@ let SplashPaymentController = {
         let user = req.session.user;
 
         if (!user.spMerchantId) {
-            return Promise.reject();
+            return res.ok({
+                merchantFunds: null
+            });
         }
 
         SplashPaymentService.getMerchantFunds(user.spMerchantId)
@@ -225,7 +233,7 @@ let SplashPaymentController = {
         RequestService.getRequestById({id: params.requestId})
             .then((request) => {
 
-                return SplashPaymentService.createCaptureTxn(request.owner.spCustomerId, request.executor.spMerchantId, request.spAuthTxnId)
+                return SplashPaymentService.createCaptureTxn(request.owner.spCustomerId, request.executor.spMerchantId, request.spAuthTxnId);
             })
             .then((response) => {
                 var txnArr = JSON.parse(response);
@@ -330,8 +338,8 @@ let SplashPaymentController = {
         let user = req.session.user;
 
         if (!user.spMerchantId) {
-            res.notFound({
-                message: req.__('Merchant was not found.')
+            return res.ok({
+                result: false
             });
         }
 
