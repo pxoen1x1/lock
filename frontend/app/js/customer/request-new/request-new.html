@@ -186,8 +186,12 @@
                 <label>Provider distance (miles)</label>
                 <input type="number"
                        name="distance"
+                       ng-min="1"
                        ng-max="100"
                        ng-model="vm.request.distance">
+                <div ng-messages="requestForm.distance.$error">
+                  <div ng-message="min">The minimum distance is 1 mile.</div>
+                </div>
                 <div ng-messages="requestForm.distance.$error">
                   <div ng-message="max">The maximum distance is 100 miles.</div>
                 </div>
