@@ -41,10 +41,11 @@
 
             <md-input-container class="md-block" flex>
                 <label>State</label>
-                <input name="State"
-                       required
-                       ng-maxlength="20"
-                       ng-model="vm.userProfile.customerData.state">
+                <md-select ng-model="vm.userProfile.customerData.state">
+                    <md-option ng-repeat="state in vm.states" ng-value="state.state">
+                        {{state.state}}
+                    </md-option>
+                </md-select>
             </md-input-container>
 
             <md-input-container class="md-block" flex>
