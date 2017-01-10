@@ -195,7 +195,12 @@ let SplashPaymentController = {
         let user = req.session.user;
 
         if (!user.spMerchantId) {
-            return Promise.reject();
+
+            return res.badRequest(
+                {
+                    message: req.__('Merchant was not found.')
+                }
+            );
         }
 
         SplashPaymentService.getMerchantFunds(user.spMerchantId)
