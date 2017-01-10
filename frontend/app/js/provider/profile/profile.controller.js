@@ -285,7 +285,7 @@
         }
 
         function resetSelectedCity() {
-            vm.address.city = null;
+            vm.userProfile.merchantData.city = null;
             vm.searchCity = '';
 
             citiesLoader.resetSelectedCity();
