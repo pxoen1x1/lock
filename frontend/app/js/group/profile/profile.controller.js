@@ -2,23 +2,22 @@
     'use strict';
 
     angular
-        .module('app.provider')
-        .controller('ProviderProfileController', ProviderProfileController);
+        .module('app.group')
+        .controller('GroupProfileController', GroupProfileController);
 
-    ProviderProfileController.$inject = [
+    GroupProfileController.$inject = [
         '$q',
         'conf',
         'coreConstants',
         'coreDataservice',
         'coreDictionary',
         'currentUserService',
-        'usingLanguageService',
         '$mdDialog'
     ];
 
     /* @ngInject */
-    function ProviderProfileController($q, conf, coreConstants, coreDataservice, coreDictionary, currentUserService,
-                                       usingLanguageService, $mdDialog) {
+    function GroupProfileController($q, conf, coreConstants, coreDataservice, coreDictionary, currentUserService,
+                                    $mdDialog) {
         var vm = this;
 
         vm.languages = [];
@@ -26,6 +25,7 @@
         vm.userProfile.merchantData = {};
         vm.userProfile.paymentData = {};
         vm.userProfile.merchantFunds = 0;
+        vm.userProfile.licenses = {};
         vm.enableWithdrawals = false;
 
         var promises = {
@@ -36,15 +36,12 @@
 
         vm.bankAccountTypes = [];
         vm.states = [];
-        vm.serviceTypes = [];
 
         vm.datePickerOptions = {
             minDate: new Date()
         };
 
         vm.isEditing = false;
-        vm.licensesPresent = '';
-        vm.servicesPresent = '';
         vm.fileUploaderOptions = coreConstants.FILE_UPLOADER_OPTIONS;
         vm.newPortrait = '';
         vm.baseUrl = conf.BASE_URL;
@@ -55,7 +52,6 @@
         vm.getUser = getUser;
         vm.addLicenseForm = addLicenseForm;
         vm.removeLicenseForm = removeLicenseForm;
-        vm.cancelEditing = cancelEditing;
         vm.updateMerchant = updateMerchant;
         vm.withdrawal = withdrawal;
 
@@ -131,20 +127,16 @@
 
         function updateMerchant(userProfile, isFormValid) {
             if (!isFormValid) {
-
                 return;
             }
 
             return coreDataservice.updateMerchant(userProfile)
                 .then(function (merchantEntity) {
                     if (!merchantEntity) {
-
                         return false;
                     }
-
                     vm.userProfile.merchantData = merchantEntity;
                     vm.userProfile.spMerchantId = vm.userProfile.merchantData.id;
-
                     return currentUserService.setUserToLocalStorage(vm.userProfile);
 
                 }).finally(function () {
@@ -176,71 +168,55 @@
 
             return currentUserService.getUser()
                 .then(function (user) {
-
                     vm.userProfile = user;
 
-                    return coreDataservice.getMerchantAccount()
-                        .then(function (userPayment) {
-                            vm.userProfile.paymentData = userPayment;
+                    return coreDataservice.getAdminsGroup();
+                })
+                .then(function (group) {
+                    vm.userProfile.licenses = group.licenses;
 
-                            return vm.userProfile;
-                        })
-                        .then(function () {
+                    return coreDataservice.getMerchantAccount();
+                })
+                .then(function (userPayment) {
+                    vm.userProfile.paymentData = userPayment;
 
-                            return coreDataservice.getMerchant();
-                        })
-                        .then(function (merchantEntity) {
-                            if (merchantEntity) {
-                                vm.userProfile.merchantData = merchantEntity;
-                            }
+                    return vm.userProfile;
+                })
+                .then(function () {
 
-                            return coreDataservice.getMerchantFunds();
-                        })
-                        .then(function (funds) {
-                            if(funds && funds.available){
-                                vm.userProfile.merchantFunds = funds.available / 100; // in cents
-                            }
+                    return coreDataservice.getMerchant();
+                })
+                .then(function (merchantEntity) {
+                    if (merchantEntity) {
+                        vm.userProfile.merchantData = merchantEntity;
+                    }
 
-                            return coreDataservice.isCreatedTodaysPayout();
-                        })
-                        .then(function (payoutCreated) {
-                            if (!payoutCreated) {
-                                vm.enableWithdrawals = true;
-                            }
+                    return coreDataservice.getMerchantFunds();
+                })
+                .then(function (funds) {
+                    if(funds && funds.available){
+                        vm.userProfile.merchantFunds = funds.available / 100; // in cents
+                    }
 
-                            return vm.userProfile;
-                        });
+                    return coreDataservice.isCreatedTodaysPayout();
+                })
+                .then(function (payoutCreated) {
+                    if (!payoutCreated && vm.userProfile.merchantFunds > 0) {
+                        vm.enableWithdrawals = true;
+                    }
+
+                    return vm.userProfile;
                 });
         }
 
         function addLicenseForm() {
-            vm.userProfile.details.licenses.push({});
+            vm.userProfile.licenses.push({});
         }
 
         function removeLicenseForm(index) {
-            vm.userProfile.details.licenses.splice(index, 1);
+            vm.userProfile.licenses.splice(index, 1);
         }
 
-        function cancelEditing() {
-            vm.userProfile = vm.nonChangedUserProfile;
-            vm.isEditingCustomer = false;
-            vm.isEditing = false;
-        }
-
-        function activate() {
-            $q.all([
-                getUser(),
-                getLanguages(),
-                getStates(),
-                getBankAccountTypes(),
-                getServiceTypes()
-            ])
-                .then(function () {
-                    vm.userProfile.usingLanguage = vm.userProfile.usingLanguage || usingLanguageService.getLanguage();
-                    vm.licensesPresent = vm.userProfile.details.licenses.length !== 0;
-                    vm.servicesPresent = vm.userProfile.details.serviceTypes.length !== 0;
-                });
-        }
 
         function getStates() {
             return coreDictionary.getStates()
@@ -251,14 +227,14 @@
                 });
         }
 
-        function getServiceTypes() {
-
-            return coreDictionary.getServiceTypes()
-                .then(function (serviceTypes) {
-                    vm.serviceTypes = serviceTypes;
-
-                    return vm.serviceTypes;
-                });
+        function activate() {
+            $q.all([
+                getUser(),
+                getLanguages(),
+                getBankAccountTypes(),
+                getStates()
+            ]);
         }
+
     }
 })();

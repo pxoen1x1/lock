@@ -1,0 +1,84 @@
+<div class="container profile-content"
+     ng-class="{'mobile': !$mdMedia('gt-xs')}">
+  <div class="container-title" layout="row">
+    <div flex>
+      <i class="material-icons">person</i> <span>Profile</span>
+    </div>
+  </div>
+  <div class="container-content">
+    <div layout="column"
+         layout-gt-xs="row"
+         layout-align-gt-xs="start start"
+         layout-align="start center">
+      <div class="profile-left"
+           layout="row"
+           layout-gt-xs="column"
+           layout-align="start center"
+           layout-align-gt-xs="start start"
+           flex-gt-xs="25">
+        <div class="avatar-wrapper">
+          <div class="profile-avatar"
+               file-uploader
+              is-single-file="true"
+              allowed-extensions="{{ vm.fileUploaderOptions.allowedFileExtensions.images }}"
+              max-size="{{ vm.fileUploaderOptions.maxFileSize }}"
+              selected-file-src="vm.newPortrait"
+              ng-style="{ 'background-image': 'url(' + (vm.userProfile.portrait ?
+                      vm.baseUrl + vm.userProfile.portrait : vm.defaultPortrait)           + ')' }">
+          </div>
+        </div>
+        <div flex="5"></div>
+        <div class="actions"
+             layout="column">
+          <md-button class="md-button-blue"
+                     ng-if="vm.isEditing && $mdMedia('gt-xs')"
+                     aria-label="Change photo"
+                     file-uploader
+                     is-single-file="true"
+                     allowed-extensions="{{ vm.fileUploaderOptions.allowedFileExtensions.images }}"
+                     max-size="{{ vm.fileUploaderOptions.maxFileSize }}"
+                     selected-file-src="vm.newPortrait">
+            <i class="material-icons vertical-middle">photo_camera</i>
+            <span class="verical-middle">Change photo</span>
+          </md-button>
+          <md-button ng-if="!vm.isEditing"
+                     class="md-button-blue"
+                     ng-click="vm.isEditing = true"
+                     aria-label="Edit profile">
+            Edit general info
+          </md-button>
+        </div>
+      </div>
+      <div flex-gt-xs="5"></div>
+      <div layout="row"
+           class="profile-right"
+           flex-gt-xs="70"
+           layout-align="start center"
+           layout-align-gt-xs="start start">
+
+
+        <div style="width: 100%;" ng-cloak>
+          <md-content>
+            <md-tabs md-dynamic-height md-border-bottom>
+              <md-tab label="General info">
+                <md-content class="md-padding">
+                  <div ng-include="'group/profile/profile-general.html'"></div>
+                </md-content>
+              </md-tab>
+              <md-tab label="Company info">
+                <md-content class="md-padding">
+                  <div ng-include="'group/profile/profile-merchant-info.html'"></div>
+                </md-content>
+              </md-tab>
+              <md-tab label="Bank account">
+                <md-content class="md-padding">
+                  <div ng-include="'group/profile/profile-bank-account.html'"></div>
+                </md-content>
+              </md-tab>
+            </md-tabs>
+          </md-content>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
