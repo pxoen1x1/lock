@@ -41,8 +41,9 @@
 
             <md-input-container class="md-block" flex>
                 <label>State</label>
-                <md-select ng-model="vm.userProfile.merchantData.state">
-                    <md-option ng-repeat="state in vm.states" ng-value="state.state">
+                <md-select ng-model-options="{trackBy: '$value.id'}"
+                           ng-model="vm.userProfile.merchantData.state">
+                    <md-option ng-repeat="state in vm.states track by state.id" ng-value="state.state">
                         <span ng-bind="state.state"></span>
                     </md-option>
                 </md-select>
