@@ -59,6 +59,7 @@
         vm.cancelEditing = cancelEditing;
         vm.updateMerchant = updateMerchant;
         vm.withdrawal = withdrawal;
+        vm.getStateByCode = getStateByCode;
 
         activate();
 
@@ -223,9 +224,10 @@
         }
 
         function cancelEditing() {
-            vm.userProfile = vm.nonChangedUserProfile;
-            vm.isEditingCustomer = false;
+            vm.userProfile = angular.copy(vm.nonChangedUserProfile);
             vm.isEditing = false;
+            vm.isEditingMerchant = false;
+            vm.isEditingPayment = false;
         }
 
         function activate() {
@@ -240,6 +242,8 @@
                     vm.userProfile.usingLanguage = vm.userProfile.usingLanguage || usingLanguageService.getLanguage();
                     vm.licensesPresent = vm.userProfile.details.licenses.length !== 0;
                     vm.servicesPresent = vm.userProfile.details.serviceTypes.length !== 0;
+
+                    vm.nonChangedUserProfile = angular.copy(vm.userProfile);
                 });
         }
 
@@ -250,6 +254,16 @@
 
                     return vm.states;
                 });
+        }
+
+        function getStateByCode(code) {
+
+            for (var i=0; i < vm.states.length; i++) {
+                if (vm.states[i].code === code) {
+                    return vm.states[i].state;
+                }
+            }
+
         }
 
         function getServiceTypes() {

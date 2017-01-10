@@ -1,5 +1,7 @@
 .profile-content {
 
+  height: 90%;
+
   .divider-dot {
     padding: 0 4px 0 4px;
   }
@@ -81,6 +83,18 @@
       margin-top: 20px;
     }
 
+    md-tabs, md-tabs md-content {
+      background-color: #fff;
+    }
+
+    md-tabs md-tab-item.md-active span{
+      color: $primary-color;
+    }
+
+    md-tabs md-ink-bar{
+      background-color: $primary-color;
+    }
+
   }
 
   .licenses {
@@ -90,7 +104,7 @@
   .license-container {
     width: 100%;
   }
-  
+
   md-input-container {
     margin: 0;
   }
@@ -141,7 +155,7 @@
   .add-license-btn {
     margin-top: 0;
   }
-  
+
   p {
     margin-top: 0;
   }
@@ -222,10 +236,6 @@
         margin-left: 0;
         margin-top: 10px;
         width: 100%;
-      }
-
-      .profile-right md-tabs {
-        min-height: 350px;
       }
 
       .profile-right h1 {
