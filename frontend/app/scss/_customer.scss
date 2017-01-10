@@ -26,14 +26,13 @@
 
     mdp-date-picker,
     mdp-time-picker {
-      //display: inline-block;
-
-      .md-errors-spacer {
-        display: none;
-      }
 
       md-input-container {
         margin-bottom: 0;
+
+        .md-errors-spacer {
+          min-height: 0
+        }
       }
 
       &.has-error {
