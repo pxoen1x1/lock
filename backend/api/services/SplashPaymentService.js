@@ -89,6 +89,9 @@ let SplashPaymentService = {
             )
             .then(
                 (merchantEntity) => [merchantEntity, SplashPaymentService.createMerchantFee(merchantEntity.id)]
+            )
+            .spread(
+                (merchantEntity) => merchantEntity
             );
     },
 

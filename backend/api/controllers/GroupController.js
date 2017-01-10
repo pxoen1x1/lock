@@ -9,6 +9,28 @@
 'use strict';
 
 let GroupController = {
+    getAdminsGroup(req, res) {
+        let user = req.session.user;
+
+        GroupService.getAdminsGroup(user)
+            .then(
+                (foundGroup) => {
+
+                    return res.ok(
+                        {
+                            group: foundGroup
+                        }
+                    );
+                }
+            )
+            .catch(
+                (err) => {
+                    sails.log.error(err);
+
+                    return res.serverError();
+                }
+            );
+    },
     getGroupMember(req, res){
         let memberId = req.params.memberId;
 

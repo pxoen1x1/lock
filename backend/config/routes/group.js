@@ -3,6 +3,10 @@
 let appConfig = require('../application');
 
 let groupRoutes = {
+    'GET /api/group': {
+        controller: 'GroupController',
+        action: 'getAdminsGroup'
+    },
     'GET /api/group/members': {
         controller: 'GroupController',
         action: 'getGroupMembers'

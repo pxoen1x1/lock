@@ -11,6 +11,7 @@
     function coreDataservice($http, request, conf, $sails) {
         var service = {
             getCurrentUser: getCurrentUser,
+            getAdminsGroup: getAdminsGroup,
             getMerchant: getMerchant,
             updateMerchant: updateMerchant,
             getCustomer: getCustomer,
@@ -54,6 +55,15 @@
             });
         }
 
+        function getAdminsGroup() {
+
+            return $sails.get(conf.URL_PREFIX + 'group').then(getAdminsGroupComplete);
+
+            function getAdminsGroupComplete(response) {
+                return response.data.group;
+            }
+        }
+
         function getCustomer() {
 
             return request.httpWithTimeout({
@@ -62,7 +72,7 @@
             }).then(getCustomerComplete);
 
             function getCustomerComplete(response) {
-                return response.data
+                return response.data;
             }
         }
 

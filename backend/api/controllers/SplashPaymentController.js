@@ -195,11 +195,9 @@ let SplashPaymentController = {
         let user = req.session.user;
 
         if (!user.spMerchantId) {
-            return res.ok(
-                {
-                    merchantFunds: null
-                }
-            );
+            return res.ok({
+                merchantFunds: null
+            });
         }
 
         SplashPaymentService.getMerchantFunds(user.spMerchantId)
@@ -454,11 +452,9 @@ let SplashPaymentController = {
         let user = req.session.user;
 
         if (!user.spMerchantId) {
-            res.notFound(
-                {
-                    message: req.__('Merchant was not found.')
-                }
-            );
+            return res.ok({
+                result: false
+            });
         }
 
         SplashPaymentService.getMerchantEntity(user.spMerchantId)
