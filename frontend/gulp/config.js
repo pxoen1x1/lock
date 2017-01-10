@@ -5,48 +5,98 @@ var historyApiFallback = require('connect-history-api-fallback');
 
 var paths = {
     build: 'dist/',
-    src: 'app/',
-    development: 'dist/development/',
-    production: 'dist/production/',
+    app: {
+        src: 'app/',
+        development: 'dist/app/development/',
+        production: 'dist/app/production/'
+    },
+    admin: {
+        src: 'admin/',
+        development: 'dist/admin/development/',
+        production: 'dist/admin/production/',
+    },
     vendor: 'vendor/'
 };
 
 module.exports = {
     browsersync: {
-        development: {
-            server: {
-                baseDir: [paths.development, paths.src],
-                middleware: [historyApiFallback()],
-                routes: {
-                    '/vendor': paths.vendor
-                }
+        app: {
+            development: {
+                server: {
+                    baseDir: [paths.app.development, paths.app.src],
+                    middleware: [historyApiFallback()],
+                    routes: {
+                        '/vendor': paths.vendor
+                    }
+                },
+                port: 9000,
+                files: [
+                    paths.app.src + '**/*'
+                ]
             },
-            port: 9000,
-            files: [
-                paths.src + '**/*'
-            ]
+            production: {
+                server: {
+                    baseDir: [paths.app.production]
+                },
+                port: 9100
+            }
         },
-        production: {
-            server: {
-                baseDir: [paths.production]
+        admin: {
+            development: {
+                server: {
+                    baseDir: [paths.admin.development, paths.admin.src],
+                    middleware: [historyApiFallback()],
+                    routes: {
+                        '/vendor': paths.vendor
+                    }
+                },
+                port: 9200,
+                files: [
+                    paths.admin.src + '**/*'
+                ]
             },
-            port: 9100
+            production: {
+                server: {
+                    baseDir: [paths.admin.production]
+                },
+                port: 9300
+            },
         }
     },
     copyfonts: {
-        src: [
-            paths.src + 'fonts/*',
-            paths.vendor + 'font-awesome/fonts/*.{eot,svg,ttf,woff,woff2}',
-            paths.vendor + 'material-design-icons/iconfont/*.{eot,svg,ttf,woff,woff2}'
-        ],
-        dest: paths.production + 'fonts'
+        app: {
+            src: [
+                paths.app.src + 'fonts/*',
+                paths.vendor + 'font-awesome/fonts/*.{eot,svg,ttf,woff,woff2}',
+                paths.vendor + 'material-design-icons/iconfont/*.{eot,svg,ttf,woff,woff2}'
+            ],
+            dest: paths.app.production + 'fonts'
+        },
+        admin: {
+            src: [
+                paths.admin.src + 'fonts/*',
+                paths.vendor + 'material-design-icons/iconfont/*.{eot,svg,ttf,woff,woff2}'
+            ],
+            dest: paths.admin.production + 'fonts'
+        }
     },
     copystyles: {
-        src: paths.src + 'styles/*',
-        dest: paths.development + '/styles'
+        app: {
+            src: paths.app.src + 'styles/*',
+            dest: paths.app.development + '/styles'
+        },
+        admin: {
+            src: paths.admin.src + 'styles/*',
+            dest: paths.admin.development + '/styles'
+        }
     },
     delete: {
-        src: paths.build
+        app: {
+            src: paths.build + '/app'
+        },
+        admin: {
+            src: paths.build + '/admin'
+        }
     },
     htmlmin: {
         options: {
@@ -59,8 +109,14 @@ module.exports = {
         }
     },
     imagemin: {
-        src: paths.src + 'images/**/*.{jpg,jpeg,png,gif}',
-        dest: paths.production + 'images/',
+        app: {
+            src: paths.app.src + 'images/**/*.{jpg,jpeg,png,gif}',
+            dest: paths.app.production + 'images/',
+        },
+        admin: {
+            src: paths.admin.src + 'images/**/*.{jpg,jpeg,png,gif}',
+            dest: paths.admin.production + 'images/',
+        },
         options: {
             optimizationLevel: 3,
             progessive: true,
@@ -68,13 +124,26 @@ module.exports = {
         }
     },
     jshint: {
-        src: paths.src + 'js/*.js'
+        app: {
+            src: paths.app.src + 'js/*.js'
+        },
+        admin: {
+            src: paths.admin.src + 'js/*.js'
+        }
     },
     lintStyles: {
-        src: [
-            paths.src + 'styles/**/*.css',
-            '!' + paths.src + 'styles/styles.css'
-        ],
+        app: {
+            src: [
+                paths.app.src + 'styles/**/*.css',
+                '!' + paths.app.src + 'styles/styles.css'
+            ]
+        },
+        admin: {
+            src: [
+                paths.admin.src + 'styles/**/*.css',
+                '!' + paths.admin.src + 'styles/styles.css'
+            ]
+        },
         options: {
             stylelint: {
                 extends: 'stylelint-config-standard',
@@ -86,11 +155,21 @@ module.exports = {
         }
     },
     ngtemplate: {
-        src: paths.src + 'js/**/*.html',
-        dest: paths.development + 'js',
-        options: {
-            moduleName: 'app',
-            useStrict: true
+        app: {
+            src: paths.app.src + 'js/**/*.html',
+            dest: paths.app.development + 'js',
+            options: {
+                moduleName: 'app',
+                useStrict: true
+            }
+        },
+        admin: {
+            src: paths.admin.src + 'js/**/*.html',
+            dest: paths.admin.development + 'js',
+            options: {
+                moduleName: 'app',
+                useStrict: true
+            }
         }
     },
     replace: {
@@ -99,45 +178,52 @@ module.exports = {
             to: 'url(../fonts/MaterialIcons-Regular'
         }
     },
-    rsync: {
-        src: paths.production + '**',
-        options: {
-            destination: '/srv/www/locksmith/frontend/',
-            root: paths.production,
-            hostname: '192.168.0.99',
-            username: 'deploy',
-            incremental: true,
-            progress: true,
-            relative: true,
-            emptyDirectories: true,
-            recursive: true,
-            clean: true,
-            exclude: [],
-            include: []
-        }
-    },
     sass: {
-        development: {
-            src: paths.src + 'scss/**/*.scss',
-            dest: paths.development + 'styles'
+        app: {
+            development: {
+                src: paths.app.src + 'scss/**/*.scss',
+                dest: paths.app.development + 'styles'
+            },
+            production: {
+                src: paths.app.src + 'scss/**/main.scss',
+                dest: paths.app.production + 'styles'
+            }
         },
-        production: {
-            src: paths.src + 'scss/**/main.scss',
-            dest: paths.production + 'styles'
+        admin: {
+            development: {
+                src: paths.admin.src + 'scss/**/*.scss',
+                dest: paths.admin.development + 'styles'
+            },
+            production: {
+                src: paths.admin.src + 'scss/**/main.scss',
+                dest: paths.admin.production + 'styles'
+            }
         }
-    },
-    styles: {
-        src: paths.src + 'styles/**/*.css'
     },
     usemin: {
-        src: paths.src + '*.html',
-        dest: paths.production
+        app: {
+            src: paths.app.src + '*.html',
+            dest: paths.app.production
+        },
+        admin: {
+            src: paths.admin.src + '*.html',
+            dest: paths.admin.production
+        }
     },
     watch: {
-        images: paths.src + 'images/**/*',
-        scss: paths.src + 'scss/**/*.scss',
-        styles: paths.src + 'styles/**/*.css',
-        scripts: paths.src + 'js/**/*.js',
-        templates: paths.src + 'js/**/*.html'
+        app: {
+            images: paths.app.src + 'images/**/*',
+            scss: paths.app.src + 'scss/**/*.scss',
+            styles: paths.app.src + 'styles/**/*.css',
+            scripts: paths.app.src + 'js/**/*.js',
+            templates: paths.app.src + 'js/**/*.html'
+        },
+        admin: {
+            images: paths.admin.src + 'images/**/*',
+            scss: paths.admin.src + 'scss/**/*.scss',
+            styles: paths.admin.src + 'styles/**/*.css',
+            scripts: paths.admin.src + 'js/**/*.js',
+            templates: paths.admin.src + 'js/**/*.html'
+        }
     }
 };

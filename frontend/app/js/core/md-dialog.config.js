@@ -11,8 +11,7 @@
         $provide.decorator('$mdDialog', ['$delegate', function ($delegate) {
             var defaultOptions = {
                 clickOutsideToClose: true,
-                hasBackdrop: false,
-                fullscreen: true
+                hasBackdrop: false
             };
 
             var methodHandle = $delegate.show;

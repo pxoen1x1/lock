@@ -114,7 +114,6 @@
                 });
         }
 
-
         function listenChatEvent() {
             chatHandler = chatSocketservice.onChat(function (chat, type) {
                 if (type === 'create') {

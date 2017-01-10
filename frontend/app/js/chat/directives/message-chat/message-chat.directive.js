@@ -80,13 +80,11 @@
     MessageChatController.$inject = [
         'coreConstants',
         'chatConstants',
-        'conf',
-        'chatSocketservice',
-        'usingLanguageService'
+        'conf'
     ];
 
     /* @ngInject */
-    function MessageChatController(coreConstants, chatConstants, conf, chatSocketservice, usingLanguageService) {
+    function MessageChatController(coreConstants, chatConstants, conf) {
         var vm = this;
 
         vm.isImage = false;

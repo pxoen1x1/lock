@@ -478,8 +478,7 @@ let RequestController = {
                         {
                             type: 'update',
                             request: request
-                        },
-                        req
+                        }
                     );
 
                     return request;

@@ -1,4 +1,4 @@
-/* global sails, waterlock, User, UserService, FileService */
+/* global sails, waterlock, User, UserService, FileService, SplashPaymentService */
 
 /**
  * UserController.js
@@ -72,8 +72,8 @@ let UserController = waterlock.actions.user({
             );
     },
     updateCustomer(req, res){
-        var user = req.session.user;
-        var params = req.allParams();
+        let user = req.session.user;
+        let params = req.allParams();
 
         if (!user.spCustomerId) {
             // Splash Payment customer creates on registration
@@ -84,7 +84,9 @@ let UserController = waterlock.actions.user({
 
         UserService.getUser(user)
             .then((foundUser) => {
-                return SplashPaymentService.updateCustomer(user.spCustomerId, user, foundUser.auth.email, params.customerData)
+
+                return SplashPaymentService
+                    .updateCustomer(user.spCustomerId, user, foundUser.auth.email, params.customerData);
             })
             .then((customer) => {
                 return res.ok(
@@ -100,9 +102,9 @@ let UserController = waterlock.actions.user({
                 });
     },
     updateCustomerCard(req, res){
-        var user = req.session.user;
+        let user = req.session.user;
         //let userId = req.session.user.id;
-        var params = req.allParams();
+        let params = req.allParams();
 
 
         if (!user.spCustomerId) {
@@ -189,19 +191,7 @@ let UserController = waterlock.actions.user({
             });
         }
 
-        if (user.password) {
-            delete user.password;
-        }
-
-        if (user.id) {
-            delete user.id;
-        }
-
         if (user.details) {
-            if (user.details.rating) {
-                delete user.details.rating;
-            }
-
             user.userDetail = user.details;
 
             delete user.details;

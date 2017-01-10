@@ -15,7 +15,7 @@ module.exports = function (req, res, next) {
     AuthService.getUserByToken(req)
         .then(
             (user) => {
-                if(!user) {
+                if (!user) {
                     throw new Error();
                 }
 
@@ -34,7 +34,8 @@ module.exports = function (req, res, next) {
             () => {
                 sails.log.debug(new Error('You are not permitted to perform this action.'));
 
-                return res.forbidden(
+                return res.json(
+                    401,
                     {
                         message: req.__('You are not permitted to perform this action.')
                     }

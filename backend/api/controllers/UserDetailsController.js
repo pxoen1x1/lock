@@ -1,4 +1,4 @@
-/* global sails, UserDetail, Request */
+/* global sails, UserDetailService, RequestService */
 
 /**
  * UserDetailsController
@@ -13,7 +13,7 @@ const STATUS = sails.config.requests.STATUSES;
 
 let UserDetailsController = {
     updateLocation(req, res){
-        let specialist = req.session.user.id;
+        let specialist = req.session.user;
         let params = req.body;
         let location = params.location;
 
@@ -29,39 +29,40 @@ let UserDetailsController = {
             longitude: location.longitude
         };
 
-        UserDetail.update({user: specialist}, userDetail)
+        UserDetailService.updateLocation(specialist, userDetail)
             .then(
-                (updatedUserDetails) => {
-                    let location = {
-                        latitude: updatedUserDetails[0].latitude,
-                        longitude: updatedUserDetails[0].longitude
-                    };
-
-                    let criteria = {
-                        executor: specialist,
-                        status: STATUS.IN_PROGRESS
-                    };
-
+                (location) => {
                     res.ok(
                         {
                             location: location
                         }
                     );
 
-                    return [Request.findOne(criteria), location];
+                    let criteria = {
+                        executor: specialist.id,
+                        status: STATUS.IN_PROGRESS
+                    };
+
+                    return [location, RequestService.getRequests(criteria)];
                 }
             )
             .spread(
-                (request, location) => {
-                    if (!request) {
+                (location, requests) => {
+                    if (requests.length === 0) {
 
-                        return;
+                        return Promise.reject('Request is not found.');
                     }
 
-                    let clientRoom = `user_${request.owner}`;
+                    let clientRooms = requests.map(
+                        (request) => {
+                            let ownerId = request.owner.id || request.owner;
+
+                            return `user_${ownerId}`;
+                        }
+                    );
 
                     sails.sockets.broadcast(
-                        clientRoom,
+                        clientRooms,
                         'location',
                         {
                             type: 'update',

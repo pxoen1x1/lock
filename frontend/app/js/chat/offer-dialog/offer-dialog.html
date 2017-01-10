@@ -1,0 +1,75 @@
+<md-dialog class="send-offer" aria-label="Send Offer">
+  <form role="form"
+        name="sendOfferForm"
+        novalidate
+        ng-submit="vm.sendOffer(vm.offer, sendOfferForm.$valid)">
+    <md-toolbar class="md-menu-toolbar md-default-theme">
+      <div class="md-toolbar-tools">
+        <h2>Send Offer</h2>
+        <span flex></span>
+        <md-button class="md-icon-button"
+                   aria-label="Close Dialog"
+                   ng-click="vm.cancel()">
+          <i class="material-icons">close</i>
+        </md-button>
+      </div>
+    </md-toolbar>
+    <md-dialog-content>
+      <div class="md-dialog-content">
+        <div layout="row" ng-if="vm.currentUserType === vm.userType.GROUP_ADMIN">
+          <md-input-container flex>
+            <label>Group Member</label>
+            <md-select role="listbox"
+                       required
+                       md-select-infinite-scroll
+                       on-scroll="vm.loadGroupMember(vm.groupMemberQuery)"
+                       ng-model-options="{ trackBy: '$value.id' }"
+                       ng-model="vm.offer.executor">
+              <md-select-header>
+                <input type="search"
+                       placeholder="Search for a group member..."
+                       ng-change="vm.loadGroupMember(vm.groupMemberQuery)"
+                       ng-model-options="{ debounce: 400 }"
+                       ng-model="vm.groupMemberQuery">
+              </md-select-header>
+              <md-optgroup label="group members">
+                <md-option ng-repeat="member in vm.groupMembers track by member.id"
+                           ng-value="member">
+                  <div ng-bind="::member.fullName"></div>
+                  <div class="secondary-text" ng-bind="::member.auth.email"></div>
+                </md-option>
+              </md-optgroup>
+            </md-select>
+          </md-input-container>
+        </div>
+        <div layout="row">
+          <md-input-container class="md-block" flex>
+            <label>Message</label>
+            <input type="text"
+                   name="message"
+                   required
+                   ng-model="vm.offer.message">
+          </md-input-container>
+        </div>
+        <div layout="row">
+          <md-input-container class="md-block" flex>
+            <label>Cost (USD)</label>
+            <input type="number"
+                   name="cost"
+                   required
+                   ng-model="vm.offer.cost">
+          </md-input-container>
+        </div>
+      </div>
+    </md-dialog-content>
+    <md-dialog-actions layout="row" layout-align="end center">
+      <button type="submit"
+              class="md-button md-button-blue">Send Offer
+      </button>
+      <button type="button"
+              class="md-button"
+              ng-click="vm.cancel()">Cancel
+      </button>
+    </md-dialog-actions>
+  </form>
+</md-dialog>

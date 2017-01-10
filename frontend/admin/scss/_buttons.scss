@@ -1,0 +1,132 @@
+.md-button {
+  &.md-button-blue {
+    &, &:not([disabled]), &.md-fab {
+      &, md-icon {
+        color: #fff;
+      }
+
+      &, &:focus {
+        background-color: $primary-color;
+      }
+
+      &:hover {
+        background-color: rgb(0, 145, 234);
+      }
+    }
+
+    &.md-button-outline {
+      border-color: $primary-color;
+
+      &, md-icon {
+        color: $primary-color;
+      }
+
+      &:hover {
+        background-color: $primary-color;
+      }
+    }
+  }
+
+  &.md-button-green {
+    &, &:not([disabled]), &.md-fab {
+
+      &, md-icon {
+        color: #fff;
+      }
+
+      &, &:focus {
+        background-color: $success-color;
+      }
+
+      &:hover {
+        background-color: #4CAF50;
+      }
+    }
+
+    &.md-button-outline {
+      border-color: $success-color;
+
+      &, md-icon {
+        color: $success-color;
+      }
+
+      &:hover {
+        background-color: $success-color;
+      }
+    }
+  }
+
+  &.md-button-red {
+    &, &:not([disabled]), &.md-fab {
+      &, md-icon {
+        color: #fff;
+      }
+
+      &, &:focus {
+        background-color: $error-color;
+      }
+
+      &:hover {
+        background-color: #F44336;
+      }
+    }
+
+    &.md-button-outline {
+      border-color: $error-color;
+
+      &, md-icon {
+        color: $error-color;
+      }
+
+      &:hover {
+        background-color: $error-color;
+      }
+    }
+  }
+
+  &.md-button-outline {
+    background-color: #fff;
+    border-width: 1px;
+    border-style: solid;
+
+    &:hover {
+      &, md-icon {
+        color: #fff;
+      }
+    }
+  }
+
+  &.md-fab {
+    &.md-button-mini {
+      width: 34px;
+      height: 34px;
+
+      md-icon {
+        min-width: 10px;
+        min-height: 10px;
+
+        font-size: 18px;
+        line-height: 18px;
+      }
+    }
+  }
+
+  &.md-button-mini {
+    min-width: 10px;
+    min-height: 10px;
+    line-height: 10px;
+    font-size: 10px;
+  }
+
+  .disabled &, &[disabled], &.disabled {
+    &, &:hover, &:focus {
+      cursor: default;
+      background-color: $disabled-background-color !important;
+      color: $disabled-color !important;
+
+      .md-ripple-container {
+        display: none;
+      }
+    }
+  }
+}

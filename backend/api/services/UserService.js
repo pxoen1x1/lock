@@ -97,9 +97,9 @@ let UserService = {
                 (createdUser) => createdUser
             );
     },
-    update(queryKey, updatedUser) {
+    update(criteria, updatedUser) {
 
-        return User.findOne(queryKey)
+        return User.findOne(criteria)
             .then((user) => {
                 if (!user) {
 
@@ -108,16 +108,7 @@ let UserService = {
 
                 user = Object.assign(user, updatedUser);
 
-                user.save(
-                    (err) => {
-                        if (err) {
-
-                            return Promise.reject(err);
-                        }
-
-                        return user;
-                    }
-                );
+                return HelperService.saveModel(user);
             });
     },
     getUserBySSN(ssn) {

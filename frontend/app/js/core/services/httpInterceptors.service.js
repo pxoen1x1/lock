@@ -35,14 +35,17 @@
         }
 
         function responseError(response) {
-            if (response.data && response.data.message) {
+            if (response.data) {
+                if (angular.isString(response.data)) {
+                    response.data = JSON.parse(response.data);
+                }
+
                 var toast = $injector.get('toastService');
                 var reg = /^20+.$/;
                 var isStatusOk = reg.test(response.status);
                 var message = response.data.message;
-
                 if (response.status > 0 && !isStatusOk) {
-                    if (response.status === 403) {
+                    if (response.status === 401) {
                         localService.removeAuth();
                     }
 
