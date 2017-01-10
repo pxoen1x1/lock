@@ -195,7 +195,11 @@ let SplashPaymentController = {
         let user = req.session.user;
 
         if (!user.spMerchantId) {
-            return Promise.reject();
+            return res.ok(
+                {
+                    merchantFunds: null
+                }
+            );
         }
 
         SplashPaymentService.getMerchantFunds(user.spMerchantId)

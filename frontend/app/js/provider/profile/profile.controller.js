@@ -25,7 +25,7 @@
         vm.userProfile = {};
         vm.userProfile.merchantData = {};
         vm.userProfile.paymentData = {};
-        vm.userProfile.merchantFunds = {};
+        vm.merchantFunds = 0;
         vm.nonChangedUserProfile = {};
         vm.enableWithdrawals = false;
 
@@ -198,12 +198,14 @@
                             return coreDataservice.getMerchantFunds();
                         })
                         .then(function (funds) {
-                            vm.userProfile.merchantFunds = funds.available / 100; // in cents
+                            if(funds && funds.available){
+                                vm.userProfile.merchantFunds = funds.available / 100; // in cents
+                            }
 
                             return coreDataservice.isCreatedTodaysPayout();
                         })
                         .then(function (payoutCreated) {
-                            if (!payoutCreated) {
+                            if (!payoutCreated && vm.merchantFunds > 0) {
                                 vm.enableWithdrawals = true;
                             }
 
