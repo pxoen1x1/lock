@@ -6,17 +6,14 @@
         .controller('SpecialistRegistrationController', SpecialistRegistrationController);
 
     SpecialistRegistrationController.$inject = [
-        '$q',
         '$state',
-        'coreDataservice',
         'coreConstants',
-        'coreDictionary',
         'authService',
         'registrationConstants'
     ];
 
     /* @ngInject */
-    function SpecialistRegistrationController($q, $state, coreDataservice, coreConstants, coreDictionary, authService,
+    function SpecialistRegistrationController($state, coreConstants, authService,
                                               registrationConstants) {
 
         var vm = this;
@@ -75,16 +72,6 @@
             if (!isFormValid) {
 
                 return;
-            }
-
-            if (vm.isCompanyRegistrationSelected) {
-                user.groups.licenses = remoleInvalidLicenses(vm.licenses);
-
-                delete user.details;
-            } else {
-                user.details.licenses = remoleInvalidLicenses(vm.licenses);
-
-                delete user.groups;
             }
 
             auth.user = user;
