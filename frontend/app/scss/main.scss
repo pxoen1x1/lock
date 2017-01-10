@@ -18,6 +18,10 @@ $panel-background-color: rgb(245, 245, 245);
   }
 }
 
+.has-error {
+  color: $error-color;
+}
+
 .block-center {
   position: absolute;
   top: 50%;
