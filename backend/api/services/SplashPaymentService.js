@@ -2,6 +2,7 @@
 
 'use strict';
 
+let Promise = require('bluebird');
 const https = require('https');
 const SPLASH_PAYMENT = sails.config.splashpayment;
 

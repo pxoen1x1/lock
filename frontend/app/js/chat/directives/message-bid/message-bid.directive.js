@@ -142,7 +142,6 @@
                 controller: 'PaymentDialogController',
                 controllerAs: 'vm',
                 templateUrl: 'chat/payment-dialog/payment-dialog.html',
-                parent: angular.element(document.body),
                 targetEvent: ev,
                 clickOutsideToClose:true,
                 locals: { currentBid: vm.currentBid, currentRequest: vm.currentRequest }
