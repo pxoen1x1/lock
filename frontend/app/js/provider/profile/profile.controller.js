@@ -13,12 +13,13 @@
         'coreDictionary',
         'currentUserService',
         'usingLanguageService',
-        '$mdDialog'
+        '$mdDialog',
+        'citiesLoader'
     ];
 
     /* @ngInject */
     function ProviderProfileController($q, conf, coreConstants, coreDataservice, coreDictionary, currentUserService,
-                                       usingLanguageService, $mdDialog) {
+                                       usingLanguageService, $mdDialog, citiesLoader) {
         var vm = this;
 
         vm.languages = [];
@@ -37,6 +38,9 @@
 
         vm.bankAccountTypes = [];
         vm.states = [];
+        vm.cities = [];
+        vm.searchCity = '';
+        vm.selectedCity = '';
         vm.serviceTypes = [];
 
         vm.datePickerOptions = {
@@ -60,6 +64,8 @@
         vm.updateMerchant = updateMerchant;
         vm.withdrawal = withdrawal;
         vm.getStateByCode = getStateByCode;
+        vm.getCities = getCities;
+        vm.resetSelectedCity = resetSelectedCity;
 
         activate();
 
@@ -136,6 +142,8 @@
 
                 return;
             }
+
+            vm.userProfile.merchantData.city = vm.selectedCity.city
 
             return coreDataservice.updateMerchant(userProfile)
                 .then(function (merchantEntity) {
@@ -260,10 +268,27 @@
 
             for (var i=0; i < vm.states.length; i++) {
                 if (vm.states[i].code === code) {
-                    return vm.states[i].state;
+                    return vm.states[i];
                 }
             }
 
+        }
+
+        function getCities(state, query) {
+
+            return citiesLoader.getCities(this.getStateByCode(state).id, query)
+                .then(function (cities) {
+                    vm.cities = cities;
+
+                    return vm.cities;
+                });
+        }
+
+        function resetSelectedCity() {
+            vm.address.city = null;
+            vm.searchCity = '';
+
+            citiesLoader.resetSelectedCity();
         }
 
         function getServiceTypes() {
