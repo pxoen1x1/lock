@@ -75,7 +75,7 @@
                         return;
                     }
 
-                    vm.userProfile.spCardNumber = spCardNumber;
+                    vm.userProfile.spCardNumber = '****' + spCardNumber;
 
                     return currentUserService.setUserToLocalStorage(vm.userProfile);
                 }).finally(function(){
@@ -129,10 +129,21 @@
                 });
         }
 
+
+        function getStates() {
+            return coreDictionary.getStates()
+                .then(function (response) {
+                    vm.states = response.states;
+
+                    return vm.states;
+                });
+        }
+
         function activate() {
             $q.all([
                 getUser(),
-                getLanguages()
+                getLanguages(),
+                getStates()
             ])
                 .then(function () {
                     vm.userProfile.usingLanguage = vm.userProfile.usingLanguage || usingLanguageService.getLanguage();

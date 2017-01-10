@@ -39,7 +39,7 @@
             <span class="md-body-1" ng-bind="account.status"></span>
         </div>
     </div>
-    <md-button ng-if="vm.userProfile.paymentData.length == 0 && !vm.isEditingPayment" ng-click="vm.isEditingPayment = true"">Add</md-button>
+    <md-button ng-if="vm.userProfile.paymentData.length === 0 && !vm.isEditingPayment" ng-click="vm.isEditingPayment = true"">Add</md-button>
     <md-button ng-if="vm.userProfile.paymentData.length > 0 && !vm.isEditingPayment" ng-click="vm.isEditingPayment = true">Edit</md-button>
 </div>
 <div ng-if="vm.isEditingPayment">
@@ -76,5 +76,6 @@
                    ng-if="vm.isEditingPayment">
             Save
         </md-button>
+        <md-button ng-click="vm.isEditingPayment = false" ng-if="vm.isEditingPayment">Cancel</md-button>
     </form>
 </div>

@@ -10,7 +10,6 @@
     /* @ngInject */
     function currentUserService($q, coreDataservice, localService, coreConstants) {
         var getUserPromise;
-        var getUserPaymentPromise;
         var userType;
 
         var service = {

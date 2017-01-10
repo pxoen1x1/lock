@@ -1,14 +1,12 @@
-<md-toolbar class="md-menu-toolbar md-whiteframe-1dp md-default-theme">
+<md-toolbar class="md-menu-toolbar" md-whiteframe="1">
   <div class="md-toolbar-tools">
     <md-button class="md-icon-button button-menu"
                hide-gt-sm ng-click="vm.toggleMenu()"
                aria-label="Menu">
-      <md-icon>
-        <i class="material-icons">menu</i>
-      </md-icon>
+      <md-icon>menu</md-icon>
     </md-button>
     <h2 class="root"
-        ng-show="$mdMedia('gt-xs')">
+        hide-xs>
       <span ng-repeat="pageTitle in vm.pageTitles track by $index">
         <a ng-href="{{pageTitle.url}}"
            ng-bind="pageTitle.title">
@@ -24,37 +22,29 @@
       <span ng-bind="vm.pageTitles[vm.pageTitles.length - 1].title"></span>
     </h2>
     <span flex hide-gt-sm></span>
-    <div ng-if="$mdMedia('gt-xs')">
-      <md-button class="button-login"
-                aria-label="Log out"
-                ui-sref="login"
-                ng-if="!vm.isAuthenticated()">
-                Log in
-      </md-button>
-      <md-button class="button-login"
-                aria-label="Log out"
-                ng-if="vm.isAuthenticated()"
-                ng-click="vm.logout()">
-                Log out
-      </md-button>
+    <div>
+      <a class="md-button button-login"
+         layout="row"
+         layout-align="center center"
+         aria-label="Log in"
+         ui-sref="login"
+         ng-if="!vm.isAuthenticated()">
+        <i class="fa fa-sign-in"
+           aria-hidden="true">
+        </i>
+        <span class="m-l-xs" hide-xs>Log in</span>
+      </a>
+      <a class="md-button button-login"
+         layout="row"
+         layout-align="center center"
+         aria-label="Log out"
+         ng-if="vm.isAuthenticated()"
+         logout>
+        <i class="fa fa-sign-out"
+           aria-hidden="true">
+        </i>
+        <span class="m-l-xs" hide-xs>Log out</span>
+      </a>
     </div>
-    <md-button class="md-icon-button button-menu"
-               aria-label="Log in"
-               hide-gt-xs
-               ui-sref="login"
-               ng-if="!vm.isAuthenticated()">
-      <md-icon>
-        <i class="fa fa-sign-in" aria-hidden="true"></i>
-      </md-icon>
-    </md-button>
-    <md-button class="md-icon-button button-menu"
-               aria-label="Log out"
-               hide-gt-xs
-               ng-if="vm.isAuthenticated()"
-               ng-click="vm.logout()">
-      <md-icon>
-        <i class="fa fa-sign-out" aria-hidden="true"></i>
-      </md-icon>
-    </md-button>
   </div>
 </md-toolbar>

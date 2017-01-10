@@ -1,7 +1,7 @@
 <md-toolbar class="header-toolbar">
   <div class="md-toolbar-tools header-toolbar-tools">
     <menu-toggle hide-gt-sm></menu-toggle>
-    <div layout="row" flex>
+    <div layout="row" layout-align-sm="center center" flex>
       <h2 class="breadcrumb">
         <span ng-bind="$state.current.data.title"></span>
       </h2>
@@ -11,7 +11,7 @@
          layout="center center"
          logout>
         <md-icon>exit_to_app</md-icon>
-        <span class="m-l-xs" ng-if="$mdMedia('gt-xs')">Logout</span>
+        <span class="m-l-xs" hide-xs>Logout</span>
       </a>
     </div>
   </div>
