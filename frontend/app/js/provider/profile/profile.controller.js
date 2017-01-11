@@ -40,7 +40,6 @@
         vm.states = [];
         vm.cities = [];
         vm.searchCity = '';
-        vm.selectedCity = '';
         vm.serviceTypes = [];
 
         vm.datePickerOptions = {

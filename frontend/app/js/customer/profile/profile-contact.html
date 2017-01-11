@@ -22,7 +22,7 @@
             <span class="md-body-1" ng-bind="vm.userProfile.customerData.zip"></span>
         </div>
     </div>
-    <md-button ng-if="!vm.isEditingCustomer" ng-click="vm.isEditingCustomer = true"">Edit</md-button>
+    <md-button ng-if="!vm.isEditingCustomer" class="md-button-blue" ng-click="vm.isEditingCustomer = true"">Edit</md-button>
 
 </div>
 
@@ -41,8 +41,9 @@
 
             <md-input-container class="md-block" flex>
                 <label>State</label>
-                <md-select ng-model="vm.userProfile.customerData.state">
-                    <md-option ng-repeat="state in vm.states track by state.id" ng-value="state.code">
+                <md-select ng-model="vm.userProfile.customerData.state"
+                           ng-change="vm.resetSelectedCity(); vm.getCities(vm.userProfile.customerData.state)">
+                    <md-option ng-repeat="state in vm.states track by state.id" ng-value="state.state">
                         <span ng-bind="state.state"></span>
                     </md-option>
                 </md-select>
@@ -50,10 +51,32 @@
 
             <md-input-container class="md-block" flex>
                 <label>City</label>
-                <input name="City"
-                       required
-                       ng-maxlength="20"
-                       ng-model="vm.userProfile.customerData.city">
+
+                <md-select role="listbox"
+                           class="cities-select"
+                           name="city"
+                           md-select-infinite-scroll
+                           on-scroll="vm.getCities(vm.userProfile.customerData.state, vm.searchCity)"
+                           ng-model="vm.userProfile.customerData.city" >
+                    <md-select-header>
+                        <input type="search"
+                               placeholder="Search for a city.."
+                               ng-change="vm.getCities(vm.userProfile.customerData.state, vm.searchCity)"
+                               ng-model-options="{ debounce: 400 }"
+                               ng-model="vm.searchCity">
+                    </md-select-header>
+                    <md-optgroup label="cities">
+
+                        <md-option ng-value="vm.userProfile.customerData.city">
+                            <span ng-bind="vm.userProfile.customerData.city"></span>
+                        </md-option>
+
+                        <md-option ng-repeat="city in vm.cities | filter: vm.searchCity track by city.id"
+                                   ng-value="city.city">
+                            <span ng-bind="city.city"></span>
+                        </md-option>
+                    </md-optgroup>
+                </md-select>
             </md-input-container>
 
             <md-input-container class="md-block" flex>
@@ -65,10 +88,14 @@
             </md-input-container>
         </div>
         <md-button type="submit"
-                   class="md-raised md-warn"
+                   class="md-button-blue"
                    aria-label="Save"
                    ng-if="vm.isEditingCustomer">
             Save
+        </md-button>
+        <md-button class="md-button-blue" ng-if="vm.isEditingCustomer"
+                   ng-click="vm.cancelEditing()">
+            Cancel
         </md-button>
     </form>
 </div>

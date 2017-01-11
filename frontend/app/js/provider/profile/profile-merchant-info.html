@@ -44,7 +44,7 @@
             <md-input-container class="md-block" flex>
                 <label>State</label>
                 <md-select ng-model="vm.userProfile.merchantData.state"
-                           ng-change="vm.resetSelectedCity(); vm.getCities(vm.address.state)">
+                           ng-change="vm.resetSelectedCity(); vm.getCities(vm.userProfile.merchantData.state)">
                     <md-option ng-repeat="state in vm.states track by state.id" ng-value="state.code">
                         <span ng-bind="state.state"></span>
                     </md-option>
@@ -59,7 +59,7 @@
                            name="city"
                            md-select-infinite-scroll
                            on-scroll="vm.getCities(vm.userProfile.merchantData.state, vm.searchCity)"
-                           ng-model="vm.selectedCity">
+                           ng-model="vm.userProfile.merchantData.city">
                     <md-select-header>
                         <input type="search"
                                placeholder="Search for a city.."
@@ -68,8 +68,13 @@
                                ng-model="vm.searchCity">
                     </md-select-header>
                     <md-optgroup label="cities">
+
+                        <md-option ng-value="vm.userProfile.merchantData.city">
+                            <span ng-bind="vm.userProfile.merchantData.city"></span>
+                        </md-option>
+
                         <md-option ng-repeat="city in vm.cities | filter: vm.searchCity track by city.id"
-                                   ng-value="city">
+                                   ng-value="city.city">
                             <span ng-bind="city.city"></span>
                         </md-option>
                     </md-optgroup>

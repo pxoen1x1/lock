@@ -12,18 +12,24 @@
         'coreConstants',
         'coreDataservice',
         'conf',
-        'usingLanguageService'];
+        'usingLanguageService',
+        'citiesLoader'
+    ];
 
     /* @ngInject */
     function CustomerProfileController($q, coreDictionary, currentUserService, coreConstants, coreDataservice, conf,
-    usingLanguageService) {
+    usingLanguageService, citiesLoader) {
         var vm = this;
 
         vm.userProfile = {};
         vm.userProfile.customerData = {};
         vm.userProfile.paymentData = {};
+        vm.nonChangedUserProfile = {};
         vm.newPortrait = '';
         vm.languages = [];
+        vm.states = [];
+        vm.cities = [];
+        vm.searchCity = '';
         vm.baseUrl = conf.BASE_URL;
         vm.defaultPortrait = coreConstants.IMAGES.defaultPortrait;
 
@@ -35,6 +41,10 @@
         vm.updateCustomer = updateCustomer;
         vm.updateCustomerCard = updateCustomerCard;
         vm.getUser = getUser;
+        vm.getCities = getCities;
+        vm.cancelEditing = cancelEditing;
+
+        vm.getStateByName = getStateByName;
 
         activate();
 
@@ -139,6 +149,33 @@
                 });
         }
 
+        function getStateByName(state) {
+
+            for (var i=0; i < vm.states.length; i++) {
+                if (vm.states[i].state === state) {
+                    return vm.states[i];
+                }
+            }
+
+        }
+
+        function getCities(state, query) {
+            let cityId = vm.getStateByName(state).id;
+            return citiesLoader.getCities(cityId, query)
+                .then(function (cities) {
+                    vm.cities = cities;
+
+                    return vm.cities;
+                });
+        }
+
+        function cancelEditing() {
+            vm.userProfile = angular.copy(vm.nonChangedUserProfile);
+            vm.isEditing = false;
+            vm.isEditingCustomer = false;
+            vm.isEditingCard = false;
+        }
+
         function activate() {
             $q.all([
                 getUser(),
@@ -147,6 +184,9 @@
             ])
                 .then(function () {
                     vm.userProfile.usingLanguage = vm.userProfile.usingLanguage || usingLanguageService.getLanguage();
+
+                    vm.nonChangedUserProfile = angular.copy(vm.userProfile);
+                    vm.getCities(vm.userProfile.customerData.state);
                 });
         }
     }
