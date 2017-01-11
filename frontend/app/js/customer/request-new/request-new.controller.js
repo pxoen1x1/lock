@@ -5,11 +5,20 @@
         .module('app.customer')
         .controller('CustomerNewRequestController', CustomerNewRequestController);
 
-    CustomerNewRequestController.$inject = ['$q', '$state', 'citiesLoader', 'geocoderService',
-        'coreDataservice', 'coreDictionary', 'customerDataservice', 'coreConstants'];
+    CustomerNewRequestController.$inject = [
+        '$q',
+        '$state',
+        'moment',
+        'citiesLoader',
+        'geocoderService',
+        'coreDataservice',
+        'coreDictionary',
+        'customerDataservice',
+        'coreConstants'
+    ];
 
     /* @ngInject */
-    function CustomerNewRequestController($q, $state, citiesLoader, geocoderService,
+    function CustomerNewRequestController($q, $state, moment, citiesLoader, geocoderService,
                                           coreDataservice, coreDictionary, customerDataservice, coreConstants) {
         var promises = {
             getStates: null
@@ -33,7 +42,7 @@
         vm.searchCity = '';
 
         vm.datePickerOptions = {
-            minDate: new Date()
+            minDate: moment().format('YYYY-MM-DD')
         };
         vm.timePickerOptions = coreConstants.MD_PICKERS_OPTIONS.timePicker;
 

@@ -1,9 +1,9 @@
 .customer {
   .request-content {
 
-    .custom-date {
+    /*.custom-date {
       max-height: 60px;
-    }
+    }*/
 
     sup {
       margin-left: 4px;
@@ -13,9 +13,38 @@
     .warning-message {
       font-size: 12px;
       line-height: 14px;
-      color: rgb(221, 44, 0);
+      color: $error-color;
     }
 
+    .has-error {
+      md-radio-button {
+        .md-off {
+          border-color: $error-color;
+        }
+      }
+    }
+
+    mdp-date-picker,
+    mdp-time-picker {
+
+      md-input-container {
+        margin-bottom: 0;
+
+        .md-errors-spacer {
+          min-height: 0
+        }
+      }
+
+      &.has-error {
+        label, md-icon {
+          color: $error-color;
+        }
+
+        .md-input {
+          border-color: $error-color;
+        }
+      }
+    }
   }
 
   .tab-bar {
@@ -69,10 +98,10 @@
   }
 
   .recommended-content {
-    md-card-title-text{
+    md-card-title-text {
       min-width: 0;
 
-      .md-headline{
+      .md-headline {
         word-wrap: break-word;
       }
     }

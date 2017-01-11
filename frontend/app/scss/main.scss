@@ -18,6 +18,10 @@ $panel-background-color: rgb(245, 245, 245);
   }
 }
 
+.has-error {
+  color: $error-color;
+}
+
 .block-center {
   position: absolute;
   top: 50%;
@@ -245,6 +249,12 @@ md-input-container {
       .md-input {
         border-color: rgb(45, 50, 62);
       }
+    }
+  }
+
+  &.hide-error-msg {
+    .md-errors-spacer {
+      min-height: 0;
     }
   }
 }
