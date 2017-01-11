@@ -35,18 +35,29 @@
         }
 
         function responseError(response) {
-            if (response.data && response.data.message) {
-                var toast = $injector.get('toastService');
-                var reg = /^20+.$/;
-                var isStatusOk = reg.test(response.status);
-                var message = response.data.message;
+            var reg = /^20+.$/;
+            var isStatusOk = reg.test(response.status);
 
-                if (response.status > 0 && !isStatusOk) {
-                    if (response.status === 403) {
-                        localService.removeAuth();
+            if (response.status > 0 && !isStatusOk) {
+                if (response.status === 401) {
+                    var $state = $injector.get('$state');
+
+                    localService.removeAuth();
+                    $state.go('home');
+                }
+
+                if (response.data) {
+                    if (angular.isString(response.data)) {
+                        response.data = JSON.parse(response.data);
                     }
 
-                    toast.error(message);
+                    var message = response.data.message;
+
+                    if (message) {
+                        var toast = $injector.get('toastService');
+
+                        toast.error(message);
+                    }
                 }
             }
 

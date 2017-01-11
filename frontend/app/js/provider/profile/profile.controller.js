@@ -25,7 +25,7 @@
         vm.userProfile = {};
         vm.userProfile.merchantData = {};
         vm.userProfile.paymentData = {};
-        vm.userProfile.merchantFunds = {};
+        vm.userProfile.merchantFunds = 0;
         vm.enableWithdrawals = false;
 
         var promises = {
@@ -55,6 +55,7 @@
         vm.getUser = getUser;
         vm.addLicenseForm = addLicenseForm;
         vm.removeLicenseForm = removeLicenseForm;
+        vm.cancelEditing = cancelEditing;
         vm.updateMerchant = updateMerchant;
         vm.withdrawal = withdrawal;
 
@@ -196,7 +197,9 @@
                             return coreDataservice.getMerchantFunds();
                         })
                         .then(function (funds) {
-                            vm.userProfile.merchantFunds = funds.available / 100; // in cents
+                            if(funds && funds.available){
+                                vm.userProfile.merchantFunds = funds.available / 100; // in cents
+                            }
 
                             return coreDataservice.isCreatedTodaysPayout();
                         })
@@ -216,6 +219,12 @@
 
         function removeLicenseForm(index) {
             vm.userProfile.details.licenses.splice(index, 1);
+        }
+
+        function cancelEditing() {
+            vm.userProfile = vm.nonChangedUserProfile;
+            vm.isEditingCustomer = false;
+            vm.isEditing = false;
         }
 
         function activate() {

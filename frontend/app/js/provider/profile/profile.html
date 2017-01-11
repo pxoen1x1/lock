@@ -62,11 +62,6 @@
            flex-gt-xs="25">
         <div class="avatar-wrapper">
           <div class="profile-avatar"
-               file-uploader
-               is-single-file="true"
-               allowed-extensions="{{ vm.fileUploaderOptions.allowedFileExtensions.images }}"
-               max-size="{{ vm.fileUploaderOptions.maxFileSize }}"
-               selected-file-src="vm.newPortrait"
                ng-style="{ 'background-image': 'url(' + (vm.userProfile.portrait ?
                vm.baseUrl + vm.userProfile.portrait : vm.defaultPortrait)           + ')' }">
           </div>
@@ -118,7 +113,7 @@
            layout-align="start center"
            layout-align-gt-xs="start start">
 
-        <div style="width: 100%;" ng-cloak>
+        <div flex ng-cloak>
           <md-content>
             <md-tabs md-dynamic-height md-border-bottom>
               <md-tab label="General info">

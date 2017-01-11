@@ -248,7 +248,17 @@ let GroupService = {
                         .map(key => count[key])[0];
                 }
             );
-    }
+    },
+    getAdminsGroup(user) {
+        return Group.findOneByAdmin(user.id)
+            .populate('licenses')
+            .then(
+                (foundGroup) => {
+
+                    return foundGroup;
+                }
+            );
+    },
 };
 
 module.exports = GroupService;

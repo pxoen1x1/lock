@@ -60,7 +60,8 @@
                 $mdDialog.show({
                     templateUrl: 'core/login/login.html',
                     controller: 'LoginController',
-                    controllerAs: 'vm'
+                    controllerAs: 'vm',
+                    fullscreen: true
                 });
             }
 

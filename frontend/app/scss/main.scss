@@ -18,6 +18,10 @@ $panel-background-color: rgb(245, 245, 245);
   }
 }
 
+.has-error {
+  color: $error-color;
+}
+
 .block-center {
   position: absolute;
   top: 50%;
@@ -52,7 +56,7 @@ $panel-background-color: rgb(245, 245, 245);
 .md-button {
   &.md-button-blue {
 
-    &, &.md-fab {
+    &, &:not([disabled]), &.md-fab {
 
       &, md-icon {
         color: #fff;
@@ -81,7 +85,7 @@ $panel-background-color: rgb(245, 245, 245);
   }
 
   &.md-button-green {
-    &, &.md-fab {
+    &, &:not([disabled]), &.md-fab {
 
       &, md-icon {
         color: #fff;
@@ -110,7 +114,7 @@ $panel-background-color: rgb(245, 245, 245);
   }
 
   &.md-button-red {
-    &, &.md-fab {
+    &, &:not([disabled]), &.md-fab {
       &, md-icon {
         color: #fff;
       }
@@ -169,13 +173,6 @@ $panel-background-color: rgb(245, 245, 245);
     min-height: 10px;
     line-height: 10px;
     font-size: 10px;
-  }
-
-  &.button-login {
-    &, &:hover {
-      background-color: $primary-color;
-      color: #fff;
-    }
   }
 
   .disabled &, &[disabled], &.disabled {
@@ -252,6 +249,12 @@ md-input-container {
       .md-input {
         border-color: rgb(45, 50, 62);
       }
+    }
+  }
+
+  &.hide-error-msg {
+    .md-errors-spacer {
+      min-height: 0;
     }
   }
 }
@@ -447,4 +450,4 @@ md-content {
 @import 'maps';
 @import 'md-dialog';
 @import 'margins-and-paddings';
-@import '_group-members';
+@import 'group-members';

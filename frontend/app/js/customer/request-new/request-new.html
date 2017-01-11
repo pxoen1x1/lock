@@ -8,15 +8,16 @@
           name="requestForm"
           novalidate
           ng-submit="vm.createRequest(vm.request, requestForm.$valid)">
-      <div layout="column" layout-gt-xs="row">
-        <div flex-gt-xs="50">
+      <div layout="row" layout-xs="column">
+        <div flex-gt-xs="50"
+             ng-class="{ 'has-error': requestForm.serviceTypes.$invalid && requestForm.$submitted }">
           <p layout="row"
              layout-align="center start"
              layout-align-gt-xs="start start">
-            Type of service needed <sup>*</sup>
+            Type of service needed<sup>*</sup>
           </p>
           <md-radio-group class="md-primary"
-                          name="services"
+                          name="serviceTypes"
                           required
                           ng-model="vm.request.serviceType">
             <md-radio-button aria-label="{{ serviceType.name }}"
@@ -26,11 +27,12 @@
             </md-radio-button>
           </md-radio-group>
         </div>
-        <div flex-gt-xs="50">
+        <div flex-gt-xs="50"
+             ng-class="{ 'has-error': requestForm.emergency.$invalid && requestForm.$submitted }">
           <p layout="row"
              layout-align="center start"
              layout-align-gt-xs="start start">
-            Emergency <sup>*</sup>
+            Emergency<sup>*</sup>
           </p>
           <md-radio-group class="md-primary"
                           name="emergency"
@@ -43,36 +45,45 @@
               I need a locksmith for custom date
             </md-radio-button>
           </md-radio-group>
-          <div class="custom-date"
-               layout="row"
-               flex="100"
+          <div layout="row"
+               layout-wrap
                flex-gt-xs="80"
                ng-if="vm.isEmergency === false">
             <mdp-date-picker name="date"
                              mdp-placeholder="Date"
                              mdp-min-date="vm.datePickerOptions.minDate"
                              md-placeholder="Enter date"
-                             ng-required="vm.isEmergency === false"
+                             ng-required="!vm.request.forDate"
+                             ng-class="{ 'has-error': requestForm.date.$invalid && requestForm.$submitted }"
                              ng-click="vm.isEmergency = false"
                              ng-model="vm.request.forDate">
+              <div ng-messages="requestForm.date.$error">
+                <div ng-message="format">Invalid format</div>
+                <div ng-message="minDate">Min date</div>
+                <div ng-message="maxDate">Max date</div>
+              </div>
             </mdp-date-picker>
             <mdp-time-picker name="time"
                              mdp-placeholder="Time"
                              mdp-auto-switch="vm.timePickerOptions.autoSwitch"
-                             ng-required="vm.isEmergency === false"
+                             ng-required="!vm.request.forDate"
+                             ng-class="{ 'has-error': requestForm.time.$invalid && requestForm.$submitted }"
                              ng-click="vm.isEmergency = false"
                              ng-model="vm.request.forDate">
+              <div ng-messages="requestForm.time.$error">
+                <div ng-message="format">Invalid format</div>
+              </div>
             </mdp-time-picker>
           </div>
         </div>
       </div>
-      <br>
-      <div layout="column" layout-gt-xs="row">
-        <div flex-gt-xs="50">
+      <div layout="row" layout-xs="column">
+        <div flex-gt-xs="50"
+             ng-class="{ 'has-error': requestForm.location.$invalid && requestForm.$submitted }">
           <p layout="row"
              layout-align="center start"
              layout-align-gt-xs="start start">
-            Location <sup>*</sup>
+            Location<sup>*</sup>
           </p>
           <md-radio-group
               class="md-primary"
@@ -82,25 +93,27 @@
             <md-radio-button ng-value="false"
                              ng-click="vm.getAddressLocation()">Provide location by GPS
             </md-radio-button>
-            <div class="warning-message"
+            <div class="warning-message m-b-xs"
                  ng-if="vm.warnings.isLocationGpsWrong">
               Your GPS is wrong. Please, enter address manually
             </div>
             <md-radio-button ng-value="true">Provide location manually</md-radio-button>
-            <div layout="row"
-                 flex="100"
-                 flex-gt-xs="80"
-                 ng-click="vm.isLocationSetManually = true"
-                 ng-if="vm.isLocationSetManually === true">
-              <md-input-container class="md-block" flex="50">
-                <label>Address</label>
-                <input name="address"
-                       ng-required="vm.isLocationSetManually"
-                       ng-model-options="{ debounce: 400 }"
-                       ng-change="vm.getAddressLocation(vm.address)"
-                       ng-model="vm.address.address">
-              </md-input-container>
-              <md-input-container class="md-block" flex="25">
+          </md-radio-group>
+          <div layout="column"
+               layout-gt-sm="row"
+               flex-gt-xs="90"
+               ng-click="vm.isLocationSetManually = true"
+               ng-if="vm.isLocationSetManually === true">
+            <md-input-container class="hide-error-msg m-b-none" flex>
+              <label>Address</label>
+              <input name="address"
+                     ng-required="vm.isLocationSetManually"
+                     ng-model-options="{ debounce: 400 }"
+                     ng-change="vm.getAddressLocation(vm.address)"
+                     ng-model="vm.address.address">
+            </md-input-container>
+            <div layout="row" flex-gt-sm="50">
+              <md-input-container flex="50">
                 <label>State</label>
                 <md-select role="listbox"
                            name="state"
@@ -113,7 +126,7 @@
                   </md-option>
                 </md-select>
               </md-input-container>
-              <md-input-container class="md-block" flex="25">
+              <md-input-container flex>
                 <label>City</label>
                 <md-select role="listbox"
                            class="cities-select"
@@ -141,16 +154,17 @@
             </div>
             <div class="warning-message"
                  ng-if="vm.warnings.isLocationManuallyWrong">
-              Your address is wrong. Please, check it
+              Your address is wrong. Please, check it.
             </div>
-          </md-radio-group>
+          </div>
         </div>
         <div flex-gt-xs="50">
-          <div flex="100">
+          <div flex
+               ng-class="{ 'has-error': requestForm.typeOfRequest.$invalid && requestForm.$submitted }">
             <p layout="row"
                layout-align="center start"
                layout-align-gt-xs="start start">
-              Type of request <sup>*</sup>
+              Type of request<sup>*</sup>
             </p>
             <md-radio-group class="md-primary"
                             name="typeOfRequest"
@@ -161,8 +175,7 @@
               <md-radio-button ng-value="true">Public request</md-radio-button>
             </md-radio-group>
           </div>
-          <br>
-          <div flex="100">
+          <div flex>
             <p class="m-b-none"
                layout="row"
                layout-align="center start"
@@ -170,8 +183,8 @@
               Details (optional)
             </p>
             <div layout="row"
-                 flex="100"
-                 flex-gt-xs="70">
+                 flex
+                 flex-gt-xs="80">
               <md-input-container class="md-block" flex="40">
                 <label>Language</label>
                 <md-select role="listbox"
@@ -179,15 +192,20 @@
                            ng-model="vm.request.language">
                   <md-option ng-repeat="language in vm.languages track by language.id"
                              ng-value="language.id"
-                             ng-bind="language.name"></md-option>
+                             ng-bind="language.name">
+                  </md-option>
                 </md-select>
               </md-input-container>
               <md-input-container class="md-block" flex="60">
                 <label>Provider distance (miles)</label>
                 <input type="number"
                        name="distance"
+                       ng-min="1"
                        ng-max="100"
                        ng-model="vm.request.distance">
+                <div ng-messages="requestForm.distance.$error">
+                  <div ng-message="min">The minimum distance is 1 mile.</div>
+                </div>
                 <div ng-messages="requestForm.distance.$error">
                   <div ng-message="max">The maximum distance is 100 miles.</div>
                 </div>
@@ -213,9 +231,10 @@
       </div>
       <div layout="column" layout-align="start center">
         <md-button type="submit"
-                   class="md-button-blue md-raised md-button md-ink-ripple"
+                   class="md-button md-button-blue md-raised"
                    aria-label="Submit">
           <span class="ng-scope">Submit</span>
+        </md-button>
       </div>
     </form>
   </div>

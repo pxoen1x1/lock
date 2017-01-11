@@ -195,6 +195,10 @@ let RequestService = {
                 }
             );
     },
+    getRequests(criteria) {
+
+        return Request.find(criteria);
+    },
     getRequestById(request){
         let rawQuery = `${getRequestsRawQuery} WHERE request.id = ?`;
 
@@ -214,10 +218,7 @@ let RequestService = {
     },
     createRequest(request) {
 
-        return Request.create(request)
-            .then(
-                (createdRequest) => createdRequest
-            );
+        return Request.create(request);
     },
     updateRequest(request) {
 

@@ -35,6 +35,10 @@
                 .then(function (user) {
                     vm.customerCardNumber = user.spCardNumber;
 
+                    if(!vm.customerCardNumber){
+                        vm.selectPayWithNew = true;
+                    }
+
                     return vm.customerCardNumber;
                 });
         }

@@ -1,0 +1,46 @@
+<md-content layout="column"
+            flex>
+  <div layout="column" flex layout-align="center center">
+    <div class="login-form"
+         md-whiteframe="8"
+         layout="column"
+         layout-align="center center">
+      <div class="title m-b-sm">Welcome To Lockheal Administration</div>
+      <div class="secondary-text">Login in.</div>
+      <form role="form"
+            name="loginForm"
+            novalidate
+            flex
+            ng-submit="vm.submit(vm.user, loginForm.$valid)">
+        <div layout="row">
+          <md-input-container flex>
+            <label>Email</label>
+            <input type="email"
+                   name="email"
+                   required
+                   email-validation
+                   ng-model="vm.user.email">
+            <div ng-messages="loginForm.email.$error">
+              <div ng-message="email">That doesn't look like a valid email.</div>
+            </div>
+          </md-input-container>
+        </div>
+        <div layout="row">
+          <md-input-container flex>
+            <label>Password</label>
+            <input type="password"
+                   name="password"
+                   required
+                   password-validation
+                   ng-model="vm.user.password">
+          </md-input-container>
+        </div>
+        <div layout="row" flex layout-align="center center">
+          <md-button type="submit"
+                     class="md-button-blue">Login
+          </md-button>
+        </div>
+      </form>
+    </div>
+  </div>
+</md-content>
