@@ -71,7 +71,7 @@
                             <span ng-bind="vm.userProfile.customerData.city"></span>
                         </md-option>
 
-                        <md-option ng-repeat="city in vm.cities | filter: vm.searchCity track by city.id"
+                        <md-option ng-if="city.city != vm.userProfile.customerData.city" ng-repeat="city in vm.cities | filter: vm.searchCity track by city.id"
                                    ng-value="city.city">
                             <span ng-bind="city.city"></span>
                         </md-option>

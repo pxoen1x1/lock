@@ -106,13 +106,9 @@
     width: 100%;
   }
 
-  md-input-container {
-    //margin: 0; // breaks many inputs
-  }
 
   .license-number {
     min-width: 50px;
-    /*overflow: hidden;*/
   }
 
   .license-state {
@@ -128,7 +124,6 @@
     md-input-container {
       max-width: 100px;
       min-width: 50px;
-      /*overflow: hidden;*/
     }
 
     ::-webkit-inner-spin-button {

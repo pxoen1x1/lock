@@ -11,7 +11,7 @@
         </div>
         <div class="section">
             <span class="md-body-2">State:</span>
-            <span class="md-body-1" ng-bind="vm.getStateByCode(vm.userProfile.merchantData.state).state || '-'"></span>
+            <span class="md-body-1" ng-bind="vm.statesByCode[vm.userProfile.merchantData.state].state || '-'"></span>
         </div>
         <div class="section">
             <span class="md-body-2">City:</span>
@@ -73,7 +73,7 @@
                             <span ng-bind="vm.userProfile.merchantData.city"></span>
                         </md-option>
 
-                        <md-option ng-repeat="city in vm.cities | filter: vm.searchCity track by city.id"
+                        <md-option ng-if="city.city != vm.userProfile.merchantData.city" ng-repeat="city in vm.cities | filter: vm.searchCity track by city.id"
                                    ng-value="city.city">
                             <span ng-bind="city.city"></span>
                         </md-option>

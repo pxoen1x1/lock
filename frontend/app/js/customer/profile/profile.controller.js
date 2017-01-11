@@ -28,6 +28,7 @@
         vm.newPortrait = '';
         vm.languages = [];
         vm.states = [];
+        vm.statesByName = [];
         vm.cities = [];
         vm.searchCity = '';
         vm.baseUrl = conf.BASE_URL;
@@ -43,8 +44,6 @@
         vm.getUser = getUser;
         vm.getCities = getCities;
         vm.cancelEditing = cancelEditing;
-
-        vm.getStateByName = getStateByName;
 
         activate();
 
@@ -98,7 +97,7 @@
 
                 return;
             }
-            
+
             if (vm.newPortrait) {
                 user.portrait = {
                     base64: vm.newPortrait
@@ -107,7 +106,7 @@
 
             return currentUserService.setUser(user)
                 .then(function (user) {
-                    
+
                     vm.userProfile = user;
                     vm.userProfile.portrait = user.portrait ? conf.BASE_URL + user.portrait : '';
                     vm.newPortrait = '';
@@ -145,23 +144,18 @@
                 .then(function (response) {
                     vm.states = response.states;
 
+                    for (var i=0; i < vm.states.length; i++) {
+                        vm.statesByName[vm.states[i].state] = vm.states[i];
+                    }
+
                     return vm.states;
                 });
         }
 
-        function getStateByName(state) {
-
-            for (var i=0; i < vm.states.length; i++) {
-                if (vm.states[i].state === state) {
-                    return vm.states[i];
-                }
-            }
-
-        }
-
         function getCities(state, query) {
-            let cityId = vm.getStateByName(state).id;
-            return citiesLoader.getCities(cityId, query)
+            let selectedState = vm.statesByName[state];
+
+            return citiesLoader.getCities(selectedState.id, query)
                 .then(function (cities) {
                     vm.cities = cities;
 

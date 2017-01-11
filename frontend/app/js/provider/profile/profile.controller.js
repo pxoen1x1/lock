@@ -38,6 +38,7 @@
 
         vm.bankAccountTypes = [];
         vm.states = [];
+        vm.statesByCode = [];
         vm.cities = [];
         vm.searchCity = '';
         vm.serviceTypes = [];
@@ -62,7 +63,6 @@
         vm.cancelEditing = cancelEditing;
         vm.updateMerchant = updateMerchant;
         vm.withdrawal = withdrawal;
-        vm.getStateByCode = getStateByCode;
         vm.getCities = getCities;
         vm.resetSelectedCity = resetSelectedCity;
 
@@ -141,8 +141,6 @@
 
                 return;
             }
-
-            vm.userProfile.merchantData.city = vm.selectedCity.city
 
             return coreDataservice.updateMerchant(userProfile)
                 .then(function (merchantEntity) {
@@ -257,28 +255,23 @@
         function getStates() {
             return coreDictionary.getStates()
                 .then(function (response) {
-                    vm.states = response.states;
+                     vm.states = response.states;
+
+                    for (var i=0; i < vm.states.length; i++) {
+                        vm.statesByCode[vm.states[i].code] = vm.states[i];
+                    }
 
                     return vm.states;
                 });
         }
 
-        function getStateByCode(code) {
-
-            for (var i=0; i < vm.states.length; i++) {
-                if (vm.states[i].code === code) {
-                    return vm.states[i];
-                }
-            }
-
-        }
-
         function getCities(state, query) {
+            var selectedState = vm.statesByCode[state];
 
-            return citiesLoader.getCities(this.getStateByCode(state).id, query)
+            return citiesLoader.getCities(selectedState.id, query)
                 .then(function (cities) {
                     vm.cities = cities;
-
+console.log(vm.cities);
                     return vm.cities;
                 });
         }
