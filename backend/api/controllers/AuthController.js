@@ -56,19 +56,20 @@ let AuthController = waterlock.waterlocked({
             )
             .then(
                 (createdUser) => {
-                    if (!createdUser.userDetail) {
 
-                        return SplashPaymentService.createCustomer(createdUser, auth.email)
-                            .then((customerResponse) => {
-                                var customerArray = JSON.parse(customerResponse);
-                                createdUser.spCustomerId = customerArray[0].id;
+                    if (createdUser.userDetail !== undefined && createdUser.userDetail.length > 0) {
+                        return createdUser;
 
-                                return UserService.update({id: createdUser.id}, createdUser);
-
-                            });
                     }
 
-                    return createdUser;
+                    return SplashPaymentService.createCustomer(createdUser, auth.email)
+                        .then((customerResponse) => {
+                            var customerArray = JSON.parse(customerResponse);
+                            createdUser.spCustomerId = customerArray[0].id;
+
+                            return UserService.update({id: createdUser.id}, createdUser);
+
+                        });
                 }
             )
             .then(
