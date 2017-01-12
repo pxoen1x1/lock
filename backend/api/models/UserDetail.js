@@ -69,8 +69,11 @@ let UserDetail = {
     },
 
     beforeValidate(userDetails, next){
-        if (userDetails.rating) {
+        if (userDetails.id) {
+            delete userDetails.id;
+        }
 
+        if (userDetails.rating) {
             delete userDetails.rating;
         }
 

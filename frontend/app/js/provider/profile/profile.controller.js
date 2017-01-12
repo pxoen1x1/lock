@@ -13,19 +13,21 @@
         'coreDictionary',
         'currentUserService',
         'usingLanguageService',
-        '$mdDialog'
+        '$mdDialog',
+        'citiesLoader'
     ];
 
     /* @ngInject */
     function ProviderProfileController($q, conf, coreConstants, coreDataservice, coreDictionary, currentUserService,
-                                       usingLanguageService, $mdDialog) {
+                                       usingLanguageService, $mdDialog, citiesLoader) {
         var vm = this;
 
         vm.languages = [];
         vm.userProfile = {};
         vm.userProfile.merchantData = {};
         vm.userProfile.paymentData = {};
-        vm.userProfile.merchantFunds = 0;
+        vm.merchantFunds = 0;
+        vm.nonChangedUserProfile = {};
         vm.enableWithdrawals = false;
 
         var promises = {
@@ -58,6 +60,13 @@
         vm.cancelEditing = cancelEditing;
         vm.updateMerchant = updateMerchant;
         vm.withdrawal = withdrawal;
+
+        vm.getCities = getCities;
+        vm.searchText = null;
+        vm.selectedCityItem = null;
+        vm.selectedItemChange = selectedItemChange;
+        vm.resetSelectedCity = resetSelectedCity;
+
 
         activate();
 
@@ -192,20 +201,21 @@
                         .then(function (merchantEntity) {
                             if (merchantEntity) {
                                 vm.userProfile.merchantData = merchantEntity;
+                                vm.selectedCityItem  = vm.userProfile.merchantData.city;
                             }
 
                             return coreDataservice.getMerchantFunds();
                         })
                         .then(function (funds) {
-                            if(funds && funds.available){
 
+                            if (funds && funds.available) {
                                 vm.userProfile.merchantFunds = funds.available / 100; // in cents
                             }
 
                             return coreDataservice.isCreatedTodaysPayout();
                         })
                         .then(function (payoutCreated) {
-                            if (!payoutCreated) {
+                            if (!payoutCreated && vm.merchantFunds > 0) {
                                 vm.enableWithdrawals = true;
                             }
 
@@ -223,33 +233,42 @@
         }
 
         function cancelEditing() {
-            vm.userProfile = vm.nonChangedUserProfile;
-            vm.isEditingCustomer = false;
+            vm.userProfile = angular.copy(vm.nonChangedUserProfile);
             vm.isEditing = false;
-        }
-
-        function activate() {
-            $q.all([
-                getUser(),
-                getLanguages(),
-                getStates(),
-                getBankAccountTypes(),
-                getServiceTypes()
-            ])
-                .then(function () {
-                    vm.userProfile.usingLanguage = vm.userProfile.usingLanguage || usingLanguageService.getLanguage();
-                    vm.licensesPresent = vm.userProfile.details.licenses.length !== 0;
-                    vm.servicesPresent = vm.userProfile.details.serviceTypes.length !== 0;
-                });
+            vm.isEditingMerchant = false;
+            vm.isEditingPayment = false;
         }
 
         function getStates() {
             return coreDictionary.getStates()
                 .then(function (response) {
-                    vm.states = response.states;
+                    vm.states = getStatesList(response.states);
 
                     return vm.states;
                 });
+        }
+
+        function getCities(query) {
+            var selectedState = vm.states[vm.userProfile.merchantData.state];
+
+            return citiesLoader.getCities(selectedState.id, query)
+                .then(function (cities) {
+
+                    return cities;
+                });
+        }
+
+        function selectedItemChange(city) {
+            if(!city){
+                return;
+            }
+
+            vm.userProfile.merchantData.city = city.city;
+        }
+
+        function resetSelectedCity() {
+            vm.userProfile.merchantData.city = null;
+            vm.selectedCityItem = null;
         }
 
         function getServiceTypes() {
@@ -260,6 +279,34 @@
 
                     return vm.serviceTypes;
                 });
+        }
+
+        function getStatesList(states) {
+            var statesList = {};
+
+            states.forEach(function (state) {
+                statesList[state.code] = state;
+            });
+
+            return statesList;
+        }
+
+        function activate() {
+            $q.all([
+                    getUser(),
+                    getLanguages(),
+                    getStates(),
+                    getBankAccountTypes(),
+                    getServiceTypes()
+                ])
+                .then(function () {
+                        vm.userProfile.usingLanguage = vm.userProfile.usingLanguage || usingLanguageService.getLanguage();
+                        vm.licensesPresent = vm.userProfile.details.licenses.length !== 0;
+                        vm.servicesPresent = vm.userProfile.details.serviceTypes.length !== 0;
+
+                        vm.nonChangedUserProfile = angular.copy(vm.userProfile);
+                    }
+                );
         }
     }
 })();

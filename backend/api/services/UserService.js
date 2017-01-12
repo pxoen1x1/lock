@@ -1,4 +1,4 @@
-/* global User, UserDetailService, HelperService, SplashPaymentService */
+/* global User, UserDetailService, HelperService */
 
 'use strict';
 

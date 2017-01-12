@@ -10,7 +10,7 @@
             <span class="md-body-1" ng-bind="vm.userProfile.spCardNumber"></span>
         </div>
     </div>
-    <md-button ng-if="!vm.isEditingCard" ng-click="vm.isEditingCard = true"">Edit</md-button>
+    <md-button ng-if="!vm.isEditingCard" class="md-button-blue" ng-click="vm.isEditingCard = true"">Edit</md-button>
 
 </div>
 
@@ -44,10 +44,14 @@
             </md-input-container>
         </div>
         <md-button type="submit"
-                   class="md-raised md-warn"
+                   class="md-button-blue"
                    aria-label="Save"
                    ng-if="vm.isEditingCard">
             Save
+        </md-button>
+        <md-button class="md-button-blue" ng-if="vm.isEditingCard"
+                   ng-click="vm.cancelEditing()">
+            Cancel
         </md-button>
     </form>
 </div>

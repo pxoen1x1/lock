@@ -137,20 +137,13 @@ let SplashPaymentController = {
     _saveMerchant(user, params, email) {
         if (!user.spMerchantId) {
 
-            return SplashPaymentService.createMerchantFull(user, params.merchantData, email)
-                .then((merchantEntity) => res.ok({merchantEntity: merchantEntity}));
+            return SplashPaymentService.createMerchantFull(user, params.merchantData, email);
         }
 
         return SplashPaymentService.updateMerchantEntity(user.spMerchantId, params.merchantData);
     },
     getMerchantAccounts(req, res){
         let user = req.session.user;
-
-        if (!user.spMerchantId) {
-            return res.ok({
-                userPayment: null
-            });
-        }
 
         if (!user.spMerchantId) {
 
