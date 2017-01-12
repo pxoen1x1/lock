@@ -57,7 +57,7 @@
                                  md-input-minlength="2"
                                  md-selected-item="vm.selectedItem"
                                  md-search-text="vm.searchText"
-                                 md-items="city in vm.getCities(vm.searchText)"
+                                 md-items="city in vm.getCities(vm.searchText) track by city.id"
                                  md-item-text="city.city"
                                  md-require-match
                                  md-floating-label="City"
