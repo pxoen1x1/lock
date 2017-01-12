@@ -74,13 +74,13 @@
                 return;
             }
 
-            auth.user = user;
-
             if (vm.isCompanyRegistrationSelected) {
                 delete user.details;
             } else {
                 delete user.groups;
             }
+            
+            auth.user = user;
 
             var params = {
                 auth: auth
