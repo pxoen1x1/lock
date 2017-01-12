@@ -4,7 +4,7 @@
          layout-align="center center"
          layout-align-gt-xs="start center">
         <div class="md-display-1">
-            <span class="vertical-middle" ng-bind="vm.userProfile.fullName"></span>
+            <span class="vertical-middle" ng-bind="vm.userProfile.groups[0].title"></span>
             <i class="material-icons vertical-middle verified"
                ng-if="vm.userProfile.isPro">
                 verified_user
@@ -19,6 +19,10 @@
         </div>
     </div>
     <div class="section first">
+        <span class="md-body-2">Admin:</span>
+        <span class="md-body-1" ng-bind="vm.userProfile.fullName"></span>
+    </div>
+    <div class="section">
         <span class="md-body-2">Email:</span>
         <span class="md-body-1" ng-bind="vm.userProfile.auth.email"></span>
     </div>
@@ -26,30 +30,15 @@
         <span class="md-body-2">Phone:</span>
         <span class="md-body-1" ng-bind="vm.userProfile.phoneNumber"></span>
     </div>
-    <div class="section" layout="row" ng-if="vm.licensesPresent">
+    <div class="section" layout="row">
         <span class="md-body-2">Licenses:</span>
         <div layout="column">
-            <div layout="row" ng-repeat="license in vm.userProfile.details.licenses track by $index">
-                <span class="md-body-1" ng-bind="vm.userProfile.details.licenses[$index].number"></span>
+            <div layout="row" ng-repeat="license in vm.userProfile.licenses track by $index">
+                <span class="md-body-1" ng-bind="vm.userProfile.licenses[$index].number"></span>
                 &nbsp;until
-                <span class="md-body-1"
-                      ng-bind="vm.userProfile.details.licenses[$index].date | date: 'MM/dd/yyyy'"></span>
+                <span class="md-body-1" ng-bind="vm.userProfile.licenses[$index].date | date: 'MM/dd/yyyy'"></span>
             </div>
         </div>
-    </div>
-    <div class="section" ng-if="vm.servicesPresent">
-        <span class="md-body-2">Services:</span>
-        <span class="md-body-1"
-              ng-repeat="service in vm.userProfile.details.serviceTypes track by service.id"
-              ng-bind="service.name + ' (' + (service.price | currency:'$') + ')' + ($last ? '':', ')">
-            </span>
-    </div>
-    <div class="section">
-        <span class="md-body-2">Language:</span>
-            <span class="md-body-1"
-                  ng-if="!vm.isEditing"
-                  ng-bind="vm.userProfile.usingLanguage.name">
-            </span>
     </div>
 </div>
 <div ng-if="vm.isEditing">
@@ -102,9 +91,9 @@
                 <span ng-message="availability">This phone number already exists.</span>
             </div>
         </md-input-container>
-        <p>License information:</p>
+        <p>License information: <sup>*</sup></p>
         <div class="licenses"
-             ng-repeat="license in vm.userProfile.details.licenses track by $index">
+             ng-repeat="license in vm.userProfile.licenses track by $index">
             <div layout-gt-xs="column" class="license-container">
                 <div layout="row">
                     <md-input-container class="md-block license-number">
@@ -112,7 +101,7 @@
                         <input type="text"
                                name="licenseNumber"
                                required
-                               ng-model="vm.userProfile.details.licenses[$index].number">
+                               ng-model="vm.userProfile.licenses[$index].number">
                         <div ng-messages="editForm.licenseNumber.$error">
                             <div ng-message="required">Please, enter a license number.</div>
                         </div>
@@ -124,7 +113,7 @@
                         <md-select role="listbox"
                                    name="state"
                                    required
-                                   ng-model="vm.userProfile.details.licenses[$index].state">
+                                   ng-model="vm.userProfile.licenses[$index].state">
                             <md-option ng-repeat="state in vm.states"
                                        ng-value="state.id">
                                 <span ng-bind="::state.state"></span>
@@ -139,7 +128,7 @@
                                      mdp-min-date="vm.datePickerOptions.minDate"
                                      date-formatter
                                      ng-required
-                                     ng-model="vm.userProfile.details.licenses[$index].date">
+                                     ng-model="vm.userProfile.licenses[$index].date">
                     </mdp-date-picker>
                     <div class="validation-messages"
                          ng-messages="editForm.licenseDate.$error">
@@ -151,7 +140,8 @@
                          flex-gt-xs="5"
                          layout="column"
                          layout-align="start center"
-                         ng-click="vm.removeLicenseForm($index)">
+                         ng-click="vm.removeLicenseForm($index)"
+                         ng-if="vm.userProfile.licenses.length > 1">
                         <i class="material-icons">delete</i>
                     </div>
                 </div>
@@ -160,52 +150,11 @@
         <div layout-gt-xs="row">
             <md-button class="add-license-btn" ng-click="vm.addLicenseForm()">Add license</md-button>
         </div>
-        <p>Services</p>
-        <div layout-gt-xs="row">
-            <md-input-container class="md-block" flex>
-                <label>Service types</label>
-                <md-select aria-label="Services"
-                           multiple
-                           ng-model-options="{trackBy: '$value.id'}"
-                           ng-model="vm.userProfile.details.serviceTypes">
-                    <md-option ng-repeat="serviceType in vm.serviceTypes track by serviceType.id"
-                               ng-value="serviceType">
-                        <span ng-bind="serviceType.name"></span>
-                    </md-option>
-                </md-select>
-            </md-input-container>
-        </div>
-        <p>Language</p>
-        <div layout-gt-xs="row">
-            <md-input-container class="md-block" flex>
-                <label>Language</label>
-            <md-select flex
-                       aria-label="Language"
-                       ng-if="vm.isEditing"
-                       ng-model-options="{trackBy: '$value.id'}"
-                       ng-model="vm.userProfile.usingLanguage">
-                <md-option ng-repeat="language in vm.languages"
-                           ng-value="language">
-                    <span ng-bind="language.name"></span>
-                </md-option>
-            </md-select>
-            </md-input-container>
-        </div>
         <md-button type="submit"
-                   class="md-button-blue"
+                   class="md-raised md-warn"
                    aria-label="Save"
                    ng-if="vm.isEditing">
             Save
         </md-button>
-        <md-button class="md-button-blue" ng-if="vm.isEditing"
-                   ng-click="vm.cancelEditing()">
-            Cancel
-        </md-button>
     </form>
 </div>
-<md-button ng-if="!vm.isEditing"
-           class="md-button-blue"
-           ng-click="vm.isEditing = true"
-           aria-label="Edit">
-    Edit
-</md-button>

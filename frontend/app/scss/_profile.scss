@@ -1,5 +1,8 @@
 .profile-content {
 
+  height: 90%;
+  min-height: 750px;
+
   .divider-dot {
     padding: 0 4px 0 4px;
   }
@@ -81,6 +84,18 @@
       margin-top: 20px;
     }
 
+    md-tabs, md-tabs md-content {
+      background-color: #fff;
+    }
+
+    md-tabs md-tab-item.md-active span{
+      color: $primary-color;
+    }
+
+    md-tabs md-ink-bar{
+      background-color: $primary-color;
+    }
+
   }
 
   .licenses {
@@ -90,14 +105,10 @@
   .license-container {
     width: 100%;
   }
-  
-  md-input-container {
-    margin: 0;
-  }
+
 
   .license-number {
     min-width: 50px;
-    overflow: hidden;
   }
 
   .license-state {
@@ -113,7 +124,6 @@
     md-input-container {
       max-width: 100px;
       min-width: 50px;
-      overflow: hidden;
     }
 
     ::-webkit-inner-spin-button {
@@ -141,7 +151,7 @@
   .add-license-btn {
     margin-top: 0;
   }
-  
+
   p {
     margin-top: 0;
   }

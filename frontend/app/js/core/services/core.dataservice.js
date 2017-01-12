@@ -11,6 +11,7 @@
     function coreDataservice($http, request, conf, $sails) {
         var service = {
             getCurrentUser: getCurrentUser,
+            getAdminsGroup: getAdminsGroup,
             getMerchant: getMerchant,
             updateMerchant: updateMerchant,
             getCustomer: getCustomer,
@@ -52,6 +53,15 @@
                 url: conf.BASE_URL + conf.URL_PREFIX + 'user',
                 method: 'GET'
             });
+        }
+
+        function getAdminsGroup() {
+
+            return $sails.get(conf.URL_PREFIX + 'group').then(getAdminsGroupComplete);
+
+            function getAdminsGroupComplete(response) {
+                return response.data.group;
+            }
         }
 
         function getCustomer() {

@@ -25,6 +25,10 @@
         <span class="md-body-2">Spent:</span>
         <span class="md-body-1" ng-bind=""></span>
     </div>
+    <div class="section">
+        <span class="md-body-2">Language:</span>
+        <span class="md-body-1" ng-bind="vm.userProfile.usingLanguage.name"></span>
+    </div>
 </div>
 
 <div ng-if="vm.isEditing">
@@ -77,11 +81,33 @@
             </div>
         </md-input-container>
 
+        <p>Language:</p>
+        <md-select flex
+                   aria-label="Language"
+                   ng-if="vm.isEditing"
+                   ng-model-options="{trackBy: '$value.id'}"
+                   ng-model="vm.userProfile.usingLanguage">
+            <md-option ng-repeat="language in vm.languages"
+                       ng-value="language">
+                <span ng-bind="language.name"></span>
+            </md-option>
+        </md-select>
+
         <md-button type="submit"
-                   class="md-raised md-warn"
+                   class="md-button-blue"
                    aria-label="Save"
                    ng-if="vm.isEditing">
             Save
         </md-button>
+        <md-button class="md-button-blue" ng-if="vm.isEditing"
+                   ng-click="vm.cancelEditing()">
+            Cancel
+        </md-button>
     </form>
 </div>
+<md-button ng-if="!vm.isEditing"
+           class="md-button-blue"
+           ng-click="vm.isEditing = true"
+           aria-label="Edit">
+    Edit
+</md-button>

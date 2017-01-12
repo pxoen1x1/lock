@@ -2,32 +2,30 @@
     'use strict';
 
     angular
-        .module('app.provider')
-        .controller('ProviderProfileController', ProviderProfileController);
+        .module('app.group')
+        .controller('GroupProfileController', GroupProfileController);
 
-    ProviderProfileController.$inject = [
+    GroupProfileController.$inject = [
         '$q',
         'conf',
         'coreConstants',
         'coreDataservice',
         'coreDictionary',
         'currentUserService',
-        'usingLanguageService',
-        '$mdDialog',
-        'citiesLoader'
+        '$mdDialog'
     ];
 
     /* @ngInject */
-    function ProviderProfileController($q, conf, coreConstants, coreDataservice, coreDictionary, currentUserService,
-                                       usingLanguageService, $mdDialog, citiesLoader) {
+    function GroupProfileController($q, conf, coreConstants, coreDataservice, coreDictionary, currentUserService,
+                                    $mdDialog) {
         var vm = this;
 
         vm.languages = [];
         vm.userProfile = {};
         vm.userProfile.merchantData = {};
         vm.userProfile.paymentData = {};
-        vm.merchantFunds = 0;
-        vm.nonChangedUserProfile = {};
+        vm.userProfile.merchantFunds = 0;
+        vm.userProfile.licenses = {};
         vm.enableWithdrawals = false;
 
         var promises = {
@@ -38,18 +36,12 @@
 
         vm.bankAccountTypes = [];
         vm.states = [];
-        vm.statesByCode = [];
-        vm.cities = [];
-        vm.searchCity = '';
-        vm.serviceTypes = [];
 
         vm.datePickerOptions = {
             minDate: new Date()
         };
 
         vm.isEditing = false;
-        vm.licensesPresent = '';
-        vm.servicesPresent = '';
         vm.fileUploaderOptions = coreConstants.FILE_UPLOADER_OPTIONS;
         vm.newPortrait = '';
         vm.baseUrl = conf.BASE_URL;
@@ -60,11 +52,8 @@
         vm.getUser = getUser;
         vm.addLicenseForm = addLicenseForm;
         vm.removeLicenseForm = removeLicenseForm;
-        vm.cancelEditing = cancelEditing;
         vm.updateMerchant = updateMerchant;
         vm.withdrawal = withdrawal;
-        vm.getCities = getCities;
-        vm.resetSelectedCity = resetSelectedCity;
 
         activate();
 
@@ -138,20 +127,16 @@
 
         function updateMerchant(userProfile, isFormValid) {
             if (!isFormValid) {
-
                 return;
             }
 
             return coreDataservice.updateMerchant(userProfile)
                 .then(function (merchantEntity) {
                     if (!merchantEntity) {
-
                         return false;
                     }
-
                     vm.userProfile.merchantData = merchantEntity;
                     vm.userProfile.spMerchantId = vm.userProfile.merchantData.id;
-
                     return currentUserService.setUserToLocalStorage(vm.userProfile);
 
                 }).finally(function () {
@@ -183,114 +168,73 @@
 
             return currentUserService.getUser()
                 .then(function (user) {
-
                     vm.userProfile = user;
 
-                    return coreDataservice.getMerchantAccount()
-                        .then(function (userPayment) {
-                            vm.userProfile.paymentData = userPayment;
+                    return coreDataservice.getAdminsGroup();
+                })
+                .then(function (group) {
+                    vm.userProfile.licenses = group.licenses;
 
-                            return vm.userProfile;
-                        })
-                        .then(function () {
+                    return coreDataservice.getMerchantAccount();
+                })
+                .then(function (userPayment) {
+                    vm.userProfile.paymentData = userPayment;
 
-                            return coreDataservice.getMerchant();
-                        })
-                        .then(function (merchantEntity) {
-                            if (merchantEntity) {
-                                vm.userProfile.merchantData = merchantEntity;
-                            }
+                    return vm.userProfile;
+                })
+                .then(function () {
 
-                            return coreDataservice.getMerchantFunds();
-                        })
-                        .then(function (funds) {
-                            if(funds && funds.available){
-                                vm.userProfile.merchantFunds = funds.available / 100; // in cents
-                            }
+                    return coreDataservice.getMerchant();
+                })
+                .then(function (merchantEntity) {
+                    if (merchantEntity) {
+                        vm.userProfile.merchantData = merchantEntity;
+                    }
 
-                            return coreDataservice.isCreatedTodaysPayout();
-                        })
-                        .then(function (payoutCreated) {
-                            if (!payoutCreated && vm.merchantFunds > 0) {
-                                vm.enableWithdrawals = true;
-                            }
+                    return coreDataservice.getMerchantFunds();
+                })
+                .then(function (funds) {
+                    if(funds && funds.available){
+                        vm.userProfile.merchantFunds = funds.available / 100; // in cents
+                    }
 
-                            return vm.userProfile;
-                        });
+                    return coreDataservice.isCreatedTodaysPayout();
+                })
+                .then(function (payoutCreated) {
+                    if (!payoutCreated && vm.userProfile.merchantFunds > 0) {
+                        vm.enableWithdrawals = true;
+                    }
+
+                    return vm.userProfile;
                 });
         }
 
         function addLicenseForm() {
-            vm.userProfile.details.licenses.push({});
+            vm.userProfile.licenses.push({});
         }
 
         function removeLicenseForm(index) {
-            vm.userProfile.details.licenses.splice(index, 1);
+            vm.userProfile.licenses.splice(index, 1);
         }
 
-        function cancelEditing() {
-            vm.userProfile = angular.copy(vm.nonChangedUserProfile);
-            vm.isEditing = false;
-            vm.isEditingMerchant = false;
-            vm.isEditingPayment = false;
+
+        function getStates() {
+            return coreDictionary.getStates()
+                .then(function (response) {
+                    vm.states = response.states;
+
+                    return vm.states;
+                });
         }
 
         function activate() {
             $q.all([
                 getUser(),
                 getLanguages(),
-                getStates(),
                 getBankAccountTypes(),
-                getServiceTypes()
-            ])
-                .then(function () {
-                    vm.userProfile.usingLanguage = vm.userProfile.usingLanguage || usingLanguageService.getLanguage();
-                    vm.licensesPresent = vm.userProfile.details.licenses.length !== 0;
-                    vm.servicesPresent = vm.userProfile.details.serviceTypes.length !== 0;
-
-                    vm.nonChangedUserProfile = angular.copy(vm.userProfile);
-                });
+                getStates()
+            ]);
         }
 
-        function getStates() {
-            return coreDictionary.getStates()
-                .then(function (response) {
-                     vm.states = response.states;
-
-                    for (var i=0; i < vm.states.length; i++) {
-                        vm.statesByCode[vm.states[i].code] = vm.states[i];
-                    }
-
-                    return vm.states;
-                });
-        }
-
-        function getCities(state, query) {
-            var selectedState = vm.statesByCode[state];
-
-            return citiesLoader.getCities(selectedState.id, query)
-                .then(function (cities) {
-                    vm.cities = cities;
-console.log(vm.cities);
-                    return vm.cities;
-                });
-        }
-
-        function resetSelectedCity() {
-            vm.userProfile.merchantData.city = null;
-            vm.searchCity = '';
-
-            citiesLoader.resetSelectedCity();
-        }
-
-        function getServiceTypes() {
-
-            return coreDictionary.getServiceTypes()
-                .then(function (serviceTypes) {
-                    vm.serviceTypes = serviceTypes;
-
-                    return vm.serviceTypes;
-                });
-        }
     }
 })();
