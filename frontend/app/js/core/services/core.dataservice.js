@@ -60,6 +60,7 @@
             return $sails.get(conf.URL_PREFIX + 'group').then(getAdminsGroupComplete);
 
             function getAdminsGroupComplete(response) {
+
                 return response.data.group;
             }
         }
