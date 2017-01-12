@@ -258,9 +258,11 @@
         }
 
         function selectedItemChange(city) {
-            if(typeof city !== 'undefined'){
-                vm.userProfile.merchantData.city = city.city;
+            if(!city){
+                return;
             }
+
+            vm.userProfile.merchantData.city = city.city;
         }
 
         function resetSelectedCity() {

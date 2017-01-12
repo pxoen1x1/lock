@@ -173,9 +173,11 @@
         }
 
         function selectedItemChange(city) {
-            if(typeof city !== 'undefined'){
-                vm.userProfile.customerData.city = city.city;
+            if(!city){
+                return;
             }
+
+            vm.userProfile.customerData.city = city.city;
         }
 
         function resetSelectedCity() {

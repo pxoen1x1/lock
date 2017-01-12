@@ -53,7 +53,6 @@
                 <md-autocomplete flex required
                                  md-input-name="autocompleteField"
                                  md-input-minlength="2"
-                                 md-input-maxlength="18"
                                  md-selected-item="vm.selectedCityItem"
                                  md-search-text="vm.searchText"
                                  md-items="city in vm.getCities(vm.searchText)"
@@ -62,10 +61,9 @@
                                  md-floating-label="City"
                                  md-selected-item-change="vm.selectedItemChange(city)">
                     <md-item-template>
-                        <span md-highlight-text="vm.searchText">{{city.city}}</span>
+                        <span md-highlight-text="vm.searchText" ng-bind="city.city"></span>
                     </md-item-template>
                     <div ng-messages="editCustomerForm.autocompleteField.$error" ng-if="editCustomerForm.autocompleteField.$touched">
-                        <div ng-message="required">You <b>must</b> select a city.</div>
                         <div ng-message="md-require-match">Please select an existing city.</div>
                         <div ng-message="minlength">Your entry is not long enough.</div>
                         <div ng-message="maxlength">Your entry is too long.</div>
