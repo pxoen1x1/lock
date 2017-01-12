@@ -202,16 +202,10 @@ $panel-background-color: rgb(245, 245, 245);
 }
 
 .login-dialog, .invite-dialog {
-  .md-input-messages-animation {
-    max-width: 200px;
-  }
   md-dialog-actions {
     padding-left: 0;
   }
 
-  .md-input-message-animation {
-    width: 195px;
-  }
   .social-buttons {
     width: 100%;
   }
@@ -233,12 +227,6 @@ $panel-background-color: rgb(245, 245, 245);
   }
   .social-button.twitter, .social-button.twitter:hover {
     background-color: rgba(29, 169, 251, 1);
-  }
-}
-
-.login-dialog {
-  md-dialog-actions {
-    min-height: 170px;
   }
 }
 

@@ -1,9 +1,10 @@
 <md-dialog aria-label="Log in" class="login-dialog">
   <form role="form"
         name="loginForm"
+        flex
         novalidate
         ng-submit="vm.submit(vm.user, loginForm.$valid, vm.isForgotPasswordEnabled)">
-    <md-toolbar class="md-menu-toolbar md-default-theme">
+    <md-toolbar class="md-menu-toolbar">
       <div class="md-toolbar-tools">
         <h2>Log In</h2>
         <span flex></span>
@@ -14,7 +15,7 @@
         </md-button>
       </div>
     </md-toolbar>
-    <md-dialog-content>
+    <md-dialog-content flex>
       <div class="md-dialog-content">
         <!-- E-mail -->
         <div layout="row">
@@ -48,23 +49,22 @@
           </md-input-container>
         </div>
         <div layout="row">
-          <button class="md-button"
-                  type="button"
-                  flex
-                  aria-label="{{ vm.isForgotPasswordEnabled ? 'Log In': 'Forgot your password?' }}"
-                  ng-click="vm.isForgotPasswordEnabled = !vm.isForgotPasswordEnabled">
+          <a type="button"
+             class="text-center p-xxs"
+             flex
+             aria-label="{{ vm.isForgotPasswordEnabled ? 'Log In': 'Forgot your password?' }}"
+             ng-click="vm.isForgotPasswordEnabled = !vm.isForgotPasswordEnabled">
             <span ng-bind="vm.isForgotPasswordEnabled ? 'Log In': 'Forgot your password?'"></span>
-          </button>
+          </a>
         </div>
       </div>
     </md-dialog-content>
-    <md-dialog-actions layout="column">
-      <button type="submit"
-              class="md-button button-login"
-              flex
-              aria-label="{{ vm.isForgotPasswordEnabled ? 'Reset Password' : 'Log In' }}">
+    <md-dialog-actions layout="column" layout-align="start center">
+      <md-button type="submit"
+                 class="md-button-blue"
+                 aria-label="{{ vm.isForgotPasswordEnabled ? 'Reset Password' : 'Log In' }}">
         <span ng-bind="vm.isForgotPasswordEnabled ? 'Reset Password' : 'Log In'"></span>
-      </button>
+      </md-button>
       <div class="social-buttons"
            layout="column"
            ng-hide="vm.isForgotPasswordEnabled">
