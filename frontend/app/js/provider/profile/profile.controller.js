@@ -303,7 +303,6 @@
                         vm.userProfile.usingLanguage = vm.userProfile.usingLanguage || usingLanguageService.getLanguage();
                         vm.licensesPresent = vm.userProfile.details.licenses.length !== 0;
                         vm.servicesPresent = vm.userProfile.details.serviceTypes.length !== 0;
-
                         vm.nonChangedUserProfile = angular.copy(vm.userProfile);
                     }
                 );
