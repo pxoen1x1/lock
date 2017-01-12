@@ -17,7 +17,7 @@ let splashpayment = {
         funds: '/funds',
     },
     bankAccountTypes: [
-        {code: 8, name: 'Checking account TEST'},
+        {code: 8, name: 'Checking account'},
         {code: 9, name: 'Savings account'},
         {code: 10, name: 'Corporate checking account'},
         {code: 11, name: 'Corporate savings account'}

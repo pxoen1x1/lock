@@ -7,23 +7,25 @@
     <div layout="column">
         <div class="section first">
             <span class="md-body-2">Address:</span>
-            <span class="md-body-1" ng-bind="vm.userProfile.merchantData.address1"></span>
+            <span class="md-body-1" ng-bind="vm.userProfile.merchantData.address1 || '-'"></span>
         </div>
         <div class="section">
             <span class="md-body-2">State:</span>
-            <span class="md-body-1" ng-bind="vm.userProfile.merchantData.state"></span>
+            <span class="md-body-1" ng-bind="vm.statesByCode[vm.userProfile.merchantData.state].state || '-'"></span>
         </div>
         <div class="section">
             <span class="md-body-2">City:</span>
-            <span class="md-body-1" ng-bind="vm.userProfile.merchantData.city"></span>
+            <span class="md-body-1" ng-bind="vm.userProfile.merchantData.city || '-'"></span>
         </div>
         <div class="section">
             <span class="md-body-2">ZIP:</span>
-            <span class="md-body-1" ng-bind="vm.userProfile.merchantData.zip"></span>
+            <span class="md-body-1" ng-bind="vm.userProfile.merchantData.zip || '-'"></span>
         </div>
     </div>
-    <md-button ng-if="!vm.isEditingMerchant" ng-click="vm.isEditingMerchant = true"">Edit</md-button>
-
+    <md-button ng-if="!vm.isEditingMerchant"
+               ng-click="vm.isEditingMerchant = true"
+               class="md-button-blue"
+               aria-label="Edit profile">Edit</md-button>
 </div>
 
 <div ng-if="vm.isEditingMerchant">
@@ -41,8 +43,9 @@
 
             <md-input-container class="md-block" flex>
                 <label>State</label>
-                <md-select ng-model="vm.userProfile.merchantData.state">
-                    <md-option ng-repeat="state in vm.states track by state.id" ng-value="state.state">
+                <md-select ng-model="vm.userProfile.merchantData.state"
+                           ng-change="vm.resetSelectedCity(); vm.getCities(vm.userProfile.merchantData.state)">
+                    <md-option ng-repeat="state in vm.states track by state.id" ng-value="state.code">
                         <span ng-bind="state.state"></span>
                     </md-option>
                 </md-select>
@@ -50,10 +53,32 @@
 
             <md-input-container class="md-block" flex>
                 <label>City</label>
-                <input name="City"
-                       required
-                       ng-maxlength="20"
-                       ng-model="vm.userProfile.merchantData.city">
+
+                <md-select role="listbox"
+                           class="cities-select"
+                           name="city"
+                           md-select-infinite-scroll
+                           on-scroll="vm.getCities(vm.userProfile.merchantData.state, vm.searchCity)"
+                           ng-model="vm.userProfile.merchantData.city">
+                    <md-select-header>
+                        <input type="search"
+                               placeholder="Search for a city.."
+                               ng-change="vm.getCities(vm.userProfile.merchantData.state, vm.searchCity)"
+                               ng-model-options="{ debounce: 400 }"
+                               ng-model="vm.searchCity">
+                    </md-select-header>
+                    <md-optgroup label="cities">
+
+                        <md-option ng-value="vm.userProfile.merchantData.city">
+                            <span ng-bind="vm.userProfile.merchantData.city"></span>
+                        </md-option>
+
+                        <md-option ng-if="city.city != vm.userProfile.merchantData.city" ng-repeat="city in vm.cities | filter: vm.searchCity track by city.id"
+                                   ng-value="city.city">
+                            <span ng-bind="city.city"></span>
+                        </md-option>
+                    </md-optgroup>
+                </md-select>
             </md-input-container>
 
             <md-input-container class="md-block" flex>
@@ -65,10 +90,14 @@
             </md-input-container>
         </div>
         <md-button type="submit"
-                   class="md-raised md-warn"
+                   class="md-button-blue"
                    aria-label="Save"
                    ng-if="vm.isEditingMerchant">
             Save
+        </md-button>
+        <md-button class="md-button-blue" ng-if="vm.isEditingMerchant"
+                   ng-click="vm.cancelEditing()">
+            Cancel
         </md-button>
     </form>
 </div>

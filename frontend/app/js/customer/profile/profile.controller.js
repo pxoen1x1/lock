@@ -12,18 +12,25 @@
         'coreConstants',
         'coreDataservice',
         'conf',
-        'usingLanguageService'];
+        'usingLanguageService',
+        'citiesLoader'
+    ];
 
     /* @ngInject */
     function CustomerProfileController($q, coreDictionary, currentUserService, coreConstants, coreDataservice, conf,
-    usingLanguageService) {
+    usingLanguageService, citiesLoader) {
         var vm = this;
 
         vm.userProfile = {};
         vm.userProfile.customerData = {};
         vm.userProfile.paymentData = {};
+        vm.nonChangedUserProfile = {};
         vm.newPortrait = '';
         vm.languages = [];
+        vm.states = [];
+        vm.statesByName = [];
+        vm.cities = [];
+        vm.searchCity = '';
         vm.baseUrl = conf.BASE_URL;
         vm.defaultPortrait = coreConstants.IMAGES.defaultPortrait;
 
@@ -35,6 +42,8 @@
         vm.updateCustomer = updateCustomer;
         vm.updateCustomerCard = updateCustomerCard;
         vm.getUser = getUser;
+        vm.getCities = getCities;
+        vm.cancelEditing = cancelEditing;
 
         activate();
 
@@ -88,7 +97,7 @@
 
                 return;
             }
-            
+
             if (vm.newPortrait) {
                 user.portrait = {
                     base64: vm.newPortrait
@@ -97,7 +106,7 @@
 
             return currentUserService.setUser(user)
                 .then(function (user) {
-                    
+
                     vm.userProfile = user;
                     vm.userProfile.portrait = user.portrait ? conf.BASE_URL + user.portrait : '';
                     vm.newPortrait = '';
@@ -135,8 +144,30 @@
                 .then(function (response) {
                     vm.states = response.states;
 
+                    for (var i=0; i < vm.states.length; i++) {
+                        vm.statesByName[vm.states[i].state] = vm.states[i];
+                    }
+
                     return vm.states;
                 });
+        }
+
+        function getCities(state, query) {
+            let selectedState = vm.statesByName[state];
+
+            return citiesLoader.getCities(selectedState.id, query)
+                .then(function (cities) {
+                    vm.cities = cities;
+
+                    return vm.cities;
+                });
+        }
+
+        function cancelEditing() {
+            vm.userProfile = angular.copy(vm.nonChangedUserProfile);
+            vm.isEditing = false;
+            vm.isEditingCustomer = false;
+            vm.isEditingCard = false;
         }
 
         function activate() {
@@ -147,6 +178,9 @@
             ])
                 .then(function () {
                     vm.userProfile.usingLanguage = vm.userProfile.usingLanguage || usingLanguageService.getLanguage();
+
+                    vm.nonChangedUserProfile = angular.copy(vm.userProfile);
+                    vm.getCities(vm.userProfile.customerData.state);
                 });
         }
     }

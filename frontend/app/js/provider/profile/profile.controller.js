@@ -13,19 +13,21 @@
         'coreDictionary',
         'currentUserService',
         'usingLanguageService',
-        '$mdDialog'
+        '$mdDialog',
+        'citiesLoader'
     ];
 
     /* @ngInject */
     function ProviderProfileController($q, conf, coreConstants, coreDataservice, coreDictionary, currentUserService,
-                                       usingLanguageService, $mdDialog) {
+                                       usingLanguageService, $mdDialog, citiesLoader) {
         var vm = this;
 
         vm.languages = [];
         vm.userProfile = {};
         vm.userProfile.merchantData = {};
         vm.userProfile.paymentData = {};
-        vm.userProfile.merchantFunds = 0;
+        vm.merchantFunds = 0;
+        vm.nonChangedUserProfile = {};
         vm.enableWithdrawals = false;
 
         var promises = {
@@ -36,6 +38,9 @@
 
         vm.bankAccountTypes = [];
         vm.states = [];
+        vm.statesByCode = [];
+        vm.cities = [];
+        vm.searchCity = '';
         vm.serviceTypes = [];
 
         vm.datePickerOptions = {
@@ -58,6 +63,8 @@
         vm.cancelEditing = cancelEditing;
         vm.updateMerchant = updateMerchant;
         vm.withdrawal = withdrawal;
+        vm.getCities = getCities;
+        vm.resetSelectedCity = resetSelectedCity;
 
         activate();
 
@@ -204,7 +211,7 @@
                             return coreDataservice.isCreatedTodaysPayout();
                         })
                         .then(function (payoutCreated) {
-                            if (!payoutCreated) {
+                            if (!payoutCreated && vm.merchantFunds > 0) {
                                 vm.enableWithdrawals = true;
                             }
 
@@ -222,9 +229,10 @@
         }
 
         function cancelEditing() {
-            vm.userProfile = vm.nonChangedUserProfile;
-            vm.isEditingCustomer = false;
+            vm.userProfile = angular.copy(vm.nonChangedUserProfile);
             vm.isEditing = false;
+            vm.isEditingMerchant = false;
+            vm.isEditingPayment = false;
         }
 
         function activate() {
@@ -239,16 +247,40 @@
                     vm.userProfile.usingLanguage = vm.userProfile.usingLanguage || usingLanguageService.getLanguage();
                     vm.licensesPresent = vm.userProfile.details.licenses.length !== 0;
                     vm.servicesPresent = vm.userProfile.details.serviceTypes.length !== 0;
+
+                    vm.nonChangedUserProfile = angular.copy(vm.userProfile);
                 });
         }
 
         function getStates() {
             return coreDictionary.getStates()
                 .then(function (response) {
-                    vm.states = response.states;
+                     vm.states = response.states;
+
+                    for (var i=0; i < vm.states.length; i++) {
+                        vm.statesByCode[vm.states[i].code] = vm.states[i];
+                    }
 
                     return vm.states;
                 });
+        }
+
+        function getCities(state, query) {
+            var selectedState = vm.statesByCode[state];
+
+            return citiesLoader.getCities(selectedState.id, query)
+                .then(function (cities) {
+                    vm.cities = cities;
+console.log(vm.cities);
+                    return vm.cities;
+                });
+        }
+
+        function resetSelectedCity() {
+            vm.userProfile.merchantData.city = null;
+            vm.searchCity = '';
+
+            citiesLoader.resetSelectedCity();
         }
 
         function getServiceTypes() {
