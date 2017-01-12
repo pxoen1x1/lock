@@ -76,6 +76,12 @@
 
             auth.user = user;
 
+            if (vm.isCompanyRegistrationSelected) {
+                delete user.details;
+            } else {
+                delete user.groups;
+            }
+
             var params = {
                 auth: auth
             };
