@@ -26,6 +26,11 @@
         <span class="md-body-2">Phone:</span>
         <span class="md-body-1" ng-bind="vm.userProfile.phoneNumber"></span>
     </div>
+    <div class="section">
+        <span class="md-body-2">Car license plate number:</span>
+        <span class="md-body-1" ng-bind="vm.userProfile.details.carLicensePlateNumber"
+              ng-if="vm.userProfile.details.carLicensePlateNumber"></span>
+    </div>
     <div class="section" layout="row" ng-if="vm.licensesPresent">
         <span class="md-body-2">Licenses:</span>
         <div layout="column">
@@ -101,6 +106,13 @@
                 <span ng-message="usPhoneNumber">That doesn't look like a valid phone number.</span>
                 <span ng-message="availability">This phone number already exists.</span>
             </div>
+        </md-input-container>
+        <p>Car license plate number: </p>
+        <md-input-container class="md-block" flex>
+          <label>Car license plate number</label>
+          <input name="carLicensePlateNumber"
+                 ng-model-options="{ 'debounce': 400 }"
+                 ng-model="vm.userProfile.details.carLicensePlateNumber">
         </md-input-container>
         <p>License information:</p>
         <div class="licenses"
