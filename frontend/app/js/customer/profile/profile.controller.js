@@ -28,7 +28,6 @@
         vm.newPortrait = '';
         vm.languages = [];
         vm.states = [];
-        vm.cities = [];
         vm.baseUrl = conf.BASE_URL;
         vm.defaultPortrait = coreConstants.IMAGES.defaultPortrait;
 
@@ -167,8 +166,8 @@
 
             return citiesLoader.getCities(selectedState.id, query)
                 .then(function (cities) {
-                    vm.cities = cities;
-                    return vm.cities;
+                    
+                    return cities;
                 });
         }
 

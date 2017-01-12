@@ -252,8 +252,8 @@
 
             return citiesLoader.getCities(selectedState.id, query)
                 .then(function (cities) {
-                    vm.cities = cities;
-                    return vm.cities;
+
+                    return cities;
                 });
         }
 
