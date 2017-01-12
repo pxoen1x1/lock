@@ -1,4 +1,4 @@
-/* global waterlock, Auth, ResetToken */
+/* global waterlock, Auth, ResetToken, HelperService, UserService */
 /**
  * Auth Service
  */
@@ -15,7 +15,7 @@ let AuthService = {
     findOrCreateAuth(criteria, attributes) {
         let promise = new Promise((resolve, reject) => {
             waterlock.engine.findOrCreateAuth(criteria, attributes,
-                (err, user)=> {
+                (err, user) => {
                     if (err) {
 
                         return reject(err);
@@ -26,6 +26,60 @@ let AuthService = {
         });
 
         return promise;
+    },
+    register(auth){
+        let userDetail;
+        let criteria = {
+            email: auth.email
+        };
+
+        if (auth.user.id) {
+            delete auth.user.id;
+        }
+
+        if (auth.user.details) {
+            userDetail = auth.user.details;
+
+            delete auth.user.details;
+        }
+
+        return Auth.findOne(criteria)
+            .then(
+                (foundUser) => {
+                    if (foundUser) {
+                        let error = new Error();
+                        error.message = 'User already exists.';
+                        error.isToSend = true;
+
+                        return Promise.reject(error);
+                    }
+
+                    return this.findOrCreateAuth(criteria, auth);
+                })
+            .then(
+                (createdUser) => {
+                    if (!userDetail) {
+
+                        return createdUser;
+                    }
+
+                    if (userDetail.id) {
+                        delete userDetail.id;
+                    }
+
+                    userDetail.user = createdUser.id;
+
+                    createdUser.userDetail.add(userDetail);
+
+                    return HelperService.saveModel(createdUser)
+                        .then(
+                            (user) => {
+
+                                return UserService.getUser(user);
+                            }
+                        );
+                }
+            );
     },
     resetAuthToken(email){
         let user = {};
@@ -74,7 +128,7 @@ let AuthService = {
                             resetToken: null,
                             password: password
                         }
-                        )
+                    )
                         .then(
                             () => ResetToken.destroy(tokenId)
                         );
@@ -142,7 +196,7 @@ let AuthService = {
             );
     },
     getUserByToken(req) {
-        let promise = new Promise((resolve, reject)=> {
+        let promise = new Promise((resolve, reject) => {
             waterlock.validator.validateTokenRequest(req,
                 (err, user) => {
                     if (err) {
