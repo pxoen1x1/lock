@@ -42,7 +42,8 @@
             resetUserPassword: resetUserPassword,
             updateUser: updateUser,
             acceptOffer: acceptOffer,
-            updateRequestStatus: updateRequestStatus
+            updateRequestStatus: updateRequestStatus,
+            getTranslation: getTranslation
         };
 
         return service;
@@ -287,6 +288,17 @@
                 method: 'GET',
                 params: params
             });
+        }
+
+        function getTranslation(langKey) {
+
+            return $sails.get(conf.URL_PREFIX + 'translations/' + langKey)
+                .then(getTranslateCompleted);
+
+            function getTranslateCompleted(message) {
+
+                return message.data.translation;
+            }
         }
 
         function getNewRequests(params) {

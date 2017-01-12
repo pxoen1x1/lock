@@ -24,5 +24,7 @@
             .translations('es', translationsEn);
         $translateProvider
             .preferredLanguage(usingLanguage.code);
+        $translateProvider
+            .useLoader('translationService');
     }
 })();
