@@ -15,11 +15,25 @@
         </md-button>
       </div>
     </md-toolbar>
-    <md-dialog-content flex>
-      <div class="md-dialog-content">
+    <md-dialog-content>
+      <div class="md-dialog-content" layout="column">
+        <div layout="row"
+             layout-align="end center"
+             flex
+             hide-gt-sm>
+          <md-button class="md-button-social-icon facebook" aria-label="Facebook">
+            <i class="fa fa-facebook"></i>
+          </md-button>
+          <md-button class="md-button-social-icon google-plus" aria-label="Google+">
+            <i class="fa fa-google-plus"></i>
+          </md-button>
+          <md-button class="md-button-social-icon twitter" aria-label="Twitter">
+            <i class="fa fa-twitter"></i>
+          </md-button>
+        </div>
         <!-- E-mail -->
         <div layout="row">
-          <md-input-container class="md-block" flex>
+          <md-input-container class="hide-error-msg" flex>
             <label>Email</label>
             <input type="email"
                    name="email"
@@ -34,7 +48,7 @@
         <!-- Password -->
         <div layout="row"
              ng-if="!vm.isForgotPasswordEnabled">
-          <md-input-container class="md-block" flex>
+          <md-input-container class="hide-error-msg" flex>
             <label>Password</label>
             <input type="password"
                    name="password"
@@ -59,21 +73,27 @@
         </div>
       </div>
     </md-dialog-content>
-    <md-dialog-actions layout="column" layout-align="start center">
+    <md-dialog-actions layout="column" layout-align="start center" flex>
       <md-button type="submit"
                  class="md-button-blue"
                  aria-label="{{ vm.isForgotPasswordEnabled ? 'Reset Password' : 'Log In' }}">
         <span ng-bind="vm.isForgotPasswordEnabled ? 'Reset Password' : 'Log In'"></span>
       </md-button>
       <div class="social-buttons"
-           layout="column"
-           ng-hide="vm.isForgotPasswordEnabled">
-        <md-button class="social-button facebook"
+           hide-xs
+           hide-sm
+           ng-if="!vm.isForgotPasswordEnabled">
+        <a class="md-button social-button facebook"
+                   flex
                    ng-click="vm.loginWithFacebook()">
           Login with Facebook
-        </md-button>
-        <md-button class="social-button google">Login with Google+</md-button>
-        <md-button class="social-button twitter">Login with Twitter</md-button>
+        </a>
+        <a class="md-button social-button google-plus" flex>
+          Login with Google+
+        </a>
+        <a class="md-button social-button twitter" flex>
+          Login with Twitter
+        </a>
       </div>
     </md-dialog-actions>
   </form>

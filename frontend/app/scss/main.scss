@@ -3,6 +3,9 @@ $warning-color: #FFB74D;
 $error-color: #EF5350;
 $primary-color: rgb(3, 155, 229);
 $text-color: rgba(0, 0, 0, .87);
+$facebook-color: rgb(59, 89, 152);
+$googlepluse-color: rgb(219, 68, 55);
+$twitter-color: rgb(29, 161, 242);
 $secondary-text-color: rgba(0, 0, 0, .54);
 $disabled-color: rgba(0, 0, 0, 0.38);
 $disabled-background-color: rgba(0, 0, 0, 0.12);
@@ -175,6 +178,60 @@ $panel-background-color: rgb(245, 245, 245);
     font-size: 10px;
   }
 
+  &.social-button {
+    width: 100%;
+    font-weight: 500;
+    font-size: 12px;
+    text-transform: none;
+    color: #fff;
+    margin-top: 0;
+    margin-left: 4px;
+    margin-bottom: 3px;
+  }
+
+  &.md-button-social-icon {
+    width: 32px;
+    height: 32px;
+    min-width: 32px;
+    min-height: 32px;
+    line-height: 1;
+    margin: 0 5px;
+    color: #fff;
+
+    i {
+      width: 16px;
+      height: 16px;
+      min-width: 16px;
+      min-height: 16px;
+      font-size: 16px;
+      line-height: 1;
+    }
+  }
+
+  &.facebook {
+    background-color: $facebook-color;
+
+    &:hover {
+      background-color: darken($facebook-color, 1%);
+    }
+  }
+
+  &.google-plus {
+    background-color: $googlepluse-color;
+
+    &:hover {
+      background-color: darken($googlepluse-color, 1%);
+    }
+  }
+
+  &.twitter {
+    background-color: $twitter-color;
+
+    &:hover {
+      background-color: darken($twitter-color, 1%);
+    }
+  }
+
   .disabled &, &[disabled], &.disabled {
     &, &:hover, &:focus {
       cursor: default;
@@ -204,29 +261,6 @@ $panel-background-color: rgb(245, 245, 245);
 .login-dialog, .invite-dialog {
   md-dialog-actions {
     padding-left: 0;
-  }
-
-  .social-buttons {
-    width: 100%;
-  }
-  .social-button {
-    width: 100%;
-    font-weight: 500;
-    font-size: 12px;
-    text-transform: none;
-    color: #fff;
-    margin-top: 0;
-    margin-left: 4px;
-    margin-bottom: 3px;
-  }
-  .social-button.facebook, .social-button.facebook:hover {
-    background-color: rgba(60, 91, 152, 1);
-  }
-  .social-button.google, .social-button.google:hover {
-    background-color: rgba(240, 87, 67, 1);
-  }
-  .social-button.twitter, .social-button.twitter:hover {
-    background-color: rgba(29, 169, 251, 1);
   }
 }
 
