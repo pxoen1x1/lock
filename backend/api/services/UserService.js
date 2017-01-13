@@ -101,7 +101,14 @@ let UserService = {
 
         return User.update({id: user.id}, user)
             .then(
-                (updatedUser) => this.getUser(updatedUser[0])
+                (updatedUser) => {
+                    if (!updatedUser || updatedUser.length === 0) {
+
+                        return Promise.reject();
+                    }
+
+                    return this.getUser(updatedUser[0]);
+                }
             );
     },
     getUserBySSN(ssn) {
