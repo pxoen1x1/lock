@@ -45,6 +45,7 @@
                 },
                 data: {
                     title: 'New',
+                    isPrivate: true,
                     menu: {
                         title: 'New request',
                         icon: 'playlist_add'

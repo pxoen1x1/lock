@@ -70,7 +70,7 @@
 
             function getStatesComplete(response) {
 
-                return response.data;
+                return response;
             }
 
             function getStatesFromHttp(cacheId) {
@@ -86,7 +86,7 @@
         function getDataFromHttpComplete(cacheId, response) {
             dataCache.put(cacheId, response.data);
 
-            return response;
+            return response.data;
         }
 
         function getDataFromHttpFailed(error) {

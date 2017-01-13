@@ -249,6 +249,11 @@
         }
 
         function getCities(query) {
+            if(!vm.userProfile.merchantData.state){
+
+                return;
+            }
+
             var selectedState = vm.states[vm.userProfile.merchantData.state];
 
             return citiesLoader.getCities(selectedState.id, query)

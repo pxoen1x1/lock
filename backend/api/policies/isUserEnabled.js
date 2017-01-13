@@ -15,7 +15,7 @@ module.exports = function (req, res, next) {
     if (!req.session || !req.session.user || !req.session.user.isEnabled) {
         sails.log.debug(new Error('Please, confirm your registration.'));
 
-        return res.json(401,
+        return res.forbidden(
             {
                 message: req.__('Please, confirm your registration.')
             }
