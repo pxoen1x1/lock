@@ -5,12 +5,12 @@
        layout-align="start center">
     <div ng-click="vm.isEditing = false"
          flex class="cursor-pointer">
-      <i class="material-icons">person</i> <span>Profile</span>
+      <i class="material-icons">person</i> <span translate>PROFILE</span>
     </div>
     <div flex layout="row" layout-align="end center" class="title-actions">
       <button class="md-button md-button-blue"
               aria-label="Show public profile"
-              ng-if="$mdMedia('gt-xs')"
+              hide-xs
               ui-sref="provider.profile.public({'profileId': vm.userProfile.id})">
         Show public
         <wbr>
@@ -18,7 +18,7 @@
       </button>
 
       <md-menu md-position-mode="target-right target"
-               ng-if="!$mdMedia('gt-xs')">
+               hide-gt-xs>
         <md-button class="md-icon-button"
                    aria-label="more"
                    ng-click="$mdOpenMenu()">
