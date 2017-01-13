@@ -10,49 +10,135 @@
     /* @ngInject */
     function coreDataservice($http, request, conf, $sails) {
         var service = {
-            getCurrentUser: getCurrentUser,
-            getAdminsGroup: getAdminsGroup,
-            getMerchant: getMerchant,
-            updateMerchant: updateMerchant,
-            getCustomer: getCustomer,
-            updateCustomer: updateCustomer,
-            getBankAccountTypes: getBankAccountTypes,
-            updateCustomerCard: updateCustomerCard,
-            getMerchantAccount: getMerchantAccount,
-            setMerchantAccount: setMerchantAccount,
-            getMerchantFunds: getMerchantFunds,
-            isCreatedTodaysPayout: isCreatedTodaysPayout,
-            withdrawal: withdrawal,
-            createAuthTxn: createAuthTxn,
-            reverseAuthTxn: reverseAuthTxn,
-            createCaptureTxn: createCaptureTxn,
-            createTokenAndAuthTxn: createTokenAndAuthTxn,
-            getUser: getUser,
-            getFeedbacks: getFeedbacks,
-            getServiceTypes: getServiceTypes,
             getLanguages: getLanguages,
+            getServiceTypes: getServiceTypes,
             getStates: getStates,
             getCities: getCities,
+            getTranslation: getTranslation,
+            getCurrentUser: getCurrentUser,
+            getUser: getUser,
+            getFeedbacks: getFeedbacks,
             getNewRequests: getNewRequests,
             getRequest: getRequest,
             getAvailabilityInfo: getAvailabilityInfo,
+            getAdminsGroup: getAdminsGroup,
+            getCustomer: getCustomer,
+            getBankAccountTypes: getBankAccountTypes,
+            getMerchant: getMerchant,
+            getMerchantAccount: getMerchantAccount,
+            getMerchantFunds: getMerchantFunds,
+            isCreatedTodaysPayout: isCreatedTodaysPayout,
+            withdrawal: withdrawal,
             createUser: createUser,
+            createAuthTxn: createAuthTxn,
+            createCaptureTxn: createCaptureTxn,
+            createTokenAndAuthTxn: createTokenAndAuthTxn,
+            setMerchantAccount: setMerchantAccount,
+            reverseAuthTxn: reverseAuthTxn,
             login: login,
             logout: logout,
             resetUserPassword: resetUserPassword,
             updateUser: updateUser,
-            acceptOffer: acceptOffer,
+            updateCustomer: updateCustomer,
             updateRequestStatus: updateRequestStatus,
-            getTranslation: getTranslation
+            updateMerchant: updateMerchant,
+            updateCustomerCard: updateCustomerCard,
+            acceptOffer: acceptOffer,
         };
 
         return service;
+
+        function getLanguages() {
+
+            return request.httpWithTimeout({
+                url: conf.BASE_URL + conf.URL_PREFIX + 'lists/languages',
+                method: 'GET'
+            });
+        }
+
+        function getServiceTypes() {
+
+            return request.httpWithTimeout({
+                url: conf.BASE_URL + conf.URL_PREFIX + 'lists/service-types',
+                method: 'GET'
+            });
+        }
+
+        function getStates() {
+
+            return request.httpWithTimeout({
+                url: conf.BASE_URL + conf.URL_PREFIX + 'lists/states',
+                method: 'GET'
+            });
+        }
+
+        function getCities(stateId, params) {
+
+            return request.httpWithTimeout({
+                url: conf.BASE_URL + conf.URL_PREFIX + 'lists/states/' + stateId + '/cities',
+                method: 'GET',
+                params: params
+            });
+        }
+
+        function getTranslation(langKey) {
+
+            return $sails.get(conf.URL_PREFIX + 'translations/' + langKey)
+                .then(getTranslationCompleted);
+
+            function getTranslationCompleted(message) {
+
+                return message.data.translation;
+            }
+        }
 
         function getCurrentUser() {
 
             return request.httpWithTimeout({
                 url: conf.BASE_URL + conf.URL_PREFIX + 'user',
                 method: 'GET'
+            });
+        }
+
+        function getUser(userId) {
+
+            return request.httpWithTimeout({
+                url: conf.BASE_URL + conf.URL_PREFIX + 'users/' + userId,
+                method: 'GET'
+            });
+        }
+
+        function getFeedbacks(userId) {
+
+            return request.httpWithTimeout({
+                url: conf.BASE_URL + conf.URL_PREFIX + 'users/' + userId + '/feedbacks',
+                method: 'GET'
+            });
+        }
+
+        function getNewRequests(params) {
+
+            return request.httpWithTimeout({
+                url: conf.BASE_URL + conf.URL_PREFIX + 'specialist/requests/new',
+                method: 'GET',
+                params: params
+            });
+        }
+
+        function getRequest(userType, currentRequest) {
+
+            return request.httpWithTimeout({
+                url: conf.BASE_URL + conf.URL_PREFIX + userType + '/requests/' + currentRequest.id,
+                method: 'GET'
+            });
+        }
+
+        function getAvailabilityInfo(params) {
+
+            return request.httpWithTimeout({
+                url: conf.BASE_URL + conf.URL_PREFIX + 'users',
+                method: 'GET',
+                params: params
             });
         }
 
@@ -79,17 +165,6 @@
             }
         }
 
-        function updateCustomer(customerData) {
-
-            return $sails.put(conf.URL_PREFIX + 'customer', customerData)
-                .then(updateCurrentCustomerComplete);
-
-            function updateCurrentCustomerComplete(response) {
-
-                return response.data;
-            }
-        }
-
         function getBankAccountTypes() {
 
             return request.httpWithTimeout({
@@ -100,16 +175,6 @@
             function getBankAccountTypesComplete(response) {
 
                 return response.data.result;
-            }
-        }
-
-        function updateCustomerCard(cardData) {
-            return $sails.put(conf.URL_PREFIX + 'customercard', cardData)
-                .then(updateCustomerCardComplete);
-
-            function updateCustomerCardComplete(response) {
-
-                return response.data;
             }
         }
 
@@ -126,17 +191,6 @@
             }
         }
 
-        function updateMerchant(merchantData) {
-
-            return $sails.put(conf.URL_PREFIX + 'merchantentity', merchantData)
-                .then(updateMerchantComplete);
-
-            function updateMerchantComplete(response) {
-
-                return response.data.merchantEntity;
-            }
-        }
-
         function getMerchantAccount() {
 
             return request.httpWithTimeout({
@@ -145,17 +199,6 @@
             }).then(getMerchantAccountComplete);
 
             function getMerchantAccountComplete(response) {
-
-                return response.data.userPayment;
-            }
-        }
-
-        function setMerchantAccount(paymentData) {
-
-            return $sails.post(conf.URL_PREFIX + 'merchantaccount', paymentData)
-                .then(setMerchantAccountComplete);
-
-            function setMerchantAccountComplete(response) {
 
                 return response.data.userPayment;
             }
@@ -200,6 +243,17 @@
             }
         }
 
+        function createUser(newUser) {
+
+            return $sails.post(conf.URL_PREFIX + 'user', newUser)
+                .then(createUserComplete);
+
+            function createUserComplete(response) {
+
+                return response.data;
+            }
+        }
+
         function createAuthTxn(merchantId, amount, requestId) {
             return $sails.post(conf.URL_PREFIX + 'splashpayment/authtxn', {
                 merchantId: merchantId,
@@ -209,6 +263,16 @@
                 .then(createTxnComplete);
 
             function createTxnComplete(response) {
+
+                return response.data;
+            }
+        }
+
+        function createCaptureTxn(requestId) {
+            return $sails.post(conf.URL_PREFIX + 'splashpayment/capturetxn', {requestId: requestId})
+                .then(createCaptureTxnComplete);
+
+            function createCaptureTxnComplete(response) {
 
                 return response.data;
             }
@@ -227,121 +291,22 @@
             }
         }
 
+        function setMerchantAccount(paymentData) {
+
+            return $sails.post(conf.URL_PREFIX + 'merchantaccount', paymentData)
+                .then(setMerchantAccountComplete);
+
+            function setMerchantAccountComplete(response) {
+
+                return response.data.userPayment;
+            }
+        }
+
         function reverseAuthTxn(requestId) {
             return $sails.post(conf.URL_PREFIX + 'splashpayment/reverseauthtxn', {requestId: requestId})
                 .then(reverseAuthTxnComplete);
 
             function reverseAuthTxnComplete(response) {
-                return response.data;
-            }
-        }
-
-        function createCaptureTxn(requestId) {
-            return $sails.post(conf.URL_PREFIX + 'splashpayment/capturetxn', {requestId: requestId})
-                .then(createCaptureTxnComplete);
-
-            function createCaptureTxnComplete(response) {
-
-                return response.data;
-            }
-        }
-
-        function getUser(userId) {
-
-            return request.httpWithTimeout({
-                url: conf.BASE_URL + conf.URL_PREFIX + 'users/' + userId,
-                method: 'GET'
-            });
-        }
-
-        function getFeedbacks(userId) {
-
-            return request.httpWithTimeout({
-                url: conf.BASE_URL + conf.URL_PREFIX + 'users/' + userId + '/feedbacks',
-                method: 'GET'
-            });
-        }
-
-        function getServiceTypes() {
-
-            return request.httpWithTimeout({
-                url: conf.BASE_URL + conf.URL_PREFIX + 'lists/service-types',
-                method: 'GET'
-            });
-        }
-
-        function getLanguages() {
-
-            return request.httpWithTimeout({
-                url: conf.BASE_URL + conf.URL_PREFIX + 'lists/languages',
-                method: 'GET'
-            });
-        }
-
-        function getStates() {
-
-            return request.httpWithTimeout({
-                url: conf.BASE_URL + conf.URL_PREFIX + 'lists/states',
-                method: 'GET'
-            });
-        }
-
-        function getCities(stateId, params) {
-
-            return request.httpWithTimeout({
-                url: conf.BASE_URL + conf.URL_PREFIX + 'lists/states/' + stateId + '/cities',
-                method: 'GET',
-                params: params
-            });
-        }
-
-        function getTranslation(langKey) {
-console.log(conf.URL_PREFIX + 'translations?langKey=' + langKey);
-            return $sails.get(conf.URL_PREFIX + 'translations/' + langKey)
-                .then(getTranslateCompleted)
-                .catch(function(e) {
-                    console.log(e);
-                });
-
-            function getTranslateCompleted(message) {
-
-                return message.data.translation;
-            }
-        }
-
-        function getNewRequests(params) {
-
-            return request.httpWithTimeout({
-                url: conf.BASE_URL + conf.URL_PREFIX + 'specialist/requests/new',
-                method: 'GET',
-                params: params
-            });
-        }
-
-        function getRequest(userType, currentRequest) {
-
-            return request.httpWithTimeout({
-                url: conf.BASE_URL + conf.URL_PREFIX + userType + '/requests/' + currentRequest.id,
-                method: 'GET'
-            });
-        }
-
-        function getAvailabilityInfo(params) {
-
-            return request.httpWithTimeout({
-                url: conf.BASE_URL + conf.URL_PREFIX + 'users',
-                method: 'GET',
-                params: params
-            });
-        }
-
-        function createUser(newUser) {
-
-            return $sails.post(conf.URL_PREFIX + 'user', newUser)
-                .then(createUserComplete);
-
-            function createUserComplete(response) {
-
                 return response.data;
             }
         }
@@ -391,14 +356,14 @@ console.log(conf.URL_PREFIX + 'translations?langKey=' + langKey);
             }
         }
 
-        function acceptOffer(requestId, request) {
+        function updateCustomer(customerData) {
 
-            return $sails.put(conf.URL_PREFIX + 'client/requests/' + requestId, request)
-                .then(acceptOfferCompleted);
+            return $sails.put(conf.URL_PREFIX + 'customer', customerData)
+                .then(updateCurrentCustomerComplete);
 
-            function acceptOfferCompleted(response) {
+            function updateCurrentCustomerComplete(response) {
 
-                return response.data.request;
+                return response.data;
             }
         }
 
@@ -408,6 +373,38 @@ console.log(conf.URL_PREFIX + 'translations?langKey=' + langKey);
                 .then(updateRequestStatusCompleted);
 
             function updateRequestStatusCompleted(response) {
+
+                return response.data.request;
+            }
+        }
+
+        function updateMerchant(merchantData) {
+
+            return $sails.put(conf.URL_PREFIX + 'merchantentity', merchantData)
+                .then(updateMerchantComplete);
+
+            function updateMerchantComplete(response) {
+
+                return response.data.merchantEntity;
+            }
+        }
+
+        function updateCustomerCard(cardData) {
+            return $sails.put(conf.URL_PREFIX + 'customercard', cardData)
+                .then(updateCustomerCardComplete);
+
+            function updateCustomerCardComplete(response) {
+
+                return response.data;
+            }
+        }
+
+        function acceptOffer(requestId, request) {
+
+            return $sails.put(conf.URL_PREFIX + 'client/requests/' + requestId, request)
+                .then(acceptOfferCompleted);
+
+            function acceptOfferCompleted(response) {
 
                 return response.data.request;
             }
