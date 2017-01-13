@@ -162,6 +162,11 @@
         }
 
         function getCities(query) {
+            if(!vm.userProfile.customerData.state){
+
+                return;
+            }
+
             var selectedState = vm.states[vm.userProfile.customerData.state];
 
             return citiesLoader.getCities(selectedState.id, query)

@@ -44,7 +44,7 @@
             <md-input-container class="md-block" flex>
                 <label>State</label>
                 <md-select ng-model="vm.userProfile.merchantData.state"
-                           ng-change="vm.resetSelectedCity();">
+                           ng-change="vm.resetSelectedCity();" required>
                     <md-option ng-repeat="state in vm.states track by state.id" ng-value="state.code">
                         <span ng-bind="state.state"></span>
                     </md-option>
@@ -57,13 +57,13 @@
                                  md-input-minlength="2"
                                  md-selected-item="vm.selectedItem"
                                  md-search-text="vm.searchText"
-                                 md-items="city in vm.getCities(vm.searchText) track by city.id"
+                                 md-items="city in vm.getCities(vm.searchText)"
                                  md-item-text="city.city"
                                  md-require-match
                                  md-floating-label="City"
                                  md-selected-item-change="vm.selectedItemChange(city)">
                     <md-item-template>
-                        <span md-highlight-text="vm.searchText" ng-bind="city.city"></span>
+                        <span md-highlight-text="vm.searchText">{{city.city}}</span>
                     </md-item-template>
                     <div ng-messages="editMerchantForm.autocompleteField.$error" ng-if="editMerchantForm.autocompleteField.$touched">
                         <div ng-message="md-require-match">Please select an existing city.</div>
@@ -77,7 +77,8 @@
                 <label>ZIP</label>
                 <input name="Zip"
                        required
-                       ng-maxlength="20"
+                       placeholder="00000(-0000)"
+                       ng-pattern="/^[0-9]{5}(?:[-\s][0-9]{4})?$/"
                        ng-model="vm.userProfile.merchantData.zip">
             </md-input-container>
         </div>
