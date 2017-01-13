@@ -16,6 +16,7 @@
   "Reset password": "Reset password",
   "Invalid password.": "Invalid password.",
   "You are not permitted to perform this action.": "You are not permitted to perform this action.",
+  "File doesn't exist.": "File doesn't exist.",
   "User authentication failed.": "User authentication failed.",
   "User not found.": "User not found.",
   "User already exists.": "User already exists.",
