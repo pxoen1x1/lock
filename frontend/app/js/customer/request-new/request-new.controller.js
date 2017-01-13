@@ -79,15 +79,9 @@
         }
 
         function getStates() {
-            if (promises.getStates) {
-                promises.getStates.cancel();
-            }
-
-            promises.getStates = coreDataservice.getStates();
-
-            return promises.getStates
+            return coreDictionary.getStates()
                 .then(function (response) {
-                    vm.states = response.data.states;
+                    vm.states = response.states;
 
                     return vm.states;
                 });
