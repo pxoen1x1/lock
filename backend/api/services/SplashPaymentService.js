@@ -81,7 +81,7 @@ let SplashPaymentService = {
                     merchantArray = JSON.parse(merchantResponse);
                     user.spMerchantId = merchantArray[0].merchant.id;
 
-                    return UserService.update({id: user.id}, user);
+                    return UserService.updateUser(user);
                 }
             )
             .then(

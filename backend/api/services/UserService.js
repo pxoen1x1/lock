@@ -97,19 +97,19 @@ let UserService = {
                 (createdUser) => createdUser
             );
     },
-    update(criteria, updatedUser) {
+    updateUser(user) {
 
-        return User.findOne(criteria)
-            .then((user) => {
-                if (!user) {
+        return User.update({id: user.id}, user)
+            .then(
+                (updatedUser) => {
+                    if (!updatedUser || updatedUser.length === 0) {
 
-                    return Promise.reject();
+                        return Promise.reject();
+                    }
+
+                    return this.getUser(updatedUser[0]);
                 }
-
-                user = Object.assign(user, updatedUser);
-
-                return HelperService.saveModel(user);
-            });
+            );
     },
     getUserBySSN(ssn) {
 

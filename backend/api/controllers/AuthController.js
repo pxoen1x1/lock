@@ -44,7 +44,7 @@ let AuthController = waterlock.waterlocked({
 
                                 createdUser.spCustomerId = customerArray[0].id;
 
-                                return UserService.update({id: createdUser.id}, createdUser);
+                                return UserService.updateUser(createdUser);
                             }
                         );
                 }
