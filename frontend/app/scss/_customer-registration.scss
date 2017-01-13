@@ -41,72 +41,15 @@
     .social-button-wrapper {
       height: 400px;
     }
-    .go-to-social {
-      display: none;
-    }
-    .go-to-social i {
-      margin-right: 10px;
-      font-size: 18px;
-    }
-    .go-to-social i.fa-facebook {
-      color: rgba(60, 91, 152, 1);
-    }
-    .go-to-social i.fa-google-plus {
-      color: rgba(240, 87, 67, 1);
-    }
-    .go-to-social i.fa-twitter {
-      color: rgba(29, 169, 251, 1);
-    }
-    .social-button {
-      width: calc(100% - 14px);
-      font-weight: 500;
-      font-size: 12px;
-      min-height: 36px;
-      margin-bottom: 20px;
-      text-transform: none;
-    }
-    .social-button.facebook, .social-button.facebook:hover {
-      background-color: rgba(60, 91, 152, 1);
-    }
-    .social-button.google, .social-button.google:hover {
-      background-color: rgba(240, 87, 67, 1);
-    }
-    .social-button.twitter, .social-button.twitter:hover {
-      background-color: rgba(29, 169, 251, 1);
-    }
-    .social-button.gray, .social-button.gray:hover {
-      display: none;
-      color: #000;
-      background-color: #ececec;
-    }
   }
 }
 
 @media only screen and (max-device-width: 600px) {
   .registration-content {
     &.customer {
-
-      .go-to-social {
-        display: inherit;
-      }
-      .social-wrapper {
-        background: none;
-      }
-      .social-wrapper h1 {
-        color: #000;
-      }
-      .mobile-hidden {
-        display: none;
-      }
-      .social-button.gray, .social-button.gray:hover {
-        display: inherit;
-      }
       .registration-name.social {
         font-size: 32px;
         text-align: center;
-      }
-      .social-button-wrapper {
-        height: 340px;
       }
     }
   }
