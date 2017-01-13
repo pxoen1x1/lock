@@ -8,22 +8,22 @@ let mkdirp = require('mkdirp');
 let FileService = {
 
     readFile(path, encoding) {
-      let promise = new Promise(
-          (resolve, reject) => {
-              fs.readFile(path, encoding,
-                  (err, data) => {
-                      if (err) {
-                          let error = new Error();
-                          error.message = `File doesn't exist.`;
-                          error.isToSend = true;
+        let promise = new Promise(
+            (resolve, reject) => {
+                fs.readFile(path, encoding,
+                    (err, data) => {
+                        if (err) {
+                            let error = new Error();
+                            error.message = `File doesn't exist.`;
+                            error.isToSend = true;
 
-                          return reject(error);
-                      }
-                      var parsedData = JSON.parse(data);
-                      return parsedData;
-                  });
-          }
-      );
+                            return reject(error);
+                        }
+
+                        return resolve(JSON.parse(data));
+                    });
+            }
+        );
 
         return promise;
     },
@@ -52,7 +52,7 @@ let FileService = {
                     }
 
                     path = path.replace(/^assets/, '');
-                    
+
                     return resolve(path);
                 });
         });
@@ -61,7 +61,7 @@ let FileService = {
     },
     _getFilePath(userId, dir, filename) {
         let path = `assets/uploads/users/${userId}/${dir}/`;
-        
+
         path = this._prepareDirectory(path);
 
         return path + filename;
