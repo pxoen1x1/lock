@@ -7,10 +7,10 @@ let mkdirp = require('mkdirp');
 
 let FileService = {
 
-    readFile(path) {
+    readFile(path, encoding) {
       let promise = new Promise(
           (resolve, reject) => {
-              fs.readFile(path,
+              fs.readFile(path, encoding,
                   (err, data) => {
                       if (err) {
                           let error = new Error();
@@ -19,8 +19,8 @@ let FileService = {
 
                           return reject(error);
                       }
-
-                      return data;
+                      var parsedData = JSON.parse(data);
+                      return parsedData;
                   });
           }
       );

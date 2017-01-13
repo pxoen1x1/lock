@@ -16,12 +16,12 @@
         return getTranslation;
 
         function getTranslation(langKey) {
-            if (!langKey) {
+            if (!langKey.key) {
 
                 return $q.reject();
             }
 
-            return coreDataservice.getTranslation(langKey);
-        };
+            return coreDataservice.getTranslation(langKey.key);
+        }
     }
 })();

@@ -10,13 +10,12 @@
 'use strict';
 
 let TranslationController = {
-
-    getTranslations(req, res) {
-
+    getTranslation(req, res) {
         let langKey = req.params.langKey;
-        let pathToTranslation = `../config/translations/locale-${langKey}.json`
+        let pathToTranslation = __dirname + `/../../config/translations/locale-${langKey}.json`
+        let encoding = 'utf8';
 
-        FileService.readFile(pathToTranslation)
+        FileService.readFile(pathToTranslation, encoding)
             .then(
                 (translation) => res.ok(
                     {

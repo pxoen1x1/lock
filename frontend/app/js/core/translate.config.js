@@ -12,18 +12,16 @@
     /* @ngInject */
     function translationConfig($translateProvider) {
         var languageKey = 'language';
-        var translationsEn = {
-            'PROFILE': 'Profile'
-        };
+        var langCode = 'en';
 
         var usingLanguage = localStorage.getItem(languageKey);
+
         usingLanguage = angular.fromJson(usingLanguage);
 
-        console.log(usingLanguage.code);
+        langCode = usingLanguage && usingLanguage.code ? usingLanguage.code : langCode;
+
         $translateProvider
-            .translations('es', translationsEn);
-        $translateProvider
-            .preferredLanguage(usingLanguage.code);
+            .preferredLanguage(langCode);
         $translateProvider
             .useLoader('translationService');
     }

@@ -291,9 +291,12 @@
         }
 
         function getTranslation(langKey) {
-
+console.log(conf.URL_PREFIX + 'translations?langKey=' + langKey);
             return $sails.get(conf.URL_PREFIX + 'translations/' + langKey)
-                .then(getTranslateCompleted);
+                .then(getTranslateCompleted)
+                .catch(function(e) {
+                    console.log(e);
+                });
 
             function getTranslateCompleted(message) {
 
