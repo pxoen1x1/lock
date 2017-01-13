@@ -195,6 +195,7 @@ let SplashPaymentController = {
         let user = req.session.user;
 
         if (!user.spMerchantId) {
+
             return res.ok({
                 merchantFunds: null
             });

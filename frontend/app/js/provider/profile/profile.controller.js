@@ -38,9 +38,6 @@
 
         vm.bankAccountTypes = [];
         vm.states = [];
-        vm.statesByCode = [];
-        vm.cities = [];
-        vm.searchCity = '';
         vm.serviceTypes = [];
 
         vm.datePickerOptions = {
@@ -63,8 +60,13 @@
         vm.cancelEditing = cancelEditing;
         vm.updateMerchant = updateMerchant;
         vm.withdrawal = withdrawal;
+
         vm.getCities = getCities;
+        vm.searchText = null;
+        vm.selectedCityItem = null;
+        vm.selectedItemChange = selectedItemChange;
         vm.resetSelectedCity = resetSelectedCity;
+
 
         activate();
 
@@ -199,12 +201,14 @@
                         .then(function (merchantEntity) {
                             if (merchantEntity) {
                                 vm.userProfile.merchantData = merchantEntity;
+                                vm.selectedCityItem  = vm.userProfile.merchantData.city;
                             }
 
                             return coreDataservice.getMerchantFunds();
                         })
                         .then(function (funds) {
-                            if(funds && funds.available){
+
+                            if (funds && funds.available) {
                                 vm.userProfile.merchantFunds = funds.available / 100; // in cents
                             }
 
@@ -235,52 +239,41 @@
             vm.isEditingPayment = false;
         }
 
-        function activate() {
-            $q.all([
-                getUser(),
-                getLanguages(),
-                getStates(),
-                getBankAccountTypes(),
-                getServiceTypes()
-            ])
-                .then(function () {
-                    vm.userProfile.usingLanguage = vm.userProfile.usingLanguage || usingLanguageService.getLanguage();
-                    vm.licensesPresent = vm.userProfile.details.licenses.length !== 0;
-                    vm.servicesPresent = vm.userProfile.details.serviceTypes.length !== 0;
-
-                    vm.nonChangedUserProfile = angular.copy(vm.userProfile);
-                });
-        }
-
         function getStates() {
             return coreDictionary.getStates()
                 .then(function (response) {
-                     vm.states = response.states;
-
-                    for (var i=0; i < vm.states.length; i++) {
-                        vm.statesByCode[vm.states[i].code] = vm.states[i];
-                    }
+                    vm.states = getStatesList(response.states);
 
                     return vm.states;
                 });
         }
 
-        function getCities(state, query) {
-            var selectedState = vm.statesByCode[state];
+        function getCities(query) {
+            if(!vm.userProfile.merchantData.state){
+
+                return;
+            }
+
+            var selectedState = vm.states[vm.userProfile.merchantData.state];
 
             return citiesLoader.getCities(selectedState.id, query)
                 .then(function (cities) {
-                    vm.cities = cities;
-console.log(vm.cities);
-                    return vm.cities;
+
+                    return cities;
                 });
+        }
+
+        function selectedItemChange(city) {
+            if(!city){
+                return;
+            }
+
+            vm.userProfile.merchantData.city = city.city;
         }
 
         function resetSelectedCity() {
             vm.userProfile.merchantData.city = null;
-            vm.searchCity = '';
-
-            citiesLoader.resetSelectedCity();
+            vm.selectedCityItem = null;
         }
 
         function getServiceTypes() {
@@ -291,6 +284,33 @@ console.log(vm.cities);
 
                     return vm.serviceTypes;
                 });
+        }
+
+        function getStatesList(states) {
+            var statesList = {};
+
+            states.forEach(function (state) {
+                statesList[state.code] = state;
+            });
+
+            return statesList;
+        }
+
+        function activate() {
+            $q.all([
+                    getUser(),
+                    getLanguages(),
+                    getStates(),
+                    getBankAccountTypes(),
+                    getServiceTypes()
+                ])
+                .then(function () {
+                        vm.userProfile.usingLanguage = vm.userProfile.usingLanguage || usingLanguageService.getLanguage();
+                        vm.licensesPresent = vm.userProfile.details.licenses.length !== 0;
+                        vm.servicesPresent = vm.userProfile.details.serviceTypes.length !== 0;
+                        vm.nonChangedUserProfile = angular.copy(vm.userProfile);
+                    }
+                );
         }
     }
 })();

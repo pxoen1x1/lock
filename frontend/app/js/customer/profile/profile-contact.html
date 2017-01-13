@@ -7,19 +7,19 @@
     <div>
         <div class="section first">
             <span class="md-body-2">Address:</span>
-            <span class="md-body-1" ng-bind="vm.userProfile.customerData.address1"></span>
+            <span class="md-body-1" ng-bind="vm.userProfile.customerData.address1 || '-'"></span>
         </div>
         <div class="section">
             <span class="md-body-2">State:</span>
-            <span class="md-body-1" ng-bind="vm.userProfile.customerData.state"></span>
+            <span class="md-body-1" ng-bind="vm.userProfile.customerData.state || '-'"></span>
         </div>
         <div class="section">
             <span class="md-body-2">City:</span>
-            <span class="md-body-1" ng-bind="vm.userProfile.customerData.city"></span>
+            <span class="md-body-1" ng-bind="vm.userProfile.customerData.city || '-'"></span>
         </div>
         <div class="section">
             <span class="md-body-2">ZIP:</span>
-            <span class="md-body-1" ng-bind="vm.userProfile.customerData.zip"></span>
+            <span class="md-body-1" ng-bind="vm.userProfile.customerData.zip || '-'"></span>
         </div>
     </div>
     <md-button ng-if="!vm.isEditingCustomer" class="md-button-blue" ng-click="vm.isEditingCustomer = true"">Edit</md-button>
@@ -42,48 +42,41 @@
             <md-input-container class="md-block" flex>
                 <label>State</label>
                 <md-select ng-model="vm.userProfile.customerData.state"
-                           ng-change="vm.resetSelectedCity(); vm.getCities(vm.userProfile.customerData.state)">
-                    <md-option ng-repeat="state in vm.states track by state.id" ng-value="state.state">
+                           ng-change="vm.resetSelectedCity();" required>
+                    <md-option ng-repeat="(code, state) in vm.states track by state.id" ng-value="state.state">
                         <span ng-bind="state.state"></span>
                     </md-option>
                 </md-select>
             </md-input-container>
 
             <md-input-container class="md-block" flex>
-                <label>City</label>
-
-                <md-select role="listbox"
-                           class="cities-select"
-                           name="city"
-                           md-select-infinite-scroll
-                           on-scroll="vm.getCities(vm.userProfile.customerData.state, vm.searchCity)"
-                           ng-model="vm.userProfile.customerData.city" >
-                    <md-select-header>
-                        <input type="search"
-                               placeholder="Search for a city.."
-                               ng-change="vm.getCities(vm.userProfile.customerData.state, vm.searchCity)"
-                               ng-model-options="{ debounce: 400 }"
-                               ng-model="vm.searchCity">
-                    </md-select-header>
-                    <md-optgroup label="cities">
-
-                        <md-option ng-value="vm.userProfile.customerData.city">
-                            <span ng-bind="vm.userProfile.customerData.city"></span>
-                        </md-option>
-
-                        <md-option ng-if="city.city != vm.userProfile.customerData.city" ng-repeat="city in vm.cities | filter: vm.searchCity track by city.id"
-                                   ng-value="city.city">
-                            <span ng-bind="city.city"></span>
-                        </md-option>
-                    </md-optgroup>
-                </md-select>
+                <md-autocomplete flex required
+                                 md-input-name="autocompleteField"
+                                 md-input-minlength="2"
+                                 md-selected-item="vm.selectedCityItem"
+                                 md-search-text="vm.searchText"
+                                 md-items="city in vm.getCities(vm.searchText)"
+                                 md-item-text="city.city"
+                                 md-require-match
+                                 md-floating-label="City"
+                                 md-selected-item-change="vm.selectedItemChange(city)">
+                    <md-item-template>
+                        <span md-highlight-text="vm.searchText">{{city.city}}</span>
+                    </md-item-template>
+                    <div ng-messages="editCustomerForm.autocompleteField.$error" ng-if="editCustomerForm.autocompleteField.$touched">
+                        <div ng-message="md-require-match">Please select an existing city.</div>
+                        <div ng-message="minlength">Your entry is not long enough.</div>
+                        <div ng-message="maxlength">Your entry is too long.</div>
+                    </div>
+                </md-autocomplete>
             </md-input-container>
 
             <md-input-container class="md-block" flex>
                 <label>ZIP</label>
-                <input name="Zip"
+                <input name="zip"
                        required
-                       ng-maxlength="20"
+                       placeholder="00000(-0000)"
+                       ng-pattern="/^[0-9]{5}(?:[-\s][0-9]{4})?$/"
                        ng-model="vm.userProfile.customerData.zip">
             </md-input-container>
         </div>

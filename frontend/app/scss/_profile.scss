@@ -142,10 +142,7 @@
     padding-top: 8px;
     max-width: 21px;
     max-height: 58px;
-
-    i {
-      cursor: pointer;
-    }
+    cursor: pointer;
   }
 
   .add-license-btn {
@@ -154,6 +151,10 @@
 
   p {
     margin-top: 0;
+  }
+
+  .cursor-pointer {
+    cursor: pointer;
   }
 
 }

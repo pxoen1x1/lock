@@ -28,9 +28,6 @@
         vm.newPortrait = '';
         vm.languages = [];
         vm.states = [];
-        vm.statesByName = [];
-        vm.cities = [];
-        vm.searchCity = '';
         vm.baseUrl = conf.BASE_URL;
         vm.defaultPortrait = coreConstants.IMAGES.defaultPortrait;
 
@@ -44,6 +41,12 @@
         vm.getUser = getUser;
         vm.getCities = getCities;
         vm.cancelEditing = cancelEditing;
+        vm.resetSelectedCity = resetSelectedCity;
+
+        vm.getCities = getCities;
+        vm.searchText = null;
+        vm.selectedItem = null;
+        vm.selectedItemChange = selectedItemChange;
 
         activate();
 
@@ -131,6 +134,7 @@
 
                             if(customer){
                                 vm.userProfile.customerData = customer.customer[0];
+                                vm.selectedCityItem  = vm.userProfile.customerData.city;
                             }
 
                             return vm.userProfile;
@@ -142,29 +146,52 @@
         function getStates() {
             return coreDictionary.getStates()
                 .then(function (response) {
-                    vm.states = response.states;
-
-                    for (var i=0; i < vm.states.length; i++) {
-                        vm.statesByName[vm.states[i].state] = vm.states[i];
-                    }
+                    vm.states = getStatesList(response.states);
 
                     return vm.states;
                 });
         }
 
-        function getCities(state, query) {
-            let selectedState = vm.statesByName[state];
+        function getStatesList(states) {
+            var statesList = {};
+            states.forEach(function(state) {
+                statesList[state.state] = state;
+            });
+
+            return statesList;
+        }
+
+        function getCities(query) {
+            if(!vm.userProfile.customerData.state){
+
+                return;
+            }
+
+            var selectedState = vm.states[vm.userProfile.customerData.state];
 
             return citiesLoader.getCities(selectedState.id, query)
                 .then(function (cities) {
-                    vm.cities = cities;
-
-                    return vm.cities;
+                    
+                    return cities;
                 });
+        }
+
+        function selectedItemChange(city) {
+            if(!city){
+                return;
+            }
+
+            vm.userProfile.customerData.city = city.city;
+        }
+
+        function resetSelectedCity() {
+            vm.userProfile.customerData.city = null;
+            vm.selectedCityItem = null;
         }
 
         function cancelEditing() {
             vm.userProfile = angular.copy(vm.nonChangedUserProfile);
+            vm.selectedCityItem = vm.userProfile.customerData.city;
             vm.isEditing = false;
             vm.isEditingCustomer = false;
             vm.isEditingCard = false;
