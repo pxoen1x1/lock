@@ -5,10 +5,10 @@
         .module('app.registration')
         .controller('CustomerRegistrationController', CustomerRegistrationController);
 
-    CustomerRegistrationController.$inject = ['$state', 'authService'];
+    CustomerRegistrationController.$inject = ['$state', 'authService', 'usingLanguageService'];
 
     /* @ngInject */
-    function CustomerRegistrationController($state, authService) {
+    function CustomerRegistrationController($state, authService, usingLanguageService) {
         var vm = this;
 
         vm.user = {};
@@ -39,6 +39,7 @@
                 return;
             }
 
+            user.usingLanguage = usingLanguageService.getLanguage();
             auth.user = user;
 
             var params = {

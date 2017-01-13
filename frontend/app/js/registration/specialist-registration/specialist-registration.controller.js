@@ -6,11 +6,8 @@
         .controller('SpecialistRegistrationController', SpecialistRegistrationController);
 
     SpecialistRegistrationController.$inject = [
-        '$q',
         '$state',
-        'coreDataservice',
         'coreConstants',
-        'coreDictionary',
         'authService',
         'registrationConstants',
         'usingLanguageService'
@@ -81,12 +78,8 @@
             }
 
             if (vm.isCompanyRegistrationSelected) {
-                user.groups.licenses = remoleInvalidLicenses(vm.licenses);
-
                 delete user.details;
             } else {
-                user.details.licenses = remoleInvalidLicenses(vm.licenses);
-
                 delete user.groups;
             }
 

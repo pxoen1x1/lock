@@ -26,6 +26,11 @@
         <span class="md-body-2">Phone:</span>
         <span class="md-body-1" ng-bind="vm.userProfile.phoneNumber"></span>
     </div>
+    <div class="section">
+        <span class="md-body-2">Car license plate number:</span>
+        <span class="md-body-1" ng-bind="vm.userProfile.details.carLicensePlateNumber"
+              ng-if="vm.userProfile.details.carLicensePlateNumber"></span>
+    </div>
     <div class="section" layout="row" ng-if="vm.licensesPresent">
         <span class="md-body-2">Licenses:</span>
         <div layout="column">
@@ -42,6 +47,13 @@
         <span class="md-body-1"
               ng-repeat="service in vm.userProfile.details.serviceTypes track by service.id"
               ng-bind="service.name + ' (' + (service.price | currency:'$') + ')' + ($last ? '':', ')">
+            </span>
+    </div>
+    <div class="section">
+        <span class="md-body-2">Language:</span>
+            <span class="md-body-1"
+                  ng-if="!vm.isEditing"
+                  ng-bind="vm.userProfile.usingLanguage.name">
             </span>
     </div>
 </div>
@@ -94,6 +106,13 @@
                 <span ng-message="usPhoneNumber">That doesn't look like a valid phone number.</span>
                 <span ng-message="availability">This phone number already exists.</span>
             </div>
+        </md-input-container>
+        <p>Car license plate number: </p>
+        <md-input-container class="md-block" flex>
+          <label>Car license plate number</label>
+          <input name="carLicensePlateNumber"
+                 ng-model-options="{ 'debounce': 400 }"
+                 ng-model="vm.userProfile.details.carLicensePlateNumber">
         </md-input-container>
         <p>License information:</p>
         <div class="licenses"
@@ -168,15 +187,37 @@
                 </md-select>
             </md-input-container>
         </div>
+        <p>Language</p>
+        <div layout-gt-xs="row">
+            <md-input-container class="md-block" flex>
+                <label>Language</label>
+            <md-select flex
+                       aria-label="Language"
+                       ng-if="vm.isEditing"
+                       ng-model-options="{trackBy: '$value.id'}"
+                       ng-model="vm.userProfile.usingLanguage">
+                <md-option ng-repeat="language in vm.languages"
+                           ng-value="language">
+                    <span ng-bind="language.name"></span>
+                </md-option>
+            </md-select>
+            </md-input-container>
+        </div>
         <md-button type="submit"
-                   class="md-raised md-warn"
+                   class="md-button-blue"
                    aria-label="Save"
                    ng-if="vm.isEditing">
             Save
         </md-button>
-        <md-button ng-if="vm.isEditing"
+        <md-button class="md-button-blue" ng-if="vm.isEditing"
                    ng-click="vm.cancelEditing()">
             Cancel
         </md-button>
     </form>
 </div>
+<md-button ng-if="!vm.isEditing"
+           class="md-button-blue"
+           ng-click="vm.isEditing = true"
+           aria-label="Edit">
+    Edit
+</md-button>

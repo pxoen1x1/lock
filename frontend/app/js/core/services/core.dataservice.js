@@ -61,6 +61,7 @@
             return $sails.get(conf.URL_PREFIX + 'group').then(getAdminsGroupComplete);
 
             function getAdminsGroupComplete(response) {
+
                 return response.data.group;
             }
         }
@@ -73,6 +74,7 @@
             }).then(getCustomerComplete);
 
             function getCustomerComplete(response) {
+
                 return response.data;
             }
         }
@@ -96,6 +98,7 @@
             }).then(getBankAccountTypesComplete);
 
             function getBankAccountTypesComplete(response) {
+
                 return response.data.result;
             }
         }
@@ -105,6 +108,7 @@
                 .then(updateCustomerCardComplete);
 
             function updateCustomerCardComplete(response) {
+
                 return response.data;
             }
         }
@@ -117,6 +121,7 @@
             }).then(getCurrentMerchantComplete);
 
             function getCurrentMerchantComplete(response) {
+
                 return response.data.merchantEntity;
             }
         }
@@ -197,10 +202,10 @@
 
         function createAuthTxn(merchantId, amount, requestId) {
             return $sails.post(conf.URL_PREFIX + 'splashpayment/authtxn', {
-                    merchantId: merchantId,
-                    amount: amount,
-                    requestId: requestId
-                })
+                merchantId: merchantId,
+                amount: amount,
+                requestId: requestId
+            })
                 .then(createTxnComplete);
 
             function createTxnComplete(response) {
@@ -211,10 +216,10 @@
 
         function createTokenAndAuthTxn(txnData, merchantId, amount) {
             return $sails.post(conf.URL_PREFIX + 'splashpayment/tokenandauthtxn', {
-                    txnData: txnData,
-                    merchantId: merchantId,
-                    amount: amount
-                })
+                txnData: txnData,
+                merchantId: merchantId,
+                amount: amount
+            })
                 .then(createTokenAndAuthTxnComplete);
 
             function createTokenAndAuthTxnComplete(response) {

@@ -12,18 +12,22 @@
         'coreConstants',
         'coreDataservice',
         'conf',
-        'usingLanguageService'];
+        'usingLanguageService',
+        'citiesLoader'
+    ];
 
     /* @ngInject */
     function CustomerProfileController($q, coreDictionary, currentUserService, coreConstants, coreDataservice, conf,
-    usingLanguageService) {
+    usingLanguageService, citiesLoader) {
         var vm = this;
 
         vm.userProfile = {};
         vm.userProfile.customerData = {};
         vm.userProfile.paymentData = {};
+        vm.nonChangedUserProfile = {};
         vm.newPortrait = '';
         vm.languages = [];
+        vm.states = [];
         vm.baseUrl = conf.BASE_URL;
         vm.defaultPortrait = coreConstants.IMAGES.defaultPortrait;
 
@@ -35,6 +39,14 @@
         vm.updateCustomer = updateCustomer;
         vm.updateCustomerCard = updateCustomerCard;
         vm.getUser = getUser;
+        vm.getCities = getCities;
+        vm.cancelEditing = cancelEditing;
+        vm.resetSelectedCity = resetSelectedCity;
+
+        vm.getCities = getCities;
+        vm.searchText = null;
+        vm.selectedItem = null;
+        vm.selectedItemChange = selectedItemChange;
 
         activate();
 
@@ -88,7 +100,7 @@
 
                 return;
             }
-            
+
             if (vm.newPortrait) {
                 user.portrait = {
                     base64: vm.newPortrait
@@ -97,7 +109,7 @@
 
             return currentUserService.setUser(user)
                 .then(function (user) {
-                    
+
                     vm.userProfile = user;
                     vm.userProfile.portrait = user.portrait ? conf.BASE_URL + user.portrait : '';
                     vm.newPortrait = '';
@@ -122,6 +134,7 @@
 
                             if(customer){
                                 vm.userProfile.customerData = customer.customer[0];
+                                vm.selectedCityItem  = vm.userProfile.customerData.city;
                             }
 
                             return vm.userProfile;
@@ -133,10 +146,50 @@
         function getStates() {
             return coreDictionary.getStates()
                 .then(function (response) {
-                    vm.states = response.states;
+                    vm.states = getStatesList(response.states);
 
                     return vm.states;
                 });
+        }
+
+        function getStatesList(states) {
+            var statesList = {};
+            states.forEach(function(state) {
+                statesList[state.state] = state;
+            });
+
+            return statesList;
+        }
+
+        function getCities(query) {
+            var selectedState = vm.states[vm.userProfile.customerData.state];
+
+            return citiesLoader.getCities(selectedState.id, query)
+                .then(function (cities) {
+                    
+                    return cities;
+                });
+        }
+
+        function selectedItemChange(city) {
+            if(!city){
+                return;
+            }
+
+            vm.userProfile.customerData.city = city.city;
+        }
+
+        function resetSelectedCity() {
+            vm.userProfile.customerData.city = null;
+            vm.selectedCityItem = null;
+        }
+
+        function cancelEditing() {
+            vm.userProfile = angular.copy(vm.nonChangedUserProfile);
+            vm.selectedCityItem = vm.userProfile.customerData.city;
+            vm.isEditing = false;
+            vm.isEditingCustomer = false;
+            vm.isEditingCard = false;
         }
 
         function activate() {
@@ -147,6 +200,9 @@
             ])
                 .then(function () {
                     vm.userProfile.usingLanguage = vm.userProfile.usingLanguage || usingLanguageService.getLanguage();
+
+                    vm.nonChangedUserProfile = angular.copy(vm.userProfile);
+                    vm.getCities(vm.userProfile.customerData.state);
                 });
         }
     }

@@ -29,46 +29,24 @@ let AuthController = waterlock.waterlocked({
             });
         }
 
-        let criteria = {};
-
-        criteria.email = auth.email;
-
-        if (auth.user.id) {
-            delete auth.user.id;
-        }
-
-        if (auth.user.details) {
-            auth.user.userDetail = auth.user.details;
-
-            delete auth.user.details;
-        }
-
-        AuthService.findAuth(criteria)
-            .then(
-                (foundUser) => {
-                    if (foundUser) {
-
-                        return Promise.reject();
-                    }
-
-                    return AuthService.findOrCreateAuth(criteria, auth);
-                }
-            )
+        AuthService.register(auth)
             .then(
                 (createdUser) => {
-                    if (!createdUser.userDetail) {
+                    if (createdUser.details) {
 
-                        return SplashPaymentService.createCustomer(createdUser, auth.email)
-                            .then((customerResponse) => {
-                                var customerArray = JSON.parse(customerResponse);
+                        return createdUser;
+                    }
+
+                    return SplashPaymentService.createCustomer(createdUser, auth.email)
+                        .then(
+                            (customerResponse) => {
+                                let customerArray = JSON.parse(customerResponse);
+
                                 createdUser.spCustomerId = customerArray[0].id;
 
                                 return UserService.update({id: createdUser.id}, createdUser);
-
-                            });
-                    }
-
-                    return createdUser;
+                            }
+                        );
                 }
             )
             .then(
@@ -90,15 +68,11 @@ let AuthController = waterlock.waterlocked({
             )
             .catch(
                 (err) => {
-                    if (err) {
-                        sails.log.error(err);
+                    sails.log.error(err);
 
-                        return res.serverError();
-                    }
+                    let message = err.isToSend ? {message: err.message} : null;
 
-                    return res.badRequest({
-                        message: req.__('User already exists.')
-                    });
+                    return res.serverError(message);
                 }
             );
     },
