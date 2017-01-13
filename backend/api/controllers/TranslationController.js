@@ -12,7 +12,7 @@
 let TranslationController = {
     getTranslation(req, res) {
         let langKey = req.params.langKey;
-        let pathToTranslation = __dirname + `/../../config/translations/locale-${langKey}.json`
+        let pathToTranslation = __dirname + `/../../config/translations/locale-${langKey}.json`;
         let encoding = 'utf8';
 
         FileService.readFile(pathToTranslation, encoding)
