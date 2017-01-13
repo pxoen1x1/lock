@@ -22,7 +22,10 @@
 
         $translateProvider
             .preferredLanguage(langCode);
+
         $translateProvider
             .useLoader('translationService');
+
+        $translateProvider.useSanitizeValueStrategy('sanitize');
     }
 })();
