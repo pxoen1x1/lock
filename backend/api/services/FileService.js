@@ -6,6 +6,28 @@ let fs = require('fs');
 let mkdirp = require('mkdirp');
 
 let FileService = {
+
+    readFile(path) {
+      let promise = new Promise(
+          (resolve, reject) => {
+              fs.readFile(path,
+                  (err, data) => {
+                      if (err) {
+                          let error = new Error();
+                          error.message = `File doesn't exist.`;
+                          error.isToSend = true;
+
+                          return reject(error);
+                      }
+
+                      return data;
+                  });
+          }
+      );
+
+        return promise;
+    },
+
     saveImage(userId, image, dir) {
         if (!image || !image.base64 || !dir) {
 

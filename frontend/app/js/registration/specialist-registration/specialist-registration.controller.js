@@ -12,12 +12,13 @@
         'coreConstants',
         'coreDictionary',
         'authService',
-        'registrationConstants'
+        'registrationConstants',
+        'usingLanguageService'
     ];
 
     /* @ngInject */
-    function SpecialistRegistrationController($q, $state, coreDataservice, coreConstants, coreDictionary, authService,
-                                              registrationConstants) {
+    function SpecialistRegistrationController($state, coreConstants, authService,
+                                              registrationConstants, usingLanguageService) {
 
         var vm = this;
 
@@ -25,6 +26,8 @@
             details: {},
             groups: {}
         };
+        vm.user.details.carLicensePlateNumber = '';
+
         vm.auth = {};
         vm.validSteps = {};
         vm.currentStep = 0;
@@ -87,6 +90,7 @@
                 delete user.groups;
             }
 
+            user.usingLanguage = usingLanguageService.getLanguage();
             auth.user = user;
 
             var params = {

@@ -128,8 +128,16 @@
 
   }
 
+  .license-container {
+    mdp-date-picker {
+      .md-icon-button {
+        margin-top: 15px;
+      }
+    }
+  }
+
   .service-remove {
-    padding-top: 8px;
+    padding-top: 23px;
     max-width: 21px;
     max-height: 58px;
 

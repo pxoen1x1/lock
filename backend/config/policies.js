@@ -75,6 +75,9 @@ module.exports.policies = {
         'getLanguages': true
     },
 
+    TranslationController: {
+        'getTranslation': true
+    },
 
     RequestController: {
         'confirmOffer': [
