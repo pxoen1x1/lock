@@ -5,10 +5,16 @@
         .module('app.core')
         .factory('authService', authService);
 
-    authService.$inject = ['coreDataservice', 'socketService', 'localService', 'currentUserService'];
+    authService.$inject = [
+        'coreDataservice',
+        'socketService',
+        'localService',
+        'currentUserService',
+        'geocoderService'
+    ];
 
     /* @ngInject */
-    function authService(coreDataservice, socketService, localService, currentUserService) {
+    function authService(coreDataservice, socketService, localService, currentUserService, geocoderService) {
         var service = {
             authorize: authorize,
             isAuthenticated: isAuthenticated,
@@ -58,7 +64,11 @@
 
                     return socketService.unsubscribe();
                 })
-                .then(clearData);
+                .then(function(){
+                    clearData();
+
+                    geocoderService.stopGeoTracking();
+                });
         }
 
         function register(user) {
