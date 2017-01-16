@@ -9,7 +9,7 @@
     <div class="registration-form"
          flex-gt-xs="50">
       <div layout="row">
-        <h1 class="registration-name" flex="50">Sign up</h1>
+        <h1 class="registration-name" flex="50" translate>SIGN UP</h1>
         <div class="go-to-social"
              hide-gt-xs
              flex="50"
@@ -32,32 +32,32 @@
         <!-- First and last name -->
         <div layout="row">
           <md-input-container class="hide-error-msg" flex>
-            <label>First name</label>
+            <label translate>FIRST NAME</label>
             <input name="firstName"
                    required
                    ng-maxlength="20"
                    ng-pattern="/^[a-zA-Z]*$/"
                    ng-model="vm.user.firstName">
             <div ng-messages="registrationForm.firstName.$error">
-              <div ng-message="maxlength">Your first name is too long.</div>
+              <div ng-message="maxlength" translate>FIRST NAME IS TOO LONG</div>
             </div>
           </md-input-container>
           <md-input-container class="hide-error-msg" flex>
-            <label>Last name</label>
+            <label translate>LAST NAME</label>
             <input name="lastName"
                    required
                    ng-maxlength="20"
                    ng-pattern="/^[a-zA-Z]*$/"
                    ng-model="vm.user.lastName">
             <div ng-messages="registrationForm.lastName.$error">
-              <div ng-message="maxlength">Your last name is too long.</div>
+              <div ng-message="maxlength" translate>LAST NAME IS TOO LONG</div>
             </div>
           </md-input-container>
         </div>
         <!-- Phone number -->
         <div layout="row">
           <md-input-container class="hide-error-msg" flex>
-            <label>Phone number</label>
+            <label translate>PHONE NUMBER</label>
             <input type="tel"
                    name="phoneNumber"
                    required
@@ -67,15 +67,15 @@
                    ng-model-options="{ 'debounce': 400 }"
                    ng-model="vm.user.phoneNumber">
             <div ng-messages="registrationForm.phoneNumber.$error">
-              <span ng-message="usPhoneNumber">That doesn't look like a valid phone number.</span>
-              <span ng-message="availability">This phone number already exists.</span>
+              <span ng-message="usPhoneNumber" translate>INVALID PHONE</span>
+              <span ng-message="availability" translate>PHONE EXIST</span>
             </div>
           </md-input-container>
         </div>
         <!-- E-mail -->
         <div layout="row">
           <md-input-container class="hide-error-msg" flex>
-            <label>Email</label>
+            <label translate>EMAIL</label>
             <input type="email"
                    name="email"
                    required
@@ -85,15 +85,15 @@
                    ng-model-options="{ 'debounce': 400 }"
                    ng-model="vm.auth.email">
             <div ng-messages="registrationForm.email.$error">
-              <div ng-message="email">That doesn't look like a valid email.</div>
-              <div ng-message="availability">This email already exists.</div>
+              <div ng-message="email" translate>INVALID EMAIL</div>
+              <div ng-message="availability" transltate>EMAIL ALREADY EXIST</div>
             </div>
           </md-input-container>
         </div>
         <!-- Password -->
         <div layout="row">
           <md-input-container class="hide-error-msg" flex>
-            <label>Password</label>
+            <label translate>PASSWORD</label>
             <input type="password"
                    name="password"
                    required
@@ -101,28 +101,33 @@
                    password-validation
                    ng-model="vm.auth.password">
             <div ng-messages="registrationForm.password.$error">
-              <div ng-message="password">
-                Your password must contain 6 characters (at least one number and one letter).
+              <div ng-message="password" translate>
+                PASSWORD MUST CONTAIN
               </div>
             </div>
           </md-input-container>
         </div>
         <!-- Submit -->
-        <md-button type="submit">Submit</md-button>
+        <md-button type="submit" translate>SUBMIT</md-button>
       </form>
     </div>
     <div class="social-wrapper"
          flex-gt-xs="50"
          hide-xs="">
-      <h1 class="registration-name social">Sign in with social network</h1>
+      <h1 class="registration-name social" translate>SIGN IN WITH SOCIAL NETWORK</h1>
       <div class="social-button-wrapper"
            layout="column"
            layout-align="center start">
         <md-button class="social-button facebook"
-                   ng-click="vm.loginWithFacebook()">Join in with Facebook
+                   ng-click="vm.loginWithFacebook()">
+          <span translate>JOIN IN WITH FB</span>
         </md-button>
-        <md-button class="social-button google-plus">Join in with Google+</md-button>
-        <md-button class="social-button twitter">Join in with Twitter</md-button>
+        <md-button class="social-button google-plus">
+          <span translate>JOIN IN WITH G+</span>
+        </md-button>
+        <md-button class="social-button twitter">
+          <span translate>JOIN IN WITH TWITTER</span>
+        </md-button>
       </div>
     </div>
   </div>

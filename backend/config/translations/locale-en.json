@@ -44,7 +44,7 @@
   "ZIP": "ZIP",
   "SELECT AN EXISTING CITY": "Please select an existing city.",
   "NOT LONG ENOUGH": "Your entry is not long enough.",
-  "TOO LONG": "Your entry is too long."
+  "TOO LONG": "Your entry is too long.",
   "JOINED": "Joined",
   "FEEDBACKS": "Feedbacks",
   "SEND BID": "Send Bid",
@@ -67,6 +67,17 @@
   "CHAT HAS NOT BEEN STARTED": "Chat has not been started.",
   "MAP": "Map",
   "MESSAGE": "Message",
-  "COST (USD)": "Cost (USD)"
+  "COST (USD)": "Cost (USD)",
+  "SIGN UP": "Sign up",
+  "FIRST NAME IS TOO LONG": "Your first name is too long.",
+  "LAST NAME IS TOO LONG": "Your last name is too long.",
+  "PASSWORD": "Password",
+  "PASSWORD MUST CONTAIN": "Your password must contain 6 characters (at least one number and one letter).",
+  "SUBMIT": "Submit",
+  "SIGN IN WITH SOCIAL NETWORK": "Sign in with social network",
+  "JOIN IN WITH FB": "Join in with Facebook",
+  "JOIN IN WITH G+": "Join in with Google+",
+  "JOIN IN WITH TWITTER": "Join in with Twitter"
+
 
 }
