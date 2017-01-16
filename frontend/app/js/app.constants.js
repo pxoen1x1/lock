@@ -4,7 +4,7 @@
     angular
         .module('app')
         .constant('conf', {
-            BASE_URL: 'https://lockheal.com',
+            BASE_URL: 'http://localhost:1337',
             URL_PREFIX: '/api/'
         });
 })();
