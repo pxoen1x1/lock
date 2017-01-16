@@ -59,6 +59,9 @@
   "DISTANCE(MI)": "Distance (mi)",
   "CREATED": "Created",
   "DISTANCE": "Distance",
-  "MI": "mi"
+  "MI": "mi",
+  "HISTORY": "History",
+  "LOCATION": "Location",
+  "COST": "Cost",
 
 }
