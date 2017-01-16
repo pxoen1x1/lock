@@ -3,7 +3,7 @@
   <div class="container">
     <div class="container-title">
       <i class="material-icons">list</i>
-      <span>New</span>
+      <span translate>NEW</span>
       <span>⋅</span>
       <span ng-bind="vm.paginationOptions.totalCount"></span>
     </div>
@@ -17,23 +17,23 @@
           <thead md-head>
           <tr md-row>
             <th md-column>
-              <span>Customer</span>
+              <span translate>CUSTOMER</span>
             </th>
             <th md-column>
-              <span>For Date</span>
+              <span translate>FOR DATE</span>
             </th>
             <th md-column>
-              <span>Type of service</span>
+              <span translate>TYPE OF SERVICE</span>
             </th>
             <th md-column>
-              <span>Language</span>
+              <span translate>LANGUAGE</span>
             </th>
             <th md-column>
-              <span>Description</span>
+              <span translate>DESCRIPTION</span>
             </th>
-            <th md-column>Distance (mi)</th>
+            <th md-column translation>DISTANCE(MI)</th>
             <th md-column>
-              <span>Created</span>
+              <span translate>CREATED</span>
             </th>
           </tr>
           </thead>
@@ -118,11 +118,11 @@
           <div layout="column"
                flex="50">
             <div>
-              <span class="md-body-2">Type of service:</span>
+              <span class="md-body-2" translate>TYPE OF SERVICE</span><span>:</span>
               <span class="md-body-1" ng-bind="request.serviceType.name"></span>
             </div>
             <div ng-if="request.language.name">
-              <span class="md-body-2">Language:</span>
+              <span class="md-body-2" translate>LANGUAGE</span><span>:</span>
               <span class="md-body-1"
                     ng-bind="request.language.name">
               </span>
@@ -131,16 +131,16 @@
           <div layout="column"
                flex="50">
             <div>
-              <span class="md-body-2">For Date:</span>
+              <span class="md-body-2" translate>FOR DATE</span><span>:</span>
               <span class="md-body-1"
                     ng-bind="request.forDate ? (request.forDate | date: vm.dateFormat) : 'Now'">
               </span>
             </div>
-            <div ng-if="request.location">
-              <span class="md-body-2">Distance:</span>
+            <div ng-if="request.location" translation>
+              <span class="md-body-2" translate>DISTANCE</span><span>:</span>
               ~ <span class="md-body-1"
                       ng-bind="request.location | distance">
-                </span> mi
+                </span> MI
             </div>
           </div>
         </div>

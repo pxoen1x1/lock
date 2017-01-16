@@ -50,5 +50,15 @@
   "SEND BID": "Send Bid",
   "START": "START",
   "PAUSE": "Pause",
-  "DONE": "Done"
+  "DONE": "Done",
+  "NEW": "New",
+  "CUSTOMER": "Customer",
+  "FOR DATE": "For Date",
+  "TYPE OF SERVICE": "Type of service",
+  "DESCRIPTION": "Description",
+  "DISTANCE(MI)": "Distance (mi)",
+  "CREATED": "Created",
+  "DISTANCE": "Distance",
+  "MI": "mi"
+
 }
