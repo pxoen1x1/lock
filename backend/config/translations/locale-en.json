@@ -65,6 +65,8 @@
   "COST": "Cost",
   "CURRENT": "Current",
   "CHAT HAS NOT BEEN STARTED": "Chat has not been started.",
-  "MAP": "Map"
+  "MAP": "Map",
+  "MESSAGE": "Message",
+  "COST (USD)": "Cost (USD)"
 
 }
