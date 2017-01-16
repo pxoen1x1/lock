@@ -116,15 +116,16 @@ let AuthController = waterlock.waterlocked({
     },
     createResetAuthToken(req, res){
         let params = req.allParams();
+        let email = params.email;
 
-        if (!params.auth.email) {
+        if (!email) {
 
             return res.badRequest({
                 message: req.__('Email is not defined.')
             });
         }
 
-        AuthService.resetAuthToken(params.auth.email)
+        AuthService.resetAuthToken(email)
             .then(
                 (user) => {
                     return MailerService.passwordResetRequest(user);
