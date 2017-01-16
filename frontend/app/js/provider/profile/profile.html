@@ -11,10 +11,9 @@
       <button class="md-button md-button-blue"
               aria-label="Show public profile"
               hide-xs
+              translate
               ui-sref="provider.profile.public({'profileId': vm.userProfile.id})">
-        Show public
-        <wbr>
-        profile
+        SHOW PUBLIC PROFILE
       </button>
 
       <md-menu md-position-mode="target-right target"
@@ -29,7 +28,7 @@
             <md-button ui-sref="provider.profile.public({'profileId': vm.userProfile.id})"
                        aria-label="Show public profile">
               <md-icon>person</md-icon>
-              <span class="vertical-middle">Show public profile</span>
+              <span class="vertical-middle" translate>SHOW PUBLIC PROFILE</span>
             </md-button>
           </md-menu-item>
           <md-menu-item ng-if="vm.isEditing">
@@ -40,7 +39,7 @@
                        max-size="{{ vm.fileUploaderOptions.maxFileSize }}"
                        selected-file-src="vm.newPortrait">
               <md-icon>photo_camera</md-icon>
-              <span class="verical-middle">Change photo</span>
+              <span class="verical-middle" translate>CHANGE PHOTO</span>
             </md-button>
           </md-menu-item>
         </md-menu-content>
@@ -77,7 +76,7 @@
                      max-size="{{ vm.fileUploaderOptions.maxFileSize }}"
                      selected-file-src="vm.newPortrait">
             <i class="material-icons vertical-middle">photo_camera</i>
-            <span class="verical-middle">Change photo</span>
+            <span class="verical-middle" translate>CHANGE PHOTO</span>
           </md-button>
 
         </div>
