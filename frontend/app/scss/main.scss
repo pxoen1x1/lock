@@ -259,6 +259,19 @@ $panel-background-color: rgb(245, 245, 245);
 }
 
 .login-dialog, .invite-dialog {
+
+  .md-dialog-content {
+    a {
+      cursor: pointer;
+      color: $primary-color;
+      text-decoration: none;
+
+      &:hover {
+        color: darken($primary-color, 1%);
+      }
+    }
+  }
+
   md-dialog-actions {
     padding-left: 0;
   }
