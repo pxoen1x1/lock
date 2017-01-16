@@ -176,16 +176,18 @@ let AuthController = waterlock.waterlocked({
     },
     resetPassword(req, res) {
         let params = req.allParams();
+        let password = params.password;
+
         let owner = req.session.resetToken.owner;
 
-        if (!params.auth.password) {
+        if (!password) {
 
             return res.badRequest({
                 message: req.__('Password is not defined.')
             });
         }
 
-        AuthService.resetPassword(owner, params.password)
+        AuthService.resetPassword(owner, password)
             .then(
                 () => {
                     req.session.resetToken = false;
