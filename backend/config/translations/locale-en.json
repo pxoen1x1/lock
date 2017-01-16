@@ -64,6 +64,7 @@
   "LOCATION": "Location",
   "COST": "Cost",
   "CURRENT": "Current",
-  "CHAT HAS NOT BEEN STARTED": "Chat has not been started."
+  "CHAT HAS NOT BEEN STARTED": "Chat has not been started.",
+  "MAP": "Map"
 
 }
