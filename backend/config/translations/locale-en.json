@@ -46,5 +46,9 @@
   "NOT LONG ENOUGH": "Your entry is not long enough.",
   "TOO LONG": "Your entry is too long."
   "JOINED": "Joined",
-  "FEEDBACKS": "Feedbacks"
+  "FEEDBACKS": "Feedbacks",
+  "SEND BID": "Send Bid",
+  "START": "START",
+  "PAUSE": "Pause",
+  "DONE": "Done"
 }
