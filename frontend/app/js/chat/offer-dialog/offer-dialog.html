@@ -5,7 +5,7 @@
         ng-submit="vm.sendOffer(vm.offer, sendOfferForm.$valid)">
     <md-toolbar class="md-menu-toolbar md-default-theme">
       <div class="md-toolbar-tools">
-        <h2>Send Offer</h2>
+        <h2 translate>SEND_OFFER</h2>
         <span flex></span>
         <md-button class="md-icon-button"
                    aria-label="Close Dialog"
@@ -18,7 +18,7 @@
       <div class="md-dialog-content">
         <div layout="row" ng-if="vm.currentUserType === vm.userType.GROUP_ADMIN">
           <md-input-container flex>
-            <label>Group Member</label>
+            <label translate>GROUP_MEMBER</label>
             <md-select role="listbox"
                        required
                        md-select-infinite-scroll
@@ -44,7 +44,7 @@
         </div>
         <div layout="row">
           <md-input-container class="md-block" flex>
-            <label>Message</label>
+            <label translate>MESSAGE</label>
             <input type="text"
                    name="message"
                    required
@@ -53,7 +53,7 @@
         </div>
         <div layout="row">
           <md-input-container class="md-block" flex>
-            <label>Cost (USD)</label>
+            <label translate>COST_(USD)</label>
             <input type="number"
                    name="cost"
                    required
@@ -64,11 +64,13 @@
     </md-dialog-content>
     <md-dialog-actions layout="row" layout-align="end center">
       <button type="submit"
-              class="md-button md-button-blue">Send Offer
+              translate
+              class="md-button md-button-blue">SEND_OFFER
       </button>
       <button type="button"
               class="md-button"
-              ng-click="vm.cancel()">Cancel
+              translate
+              ng-click="vm.cancel()">CANCEL
       </button>
     </md-dialog-actions>
   </form>

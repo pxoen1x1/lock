@@ -1,7 +1,7 @@
 <md-dialog class="send-offer" aria-label="Payment">
     <md-toolbar class="md-menu-toolbar md-default-theme">
         <div class="md-toolbar-tools">
-            <h2>Payment</h2>
+            <h2 translate>PAYMENT</h2>
             <span flex></span>
             <md-button class="md-icon-button"
                        aria-label="Close Dialog"
@@ -17,31 +17,38 @@
                     name="location"
                     required
                     ng-model="vm.selectPayWithNew">
-                <md-radio-button ng-value="false" ng-if="vm.customerCardNumber">Pay with your card: <span>***</span><span class="md-body-1" ng-bind="vm.customerCardNumber"></span>
+                <md-radio-button ng-value="false"
+                                 ng-if="vm.customerCardNumber">
+                    <span translate>PAY_WITH_YOUR_CARD</span>:
+                    <span>***</span>
+                    <span class="md-body-1" ng-bind="vm.customerCardNumber"></span>
                 </md-radio-button>
 
-            <md-radio-button ng-value="true" ng-if="vm.customerCardNumber">Link new card and pay:</md-radio-button>
+            <md-radio-button ng-value="true"
+                             ng-if="vm.customerCardNumber">
+                <span translate>LINK_NEW_CARD_AND_PAY</span>:
+            </md-radio-button>
             <div ng-if="vm.selectPayWithNew">
                 <form name="txnForm"
                       novalidate
                       ng-submit="vm.payWithNew(vm.txnData, txnForm.$valid)">
                     <div>
                         <md-input-container class="md-block" flex="50">
-                            <label>Card number</label>
+                            <label translate>CARD_NUMBER</label>
                             <input name="number"
                                    required
                                    ng-maxlength="16"
                                    ng-model="vm.txnData.number">
                         </md-input-container>
                         <md-input-container class="md-block" flex="20">
-                            <label>CVV</label>
+                            <label translate>CVV</label>
                             <input name="cardCvv"
                                    required
                                    ng-maxlength="3"
                                    ng-model="vm.txnData.cvv">
                         </md-input-container>
                         <md-input-container class="md-block" flex="30">
-                            <label>Expiration</label>
+                            <label translate>EXPIRATION</label>
                             <input name="expiration"
                                    required
                                    ng-maxlength="4"
@@ -49,6 +56,7 @@
                         </md-input-container>
                     </div>
                     <md-button type="submit"
+                               translate
                                class="md-raised md-warn"
                                aria-label="PAY">
                         PAY
@@ -59,7 +67,11 @@
             <md-button
                    class="md-raised md-warn"
                    ng-click="vm.payWithLinked()"
-                   aria-label="PAY" ng-if="vm.selectPayWithNew == false">PAY</md-button>
+                   translate
+                   aria-label="PAY"
+                   ng-if="vm.selectPayWithNew == false">
+                PAY
+            </md-button>
     </div>
     </md-dialog-content>
 </md-dialog>

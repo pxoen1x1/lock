@@ -167,7 +167,12 @@
   "DECLINE": "Decline",
   "START_CHAT": "Start Chat",
   "ACCEPT": "Accept",
-  "ACCEPTED": "Accepted"
-
+  "ACCEPTED": "Accepted",
+  "GROUP_MEMBER": "Group Member",
+  "PAY_WITH_YOUR_CARD": "Pay with your card",
+  "LINK_NEW_CARD_AND_PAY": "Link new card and pay",
+  "EXPIRATION": "Expiration",
+  "PAY": "PAY",
+  "SELECT_CONTACT_TO_START_THE_CHAT": "Select contact to start the chat."
 
 }
