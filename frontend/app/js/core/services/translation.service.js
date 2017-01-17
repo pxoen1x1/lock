@@ -21,7 +21,15 @@
                 return $q.reject();
             }
 
-            return coreDataservice.getTranslation(langKey.key);
+            try {
+
+                return coreDataservice.getTranslation(langKey.key);
+
+            } catch(e) {
+                console.log(e);
+
+                return;
+            }
         }
     }
 })();

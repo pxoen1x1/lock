@@ -26,6 +26,8 @@
         $translateProvider
             .useLoader('translationService');
 
+        $translateProvider.useMissingTranslationHandlerLog();
+
         $translateProvider.useSanitizeValueStrategy('sanitize');
     }
 })();
