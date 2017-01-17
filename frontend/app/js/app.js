@@ -17,6 +17,7 @@
         'mdPickers',                // Material Design date/time pickers built with Angular Material and Moment.js.
         'angularFileUpload',
         'ngSails',                  // Module allows to use Sails.JS's awesome socket.io api with AngularJS.
+        'jkAngularCarousel',
 
         'app.core',
         'app.home',
