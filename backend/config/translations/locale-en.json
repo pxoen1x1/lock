@@ -159,10 +159,15 @@
   "CLOSE_BID": "Close Bid",
   "SEND_OFFER": "Send Offer",
   "REQUEST_INFO": "Request Info",
-  "JOIN_GROUP_MEMBER": "Join Group Member",
   "CLOSE_CHAT": "Close Chat",
   "REVIEWS": "Reviews",
-  "NO_REVIEWS_YET": "No Reviews Yet"
+  "NO_REVIEWS_YET": "No Reviews Yet",
+  "NO_RESULTS": "No results..",
+  "DECLINED": "Declined",
+  "DECLINE": "Decline",
+  "START_CHAT": "Start Chat",
+  "ACCEPT": "Accept",
+  "ACCEPTED": "Accepted"
 
 
 }

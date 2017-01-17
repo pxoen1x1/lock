@@ -15,25 +15,29 @@
          layout-align="center start"
          ng-if="vm.currentBid.cost">
       <div class="value">
-        cost:
+        <span translate>COST</span>:
       </div>
       <div class="currency">$</div>
       <div layout="row" layout-align="center end">
         <div class="value" ng-bind="vm.currentBid.cost"></div>
       </div>
     </div>
-    <div class="message text-right" ng-if="vm.currentBid.isRefused">Declined</div>
+    <div class="message text-right" ng-if="vm.currentBid.isRefused" translate>DECLINED</div>
   </md-card-content>
   <md-card-actions layout="row"
                    layout-align="end center"
                    ng-class="{ 'disabled': vm.currentRequest.status !== vm.requestStatus.NEW }"
                    ng-if="vm.currentUser.type === vm.userType.CLIENT">
     <md-button class="md-button-blue"
-               ng-click="vm.startChat(vm.currentBid, vm.currentRequest)">Start Chat
+               translate
+               ng-click="vm.startChat(vm.currentBid, vm.currentRequest)">START_CHAT
     </md-button>
     <md-button ng-if="vm.currentBid.cost"
-               ng-click="vm.showPaymentModal($event)">Accept
+               translate
+               ng-click="vm.showPaymentModal($event)">ACCEPT
     </md-button>
-    <md-button ng-click="vm.declineBid(vm.currentBid, vm.currentRequest)">Decline</md-button>
+    <md-button translate
+               ng-click="vm.declineBid(vm.currentBid, vm.currentRequest)">DECLINE
+    </md-button>
   </md-card-actions>
 </md-card>

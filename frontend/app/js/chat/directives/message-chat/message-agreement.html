@@ -16,14 +16,14 @@
       <div layout="row"
            layout-align="center start">
         <div class="value">
-          cost:
+          <span translate>COST</span>:
         </div>
         <div class="currency">$</div>
         <div layout="row" layout-align="center end">
           <div class="value" ng-bind="vm.message.cost"></div>
         </div>
       </div>
-      <div class="value m-t-xs">Accepted</div>
+      <div class="value m-t-xs" translate>ACCEPTED</div>
     </div>
     <div ng-if="vm.currentRequest.executor.id === vm.currentUser.id">
       <div class="request-info"
@@ -31,14 +31,14 @@
            layout-align="start none">
         <div layout="row"
              layout-align="end none">
-          <div>Created:</div>
+          <div><span translate>CREATED</span>:</div>
           <div flex
                ng-bind="vm.currentRequest.createdAt | altDate">
           </div>
         </div>
         <div layout="row"
              layout-align="end none">
-          <div>For Date:</div>
+          <div><span translate>FOR_DATE</span>:</div>
           <div flex
                ng-bind="vm.currentRequest.forDate ? (vm.currentRequest.forDate | date: vm.dateFormat) : 'Now'">
           </div>
@@ -46,7 +46,7 @@
         <div layout="row"
              layout-align="end none"
              ng-if="vm.currentRequest.location.address">
-          <div>Address:</div>
+          <div><span translate>ADDRESS</span>:</div>
           <div flex
                ng-bind="vm.currentRequest.location.address">
           </div>
@@ -54,14 +54,14 @@
         <div layout="row"
              layout-align="end none"
              ng-if="vm.currentRequest.location">
-          <div>Distance:</div>
+          <div><span translate>DISTANCE</span>:</div>
           <div flex
                ng-bind="vm.currentRequest.location | distance">
           </div>
         </div>
         <div layout="row"
              layout-align="end none">
-          <div>Needed Service:</div>
+          <div><span translate>NEEDED_SERVICE</span>:</div>
           <div flex
                ng-bind="vm.currentRequest.serviceType.name">
           </div>
@@ -69,7 +69,7 @@
         <div layout="row"
              layout-align="end none"
              ng-if="vm.currentRequest.language.name">
-          <div>Language:</div>
+          <div><span translate>LANGUAGE</span>:</div>
           <div flex
                ng-bind="vm.currentRequest.language.name">
           </div>
@@ -77,7 +77,7 @@
         <div layout="row"
              layout-align="end none"
              ng-if="vm.currentRequest.description">
-          <div>Description:</div>
+          <div><span translate>DESCRIPTION</span>:</div>
           <div class="description"
                flex
                ng-bind="vm.currentRequest.description">
@@ -98,11 +98,19 @@
                    layout-align="end center"
                    ng-if="vm.currentRequest.executor.id === vm.currentUser.id">
     <md-button ng-if="vm.currentRequest.status === vm.requestStatus.PENDING"
-               ng-click="vm.changeRequestStatus(vm.currentRequest, vm.requestStatus.IN_PROGRESS)">Start
+               translate
+               ng-click="vm.changeRequestStatus(vm.currentRequest, vm.requestStatus.IN_PROGRESS)">
+      START
     </md-button>
     <div ng-if="vm.currentRequest.status === vm.requestStatus.IN_PROGRESS">
-      <md-button ng-click="vm.changeRequestStatus(vm.currentRequest, vm.requestStatus.DONE)">Done</md-button>
-      <md-button ng-click="vm.changeRequestStatus(vm.currentRequest, vm.requestStatus.PENDING)">Pause</md-button>
+      <md-button translate
+                 ng-click="vm.changeRequestStatus(vm.currentRequest, vm.requestStatus.DONE)">
+        DONE
+      </md-button>
+      <md-button translate
+                 ng-click="vm.changeRequestStatus(vm.currentRequest, vm.requestStatus.PENDING)">
+        PAUSE
+      </md-button>
     </div>
   </md-card-actions>
 </md-card>
