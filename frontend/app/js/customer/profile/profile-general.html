@@ -35,7 +35,7 @@
     <form name="editForm"
           novalidate
           ng-submit="vm.updateUser(vm.userProfile, editForm.$valid)">
-        <p><span translate>NAME</span><span>:</span> <sup>*</sup></p>
+        <p><span translate>NAME</span>: <sup>*</sup></p>
         <div layout="row">
             <md-input-container class="md-block" flex>
                 <label translate>FIRST_NAME</label>
@@ -52,7 +52,7 @@
                        ng-model="vm.userProfile.lastName">
             </md-input-container>
         </div>
-        <p><span translate>EMAIL</span><span>:</span> <sup>*</sup></p>
+        <p><span translate>EMAIL</span>: <sup>*</sup></p>
         <md-input-container class="md-block" flex>
             <label translate>EMAIL</label>
             <input name="email"
@@ -66,7 +66,7 @@
                 <div ng-message="availability" translate>EMAIL_ALREADY EXIST</div>
             </div>
         </md-input-container>
-        <p><span translate>PHONE_NUMBER</span><span>:</span></p>
+        <p><span translate>PHONE_NUMBER</span>:</p>
         <md-input-container class="md-block" flex>
             <label translate>PHONE_NUMBER</label>
             <input type="tel"
@@ -81,7 +81,7 @@
             </div>
         </md-input-container>
 
-        <p><span translate>LANGUAGE</span><span>:</span></p>
+        <p><span translate>LANGUAGE</span>:</p>
         <md-select flex
                    aria-label="Language"
                    ng-if="vm.isEditing"

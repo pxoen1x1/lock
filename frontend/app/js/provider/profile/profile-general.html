@@ -43,14 +43,14 @@
         </div>
     </div>
     <div class="section" ng-if="vm.servicesPresent">
-        <span class="md-body-2" translate>SERVICES</span><span>:</span>
+        <span class="md-body-2" translate>SERVICES</span>:
         <span class="md-body-1"
               ng-repeat="service in vm.userProfile.details.serviceTypes track by service.id"
               ng-bind="service.name + ' (' + (service.price | currency:'$') + ')' + ($last ? '':', ')">
             </span>
     </div>
     <div class="section">
-        <span class="md-body-2" translate>LANGUAGE</span><span>:</span>
+        <span class="md-body-2" translate>LANGUAGE</span>:
             <span class="md-body-1"
                   ng-if="!vm.isEditing"
                   ng-bind="vm.userProfile.usingLanguage.name">

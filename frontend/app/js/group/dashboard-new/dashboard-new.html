@@ -120,11 +120,11 @@
           <div layout="column"
                flex="50">
             <div>
-              <span class="md-body-2" translate>TYPE_OF_SERVICE</span><span>:</span>
+              <span class="md-body-2" translate>TYPE_OF_SERVICE</span>:
               <span class="md-body-1" ng-bind="request.serviceType.name"></span>
             </div>
             <div ng-if="request.language.name">
-              <span class="md-body-2" translate>LANGUAGE</span><span>:</span>
+              <span class="md-body-2" translate>LANGUAGE</span>:
               <span class="md-body-1"
                     ng-bind="request.language.name">
               </span>
@@ -133,13 +133,13 @@
           <div layout="column"
                flex="50">
             <div>
-              <span class="md-body-2" translate>FOR_DATE</span><span>:</span>
+              <span class="md-body-2" translate>FOR_DATE</span>:
               <span class="md-body-1"
                     ng-bind="request.forDate ? (request.forDate | date: vm.dateFormat) : 'Now'">
               </span>
             </div>
             <div ng-if="request.location">
-              <span class="md-body-2" translate>DISTANCE</span><span>:</span>
+              <span class="md-body-2" translate>DISTANCE</span>:
               ~ <span class="md-body-1"
                       ng-bind="request.location | distance">
                 </span> <span translate>MI</span>
