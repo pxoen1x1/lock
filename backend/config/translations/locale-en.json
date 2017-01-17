@@ -152,7 +152,10 @@
   "NEEDED_SERVICE": "Needed service",
   "SERVICE_PROVIDER": "Service provider",
   "ADD_FEEDBACK": "Add feedback",
-  "DATE": "Date"
+  "DATE": "Date",
+  "LOGIN_WITH_FB": "Login with Facebook",
+  "LOGIN_WITH_G+": "Login with Google+",
+  "LOGIN_WITH_TWITTER": "Login with Twitter"
 
 
 }
