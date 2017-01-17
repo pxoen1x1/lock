@@ -173,6 +173,10 @@
   "LINK_NEW_CARD_AND_PAY": "Link new card and pay",
   "EXPIRATION": "Expiration",
   "PAY": "PAY",
-  "SELECT_CONTACT_TO_START_THE_CHAT": "Select contact to start the chat."
+  "SELECT_CONTACT_TO_START_THE_CHAT": "Select contact to start the chat.",
+  "CHATS": "Chats",
+  "BIDS": "Bids",
+  "CHAT_WAS_CLOSED": "Chat was closed.",
+  "CUSTOMER_CHOSE_ANOTHER_EXECUTOR": "Customer chose another executor."
 
 }
