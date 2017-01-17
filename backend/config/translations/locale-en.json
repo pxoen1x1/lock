@@ -177,6 +177,8 @@
   "CHATS": "Chats",
   "BIDS": "Bids",
   "CHAT_WAS_CLOSED": "Chat was closed.",
-  "CUSTOMER_CHOSE_ANOTHER_EXECUTOR": "Customer chose another executor."
-
+  "CUSTOMER_CHOSE_ANOTHER_EXECUTOR": "Customer chose another executor.",
+  "USERS": "Users",
+  "PHOTO": "Photo",
+  "REGISTRATION_DATE": "Registration date"
 }

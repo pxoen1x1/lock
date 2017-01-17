@@ -2,7 +2,7 @@
      ng-if="$mdMedia('gt-xs')">
   <div class="container-title">
     <i class="material-icons">people</i>
-    <span>Users</span>
+    <span translate>USERS</span>
     <span>⋅</span>
     <span ng-bind="vm.queryOptions.totalCount"></span>
   </div>
@@ -14,23 +14,23 @@
                md-on-reorder="vm.getUsers">
         <tr md-row>
           <th md-column>
-            <span>Photo</span>
+            <span translate>PHOTO</span>
           </th>
           <th md-column
               md-order-by="fullName">
-            <span>Name</span>
+            <span translate>NAME</span>
           </th>
           <th md-column
               md-order-by="auth.email">
-            <span>E-mail</span>
+            <span translate>EMAIL</span>
           </th>
           <th md-column
               md-order-by="phone_number">
-            <span>Phone number</span>
+            <span translate>PHONE_NUMBER</span>
           </th>
           <th md-column
               md-order-by="createdAt">
-            <span>Registration date</span>
+            <span translate>REGISTRATION_DATE</span>
           </th>
         </tr>
         </thead>
@@ -88,15 +88,15 @@
         <div class="md-title" flex ng-bind="user.fullName"></div>
       </div>
       <div class="section">
-        <span class="md-body-2">E-mail:</span>
+        <span class="md-body-2"><span translate>EMAIL</span>:</span>
         <span class="md-body-1" ng-bind="user.auth.email"></span>
       </div>
       <div class="section">
-        <span class="md-body-2">Phone number:</span>
+        <span class="md-body-2"><span translate>PHONE_NUMBER</span>:</span>
         <span class="md-body-1" ng-bind="user.phone_number | tel"></span>
       </div>
       <div class="section">
-        <span class="md-body-2">Registration date:</span>
+        <span class="md-body-2"><span translate>REGISTRATION_DATE</span>:</span>
         <span class="md-body-1" ng-bind="user.createdAt | date: vm.dateFormat"></span>
       </div>
     </md-card>
