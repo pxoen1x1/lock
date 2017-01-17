@@ -160,7 +160,9 @@
   "SEND_OFFER": "Send Offer",
   "REQUEST_INFO": "Request Info",
   "JOIN_GROUP_MEMBER": "Join Group Member",
-  "CLOSE_CHAT": "Close Chat"
+  "CLOSE_CHAT": "Close Chat",
+  "REVIEWS": "Reviews",
+  "NO_REVIEWS_YET": "No Reviews Yet"
 
 
 }
