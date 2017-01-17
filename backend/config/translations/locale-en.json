@@ -155,7 +155,12 @@
   "DATE": "Date",
   "LOGIN_WITH_FB": "Login with Facebook",
   "LOGIN_WITH_G+": "Login with Google+",
-  "LOGIN_WITH_TWITTER": "Login with Twitter"
+  "LOGIN_WITH_TWITTER": "Login with Twitter",
+  "CLOSE_BID": "Close Bid",
+  "SEND_OFFER": "Send Offer",
+  "REQUEST_INFO": "Request Info",
+  "JOIN_GROUP_MEMBER": "Join Group Member",
+  "CLOSE_CHAT": "Close Chat"
 
 
 }
