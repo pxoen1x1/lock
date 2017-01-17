@@ -10,7 +10,7 @@
            layout-align="start center">
         <div flex>
           <h2>
-            <span translate>JOIN GROUP MEMBER</span>
+            <span translate>JOIN_GROUP_MEMBER</span>
           </h2>
         </div>
         <div layout-align="end center">
@@ -23,7 +23,7 @@
       </div>
       <div class="md-subheader" layout="row" layout-align="end center">
         <md-input-container class="m-none m-w-sm">
-          <label translate>NAME OF EMAIL</label>
+          <label translate>NAME_OR_EMAIL</label>
           <input type="text"
                  ng-model-options="{ debounce: 400 }"
                  ng-change="vm.changeGroupMemberQuery()"
@@ -36,7 +36,7 @@
         <div layout="row"
              layout-align="center start"
              ng-if="vm.isAllGroupMemberLoaded && vm.members.length === 0">
-          <span translate>GROUP MEMBER IS NOT FOUND</span>
+          <span translate>GROUP_MEMBER_IS_NOT_FOUND</span>
         </div>
         <div ng-if="vm.members.length !== 0">
           <md-table-container class="infinite-scroll-container">

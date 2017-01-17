@@ -9,7 +9,7 @@
     <div class="registration-form"
          flex-gt-xs="50">
       <div layout="row">
-        <h1 class="registration-name" flex="50" translate>SIGN UP</h1>
+        <h1 class="registration-name" flex="50" translate>SIGN_UP</h1>
         <div class="go-to-social"
              hide-gt-xs
              flex="50"
@@ -32,32 +32,32 @@
         <!-- First and last name -->
         <div layout="row">
           <md-input-container class="hide-error-msg" flex>
-            <label translate>FIRST NAME</label>
+            <label translate>FIRST_NAME</label>
             <input name="firstName"
                    required
                    ng-maxlength="20"
                    ng-pattern="/^[a-zA-Z]*$/"
                    ng-model="vm.user.firstName">
             <div ng-messages="registrationForm.firstName.$error">
-              <div ng-message="maxlength" translate>FIRST NAME IS TOO LONG</div>
+              <div ng-message="maxlength" translate>FIRST_NAME_IS_TOO_LONG</div>
             </div>
           </md-input-container>
           <md-input-container class="hide-error-msg" flex>
-            <label translate>LAST NAME</label>
+            <label translate>LAST_NAME</label>
             <input name="lastName"
                    required
                    ng-maxlength="20"
                    ng-pattern="/^[a-zA-Z]*$/"
                    ng-model="vm.user.lastName">
             <div ng-messages="registrationForm.lastName.$error">
-              <div ng-message="maxlength" translate>LAST NAME IS TOO LONG</div>
+              <div ng-message="maxlength" translate>LAST_NAME_IS_TOO_LONG</div>
             </div>
           </md-input-container>
         </div>
         <!-- Phone number -->
         <div layout="row">
           <md-input-container class="hide-error-msg" flex>
-            <label translate>PHONE NUMBER</label>
+            <label translate>PHONE_NUMBER</label>
             <input type="tel"
                    name="phoneNumber"
                    required
@@ -67,8 +67,8 @@
                    ng-model-options="{ 'debounce': 400 }"
                    ng-model="vm.user.phoneNumber">
             <div ng-messages="registrationForm.phoneNumber.$error">
-              <span ng-message="usPhoneNumber" translate>INVALID PHONE</span>
-              <span ng-message="availability" translate>PHONE EXIST</span>
+              <span ng-message="usPhoneNumber" translate>INVALID_PHONE</span>
+              <span ng-message="availability" translate>PHONE_EXIST</span>
             </div>
           </md-input-container>
         </div>
@@ -85,8 +85,8 @@
                    ng-model-options="{ 'debounce': 400 }"
                    ng-model="vm.auth.email">
             <div ng-messages="registrationForm.email.$error">
-              <div ng-message="email" translate>INVALID EMAIL</div>
-              <div ng-message="availability" transltate>EMAIL ALREADY EXIST</div>
+              <div ng-message="email" translate>INVALID_EMAIL</div>
+              <div ng-message="availability" transltate>EMAIL_ALREADY_EXIST</div>
             </div>
           </md-input-container>
         </div>
@@ -102,7 +102,7 @@
                    ng-model="vm.auth.password">
             <div ng-messages="registrationForm.password.$error">
               <div ng-message="password" translate>
-                PASSWORD MUST CONTAIN
+                PASSWORD_MUST_CONTAIN
               </div>
             </div>
           </md-input-container>
@@ -114,19 +114,19 @@
     <div class="social-wrapper"
          flex-gt-xs="50"
          hide-xs="">
-      <h1 class="registration-name social" translate>SIGN IN WITH SOCIAL NETWORK</h1>
+      <h1 class="registration-name social" translate>SIGN_IN_WITH_SOCIAL_NETWORK</h1>
       <div class="social-button-wrapper"
            layout="column"
            layout-align="center start">
         <md-button class="social-button facebook"
                    ng-click="vm.loginWithFacebook()">
-          <span translate>JOIN IN WITH FB</span>
+          <span translate>JOIN_IN_WITH_FB</span>
         </md-button>
         <md-button class="social-button google-plus">
-          <span translate>JOIN IN WITH G+</span>
+          <span translate>JOIN_IN_WITH_G+</span>
         </md-button>
         <md-button class="social-button twitter">
-          <span translate>JOIN IN WITH TWITTER</span>
+          <span translate>JOIN_IN_WITH_TWITTER</span>
         </md-button>
       </div>
     </div>

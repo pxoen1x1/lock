@@ -14,7 +14,7 @@
   <div flex>
     <div ng-if="vm.isCompanyRegistrationSelected">
       <p>
-        <span translate>COMPANY INFO</span><span>:</span>
+        <span translate>COMPANY_INFO</span><span>:</span>
       </p>
       <div layout="row">
         <md-input-container class="md-block" flex>
@@ -28,39 +28,39 @@
     </div>
     <div>
       <p>
-        <span translate>PERSONAL INFO</span><span>:</span>
+        <span translate>PERSONAL_INFO</span><span>:</span>
       </p>
       <div flex layout="row" layout-xs="column">
         <md-input-container class="md-block" flex>
-          <label translate>FIRST NAME</label>
+          <label translate>FIRST_NAME</label>
           <input type="text"
                  name="firstName"
                  required
                  ng-maxlength="20"
                  ng-model="vm.user.firstName">
           <div ng-messages="registrationForm.firstName.$error">
-            <div ng-message="maxlength" translate>FIRST NAME IS TOO LONG</div>
+            <div ng-message="maxlength" translate>FIRST_NAME_IS_TOO_LONG</div>
           </div>
         </md-input-container>
         <md-input-container class="md-block" flex>
-          <label translate>LAST NAME</label>
+          <label translate>LAST_NAME</label>
           <input type="text"
                  name="lastName"
                  required
                  ng-maxlength="20"
                  ng-model="vm.user.lastName">
           <div ng-messages="registrationForm.lastName.$error">
-            <div ng-message="maxlength" translate>LAST NAME IS TOO LONG</div>
+            <div ng-message="maxlength" translate>LAST_NAME_IS_TOO_LONG</div>
           </div>
         </md-input-container>
       </div>
       <p>
-        <span translate>CONTACT INFORMATION</span><span>: </span><sup>*</sup></p>
+        <span translate>CONTACT_INFORMATION</span><span>: </span><sup>*</sup></p>
       <div layout-gt-xs="row">
         <md-input-container class="md-block"
                             flex="100"
                             flex-gt-xs="50">
-          <label translate>PHONE NUMBER</label>
+          <label translate>PHONE_NUMBER</label>
           <input type="tel"
                  name="phoneNumber"
                  required
@@ -70,8 +70,8 @@
                  ng-model-options="{ 'debounce': 400 }"
                  ng-model="vm.user.phoneNumber">
           <div ng-messages="registrationForm.phoneNumber.$error">
-            <span ng-message="usPhoneNumber" translate>INVALID PHONE</span>
-            <span ng-message="availability" translate>PHONE EXIST</span>
+            <span ng-message="usPhoneNumber" translate>INVALID_PHONE</span>
+            <span ng-message="availability" translate>PHONE_EXIST</span>
           </div>
         </md-input-container>
         <md-input-container
@@ -88,8 +88,8 @@
                  ng-model-options="{ 'debounce': 400 }"
                  ng-model="vm.auth.email">
           <div ng-messages="registrationForm.email.$error">
-            <div ng-message="email" translate>INVALID EMAIL</div>
-            <div ng-message="availability">EMAIL ALREADY EXIST</div>
+            <div ng-message="email" translate>INVALID_EMAIL</div>
+            <div ng-message="availability">EMAIL_ALREADY_EXIST</div>
           </div>
         </md-input-container>
       </div>
@@ -104,7 +104,7 @@
                  ng-model="vm.auth.password">
           <div ng-messages="registrationForm.password.$error">
             <div ng-message="password" translate>
-              PASSWORD MUST CONTAIN
+              PASSWORD_MUST_CONTAIN
             </div>
           </div>
         </md-input-container>

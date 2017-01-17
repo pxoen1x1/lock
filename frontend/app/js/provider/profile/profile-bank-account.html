@@ -1,5 +1,5 @@
 <div>
-    <div><h2 translate>ACCOUNT BALANCE</h2></div>
+    <div><h2 translate>ACCOUNT_BALANCE</h2></div>
     <div class="section">
         <span class="md-body-2">$ </span><span  class="md-body-1" ng-bind="vm.merchantFunds"></span>
     </div>
@@ -20,8 +20,8 @@
          layout-align-gt-xs="start center">
     </div>
 
-    <div><h2 translate>BANK ACCOUNT</h2></div>
-    <div ng-if="!vm.userProfile.merchantData" translate>FILL COMPANY INFO BEFORE ADDING BANK ACCOUNT</div>
+    <div><h2 translate>BANK_ACCOUNT</h2></div>
+    <div ng-if="!vm.userProfile.merchantData" translate>FILL_COMPANY_INFO_BEFORE_ADDING_BANK_ACCOUNT</div>
     <div ng-repeat="account in vm.userProfile.paymentData">
         <div class="section first">
             <span class="md-body-2" translate>NAME</span><span>:</span>
@@ -51,7 +51,7 @@
           ng-submit="vm.setMerchantAccount(vm.userProfile.payment, editPaymentForm.$valid)">
         <div layout="row">
             <md-input-container class="md-block" flex>
-                <label translate>TYPE OF ACCOUNT</label>
+                <label translate>TYPE_OF_ACCOUNT</label>
                 <md-select ng-model="vm.userProfile.payment.method">
                     <md-option ng-repeat="type in vm.bankAccountTypes" ng-value="type.code">
                         {{type.name}}
@@ -59,14 +59,14 @@
                 </md-select>
             </md-input-container>
             <md-input-container class="md-block" flex>
-                <label translate>PAYMENT ROUTING</label>
+                <label translate>PAYMENT_ROUTING</label>
                 <input name="paymentRouting"
                        required
                        ng-maxlength="20"
                        ng-model="vm.userProfile.payment.routing">
             </md-input-container>
             <md-input-container class="md-block" flex>
-                <label translate>PAYMENT NUMBER</label>
+                <label translate>PAYMENT_NUMBER</label>
                 <input name="paymentNumber"
                        required
                        ng-maxlength="20"

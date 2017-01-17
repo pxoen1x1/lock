@@ -5,7 +5,7 @@
         ng-submit="vm.createBid(vm.bid, sendBidForm.$valid)">
     <md-toolbar class="md-menu-toolbar md-default-theme">
       <div class="md-toolbar-tools">
-        <h2 translate>SEND BID</h2>
+        <h2 translate>SEND_BID</h2>
         <span flex></span>
         <md-button class="md-icon-button"
                    aria-label="Close Dialog"
@@ -26,7 +26,7 @@
         </div>
         <div layout="row" ng-if="vm.currentUserType === vm.userTypes.SPECIALIST">
           <md-input-container class="md-block" flex>
-            <label translate>COST (USD)</label>
+            <label translate>COST_(USD)</label>
             <input type="number"
                    name="cost"
                    ng-model="vm.bid.cost">
@@ -37,7 +37,7 @@
     <md-dialog-actions layout="row" layout-align="end center">
       <button type="submit"
               class="md-button md-button-blue"
-              translate>SEND BID
+              translate>SEND_BID
       </button>
       <button type="button"
               class="md-button"

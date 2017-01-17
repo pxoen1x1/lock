@@ -53,7 +53,7 @@
           ng-submit="vm.setMerchantAccount(vm.userProfile.payment, editPaymentForm.$valid)">
         <div layout="row">
             <md-input-container class="md-block" flex>
-                <label translate>TYPE OF ACCOUNT</label>
+                <label translate>TYPE_OF_ACCOUNT</label>
                 <md-select ng-model="vm.userProfile.payment.method">
                     <md-option ng-repeat="type in vm.bankAccountTypes" ng-value="type.code">
                         {{type.name}}
@@ -61,14 +61,14 @@
                 </md-select>
             </md-input-container>
             <md-input-container class="md-block" flex>
-                <label translate>PAYMENT ROUTING</label>
+                <label translate>PAYMENT_ROUTING</label>
                 <input name="paymentRouting"
                        required
                        ng-maxlength="20"
                        ng-model="vm.userProfile.payment.routing">
             </md-input-container>
             <md-input-container class="md-block" flex>
-                <label translate>PAYMENT NUMBER</label>
+                <label translate>PAYMENT_NUMBER</label>
                 <input name="paymentNumber"
                        required
                        ng-maxlength="20"

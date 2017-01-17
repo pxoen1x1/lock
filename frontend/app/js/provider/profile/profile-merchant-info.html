@@ -66,9 +66,9 @@
                         <span md-highlight-text="vm.searchText">{{city.city}}</span>
                     </md-item-template>
                     <div ng-messages="editMerchantForm.autocompleteField.$error" ng-if="editMerchantForm.autocompleteField.$touched">
-                        <div ng-message="md-require-match">SELECT AN EXISTING CITY</div>
-                        <div ng-message="minlength" translate>NOT LONG ENOUGH</div>
-                        <div ng-message="maxlength" translate>TOO LONG</div>
+                        <div ng-message="md-require-match">SELECT_AN_EXISTING_CITY</div>
+                        <div ng-message="minlength" translate>NOT_LONG_ENOUGH</div>
+                        <div ng-message="maxlength" translate>TOO_LONG</div>
                     </div>
                 </md-autocomplete>
             </md-input-container>

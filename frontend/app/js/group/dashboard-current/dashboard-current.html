@@ -24,10 +24,10 @@
               <span translate>CREATED</span>
             </th>
             <th md-column>
-              <span translate>FOR DATE</span>
+              <span translate>FOR_DATE</span>
             </th>
             <th md-column>
-              <span translate>TYPE OF SERVICE</span>
+              <span translate>TYPE_OF_SERVICE</span>
             </th>
             <th md-column>
               <span translate>LOCATION</span>
@@ -141,7 +141,7 @@
             <div layout="column"
                  flex="50">
               <div>
-                <span class="md-body-2" translate>TYPE OF SERVICE</span><span>:</span>
+                <span class="md-body-2" translate>TYPE_OF_SERVICE</span><span>:</span>
                 <span class="md-body-1" ng-bind="request.serviceType.name"></span>
               </div>
               <div ng-if="request.language.name">
@@ -154,7 +154,7 @@
             <div layout="column"
                  flex="50">
               <div>
-                <span class="md-body-2" translate>FOR DATE</span><span>:</span>
+                <span class="md-body-2" translate>FOR_DATE</span><span>:</span>
                 <span class="md-body-1"
                       ng-bind="request.forDate ? (request.forDate | date: vm.dateFormat) : 'Now'">
           </span>
