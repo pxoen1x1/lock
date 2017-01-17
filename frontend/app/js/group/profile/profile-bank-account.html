@@ -24,19 +24,19 @@
     <div ng-if="!vm.userProfile.merchantData" translate>FILL MERCHANT ACCOUNT BEFORE ADDING BANK ACCOUNT</div>
     <div ng-repeat="account in vm.userProfile.paymentData">
         <div class="section first">
-            <span class="md-body-2" translate>NAME</span><span>:</span>
+            <span class="md-body-2"><span translate>NAME</span>:</span>
             <span class="md-body-1" ng-bind="account.name"></span>
         </div>
         <div class="section">
-            <span class="md-body-2" translate>CURRENCY</span><span>:</span>
+            <span class="md-body-2"><span translate>CURRENCY</span>:</span>
             <span class="md-body-1" ng-bind="account.currency"></span>
         </div>
         <div class="section">
-            <span class="md-body-2" translate>MODIFIED</span><span>:</span>
+            <span class="md-body-2"><span translate>MODIFIED</span>:</span>
             <span class="md-body-1" ng-bind="account.modified"></span>
         </div>
         <div class="section">
-            <span class="md-body-2" translate>STATUS</span><span>:</span>
+            <span class="md-body-2"><span translate>STATUS</span>:</span>
             <span class="md-body-1" ng-bind="account.status"></span>
         </div>
     </div>

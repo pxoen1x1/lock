@@ -6,19 +6,19 @@
     </div>
     <div layout="column">
         <div class="section first">
-            <span class="md-body-2" translate>ADDRESS</span><span>:</span>
+            <span class="md-body-2"><span translate>ADDRESS</span>:</span>
             <span class="md-body-1" ng-bind="vm.userProfile.merchantData.address1 || '-'"></span>
         </div>
         <div class="section">
-            <span class="md-body-2" translate>STATE</span><span>:</span>
+            <span class="md-body-2"><span translate>STATE</span>:</span>
             <span class="md-body-1" ng-bind="vm.states[vm.userProfile.merchantData.state].state || '-'"></span>
         </div>
         <div class="section">
-            <span class="md-body-2" translate>CITY</span><span>:</span>
+            <span class="md-body-2"><span translate>CITY</span>:</span>
             <span class="md-body-1" ng-bind="vm.userProfile.merchantData.city || '-'"></span>
         </div>
         <div class="section">
-            <span class="md-body-2" translate>ZIP</span><span>:</span>
+            <span class="md-body-2"><span translate>ZIP</span>:</span>
             <span class="md-body-1" ng-bind="vm.userProfile.merchantData.zip || '-'"></span>
         </div>
     </div>
@@ -65,7 +65,8 @@
                     <md-item-template>
                         <span md-highlight-text="vm.searchText">{{city.city}}</span>
                     </md-item-template>
-                    <div ng-messages="editMerchantForm.autocompleteField.$error" ng-if="editMerchantForm.autocompleteField.$touched">
+                    <div ng-messages="editMerchantForm.autocompleteField.$error"
+                         ng-if="editMerchantForm.autocompleteField.$touched">
                         <div ng-message="md-require-match">SELECT_AN_EXISTING_CITY</div>
                         <div ng-message="minlength" translate>NOT_LONG_ENOUGH</div>
                         <div ng-message="maxlength" translate>TOO_LONG</div>

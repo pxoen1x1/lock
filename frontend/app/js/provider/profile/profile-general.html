@@ -19,20 +19,20 @@
         </div>
     </div>
     <div class="section first">
-        <span class="md-body-2" translate>EMAIL</span><span>:</span>
+        <span class="md-body-2"><span translate>EMAIL</span>:</span>
         <span class="md-body-1" ng-bind="vm.userProfile.auth.email"></span>
     </div>
     <div class="section">
-        <span class="md-body-2" translate>PHONE</span><span>:</span>
+        <span class="md-body-2"><span translate>PHONE</span>:</span>
         <span class="md-body-1" ng-bind="vm.userProfile.phoneNumber"></span>
     </div>
     <div class="section">
-        <span class="md-body-2" translate>CAR_LICENSE_PLATE_NUMBER</span><span>:</span>
+        <span class="md-body-2"><span translate>CAR_LICENSE_PLATE_NUMBER</span>:</span>
         <span class="md-body-1" ng-bind="vm.userProfile.details.carLicensePlateNumber"
               ng-if="vm.userProfile.details.carLicensePlateNumber"></span>
     </div>
     <div class="section" layout="row" ng-if="vm.licensesPresent">
-        <span class="md-body-2" translate>LICENSES</span><span>:</span>
+        <span class="md-body-2"><span translate>LICENSES</span>:</span>
         <div layout="column">
             <div layout="row" ng-repeat="license in vm.userProfile.details.licenses track by $index">
                 <span class="md-body-1" ng-bind="vm.userProfile.details.licenses[$index].number"></span>

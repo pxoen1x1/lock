@@ -19,19 +19,19 @@
         </div>
     </div>
     <div class="section first">
-        <span class="md-body-2" translate>ADMIN</span><span>:</span>
+        <span class="md-body-2"><span translate>ADMIN</span>:</span>
         <span class="md-body-1" ng-bind="vm.userProfile.fullName"></span>
     </div>
     <div class="section">
-        <span class="md-body-2" translate>EMAIL</span><span>:</span>
+        <span class="md-body-2"><span translate>EMAIL</span>:</span>
         <span class="md-body-1" ng-bind="vm.userProfile.auth.email"></span>
     </div>
     <div class="section">
-        <span class="md-body-2" translate>PHONE</span><span>:</span>
+        <span class="md-body-2"><span translate>PHONE</span>:</span>
         <span class="md-body-1" ng-bind="vm.userProfile.phoneNumber"></span>
     </div>
     <div class="section" layout="row">
-        <span class="md-body-2" translate>LICENSES</span><span>:</span>
+        <span class="md-body-2"><span translate>LICENSES</span>:</span>
         <div layout="column">
             <div layout="row" ng-repeat="license in vm.userProfile.licenses track by $index">
                 <span class="md-body-1" ng-bind="vm.userProfile.licenses[$index].number"></span>
@@ -45,7 +45,7 @@
     <form name="editForm"
           novalidate
           ng-submit="vm.updateUser(vm.userProfile, editForm.$valid)">
-        <p><span translte>NAME</span><span>:</span> <sup>*</sup></p>
+        <p><span translte>NAME</span>: <sup>*</sup></p>
         <div layout="row">
             <md-input-container class="md-block" flex>
                 <label translate>FIRST_NAME</label>
@@ -62,7 +62,7 @@
                        ng-model="vm.userProfile.lastName">
             </md-input-container>
         </div>
-        <p><span translate>EMAIL</span><span>:</span> <sup>*</sup></p>
+        <p><span translate>EMAIL</span>: <sup>*</sup></p>
         <md-input-container class="md-block" flex>
             <label translate>EMAIL</label>
             <input name="email"
@@ -76,7 +76,7 @@
                 <div ng-message="availability" translate>EMAIL_ALREADY_EXIST</div>
             </div>
         </md-input-container>
-        <p><span translate>PHONE_NUMBER</span><span>:</span> <sup>*</sup></p>
+        <p><span translate>PHONE_NUMBER</span>: <sup>*</sup></p>
         <md-input-container class="md-block" flex>
             <label translate>PHONE_NUMBER</label>
             <input type="tel"
@@ -91,7 +91,7 @@
                 <span ng-message="availability" translate>PHONE_EXIST</span>
             </div>
         </md-input-container>
-        <p><span translate>LICENSE_INFORMATION</span><span>:</span> <sup>*</sup></p>
+        <p><span translate>LICENSE_INFORMATION</span>: <sup>*</sup></p>
         <div class="licenses"
              ng-repeat="license in vm.userProfile.licenses track by $index">
             <div layout-gt-xs="column" class="license-container">
