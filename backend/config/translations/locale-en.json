@@ -114,6 +114,10 @@
   "INVITE A FRIEND": "Invite a friend",
   "FRIEND'S NAME": "Friend's name",
   "SEND": "Send",
-  "": ""
+  "REQUESTS": "Requests",
+  "SPENT": "Spent",
+  "CARD_NUMBER": "Card number",
+  "CVV": "CVV",
+  "EXPIRATION_DATE_MMYY": "Expiration date MMYY"
 
 }
