@@ -102,6 +102,10 @@
   "EXECUTOR": "Executor",
   "JOIN GROUP MEMBER": "Join Group Member",
   "NAME OR EMAIL": "Name or Email",
-  "GROUP MEMBER IS NOT FOUND": "group member is not found."
+  "GROUP MEMBER IS NOT FOUND": "group member is not found.",
+  "MEMBER INFO": "Member Info",
+  "REMOVE": "Remove",
+  "NUMBER": "Number",
+  "DATE EXPIRATION": "Date Expiration"
 
 }

@@ -2,7 +2,7 @@
   <div class="container-title">
     <div layout="row" layout-align="end center">
       <div flex>
-        <i class="material-icons">person</i> <span>Member Info</span>
+        <i class="material-icons">person</i> <span translate>MEMBER INFO</span>
       </div>
       <md-menu md-position-mode="target-right target">
         <md-button class="md-icon-button"
@@ -13,7 +13,8 @@
         <md-menu-content width="3">
           <md-menu-item ng-if="vm.currentRequest.status === vm.requestStatus.NEW">
             <md-button member-removal="vm.member"
-                       on-remove="vm.removeMember()">Remove
+                       on-remove="vm.removeMember()">
+              <span translate>REMOVE</span>
             </md-button>
           </md-menu-item>
         </md-menu-content>
@@ -50,13 +51,13 @@
            layout-align-xs="center start"
            flex-gt-xs="40">
         <div>
-          <span class="md-body-2">Email: </span>
+          <span class="md-body-2" translate>EMAIL</span><span>:</span>
           <span class="md-body-1"
                 ng-bind="::vm.member.auth.email">
           </span>
         </div>
         <div>
-          <span class="md-body-2">Phone Number: </span>
+          <span class="md-body-2" translate>PHONE NUMBER</span><span>: </span>
           <span class="md-body-1"
                 ng-bind="vm.member.phoneNumber | tel">
           </span>
@@ -69,19 +70,19 @@
       <div class="p-xs"
            layout="column"
            flex>
-        <span class="md-body-2">Licenses:</span>
+        <span class="md-body-2" translate>LICENSES</span><span>:</span>
         <div class="md-body-1"
              layout="column"
              layout-align="start start"
              ng-repeat="license in vm.member.details.licenses track by license.id">
           <div>
-            <span class="md-body-1">Number: </span>
+            <span class="md-body-1" translate>NUMBER</span><span>: </span>
             <span class="md-body-1"
                   ng-bind="license.number">
             </span>
           </div>
           <div>
-            <span class="md-body-1">Date Expiration: </span>
+            <span class="md-body-1" translate>DATE EXPIRATION</span><span>: </span>
             <span class="md-body-1"
                   ng-bind="license.date | date: 'MMM/dd/yyyy'">
             </span>
@@ -92,7 +93,7 @@
            layout="column"
            flex-gt-xs="40">
         <div layout="column">
-          <span class="md-body-2">Service Types:</span>
+          <span class="md-body-2" translate>SERVICE TYPES</span><span>:</span>
           <div class="">
             <span class="md-body-1"
                   ng-repeat="serviceType in vm.member.details.serviceTypes track by serviceType.id"
@@ -101,7 +102,7 @@
           </div>
         </div>
         <div class="m-t-xs" layout="column">
-          <span class="md-body-2">Language:</span>
+          <span class="md-body-2" translate>LANGUAGE</span><span>:</span>
           <div class="">
             <span class="md-body-1"
                   ng-repeat="language in vm.member.details.languages track by language.id"
