@@ -5,7 +5,7 @@
         ng-submit="vm.submit(vm.inviteData, inviteForm.$valid)">
     <md-toolbar class="md-menu-toolbar md-default-theme">
       <div class="md-toolbar-tools">
-        <h2>Invite a friend</h2>
+        <h2 translate>INVITE A FRIEND</h2>
         <span flex></span>
         <md-button class="md-icon-button"
                    aria-label="Close dialog"
@@ -19,21 +19,21 @@
         <!-- E-mail -->
         <div layout="row">
           <md-input-container class="md-block" flex>
-            <label>Email</label>
+            <label translate>EMAIL</label>
             <input type="email"
                    name="email"
                    required
                    email-validation
                    ng-model="vm.inviteData.email">
             <div ng-messages="inviteForm.email.$error">
-              <div ng-message="email">That doesn't look like a valid email.</div>
+              <div ng-message="email" translate>INVALID EMAIL</div>
             </div>
           </md-input-container>
         </div>
         <!-- Friend's name -->
         <div layout="row">
           <md-input-container class="md-block" flex>
-            <label>Friend's name</label>
+            <label translate>FRIEND'S NAME</label>
             <input type="text"
                    name="name"
                    required
@@ -46,8 +46,9 @@
       <button type="submit"
               flex
               aria-label="Send"
+              translate
               class="md-button md-button-blue">
-        Send
+        SEND
       </button>
     </md-dialog-actions>
   </form>
