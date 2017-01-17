@@ -1,11 +1,11 @@
 <div class="container recommended-content">
   <div class="container-title" layout="row">
     <div flex>
-      <i class="material-icons">star</i> <span>Recommended</span>
+      <i class="material-icons">star</i> <span translate>RECOMMENDED</span>
     </div>
     <div flex layout="row" layout-align="end center" class="actions">
       <md-checkbox aria-label="Show only available" ng-click="vm.showOnlyAvailable = !vm.showOnlyAvailable; vm.findSpecialists()">
-        Show only available
+        <span translate>SHOW_ONLY_AVAILABLE</span>
       </md-checkbox>
     </div>
   </div>
@@ -18,10 +18,10 @@
             <star-rating class="md-subhead" value="specialist.details.rating" readonly></star-rating>
             <div class="md-subhead" ng-if="specialist.distance">
               <span class="md-subhead" ng-bind="specialist.distance | number : 2"></span>
-              <span>miles away</span>
+              <span translate>MILES_AWAY</span>
             </div>
             <div class="md-subhead" ng-if="specialist.details.workingHours">
-              <span>Working hours:</span>
+              <span translate>WORKING_HOURS</span><span>:</span>
               <span ng-bind="specialist.details.workingHours.timeFrom | date: 'hh:mm a'"></span> -
               <span ng-bind="specialist.details.workingHours.timeTo | date: 'hh:mm a'"></span>
             </div>
@@ -38,7 +38,9 @@
         </md-card-title>
         <md-card-actions layout="row" layout-align="end center">
           <md-button ng-disabled="vm.request.status !== vm.requestStatus.NEW"
-                     ng-click="vm.createChat(specialist, vm.request)">Chat with {{ specialist.first_name }}
+                     translate
+                     ng-click="vm.createChat(specialist, vm.request)">
+            CHAT_WITH_SPECIALIST
           </md-button>
         </md-card-actions>
       </md-card>
