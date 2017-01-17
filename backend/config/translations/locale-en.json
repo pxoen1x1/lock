@@ -77,7 +77,11 @@
   "SIGN IN WITH SOCIAL NETWORK": "Sign in with social network",
   "JOIN IN WITH FB": "Join in with Facebook",
   "JOIN IN WITH G+": "Join in with Google+",
-  "JOIN IN WITH TWITTER": "Join in with Twitter"
+  "JOIN IN WITH TWITTER": "Join in with Twitter",
+  "GO BACK": "Go Back",
+  "REGISTRATION": "Registration",
+  "LOG IN": "Log in",
+  "LOG OUT": "Log out"
 
 
 }
