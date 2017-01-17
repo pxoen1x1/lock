@@ -100,5 +100,8 @@
   "HOME PAGE": "Home page",
   "INVITE": "Invite",
   "EXECUTOR": "Executor",
-  "": ""
+  "JOIN GROUP MEMBER": "Join Group Member",
+  "NAME OR EMAIL": "Name or Email",
+  "GROUP MEMBER IS NOT FOUND": "group member is not found."
+
 }
