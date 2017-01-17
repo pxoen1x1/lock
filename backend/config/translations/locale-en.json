@@ -90,6 +90,13 @@
   "COMPANY INFO": "Company Info",
   "AGREEMENT": "Agreement",
   "PERSONAL INFO": "Personal information",
-  "CONTACT INFORMATION": "Contact information"
+  "CONTACT INFORMATION": "Contact information",
+  "CLIENT REGISTRATION": "Client Registration",
+  "PROVIDER/GROUP REGISTRATION": "Provider/Group Registration",
+  "PROVIDER": "Provider",
+  "CLIENT": "Client",
+  "GROUP": "Group",
+  "ADMIN": "Admin",
+  "HOME PAGE": "Home page"
 
 }
