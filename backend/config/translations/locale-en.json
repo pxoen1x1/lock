@@ -6,6 +6,7 @@
   "WITHDRAWAL": "Withdrawal",
   "BANK ACCOUNT": "Bank account",
   "FILL COMPANY INFO BEFORE ADDING BANK ACCOUNT": "Fill Company info before adding bank account",
+  "FILL MERCHANT ACCOUNT BEFORE ADDING BANK ACCOUNT": "Fill Merchant info before adding bank account",
   "NAME": "Name",
   "CURRENCY": "Currency",
   "MODIFIED": "Modified",
@@ -106,6 +107,8 @@
   "MEMBER INFO": "Member Info",
   "REMOVE": "Remove",
   "NUMBER": "Number",
-  "DATE EXPIRATION": "Date Expiration"
+  "DATE EXPIRATION": "Date Expiration",
+  "EDIT GENERAL INFO": "Edit general info"
+
 
 }
