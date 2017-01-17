@@ -97,6 +97,8 @@
   "CLIENT": "Client",
   "GROUP": "Group",
   "ADMIN": "Admin",
-  "HOME PAGE": "Home page"
-
+  "HOME PAGE": "Home page",
+  "INVITE": "Invite",
+  "EXECUTOR": "Executor",
+  "": ""
 }
