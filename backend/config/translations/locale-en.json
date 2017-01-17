@@ -81,7 +81,15 @@
   "GO BACK": "Go Back",
   "REGISTRATION": "Registration",
   "LOG IN": "Log in",
-  "LOG OUT": "Log out"
-
+  "LOG OUT": "Log out",
+  "NEXT": "Next",
+  "BACK": "Back",
+  "I AGREE": "I agree",
+  "INDIVIDUAL": "Individual",
+  "COMPANY": "Company",
+  "COMPANY INFO": "Company Info",
+  "AGREEMENT": "Agreement",
+  "PERSONAL INFO": "Personal information",
+  "CONTACT INFORMATION": "Contact information"
 
 }
