@@ -5,7 +5,7 @@
     <div class="container-title" layout="row" layout-align="start center">
       <div flex>
         <i class="material-icons">list</i>
-        <span>Current</span>
+        <span translate>CURRENT</span>
         <span>⋅</span>
         <span ng-bind="vm.queryOptions.totalCount"></span>
       </div>
@@ -22,13 +22,13 @@
           <tr md-row>
             <th md-column></th>
             <th md-column>
-              <span>Name</span>
+              <span translate>NAME</span>
             </th>
             <th md-column>
-              <span>Email</span>
+              <span translate>EMAIL</span>
             </th>
             <th md-column>
-              <span>Phone Number</span>
+              <span translate>PHONE NUMBER</span>
             </th>
             <th md-column></th>
           </tr>
@@ -129,11 +129,11 @@
         <div class="item item-body">
           <div layout="column">
             <div>
-              <span class="md-body-2">Email:</span>
+              <span class="md-body-2" translate>EMAIL</span><span>:</span>
               <span class="md-body-1" ng-bind="member.auth.email"></span>
             </div>
             <div>
-              <span class="md-body-2">Phone Number:</span>
+              <span class="md-body-2" translate>PHONE NUMBER</span><span>:</span>
               <span class="md-body-1"
                     ng-bind="member.phoneNumber | tel">
               </span>
