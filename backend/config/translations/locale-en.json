@@ -108,7 +108,9 @@
   "REMOVE": "Remove",
   "NUMBER": "Number",
   "DATE EXPIRATION": "Date Expiration",
-  "EDIT GENERAL INFO": "Edit general info"
+  "EDIT GENERAL INFO": "Edit general info",
+  "ADD A FEEDBACK": "Add a feedback",
+  "IT'S A REQUIRED FIELD": "It's a required field."
 
 
 }
