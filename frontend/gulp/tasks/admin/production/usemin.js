@@ -14,7 +14,7 @@ var size = require('gulp-size');
 var config = require('../../../config');
 var userminOptions = config.usemin.admin;
 var htmlminOptions = config.htmlmin.options;
-var replaceOptions = config.replace;
+var replaceOptions = config.replace.materialIcons;
 
 
 gulp.task('usemin:admin:production', function () {
@@ -34,7 +34,7 @@ gulp.task('usemin:admin:production', function () {
             vendorcss: [
                 cleanCSS(),
                 'concat',
-                replace(replaceOptions.materialIcons.from, replaceOptions.materialIcons.to)
+                replace(replaceOptions.from, replaceOptions.to)
             ],
             vendorjs: [uglify()]
         }))
