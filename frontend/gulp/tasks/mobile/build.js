@@ -10,7 +10,7 @@ var runSequence = require('run-sequence');
 gulp.task('build:mobile', function (callback) {
     runSequence(
         'delete:mobile',
-        // 'build:app:production',
+        'build:app:production',
         'cordova:create',
         'prepare:index:mobile',
         [
