@@ -23,6 +23,7 @@
 
         $translateProvider.translations('en', defaultTranslationConstants.EN);
         $translateProvider.preferredLanguage(langCode);
+        $translateProvider.fallbackLanguage('en');
         $translateProvider.useLoader('translationService');
         $translateProvider.useMissingTranslationHandlerLog();
         $translateProvider.useSanitizeValueStrategy('sanitize');
