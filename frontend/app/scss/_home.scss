@@ -40,7 +40,8 @@ $title-color: #8e8e8e;
 }
 
 .home-first {
-  background: url('../images/home-first-bg.png') center center;
+  /*background: url('../images/home-first-bg.png') center center;*/
+  background-color: #888;
   height: 599px;
 
   > div {
@@ -66,7 +67,7 @@ $title-color: #8e8e8e;
         flex-direction: column;
         justify-content: flex-start;*/
     margin: 80px auto 0;
-    width: 73%;
+    /*width: 73%;*/
 
     md-input-container:first-child {
       border-radius: 10px 0 0 10px;
@@ -240,11 +241,16 @@ $title-color: #8e8e8e;
 
     }
 
+    md-radio-group .md-checked .md-ink-ripple {
+      color: rgba(1, 87, 155, 0.26);
+    }
+
   }
 }
 
 .home-need {
   background: url('../images/background_need_a_locksmith.png') no-repeat;
+  background-position: center center;
   height: 261px;
 
   h1 {
@@ -277,8 +283,216 @@ $title-color: #8e8e8e;
     text-align: center;
   }
 
-  .apps img:last-child{
+  .apps img:last-child {
     margin-top: 10px;
   }
+}
+
+@media only screen and (min-device-width: 600px) and (max-device-width: 960px) {
+  .home-header .md-nav-bar .md-button {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+
+@media only screen and (max-device-width: 599px) {
+
+  .home-header {
+    height: 304px;
+    background-color: #666; //url('../images/home-first-bg.png') center center;
+
+    ul {
+      flex-direction: column;
+    }
+
+    .md-nav-bar {
+      height: auto;
+
+      .md-button._md-nav-button {
+        font-size: 12px;
+        line-height: 12px;
+        min-height: 12px;
+        padding: 8px;
+        width: 100%;
+        color: #fff;
+      }
+
+      md-nav-ink-bar {
+        display: none;
+      }
+    }
+
+  }
+
+  .home-first {
+    background: none;
+    background-color: #fff;
+    height: 327px;
+
+    > div {
+      color: #868686;
+
+      h1 {
+        margin: inherit;
+        margin-bottom: 2px;
+        font-size: 16px;
+      }
+
+      h2 {
+        font-size: 13px;
+      }
+    }
+
+    .request-form {
+      margin: 0;
+      width: auto;
+
+      md-input-container:first-child {
+        border-top: 1px solid #e1e1e1;
+        border-bottom: 1px solid #e1e1e1;
+        border-radius: 0;
+      }
+
+      md-input-container {
+        border-bottom: 1px solid #e1e1e1;
+
+        label, md-select-value span {
+          font-size: 14px;
+          font-weight: bold;
+          text-transform: uppercase;
+        }
+
+        input, .md-select-value {
+          border-width: 0;
+        }
+        input#input_5 {
+          border-width: 0;
+        }
+
+        md-select-value {
+          flex-direction: column;
+
+          span.md-select-icon {
+            text-align: center;
+          }
+        }
+      }
+
+      button {
+        border-radius: 10px;
+        width: 50%;
+        margin: 20px auto 0;
+      }
+    }
+  }
+
+  .home-apps {
+    height: 140px;
+
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+  }
+
+  .home-how {
+    height: 255px;
+
+    h1 {
+      font-size: 20px;
+      margin-bottom: 20px;
+      margin-top: 20px;
+    }
+
+    h3 {
+      margin-top: 4px;
+      text-align: center;
+    }
+  }
+
+  .home-advanteges {
+
+    h1 {
+      font-size: 20px;
+      margin-bottom: 20px;
+      margin-top: 20px;
+    }
+
+    .item {
+      height: 143px;
+
+      .text {
+        margin-left: 10px;
+        margin-right: 10px;
+      }
+    }
+
+    span {
+      text-align: left;
+      font-size: 12px;
+    }
+  }
+
+  .home-feedbacks {
+    height: 260px;
+
+    -webkit-box-shadow: inset 0px 2px 2px 0px rgba(215, 215, 215, 1);
+    -moz-box-shadow: inset 0px 2px 2px 0px rgba(215, 215, 215, 1);
+    box-shadow: inset 0px 2px 2px 0px rgba(215, 215, 215, 1);
+
+    .radio-buttons-container {
+      display: none;
+    }
+
+    .jk-carousel {
+      button {
+        width: 32px;
+        height: 32px;
+        top: 78px;
+
+        md-icon {
+          font-size: 32px;
+          height: 32px;
+          width: 32px;
+        }
+      }
+
+      button.left-arrow-button {
+        left: 10px;
+      }
+      button.right-arrow-button {
+        right: 10px;
+      }
+
+      .feedback {
+        /*background-position: ;*/
+        background-position: 34px 22px;
+        padding: 20px 60px 0;
+      }
+    }
+
+    p {
+      font-size: 13px;
+    }
+  }
+
+  .home-need {
+    height: 214px;
+
+    h1 {
+      font-size: 18px;
+    }
+  }
+
+  .home-footer {
+
+    h3 {
+      font-size: 13px;
+    }
+
+    span {
+      font-size: 13px;
+    }
+  }
+
 }
 

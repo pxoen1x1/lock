@@ -1,46 +1,45 @@
-<div layout="row" class="home-header" show-gt-sm>
-    <div flex="20" layout="row" layout-align="start center" flex>
+<div layout="row" class="home-header" layout-xs="column">
+    <div flex="20" layout="row" layout-align="center center" layout-xs="column" flex-xs="20">
         <div>
             <img src="images/logo.png">
         </div>
     </div>
-    <div flex="80" layout="row" layout-align="end top">
-        <md-nav-bar md-selected-nav-item="currentNavItem" nav-bar-aria-label="navigation links" hide-sm hide-xs>
+    <div flex="80" layout="row" layout-align="end top" layout-xs="column" layout-align-xs="start center" flex-xs="80">
+        <md-nav-bar md-selected-nav-item="currentNavItem" nav-bar-aria-label="navigation links">
             <md-nav-item md-nav-click="goto('page1')" name="page1">How it works</md-nav-item>
             <md-nav-item md-nav-click="goto('page2')" name="page2">FAQ</md-nav-item>
             <md-nav-item md-nav-click="goto('page3')" name="page3">Sign up</md-nav-item>
             <md-nav-item md-nav-click="goto('page4')" name="page4">Register</md-nav-item>
             <md-nav-item md-nav-click="goto('page5')" name="page5"><img src="images/button_join_as_a_locksmith.png">
             </md-nav-item>
-            <!-- these require actual routing with ui-router or ng-route, so they won't work in the demo
-            <md-nav-item md-nav-sref="app.page4" name="page4">Page Four</md-nav-item>
-            <md-nav-item md-nav-href="#page5" name="page5">Page Five</md-nav-item>
-            -->
         </md-nav-bar>
 
-        <md-button class="md-icon-button button-menu"
-                   hide-xs hide-gt-sm ng-click="vm.toggleMenu()"
-                   aria-label="Menu">
-            <md-icon>menu</md-icon>
-        </md-button>
+        <!--        <md-button class="md-icon-button button-menu"
+                           hide-xs hide-gt-sm ng-click="vm.toggleMenu()"
+                           aria-label="Menu">
+                    <md-icon>menu</md-icon>
+                </md-button>-->
+
+        <img src="images/button_watch video button.png" hide show-xs>
+
     </div>
 </div>
 
 <div layout="column" class="home-first">
-    <div layout-align="center center">
+    <div layout-align="center center" layout="column" flex-xs="25">
 
         <h1>Book an appointment</h1>
 
         <h2>The best specialists in the shortest possible time</h2>
 
-        <img src="images/button_watch video button.png">
+        <img src="images/button_watch video button.png" hide show-gt-xs>
 
     </div>
 
-    <div layout="column" layout-align="start center" class="request-form">
+    <div layout="column" layout-align="start start" layout-align-xs="start stretch" class="request-form" flex-xs="75">
         <form role="form"
               name="newRequestForm"
-              novalidate layout-gt-sm="row"
+              novalidate layout="row" layout-xs="column"
               ng-submit="vm.submit(vm.newRequest, newRequestForm.$valid)">
             <md-input-container class="md-block" flex-gt-sm>
                 <label>Name</label>
@@ -53,7 +52,7 @@
             <md-input-container class="md-block" flex-gt-sm>
                 <label>Service</label>
                 <md-select ng-model="vm.newRequest.service">
-                    <md-option ng-repeat="state in states" value="{{state.abbrev}}">
+                    <md-option ng-repeat="state in states" value="{{state.abbrev}}" layout-xs="column">
                         {{state.abbrev}}
                     </md-option>
                 </md-select>
@@ -65,12 +64,12 @@
 
             <button type="submit"
                     aria-label="Send a request"
-                    class="md-button"
+                    class="md-button" flex="none"
                     ng-disabled="newRequestForm.$invalid">
                 Send a request
             </button>
         </form>
-        <span>Tip about what to do or what will happen after the booking</span>
+        <span hide-xs>Tip about what to do or what will happen after the booking</span>
     </div>
 </div>
 
@@ -79,10 +78,14 @@
 </div>
 
 <div class="home-apps" layout="row" layout-align="center center">
-    <div flex="40" layout-align="space-around center" layout="row">
-        <span>download our app</span>
-        <img src="images/appstore.png"/>
-        <img src="images/googleplay.png"/>
+    <div layout="row" layout-align="center center" layout-margin layout-xs="column">
+        <div>
+            <span>download our app</span>
+        </div>
+        <div>
+            <img src="images/appstore.png"/>
+            <img src="images/googleplay.png"/>
+        </div>
     </div>
 </div>
 
@@ -90,90 +93,89 @@
     <div>
         <h1>how it works</h1>
     </div>
-    <div layout="row" layout-align="center center">
-        <div layout="column" layout-align="center center" flex="25">
+    <div layout="row" layout-align="space-around start">
+        <div layout="column" layout-align="start center" flex="25">
             <img src="images/icon_send_a_reaquest.png"/>
 
-            <h3>send a request</h3>
+            <h3 layout-align="center">send a request</h3>
 
-            <span>sdasda sdasda s asd asdas asdas asdasdasd asdasd as </span>
+            <span hide-xs>sdasda sdasda s asd asdas asdas asdasdasd asdasd as </span>
         </div>
-        <div layout="column" layout-align="center center" flex="25">
+        <div layout="column" layout-align="start center" flex="25">
             <img src="images/icon_choose_a_locksmith.png"/>
 
             <h3>choose a locksmith</h3>
 
-            <span>sdasda sdasda s asd asdas asdas asdasdasd asdasd as</span>
+            <span hide-xs>sdasda sdasda s asd asdas asdas asdasdasd asdasd as</span>
         </div>
-        <div layout="column" layout-align="center center" flex="25">
+        <div layout="column" layout-align="start center" flex="25">
             <img src="images/icon_get_it_done.png"/>
 
             <h3>get it done</h3>
 
-            <span>sdasda sdasda s asd asdas asdas asdasdasd asdasd as</span>
+            <span hide-xs>sdasda sdasda s asd asdas asdas asdasdasd asdasd as</span>
         </div>
     </div>
 </div>
 
-<div class="home-advantages block" layout="column">
+<div class="home-advanteges block" layout="column">
     <div layout="row" layout-align="center">
-        <h1>advantages</h1>
+        <h1>advanteges</h1>
     </div>
-    <div layout="row">
-        <div layout="row" flex="40" layout-align="end">
-            <div layout="column" layout-align="center end" flex="50">
-                <div layout="column" layout-align="center center">
+    <div layout="row" class="item">
+        <div layout="row" flex="40" layout-align="end" flex-xs="60">
+            <div layout="column" layout-align="center end" flex="50" flex-xs="100">
+                <div class="text" layout="column" layout-align="center center" layout-align-xs="center start">
                     <h3>saves your time</h3>
                     <span>asasd asd asd asdasd asd asdasda sdasd asd sdasda sdasda s asd asdas asdas asdasdasd asdasd as</span>
                 </div>
             </div>
         </div>
-        <div layout="row" layout-align="end" flex="60">
-            <img src="images/icon_advantages.png"/>
+        <div layout="row" layout-align="end" layout-align-xs="start" flex="60" flex-xs="40">
+            <img src="images/icon_advanteges.png"/>
         </div>
     </div>
 
-    <div layout="row">
-        <div flex="60" layout="row" layout-align="start">
+    <div layout="row" class="item">
+        <div flex="60" layout="row" layout-align="start" layout-align-xs="end" flex-xs="40">
             <img src="images/icon_same_day_help.png"/>
         </div>
-        <div layout="row" flex="40" layout-align="start">
-            <div layout="column" layout-align="center start" flex="50">
-                <div layout="column" layout-align="center center">
+        <div layout="row" flex="40" layout-align="start" flex-xs="60">
+            <div layout="column" layout-align="center start" flex="50" flex-xs="100">
+                <div class="text" layout="column" layout-align="center center" layout-align-xs="center start">
                     <h3>same-day help</h3>
                     <span>asasd asd asd asdasd asd asdasda sdasd asd sdasda sdasda s asd asdas asdas asdasdasd asdasd as</span>
                 </div>
             </div>
         </div>
     </div>
-    <div layout="row">
-        <div layout="row" flex="40" layout-align="end">
-            <div layout="column" layout-align="center end" flex="50">
-                <div layout="column" layout-align="center center">
+    <div layout="row" class="item">
+        <div layout="row" flex="40" layout-align="end" flex-xs="60">
+            <div layout="column" layout-align="center end" flex="50" flex-xs="100">
+                <div class="text" layout="column" layout-align="center center" layout-align-xs="center start">
                     <h3>trust and safety</h3>
                     <span>asasd asd asd asdasd asd asdasda sdasd asd sdasda sdasda s asd asdas asdas asdasdasd asdasd as</span>
                 </div>
             </div>
         </div>
-        <div flex="60" layout="row" layout-align="end">
+        <div flex="60" layout="row" layout-align="end" layout-align-xs="start" flex-xs="40">
             <img src="images/icon_trust_and_safe.png"/>
         </div>
     </div>
 </div>
 
 <div class="home-feedbacks" layout="column" layout-align="center center">
-    <md-card layout="column" layout-align="center center" style="padding-bottom: 10px">
+    <md-card layout="row" layout-align="center center">
         <jk-carousel
                 data="vm.dataArray"
                 item-template-url="'home/carousel-item-template.html'"
                 max-width="800"
-                max-height="260"
-                auto-slide="true">
+                auto-slide="false">
         </jk-carousel>
     </md-card>
 </div>
 
-<div class="home-need" layout="column" layout-align="center center">
+<div class="home-need" layout="column" layout-align="center center" layout-align-xs="center center">
     <h1>Need a locksmith?</h1>
     <button type="submit"
             aria-label="Send a request"
@@ -183,20 +185,22 @@
 </div>
 
 <div class="home-footer" layout="row" layout-align="center center">
-    <div layout="row" flex="60" layout-align="space-between">
-        <div layout="column" layout-align="start start">
+    <div layout="row" flex="100" layout-align="space-around start">
+        <div layout="row" flex="60" layout-align="space-around start" layout-xs="column" layout-align="start start" flex-xs="100">
+            <div layout="column" layout-align="start start" flex-sx="50">
 
-            <h3>get in touch</h3>
+                <h3>get in touch</h3>
 
-            <span>180 South Street, New York,</span>
-            <span>NY 10038</span>
+                <span>180 South Street, New York,</span>
+                <span>NY 10038</span>
+            </div>
+            <div layout="column" class="apps" layout-align="start center" flex-sx="50">
+                <h3>download our app</h3>
+                <img src="images/appstore.png"/>
+                <img src="images/googleplay.png"/>
+            </div>
         </div>
-        <div layout="column" class="apps">
-            <h3>download our app</h3>
-            <img src="images/appstore.png"/>
-            <img src="images/googleplay.png"/>
-        </div>
-        <div layout="column">
+        <div layout="column" flex="30" flex-xs="100">
             <div>
                 <h3>we are social</h3>
             </div>
