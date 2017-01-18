@@ -6,11 +6,12 @@
         .config(translationConfig);
 
     translationConfig.$inject = [
-        '$translateProvider'
+        '$translateProvider',
+        'defaultTranslationConstants'
     ];
 
     /* @ngInject */
-    function translationConfig($translateProvider) {
+    function translationConfig($translateProvider, defaultTranslationConstants) {
         var languageKey = 'language';
         var langCode = 'en';
 
@@ -20,14 +21,10 @@
 
         langCode = usingLanguage && usingLanguage.code ? usingLanguage.code : langCode;
 
-        $translateProvider
-            .preferredLanguage(langCode);
-
-        $translateProvider
-            .useLoader('translationService');
-
+        $translateProvider.translations('en', defaultTranslationConstants.EN);
+        $translateProvider.preferredLanguage(langCode);
+        $translateProvider.useLoader('translationService');
         $translateProvider.useMissingTranslationHandlerLog();
-
         $translateProvider.useSanitizeValueStrategy('sanitize');
     }
 })();
