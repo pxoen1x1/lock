@@ -1,5 +1,5 @@
 <div>
-    <div><h2>Account balance</h2></div>
+    <div><h2 translate>ACCOUNT_BALANCE</h2></div>
     <div class="section">
         <span class="md-body-2">$ </span><span  class="md-body-1" ng-bind="vm.merchantFunds"></span>
     </div>
@@ -7,7 +7,8 @@
         <md-button class="md-button-blue"
                    ng-disabled="!vm.enableWithdrawals"
                    ng-click="vm.withdrawal()"
-                   aria-label="Edit profile">Withdrawal
+                   translate
+                   aria-label="Edit profile">WITHDRAWAL
         </md-button>
     </div>
 </div>
@@ -19,23 +20,23 @@
          layout-align-gt-xs="start center">
     </div>
 
-    <div><h2>Bank account</h2></div>
-    <div ng-if="!vm.userProfile.merchantData">Fill Company info before adding bank account</div>
+    <div><h2 translate>BANK_ACCOUNT</h2></div>
+    <div ng-if="!vm.userProfile.merchantData" translate>FILL_COMPANY_INFO_BEFORE_ADDING_BANK_ACCOUNT</div>
     <div ng-repeat="account in vm.userProfile.paymentData">
         <div class="section first">
-            <span class="md-body-2">name:</span>
+            <span class="md-body-2"><span translate>NAME</span>:</span>
             <span class="md-body-1" ng-bind="account.name"></span>
         </div>
         <div class="section">
-            <span class="md-body-2">currency:</span>
+            <span class="md-body-2"><span translate>CURRENCY</span>:</span>
             <span class="md-body-1" ng-bind="account.currency"></span>
         </div>
         <div class="section">
-            <span class="md-body-2">modified:</span>
+            <span class="md-body-2"><span translate>MODIFIED</span>:</span>
             <span class="md-body-1" ng-bind="account.modified"></span>
         </div>
         <div class="section">
-            <span class="md-body-2">status:</span>
+            <span class="md-body-2"><span translate>STATUS</span>:</span>
             <span class="md-body-1" ng-bind="account.status"></span>
         </div>
     </div>
@@ -50,7 +51,7 @@
           ng-submit="vm.setMerchantAccount(vm.userProfile.payment, editPaymentForm.$valid)">
         <div layout="row">
             <md-input-container class="md-block" flex>
-                <label>Type of Account</label>
+                <label translate>TYPE_OF_ACCOUNT</label>
                 <md-select ng-model="vm.userProfile.payment.method">
                     <md-option ng-repeat="type in vm.bankAccountTypes" ng-value="type.code">
                         {{type.name}}
@@ -58,14 +59,14 @@
                 </md-select>
             </md-input-container>
             <md-input-container class="md-block" flex>
-                <label>paymentRouting</label>
+                <label translate>PAYMENT_ROUTING</label>
                 <input name="paymentRouting"
                        required
                        ng-maxlength="20"
                        ng-model="vm.userProfile.payment.routing">
             </md-input-container>
             <md-input-container class="md-block" flex>
-                <label>paymentNumber</label>
+                <label translate>PAYMENT_NUMBER</label>
                 <input name="paymentNumber"
                        required
                        ng-maxlength="20"
@@ -75,12 +76,14 @@
         <md-button type="submit"
                    class="md-button-blue"
                    aria-label="Save"
-                   ng-if="vm.isEditingPayment">
-            Save
+                   ng-if="vm.isEditingPayment"
+                   translate>
+            SAVE
         </md-button>
         <md-button class="md-button-blue" ng-if="vm.isEditingPayment"
-                   ng-click="vm.cancelEditing()">
-            Cancel
+                   ng-click="vm.cancelEditing()"
+                   translate>
+            CANCEL
         </md-button>
     </form>
 </div>

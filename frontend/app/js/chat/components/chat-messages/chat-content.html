@@ -43,22 +43,28 @@
       <md-menu-content width="3">
         <md-menu-item
             ng-if="vm.currentUser.type !== vm.userType.CLIENT && vm.currentRequest.status === vm.requestStatus.NEW">
-          <md-button ng-click="vm.openOfferDialog(vm.currentChat)">
-            Send Offer
+          <md-button translate
+                     ng-click="vm.openOfferDialog(vm.currentChat)">
+            SEND_OFFER
           </md-button>
         </md-menu-item>
         <md-menu-item ng-if="vm.currentUser.type !== vm.userType.CLIENT">
-          <md-button ng-click="vm.toggleSidenav({ navID: 'right-sidenav' })">
-            Request Info
+          <md-button translate
+                     ng-click="vm.toggleSidenav({ navID: 'right-sidenav' })">
+            REQUEST_INFO
           </md-button>
         </md-menu-item>
         <md-menu-item ng-if="vm.currentUser.type === vm.userType.GROUP_ADMIN">
-          <md-button ng-click="vm.joinGroupMember()">
-            Join Group Member
+          <md-button translate
+                     ng-click="vm.joinGroupMember()">
+            JOIN_GROUP_MEMBER
           </md-button>
         </md-menu-item>
         <!--<md-menu-item>
-          <md-button ng-click="vm.closeChat()">Close Chat</md-button>
+          <md-button translate
+                     ng-click="vm.closeChat()">
+            CLOSE_CHAT
+          </md-button>
         </md-menu-item>-->
       </md-menu-content>
     </md-menu>

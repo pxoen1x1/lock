@@ -19,38 +19,38 @@
         </div>
     </div>
     <div class="section first">
-        <span class="md-body-2">Email:</span>
+        <span class="md-body-2"><span translate>EMAIL</span>:</span>
         <span class="md-body-1" ng-bind="vm.userProfile.auth.email"></span>
     </div>
     <div class="section">
-        <span class="md-body-2">Phone:</span>
+        <span class="md-body-2"><span translate>PHONE</span>:</span>
         <span class="md-body-1" ng-bind="vm.userProfile.phoneNumber"></span>
     </div>
     <div class="section">
-        <span class="md-body-2">Car license plate number:</span>
+        <span class="md-body-2"><span translate>CAR_LICENSE_PLATE_NUMBER</span>:</span>
         <span class="md-body-1" ng-bind="vm.userProfile.details.carLicensePlateNumber"
               ng-if="vm.userProfile.details.carLicensePlateNumber"></span>
     </div>
     <div class="section" layout="row" ng-if="vm.licensesPresent">
-        <span class="md-body-2">Licenses:</span>
+        <span class="md-body-2"><span translate>LICENSES</span>:</span>
         <div layout="column">
             <div layout="row" ng-repeat="license in vm.userProfile.details.licenses track by $index">
                 <span class="md-body-1" ng-bind="vm.userProfile.details.licenses[$index].number"></span>
-                &nbsp;until
+                &nbsp;<span translate>UNTIL</span>
                 <span class="md-body-1"
                       ng-bind="vm.userProfile.details.licenses[$index].date | date: 'MM/dd/yyyy'"></span>
             </div>
         </div>
     </div>
     <div class="section" ng-if="vm.servicesPresent">
-        <span class="md-body-2">Services:</span>
+        <span class="md-body-2" translate>SERVICES</span>:
         <span class="md-body-1"
               ng-repeat="service in vm.userProfile.details.serviceTypes track by service.id"
               ng-bind="service.name + ' (' + (service.price | currency:'$') + ')' + ($last ? '':', ')">
             </span>
     </div>
     <div class="section">
-        <span class="md-body-2">Language:</span>
+        <span class="md-body-2" translate>LANGUAGE</span>:
             <span class="md-body-1"
                   ng-if="!vm.isEditing"
                   ng-bind="vm.userProfile.usingLanguage.name">
@@ -61,26 +61,26 @@
     <form name="editForm"
           novalidate
           ng-submit="vm.updateUser(vm.userProfile, editForm.$valid)">
-        <p>Name: <sup>*</sup></p>
+        <p><span translate>NAME</span>: <sup>*</sup></p>
         <div layout="row">
             <md-input-container class="md-block" flex>
-                <label>First name</label>
+                <label translate>FIRST_NAME</label>
                 <input name="firstName"
                        required
                        ng-maxlength="20"
                        ng-model="vm.userProfile.firstName">
             </md-input-container>
             <md-input-container class="md-block" flex>
-                <label>Last name</label>
+                <label translate>LAST_NAME</label>
                 <input name="lastName"
                        required
                        ng-maxlength="20"
                        ng-model="vm.userProfile.lastName">
             </md-input-container>
         </div>
-        <p>Email: <sup>*</sup></p>
+        <p><span translate>EMAIL</span>: <sup>*</sup></p>
         <md-input-container class="md-block" flex>
-            <label>Email</label>
+            <label translate>EMAIL</label>
             <input name="email"
                    required
                    email-validation
@@ -88,13 +88,13 @@
                    ng-model-options="{ 'debounce': 400 }"
                    ng-model="vm.userProfile.auth.email">
             <div ng-messages="editForm.email.$error">
-                <div ng-message="email">That doesn't look like a valid email.</div>
-                <div ng-message="availability">This email already exists.</div>
+                <div ng-message="email" translate>INVALID_EMAIL</div>
+                <div ng-message="availability" translate>EMAIL_ALREADY_EXIST</div>
             </div>
         </md-input-container>
-        <p>Phone number: <sup>*</sup></p>
+        <p><span translate>PHONE_NUMBER</span>: <sup>*</sup></p>
         <md-input-container class="md-block" flex>
-            <label>Phone number</label>
+            <label translate>PHONE_NUMBER</label>
             <input type="tel"
                    name="phoneNumber"
                    required
@@ -103,36 +103,36 @@
                    ng-model-options="{ 'debounce': 400 }"
                    ng-model="vm.userProfile.phoneNumber">
             <div ng-messages="editForm.phoneNumber.$error">
-                <span ng-message="usPhoneNumber">That doesn't look like a valid phone number.</span>
-                <span ng-message="availability">This phone number already exists.</span>
+                <span ng-message="usPhoneNumber" translate>INVALID_PHONE</span>
+                <span ng-message="availability" translate>PHONE_EXIST</span>
             </div>
         </md-input-container>
-        <p>Car license plate number: </p>
+        <p><span translate>CAR_LICENSE_PLATE_NUMBER</span>: </p>
         <md-input-container class="md-block" flex>
-          <label>Car license plate number</label>
+          <label translate>CAR_LICENSE_PLATE_NUMBER</label>
           <input name="carLicensePlateNumber"
                  ng-model-options="{ 'debounce': 400 }"
                  ng-model="vm.userProfile.details.carLicensePlateNumber">
         </md-input-container>
-        <p>License information:</p>
+        <p><span translate>LICENSE_INFORMATION</span>:</p>
         <div class="licenses"
              ng-repeat="license in vm.userProfile.details.licenses track by $index">
             <div layout-gt-xs="column" class="license-container">
                 <div layout="row">
                     <md-input-container class="md-block license-number">
-                        <label>License Number</label>
+                        <label translate>LICENSE_NUMBER</label>
                         <input type="text"
                                name="licenseNumber"
                                required
                                ng-model="vm.userProfile.details.licenses[$index].number">
                         <div ng-messages="editForm.licenseNumber.$error">
-                            <div ng-message="required">Please, enter a license number.</div>
+                            <div ng-message="required" translate>ENTER_LICENSE</div>
                         </div>
                     </md-input-container>
                     <md-input-container class="md-block license-state"
                                         flex="100"
                                         flex-gt-xs="30">
-                        <label>State</label>
+                        <label translate>STATE</label>
                         <md-select role="listbox"
                                    name="state"
                                    required
@@ -143,7 +143,7 @@
                             </md-option>
                         </md-select>
                         <div ng-messages="editForm.state.$error">
-                            <div ng-message="required">State is required.</div>
+                            <div ng-message="required" translate>STATE_IS_REQUIRED</div>
                         </div>
                     </md-input-container>
                     <mdp-date-picker name="licenseDate"
@@ -155,8 +155,8 @@
                     </mdp-date-picker>
                     <div class="validation-messages"
                          ng-messages="editForm.licenseDate.$error">
-                        <div ng-message="valid">The entered value is not a date!</div>
-                        <div ng-message="mindate">Date is too early!</div>
+                        <div ng-message="valid" translate>NOT_A_DATE</div>
+                        <div ng-message="mindate" translate>DATE_IS_TOO_EARLY</div>
                     </div>
                     <div class="service-remove"
                          flex="100"
@@ -170,12 +170,12 @@
             </div>
         </div>
         <div layout-gt-xs="row">
-            <md-button class="add-license-btn" ng-click="vm.addLicenseForm()">Add license</md-button>
+            <md-button class="add-license-btn" ng-click="vm.addLicenseForm()" translate>ADD LICENSE</md-button>
         </div>
-        <p>Services</p>
+        <p translate>SERVICES</p>
         <div layout-gt-xs="row">
             <md-input-container class="md-block" flex>
-                <label>Service types</label>
+                <label translate>SERVICE_TYPES</label>
                 <md-select aria-label="Services"
                            multiple
                            ng-model-options="{trackBy: '$value.id'}"
@@ -187,10 +187,10 @@
                 </md-select>
             </md-input-container>
         </div>
-        <p>Language</p>
+        <p translate>LANGUAGE</p>
         <div layout-gt-xs="row">
             <md-input-container class="md-block" flex>
-                <label>Language</label>
+                <label translate>LANGUAGE</label>
             <md-select flex
                        aria-label="Language"
                        ng-if="vm.isEditing"
@@ -206,18 +206,21 @@
         <md-button type="submit"
                    class="md-button-blue"
                    aria-label="Save"
+                   translate
                    ng-if="vm.isEditing">
-            Save
+            SAVE
         </md-button>
         <md-button class="md-button-blue" ng-if="vm.isEditing"
+                   translate
                    ng-click="vm.cancelEditing()">
-            Cancel
+            CANCEL
         </md-button>
     </form>
 </div>
 <md-button ng-if="!vm.isEditing"
            class="md-button-blue"
            ng-click="vm.isEditing = true"
+           translate
            aria-label="Edit">
-    Edit
+    EDIT
 </md-button>

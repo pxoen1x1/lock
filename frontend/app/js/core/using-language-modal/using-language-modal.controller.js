@@ -5,10 +5,16 @@
         .module('app.core')
         .controller('UsingLanguageModalController', UsingLanguageModalController);
 
-    UsingLanguageModalController.$inject = ['$mdDialog', 'usingLanguageService', 'coreDictionary', 'coreConstants'];
+    UsingLanguageModalController.$inject = [
+        '$mdDialog',
+        'usingLanguageService',
+        'coreDictionary',
+        'coreConstants',
+        '$translate'
+    ];
 
     /* @ngInject */
-    function UsingLanguageModalController($mdDialog, usingLanguageService, coreDictionary, coreConstants) {
+    function UsingLanguageModalController($mdDialog, usingLanguageService, coreDictionary, coreConstants, $translate) {
         var vm = this;
 
         vm.selectedLanguage = null;
@@ -34,6 +40,7 @@
                 return;
             }
 
+            $translate.use(language.code);
             usingLanguageService.setLanguage(language);
 
             $mdDialog.hide(language);

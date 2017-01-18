@@ -3,7 +3,7 @@
        ng-if="$mdMedia('gt-xs')">
     <div class="container-title">
       <i class="material-icons">list</i>
-      <span>Requests</span>
+      <span translate>REQUESTS</span>
     </div>
     <div class="container-content">
       <md-table-container>
@@ -14,20 +14,26 @@
           <tr md-row>
             <th md-column
                 md-order-by="updatedAt">
-              <span>Date</span>
+              <span translate>DATE</span>
             </th>
             <th md-column
                 md-order-by="serviceType"
                 ng-show="$mdMedia('gt-xs')">
-              <span>Type of service</span>
+              <span translate>TYPE_OF_SERVICE</span>
             </th>
-            <th md-column>Location</th>
+            <th md-column>
+              <span translate>LOCATION</span>
+            </th>
             <th md-column
                 md-order-by="status">
-              <span>Status</span>
+              <span translate>STATUS</span>
             </th>
-            <th md-column>Cost</th>
-            <th md-column>Provider</th>
+            <th md-column>
+              <span translate>COST</span>
+            </th>
+            <th md-column>
+              <span translate>PROVIDER</span>
+            </th>
           </tr>
           </thead>
           <tbody md-body>
@@ -122,26 +128,26 @@
           <div layout="column"
                flex="50">
             <div>
-              <span class="md-body-2">Type of service:</span>
+              <span class="md-body-2" translate>TYPE_OF_SERVICE</span>:
               <span class="md-body-1" ng-bind="request.serviceType.name"></span>
             </div>
             <div ng-if="request.language.name">
-              <span class="md-body-2">Language:</span>
+              <span class="md-body-2" translate>LANGUAGE</span>:
               <span class="md-body-1"
                     ng-bind="request.language.name">
-          </span>
+              </span>
             </div>
           </div>
           <div layout="column"
                flex="50">
             <div>
-              <span class="md-body-2">For Date:</span>
+              <span class="md-body-2" translate>FOR_DATE</span>:
               <span class="md-body-1"
                     ng-bind="request.forDate ? (request.forDate | date: vm.dateFormat) : 'Now'">
           </span>
             </div>
             <div ng-if="request.location">
-              <span class="md-body-2">Location:</span>
+              <span class="md-body-2" translate>LOCATION</span>:
               <span class="md-body-1"
                     ng-bind="request.location.address">
             </span>

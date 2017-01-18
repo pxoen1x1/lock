@@ -1,7 +1,7 @@
 <div class="container view-content">
   <div class="container-title" layout="row" layout-align="start center">
     <div>
-      <md-icon>list</md-icon> <span>Request</span>
+      <md-icon>list</md-icon> <span translate>REQUEST</span>
     </div>
     <div layout="row" layout-align="end center" flex>
       <div class="text-right secondary-text" flex>
@@ -52,7 +52,7 @@
              layout="row"
              layout-align="start center">
           <div>
-            <b>Status:</b>
+            <b translate>STATUS</b><b>:</b>
           </div>
           <div class="request-status text-capitalize text-right"
                flex
@@ -69,7 +69,7 @@
         <div class="info-column"
              layout="row">
           <div>
-            <b>Needed service:</b>
+            <b translate>NEEDED_SERVICE</b><b>:</b>
           </div>
           <div class="text-right" flex>
             <span ng-bind="vm.request.serviceType.name"></span>
@@ -78,7 +78,7 @@
         <div class="info-column"
              layout="row">
           <div>
-            <b>For date:</b>
+            <b translate>FOR_DATE</b><b>:</b>
           </div>
           <div class="text-right" flex>
             <span ng-bind="vm.request.forDate ? (vm.request.forDate | date : vm.dateFormat) : 'Now'"></span>
@@ -88,7 +88,7 @@
              layout="row"
              ng-if="vm.request.cost">
           <div>
-            <b>Cost:</b>
+            <b translate>COST</b><b>:</b>
           </div>
           <div class="text-right" flex>
             $ <span ng-bind="vm.request.cost"></span>
@@ -98,7 +98,7 @@
              layout="row"
              ng-if="vm.request.location.address">
           <div>
-            <b>Address:</b>
+            <b translate>ADDRESS</b><b>:</b>
           </div>
           <div class="text-right" flex>
             <span ng-bind="vm.request.location.address"></span>
@@ -108,17 +108,17 @@
              layout="row"
              ng-if="!vm.request.location.address">
           <div>
-            <b>Distance:</b>
+            <b translate>DISTANCE</b><b>:</b>
           </div>
           <div class="text-right" flex>
-            ~ <span ng-bind="vm.request.location | distance"></span> mi
+            ~ <span ng-bind="vm.request.location | distance"></span> <span translate>MI</span>
           </div>
         </div>
         <div class="info-column"
              layout="row"
              ng-if="vm.request.language.name">
           <div>
-            <b>Language:</b>
+            <b translate>LANGUAGE</b><b>:</b>
           </div>
           <div class="text-right" flex>
             <span ng-bind="vm.request.language.name"></span>
@@ -128,7 +128,7 @@
              layout="row"
              ng-if="vm.request.description">
           <div>
-            <b>Description:</b>
+            <b translate>DESCRIPTION</b><b>:</b>
           </div>
           <div flex>
             <span ng-bind="vm.request.description"></span>

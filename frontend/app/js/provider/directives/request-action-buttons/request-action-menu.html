@@ -10,24 +10,28 @@
   </md-button>
   <md-menu-content width="3">
     <md-menu-item ng-if="vm.currentRequest.status === vm.requestStatus.NEW">
-      <md-button ng-click="vm.openBidDialog(vm.currentRequest)">
-        Send Bid
+      <md-button ng-click="vm.openBidDialog(vm.currentRequest)"
+                 translate>
+        SEND_BID
       </md-button>
     </md-menu-item>
     <div ng-if="vm.currentRequest.executor.id === vm.currentUser.id">
       <md-menu-item ng-if="vm.currentRequest.status === vm.requestStatus.PENDING">
-        <md-button ng-click="vm.changeRequestStatus(vm.currentRequest, vm.requestStatus.IN_PROGRESS)">
-          Start
+        <md-button ng-click="vm.changeRequestStatus(vm.currentRequest, vm.requestStatus.IN_PROGRESS)"
+                   translate>
+          START
         </md-button>
       </md-menu-item>
       <md-menu-item ng-if="vm.currentRequest.status === vm.requestStatus.IN_PROGRESS">
-        <md-button ng-click="vm.changeRequestStatus(vm.currentRequest, vm.requestStatus.PENDING)">
-          Pause
+        <md-button ng-click="vm.changeRequestStatus(vm.currentRequest, vm.requestStatus.PENDING)"
+                   translate>
+          PAUSE
         </md-button>
       </md-menu-item>
       <md-menu-item ng-if="vm.currentRequest.status === vm.requestStatus.IN_PROGRESS">
-        <md-button ng-click="vm.changeRequestStatus(vm.currentRequest, vm.requestStatus.DONE)">
-          Done
+        <md-button ng-click="vm.changeRequestStatus(vm.currentRequest, vm.requestStatus.DONE)"
+                   translate>
+          DONE
         </md-button>
       </md-menu-item>
     </div>

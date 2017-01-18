@@ -18,12 +18,15 @@
           <i class="material-icons s128 md-accent">textsms</i>
         </div>
         <span class="secondary-text m-t-md"
-              ng-if="$mdMedia('gt-md')">
-          Select contact to start the chat.
+              ng-if="$mdMedia('gt-md')"
+              translate>
+          SELECT_CONTACT_TO_START_THE_CHAT
         </span>
         <md-button class="md-raised"
                    ng-if="!$mdMedia('gt-md')"
-                   ng-click="vm.toggleSidenav('left-sidenav')">Select contact to start the chat!..
+                   ng-click="vm.toggleSidenav('left-sidenav')"
+                   translate>
+          SELECT_CONTACT_TO_START_THE_CHAT
         </md-button>
       </div>
       <chat-messages flex

@@ -5,7 +5,7 @@
         ng-submit="vm.submit(vm.feedbackData, feedbackForm.$valid)">
     <md-toolbar class="md-menu-toolbar md-default-theme">
       <div class="md-toolbar-tools">
-        <h2>Add a feedback</h2>
+        <h2 translate>ADD A FEEDBACK</h2>
         <span flex></span>
         <md-button class="md-icon-button"
                    aria-label="Close dialog"
@@ -24,7 +24,7 @@
         <!-- Message -->
         <div layout="row">
           <md-input-container class="md-block" flex>
-            <label>Message</label>
+            <label translate>MESSAGE</label>
             <textarea type="text"
                       name="message"
                       required
@@ -33,8 +33,8 @@
                       ng-model="vm.feedbackData.message">
             </textarea>
             <div ng-messages="feedbackForm.message.$error">
-              <div ng-message="required">
-                It's required field.
+              <div ng-message="required" translate>
+                IT'S_A_REQUIRED_FIELD
               </div>
             </div>
           </md-input-container>
@@ -45,9 +45,10 @@
       <button type="submit"
               flex
               aria-label="Add"
+              translate
               class="md-button md-button-blue"
               ng-disabled="feedbackForm.$invalid">
-        Add
+        ADD
       </button>
     </md-dialog-actions>
   </form>

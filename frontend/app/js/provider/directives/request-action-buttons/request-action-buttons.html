@@ -6,20 +6,24 @@
          (vm.currentRequest.status !== vm.requestStatus.DONE ||
          vm.currentRequest.status === vm.requestStatus.CLOSED))">
     <button ng-if="vm.currentRequest.status === vm.requestStatus.NEW"
-            ng-click="vm.openBidDialog(vm.currentRequest)">
-      Send Bid
+            ng-click="vm.openBidDialog(vm.currentRequest)"
+            translate>
+      SEND_BID
     </button>
     <div ng-if="vm.currentRequest.executor.id === vm.currentUser.id">
       <button ng-if="vm.currentRequest.status === vm.requestStatus.PENDING"
-              ng-click="vm.changeRequestStatus(vm.currentRequest, vm.requestStatus.IN_PROGRESS)">
-        Start
+              ng-click="vm.changeRequestStatus(vm.currentRequest, vm.requestStatus.IN_PROGRESS)"
+              translate>
+        START
       </button>
       <div ng-if="vm.currentRequest.status === vm.requestStatus.IN_PROGRESS">
-        <button ng-click="vm.changeRequestStatus(vm.currentRequest, vm.requestStatus.PENDING)">
-          Pause
+        <button ng-click="vm.changeRequestStatus(vm.currentRequest, vm.requestStatus.PENDING)"
+                translate>
+          PAUSE
         </button>
-        <button ng-click="vm.changeRequestStatus(vm.currentRequest, vm.requestStatus.DONE)">
-          Done
+        <button ng-click="vm.changeRequestStatus(vm.currentRequest, vm.requestStatus.DONE)"
+                translate>
+          DONE
         </button>
       </div>
     </div>

@@ -3,7 +3,7 @@
      layout="column">
   <md-toolbar class="md-tall md-accent" flex="50">
     <div class="md-toolbar-tools md-toolbar-tools-top">
-      <div>Request Info</div>
+      <div translate>REQUEST_INFO</div>
       <div flex></div>
       <md-button class="md-icon-button"
                  aria-label="back"
@@ -17,14 +17,14 @@
          layout-align="start none">
       <div layout="row"
            layout-align="end none">
-        <div>Created:</div>
+        <div><span translate>CREATED</span>:</div>
         <div flex
              ng-bind="vm.selectedRequest.createdAt | altDate">
         </div>
       </div>
       <div layout="row"
            layout-align="end none">
-        <div>For Date:</div>
+        <div><span translate>FOR_DATE</span>:</div>
         <div flex
              ng-bind="vm.selectedRequest.forDate ? (vm.selectedRequest.forDate | date: vm.dateFormat) : 'Now'">
         </div>
@@ -32,7 +32,7 @@
       <div layout="row"
            layout-align="end none"
            ng-if="vm.selectedRequest.location.address">
-        <div>Address:</div>
+        <div><span translate>ADDRESS</span>:</div>
         <div flex
              ng-bind="vm.selectedRequest.location.address">
         </div>
@@ -40,14 +40,14 @@
       <div layout="row"
            layout-align="end none"
            ng-if="vm.selectedRequest.location">
-        <div>Distance:</div>
+        <div><span translate>DISTANCE</span>:</div>
         <div flex
              ng-bind="vm.selectedRequest.location | distance">
         </div>
       </div>
       <div layout="row"
            layout-align="end none">
-        <div>Needed Service:</div>
+        <div><span translate>NEEDED_SERVICE</span>:</div>
         <div flex
              ng-bind="vm.selectedRequest.serviceType.name">
         </div>
@@ -55,7 +55,7 @@
       <div layout="row"
            layout-align="end none"
            ng-if="vm.selectedRequest.language.name">
-        <div>Language:</div>
+        <div><span translate>LANGUAGE</span>:</div>
         <div flex
              ng-bind="vm.selectedRequest.language.name">
         </div>
@@ -63,7 +63,7 @@
       <div layout="row"
            layout-align="end none"
            ng-if="vm.selectedRequest.description">
-        <div>Description:</div>
+        <div><span translate>DESCRIPTION</span>:</div>
         <div class="description"
              flex
              ng-bind="vm.selectedRequest.description">
