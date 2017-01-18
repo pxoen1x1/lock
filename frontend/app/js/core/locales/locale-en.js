@@ -72,6 +72,7 @@
                  'LOCATION': 'Location',
                  'COST': 'Cost',
                  'CURRENT': 'Current',
+                 'DASHBOARD_CURRENT': 'Current',
                  'CHAT_HAS_NOT_BEEN_STARTED': 'Chat has not been started.',
                  'MAP': 'Map',
                  'MESSAGE': 'Message',
@@ -190,7 +191,9 @@
                  'S_T_1': 'Service #1',
                  'S_T_2': 'Service #2',
                  'S_T_3': 'Service #3',
-                 'S_T_4': 'Service #4'
+                 'S_T_4': 'Service #4',
+                 'SPECIALIST': "Specialist",
+                 'PUBLIC': 'Public'
              }
          });
 })();

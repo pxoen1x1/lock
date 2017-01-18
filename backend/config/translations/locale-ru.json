@@ -3,7 +3,7 @@
   "SHOW_PUBLIC_PROFILE": "Показать публичный профиль",
   "CHANGE_PHOTO": "Изменить фото",
   "ACCOUNT_BALANCE": "Баланс",
-  "WITHDRAWAL": "Вывод на счёт",
+  "WITHDRAWAL": "Вывод",
   "BANK_ACCOUNT": "Банковский счёт",
   "FILL_COMPANY_INFO_BEFORE_ADDING_BANK_ACCOUNT": "Перед добавлением банковского счёта заполните информацию о компании",
   "NAME": "Имя",
@@ -24,8 +24,8 @@
   "LANGUAGE": "Язык",
   "FIRST_NAME": "Имя",
   "LAST_NAME": "Фамилия",
-  "INVALID_EMAIL": "Проверьте введённый адрес ещё раз.",
-  "EMAIL_ALREADY_EXIST": "Такой e-mail уже существует.",
+  "INVALID_EMAIL": "Проверьте введённый адрес ещё раз",
+  "EMAIL_ALREADY_EXIST": "Такой e-mail уже существует",
   "PHONE_NUMBER": "Номер телефона",
   "INVALID_PHONE": "Проверьте введённый номер ещё раз",
   "PHONE_EXIST": "Такой номер уже существует",
@@ -65,6 +65,7 @@
   "LOCATION": "Расположение",
   "COST": "Стоимость",
   "CURRENT": "Текущий",
+  "DASHBOARD_CURRENT": "Текущие",
   "CHAT_HAS_NOT_BEEN_STARTED": "Обсуждение не открыто.",
   "MAP": "Карта",
   "MESSAGE": "Сообщение",
@@ -179,5 +180,11 @@
   "CUSTOMER_CHOSE_ANOTHER_EXECUTOR": "Клиент выбрал другого исполнителя",
   "USERS": "Пользователи",
   "PHOTO": "Фото",
-  "REGISTRATION_DATE": "Дата регистрации"
+  "REGISTRATION_DATE": "Дата регистрации",
+  "PENDING": "Ожидающий",
+  "IN_PROGRESS": "Текущий",
+  "CLOSED": "Завершён",
+  "SPECIALIST": "Специалист",
+  "PUBLIC": "Публичный"
+
 }
