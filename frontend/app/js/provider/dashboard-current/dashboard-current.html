@@ -5,7 +5,7 @@
        ng-if="$mdMedia('gt-xs')">
     <div class="container-title">
       <i class="material-icons">list</i>
-      <span translate>CURRENT</span>
+      <span translate>DASHBOARD_CURRENT</span>
       <span>⋅</span>
       <span ng-bind="vm.queryOptions.totalCount"></span>
     </div>
@@ -21,10 +21,10 @@
               <span translate>CREATED</span>
             </th>
             <th md-column>
-              <span translate>FOR DATE</span>
+              <span translate>FOR_DATE</span>
             </th>
             <th md-column>
-              <span translate>TYPE OF SERVICE</span>
+              <span translate>TYPE_OF_SERVICE</span>
             </th>
             <th md-column>
               <span translate>LOCATION</span>
@@ -126,7 +126,7 @@
                  flex="50">
               <div>
                 <span class="md-body-2"><span translate>TYPE_OF_SERVICE</span>:</span>
-                <span class="md-body-1" ng-bind="request.serviceType.name"></span>
+                <span class="md-body-1" ng-bind="request.serviceType.name | translate"></span>
               </div>
               <div ng-if="request.language.name">
                 <span class="md-body-2"><span translate>LANGUAGE</span>:</span>

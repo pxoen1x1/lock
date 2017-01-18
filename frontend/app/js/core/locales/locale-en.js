@@ -72,6 +72,7 @@
                  'LOCATION': 'Location',
                  'COST': 'Cost',
                  'CURRENT': 'Current',
+                 'DASHBOARD_CURRENT': 'Current',
                  'CHAT_HAS_NOT_BEEN_STARTED': 'Chat has not been started.',
                  'MAP': 'Map',
                  'MESSAGE': 'Message',
@@ -128,7 +129,7 @@
                  'EXPIRATION_DATE_MMYY': 'Expiration date MMYY',
                  'CHAT': 'Chat',
                  'LET\'S_CHAT_HERE': 'Let\'s chat here.',
-                 'MILES_AWAY': 'Miles away',
+                 'MILES_AWAY': 'miles away',
                  'ESTIMATED_TIME_OF_ARRIVAL': 'Estimated time of arrival',
                  'NEW_REQUEST': 'New request',
                  'TYPE_OF_SERVICE_NEEDED': 'Type of service needed',
@@ -186,7 +187,13 @@
                  'CUSTOMER_CHOSE_ANOTHER_EXECUTOR': 'Customer chose another executor.',
                  'USERS': 'Users',
                  'PHOTO': 'Photo',
-                 'REGISTRATION_DATE': 'Registration date'
+                 'REGISTRATION_DATE': 'Registration date',
+                 'S_T_1': 'Service #1',
+                 'S_T_2': 'Service #2',
+                 'S_T_3': 'Service #3',
+                 'S_T_4': 'Service #4',
+                 'SPECIALIST': "Specialist",
+                 'PUBLIC': 'Public'
              }
          });
 })();

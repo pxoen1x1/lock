@@ -66,6 +66,7 @@
   "LOCATION": "Location",
   "COST": "Cost",
   "CURRENT": "Current",
+  "DASHBOARD_CURRENT": "Current",
   "CHAT_HAS_NOT_BEEN_STARTED": "Chat has not been started.",
   "MAP": "Map",
   "MESSAGE": "Message",
@@ -180,5 +181,14 @@
   "CUSTOMER_CHOSE_ANOTHER_EXECUTOR": "Customer chose another executor.",
   "USERS": "Users",
   "PHOTO": "Photo",
-  "REGISTRATION_DATE": "Registration date"
+  "REGISTRATION_DATE": "Registration date",
+  "S_T_1": "Service type #1",
+  "S_T_2": "Service type #2",
+  "S_T_3": "Service type #3",
+  "S_T_4": "Service type #4",
+  "PENDING": "Pending",
+  "IN_PROGRESS": "In progress",
+  "CLOSED": "Closed",
+  "SPECIALIST": "Specialist",
+  "PUBLIC": "Public"
 }

@@ -138,7 +138,7 @@
                     ng-bind="request.forDate ? (request.forDate | date: vm.dateFormat) : 'Now'">
               </span>
             </div>
-            <div ng-if="request.location" translation>
+            <div ng-if="request.location">
               <span class="md-body-2"><span translate>DISTANCE</span>:</span>
               ~ <span class="md-body-1"
                       ng-bind="request.location | distance">

@@ -45,9 +45,9 @@
     <div class="section" ng-if="vm.servicesPresent">
         <span class="md-body-2" translate>SERVICES</span>:
         <span class="md-body-1"
-              ng-repeat="service in vm.userProfile.details.serviceTypes track by service.id"
-              ng-bind="service.name + ' (' + (service.price | currency:'$') + ')' + ($last ? '':', ')">
-            </span>
+              ng-repeat="service in vm.userProfile.details.serviceTypes track by service.id">
+            {{service.name | translate}} {{' (' + (service.price | currency:'$') + ')' + ($last ? '':', ')}}
+        </span>
     </div>
     <div class="section">
         <span class="md-body-2" translate>LANGUAGE</span>:
@@ -170,7 +170,7 @@
             </div>
         </div>
         <div layout-gt-xs="row">
-            <md-button class="add-license-btn" ng-click="vm.addLicenseForm()" translate>ADD LICENSE</md-button>
+            <md-button class="add-license-btn" ng-click="vm.addLicenseForm()" translate>ADD_LICENSE</md-button>
         </div>
         <p translate>SERVICES</p>
         <div layout-gt-xs="row">
@@ -182,7 +182,7 @@
                            ng-model="vm.userProfile.details.serviceTypes">
                     <md-option ng-repeat="serviceType in vm.serviceTypes track by serviceType.id"
                                ng-value="serviceType">
-                        <span ng-bind="serviceType.name"></span>
+                        <span ng-bind="serviceType.name | translate"></span>
                     </md-option>
                 </md-select>
             </md-input-container>
@@ -220,7 +220,6 @@
 <md-button ng-if="!vm.isEditing"
            class="md-button-blue"
            ng-click="vm.isEditing = true"
-           translate
            aria-label="Edit">
-    EDIT
+    <span translate>EDIT</span>
 </md-button>
