@@ -98,18 +98,15 @@
                    layout-align="end center"
                    ng-if="vm.currentRequest.executor.id === vm.currentUser.id">
     <md-button ng-if="vm.currentRequest.status === vm.requestStatus.PENDING"
-               translate
                ng-click="vm.changeRequestStatus(vm.currentRequest, vm.requestStatus.IN_PROGRESS)">
-      START
+      <span translate>START</span>
     </md-button>
     <div ng-if="vm.currentRequest.status === vm.requestStatus.IN_PROGRESS">
-      <md-button translate
-                 ng-click="vm.changeRequestStatus(vm.currentRequest, vm.requestStatus.DONE)">
-        DONE
+      <md-button ng-click="vm.changeRequestStatus(vm.currentRequest, vm.requestStatus.DONE)">
+        <span translate>DONE</span>
       </md-button>
-      <md-button translate
-                 ng-click="vm.changeRequestStatus(vm.currentRequest, vm.requestStatus.PENDING)">
-        PAUSE
+      <md-button ng-click="vm.changeRequestStatus(vm.currentRequest, vm.requestStatus.PENDING)">
+        <span translate>PAUSE</span>
       </md-button>
     </div>
   </md-card-actions>
