@@ -15,6 +15,9 @@ var paths = {
         development: 'dist/admin/development/',
         production: 'dist/admin/production/',
     },
+    mobile: {
+        dest: 'mobile/'
+    },
     vendor: 'vendor/'
 };
 
@@ -78,6 +81,14 @@ module.exports = {
                 paths.vendor + 'material-design-icons/iconfont/*.{eot,svg,ttf,woff,woff2}'
             ],
             dest: paths.admin.production + 'fonts'
+        },
+        mobile: {
+            src: [
+                paths.app.src + 'fonts/*',
+                paths.vendor + 'font-awesome/fonts/*.{eot,svg,ttf,woff,woff2}',
+                paths.vendor + 'material-design-icons/iconfont/*.{eot,svg,ttf,woff,woff2}'
+            ],
+            dest: paths.mobile.src + 'fonts'
         }
     },
     copystyles: {
@@ -90,12 +101,47 @@ module.exports = {
             dest: paths.admin.development + '/styles'
         }
     },
+    cordova: {
+        src: paths.mobile.dest,
+        create: {
+            src: paths.app.production,
+            options: {
+                dir: 'mobile',
+                id: 'com.lockheal',
+                name: 'Lockheal'
+            }
+        },
+        author: {
+            name: 'IdeaSoft',
+            email: 'dev@i-deasoft.com',
+            www: 'http://i-deasoft.com/'
+        },
+        description: 'Lockheal app.',
+        icon: 'www/images/lockheal_logo.png',
+        plugins: {
+            'cordova-plugin-whitelist': 'latest',
+            'cordova-plugin-crosswalk-webview': 'latest',
+            'cordova-plugin-device': 'latest',
+            'cordova-plugin-splashscreen': 'latest',
+            'cordova-plugin-camera': 'latest',
+            'cordova-plugin-file': 'latest'
+        },
+        preferences: {
+            'FadeSplashScreen': true,
+            'FadeSplashScreenDuration': 1500,
+            'AutoHideSplashScreen': true,
+            'ShowSplashScreenSpinner': false
+        }
+    },
     delete: {
         app: {
             src: paths.build + '/app'
         },
         admin: {
             src: paths.build + '/admin'
+        },
+        mobile: {
+            src: paths.mobile.dest
         }
     },
     htmlmin: {
@@ -105,7 +151,8 @@ module.exports = {
             collapseInlineTagWhitespace: true,
             conservativeCollapse: true,
             html5: true,
-            removeCommentsFromCDATA: true
+            removeCommentsFromCDATA: true,
+            removeComments: true
         }
     },
     imagemin: {
@@ -116,6 +163,10 @@ module.exports = {
         admin: {
             src: paths.admin.src + 'images/**/*.{jpg,jpeg,png,gif}',
             dest: paths.admin.production + 'images/',
+        },
+        mobile: {
+            src: paths.app.src + 'images/**/*.{jpg,jpeg,png,gif}',
+            dest: paths.mobile.src + 'images/',
         },
         options: {
             optimizationLevel: 3,
@@ -157,25 +208,26 @@ module.exports = {
     ngtemplate: {
         app: {
             src: paths.app.src + 'js/**/*.html',
-            dest: paths.app.development + 'js',
-            options: {
-                moduleName: 'app',
-                useStrict: true
-            }
+            dest: paths.app.development + 'js'
         },
         admin: {
             src: paths.admin.src + 'js/**/*.html',
-            dest: paths.admin.development + 'js',
-            options: {
-                moduleName: 'app',
-                useStrict: true
-            }
+            dest: paths.admin.development + 'js'
+        },
+        options: {
+            moduleName: 'app',
+            useStrict: true
         }
     },
     replace: {
         materialIcons: {
             from: 'url(MaterialIcons-Regular',
             to: 'url(../fonts/MaterialIcons-Regular'
+        },
+        mobile: {
+            src: paths.mobile.dest + 'www/',
+            from: '="/',
+            to: '="'
         }
     },
     sass: {
@@ -183,20 +235,12 @@ module.exports = {
             development: {
                 src: paths.app.src + 'scss/**/*.scss',
                 dest: paths.app.development + 'styles'
-            },
-            production: {
-                src: paths.app.src + 'scss/**/main.scss',
-                dest: paths.app.production + 'styles'
             }
         },
         admin: {
             development: {
                 src: paths.admin.src + 'scss/**/*.scss',
                 dest: paths.admin.development + 'styles'
-            },
-            production: {
-                src: paths.admin.src + 'scss/**/main.scss',
-                dest: paths.admin.production + 'styles'
             }
         }
     },
@@ -208,7 +252,11 @@ module.exports = {
         admin: {
             src: paths.admin.src + '*.html',
             dest: paths.admin.production
-        }
+        },
+        mobile: {
+            src: paths.app.src + '*.html',
+            dest: paths.mobile.src
+        },
     },
     watch: {
         app: {
