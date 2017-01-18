@@ -16,7 +16,7 @@ var paths = {
         production: 'dist/admin/production/',
     },
     mobile: {
-        dest: 'mobile/'
+        src: 'mobile/'
     },
     vendor: 'vendor/'
 };
@@ -81,14 +81,6 @@ module.exports = {
                 paths.vendor + 'material-design-icons/iconfont/*.{eot,svg,ttf,woff,woff2}'
             ],
             dest: paths.admin.production + 'fonts'
-        },
-        mobile: {
-            src: [
-                paths.app.src + 'fonts/*',
-                paths.vendor + 'font-awesome/fonts/*.{eot,svg,ttf,woff,woff2}',
-                paths.vendor + 'material-design-icons/iconfont/*.{eot,svg,ttf,woff,woff2}'
-            ],
-            dest: paths.mobile.src + 'fonts'
         }
     },
     copystyles: {
@@ -102,14 +94,18 @@ module.exports = {
         }
     },
     cordova: {
-        src: paths.mobile.dest,
+        src: paths.mobile.src,
         create: {
             src: paths.app.production,
             options: {
-                dir: 'mobile',
+                dir: paths.mobile.src,
                 id: 'com.lockheal',
                 name: 'Lockheal'
             }
+        },
+        build: {
+            src: paths.mobile.src,
+            dest: 'builds'
         },
         author: {
             name: 'IdeaSoft',
@@ -141,7 +137,7 @@ module.exports = {
             src: paths.build + '/admin'
         },
         mobile: {
-            src: paths.mobile.dest
+            src: paths.mobile.src
         }
     },
     htmlmin: {
@@ -163,10 +159,6 @@ module.exports = {
         admin: {
             src: paths.admin.src + 'images/**/*.{jpg,jpeg,png,gif}',
             dest: paths.admin.production + 'images/',
-        },
-        mobile: {
-            src: paths.app.src + 'images/**/*.{jpg,jpeg,png,gif}',
-            dest: paths.mobile.src + 'images/',
         },
         options: {
             optimizationLevel: 3,
@@ -225,7 +217,7 @@ module.exports = {
             to: 'url(../fonts/MaterialIcons-Regular'
         },
         mobile: {
-            src: paths.mobile.dest + 'www/',
+            src: paths.mobile.src + 'www/',
             from: '="/',
             to: '="'
         }
@@ -252,11 +244,7 @@ module.exports = {
         admin: {
             src: paths.admin.src + '*.html',
             dest: paths.admin.production
-        },
-        mobile: {
-            src: paths.app.src + '*.html',
-            dest: paths.mobile.src
-        },
+        }
     },
     watch: {
         app: {
