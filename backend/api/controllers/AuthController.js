@@ -116,15 +116,16 @@ let AuthController = waterlock.waterlocked({
     },
     createResetAuthToken(req, res){
         let params = req.allParams();
+        let email = params.email;
 
-        if (!params.auth.email) {
+        if (!email) {
 
             return res.badRequest({
                 message: req.__('Email is not defined.')
             });
         }
 
-        AuthService.resetAuthToken(params.auth.email)
+        AuthService.resetAuthToken(email)
             .then(
                 (user) => {
                     return MailerService.passwordResetRequest(user);
@@ -175,16 +176,18 @@ let AuthController = waterlock.waterlocked({
     },
     resetPassword(req, res) {
         let params = req.allParams();
+        let password = params.password;
+
         let owner = req.session.resetToken.owner;
 
-        if (!params.auth.password) {
+        if (!password) {
 
             return res.badRequest({
                 message: req.__('Password is not defined.')
             });
         }
 
-        AuthService.resetPassword(owner, params.password)
+        AuthService.resetPassword(owner, password)
             .then(
                 () => {
                     req.session.resetToken = false;
