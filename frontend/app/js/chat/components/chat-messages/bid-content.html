@@ -50,8 +50,8 @@
       <md-menu-content width="3">
         <md-menu-item>
           <md-button ng-click="vm.toggleSidenav({ navID: 'right-sidenav' })"
-                     aria-label="vm.currentUser.type === vm.userType.CLIENT ? 'Contact Info' : 'Request Info'">
-            <span ng-bind="vm.currentUser.type === vm.userType.CLIENT ? 'Contact Info' : 'Request Info'"></span>
+                     aria-label="vm.currentUser.type === vm.userType.CLIENT ? 'CONTACT_INFORMATION' : 'REQUEST_INFO | translate'">
+            <span ng-bind="vm.currentUser.type === vm.userType.CLIENT ? 'CONTACT_INFORMATION' : 'REQUEST_INFO | translate'"></span>
           </md-button>
         </md-menu-item>
         <md-menu-item>
