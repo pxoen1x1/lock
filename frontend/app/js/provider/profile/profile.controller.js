@@ -14,12 +14,13 @@
         'currentUserService',
         'usingLanguageService',
         '$mdDialog',
+        '$translate',
         'citiesLoader'
     ];
 
     /* @ngInject */
     function ProviderProfileController($q, conf, coreConstants, coreDataservice, coreDictionary, currentUserService,
-                                       usingLanguageService, $mdDialog, citiesLoader) {
+                                       usingLanguageService, $mdDialog, $translate, citiesLoader) {
         var vm = this;
 
         vm.languages = [];
@@ -80,6 +81,11 @@
                 });
         }
 
+        function changeLanguage(langKey) {
+
+            return $translate.use(langKey);
+        }
+
         function getBankAccountTypes() {
 
             if (promises.getBankAccountTypes) {
@@ -111,6 +117,8 @@
             return currentUserService.setUser(user)
                 .then(function (user) {
                     coreDataservice.updateUser(user); //todo: ?? set and then update ??
+                    changeLanguage(user.usingLanguage.code);
+                    usingLanguageService.setLanguage(user.usingLanguage);
 
                     return user;
                 })
