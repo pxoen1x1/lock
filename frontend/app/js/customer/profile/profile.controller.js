@@ -13,12 +13,13 @@
         'coreDataservice',
         'conf',
         'usingLanguageService',
-        'citiesLoader'
+        'citiesLoader',
+        '$translate'
     ];
 
     /* @ngInject */
     function CustomerProfileController($q, coreDictionary, currentUserService, coreConstants, coreDataservice, conf,
-    usingLanguageService, citiesLoader) {
+    usingLanguageService, citiesLoader, $translate) {
         var vm = this;
 
         vm.userProfile = {};
@@ -115,6 +116,7 @@
                     vm.newPortrait = '';
                     vm.isEditing = false;
 
+                    $translate.use(user.usingLanguage.code);
                     usingLanguageService.setLanguage(vm.userProfile.usingLanguage);
 
                     return vm.userProfile;
@@ -134,7 +136,9 @@
 
                             if(customer){
                                 vm.userProfile.customerData = customer.customer[0];
-                                vm.selectedCityItem  = vm.userProfile.customerData.city;
+                                if(vm.userProfile.customerData.city){
+                                    vm.selectedCityItem = vm.userProfile.customerData.city;
+                                }
                             }
 
                             return vm.userProfile;
