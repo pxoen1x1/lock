@@ -190,5 +190,11 @@
   "IN_PROGRESS": "In progress",
   "CLOSED": "Closed",
   "SPECIALIST": "Specialist",
-  "PUBLIC": "Public"
+  "PUBLIC": "Public",
+  "FORGOT_YOUR_PASSWORD": "Forgot your password?",
+  "RESET_PASSWORD": "Reset Password",
+  "ENTER_DATE": "Enter date",
+  "TIME": "Time",
+  "SETTINGS": "Settings",
+  "VIEW": "View"
 }

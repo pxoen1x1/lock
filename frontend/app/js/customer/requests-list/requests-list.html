@@ -45,7 +45,7 @@
             </td>
             <td md-cell
                 ng-show="$mdMedia('gt-xs')">
-              <span ng-bind="request.serviceType.name"></span>
+              <span ng-bind="request.serviceType.name | translate"></span>
             </td>
 
             <td class="td-location"
@@ -69,7 +69,7 @@
                 'in-progress': request.status === vm.requestStatus.IN_PROGRESS || request.status === vm.requestStatus.DONE,
                 'closed': request.status === vm.requestStatus.CLOSED
               }">
-              <span ng-bind="vm.requestStatus[request.status]"></span>
+              <span ng-bind="vm.requestStatus[request.status].toUpperCase() | translate"></span>
             </td>
             <td class="td-cost" md-cell>
               <span ng-bind="request.cost ? '$'+ request.cost : '–'"></span>

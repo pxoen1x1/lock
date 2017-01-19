@@ -26,6 +26,6 @@
         $translateProvider.fallbackLanguage('en');
         $translateProvider.useLoader('translationService');
         $translateProvider.useMissingTranslationHandlerLog();
-        $translateProvider.useSanitizeValueStrategy('sanitize');
+        $translateProvider.useSanitizeValueStrategy('escaped');
     }
 })();
