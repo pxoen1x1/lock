@@ -204,7 +204,9 @@
                         .then(function (merchantEntity) {
                             if (merchantEntity) {
                                 vm.userProfile.merchantData = merchantEntity;
-                                vm.selectedCityItem  = vm.userProfile.merchantData.city;
+                                if (vm.userProfile.merchantData.city) {
+                                    vm.selectedCityItem  = vm.userProfile.merchantData.city;
+                                }
                             }
 
                             return coreDataservice.getMerchantFunds();

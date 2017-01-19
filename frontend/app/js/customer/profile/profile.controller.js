@@ -134,9 +134,9 @@
                     return coreDataservice.getCustomer()
                         .then(function(customer){
 
-                            if(customer){
+                            if(customer.length > 0){
                                 vm.userProfile.customerData = customer.customer[0];
-                                if(vm.userProfile.customerData.city){
+                                if (vm.userProfile.customerData.city) {
                                     vm.selectedCityItem = vm.userProfile.customerData.city;
                                 }
                             }
@@ -195,10 +195,12 @@
 
         function cancelEditing() {
             vm.userProfile = angular.copy(vm.nonChangedUserProfile);
-            vm.selectedCityItem = vm.userProfile.customerData.city;
             vm.isEditing = false;
             vm.isEditingCustomer = false;
             vm.isEditingCard = false;
+            if (vm.userProfile.customerData.city && vm.userProfile.customerData) {
+                vm.selectedCityItem = vm.userProfile.customerData.city;
+            }
         }
 
         function activate() {

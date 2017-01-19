@@ -199,7 +199,10 @@
                  'ENTER_DATE': 'Enter date',
                  'TIME': 'Time',
                  'SETTINGS': 'Settings',
-                 'VIEW': 'View'
+                 'VIEW': 'View',
+                 'GENERAL_INFO': 'General info',
+                 'CONTACT_INFO': 'Contact info',
+                 'PAYMENT_INFO': 'Payment info'
              }
          });
 })();
