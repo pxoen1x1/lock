@@ -192,5 +192,9 @@
   "SPECIALIST": "Specialist",
   "PUBLIC": "Public",
   "FORGOT_YOUR_PASSWORD": "Forgot your password?",
-  "RESET_PASSWORD": "Reset Password"
+  "RESET_PASSWORD": "Reset Password",
+  "ENTER_DATE": "Enter date",
+  "TIME": "Time",
+  "SETTINGS": "Settings",
+  "VIEW": "View"
 }

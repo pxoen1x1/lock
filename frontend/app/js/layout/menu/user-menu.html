@@ -43,7 +43,7 @@
            ng-if="$state.get(menuItem).data.menu.icon"
            ng-bind="$state.get(menuItem).data.menu.icon">
         </i>
-        <span ng-bind="$state.get(menuItem).data.menu.title"></span>
+        <span ng-bind="$state.get(menuItem).data.menu.title | translate"></span>
       </a>
     </div>
   </div>
