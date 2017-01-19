@@ -6,10 +6,11 @@
        layout-gt-xs="row"
        layout-align="start center"
        layout-align-gt-xs="start start">
-    <div flex-gt-xs="25">
-      <img class="profile-avatar"
-           ng-src="{{vm.profileData.portrait || coreConstants.IMAGES.defaultPortrait}}"
-           alt="photo"/>
+    <div class="avatar-wrapper">
+      <div class="profile-avatar"
+           ng-style="{ 'background-image': 'url(' + (vm.userProfile.portrait ?
+               vm.baseUrl + vm.userProfile.portrait : vm.defaultPortrait)           + ')' }">
+      </div>
     </div>
     <div flex-gt-xs="5"></div>
     <div flex-gt-xs="70"
@@ -19,9 +20,9 @@
            layout-align="center center"
            layout-align-gt-xs="start center">
         <div class="md-display-1">
-          <span class="vertical-middle" ng-bind="vm.profileData.fullName"></span>
+          <span class="vertical-middle" ng-bind="vm.userProfile.fullName"></span>
           <i class="material-icons vertical-middle verified"
-             ng-if="vm.profileData.isPro">
+             ng-if="vm.userProfile.details.isPro">
             verified_user
           </i>
         </div>
@@ -30,18 +31,18 @@
              layout="row"
              layout-align="center center"
              layout-align-gt-xs="end center">
-          <star-rating value="vm.profileData.rating" readonly></star-rating>
-          <span ng-bind="vm.profileData.rating"></span>
+          <star-rating value="vm.userProfile.details.rating" readonly></star-rating>
+          <span ng-bind="vm.userProfile.details.rating"></span>
         </div>
       </div>
       <div class="section first">
         <span class="md-body-2">Joined:</span>
-        <span class="md-body-1" ng-bind="vm.profileData.createdAt | altDate"></span>
+        <span class="md-body-1" ng-bind="vm.userProfile.createdAt | altDate"></span>
       </div>
       <div class="section">
         <span class="md-body-2">Services:</span>
             <span class="md-body-1"
-                  ng-repeat="service in vm.profileData.details.serviceTypes"
+                  ng-repeat="service in vm.userProfile.details.serviceTypes"
                   ng-bind="service.name">
             </span>
       </div>

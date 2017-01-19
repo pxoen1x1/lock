@@ -167,6 +167,9 @@
     border-radius: 50%;
     width: 100px;
     height: 100px;
+    position: relative;
+    max-width: 280px;
+    background-size: cover;
   }
 
   .avatar-wrapper {
@@ -180,15 +183,6 @@
     padding-bottom: 0px;
     width: 0px;
     height: 0px;
-  }
-
-  .profile-avatar {
-    border-radius: 50%;
-    position: relative;
-    max-width: 280px;
-    width: 100px;
-    height: 100px;
-    background-size: cover;
   }
 
   md-dialog {
