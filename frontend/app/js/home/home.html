@@ -170,6 +170,7 @@
                 data="vm.dataArray"
                 item-template-url="'home/carousel-item-template.html'"
                 max-width="800"
+                ng-attr-max-height="{{$mdMedia('gt-xs') && '260' || '' }}"
                 auto-slide="false">
         </jk-carousel>
     </md-card>
@@ -184,9 +185,9 @@
     </button>
 </div>
 
-<div class="home-footer" layout="row" layout-align="center center">
-    <div layout="row" flex="100" layout-align="space-around start">
-        <div layout="row" flex="60" layout-align="space-around start" layout-xs="column" layout-align="start start" flex-xs="100">
+<div class="home-footer" layout="row" layout-align="center center" layout-xs="column" layout-align-xs="start stretch">
+    <div layout="row" flex="100" layout-align="space-around start" layout-xs="column" layout-align-xs="start stretch">
+        <div layout="row" flex="60" layout-align="space-around start" layout-align-xs="space-between start" flex-xs="40">
             <div layout="column" layout-align="start start" flex-sx="50">
 
                 <h3>get in touch</h3>
