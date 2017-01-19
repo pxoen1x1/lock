@@ -65,9 +65,9 @@
         <div layout="row">
           <a class="text-center p-xxs"
              flex
-             aria-label="{{ vm.isForgotPasswordEnabled ? 'Log In': 'Forgot your password?' }}"
+             aria-label="{{ vm.isForgotPasswordEnabled ? 'LOG_IN': 'FORGOT_YOUR_PASSWORD' | translate }}"
              ng-click="vm.isForgotPasswordEnabled = !vm.isForgotPasswordEnabled">
-            <span ng-bind="vm.isForgotPasswordEnabled ? 'Log In': 'Forgot your password?'"></span>
+            <span ng-bind="vm.isForgotPasswordEnabled ? 'LOG_IN': 'FORGOT_YOUR_PASSWORD' | translate"></span>
           </a>
         </div>
       </div>
@@ -75,8 +75,8 @@
     <md-dialog-actions layout="column" layout-align="start center" flex>
       <md-button type="submit"
                  class="md-button-blue"
-                 aria-label="{{ vm.isForgotPasswordEnabled ? 'Reset Password' : 'Log In' }}">
-        <span ng-bind="vm.isForgotPasswordEnabled ? 'Reset Password' : 'Log In'"></span>
+                 aria-label="{{ vm.isForgotPasswordEnabled ? 'RESET_PASSWORD' : 'LOG_IN' | translate }}">
+        <span ng-bind="vm.isForgotPasswordEnabled ? 'RESET_PASSWORD' : 'LOG_IN' | translate"></span>
       </md-button>
       <div class="social-buttons"
            hide-xs

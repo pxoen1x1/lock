@@ -193,7 +193,9 @@
                  'S_T_3': 'Service #3',
                  'S_T_4': 'Service #4',
                  'SPECIALIST': "Specialist",
-                 'PUBLIC': 'Public'
+                 'PUBLIC': 'Public',
+                 'FORGOT_YOUR_PASSWORD': 'Forgot your password?',
+                 'RESET_PASSWORD': 'Reset Password'
              }
          });
 })();
