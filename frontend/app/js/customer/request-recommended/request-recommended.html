@@ -31,16 +31,20 @@
             </div>
           </md-card-title-text>
           <md-card-title-media>
-            <div class="md-media-md card-media"
-                 ng-style="{ 'background-image': 'url(' + (specialist.portrait ? vm.baseUrl + specialist.portrait : vm.defaultPortrait) + ')' }">
+            <!--<div class="md-media-md card-media"-->
+                 <!--ng-style="{ 'background-image': 'url(' + (specialist.portrait ? vm.baseUrl + specialist.portrait : vm.defaultPortrait) + ')' }">-->
+            <!--</div>-->
+            <div class="avatar-wrapper">
+              <div class="profile-avatar md-media card-media"
+                   ng-style="{ 'background-image': 'url(' + (specialist.portrait ? vm.baseUrl + specialist.portrait : vm.defaultPortrait) + ')' }">
+              </div>
             </div>
           </md-card-title-media>
         </md-card-title>
         <md-card-actions layout="row" layout-align="end center">
           <md-button ng-disabled="vm.request.status !== vm.requestStatus.NEW"
-                     translate
                      ng-click="vm.createChat(specialist, vm.request)">
-            CHAT_WITH_SPECIALIST
+            <span translate>CHAT_WITH_SPECIALIST</span>
           </md-button>
         </md-card-actions>
       </md-card>

@@ -9,7 +9,7 @@
                  ng-model="vm.user.details.serviceTypes">
         <md-option ng-repeat="serviceType in vm.serviceTypes track by serviceType.id"
                    ng-value="serviceType.id">
-          <span ng-bind="serviceType.name"></span>
+          <span ng-bind="serviceType.name | translate"></span>
         </md-option>
       </md-select>
     </md-input-container>

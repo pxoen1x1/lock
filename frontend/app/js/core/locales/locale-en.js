@@ -96,7 +96,7 @@
                  'I_AGREE': 'I agree',
                  'INDIVIDUAL': 'Individual',
                  'COMPANY': 'Company',
-                 'COMPANY INFO': 'Company Info',
+                 'COMPANY_INFO': 'Company Info',
                  'AGREEMENT': 'Agreement',
                  'PERSONAL_INFO': 'Personal information',
                  'CONTACT_INFORMATION': 'Contact information',
@@ -207,7 +207,12 @@
                  'CLOSE': 'Close',
                  'AVAILABLE': 'Available',
                  'NOT_AVAILABLE_NOW': 'Not available now',
-                 'SEARCH_THE_CHAT': 'Search the chat'
+                 'SEARCH_THE_CHAT': 'Search the chat',
+                 'TYPE_AND_HIT_ENTER_TO_SEND_MESSAGE': 'Type and hit enter to send message',
+                 'TITLE': 'Title',
+                 'MESSAGES': 'Messages',
+                 'DASHBOARD': 'Dashboard',
+                 'DASHBOARD_NEW': 'New'
              }
          });
 })();
