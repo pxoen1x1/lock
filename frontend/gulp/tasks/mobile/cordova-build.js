@@ -2,22 +2,37 @@
 'use strict';
 
 var gulp = require('gulp');
-var gulpif = require('gulp-if');
-var android = require('gulp-cordova-build-android');
-var ios = require('gulp-cordova-build-ios');
+var cordova = require('cordova-lib').cordova;
 
-var config = require('../../config');
+var platforms = {
+    linux: ['android'],
+    ios: ['ios'],
+    windows: ['windows']
+};
 
-var paths = config.cordova.build;
+var buildConfig = 'Release';
+
+var buildArgs = {
+    linux: ['--' + buildConfig.toLocaleLowerCase(), '--device', '--gradleArg=--no-daemon'],
+    ios: ['--' + buildConfig.toLocaleLowerCase(), '--device'],
+    windows: ['--' + buildConfig.toLocaleLowerCase(), '--device']
+};
 
 var currentPlatform = process.platform === 'darwin' ?
     'ios' : ((process.platform === 'linux' || process.platform === 'freebsd') ?
         'linux' : 'windows');
 
-gulp.task('cordova:build', function () {
+var platformsToBuild = platforms[currentPlatform];
+var argsToBuild = buildArgs[currentPlatform];
 
-    return gulp.src(paths.src)
-        .pipe(gulpif(currentPlatform === 'linux', android({release: true})))
-        .pipe(gulpif(currentPlatform === 'ios', ios({release: true})))
-        .pipe(gulp.dest(paths.dest));
-});
+
+gulp.task('cordova:build',
+    function (callback) {
+        cordova.build({
+            'platforms': platformsToBuild,
+            'options': {
+                argv: argsToBuild
+            }
+        }, callback);
+    }
+);

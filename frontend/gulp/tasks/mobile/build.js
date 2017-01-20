@@ -18,9 +18,10 @@ gulp.task('build:mobile', function (callback) {
             'cordova:preferences',
             'cordova:version',
             'cordova:description',
-            'cordova:author',
-            'cordova:icon'
+            'cordova:author'
         ],
+        'cordova:platforms',
+        'cordova:resources',
         'cordova:build',
         callback);
 });

@@ -2,15 +2,16 @@
 'use strict';
 
 var gulp = require('gulp');
-var plugin = require('gulp-cordova-plugin');
+var cordova = require('cordova-lib').cordova;
 
 var config = require('../../config');
-
-var path = config.cordova.src;
 var plugins = config.cordova.plugins;
 
-gulp.task('cordova:plugins', function () {
+gulp.task('cordova:plugins',
+    function (callback) {
+        var dir = process.cwd() + '/mobile';
+        process.chdir(dir);
 
-    return gulp.src(path)
-        .pipe(plugin(plugins));
-});
+        cordova.plugin('add', plugins, {save: true},
+            callback);
+    });

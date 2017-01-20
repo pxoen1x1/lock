@@ -2,15 +2,15 @@
 'use strict';
 
 var gulp = require('gulp');
-var cordovaIcon = require('gulp-cordova-icon');
+var rename = require('gulp-rename');
 
 var config = require('../../config');
 
-var path = config.cordova.src;
-var icon = config.cordova.icon;
+var options = config.cordova.icon;
 
 gulp.task('cordova:icon', function () {
 
-    return gulp.src(path)
-        .pipe(cordovaIcon(icon));
+    return gulp.src(options.src)
+        .pipe(rename(options.name))
+        .pipe(gulp.dest(options.dest));
 });

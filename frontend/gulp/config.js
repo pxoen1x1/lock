@@ -113,15 +113,24 @@ module.exports = {
             www: 'http://i-deasoft.com/'
         },
         description: 'Lockheal app.',
-        icon: 'www/images/lockheal_logo.png',
-        plugins: {
-            'cordova-plugin-whitelist': 'latest',
-            'cordova-plugin-crosswalk-webview': 'latest',
-            'cordova-plugin-device': 'latest',
-            'cordova-plugin-splashscreen': 'latest',
-            'cordova-plugin-camera': 'latest',
-            'cordova-plugin-file': 'latest'
+        icon: {
+            src: 'www/images/logo.png',
+            dest: 'resources',
+            name: 'icon.png'
         },
+        splash: {
+            src:'www/images/splash.png',
+            dest: 'resources',
+            name: 'splash.png'
+        },
+        plugins: [
+            'cordova-plugin-whitelist',
+            'cordova-plugin-crosswalk-webview',
+            'cordova-plugin-device',
+            'cordova-plugin-splashscreen',
+            'cordova-plugin-camera',
+            'cordova-plugin-file'
+        ],
         preferences: {
             'FadeSplashScreen': true,
             'FadeSplashScreenDuration': 1500,
@@ -218,8 +227,12 @@ module.exports = {
         },
         mobile: {
             src: paths.mobile.src + 'www/',
-            from: '="/',
-            to: '="'
+            injectionsFrom: '="/',
+            injectionsTo: '="',
+            ngAppFrom: 'ng-app="app"',
+            ngAppTo: '',
+            scriptsFrom: '</body>',
+            scriptsTo: '<script src="cordova.js"></script><script>document.addEventListener("deviceready", function () {angular.element(document).ready(function () {angular.bootstrap(document, [\'app\']);});}, false); </script>'
         }
     },
     sass: {

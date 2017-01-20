@@ -11,6 +11,6 @@ var author = config.cordova.author;
 
 gulp.task('cordova:author', function () {
 
-    return gulp.src(path)
+    return gulp.src('./')
         .pipe(cordovaAuthor(author.name, author.email, author.www));
 });

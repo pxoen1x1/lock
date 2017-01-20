@@ -11,6 +11,6 @@ var description = config.cordova.description;
 
 gulp.task('cordova:description', function () {
 
-    return gulp.src(path)
+    return gulp.src('./')
         .pipe(cordovaDescription(description));
 });

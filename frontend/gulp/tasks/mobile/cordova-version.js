@@ -11,6 +11,6 @@ var path = config.cordova.src;
 
 gulp.task('cordova:version', function () {
 
-    return gulp.src(path)
+    return gulp.src('./')
         .pipe(version(pkg.version));
 });
