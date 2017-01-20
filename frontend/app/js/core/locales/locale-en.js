@@ -202,7 +202,8 @@
                  'VIEW': 'View',
                  'GENERAL_INFO': 'General info',
                  'CONTACT_INFO': 'Contact info',
-                 'PAYMENT_INFO': 'Payment info'
+                 'PAYMENT_INFO': 'Payment info',
+                 'THERE_ARE_NO_CARD_INFORMATION': 'There are no card information'
              }
          });
 })();
