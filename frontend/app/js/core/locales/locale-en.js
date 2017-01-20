@@ -213,7 +213,11 @@
                  'MESSAGES': 'Messages',
                  'DASHBOARD': 'Dashboard',
                  'DASHBOARD_NEW': 'New',
-                 'MEMBERS':'Members'
+                 'MEMBERS':'Members',
+                 'CORPORATE_SAVINGS_ACCOUNT': 'Corporate savings account',
+                 'CORPORATE_CHECKING_ACCOUNT': 'Corporate checking account',
+                 'SAVINGS_ACCOUNT': 'Savings account',
+                 'CHECKING_ACCOUNT': 'Checking account'
              }
          });
 })();

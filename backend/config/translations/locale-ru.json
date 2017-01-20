@@ -209,5 +209,9 @@
   "MESSAGES": "Сообщения",
   "DASHBOARD": "Список запросов",
   "DASHBOARD_NEW": "Новые",
-  "MEMBERS": "Сотрудники"
+  "MEMBERS": "Сотрудники",
+  "CORPORATE_SAVINGS_ACCOUNT": "Corporate savings account",
+  "CORPORATE_CHECKING_ACCOUNT": "Corporate checking account",
+  "SAVINGS_ACCOUNT": "Savings account",
+  "CHECKING_ACCOUNT": "Checking account"
 }
