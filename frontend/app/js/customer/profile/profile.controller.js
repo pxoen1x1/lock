@@ -198,7 +198,7 @@
             vm.isEditing = false;
             vm.isEditingCustomer = false;
             vm.isEditingCard = false;
-            if (vm.userProfile.customerData.city && vm.userProfile.customerData) {
+            if (vm.userProfile.customerData && vm.userProfile.customerData.city) {
                 vm.selectedCityItem = vm.userProfile.customerData.city;
             }
         }
