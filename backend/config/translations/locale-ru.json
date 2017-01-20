@@ -208,5 +208,6 @@
   "TITLE": "Название",
   "MESSAGES": "Сообщения",
   "DASHBOARD": "Список запросов",
-  "DASHBOARD_NEW": "Новые"
+  "DASHBOARD_NEW": "Новые",
+  "MEMBERS": "Сотрудники"
 }

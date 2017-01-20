@@ -212,7 +212,8 @@
                  'TITLE': 'Title',
                  'MESSAGES': 'Messages',
                  'DASHBOARD': 'Dashboard',
-                 'DASHBOARD_NEW': 'New'
+                 'DASHBOARD_NEW': 'New',
+                 'MEMBERS':'Members'
              }
          });
 })();

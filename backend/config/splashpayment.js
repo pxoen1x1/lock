@@ -17,10 +17,10 @@ let splashpayment = {
         funds: '/funds',
     },
     bankAccountTypes: [
-        {code: 8, name: 'Checking account'},
-        {code: 9, name: 'Savings account'},
-        {code: 10, name: 'Corporate checking account'},
-        {code: 11, name: 'Corporate savings account'}
+        {code: 8, name: 'CHECKING_ACCOUNT'},
+        {code: 9, name: 'SAVINGS_ACCOUNT'},
+        {code: 10, name: 'CORPORATE_CHECKING_ACCOUNT'},
+        {code: 11, name: 'CORPORATE_SAVINGS_ACCOUNT'}
     ],
     /**
      * Method of payment (1 = American Express, 2 = Visa, 3 = Master Card,
