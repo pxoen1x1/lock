@@ -13,12 +13,13 @@
         'coreDataservice',
         'conf',
         'usingLanguageService',
-        'citiesLoader'
+        'citiesLoader',
+        '$translate'
     ];
 
     /* @ngInject */
     function CustomerProfileController($q, coreDictionary, currentUserService, coreConstants, coreDataservice, conf,
-    usingLanguageService, citiesLoader) {
+    usingLanguageService, citiesLoader, $translate) {
         var vm = this;
 
         vm.userProfile = {};
@@ -115,6 +116,7 @@
                     vm.newPortrait = '';
                     vm.isEditing = false;
 
+                    $translate.use(user.usingLanguage.code);
                     usingLanguageService.setLanguage(vm.userProfile.usingLanguage);
 
                     return vm.userProfile;
@@ -132,9 +134,11 @@
                     return coreDataservice.getCustomer()
                         .then(function(customer){
 
-                            if(customer){
+                            if(customer && customer.length > 0){
                                 vm.userProfile.customerData = customer.customer[0];
-                                vm.selectedCityItem  = vm.userProfile.customerData.city;
+                                if (vm.userProfile.customerData.city) {
+                                    vm.selectedCityItem = vm.userProfile.customerData.city;
+                                }
                             }
 
                             return vm.userProfile;
@@ -191,10 +195,12 @@
 
         function cancelEditing() {
             vm.userProfile = angular.copy(vm.nonChangedUserProfile);
-            vm.selectedCityItem = vm.userProfile.customerData.city;
             vm.isEditing = false;
             vm.isEditingCustomer = false;
             vm.isEditingCard = false;
+            if (vm.userProfile.customerData && vm.userProfile.customerData.city) {
+                vm.selectedCityItem = vm.userProfile.customerData.city;
+            }
         }
 
         function activate() {

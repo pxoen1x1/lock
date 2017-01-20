@@ -40,8 +40,19 @@
                 color: $secondary-text-color;
               }
 
+              md-input-container {
+                margin-top: auto;
+
+                input {
+                  margin-top: -10px;
+                }
+
+                .md-errors-spacer {
+                  min-height: 0px;
+                }
+              }
+
               input {
-                padding-left: 12px;
                 height: 36px;
                 color: $secondary-text-color;
                 border: none;

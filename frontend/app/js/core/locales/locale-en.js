@@ -96,7 +96,7 @@
                  'I_AGREE': 'I agree',
                  'INDIVIDUAL': 'Individual',
                  'COMPANY': 'Company',
-                 'COMPANY INFO': 'Company Info',
+                 'COMPANY_INFO': 'Company Info',
                  'AGREEMENT': 'Agreement',
                  'PERSONAL_INFO': 'Personal information',
                  'CONTACT_INFORMATION': 'Contact information',
@@ -192,8 +192,27 @@
                  'S_T_2': 'Service #2',
                  'S_T_3': 'Service #3',
                  'S_T_4': 'Service #4',
-                 'SPECIALIST': "Specialist",
-                 'PUBLIC': 'Public'
+                 'SPECIALIST': 'Specialist',
+                 'PUBLIC': 'Public',
+                 'FORGOT_YOUR_PASSWORD': 'Forgot your password?',
+                 'RESET_PASSWORD': 'Reset Password',
+                 'ENTER_DATE': 'Enter date',
+                 'TIME': 'Time',
+                 'SETTINGS': 'Settings',
+                 'VIEW': 'View',
+                 'GENERAL_INFO': 'General info',
+                 'CONTACT_INFO': 'Contact info',
+                 'PAYMENT_INFO': 'Payment info',
+                 'THERE_ARE_NO_CARD_INFORMATION': 'There are no card information',
+                 'CLOSE': 'Close',
+                 'AVAILABLE': 'Available',
+                 'NOT_AVAILABLE_NOW': 'Not available now',
+                 'SEARCH_THE_CHAT': 'Search the chat',
+                 'TYPE_AND_HIT_ENTER_TO_SEND_MESSAGE': 'Type and hit enter to send message',
+                 'TITLE': 'Title',
+                 'MESSAGES': 'Messages',
+                 'DASHBOARD': 'Dashboard',
+                 'DASHBOARD_NEW': 'New'
              }
          });
 })();

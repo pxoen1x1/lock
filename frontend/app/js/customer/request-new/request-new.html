@@ -23,7 +23,7 @@
             <md-radio-button aria-label="{{ serviceType.name }}"
                              ng-repeat="serviceType in vm.serviceTypes track by serviceType.id"
                              ng-value="serviceType.id">
-              <span ng-bind="serviceType.name"></span>
+              <span ng-bind="serviceType.name | translate "></span>
             </md-radio-button>
           </md-radio-group>
         </div>
@@ -50,13 +50,12 @@
                flex-gt-xs="80"
                ng-if="vm.isEmergency === false">
             <mdp-date-picker name="date"
-                             mdp-placeholder="Date"
                              mdp-min-date="vm.datePickerOptions.minDate"
-                             md-placeholder="Enter date"
                              ng-required="!vm.request.forDate"
                              ng-class="{ 'has-error': requestForm.date.$invalid && requestForm.$submitted }"
                              ng-click="vm.isEmergency = false"
                              ng-model="vm.request.forDate">
+              <label translate>ENTER_DATE</label>
               <div ng-messages="requestForm.date.$error">
                 <div ng-message="format" translate>INFALID_FORMAT</div>
                 <div ng-message="minDate" translate>DATE_IS_TOO_EARLY</div>
@@ -64,12 +63,12 @@
               </div>
             </mdp-date-picker>
             <mdp-time-picker name="time"
-                             mdp-placeholder="Time"
                              mdp-auto-switch="vm.timePickerOptions.autoSwitch"
                              ng-required="!vm.request.forDate"
                              ng-class="{ 'has-error': requestForm.time.$invalid && requestForm.$submitted }"
                              ng-click="vm.isEmergency = false"
                              ng-model="vm.request.forDate">
+              <label translate>TIME</label>
               <div ng-messages="requestForm.time.$error">
                 <div ng-message="format" translate>INVALID_FORMAT</div>
               </div>

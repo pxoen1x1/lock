@@ -50,7 +50,7 @@ let UserDetailsController = {
                 (location, requests) => {
                     if (requests.length === 0) {
 
-                        return Promise.reject('Request is not found.');
+                        return;
                     }
 
                     let clientRooms = requests.map(
