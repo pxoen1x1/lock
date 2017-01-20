@@ -172,6 +172,7 @@
   "PAY_WITH_YOUR_CARD": "Оплатить картой",
   "LINK_NEW_CARD_AND_PAY": "Оплатить новой картой",
   "EXPIRATION": "Истекает",
+  "LICENSE_EXPIRATION": "Срок действия",
   "PAY": "Оплатить",
   "SELECT_CONTACT_TO_START_THE_CHAT": "Выберите собеседника, чтобы начать обсуждение",
   "CHATS": "Обсуждения",
@@ -213,5 +214,6 @@
   "CORPORATE_SAVINGS_ACCOUNT": "Corporate savings account",
   "CORPORATE_CHECKING_ACCOUNT": "Corporate checking account",
   "SAVINGS_ACCOUNT": "Savings account",
-  "CHECKING_ACCOUNT": "Checking account"
+  "CHECKING_ACCOUNT": "Checking account",
+  "SEARCH_FOR_A_GROUP_MEMBER": "Искать сотрудника"
 }

@@ -29,15 +29,15 @@
                    ng-class="{ 'disabled': vm.currentRequest.status !== vm.requestStatus.NEW }"
                    ng-if="vm.currentUser.type === vm.userType.CLIENT">
     <md-button class="md-button-blue"
-               translate
-               ng-click="vm.startChat(vm.currentBid, vm.currentRequest)">START_CHAT
+               ng-click="vm.startChat(vm.currentBid, vm.currentRequest)">
+      <span translate>START_CHAT</span>
     </md-button>
     <md-button ng-if="vm.currentBid.cost"
-               translate
-               ng-click="vm.showPaymentModal($event)">ACCEPT
+               ng-click="vm.showPaymentModal($event)">
+      <span translate>ACCEPT</span>
     </md-button>
-    <md-button translate
-               ng-click="vm.declineBid(vm.currentBid, vm.currentRequest)">DECLINE
+    <md-button ng-click="vm.declineBid(vm.currentBid, vm.currentRequest)">
+      <span translate>DECLINE</span>
     </md-button>
   </md-card-actions>
 </md-card>
