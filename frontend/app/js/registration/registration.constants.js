@@ -8,12 +8,12 @@
                 {
                     id: 1,
                     templateUrl: 'registration/specialist-registration/specialist-registration-agreement.html',
-                    title: 'agreement'
+                    title: 'AGREEMENT'
                 },
                 {
                     id: 2,
                     templateUrl: 'registration/specialist-registration/specialist-registration-profile.html',
-                    title: 'profile'
+                    title: 'PROFILE'
                 }
             ],
         });

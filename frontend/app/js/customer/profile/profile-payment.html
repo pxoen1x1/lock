@@ -10,8 +10,16 @@
             <span class="md-body-1" ng-bind="vm.userProfile.spCardNumber"></span>
         </div>
     </div>
-    <md-button ng-if="!vm.isEditingCard" class="md-button-blue" ng-click="vm.isEditingCard = true"">Edit</md-button>
-
+    <div layout="column">
+        <span class="md-body-1"
+              ng-hide="vm.userProfile.spCardNumber"
+              translate>
+            THERE_ARE_NO_CARD_INFORMATION
+        </span>
+        <div>
+            <md-button ng-if="!vm.isEditingCard" class="md-button-blue" ng-click="vm.isEditingCard = true"">Edit</md-button>
+        </div>
+    </div>
 </div>
 
 <div ng-if="vm.isEditingCard">

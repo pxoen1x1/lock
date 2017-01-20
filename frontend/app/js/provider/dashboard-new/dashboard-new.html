@@ -4,7 +4,7 @@
     <div class="container-title">
       <i class="material-icons">list</i>
       <span translate>NEW</span>
-      <span>⋅</span>
+      <span ng-if="vm.paginationOptions.totalCount.length > 0">⋅</span>
       <span ng-bind="vm.paginationOptions.totalCount"></span>
     </div>
     <div class="container-content">
@@ -61,7 +61,7 @@
               <span ng-bind="request.forDate ? (request.forDate | date: vm.dateFormat) : 'Now'"></span>
             </td>
             <td md-cell>
-              <span ng-bind="request.serviceType.name"></span>
+              <span ng-bind="request.serviceType.name | translate"></span>
             </td>
             <td md-cell>
               <span ng-bind="request.language.name ? request.language.name : '–'"></span>

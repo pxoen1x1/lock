@@ -18,7 +18,7 @@
           </i>
         </div>
         <div class="title">
-          <span ng-bind="$state.get(tabBarItem).data.tab.title"></span>
+          <span ng-bind="$state.get(tabBarItem).data.tab.title | translate"></span>
         </div>
       </div>
       <div layout="row"
@@ -30,7 +30,7 @@
            ng-bind="$state.get(tabBarItem).data.tab.icon">
         </i>
         <span class="vertical-middle"
-              ng-bind="$state.get(tabBarItem).data.tab.title">
+              ng-bind="$state.get(tabBarItem).data.tab.title | translate">
         </span>
       </span>
       </div>

@@ -57,7 +57,7 @@
             </div>
             <div class="md-subhead status"
                  ng-class="{ 'not-available': !vm.selectedSpecialist.details.isAvailable }"
-                 ng-bind="vm.selectedSpecialist.details.isAvailable ? 'available' : 'not available now'">
+                 ng-bind="vm.selectedSpecialist.details.isAvailable ? 'AVAILABLE' : 'NOT_AVAILABLE_NOW' | translate">
             </div>
           </div>
 

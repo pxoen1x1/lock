@@ -97,7 +97,7 @@
           <div class="">
             <span class="md-body-1"
                   ng-repeat="serviceType in vm.member.details.serviceTypes track by serviceType.id"
-                  ng-bind="serviceType.name + '{{ $last ? '' : ', '}}'">
+                  ng-bind="{{serviceType.name | translate}} + '{{ $last ? '' : ', '}}'">
             </span>
           </div>
         </div>
