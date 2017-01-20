@@ -24,9 +24,8 @@
         </span>
         <md-button class="md-raised"
                    ng-if="!$mdMedia('gt-md')"
-                   ng-click="vm.toggleSidenav('left-sidenav')"
-                   translate>
-          SELECT_CONTACT_TO_START_THE_CHAT
+                   ng-click="vm.toggleSidenav('left-sidenav')">
+          <span translate>SELECT_CONTACT_TO_START_THE_CHAT</span>
         </md-button>
       </div>
       <chat-messages flex

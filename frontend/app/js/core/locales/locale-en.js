@@ -192,7 +192,7 @@
                  'S_T_2': 'Service #2',
                  'S_T_3': 'Service #3',
                  'S_T_4': 'Service #4',
-                 'SPECIALIST': "Specialist",
+                 'SPECIALIST': 'Specialist',
                  'PUBLIC': 'Public',
                  'FORGOT_YOUR_PASSWORD': 'Forgot your password?',
                  'RESET_PASSWORD': 'Reset Password',
@@ -203,7 +203,11 @@
                  'GENERAL_INFO': 'General info',
                  'CONTACT_INFO': 'Contact info',
                  'PAYMENT_INFO': 'Payment info',
-                 'THERE_ARE_NO_CARD_INFORMATION': 'There are no card information'
+                 'THERE_ARE_NO_CARD_INFORMATION': 'There are no card information',
+                 'CLOSE': 'Close',
+                 'AVAILABLE': 'Available',
+                 'NOT_AVAILABLE_NOW': 'Not available now',
+                 'SEARCH_THE_CHAT': 'Search the chat'
              }
          });
 })();

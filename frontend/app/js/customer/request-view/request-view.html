@@ -64,17 +64,17 @@
                     'in-progress': vm.request.status === vm.requestStatus.IN_PROGRESS || vm.request.status === vm.requestStatus.DONE,
                     'closed': vm.request.status === vm.requestStatus.CLOSED
                   }">
-              <span ng-bind="vm.requestStatus[vm.request.status]">
+              <span ng-bind="vm.requestStatus[vm.request.status] | translate">
               </span>
             </div>
           </div>
           <div class="info-column"
                layout="row">
             <div>
-              <b>NEEDED_SERVICE</b><b>:</b>
+              <b translate>NEEDED_SERVICE</b><b>:</b>
             </div>
             <div class="text-right" flex>
-              <span ng-bind="vm.request.serviceType.name"></span>
+              <span ng-bind="vm.request.serviceType.name | translate"></span>
             </div>
           </div>
           <div class="info-column"

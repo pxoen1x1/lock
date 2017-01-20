@@ -195,9 +195,13 @@
   "ENTER_DATE": "Введите дату",
   "TIME": "Время",
   "SETTINGS": "Настройки",
-  "VIEW": "Показать",
+  "VIEW": "Подробности",
   "GENERAL_INFO": "Общая информация",
   "CONTACT_INFO": "Контактная информация",
   "PAYMENT_INFO": "Финансовая информация",
-  "THERE_ARE_NO_CARD_INFORMATION": "Нет информации о платёжной карте"
+  "THERE_ARE_NO_CARD_INFORMATION": "Нет информации о платёжной карте",
+  "CLOSE": "Отменить",
+  "AVAILABLE": "Свободен",
+  "NOT_AVAILABLE_NOW": "Недоступен сейчас",
+  "SEARCH_THE_CHAT": "Искать"
 }

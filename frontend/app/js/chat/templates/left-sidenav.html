@@ -9,10 +9,12 @@
            layout="row"
            layout-align="start center">
         <i class="material-icons s18">search</i>
-        <input type="text"
-               placeholder="Search the chat"
-               flex
-               ng-model="vm.chatSearch">
+        <md-input-container>
+          <label translate>SEARCH_THE_CHAT</label>
+          <input type="text"
+                 flex
+                 ng-model="vm.chatSearch">
+        </md-input-container>
       </div>
     </div>
   </div>

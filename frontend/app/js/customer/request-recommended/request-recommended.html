@@ -27,7 +27,7 @@
             </div>
             <div class="md-subhead status"
                  ng-class="{'not-available': !specialist.details.isAvailable}"
-                 ng-bind="specialist.details.isAvailable ? 'available':'not available now'">
+                 ng-bind="specialist.details.isAvailable ? 'AVAILABLE':'NOT_AVAILABLE_NOW' | translate">
             </div>
           </md-card-title-text>
           <md-card-title-media>
