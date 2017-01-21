@@ -11,6 +11,6 @@ var preferences = config.cordova.preferences;
 
 gulp.task('cordova:preferences', function () {
 
-    return gulp.src('./')
+    return gulp.src(path)
         .pipe(preference(preferences));
 });

@@ -12,15 +12,14 @@ gulp.task('build:mobile', function (callback) {
         'delete:mobile',
         'build:app:production',
         'cordova:create',
-        'prepare:index:mobile',
         [
+            'prepare:index:mobile',
             'cordova:plugins',
             'cordova:preferences',
             'cordova:version',
             'cordova:description',
             'cordova:author'
         ],
-        'cordova:platforms',
         'cordova:resources',
         'cordova:build',
         callback);
