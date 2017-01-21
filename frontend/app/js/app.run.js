@@ -40,8 +40,9 @@
                 cfpLoadingBar.complete();
                 event.preventDefault();
 
-                usingLanguageService.showUsingLanguageModal()
-                    .finally(function () {
+                return usingLanguageService.showUsingLanguageModal()
+                    .then(function () {
+
                         $state.go(toState.name);
                     });
             }
@@ -51,13 +52,20 @@
                 event.preventDefault();
 
                 toastService.warning('Please log in.');
+
+                if (toState.name !== 'home') {
+
+                    $state.go('home');
+                }
+
+                return;
             }
 
             if (toState.name === 'login') {
                 cfpLoadingBar.complete();
                 event.preventDefault();
 
-                $mdDialog.show({
+                return $mdDialog.show({
                     templateUrl: 'core/login/login.html',
                     controller: 'LoginController',
                     controllerAs: 'vm',
@@ -69,7 +77,7 @@
                 cfpLoadingBar.complete();
                 event.preventDefault();
 
-                $mdDialog.show({
+                return $mdDialog.show({
                     templateUrl: 'customer/invite/invite.html',
                     controller: 'CustomerInviteController',
                     controllerAs: 'vm'
