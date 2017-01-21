@@ -127,6 +127,7 @@ module.exports = {
             'cordova-plugin-whitelist',
             'cordova-plugin-crosswalk-webview',
             'cordova-plugin-device',
+            'cordova-plugin-statusbar',
             'cordova-plugin-splashscreen',
             'cordova-plugin-camera',
             'cordova-plugin-file'
@@ -135,6 +136,7 @@ module.exports = {
             'FadeSplashScreen': true,
             'FadeSplashScreenDuration': 1500,
             'AutoHideSplashScreen': true,
+            'SplashScreen': 'screen',
             'ShowSplashScreenSpinner': false
         }
     },
