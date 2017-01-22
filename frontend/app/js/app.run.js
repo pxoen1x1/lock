@@ -30,7 +30,6 @@
 
         $rootScope.$state = $state;
         $rootScope.$mdMedia = $mdMedia;
-        $rootScope.conf = conf;
 
         $rootScope.$on('$stateChangeStart', function (event, toState) {
             cfpLoadingBar.start();
