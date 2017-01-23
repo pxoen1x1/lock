@@ -14,14 +14,12 @@
         'socketService',
         'authService',
         'usingLanguageService',
-        'toastService',
-        'coreConstants',
-        'conf'
+        'toastService'
     ];
 
     /* @ngInject */
     function runApp($rootScope, $state, $mdDialog, $mdMedia, cfpLoadingBar,
-                    socketService, authService, usingLanguageService, toastService, coreConstants, conf) {
+                    socketService, authService, usingLanguageService, toastService) {
         socketService.onConnect(function () {
             if (authService.isAuthenticated()) {
                 socketService.subscribe();
