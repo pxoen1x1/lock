@@ -93,10 +93,7 @@ let UserService = {
     },
     create(user) {
 
-        return User.create(user)
-            .then(
-                (createdUser) => createdUser
-            );
+        return User.create(user);
     },
     updateUser(user) {
 
