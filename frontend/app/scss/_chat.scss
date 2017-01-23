@@ -663,8 +663,18 @@
           }
         }
 
-        .chat .chat-content .service-message .message-content .price .value {
-          font-size: 27px;
+        .chat {
+          .chat-content {
+            .service-message {
+              .message-content {
+                .price {
+                  .value {
+                    font-size: 27px;
+                  }
+                }
+              }
+            }
+          }
         }
 
       }
