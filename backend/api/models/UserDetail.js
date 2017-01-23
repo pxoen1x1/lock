@@ -23,6 +23,10 @@ let UserDetail = {
             defaultsTo: false,
             columnName: 'is_pro'
         },
+        carLicensePlateNumber: {
+            type: 'string',
+            columnName: 'car_license_plate_number'
+        },
         latitude: {
             type: 'float',
             is: /^(\+|-)?(?:90(?:(?:\.0{1,6})?)|(?:[0-9]|[1-8][0-9])(?:(?:\.[0-9]*)?))$/

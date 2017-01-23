@@ -28,7 +28,8 @@ let getUsersRawQuery = `SELECT  user.id,
                     address_state.state AS 'address.state.state',
                     address_state.code AS 'address.state.code',
                     details.id AS 'details.id',
-                    details.is_available AS 'details.isAvailable'
+                    details.is_available AS 'details.isAvailable',
+                    details.car_license_plate_number AS 'details.carLicensePlateNumber'
             FROM users as user
             LEFT JOIN auth ON auth.user = user.id
             LEFT JOIN addresses AS address ON address.user_id = user.id

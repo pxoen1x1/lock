@@ -55,6 +55,8 @@ let getChatsRawQuery = `SELECT chat.id,
                        request_executor_details.id AS 'request.executor.details.id',
                        request_executor_details.is_available AS 'request.executor.details.isAvailable',
                        request_executor_details.is_pro AS 'request.executor.details.isPro',
+                       request_executor_details.car_license_plate_number AS
+                            'request.executor.details.carLicensePlateNumber',
                        request_executor_details.latitude AS 'request.executor.details.latitude',
                        request_executor_details.longitude AS 'request.executor.details.longitude',
                        request_executor_details.rating AS 'request.executor.details.rating',
