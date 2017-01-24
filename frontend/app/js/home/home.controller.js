@@ -22,7 +22,6 @@
             forDate: null
         };
 
-        vm.submit = submit;
         vm.feedbacksDataArray= [
             {
                 txt: 'asda sdas das dasd'
@@ -41,9 +40,11 @@
 
         vm.createdRequest = null;
 
+        vm.locationAutocompleteSelector = 'gmaps_autocomplete';
         vm.locationAutocomplete = {};
         vm.initAutocomplete = initAutocomplete;
         vm.hireSpecialist = hireSpecialist;
+        vm.submit = submit;
 
         activate();
 
@@ -55,8 +56,8 @@
                 return;
             }
 
-            let auth = {};
-            let user = {};
+            var auth = {};
+            var user = {};
             auth.email = newRequest.email;
 
             user.firstName = newRequest.name;
@@ -143,19 +144,23 @@
         }
 
         function initAutocomplete() {
-            geocoderService.initLocationAutocomplete('gmaps_autocomplete')
+            var locationAutocompleteInput = document.getElementById(vm.locationAutocompleteSelector);
+
+            geocoderService.initLocationAutocomplete(vm.locationAutocompleteSelector)
                 .then(function (locationAutocomplete) {
                     vm.locationAutocomplete = locationAutocomplete;
 
-                    vm.locationAutocomplete.addListener("place_changed", function () {
+                    vm.locationAutocomplete.addListener('place_changed', function () {
 
-                        let place = vm.locationAutocomplete.getPlace();
+                        var place = vm.locationAutocomplete.getPlace();
 
                         if (place) {
                             vm.request.location.address = place.formatted_address;
                             vm.request.location.latitude = place.geometry.location.lat();
                             vm.request.location.longitude = place.geometry.location.lng();
                         }
+
+                        locationAutocompleteInput.focus(); // patch, watch doesn't call function without this line
                     });
 
                     return vm.locationAutocomplete;

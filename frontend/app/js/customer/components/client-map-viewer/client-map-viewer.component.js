@@ -77,8 +77,8 @@
         vm.map = {
             events: {},
             center: {
-                latitude: null,
-                longitude: null
+                latitude: coreConstants.DEFAULT_MAP_AREA.latitude,
+                longitude:coreConstants.DEFAULT_MAP_AREA.longitude
             },
             control: {},
             options: {
@@ -207,7 +207,7 @@
             requestLocationMarker.longitude = request.location.longitude;
             requestLocationMarker.text = request.location.address;
 
-            vm.map.markers.push(requestLocationMarker);
+            vm.map.markers[0] = requestLocationMarker ;
 
             if (request.status !== vm.requestStatus.IN_PROGRESS || vm.isSpecialistHidden) {
                 setMapCenter(request.location.latitude, request.location.longitude);
@@ -379,6 +379,15 @@
                             setMapCenter(vm.currentRequest.location.latitude, vm.currentRequest.location.longitude);
                             stopLocationEventListener(locationHandler);
                         }
+                    });
+
+                    $scope.$watch('vm.currentRequest.location.address', function (newLocation, oldLocation) {
+                        if(newLocation === oldLocation) {
+
+                            return;
+                        }
+
+                        setRequestMarker(vm.currentRequest);
                     });
                 });
 

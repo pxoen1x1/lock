@@ -85,6 +85,11 @@ $title-color: #8e8e8e;
       border-radius: 10px 0 0 10px;
     }
 
+    md-input-container.location input{
+      border-left: 1px solid;
+      border-color: #ddd;
+    }
+
     md-input-container {
       height: 36px;
       padding: 0;
@@ -92,13 +97,13 @@ $title-color: #8e8e8e;
       background-color: #fff;
       position: relative;
 
-      input, .md-select-value {
+      input {
         border-width: 0 1px 0 0;
+        border-color: #ddd;
         height: 36px;
         padding: 0 20px;
-
-
       }
+
       input#input_5 {
         border-width: 0 0 0 1px;
       }
@@ -109,6 +114,14 @@ $title-color: #8e8e8e;
         position: absolute;
         right: 5%;
         top: 10px;
+      }
+
+      md-select {
+        height: 36px;
+
+        .md-select-value{
+          border: none;
+        }
       }
 
       @include placeholder {
