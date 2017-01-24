@@ -78,7 +78,7 @@
             events: {},
             center: {
                 latitude: coreConstants.DEFAULT_MAP_AREA.latitude,
-                longitude:coreConstants.DEFAULT_MAP_AREA.longitude
+                longitude: coreConstants.DEFAULT_MAP_AREA.longitude
             },
             control: {},
             options: {
@@ -146,6 +146,10 @@
 
             if (!boundsOfDistance) {
                 boundsOfDistance = getBoundsOfDistance(vm.currentRequest);
+                if(!boundsOfDistance) {
+
+                    return;
+                }
             }
 
             var bounds = gMarker.getBounds();
