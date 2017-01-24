@@ -130,7 +130,8 @@ module.exports = {
             'cordova-plugin-statusbar',
             'cordova-plugin-splashscreen',
             'cordova-plugin-camera',
-            'cordova-plugin-file'
+            'cordova-plugin-file',
+            'cordova-plugin-geolocation'
         ],
         preferences: {
             'FadeSplashScreen': true,
