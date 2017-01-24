@@ -203,7 +203,7 @@
   "GENERAL_INFO": "General info",
   "CONTACT_INFO": "Contact info",
   "PAYMENT_INFO": "Payment info",
-  "THERE_ARE_NO_CARD_INFORMATION": "There are no card information",
+  "THERE_IS_NO_CARD_INFORMATION": "There is no card information",
   "CLOSE": "Close",
   "AVAILABLE": "Available",
   "NOT_AVAILABLE_NOW": "Not available now",
