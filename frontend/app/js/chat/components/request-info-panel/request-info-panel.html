@@ -26,7 +26,7 @@
            layout-align="end none">
         <div><span translate>FOR_DATE</span>:</div>
         <div flex
-             ng-bind="vm.selectedRequest.forDate ? (vm.selectedRequest.forDate | date: vm.dateFormat) : 'Now'">
+             ng-bind="vm.selectedRequest.forDate ? (vm.selectedRequest.forDate | date: vm.dateFormat) : 'NOW' | translate">
         </div>
       </div>
       <div layout="row"

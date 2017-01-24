@@ -39,7 +39,7 @@
                      max-size="{{ vm.fileUploaderOptions.maxFileSize }}"
                      selected-file-src="vm.newPortrait">
             <i class="material-icons vertical-middle">photo_camera</i>
-            <span class="verical-middle" translate>CHANGE_PHOTO</span>
+            <span class="vertical-middle" translate>CHANGE_PHOTO</span>
           </md-button>
           <md-button ng-if="!vm.isEditing"
                      class="md-button-blue"
@@ -60,20 +60,23 @@
         <div style="width: 100%;" ng-cloak>
           <md-content>
             <md-tabs md-dynamic-height md-border-bottom>
-              <md-tab label="General info">
-                <md-content class="md-padding">
+              <md-tab>
+                <md-tab-label translate>GENERAL_INFO</md-tab-label>
+                <md-tab-body class="md-padding">
                   <div ng-include="'group/profile/profile-general.html'"></div>
-                </md-content>
+                </md-tab-body>
               </md-tab>
-              <md-tab label="Company info">
-                <md-content class="md-padding">
+              <md-tab>
+                <md-tab-label translate>COMPANY_INFO</md-tab-label>
+                <md-tab-body class="md-padding">
                   <div ng-include="'group/profile/profile-merchant-info.html'"></div>
-                </md-content>
+                </md-tab-body>
               </md-tab>
-              <md-tab label="Bank account">
-                <md-content class="md-padding">
+              <md-tab>
+                <md-tab-label translate>BANK_ACCOUNT</md-tab-label>
+                <md-tab-body class="md-padding">
                   <div ng-include="'group/profile/profile-bank-account.html'"></div>
-                </md-content>
+                </md-tab-body>
               </md-tab>
             </md-tabs>
           </md-content>

@@ -58,10 +58,10 @@
               </div>
             </td>
             <td md-cell>
-              <span ng-bind="request.forDate ? (request.forDate | date: vm.dateFormat) : 'Now'"></span>
+              <span ng-bind="request.forDate ? (request.forDate | date: vm.dateFormat) : 'NOW' | translate"></span>
             </td>
             <td md-cell>
-              <span ng-bind="request.serviceType.name"></span>
+              <span ng-bind="request.serviceType.name | translate"></span>
             </td>
             <td md-cell>
               <span ng-bind="request.language.name ? request.language.name : '–'"></span>
@@ -121,7 +121,7 @@
                flex="50">
             <div>
               <span class="md-body-2" translate>TYPE_OF_SERVICE</span>:
-              <span class="md-body-1" ng-bind="request.serviceType.name"></span>
+              <span class="md-body-1" ng-bind="request.serviceType.name | translate"></span>
             </div>
             <div ng-if="request.language.name">
               <span class="md-body-2" translate>LANGUAGE</span>:
@@ -135,7 +135,7 @@
             <div>
               <span class="md-body-2" translate>FOR_DATE</span>:
               <span class="md-body-1"
-                    ng-bind="request.forDate ? (request.forDate | date: vm.dateFormat) : 'Now'">
+                    ng-bind="request.forDate ? (request.forDate | date: vm.dateFormat) : 'NOW' | translate">
               </span>
             </div>
             <div ng-if="request.location">
