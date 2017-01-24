@@ -37,13 +37,13 @@
 
         vm.serviceTypes = [];
         vm.newRequest = {};
+        vm.specialistId = null;
 
         vm.createdRequest = null;
 
         vm.locationAutocomplete = {};
         vm.initAutocomplete = initAutocomplete;
         vm.hireSpecialist = hireSpecialist;
-
 
         activate();
 
@@ -142,16 +142,16 @@
                 });
         }
 
-        function initAutocomplete(){
+        function initAutocomplete() {
             geocoderService.initLocationAutocomplete('gmaps_autocomplete')
-                .then(function(locationAutocomplete){
+                .then(function (locationAutocomplete) {
                     vm.locationAutocomplete = locationAutocomplete;
 
-                    vm.locationAutocomplete.addListener("place_changed", function() {
+                    vm.locationAutocomplete.addListener("place_changed", function () {
 
                         let place = vm.locationAutocomplete.getPlace();
 
-                        if(place) {
+                        if (place) {
                             vm.request.location.address = place.formatted_address;
                             vm.request.location.latitude = place.geometry.location.lat();
                             vm.request.location.longitude = place.geometry.location.lng();
@@ -160,13 +160,11 @@
 
                     return vm.locationAutocomplete;
                 });
-
         }
 
         function hireSpecialist(specialist) {
-            console.log(specialist);
-            console.log('aaaaaaa');
-            //vm.specialistId = specialist.id;
+
+            vm.specialistId = specialist.id;
         }
 
 

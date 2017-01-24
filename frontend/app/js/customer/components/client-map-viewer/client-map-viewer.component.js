@@ -102,10 +102,11 @@
                 }
             },
             markers: [],
-            zoom: 16,
+            zoom: 16
         };
 
         vm.requestStatus = coreConstants.REQUEST_STATUSES;
+        vm.hire = hire;
 
         activate();
 
@@ -253,9 +254,9 @@
             }
         }
 
-        function hireSpecialist(specialist) {
+        function hire(specialist) {
 
-            vm.hireSpecialist({specialist: 'vvvvvvv'});
+            vm.hireSpecialist({specialist: specialist});
         }
 
         function setMapCenter(latitude, longitude) {
@@ -323,7 +324,7 @@
 
                 setMapCenter(leg.start_location.lat(), leg.start_location.lng());
 
-                vm.selectedSpecialist.distance = leg.distance.value/1000 * coreConstants.DISTANCE.toMile;
+                vm.selectedSpecialist.distance = leg.distance.value / 1000 * coreConstants.DISTANCE.toMile;
                 vm.selectedSpecialist.duration = leg.duration;
             });
         }
