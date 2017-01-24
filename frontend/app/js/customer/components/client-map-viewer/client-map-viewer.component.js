@@ -11,7 +11,8 @@
             mapOptions: '<?',
             isSpecialistHidden: '@',
             selectedSpecialist: '=?',
-            showSpecialistInfo: '&?'
+            showSpecialistInfo: '&?',
+            hireSpecialist: '&?'
         }
     };
 
@@ -25,12 +26,13 @@
         'uiGmapIsReady',
         'coreConstants',
         'customerDataservice',
-        'geocoderService'
+        'geocoderService',
+        'conf'
     ];
 
     /* @ngInject */
     function ClientMapViewerController($scope, $window, uiGmapIsReady, coreConstants, customerDataservice,
-                                       geocoderService) {
+                                       geocoderService, conf) {
         var promises = {
             findSpecialists: null
         };
@@ -87,10 +89,10 @@
             specialistMarker: {
                 options: {
                     icon: {
-                        url: '/images/map-marker-locksmith.png',
+                        url: '/images/location.png',
                         scaledSize: {
-                            width: 50,
-                            height: 50
+                            width: 28,
+                            height: 41
                         }
                     },
                     animation: 2
@@ -242,14 +244,18 @@
         }
 
         function showSpecialistInfo(marker, eventName, model) {
-            if (!vm.showSpecialistInfo) {
-
-                return;
-            }
 
             vm.selectedSpecialist = angular.extend(vm.selectedSpecialist, model.control);
 
-            vm.showSpecialistInfo({selectedSpecialist: vm.selectedSpecialist});
+            if (vm.showSpecialistInfo) {
+
+                vm.showSpecialistInfo({selectedSpecialist: vm.selectedSpecialist});
+            }
+        }
+
+        function hireSpecialist(specialist) {
+
+            vm.hireSpecialist({specialist: 'vvvvvvv'});
         }
 
         function setMapCenter(latitude, longitude) {

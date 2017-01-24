@@ -21,15 +21,28 @@ let AuthController = waterlock.waterlocked({
         let params = req.allParams();
         let auth = params.auth;
 
-        if ((!auth || !auth.password || !auth.email) ||
-            (!auth.user || !auth.user.firstName || !auth.user.lastName || !auth.user.phoneNumber)) {
+
+        if ((!auth || !auth.email) ||
+            (!auth.user || !auth.user.firstName || !auth.user.lastName)) { // || !auth.user.phoneNumber
 
             return res.badRequest({
                 message: req.__('Submitted data is invalid.')
             });
         }
 
-        AuthService.register(auth)
+        if(!auth.password){
+            var generator = require('generate-password');
+
+            var password = generator.generate({
+                length: 10,
+                numbers: true
+            });
+
+            auth.password = password;
+        }
+
+        MailerService.generatedPassword(auth.password, auth.email)
+        .then(() => AuthService.register(auth))
             .then(
                 (createdUser) => {
                     if (createdUser.details) {

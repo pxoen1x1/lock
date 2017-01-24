@@ -1,26 +1,22 @@
 <div layout="row" class="home-header" layout-xs="column">
     <div flex="20" layout="row" layout-align="center center" layout-xs="column" flex-xs="20">
         <div>
-            <img src="images/logo.png">
+            <img src="/images/logo.png">
         </div>
     </div>
-    <div flex="80" layout="row" layout-align="end top" layout-xs="column" layout-align-xs="start center" flex-xs="80">
+    <div ng-if="!vm.isAuthenticated()" flex="80" layout="row" layout-align="end top" layout-xs="column"
+         layout-align-xs="start center" flex-xs="80">
         <md-nav-bar md-selected-nav-item="currentNavItem" nav-bar-aria-label="navigation links">
             <md-nav-item md-nav-click="goto('page1')" name="page1">How it works</md-nav-item>
             <md-nav-item md-nav-click="goto('page2')" name="page2">FAQ</md-nav-item>
-            <md-nav-item md-nav-click="goto('page3')" name="page3">Sign up</md-nav-item>
-            <md-nav-item md-nav-click="goto('page4')" name="page4">Register</md-nav-item>
-            <md-nav-item md-nav-click="goto('page5')" name="page5"><img src="images/button_join_as_a_locksmith.png">
+            <md-nav-item md-nav-sref="login">Sign in</md-nav-item>
+            <md-nav-item md-nav-sref="registration.customer" name="customer">Register</md-nav-item>
+            <md-nav-item md-nav-sref="registration.provider" name="provider">
+                <img src="/images/button_join_as_a_locksmith.png">
             </md-nav-item>
         </md-nav-bar>
 
-        <!--        <md-button class="md-icon-button button-menu"
-                           hide-xs hide-gt-sm ng-click="vm.toggleMenu()"
-                           aria-label="Menu">
-                    <md-icon>menu</md-icon>
-                </md-button>-->
-
-        <img src="images/button_watch video button.png" hide show-xs>
+        <a href="#"><img src="/images/button_watch video button.png" hide show-xs></a>
 
     </div>
 </div>
@@ -32,7 +28,7 @@
 
         <h2>The best specialists in the shortest possible time</h2>
 
-        <img src="images/button_watch video button.png" hide show-gt-xs>
+        <a href="#"><img src="/images/button_watch video button.png" hide show-gt-xs></a>
 
     </div>
 
@@ -42,25 +38,53 @@
               novalidate layout="row" layout-xs="column"
               ng-submit="vm.submit(vm.newRequest, newRequestForm.$valid)">
             <md-input-container class="md-block" flex-gt-sm>
-                <label>Name</label>
+                <label>First Name</label>
                 <input ng-model="vm.newRequest.name">
             </md-input-container>
             <md-input-container class="md-block" flex-gt-sm>
-                <input placeholder="Email" ng-model="vm.newRequest.email">
+                <label>Last Name</label>
+                <input ng-model="vm.newRequest.lastName">
+            </md-input-container>
+            <!--<md-input-container class="md-block" flex-gt-sm>
+                <label>Phone</label>
+                <input ng-model="vm.newRequest.phone">
+            </md-input-container>-->
+            <md-input-container class="md-block" flex-gt-sm>
+                <input  email-validation
+                        availability-validation
+                        placeholder="Email" ng-model="vm.newRequest.email" name="email" type="email">
+                <div ng-messages="newRequestForm.email.$error">
+                    <div ng-message="email">That doesn't look like a valid email.</div>
+                    <div ng-message="availability">This email already exists.</div>
+                </div>
             </md-input-container>
 
             <md-input-container class="md-block" flex-gt-sm>
                 <label>Service</label>
-                <md-select ng-model="vm.newRequest.service">
-                    <md-option ng-repeat="state in states" value="{{state.abbrev}}" layout-xs="column">
-                        {{state.abbrev}}
+                <md-select ng-model="vm.newRequest.service"
+                           ng-model-options="{trackBy: '$value.id'}">
+                    <md-option ng-repeat="serviceType in vm.serviceTypes track by serviceType.id"
+                               ng-value="serviceType" layout-xs="column">
+                        <span ng-bind="serviceType.name"></span>
                     </md-option>
                 </md-select>
+                <!--<md-select aria-label="Services"
+                           multiple
+                           ng-model-options="{trackBy: '$value.id'}"
+                           ng-model="vm.userProfile.details.serviceTypes">
+                    <md-option ng-repeat="serviceType in vm.serviceTypes track by serviceType.id"
+                               ng-value="serviceType">
+                        <span ng-bind="serviceType.name"></span>
+                    </md-option>
+                </md-select>-->
             </md-input-container>
 
-            <md-input-container class="md-block" flex-gt-sm>
-                <input placeholder="Location" ng-model="vm.newRequest.location">
+            <md-input-container class="md-block" flex-gt-sm layout="row">
+                <input id="gmaps_autocomplete" ng-init="vm.initAutocomplete()" placeholder="Location" ng-model="vm.newRequest.location">
+                <i class="material-icons">place</i>
             </md-input-container>
+
+
 
             <button type="submit"
                     aria-label="Send a request"
@@ -73,8 +97,17 @@
     </div>
 </div>
 
-<div class="home-map">
-    <img src="images/home-map.png"/>
+<div class="home-map" layout="row">
+    <div class="map-wrapper" layout="column" flex>
+        <!--<img src="/images/home-map.png"/>-->
+        <client-map-viewer class="map-viewer"
+                           flex
+                           current-request="vm.request"
+                           hire-specialist="vm.hireSpecialist(specialist)"
+        ><!--show-specialist-info="vm.showSelectedSpecialistInfo(selectedSpecialist)"
+                           selected-specialist="vm.selectedSpecialist"-->
+        </client-map-viewer>
+    </div>
 </div>
 
 <div class="home-apps" layout="row" layout-align="center center">
@@ -83,8 +116,8 @@
             <span>download our app</span>
         </div>
         <div>
-            <img src="images/appstore.png"/>
-            <img src="images/googleplay.png"/>
+            <img src="/images/appstore.png"/>
+            <img src="/images/googleplay.png"/>
         </div>
     </div>
 </div>
@@ -95,21 +128,21 @@
     </div>
     <div layout="row" layout-align="space-around start">
         <div layout="column" layout-align="start center" flex="25">
-            <img src="images/icon_send_a_reaquest.png"/>
+            <img src="/images/icon_send_a_reaquest.png"/>
 
             <h3 layout-align="center">send a request</h3>
 
             <span hide-xs>sdasda sdasda s asd asdas asdas asdasdasd asdasd as </span>
         </div>
         <div layout="column" layout-align="start center" flex="25">
-            <img src="images/icon_choose_a_locksmith.png"/>
+            <img src="/images/icon_choose_a_locksmith.png"/>
 
             <h3>choose a locksmith</h3>
 
             <span hide-xs>sdasda sdasda s asd asdas asdas asdasdasd asdasd as</span>
         </div>
         <div layout="column" layout-align="start center" flex="25">
-            <img src="images/icon_get_it_done.png"/>
+            <img src="/images/icon_get_it_done.png"/>
 
             <h3>get it done</h3>
 
@@ -132,13 +165,13 @@
             </div>
         </div>
         <div layout="row" layout-align="end" layout-align-xs="start" flex="60" flex-xs="40">
-            <img src="images/icon_advanteges.png"/>
+            <img src="/images/icon_advanteges.png"/>
         </div>
     </div>
 
     <div layout="row" class="item">
         <div flex="60" layout="row" layout-align="start" layout-align-xs="end" flex-xs="40">
-            <img src="images/icon_same_day_help.png"/>
+            <img src="/images/icon_same_day_help.png"/>
         </div>
         <div layout="row" flex="40" layout-align="start" flex-xs="60">
             <div layout="column" layout-align="center start" flex="50" flex-xs="100">
@@ -159,7 +192,7 @@
             </div>
         </div>
         <div flex="60" layout="row" layout-align="end" layout-align-xs="start" flex-xs="40">
-            <img src="images/icon_trust_and_safe.png"/>
+            <img src="/images/icon_trust_and_safe.png"/>
         </div>
     </div>
 </div>
@@ -167,8 +200,8 @@
 <div class="home-feedbacks" layout="column" layout-align="center center">
     <md-card layout="row" layout-align="center center">
         <jk-carousel
-                data="vm.dataArray"
-                item-template-url="'home/carousel-item-template.html'"
+                data="vm.feedbacksDataArray"
+                item-template-url="'home/feedback-item-template.html'"
                 max-width="800"
                 ng-attr-max-height="{{$mdMedia('gt-xs') && '260' || '' }}"
                 auto-slide="false">
@@ -187,7 +220,8 @@
 
 <div class="home-footer" layout="row" layout-align="center center" layout-xs="column" layout-align-xs="start stretch">
     <div layout="row" flex="100" layout-align="space-around start" layout-xs="column" layout-align-xs="start stretch">
-        <div layout="row" flex="60" layout-align="space-around start" layout-align-xs="space-between start" flex-xs="40">
+        <div layout="row" flex="60" layout-align="space-around start" layout-align-xs="space-between start"
+             flex-xs="40">
             <div layout="column" layout-align="start start" flex-sx="50">
 
                 <h3>get in touch</h3>
@@ -197,8 +231,8 @@
             </div>
             <div layout="column" class="apps" layout-align="start center" flex-sx="50">
                 <h3>download our app</h3>
-                <img src="images/appstore.png"/>
-                <img src="images/googleplay.png"/>
+                <img src="/images/appstore.png"/>
+                <img src="/images/googleplay.png"/>
             </div>
         </div>
         <div layout="column" flex="30" flex-xs="100">
@@ -206,11 +240,11 @@
                 <h3>we are social</h3>
             </div>
             <div layout="row">
-                <img src="images/facebook.png"/>
-                <img src="images/twitter.png"/>
-                <img src="images/google+.png"/>
-                <img src="images/instagram.png"/>
-                <img src="images/youtube.png"/>
+                <img src="/images/facebook.png"/>
+                <img src="/images/twitter.png"/>
+                <img src="/images/google+.png"/>
+                <img src="/images/instagram.png"/>
+                <img src="/images/youtube.png"/>
             </div>
         </div>
     </div>

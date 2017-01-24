@@ -4,21 +4,41 @@
                     control="vm.map.control"
                     events="vm.map.events"
                     pan="true">
-  <ui-gmap-marker idKey="'specialist' + specialist.id"
-                  coords="specialist.details"
-                  options="vm.map.specialistMarker.options"
-                  fit="false"
-                  control="specialist"
-                  events="vm.map.specialistMarker.events"
-                  ng-repeat="specialist in vm.specialists track by specialist.id">
-  </ui-gmap-marker>
-  <ui-gmap-markers models="vm.map.markers"
-                   coords="'self'"
-                   icon="'icon'">
+    <ui-gmap-marker idKey="'specialist' + specialist.id"
+                    coords="specialist.details"
+                    options="vm.map.specialistMarker.options"
+                    fit="false"
+                    control="specialist"
+                    events="vm.map.specialistMarker.events"
+                    ng-repeat="specialist in vm.specialists track by specialist.id">
+        <ui-gmap-window ng-cloak>
+            <div layout="row" class="specialist-window">
+                <div class="avatar"
+                     ng-style="{'background-image': 'url({{($parent.specialist.portrait ?
+                 vm.baseUrl + $parent.specialist.portrait : vm.defaultPortrait)}})'}">
+                </div>
+                <div layout="column">
+                    <div layout="column" layout-align="start start">
+                        <star-rating class="inline-block md-body-1"
+                                     value="$parent.specialist.details.rating"
+                                     readonly>
+                        </star-rating>
+                        <span ng-bind="$parent.specialist.fullName"></span>
+                    </div>
+                    <div layout="row" layout-align="end">
+                        <button scroll-to=".request-form" offset="-50" ng-click="$parent.vm.hireSpecialist($parent.specialist)">hire</button>
+                    </div>
+                </div>
+            </div>
+        </ui-gmap-window>
+    </ui-gmap-marker>
+    <ui-gmap-markers models="vm.map.markers"
+                     coords="'self'"
+                     icon="'icon'">
 
-    <ui-gmap-windows show="'show'">
-      <div ng-non-bindable>{{text}}</div>
-    </ui-gmap-windows>
+        <ui-gmap-windows show="'show'">
+            <div ng-non-bindable>{{text}}</div>
+        </ui-gmap-windows>
 
-  </ui-gmap-markers>
+    </ui-gmap-markers>
 </ui-gmap-google-map>

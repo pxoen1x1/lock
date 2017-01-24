@@ -79,7 +79,11 @@ let AuthService = {
                             }
                         );
                 }
-            );
+            )
+            .catch(
+                (err) => {
+                    sails.log.error(err);
+                });
     },
     resetAuthToken(email){
         let user = {};
@@ -128,7 +132,7 @@ let AuthService = {
                             resetToken: null,
                             password: password
                         }
-                    )
+                        )
                         .then(
                             () => ResetToken.destroy(tokenId)
                         );

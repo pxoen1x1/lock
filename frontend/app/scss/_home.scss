@@ -1,3 +1,11 @@
+@mixin placeholder {
+  ::-webkit-input-placeholder {@content}
+  :-moz-placeholder           {@content}
+  ::-moz-placeholder          {@content}
+  :-ms-input-placeholder      {@content}
+}
+
+
 $primary-blue: #01579b;
 $title-color: #8e8e8e;
 
@@ -40,25 +48,25 @@ $title-color: #8e8e8e;
 }
 
 .home-first {
-  /*background: url('../images/home-first-bg.png') center center;*/
-  background-color: #888;
+  background: url('../images/imgpsh_fullsize.png') center center;
   height: 599px;
 
   > div {
     text-align: center;
-    color: #fff;
 
     h1 {
       text-transform: uppercase;
       font-size: 44px;
       margin-bottom: 6px;
       margin-top: 142px;
+      color: #fff;
     }
 
     h2 {
       font-size: 35px;
       font-weight: 100;
       margin-top: 0;
+      color: #fff;
     }
   }
 
@@ -69,6 +77,10 @@ $title-color: #8e8e8e;
     margin: 80px auto 0;
     /*width: 73%;*/
 
+    > span {
+      color: #fff;
+    }
+
     md-input-container:first-child {
       border-radius: 10px 0 0 10px;
     }
@@ -78,15 +90,41 @@ $title-color: #8e8e8e;
       padding: 0;
       margin: 0;
       background-color: #fff;
+      position: relative;
 
       input, .md-select-value {
         border-width: 0 1px 0 0;
         height: 36px;
         padding: 0 20px;
+
+
       }
       input#input_5 {
         border-width: 0 0 0 1px;
       }
+
+      i {
+        color: #bbb;
+        font-size: 16px;
+        position: absolute;
+        right: 5%;
+        top: 10px;
+      }
+
+      @include placeholder {
+        color: #fff;
+      }
+    }
+
+    md-input-container.md-input-has-value, md-input-container.md-input-focused {
+      i, label{
+        display: none;
+      }
+    }
+
+
+    md-input-container.md-input-focused .md-select-placeholder span {
+      display: none;
     }
 
     button {
@@ -109,6 +147,46 @@ $title-color: #8e8e8e;
 .home-map {
   height: 337px;
   overflow: hidden;
+}
+
+.angular-google-map-container {
+
+  .specialist-window {
+
+    .star-rating ul li i {
+      color: $primary-blue;
+
+      font-size: 17px;
+      min-width: 16px;
+      width: 16px;
+    }
+
+    .avatar {
+      width: 70px;
+      height: 70px;
+    }
+
+    span {
+      font-size: 14px;
+      font-weight: bold;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin: 0;
+    }
+
+    button {
+      height: auto;
+      width: auto;
+      margin: 5px 0 0;
+      padding: 0 20px;
+      text-transform: uppercase;
+      box-shadow: none;
+      color: $primary-blue;
+      border: 1px solid $primary-blue;
+      border-radius: 5px;
+    }
+
+  }
 }
 
 .home-apps {
@@ -158,11 +236,17 @@ $title-color: #8e8e8e;
   }
 }
 
-.home-advantages {
+.home-advanteges {
 
   h1 {
     margin-top: 124px;
     margin-bottom: 97px;
+  }
+
+  img {
+    width: 100%;
+    max-width: 715px;
+    max-height: 433px;
   }
 }
 
@@ -299,7 +383,7 @@ $title-color: #8e8e8e;
 
   .home-header {
     height: 304px;
-    background-color: #666; //url('../images/home-first-bg.png') center center;
+    background: url('../images/imgpsh_fullsize_xs.png') center center;
 
     ul {
       flex-direction: column;
@@ -330,16 +414,17 @@ $title-color: #8e8e8e;
     height: 327px;
 
     > div {
-      color: #868686;
 
       h1 {
         margin: inherit;
         margin-bottom: 2px;
         font-size: 16px;
+        color: #868686;
       }
 
       h2 {
         font-size: 13px;
+        color: #868686;
       }
     }
 
@@ -353,6 +438,9 @@ $title-color: #8e8e8e;
         border-radius: 0;
       }
 
+      md-input-container.md-input-invalid {
+        height: 56px;
+      }
       md-input-container {
         border-bottom: 1px solid #e1e1e1;
 
@@ -415,6 +503,10 @@ $title-color: #8e8e8e;
       font-size: 20px;
       margin-bottom: 20px;
       margin-top: 20px;
+    }
+
+    img {
+      width: auto;
     }
 
     .item {

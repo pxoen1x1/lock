@@ -20,6 +20,7 @@ let application = {
         templates: {
             successRegistration: 'emails/successRegistration',
             confirmRegistration: 'emails/confirmRegistration',
+            generatedPassword: 'emails/generatedPassword',
             passwordResetRequest: 'emails/passwordResetRequest',
             passwordResetConfirmation: 'emails/passwordResetConfirmation',
             groupInvitation: 'emails/groupInvitation'
