@@ -138,7 +138,9 @@ module.exports = {
             'FadeSplashScreenDuration': 1500,
             'AutoHideSplashScreen': true,
             'SplashScreen': 'screen',
-            'ShowSplashScreenSpinner': false
+            'ShowSplashScreenSpinner': false,
+            'StatusBarOverlaysWebView': false,
+            'StatusBarStyle': 'default'
         }
     },
     delete: {
