@@ -8,15 +8,16 @@
     SpecialistRequestMapController.$inject = [
         '$scope',
         '$stateParams',
+        'conf',
         'coreConstants',
         'chatSocketservice',
-        'currentRequestService',
-        'conf'
+        'mobileService',
+        'currentRequestService'
     ];
 
     /* @ngInject */
-    function SpecialistRequestMapController($scope, $stateParams, coreConstants, chatSocketservice,
-                                            currentRequestService, conf) {
+    function SpecialistRequestMapController($scope, $stateParams, conf, coreConstants, chatSocketservice, mobileService,
+                                            currentRequestService) {
         var requestHandler;
         var currentRequestId = $stateParams.requestId;
 
@@ -26,7 +27,7 @@
 
         vm.baseUrl = conf.BASE_URL;
         vm.requestStatus = coreConstants.REQUEST_STATUSES;
-        vm.defaultPortrait = coreConstants.IMAGES.defaultPortrait;
+        vm.defaultPortrait = mobileService.getImagePath(coreConstants.IMAGES.defaultPortrait);
 
         activate();
 
@@ -62,7 +63,7 @@
                     listenRequestEvent();
                 });
 
-            $scope.$on('$destroy', function(){
+            $scope.$on('$destroy', function () {
                 chatSocketservice.offRequest(requestHandler);
             });
         }

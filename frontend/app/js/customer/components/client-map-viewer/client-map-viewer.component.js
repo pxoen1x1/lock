@@ -25,12 +25,13 @@
         'uiGmapIsReady',
         'coreConstants',
         'customerDataservice',
-        'geocoderService'
+        'geocoderService',
+        'mobileService'
     ];
 
     /* @ngInject */
     function ClientMapViewerController($scope, $window, uiGmapIsReady, coreConstants, customerDataservice,
-                                       geocoderService) {
+                                       geocoderService, mobileService) {
         var promises = {
             findSpecialists: null
         };
@@ -46,7 +47,7 @@
         var locationHandler;
         var requestLocationMarker = {
             icon: {
-                url: coreConstants.IMAGES.requestLocationMarker,
+                url: mobileService.getImagePath(coreConstants.IMAGES.requestLocationMarker),
                 scaledSize: {
                     width: 30,
                     height: 30
@@ -87,7 +88,7 @@
             specialistMarker: {
                 options: {
                     icon: {
-                        url: '/images/map-marker-locksmith.png',
+                        url: mobileService.getImagePath(coreConstants.IMAGES.locksmithLocationMarker),
                         scaledSize: {
                             width: 50,
                             height: 50
@@ -317,7 +318,7 @@
 
                 setMapCenter(leg.start_location.lat(), leg.start_location.lng());
 
-                vm.selectedSpecialist.distance = leg.distance.value/1000 * coreConstants.DISTANCE.toMile;
+                vm.selectedSpecialist.distance = leg.distance.value / 1000 * coreConstants.DISTANCE.toMile;
                 vm.selectedSpecialist.duration = leg.duration;
             });
         }

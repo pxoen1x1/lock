@@ -78,20 +78,21 @@
     }
 
     MessageChatController.$inject = [
+        'conf',
         'coreConstants',
         'chatConstants',
-        'conf'
+        'mobileService',
     ];
 
     /* @ngInject */
-    function MessageChatController(coreConstants, chatConstants, conf) {
+    function MessageChatController(conf, coreConstants, chatConstants, mobileService) {
         var vm = this;
 
         vm.isImage = false;
         vm.isMessageTranslated = false;
 
         vm.baseUrl = conf.BASE_URL;
-        vm.defaultPortrait = coreConstants.IMAGES.defaultPortrait;
+        vm.defaultPortrait = mobileService.getImagePath(coreConstants.IMAGES.defaultPortrait);
         vm.requestStatus = coreConstants.REQUEST_STATUSES;
         vm.messageType = chatConstants.MESSAGE_TYPES;
         vm.userType = coreConstants.USER_TYPES;

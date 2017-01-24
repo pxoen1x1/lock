@@ -75,12 +75,13 @@
         'uiGmapIsReady',
         'coreConstants',
         'geocoderService',
-        'currentUserService'
+        'currentUserService',
+        'mobileService'
     ];
 
     /* @ngInject */
     function SpecialistMapViewerController($scope, $q, $timeout, $window, uiGmapIsReady, coreConstants,
-                                           geocoderService, currentUserService) {
+                                           geocoderService, currentUserService, mobileService) {
         var googleMaps;
         var directionsDisplay;
         var directionsService;
@@ -138,7 +139,7 @@
                     longitude: vm.selectedRequest.location.longitude
                 },
                 icon: {
-                    url: coreConstants.IMAGES.requestLocationMarker,
+                    url: mobileService.getImagePath(coreConstants.IMAGES.requestLocationMarker),
                     scaledSize: {
                         width: 30,
                         height: 30
@@ -155,7 +156,7 @@
                     longitude: null
                 },
                 icon: {
-                    url: coreConstants.IMAGES.currentLocationMarker,
+                    url: mobileService.getImagePath(coreConstants.IMAGES.currentLocationMarker),
                     scaledSize: {
                         width: 30,
                         height: 30

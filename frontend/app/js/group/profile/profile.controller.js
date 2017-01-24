@@ -7,17 +7,18 @@
 
     GroupProfileController.$inject = [
         '$q',
+        '$mdDialog',
         'conf',
         'coreConstants',
         'coreDataservice',
         'coreDictionary',
         'currentUserService',
-        '$mdDialog'
+        'mobileService'
     ];
 
     /* @ngInject */
-    function GroupProfileController($q, conf, coreConstants, coreDataservice, coreDictionary, currentUserService,
-                                    $mdDialog) {
+    function GroupProfileController($q, $mdDialog, conf, coreConstants, coreDataservice, coreDictionary,
+                                    currentUserService,  mobileService) {
         var vm = this;
 
         vm.languages = [];
@@ -45,7 +46,7 @@
         vm.fileUploaderOptions = coreConstants.FILE_UPLOADER_OPTIONS;
         vm.newPortrait = '';
         vm.baseUrl = conf.BASE_URL;
-        vm.defaultPortrait = coreConstants.IMAGES.defaultPortrait;
+        vm.defaultPortrait = mobileService.getImagePath(coreConstants.IMAGES.defaultPortrait);
 
         vm.updateUser = updateUser;
         vm.setMerchantAccount = setMerchantAccount;
@@ -194,7 +195,7 @@
                     return coreDataservice.getMerchantFunds();
                 })
                 .then(function (funds) {
-                    if(funds && funds.available){
+                    if (funds && funds.available) {
                         vm.userProfile.merchantFunds = funds.available / 100; // in cents
                     }
 

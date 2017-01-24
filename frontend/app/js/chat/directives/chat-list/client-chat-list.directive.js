@@ -27,16 +27,23 @@
         return directive;
     }
 
-    ClientChatListController.$inject = ['chatSocketservice', '$mdSidenav', '$mdMedia', 'coreConstants', 'conf'];
+    ClientChatListController.$inject = [
+        '$mdSidenav',
+        '$mdMedia',
+        'conf',
+        'coreConstants',
+        'chatSocketservice',
+        'mobileService'
+    ];
 
     /* @ngInject */
-    function ClientChatListController(chatSocketservice, $mdSidenav, $mdMedia, coreConstants, conf) {
+    function ClientChatListController($mdSidenav, $mdMedia, conf, coreConstants, chatSocketservice, mobileService) {
         var vm = this;
 
         vm.chatSearch = '';
 
         vm.baseUrl = conf.BASE_URL;
-        vm.defaultPortrait = coreConstants.IMAGES.defaultPortrait;
+        vm.defaultPortrait = mobileService.getImagePath(coreConstants.IMAGES.defaultPortrait);
 
         vm.changeCurrentChat = changeCurrentChat;
 

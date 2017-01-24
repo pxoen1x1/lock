@@ -7,18 +7,18 @@
 
     UserMenuController.$inject = [
         '$mdSidenav',
+        'conf',
+        'coreConstants',
+        'customerConstants',
         'serviceProviderConstants',
         'groupConstants',
-        'customerConstants',
-        'coreConstants',
         'currentUserService',
         'mobileService',
-        'conf'
     ];
 
     /* @ngInject */
-    function UserMenuController($mdSidenav, serviceProviderConstants, groupConstants, customerConstants, coreConstants,
-                                currentUserService, mobileService, conf) {
+    function UserMenuController($mdSidenav, conf, coreConstants, customerConstants, serviceProviderConstants,
+                                groupConstants, currentUserService, mobileService) {
         var vm = this;
 
         vm.toggleMenu = toggleMenu;
