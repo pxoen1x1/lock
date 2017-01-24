@@ -1,7 +1,7 @@
 <div class="container request-content">
   <div class="container-title">
     <i class="material-icons">playlist_add</i>
-    <span>New request</span>
+    <span translate>NEW_REQUEST</span>
   </div>
   <div class="container-content">
     <form role="form"
@@ -14,7 +14,7 @@
           <p layout="row"
              layout-align="center start"
              layout-align-gt-xs="start start">
-            Type of service needed<sup>*</sup>
+             <span translate>TYPE_OF_SERVICE_NEEDED</span><sup>*</sup>
           </p>
           <md-radio-group class="md-primary"
                           name="serviceTypes"
@@ -23,7 +23,7 @@
             <md-radio-button aria-label="{{ serviceType.name }}"
                              ng-repeat="serviceType in vm.serviceTypes track by serviceType.id"
                              ng-value="serviceType.id">
-              <span ng-bind="serviceType.name"></span>
+              <span ng-bind="serviceType.name | translate "></span>
             </md-radio-button>
           </md-radio-group>
         </div>
@@ -32,17 +32,17 @@
           <p layout="row"
              layout-align="center start"
              layout-align-gt-xs="start start">
-            Emergency<sup>*</sup>
+            <span translate>EMERGENCY</span><sup>*</sup>
           </p>
           <md-radio-group class="md-primary"
                           name="emergency"
                           required
                           ng-model="vm.isEmergency">
             <md-radio-button ng-value="true">
-              I need a locksmith now
+              <span translate>I_NEED_A_LOCKSMITH_NOW</span>
             </md-radio-button>
             <md-radio-button ng-value="false">
-              I need a locksmith for custom date
+              <span translate>I_NEED_A_LOCKSMITH_FOR_CUSTOM_DATE</span>
             </md-radio-button>
           </md-radio-group>
           <div layout="row"
@@ -50,28 +50,27 @@
                flex-gt-xs="80"
                ng-if="vm.isEmergency === false">
             <mdp-date-picker name="date"
-                             mdp-placeholder="Date"
                              mdp-min-date="vm.datePickerOptions.minDate"
-                             md-placeholder="Enter date"
                              ng-required="!vm.request.forDate"
                              ng-class="{ 'has-error': requestForm.date.$invalid && requestForm.$submitted }"
                              ng-click="vm.isEmergency = false"
                              ng-model="vm.request.forDate">
+              <label translate>ENTER_DATE</label>
               <div ng-messages="requestForm.date.$error">
-                <div ng-message="format">Invalid format</div>
-                <div ng-message="minDate">Min date</div>
-                <div ng-message="maxDate">Max date</div>
+                <div ng-message="format" translate>INFALID_FORMAT</div>
+                <div ng-message="minDate" translate>DATE_IS_TOO_EARLY</div>
+                <div ng-message="maxDate" translate>DATE_IS_TOO_LATE</div>
               </div>
             </mdp-date-picker>
             <mdp-time-picker name="time"
-                             mdp-placeholder="Time"
                              mdp-auto-switch="vm.timePickerOptions.autoSwitch"
                              ng-required="!vm.request.forDate"
                              ng-class="{ 'has-error': requestForm.time.$invalid && requestForm.$submitted }"
                              ng-click="vm.isEmergency = false"
                              ng-model="vm.request.forDate">
+              <label translate>TIME</label>
               <div ng-messages="requestForm.time.$error">
-                <div ng-message="format">Invalid format</div>
+                <div ng-message="format" translate>INVALID_FORMAT</div>
               </div>
             </mdp-time-picker>
           </div>
@@ -83,7 +82,7 @@
           <p layout="row"
              layout-align="center start"
              layout-align-gt-xs="start start">
-            Location<sup>*</sup>
+            <span translate>LOCATION</span><sup>*</sup>
           </p>
           <md-radio-group
               class="md-primary"
@@ -91,13 +90,16 @@
               required
               ng-model="vm.isLocationSetManually">
             <md-radio-button ng-value="false"
-                             ng-click="vm.getAddressLocation()">Provide location by GPS
+                             ng-click="vm.getAddressLocation()">
+              <span translate>PROVIDE_LOCATION_BY_GPS</span>
             </md-radio-button>
             <div class="warning-message m-b-xs"
                  ng-if="vm.warnings.isLocationGpsWrong">
-              Your GPS is wrong. Please, enter address manually
+              <span translate>YOUR_GPS_IS_WRONG</span>
             </div>
-            <md-radio-button ng-value="true">Provide location manually</md-radio-button>
+            <md-radio-button ng-value="true">
+              <span translate>PROVIDE_LOCATION_MANUALLY</span>
+            </md-radio-button>
           </md-radio-group>
           <div layout="column"
                layout-gt-sm="row"
@@ -105,7 +107,7 @@
                ng-click="vm.isLocationSetManually = true"
                ng-if="vm.isLocationSetManually === true">
             <md-input-container class="hide-error-msg m-b-none" flex>
-              <label>Address</label>
+              <label translate>ADDRESS</label>
               <input name="address"
                      ng-required="vm.isLocationSetManually"
                      ng-model-options="{ debounce: 400 }"
@@ -114,7 +116,7 @@
             </md-input-container>
             <div layout="row" flex-gt-sm="50">
               <md-input-container flex="50">
-                <label>State</label>
+                <label translate>STATE</label>
                 <md-select role="listbox"
                            name="state"
                            ng-required="vm.isLocationSetManually"
@@ -127,7 +129,7 @@
                 </md-select>
               </md-input-container>
               <md-input-container flex>
-                <label>City</label>
+                <label translate>CITY</label>
                 <md-select role="listbox"
                            class="cities-select"
                            name="city"
@@ -153,8 +155,9 @@
               </md-input-container>
             </div>
             <div class="warning-message"
+                 translate
                  ng-if="vm.warnings.isLocationManuallyWrong">
-              Your address is wrong. Please, check it.
+              YOUR_ADDRESS_IS_WRONG
             </div>
           </div>
         </div>
@@ -164,29 +167,34 @@
             <p layout="row"
                layout-align="center start"
                layout-align-gt-xs="start start">
-              Type of request<sup>*</sup>
+              <span translate>TYPE_OF_REQUEST</span><sup>*</sup>
             </p>
             <md-radio-group class="md-primary"
                             name="typeOfRequest"
                             layout="row"
                             required
                             ng-model="vm.request.isPublic">
-              <md-radio-button ng-value="false">Private request</md-radio-button>
-              <md-radio-button ng-value="true">Public request</md-radio-button>
+              <md-radio-button ng-value="false">
+                <span translate>PRIVATE_REQUEST</span>
+              </md-radio-button>
+              <md-radio-button ng-value="true">
+                <span translate>PUBLIC_REQUEST</span>
+              </md-radio-button>
             </md-radio-group>
           </div>
           <div flex>
             <p class="m-b-none"
                layout="row"
+               translate
                layout-align="center start"
                layout-align-gt-xs="start start">
-              Details (optional)
+              DETAILS(OPTIONAL)
             </p>
             <div layout="row"
                  flex
                  flex-gt-xs="80">
               <md-input-container class="md-block" flex="40">
-                <label>Language</label>
+                <label translate>LANGUAGE</label>
                 <md-select role="listbox"
                            name="language"
                            ng-model="vm.request.language">
@@ -197,17 +205,17 @@
                 </md-select>
               </md-input-container>
               <md-input-container class="md-block" flex="60">
-                <label>Provider distance (miles)</label>
+                <label translate>PROVIDER_DISTANCE_(MILES)</label>
                 <input type="number"
                        name="distance"
                        ng-min="1"
                        ng-max="100"
                        ng-model="vm.request.distance">
                 <div ng-messages="requestForm.distance.$error">
-                  <div ng-message="min">The minimum distance is 1 mile.</div>
+                  <div ng-message="min" translate>MINIMUM_DISTANCE</div>
                 </div>
                 <div ng-messages="requestForm.distance.$error">
-                  <div ng-message="max">The maximum distance is 100 miles.</div>
+                  <div ng-message="max" translate>MAXIMUM DISTANCE</div>
                 </div>
               </md-input-container>
             </div>
@@ -216,12 +224,13 @@
       </div>
       <div layout="column">
         <p layout="row"
+           translate
            layout-align="center start"
            layout-align-gt-xs="start start">
-          Request note (optional)
+          REQUEST_NOTE_(OPTIONAL)
         </p>
         <md-input-container class="md-block">
-          <label>Do you want to clarify something?</label>
+          <label translate>DO_YOU_WANT_TO_CLARIFY_SMTH</label>
           <textarea name="description"
                     rows="3"
                     md-maxlength="300"
@@ -233,7 +242,7 @@
         <md-button type="submit"
                    class="md-button md-button-blue md-raised"
                    aria-label="Submit">
-          <span class="ng-scope">Submit</span>
+          <span class="ng-scope" translate>SUBMIT</span>
         </md-button>
       </div>
     </form>

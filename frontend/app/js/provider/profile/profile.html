@@ -5,20 +5,18 @@
        layout-align="start center">
     <div ng-click="vm.isEditing = false"
          flex class="cursor-pointer">
-      <i class="material-icons">person</i> <span>Profile</span>
+      <i class="material-icons">person</i> <span translate>PROFILE</span>
     </div>
     <div flex layout="row" layout-align="end center" class="title-actions">
       <button class="md-button md-button-blue"
               aria-label="Show public profile"
-              ng-if="$mdMedia('gt-xs')"
+              hide-xs
               ui-sref="provider.profile.public({'profileId': vm.userProfile.id})">
-        Show public
-        <wbr>
-        profile
+        <span translate>SHOW_PUBLIC_PROFILE</span>
       </button>
 
       <md-menu md-position-mode="target-right target"
-               ng-if="!$mdMedia('gt-xs')">
+               hide-gt-xs>
         <md-button class="md-icon-button"
                    aria-label="more"
                    ng-click="$mdOpenMenu()">
@@ -29,7 +27,7 @@
             <md-button ui-sref="provider.profile.public({'profileId': vm.userProfile.id})"
                        aria-label="Show public profile">
               <md-icon>person</md-icon>
-              <span class="vertical-middle">Show public profile</span>
+              <span class="vertical-middle" translate>SHOW_PUBLIC_PROFILE</span>
             </md-button>
           </md-menu-item>
           <md-menu-item ng-if="vm.isEditing">
@@ -40,7 +38,7 @@
                        max-size="{{ vm.fileUploaderOptions.maxFileSize }}"
                        selected-file-src="vm.newPortrait">
               <md-icon>photo_camera</md-icon>
-              <span class="verical-middle">Change photo</span>
+              <span class="verical-middle" translate>CHANGE_PHOTO</span>
             </md-button>
           </md-menu-item>
         </md-menu-content>
@@ -77,7 +75,7 @@
                      max-size="{{ vm.fileUploaderOptions.maxFileSize }}"
                      selected-file-src="vm.newPortrait">
             <i class="material-icons vertical-middle">photo_camera</i>
-            <span class="verical-middle">Change photo</span>
+            <span class="verical-middle" translate>CHANGE_PHOTO</span>
           </md-button>
 
         </div>
@@ -92,17 +90,20 @@
         <div flex ng-cloak>
           <md-content>
             <md-tabs md-dynamic-height md-border-bottom>
-              <md-tab label="General info">
-                <md-content class="md-padding">
+              <md-tab>
+                <md-tab-label><span translate>GENERAL_INFO</span></md-tab-label>
+                <md-tab-body class="md-padding">
                   <div ng-include="'provider/profile/profile-general.html'"></div>
-                </md-content>
+                </md-tab-body>
               </md-tab>
-              <md-tab label="Company info">
+              <md-tab>
+                <md-tab-label><span translate>CONTACT_INFO</span></md-tab-label>
                 <md-content class="md-padding">
                   <div ng-include="'provider/profile/profile-merchant-info.html'"></div>
                 </md-content>
               </md-tab>
-              <md-tab label="Bank account">
+              <md-tab>
+                <md-tab-label><span translate>BANK_ACCOUNT</span></md-tab-label>
                 <md-content class="md-padding">
                   <div ng-include="'provider/profile/profile-bank-account.html'"></div>
                 </md-content>

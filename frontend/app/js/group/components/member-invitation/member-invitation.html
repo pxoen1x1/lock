@@ -3,18 +3,19 @@
         novalidate
         ng-submit="vm.inviteNewMember(vm.newMemberEmail, inviteMemberForm.$valid)">
     <md-input-container class="m-none" flex>
-      <label>Email</label>
+      <label translate>EMAIL</label>
       <input type="email"
              name="email"
              required
              ng-model="vm.newMemberEmail">
       <div ng-messages="inviteMemberForm.email.$error">
-        <div ng-message="email">That doesn't look like a valid email.</div>
-        <div ng-message="availability">This email already exists.</div>
+        <div ng-message="email" translate>INVALID_EMAIL</div>
+        <div ng-message="availability" translate>EMAIL_ALREADY_EXIST</div>
       </div>
     </md-input-container>
     <md-button type="submit"
-               class="md-button-blue m-none">Invite
+               class="md-button-blue m-none">
+      <span translate>INVITE</span>
     </md-button>
   </form>
 </div>

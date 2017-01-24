@@ -9,7 +9,7 @@
         hide-xs>
       <span ng-repeat="pageTitle in vm.pageTitles track by $index">
         <a ng-href="{{pageTitle.url}}"
-           ng-bind="pageTitle.title">
+           ng-bind="pageTitle.title.toUpperCase() | translate">
         </a>
         <i class="material-icons"
            ng-if="$index != vm.pageTitles.length-1 && vm.pageTitles[$index+1].title">
@@ -32,7 +32,7 @@
         <i class="fa fa-sign-in"
            aria-hidden="true">
         </i>
-        <span class="m-l-xs" hide-xs>Log in</span>
+        <span class="m-l-xs" hide-xs translate>LOG_IN</span>
       </a>
       <a class="md-button button-login"
          layout="row"
@@ -43,7 +43,7 @@
         <i class="fa fa-sign-out"
            aria-hidden="true">
         </i>
-        <span class="m-l-xs" hide-xs>Log out</span>
+        <span class="m-l-xs" hide-xs translate>LOG_OUT</span>
       </a>
     </div>
   </div>

@@ -10,23 +10,15 @@
         </div>
     </div>
     <div class="section first">
-        <span class="md-body-2">Email:</span>
+        <span class="md-body-2"><span translate>EMAIL</span>:</span>
         <span class="md-body-1" ng-bind="vm.userProfile.auth.email"></span>
     </div>
     <div class="section">
-        <span class="md-body-2">Phone:</span>
+        <span class="md-body-2"><span translate>PHONE</span>:</span>
         <span class="md-body-1" ng-bind="vm.userProfile.phoneNumber"></span>
     </div>
     <div class="section">
-        <span class="md-body-2">Requests:</span>
-        <span class="md-body-1" ng-bind=""></span>
-    </div>
-    <div class="section">
-        <span class="md-body-2">Spent:</span>
-        <span class="md-body-1" ng-bind=""></span>
-    </div>
-    <div class="section">
-        <span class="md-body-2">Language:</span>
+        <span class="md-body-2"><span translate>LANGUAGE</span>:</span>
         <span class="md-body-1" ng-bind="vm.userProfile.usingLanguage.name"></span>
     </div>
 </div>
@@ -35,26 +27,26 @@
     <form name="editForm"
           novalidate
           ng-submit="vm.updateUser(vm.userProfile, editForm.$valid)">
-        <p>Name: <sup>*</sup></p>
+        <p><span translate>NAME</span>: <sup>*</sup></p>
         <div layout="row">
             <md-input-container class="md-block" flex>
-                <label>First name</label>
+                <label translate>FIRST_NAME</label>
                 <input name="firstName"
                        required
                        ng-maxlength="20"
                        ng-model="vm.userProfile.firstName">
             </md-input-container>
             <md-input-container class="md-block" flex>
-                <label>Last name</label>
+                <label translate>LAST_NAME</label>
                 <input name="lastName"
                        required
                        ng-maxlength="20"
                        ng-model="vm.userProfile.lastName">
             </md-input-container>
         </div>
-        <p>Email: <sup>*</sup></p>
+        <p><span translate>EMAIL</span>: <sup>*</sup></p>
         <md-input-container class="md-block" flex>
-            <label>Email</label>
+            <label translate>EMAIL</label>
             <input name="email"
                    required
                    email-validation
@@ -62,13 +54,13 @@
                    ng-model-options="{ 'debounce': 400 }"
                    ng-model="vm.userProfile.auth.email">
             <div ng-messages="editForm.email.$error">
-                <div ng-message="email">That doesn't look like a valid email.</div>
-                <div ng-message="availability">This email already exists.</div>
+                <div ng-message="email" translate>INVALID_EMAIL</div>
+                <div ng-message="availability" translate>EMAIL_ALREADY_EXIST</div>
             </div>
         </md-input-container>
-        <p>Phone number:</p>
+        <p><span translate>PHONE_NUMBER</span>:</p>
         <md-input-container class="md-block" flex>
-            <label>Phone number</label>
+            <label translate>PHONE_NUMBER</label>
             <input type="tel"
                    name="phoneNumber"
                    ui-us-phone-number
@@ -76,12 +68,12 @@
                    ng-model-options="{ 'debounce': 400 }"
                    ng-model="vm.userProfile.phoneNumber">
             <div ng-messages="editForm.phoneNumber.$error">
-                <span ng-message="usPhoneNumber">That doesn't look like a valid phone number.</span>
-                <span ng-message="availability">This phone number already exists.</span>
+                <span ng-message="usPhoneNumber" translate>INVALID_PHONE</span>
+                <span ng-message="availability" translate>PHONE_ALREADY_EXIST</span>
             </div>
         </md-input-container>
 
-        <p>Language:</p>
+        <p><span translate>LANGUAGE</span>:</p>
         <md-select flex
                    aria-label="Language"
                    ng-if="vm.isEditing"
@@ -96,18 +88,22 @@
         <md-button type="submit"
                    class="md-button-blue"
                    aria-label="Save"
+                   translate
                    ng-if="vm.isEditing">
-            Save
+            SAVE
         </md-button>
-        <md-button class="md-button-blue" ng-if="vm.isEditing"
+        <md-button class="md-button-blue"
+                   ng-if="vm.isEditing"
+                   translate
                    ng-click="vm.cancelEditing()">
-            Cancel
+            CANCEL
         </md-button>
     </form>
 </div>
 <md-button ng-if="!vm.isEditing"
            class="md-button-blue"
            ng-click="vm.isEditing = true"
+           translate
            aria-label="Edit">
-    Edit
+    EDIT
 </md-button>

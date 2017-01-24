@@ -15,7 +15,7 @@
          layout="row"
          layout-align="center start">
       <div class="value">
-        cost:
+        <span translate>COST</span>:
       </div>
       <div class="currency">$</div>
       <div layout="row" layout-align="center end">
@@ -27,6 +27,8 @@
                    layout-align="end center"
                    ng-if="vm.currentUser.type === vm.userType.CLIENT"
                    ng-class="{ 'disabled': vm.currentRequest.status !== vm.requestStatus.NEW }">
-    <md-button ng-click="vm.confirmOffer(vm.message, vm.currentRequest)">Accept</md-button>
+    <md-button ng-click="vm.confirmOffer(vm.message, vm.currentRequest)">
+      <span translate>ACCEPT</span>
+    </md-button>
   </md-card-actions>
 </md-card>

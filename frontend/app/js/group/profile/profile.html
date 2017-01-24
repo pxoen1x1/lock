@@ -2,7 +2,7 @@
      ng-class="{'mobile': !$mdMedia('gt-xs')}">
   <div class="container-title" layout="row">
     <div flex>
-      <i class="material-icons">person</i> <span>Profile</span>
+      <i class="material-icons">person</i> <span translate>PROFILE</span>
     </div>
   </div>
   <div class="container-content">
@@ -39,13 +39,13 @@
                      max-size="{{ vm.fileUploaderOptions.maxFileSize }}"
                      selected-file-src="vm.newPortrait">
             <i class="material-icons vertical-middle">photo_camera</i>
-            <span class="verical-middle">Change photo</span>
+            <span class="verical-middle" translate>CHANGE_PHOTO</span>
           </md-button>
           <md-button ng-if="!vm.isEditing"
                      class="md-button-blue"
                      ng-click="vm.isEditing = true"
                      aria-label="Edit profile">
-            Edit general info
+            <span translate>EDIT_GENERAL_INFO</span>
           </md-button>
         </div>
       </div>

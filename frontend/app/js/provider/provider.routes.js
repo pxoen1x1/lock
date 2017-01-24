@@ -30,7 +30,7 @@
                     }
                 },
                 data: {
-                    title: 'Specialist'
+                    title: 'SPECIALIST'
                 }
             })
             .state('provider.messages', {
@@ -44,10 +44,10 @@
                     }
                 },
                 data: {
-                    title: 'Messages',
+                    title: 'MESSAGES',
                     menu: {
                         icon: 'list',
-                        title: 'Messages'
+                        title: 'MESSAGES'
                     },
                     isPrivate: true
                 }
@@ -63,7 +63,7 @@
                     }
                 },
                 data: {
-                    title: 'Profile',
+                    title: 'PROFILE',
                     isPrivate: true
                 }
             })
@@ -78,7 +78,7 @@
                     }
                 },
                 data: {
-                    title: 'Public',
+                    title: 'PUBLIC',
                     isPrivate: true
                 }
             })
@@ -93,10 +93,10 @@
                     }
                 },
                 data: {
-                    title: 'Dashboard',
+                    title: 'DASHBOARD',
                     menu: {
                         icon: 'dashboard',
-                        title: 'Dashboard'
+                        title: 'DASHBOARD'
                     },
                     isPrivate: true
                 }
@@ -112,9 +112,9 @@
                     }
                 },
                 data: {
-                    title: 'New',
+                    title: 'DASHBOARD_NEW',
                     tab: {
-                        title: 'New',
+                        title: 'DASHBOARD_NEW',
                         icon: 'whatshot'
                     }
                 }
@@ -130,9 +130,9 @@
                     }
                 },
                 data: {
-                    title: 'Current',
+                    title: 'DASHBOARD_CURRENT',
                     tab: {
-                        title: 'Current',
+                        title: 'DASHBOARD_CURRENT',
                         icon: 'list'
                     }
                 }
@@ -148,9 +148,9 @@
                     }
                 },
                 data: {
-                    title: 'History',
+                    title: 'HISTORY',
                     tab: {
-                        title: 'History',
+                        title: 'HISTORY',
                         icon: 'history'
                     }
                 }
@@ -182,9 +182,9 @@
                     }
                 },
                 data: {
-                    title: 'Request',
+                    title: 'REQUEST',
                     tab: {
-                        title: 'View',
+                        title: 'VIEW',
                         icon: 'list'
                     }
                 }
@@ -200,9 +200,9 @@
                     }
                 },
                 data: {
-                    title: 'Map',
+                    title: 'MAP',
                     tab: {
-                        title: 'Map',
+                        title: 'MAP',
                         icon: 'location_on'
                     }
                 }
@@ -218,9 +218,9 @@
                     }
                 },
                 data: {
-                    title: 'Chat',
+                    title: 'CHAT',
                     tab: {
-                        title: 'Chat',
+                        title: 'CHAT',
                         icon: 'chat'
                     }
                 }

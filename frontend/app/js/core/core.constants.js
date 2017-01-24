@@ -37,11 +37,11 @@
                 4: 'admin.dashboard'
             },
             REQUEST_STATUSES: {
-                1: 'new',
-                2: 'pending',
-                3: 'in progress',
-                4: 'done',
-                5: 'closed',
+                1: 'NEW',
+                2: 'PENDING',
+                3: 'IN_PROGRESS',
+                4: 'DONE',
+                5: 'CLOSED',
                 'NEW': 1,
                 'PENDING': 2,
                 'IN_PROGRESS': 3,

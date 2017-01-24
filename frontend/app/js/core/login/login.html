@@ -6,7 +6,7 @@
         ng-submit="vm.submit(vm.user, loginForm.$valid, vm.isForgotPasswordEnabled)">
     <md-toolbar class="md-menu-toolbar">
       <div class="md-toolbar-tools">
-        <h2>Log In</h2>
+        <h2 translate>LOG_IN</h2>
         <span flex></span>
         <md-button class="md-icon-button"
                    aria-label="Close dialog"
@@ -34,14 +34,14 @@
         <!-- E-mail -->
         <div layout="row">
           <md-input-container class="hide-error-msg" flex>
-            <label>Email</label>
+            <label translate>EMAIL</label>
             <input type="email"
                    name="email"
                    required
                    email-validation
                    ng-model="vm.user.email">
             <div ng-messages="loginForm.email.$error">
-              <div ng-message="email">That doesn't look like a valid email.</div>
+              <div ng-message="email" translate>INVALID_EMAIL</div>
             </div>
           </md-input-container>
         </div>
@@ -49,15 +49,15 @@
         <div layout="row"
              ng-if="!vm.isForgotPasswordEnabled">
           <md-input-container class="hide-error-msg" flex>
-            <label>Password</label>
+            <label translate>PASSWORD</label>
             <input type="password"
                    name="password"
                    required
                    password-validation
                    ng-model="vm.user.password">
             <div ng-messages="loginForm.password.$error">
-              <div ng-message="password">
-                Your password must contain 6 characters (at least one number and one letter).
+              <div ng-message="password" translate>
+                PASSWORD_MUST_CONTAIN
               </div>
             </div>
           </md-input-container>
@@ -65,9 +65,9 @@
         <div layout="row">
           <a class="text-center p-xxs"
              flex
-             aria-label="{{ vm.isForgotPasswordEnabled ? 'Log In': 'Forgot your password?' }}"
+             aria-label="{{ vm.isForgotPasswordEnabled ? 'LOG_IN': 'FORGOT_YOUR_PASSWORD' | translate }}"
              ng-click="vm.isForgotPasswordEnabled = !vm.isForgotPasswordEnabled">
-            <span ng-bind="vm.isForgotPasswordEnabled ? 'Log In': 'Forgot your password?'"></span>
+            <span ng-bind="vm.isForgotPasswordEnabled ? 'LOG_IN': 'FORGOT_YOUR_PASSWORD' | translate"></span>
           </a>
         </div>
       </div>
@@ -75,8 +75,8 @@
     <md-dialog-actions layout="column" layout-align="start center" flex>
       <md-button type="submit"
                  class="md-button-blue"
-                 aria-label="{{ vm.isForgotPasswordEnabled ? 'Reset Password' : 'Log In' }}">
-        <span ng-bind="vm.isForgotPasswordEnabled ? 'Reset Password' : 'Log In'"></span>
+                 aria-label="{{ vm.isForgotPasswordEnabled ? 'RESET_PASSWORD' : 'LOG_IN' | translate }}">
+        <span ng-bind="vm.isForgotPasswordEnabled ? 'RESET_PASSWORD' : 'LOG_IN' | translate"></span>
       </md-button>
       <div class="social-buttons"
            hide-xs
@@ -84,14 +84,19 @@
            ng-if="!vm.isForgotPasswordEnabled">
         <a class="md-button social-button facebook"
                    flex
+                   translate
                    ng-click="vm.loginWithFacebook()">
-          Login with Facebook
+          LOGIN_WITH_FB
         </a>
-        <a class="md-button social-button google-plus" flex>
-          Login with Google+
+        <a class="md-button social-button google-plus"
+           translate
+           flex>
+          LOGIN_WITH_G+
         </a>
-        <a class="md-button social-button twitter" flex>
-          Login with Twitter
+        <a class="md-button social-button twitter"
+           translate
+           flex>
+          LOGIN_WITH_TWITTER
         </a>
       </div>
     </md-dialog-actions>

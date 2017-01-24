@@ -18,6 +18,7 @@
         'angularFileUpload',
         'ngSails',                  // Module allows to use Sails.JS's awesome socket.io api with AngularJS.
         'jkAngularCarousel',
+        'pascalprecht.translate',   // Translation module for AngularJS
 
         'app.core',
         'app.home',

@@ -31,7 +31,7 @@
             </div>
             <div layout="column" layout-align="start start">
               <div class="title text-capitalize"
-                   ng-bind="step.title">
+                   ng-bind="step.title | translate">
               </div>
             </div>
           </md-button>
@@ -46,7 +46,7 @@
                      class="md-accent md-raised md-button md-ink-ripple md-default-theme"
                      ng-disabled="vm.currentStep === 0"
                      ng-click="vm.goToPrevStep(registrationForm.$valid)">
-            <span class="ng-scope">Back</span>
+            <span class="ng-scope" translate>BACK</span>
           </md-button>
           <md-button type="button"
                      class="md-accent md-raised md-button ng-scope md-ink-ripple md-default-theme"
@@ -54,14 +54,14 @@
                      ng-click="vm.goToNextStep(registrationForm.$valid)"
                      ng-disabled="registrationForm.$invalid"
                      aria-label="Next">
-            <span class="ng-scope">Next</span>
+            <span class="ng-scope" translate>NEXT</span>
           </md-button>
           <md-button type="submit"
                      class="md-accent md-raised md-button ng-scope md-ink-ripple md-default-theme"
                      ng-if="vm.currentStep === vm.registrationSteps.length - 1"
                      ng-disabled="registrationForm.$invalid"
                      aria-label="Submit">
-            <span class="ng-scope">Submit</span>
+            <span class="ng-scope" translate>SUBMIT</span>
           </md-button>
         </div>
       </form>

@@ -44,21 +44,23 @@
         <md-menu-item
             ng-if="vm.currentUser.type !== vm.userType.CLIENT && vm.currentRequest.status === vm.requestStatus.NEW">
           <md-button ng-click="vm.openOfferDialog(vm.currentChat)">
-            Send Offer
+            <span translate>SEND_BID</span>
           </md-button>
         </md-menu-item>
         <md-menu-item ng-if="vm.currentUser.type !== vm.userType.CLIENT">
           <md-button ng-click="vm.toggleSidenav({ navID: 'right-sidenav' })">
-            Request Info
+            <span translate>REQUEST_INFO</span>
           </md-button>
         </md-menu-item>
         <md-menu-item ng-if="vm.currentUser.type === vm.userType.GROUP_ADMIN">
           <md-button ng-click="vm.joinGroupMember()">
-            Join Group Member
+            <span translate>JOIN_GROUP_MEMBER</span>
           </md-button>
         </md-menu-item>
         <!--<md-menu-item>
-          <md-button ng-click="vm.closeChat()">Close Chat</md-button>
+          <md-button ng-click="vm.closeChat()">
+            <span translate>CLOSE_CHAT</span>
+          </md-button>
         </md-menu-item>-->
       </md-menu-content>
     </md-menu>

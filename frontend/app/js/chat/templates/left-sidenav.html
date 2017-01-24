@@ -9,10 +9,12 @@
            layout="row"
            layout-align="start center">
         <i class="material-icons s18">search</i>
-        <input type="text"
-               placeholder="Search the chat"
-               flex
-               ng-model="vm.chatSearch">
+        <md-input-container>
+          <label translate>SEARCH_THE_CHAT</label>
+          <input type="text"
+                 flex
+                 ng-model="vm.chatSearch">
+        </md-input-container>
       </div>
     </div>
   </div>
@@ -25,8 +27,12 @@
         flex
         md-selected-nav-item="vm.selectedTab"
         nav-bar-aria-label="navigation links">
-      <md-nav-item md-nav-click name="chats">Chats</md-nav-item>
-      <md-nav-item md-nav-click name="bids">Bids</md-nav-item>
+      <md-nav-item md-nav-click name="chats">
+        <span translate>CHATS</span>
+      </md-nav-item>
+      <md-nav-item md-nav-click name="bids">
+        <span translate>BIDS</span>
+      </md-nav-item>
     </md-nav-bar>
   </div>
 </md-toolbar>

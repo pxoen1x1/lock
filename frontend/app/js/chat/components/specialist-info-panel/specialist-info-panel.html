@@ -3,7 +3,7 @@
      layout="column">
   <md-toolbar class="md-accent">
     <div class="md-toolbar-tools md-toolbar-tools-top">
-      <div>Contact Info</div>
+      <div translate>CONTACT_INFORMATION</div>
       <div flex></div>
       <md-button class="md-icon-button"
                  aria-label="back"
@@ -32,7 +32,7 @@
               on-scroll="vm.loadPrevReviews()">
     <md-card ng-if="vm.reviews[vm.selectedSpecialist.id]">
       <md-card-title>
-        <h3 class="m-t-none m-b-none">Reviews:</h3>
+        <h3 class="m-t-none m-b-none"><span translate>REVIEWS</span>:</h3>
       </md-card-title>
       <md-card-content>
         <div class="m-b-sm"
@@ -66,7 +66,10 @@
           </div>
           <md-divider></md-divider>
         </div>
-        <div ng-if="vm.reviews[vm.selectedSpecialist.id].length === 0">No Reviews Yet</div>
+        <div ng-if="vm.reviews[vm.selectedSpecialist.id].length === 0"
+             translate>
+          NO_REVIEWS_YET
+        </div>
       </md-card-content>
     </md-card>
   </md-content>

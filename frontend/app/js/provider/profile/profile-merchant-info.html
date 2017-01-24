@@ -6,26 +6,26 @@
     </div>
     <div layout="column">
         <div class="section first">
-            <span class="md-body-2">Address:</span>
+            <span class="md-body-2"><span translate>ADDRESS</span>:</span>
             <span class="md-body-1" ng-bind="vm.userProfile.merchantData.address1 || '-'"></span>
         </div>
         <div class="section">
-            <span class="md-body-2">State:</span>
+            <span class="md-body-2"><span translate>STATE</span>:</span>
             <span class="md-body-1" ng-bind="vm.states[vm.userProfile.merchantData.state].state || '-'"></span>
         </div>
         <div class="section">
-            <span class="md-body-2">City:</span>
+            <span class="md-body-2"><span translate>CITY</span>:</span>
             <span class="md-body-1" ng-bind="vm.userProfile.merchantData.city || '-'"></span>
         </div>
         <div class="section">
-            <span class="md-body-2">ZIP:</span>
+            <span class="md-body-2"><span translate>ZIP</span>:</span>
             <span class="md-body-1" ng-bind="vm.userProfile.merchantData.zip || '-'"></span>
         </div>
     </div>
     <md-button ng-if="!vm.isEditingMerchant"
                ng-click="vm.isEditingMerchant = true"
                class="md-button-blue"
-               aria-label="Edit profile">Edit</md-button>
+               aria-label="Edit profile" translate>EDIT</md-button>
 </div>
 
 <div ng-if="vm.isEditingMerchant">
@@ -34,7 +34,7 @@
           ng-submit="vm.updateMerchant(vm.userProfile, editMerchantForm.$valid)">
         <div layout="column">
             <md-input-container class="md-block" flex>
-                <label>Address</label>
+                <label translate>ADDRESS</label>
                 <input name="paymentRouting"
                        required
                        ng-maxlength="20"
@@ -42,7 +42,7 @@
             </md-input-container>
 
             <md-input-container class="md-block" flex>
-                <label>State</label>
+                <label translate>STATE</label>
                 <md-select ng-model="vm.userProfile.merchantData.state"
                            ng-change="vm.resetSelectedCity();" required>
                     <md-option ng-repeat="state in vm.states track by state.id" ng-value="state.code">
@@ -65,16 +65,17 @@
                     <md-item-template>
                         <span md-highlight-text="vm.searchText">{{city.city}}</span>
                     </md-item-template>
-                    <div ng-messages="editMerchantForm.autocompleteField.$error" ng-if="editMerchantForm.autocompleteField.$touched">
-                        <div ng-message="md-require-match">Please select an existing city.</div>
-                        <div ng-message="minlength">Your entry is not long enough.</div>
-                        <div ng-message="maxlength">Your entry is too long.</div>
+                    <div ng-messages="editMerchantForm.autocompleteField.$error"
+                         ng-if="editMerchantForm.autocompleteField.$touched">
+                        <div ng-message="md-require-match">SELECT_AN_EXISTING_CITY</div>
+                        <div ng-message="minlength" translate>NOT_LONG_ENOUGH</div>
+                        <div ng-message="maxlength" translate>TOO_LONG</div>
                     </div>
                 </md-autocomplete>
             </md-input-container>
 
             <md-input-container class="md-block" flex>
-                <label>ZIP</label>
+                <label translate>ZIP</label>
                 <input name="Zip"
                        required
                        placeholder="00000(-0000)"
@@ -85,12 +86,15 @@
         <md-button type="submit"
                    class="md-button-blue"
                    aria-label="Save"
+                   translate
                    ng-if="vm.isEditingMerchant">
-            Save
+            SAVE
         </md-button>
-        <md-button class="md-button-blue" ng-if="vm.isEditingMerchant"
+        <md-button class="md-button-blue"
+                   ng-if="vm.isEditingMerchant"
+                   translate
                    ng-click="vm.cancelEditing()">
-            Cancel
+            CANCEL
         </md-button>
     </form>
 </div>

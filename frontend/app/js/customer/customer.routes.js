@@ -44,10 +44,10 @@
                     }
                 },
                 data: {
-                    title: 'New',
+                    title: 'NEW',
                     isPrivate: true,
                     menu: {
-                        title: 'New request',
+                        title: 'NEW_REQUEST',
                         icon: 'playlist_add'
                     }
                 }
@@ -63,10 +63,10 @@
                     }
                 },
                 data: {
-                    title: 'Requests',
+                    title: 'REQUESTS',
                     isPrivate: true,
                     menu: {
-                        title: 'Requests',
+                        title: 'REQUESTS',
                         icon: 'list'
                     }
                 }
@@ -98,9 +98,9 @@
                     }
                 },
                 data: {
-                    title: 'Request',
+                    title: 'REQUEST',
                     tab: {
-                        title: 'View',
+                        title: 'VIEW',
                         icon: 'list'
                     }
                 }
@@ -116,9 +116,9 @@
                     }
                 },
                 data: {
-                    title: 'Request',
+                    title: 'REQUEST',
                     tab: {
-                        title: 'Map',
+                        title: 'MAP',
                         icon: 'location_on'
                     }
                 }
@@ -136,7 +136,7 @@
                 data: {
                     title: 'Request',
                     tab: {
-                        title: 'Chat',
+                        title: 'CHAT',
                         icon: 'chat'
                     }
                 },
@@ -157,7 +157,7 @@
                 data: {
                     title: 'Request',
                     tab: {
-                        title: 'Recommended',
+                        title: 'RECOMMENDED',
                         icon: 'star'
                     }
                 }
@@ -169,7 +169,7 @@
                     title: 'Settings',
                     isPrivate: true,
                     menu: {
-                        title: 'Settings',
+                        title: 'SETTINGS',
                         icon: 'settings'
                     }
                 }
@@ -194,7 +194,7 @@
                 data: {
                     isPrivate: true,
                     menu: {
-                        title: 'Invite a friend',
+                        title: 'INVITE_A_FRIEND',
                         icon: 'message'
                     }
                 }

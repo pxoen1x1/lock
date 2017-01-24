@@ -4,7 +4,7 @@
   <div class="container-title" layout="row">
     <div flex>
       <i class="material-icons">location_on</i>
-      <span>Map</span>
+      <span translate>MAP</span>
     </div>
   </div>
   <div class="container-content"
@@ -45,16 +45,19 @@
             <div class="md-subhead" layout="row" layout-align="start center">
               <div ng-if="vm.selectedSpecialist.distance">
                 <span ng-bind="vm.selectedSpecialist.distance | number : 1"></span>
-                <span>miles away</span>
+                <span translate>MILES_AWAY</span>
               </div>
               <div ng-if="vm.selectedSpecialist.duration && vm.request.status === vm.requestStatus.IN_PROGRESS">
-                <span class="m-l-xs">- Estimated time of arrival:</span>
+                <span class="m-l-xs">
+                  <span>- </span>
+                  <span translation>ESTIMATED_TIME_OF_ARRIVAL</span>:
+                </span>
                 <span ng-bind="vm.selectedSpecialist.duration.text"></span>
               </div>
             </div>
             <div class="md-subhead status"
                  ng-class="{ 'not-available': !vm.selectedSpecialist.details.isAvailable }"
-                 ng-bind="vm.selectedSpecialist.details.isAvailable ? 'available' : 'not available now'">
+                 ng-bind="vm.selectedSpecialist.details.isAvailable ? 'AVAILABLE' : 'NOT_AVAILABLE_NOW' | translate">
             </div>
           </div>
 

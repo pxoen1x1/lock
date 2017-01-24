@@ -6,12 +6,20 @@
     </div>
     <div ng-if="vm.userProfile.spCardNumber">
         <div class="section first">
-            <span class="md-body-2">Card number:</span>
+            <span class="md-body-2" translate>CARD_NUMBER</span>:
             <span class="md-body-1" ng-bind="vm.userProfile.spCardNumber"></span>
         </div>
     </div>
-    <md-button ng-if="!vm.isEditingCard" class="md-button-blue" ng-click="vm.isEditingCard = true"">Edit</md-button>
-
+    <div layout="column">
+        <span class="md-body-1"
+              ng-hide="vm.userProfile.spCardNumber"
+              translate>
+            THERE_ARE_NO_CARD_INFORMATION
+        </span>
+        <div>
+            <md-button ng-if="!vm.isEditingCard" class="md-button-blue" ng-click="vm.isEditingCard = true"">Edit</md-button>
+        </div>
+    </div>
 </div>
 
 <div ng-if="vm.isEditingCard">
@@ -20,7 +28,7 @@
           ng-submit="vm.updateCustomerCard(vm.cardData, editCardForm.$valid)">
         <div layout="row">
             <md-input-container class="md-block" flex>
-                <label>Number</label>
+                <label translate>NUMBER</label>
                 <input name="number"
                        required
                        ng-maxlength="20"
@@ -28,7 +36,7 @@
             </md-input-container>
 
             <md-input-container class="md-block" flex>
-                <label>CVV</label>
+                <label translate>CVV</label>
                 <input name="cvv"
                        required
                        ng-maxlength="3"
@@ -36,7 +44,7 @@
             </md-input-container>
 
             <md-input-container class="md-block" flex>
-                <label>Expiration date MMYY</label>
+                <label translate>EXPIRATION_DATE_MMYY</label>
                 <input name="expiration"
                        required
                        ng-maxlength="4"
@@ -46,12 +54,13 @@
         <md-button type="submit"
                    class="md-button-blue"
                    aria-label="Save"
+                   translate
                    ng-if="vm.isEditingCard">
-            Save
+            SAVE
         </md-button>
         <md-button class="md-button-blue" ng-if="vm.isEditingCard"
                    ng-click="vm.cancelEditing()">
-            Cancel
+            CANCEL
         </md-button>
     </form>
 </div>

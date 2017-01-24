@@ -137,6 +137,31 @@
     md-card-actions .md-button {
       color: $primary-color;
     }
+
+    .profile-avatar {
+      -webkit-border-radius: 50%;
+      -moz-border-radius: 50%;
+      border-radius: 50%;
+      position: absolute;
+      width: 112px;
+      height: 112px;
+      position: relative;
+      background-size: cover;
+      background-position: center;
+    }
+
+    .avatar-wrapper {
+      position: relative;
+      width: 112px;
+    }
+
+    .avatar-wrapper:after {
+      content: "";
+      display: block;
+      padding-bottom: 0px;
+      width: 0px;
+      height: 0px;
+    }
   }
 }
 
