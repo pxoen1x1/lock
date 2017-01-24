@@ -30,7 +30,7 @@
                     }
                 },
                 data: {
-                    title: 'Group',
+                    title: 'GROUP',
                     isPrivate: true
                 }
             })
@@ -45,10 +45,10 @@
                     }
                 },
                 data: {
-                    title: 'Dashboard',
+                    title: 'DASHBOARD',
                     menu: {
                         icon: 'dashboard',
-                        title: 'Dashboard'
+                        title: 'DASHBOARD'
                     },
                     isPrivate: true
                 }
@@ -64,9 +64,9 @@
                     }
                 },
                 data: {
-                    title: 'New',
+                    title: 'DASHBOARD',
                     tab: {
-                        title: 'New',
+                        title: 'DASHBOARD_NEW',
                         icon: 'whatshot'
                     }
                 }
@@ -82,9 +82,9 @@
                     }
                 },
                 data: {
-                    title: 'Current',
+                    title: 'DASHBOARD_CURRENT',
                     tab: {
-                        title: 'Current',
+                        title: 'DASHBOARD_CURRENT',
                         icon: 'list'
                     }
                 }
@@ -100,9 +100,9 @@
                     }
                 },
                 data: {
-                    title: 'History',
+                    title: 'HISTORY',
                     tab: {
-                        title: 'History',
+                        title: 'HISTORY',
                         icon: 'history'
                     }
                 }
@@ -133,9 +133,9 @@
                     }
                 },
                 data: {
-                    title: 'Request',
+                    title: 'REQUEST',
                     tab: {
-                        title: 'View',
+                        title: 'VIEW',
                         icon: 'list'
                     }
                 }
@@ -151,9 +151,9 @@
                     }
                 },
                 data: {
-                    title: 'Map',
+                    title: 'MAP',
                     tab: {
-                        title: 'Map',
+                        title: 'MAP',
                         icon: 'location_on'
                     }
                 }
@@ -169,9 +169,9 @@
                     }
                 },
                 data: {
-                    title: 'Chat',
+                    title: 'CHAT',
                     tab: {
-                        title: 'Chat',
+                        title: 'CHAT',
                         icon: 'chat'
                     }
                 }
@@ -187,10 +187,10 @@
                     }
                 },
                 data: {
-                    title: 'Members',
+                    title: 'MEMBERS',
                     menu: {
                         icon: 'people',
-                        title: 'Members'
+                        title: 'MEMBERS'
                     }
                 }
             })
@@ -205,7 +205,7 @@
                     }
                 },
                 data: {
-                    title: 'Member Info'
+                    title: 'MEMBER_INFO'
                 }
             })
             .state('group.messages', {
@@ -219,10 +219,10 @@
                     }
                 },
                 data: {
-                    title: 'Messages',
+                    title: 'MESSAGES',
                     menu: {
                         icon: 'list',
-                        title: 'Messages'
+                        title: 'MESSAGES'
                     },
                     isPrivate: true
                 }
@@ -238,7 +238,7 @@
                     }
                 },
                 data: {
-                    title: 'Profile',
+                    title: 'PROFILE',
                     isPrivate: true
                 }
             });

@@ -56,6 +56,7 @@ let UserService = {
                     details.id AS 'details.id',
                     details.is_available AS 'details.isAvailable',
                     details.is_pro AS 'details.isPro',
+                    details.car_license_plate_number,
                     details.latitude AS 'details.latitude',
                     details.longitude AS 'details.longitude',
                     details.rating AS 'details.rating',
@@ -92,10 +93,7 @@ let UserService = {
     },
     create(user) {
 
-        return User.create(user)
-            .then(
-                (createdUser) => createdUser
-            );
+        return User.create(user);
     },
     updateUser(user) {
 

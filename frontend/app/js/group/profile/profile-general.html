@@ -124,11 +124,11 @@
                         </div>
                     </md-input-container>
                     <mdp-date-picker name="licenseDate"
-                                     mdp-placeholder="Expiration"
                                      mdp-min-date="vm.datePickerOptions.minDate"
                                      date-formatter
                                      ng-required
                                      ng-model="vm.userProfile.licenses[$index].date">
+                        <label translate>LICENSE_EXPIRATION</label>
                     </mdp-date-picker>
                     <div class="validation-messages"
                          ng-messages="editForm.licenseDate.$error">
@@ -149,17 +149,15 @@
         </div>
         <div layout-gt-xs="row">
             <md-button class="add-license-btn"
-                       translate
                        ng-click="vm.addLicenseForm()">
-                ADD_LICENSE
+                <span translate>ADD_LICENSE</span>
             </md-button>
         </div>
         <md-button type="submit"
                    class="md-raised md-warn"
                    aria-label="Save"
-                   translate
                    ng-if="vm.isEditing">
-            SAVE
+            <span translate>SAVE</span>
         </md-button>
     </form>
 </div>

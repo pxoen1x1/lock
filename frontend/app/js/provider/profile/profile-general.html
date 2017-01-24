@@ -28,8 +28,8 @@
     </div>
     <div class="section">
         <span class="md-body-2"><span translate>CAR_LICENSE_PLATE_NUMBER</span>:</span>
-        <span class="md-body-1" ng-bind="vm.userProfile.details.carLicensePlateNumber"
-              ng-if="vm.userProfile.details.carLicensePlateNumber"></span>
+        <span class="md-body-1" ng-bind="vm.userProfile.details.carLicensePlateNumber ?
+                                        vm.userProfile.details.carLicensePlateNumber : '-'"></span>
     </div>
     <div class="section" layout="row" ng-if="vm.licensesPresent">
         <span class="md-body-2"><span translate>LICENSES</span>:</span>
@@ -170,7 +170,9 @@
             </div>
         </div>
         <div layout-gt-xs="row">
-            <md-button class="add-license-btn" ng-click="vm.addLicenseForm()" translate>ADD_LICENSE</md-button>
+            <md-button class="add-license-btn" ng-click="vm.addLicenseForm()">
+                <span translate>ADD_LICENSE</span>
+            </md-button>
         </div>
         <p translate>SERVICES</p>
         <div layout-gt-xs="row">
