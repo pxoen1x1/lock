@@ -3,8 +3,7 @@
 let splashpayment = {
     host : 'test-api.splashpayments.com',
     contentType : 'application/json',
-    apikey : '33629206d38422c644df7e0d9d7838b0',
-    servicesEntityId : 'g1583617cdeaff5',
+
     endpoints: {
         merchants: '/merchants',
         entities: '/entities',
@@ -12,6 +11,7 @@ let splashpayment = {
         tokens: '/tokens',
         payouts: '/payouts',
         fees: '/fees',
+        orgEntities: '/orgEntities',
         accounts: '/accounts',
         txns: '/txns',
         funds: '/funds',
