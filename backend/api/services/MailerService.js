@@ -39,7 +39,7 @@ let MailerService = {
             );
     },
     generatedPassword(password, email) {
-        let templatePath = sails.config.application.mailer.templates.passwordResetRequest;
+        let templatePath = sails.config.application.mailer.templates.generatedPassword;
         let options = {};
         options.password = password;
         options.email = email;
