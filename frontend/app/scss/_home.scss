@@ -9,8 +9,22 @@
 $primary-blue: #01579b;
 $title-color: #8e8e8e;
 
-.wrapper {
+.home {
   height: auto;
+
+  .home-header .md-button.btn, .home-first .md-button.btn {
+
+    border-radius: 10px;
+    color: #fff;
+    font-size: 12px;
+    font-weight: bold;
+    line-height: 30px;
+    margin: 0;
+    min-height: 35px;
+    padding: 0 22px;
+    width: 161px;
+    height: 35px;
+  }
 }
 
 .logo {
@@ -28,10 +42,7 @@ $title-color: #8e8e8e;
 }
 
 .watch-video {
-  display: block;
-  width: 161px;
-  height: 35px;
-  background: url('../images/button_watch_video_button.png');
+  background-color: rgba(158,158,158,0.3);
 }
 
 .appstore {
@@ -132,6 +143,14 @@ $title-color: #8e8e8e;
       line-height: 60px;
       min-height: 60px;
       color: #868686;
+    }
+
+    .md-button.join {
+      background-color: $primary-blue;
+      color:#fff;
+    }
+    .md-button.join:hover {
+      color:#fff;
     }
 
     .md-button:hover, .md-button:active, .md-button:focus, .md-button.md-active {

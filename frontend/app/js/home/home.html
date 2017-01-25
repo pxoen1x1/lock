@@ -1,245 +1,256 @@
-<div layout="row" class="home-header" layout-xs="column">
-    <div flex="20" layout="row" layout-align="center center" layout-xs="column" flex-xs="20">
-        <div class="logo"></div>
-    </div>
-    <div ng-if="!vm.isAuthenticated()" flex="80" layout="row" layout-align="end top" layout-xs="column"
-         layout-align-xs="start center" flex-xs="80">
-        <md-nav-bar md-selected-nav-item="currentNavItem" nav-bar-aria-label="navigation links">
-            <md-nav-item md-nav-click="goto('page1')" name="page1">How it works</md-nav-item>
-            <md-nav-item md-nav-click="goto('page2')" name="page2">FAQ</md-nav-item>
-            <md-nav-item md-nav-sref="login">Sign in</md-nav-item>
-            <md-nav-item md-nav-sref="registration.customer" name="customer">Register</md-nav-item>
-            <md-nav-item md-nav-sref="registration.provider" name="provider">
-                <span class="join-as-a-locksmith"></span>
-            </md-nav-item>
-        </md-nav-bar>
-
-        <a href="#" hide show-xs><span class="watch-video"></span></a>
-
-    </div>
-</div>
-
-<div layout="column" class="home-first">
-    <div layout-align="center center" layout="column" flex-xs="25">
-
-        <h1>Book an appointment</h1>
-
-        <h2>The best specialists in the shortest possible time</h2>
-
-        <a href="#" hide show-gt-xs><span class="watch-video"></span></a>
-
-    </div>
-
-    <div layout="column" layout-align="start start" layout-align-xs="start stretch" class="request-form" flex-xs="75">
-        <form role="form"
-              name="newRequestForm"
-              novalidate layout="row" layout-xs="column"
-              ng-submit="vm.submit(vm.newRequest, newRequestForm.$valid)">
-            <md-input-container class="md-block" flex-gt-sm>
-                <label>First Name</label>
-                <input ng-model="vm.newRequest.name">
-            </md-input-container>
-            <md-input-container class="md-block" flex-gt-sm>
-                <label>Last Name</label>
-                <input ng-model="vm.newRequest.lastName">
-            </md-input-container>
-            <!--<md-input-container class="md-block" flex-gt-sm>
-                <label>Phone</label>
-                <input ng-model="vm.newRequest.phone">
-            </md-input-container>-->
-            <md-input-container class="md-block" flex-gt-sm>
-                <input  email-validation
-                        availability-validation
-                        placeholder="Email" ng-model="vm.newRequest.email" name="email" type="email">
-                <div ng-messages="newRequestForm.email.$error">
-                    <div ng-message="email">That doesn't look like a valid email.</div>
-                    <div ng-message="availability">This email already exists.</div>
-                </div>
-            </md-input-container>
-
-            <md-input-container class="md-block" flex-gt-sm>
-                <label>Service</label>
-                <md-select ng-model="vm.newRequest.service"
-                           ng-model-options="{trackBy: '$value.id'}">
-                    <md-option ng-repeat="serviceType in vm.serviceTypes track by serviceType.id"
-                               ng-value="serviceType" layout-xs="column">
-                        <span ng-bind="serviceType.name"></span>
-                    </md-option>
-                </md-select>
-                <!--<md-select aria-label="Services"
-                           multiple
-                           ng-model-options="{trackBy: '$value.id'}"
-                           ng-model="vm.userProfile.details.serviceTypes">
-                    <md-option ng-repeat="serviceType in vm.serviceTypes track by serviceType.id"
-                               ng-value="serviceType">
-                        <span ng-bind="serviceType.name"></span>
-                    </md-option>
-                </md-select>-->
-            </md-input-container>
-
-            <md-input-container class="md-block location" flex-gt-sm layout="row">
-                <input id="gmaps_autocomplete" ng-init="vm.initAutocomplete()" placeholder="Location" ng-model="vm.newRequest.location">
-                <i class="material-icons">place</i>
-            </md-input-container>
-
-
-
-            <button type="submit"
-                    aria-label="Send a request"
-                    class="md-button" flex="none"
-                    ng-disabled="newRequestForm.$invalid">
-                Send a request
-            </button>
-        </form>
-        <span hide-xs>Tip about what to do or what will happen after the booking</span>
-    </div>
-</div>
-
-<div class="home-map" layout="row">
-    <div class="map-wrapper" layout="column" flex>
-        <client-map-viewer class="map-viewer"
-                           flex
-                           current-request="vm.request"
-                           hire-specialist="vm.hireSpecialist(specialist)">
-        </client-map-viewer>
-    </div>
-</div>
-
-<div class="home-apps" layout="row" layout-align="center center">
-    <div layout="row" layout-align="center center" layout-margin layout-xs="column">
-        <div>
-            <span>download our app</span>
+<div class="home" layout="column">
+    <div layout="row" class="home-header" layout-xs="column">
+        <div flex="20" layout="row" layout-align="center center" layout-xs="column" flex-xs="20">
+            <div class="logo"></div>
         </div>
-        <div>
-            <div class="appstore"></div>
-            <div class="googleplay"></div>
+        <div ng-if="!vm.isAuthenticated()" flex="80" layout="row" layout-align="end top" layout-xs="column"
+             layout-align-xs="start center" flex-xs="80">
+            <md-nav-bar md-selected-nav-item="currentNavItem" nav-bar-aria-label="navigation links">
+                <md-nav-item md-nav-click="goto('page1')" name="page1">How it works</md-nav-item>
+                <md-nav-item md-nav-click="goto('page2')" name="page2">FAQ</md-nav-item>
+                <md-nav-item md-nav-sref="login">Sign in</md-nav-item>
+                <md-nav-item md-nav-sref="registration.customer" name="customer">Register</md-nav-item>
+                <md-nav-item md-nav-sref="registration.provider" name="provider" aria-label="">
+                    <button class="md-button join btn" aria-label="Join as locksmith">Join as locksmith</button>
+                </md-nav-item>
+            </md-nav-bar>
+
+            <a href="#" hide show-xs>
+                <button class="md-button watch-video btn" aria-label="Watch video">Watch video</button>
+            </a>
+
         </div>
     </div>
-</div>
 
-<div class="home-how block" layout="column" layout-align="center center">
-    <div>
-        <h1>how it works</h1>
-    </div>
-    <div layout="row" layout-align="space-around start">
-        <div layout="column" layout-align="start center" flex="25">
-            <span class="img send-a-reaquest"></span>
+    <div layout="column" class="home-first">
+        <div layout-align="center center" layout="column" flex-xs="25">
 
-            <h3 layout-align="center">send a request</h3>
+            <h1>Book an appointment</h1>
 
-            <span hide-xs>sdasda sdasda s asd asdas asdas asdasdasd asdasd as </span>
+            <h2>The best specialists in the shortest possible time</h2>
+
+            <a href="#" hide show-gt-xs>
+                <button class="md-button watch-video btn" aria-label="Watch video">Watch video</button>
+            </a>
+
         </div>
-        <div layout="column" layout-align="start center" flex="25">
-            <span class="img choose-a-locksmith"></span>
 
-            <h3>choose a locksmith</h3>
+        <div layout="column" layout-align="start start" layout-align-xs="start stretch" class="request-form"
+             flex-xs="75">
+            <form role="form"
+                  name="newRequestForm"
+                  novalidate layout="row" layout-xs="column"
+                  ng-submit="vm.submit(vm.newRequest, newRequestForm.$valid)">
+                <md-input-container class="md-block" flex-gt-sm>
+                    <label>First Name</label>
+                    <input ng-model="vm.newRequest.name">
+                </md-input-container>
+                <md-input-container class="md-block" flex-gt-sm>
+                    <label>Last Name</label>
+                    <input ng-model="vm.newRequest.lastName">
+                </md-input-container>
+                <!--<md-input-container class="md-block" flex-gt-sm>
+                    <label>Phone</label>
+                    <input ng-model="vm.newRequest.phone">
+                </md-input-container>-->
+                <md-input-container class="md-block" flex-gt-sm>
+                    <input email-validation
+                           availability-validation
+                           placeholder="Email" ng-model="vm.newRequest.email" name="email" type="email">
 
-            <span hide-xs>sdasda sdasda s asd asdas asdas asdasdasd asdasd as</span>
-        </div>
-        <div layout="column" layout-align="start center" flex="25">
-            <span class="img get-it-done"></span>
+                    <div ng-messages="newRequestForm.email.$error">
+                        <div ng-message="email">That doesn't look like a valid email.</div>
+                        <div ng-message="availability">This email already exists.</div>
+                    </div>
+                </md-input-container>
 
-            <h3>get it done</h3>
+                <md-input-container class="md-block" flex-gt-sm>
+                    <label>Service</label>
+                    <md-select ng-model="vm.newRequest.service"
+                               ng-model-options="{trackBy: '$value.id'}">
+                        <md-option ng-repeat="serviceType in vm.serviceTypes track by serviceType.id"
+                                   ng-value="serviceType" layout-xs="column">
+                            <span ng-bind="serviceType.name"></span>
+                        </md-option>
+                    </md-select>
+                    <!--<md-select aria-label="Services"
+                               multiple
+                               ng-model-options="{trackBy: '$value.id'}"
+                               ng-model="vm.userProfile.details.serviceTypes">
+                        <md-option ng-repeat="serviceType in vm.serviceTypes track by serviceType.id"
+                                   ng-value="serviceType">
+                            <span ng-bind="serviceType.name"></span>
+                        </md-option>
+                    </md-select>-->
+                </md-input-container>
 
-            <span hide-xs>sdasda sdasda s asd asdas asdas asdasdasd asdasd as</span>
+                <md-input-container class="md-block location" flex-gt-sm layout="row">
+                    <input id="gmaps_autocomplete" ng-init="vm.initAutocomplete()" placeholder="Location"
+                           ng-model="vm.newRequest.location">
+                    <i class="material-icons">place</i>
+                </md-input-container>
+
+
+                <button type="submit"
+                        aria-label="Send a request"
+                        class="md-button" flex="none"
+                        ng-disabled="newRequestForm.$invalid">
+                    Send a request
+                </button>
+            </form>
+            <span hide-xs>Tip about what to do or what will happen after the booking</span>
         </div>
     </div>
-</div>
 
-<div class="home-advanteges block" layout="column">
-    <div layout="row" layout-align="center">
-        <h1>advanteges</h1>
+    <div class="home-map" layout="row">
+        <div class="map-wrapper" layout="column" flex>
+            <client-map-viewer class="map-viewer"
+                               flex
+                               current-request="vm.request"
+                               hire-specialist="vm.hireSpecialist(specialist)">
+            </client-map-viewer>
+        </div>
     </div>
-    <div layout="row" class="item">
-        <div layout="row" flex="40" layout-align="end" flex-xs="60">
-            <div layout="column" layout-align="center end" flex="50" flex-xs="100">
-                <div class="text" layout="column" layout-align="center center" layout-align-xs="center start">
-                    <h3>saves your time</h3>
-                    <span>asasd asd asd asdasd asd asdasda sdasd asd sdasda sdasda s asd asdas asdas asdasdasd asdasd as</span>
-                </div>
+
+    <div class="home-apps" layout="row" layout-align="center center">
+        <div layout="row" layout-align="center center" layout-margin layout-xs="column">
+            <div>
+                <span>download our app</span>
             </div>
-        </div>
-        <div layout="row" layout-align="end" layout-align-xs="start" flex="60" flex-xs="40">
-            <div class="img icon-advanteges"></div>
-        </div>
-    </div>
-
-    <div layout="row" class="item">
-        <div flex="60" layout="row" layout-align="start" layout-align-xs="end" flex-xs="40">
-            <div class="img icon-same-day-help"></div>
-        </div>
-        <div layout="row" flex="40" layout-align="start" flex-xs="60">
-            <div layout="column" layout-align="center start" flex="50" flex-xs="100">
-                <div class="text" layout="column" layout-align="center center" layout-align-xs="center start">
-                    <h3>same-day help</h3>
-                    <span>asasd asd asd asdasd asd asdasda sdasd asd sdasda sdasda s asd asdas asdas asdasdasd asdasd as</span>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div layout="row" class="item">
-        <div layout="row" flex="40" layout-align="end" flex-xs="60">
-            <div layout="column" layout-align="center end" flex="50" flex-xs="100">
-                <div class="text" layout="column" layout-align="center center" layout-align-xs="center start">
-                    <h3>trust and safety</h3>
-                    <span>asasd asd asd asdasd asd asdasda sdasd asd sdasda sdasda s asd asdas asdas asdasdasd asdasd as</span>
-                </div>
-            </div>
-        </div>
-        <div flex="60" layout="row" layout-align="end" layout-align-xs="start" flex-xs="40">
-            <div class="img icon-trust-and-safe"></div>
-        </div>
-    </div>
-</div>
-
-<div class="home-feedbacks" layout="column" layout-align="center center">
-    <md-card layout="row" layout-align="center center">
-        <jk-carousel
-                data="vm.feedbacksDataArray"
-                item-template-url="'home/feedback-item-template.html'"
-                max-width="800"
-                ng-attr-max-height="{{$mdMedia('gt-xs') && '260' || '' }}"
-                auto-slide="false">
-        </jk-carousel>
-    </md-card>
-</div>
-
-<div class="home-need" layout="column" layout-align="center center" layout-align-xs="center center">
-    <h1>Need a locksmith?</h1>
-    <button scroll-to=".request-form" offset="-50" type="submit"
-            aria-label="Send a request"
-            class="md-button">
-        Send a request
-    </button>
-</div>
-
-<div class="home-footer" layout="row" layout-align="center center" layout-xs="column" layout-align-xs="start stretch">
-    <div layout="row" flex="100" layout-align="space-around start" layout-xs="column" layout-align-xs="start stretch">
-        <div layout="row" flex="60" layout-align="space-around start" layout-align-xs="space-between start"
-             flex-xs="40">
-            <div layout="column" layout-align="start start" flex-sx="50">
-
-                <h3>get in touch</h3>
-
-                <span>180 South Street, New York,</span>
-                <span>NY 10038</span>
-            </div>
-            <div layout="column" class="apps" layout-align="start center" flex-sx="50">
-                <h3>download our app</h3>
+            <div>
                 <div class="appstore"></div>
                 <div class="googleplay"></div>
             </div>
         </div>
-        <div layout="column" flex="30" flex-xs="100">
-            <div>
-                <h3>we are social</h3>
+    </div>
+
+    <div class="home-how block" layout="column" layout-align="center center">
+        <div>
+            <h1>how it works</h1>
+        </div>
+        <div layout="row" layout-align="space-around start">
+            <div layout="column" layout-align="start center" flex="25">
+                <span class="img send-a-reaquest"></span>
+
+                <h3 layout-align="center">send a request</h3>
+
+                <span hide-xs>sdasda sdasda s asd asdas asdas asdasdasd asdasd as </span>
             </div>
-            <div layout="row">
-                <span class="icon-facebook"></span>
-                <span class="icon-twitter"></span>
-                <span class="icon-google"></span>
-                <span class="icon-instagram"></span>
-                <span class="icon-youtube"></span>
+            <div layout="column" layout-align="start center" flex="25">
+                <span class="img choose-a-locksmith"></span>
+
+                <h3>choose a locksmith</h3>
+
+                <span hide-xs>sdasda sdasda s asd asdas asdas asdasdasd asdasd as</span>
+            </div>
+            <div layout="column" layout-align="start center" flex="25">
+                <span class="img get-it-done"></span>
+
+                <h3>get it done</h3>
+
+                <span hide-xs>sdasda sdasda s asd asdas asdas asdasdasd asdasd as</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="home-advanteges block" layout="column">
+        <div layout="row" layout-align="center">
+            <h1>advanteges</h1>
+        </div>
+        <div layout="row" class="item">
+            <div layout="row" flex="40" layout-align="end" flex-xs="60">
+                <div layout="column" layout-align="center end" flex="50" flex-xs="100">
+                    <div class="text" layout="column" layout-align="center center" layout-align-xs="center start">
+                        <h3>saves your time</h3>
+                        <span>asasd asd asd asdasd asd asdasda sdasd asd sdasda sdasda s asd asdas asdas asdasdasd asdasd as</span>
+                    </div>
+                </div>
+            </div>
+            <div layout="row" layout-align="end" layout-align-xs="start" flex="60" flex-xs="40">
+                <div class="img icon-advanteges"></div>
+            </div>
+        </div>
+
+        <div layout="row" class="item">
+            <div flex="60" layout="row" layout-align="start" layout-align-xs="end" flex-xs="40">
+                <div class="img icon-same-day-help"></div>
+            </div>
+            <div layout="row" flex="40" layout-align="start" flex-xs="60">
+                <div layout="column" layout-align="center start" flex="50" flex-xs="100">
+                    <div class="text" layout="column" layout-align="center center" layout-align-xs="center start">
+                        <h3>same-day help</h3>
+                        <span>asasd asd asd asdasd asd asdasda sdasd asd sdasda sdasda s asd asdas asdas asdasdasd asdasd as</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div layout="row" class="item">
+            <div layout="row" flex="40" layout-align="end" flex-xs="60">
+                <div layout="column" layout-align="center end" flex="50" flex-xs="100">
+                    <div class="text" layout="column" layout-align="center center" layout-align-xs="center start">
+                        <h3>trust and safety</h3>
+                        <span>asasd asd asd asdasd asd asdasda sdasd asd sdasda sdasda s asd asdas asdas asdasdasd asdasd as</span>
+                    </div>
+                </div>
+            </div>
+            <div flex="60" layout="row" layout-align="end" layout-align-xs="start" flex-xs="40">
+                <div class="img icon-trust-and-safe"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="home-feedbacks" layout="column" layout-align="center center">
+        <md-card layout="row" layout-align="center center">
+            <jk-carousel
+                    data="vm.feedbacksDataArray"
+                    item-template-url="'home/feedback-item-template.html'"
+                    max-width="800"
+                    ng-attr-max-height="{{$mdMedia('gt-xs') && '260' || '' }}"
+                    auto-slide="false">
+            </jk-carousel>
+        </md-card>
+    </div>
+
+    <div class="home-need" layout="column" layout-align="center center" layout-align-xs="center center">
+        <h1>Need a locksmith?</h1>
+        <button scroll-to=".request-form" offset="-50" type="submit"
+                aria-label="Send a request"
+                class="md-button">
+            Send a request
+        </button>
+    </div>
+
+    <div class="home-footer" layout="row" layout-align="center center" layout-xs="column"
+         layout-align-xs="start stretch">
+        <div layout="row" flex="100" layout-align="space-around start" layout-xs="column"
+             layout-align-xs="start stretch">
+            <div layout="row" flex="60" layout-align="space-around start" layout-align-xs="space-between start"
+                 flex-xs="40">
+                <div layout="column" layout-align="start start" flex-sx="50">
+
+                    <h3>get in touch</h3>
+
+                    <span>180 South Street, New York,</span>
+                    <span>NY 10038</span>
+                </div>
+                <div layout="column" class="apps" layout-align="start center" flex-sx="50">
+                    <h3>download our app</h3>
+
+                    <div class="appstore"></div>
+                    <div class="googleplay"></div>
+                </div>
+            </div>
+            <div layout="column" flex="30" flex-xs="100">
+                <div>
+                    <h3>we are social</h3>
+                </div>
+                <div layout="row">
+                    <span class="icon-facebook"></span>
+                    <span class="icon-twitter"></span>
+                    <span class="icon-google"></span>
+                    <span class="icon-instagram"></span>
+                    <span class="icon-youtube"></span>
+                </div>
             </div>
         </div>
     </div>
