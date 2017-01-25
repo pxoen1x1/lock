@@ -21,13 +21,20 @@ let AuthController = waterlock.waterlocked({
         let params = req.allParams();
         let auth = params.auth;
 
-        if ((!auth || !auth.password || !auth.email) ||
-            (!auth.user || !auth.user.firstName || !auth.user.lastName || !auth.user.phoneNumber)) {
+
+        if ((!auth || !auth.email) ||
+            (!auth.user || !auth.user.firstName || !auth.user.lastName)) { // || !auth.user.phoneNumber
 
             return res.badRequest({
                 message: req.__('Submitted data is invalid.')
             });
         }
+
+        if (!auth.password) {
+
+            auth.password = AuthService.generatePassword();
+        }
+
 
         AuthService.register(auth)
             .then(
@@ -53,6 +60,12 @@ let AuthController = waterlock.waterlocked({
                 (createdUser) => sendConfirmation(createdUser)
             )
             .then(
+                (createdUser) => {
+
+                    return [createdUser, MailerService.generatedPassword(auth.password, auth.email)];
+                }
+            )
+            .spread(
                 (createdUser) => {
                     // store user in && authenticate the session
                     req.session.user = createdUser;

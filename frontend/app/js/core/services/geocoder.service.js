@@ -23,6 +23,7 @@
             stopGeoTracking: stopGeoTracking,
             getCoordinates: getCoordinates,
             getLocation: getLocation,
+            initLocationAutocomplete: initLocationAutocomplete,
             getBoundsOfDistance: getBoundsOfDistance,
             getDistance: getDistance
         };
@@ -136,6 +137,19 @@
             });
 
             return deferred.promise;
+        }
+
+        function initLocationAutocomplete(inputId) {
+
+            return uiGmapGoogleMapApi.then(function (googleMaps) {
+                var options = {
+                    componentRestrictions: {country: 'us'}
+                };
+                var input = document.getElementById(inputId);
+
+                return new googleMaps.places.Autocomplete(input, options);
+            });
+
         }
 
         function getBoundsOfDistance(latitude, longitude, distance) {

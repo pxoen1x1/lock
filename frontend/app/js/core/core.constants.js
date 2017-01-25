@@ -51,7 +51,7 @@
             IMAGES: {
                 'requestLocationMarker': '/images/map-marker-request.png',
                 'currentLocationMarker': '/images/map-marker-current.png',
-                'locksmithLocationMarker': '/images/map-marker-locksmith.png',
+                'locksmithLocationMarker': '/images/location.png',
                 'defaultPortrait': '/images/default-portrait.jpg'
             },
             DISTANCE: {
@@ -65,6 +65,10 @@
                     images: 'jpg jpeg png gif'
                 },
                 maxFileSize: 2000000
+            },
+            DEFAULT_MAP_AREA: {
+                latitude: 40.730610,
+                longitude: -73.935242
             }
         });
 })();

@@ -11,7 +11,8 @@
             mapOptions: '<?',
             isSpecialistHidden: '@',
             selectedSpecialist: '=?',
-            showSpecialistInfo: '&?'
+            showSpecialistInfo: '&?',
+            hireSpecialist: '&?'
         }
     };
 
@@ -25,12 +26,13 @@
         'uiGmapIsReady',
         'coreConstants',
         'customerDataservice',
-        'geocoderService'
+        'geocoderService',
+        'conf'
     ];
 
     /* @ngInject */
     function ClientMapViewerController($scope, $window, uiGmapIsReady, coreConstants, customerDataservice,
-                                       geocoderService) {
+                                       geocoderService, conf) {
         var promises = {
             findSpecialists: null
         };
@@ -75,8 +77,8 @@
         vm.map = {
             events: {},
             center: {
-                latitude: null,
-                longitude: null
+                latitude: coreConstants.DEFAULT_MAP_AREA.latitude,
+                longitude: coreConstants.DEFAULT_MAP_AREA.longitude
             },
             control: {},
             options: {
@@ -87,10 +89,10 @@
             specialistMarker: {
                 options: {
                     icon: {
-                        url: '/images/map-marker-locksmith.png',
+                        url: coreConstants.IMAGES.locksmithLocationMarker,
                         scaledSize: {
-                            width: 50,
-                            height: 50
+                            width: 28,
+                            height: 41
                         }
                     },
                     animation: 2
@@ -100,10 +102,11 @@
                 }
             },
             markers: [],
-            zoom: 16,
+            zoom: 16
         };
 
         vm.requestStatus = coreConstants.REQUEST_STATUSES;
+        vm.hire = hire;
 
         activate();
 
@@ -143,6 +146,10 @@
 
             if (!boundsOfDistance) {
                 boundsOfDistance = getBoundsOfDistance(vm.currentRequest);
+                if(!boundsOfDistance) {
+
+                    return;
+                }
             }
 
             var bounds = gMarker.getBounds();
@@ -204,7 +211,7 @@
             requestLocationMarker.longitude = request.location.longitude;
             requestLocationMarker.text = request.location.address;
 
-            vm.map.markers.push(requestLocationMarker);
+            vm.map.markers[0] = requestLocationMarker ;
 
             if (request.status !== vm.requestStatus.IN_PROGRESS || vm.isSpecialistHidden) {
                 setMapCenter(request.location.latitude, request.location.longitude);
@@ -242,14 +249,18 @@
         }
 
         function showSpecialistInfo(marker, eventName, model) {
-            if (!vm.showSpecialistInfo) {
-
-                return;
-            }
 
             vm.selectedSpecialist = angular.extend(vm.selectedSpecialist, model.control);
 
-            vm.showSpecialistInfo({selectedSpecialist: vm.selectedSpecialist});
+            if (vm.showSpecialistInfo) {
+
+                vm.showSpecialistInfo({selectedSpecialist: vm.selectedSpecialist});
+            }
+        }
+
+        function hire(specialist) {
+
+            vm.hireSpecialist({specialist: specialist});
         }
 
         function setMapCenter(latitude, longitude) {
@@ -317,7 +328,7 @@
 
                 setMapCenter(leg.start_location.lat(), leg.start_location.lng());
 
-                vm.selectedSpecialist.distance = leg.distance.value/1000 * coreConstants.DISTANCE.toMile;
+                vm.selectedSpecialist.distance = leg.distance.value / 1000 * coreConstants.DISTANCE.toMile;
                 vm.selectedSpecialist.duration = leg.duration;
             });
         }
@@ -372,6 +383,15 @@
                             setMapCenter(vm.currentRequest.location.latitude, vm.currentRequest.location.longitude);
                             stopLocationEventListener(locationHandler);
                         }
+                    });
+
+                    $scope.$watch('vm.currentRequest.location.address', function (newLocation, oldLocation) {
+                        if(newLocation === oldLocation) {
+
+                            return;
+                        }
+
+                        setRequestMarker(vm.currentRequest);
                     });
                 });
 
