@@ -9,17 +9,19 @@
         '$q',
         '$stateParams',
         '$mdDialog',
+        'conf',
         'coreConstants',
         'coreDataservice',
         'chatSocketservice',
         'currentRequestService',
         'customerDataservice',
-        'conf'
+        'mobileService'
     ];
 
     /* @ngInject */
-    function CustomerViewRequestController($q, $stateParams, $mdDialog, coreConstants, coreDataservice,
-                                           chatSocketservice, currentRequestService, customerDataservice, conf) {
+    function CustomerViewRequestController($q, $stateParams, $mdDialog, conf, coreConstants, coreDataservice,
+                                           chatSocketservice, currentRequestService, customerDataservice,
+                                           mobileService) {
         var promises = {
             getRequest: null,
             getFeedback: null
@@ -44,7 +46,7 @@
         };
 
         vm.baseUrl = conf.BASE_URL;
-        vm.defaultPortrait = coreConstants.IMAGES.defaultPortrait;
+        vm.defaultPortrait = mobileService.getImagePath(coreConstants.IMAGES.defaultPortrait);
         vm.requestStatus = coreConstants.REQUEST_STATUSES;
         vm.dateFormat = coreConstants.DATE_FORMAT;
 

@@ -16,9 +16,16 @@
         .module('app.chat')
         .component('specialistInfoPanel', specialistInfoPanelConfig);
 
-    SpecialistInfoPanelController.$inject = ['$scope', '$q', 'coreConstants', 'conf', 'chatSocketservice'];
+    SpecialistInfoPanelController.$inject = [
+        '$scope',
+        '$q',
+        'conf',
+        'coreConstants',
+        'chatSocketservice',
+        'mobileService'
+    ];
 
-    function SpecialistInfoPanelController($scope, $q, coreConstants, conf, chatSocketservice) {
+    function SpecialistInfoPanelController($scope, $q, conf, coreConstants, chatSocketservice, mobileService) {
         var pagination = {
             reviews: {}
         };
@@ -28,7 +35,7 @@
 
         vm.baseUrl = conf.BASE_URL;
         vm.userType = coreConstants.USER_TYPES;
-        vm.defaultPortrait = coreConstants.IMAGES.defaultPortrait;
+        vm.defaultPortrait = mobileService.getImagePath(coreConstants.IMAGES.defaultPortrait);
 
         vm.loadPrevReviews = loadPrevReviews;
         vm.close = close;

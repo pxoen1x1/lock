@@ -8,17 +8,19 @@
     CustomerRequestRecommendedController.$inject = [
         '$state',
         '$stateParams',
+        'conf',
         'coreConstants',
         'currentRequestService',
         'geocoderService',
         'chatSocketservice',
         'customerDataservice',
-        'conf'
+        'mobileService'
     ];
 
     /* @ngInject */
-    function CustomerRequestRecommendedController($state, $stateParams, coreConstants, currentRequestService,
-                                                  geocoderService, chatSocketservice, customerDataservice, conf) {
+    function CustomerRequestRecommendedController($state, $stateParams, conf, coreConstants, currentRequestService,
+                                                  geocoderService, chatSocketservice, customerDataservice,
+                                                  mobileService) {
         var currentRequestId = $stateParams.requestId;
         var promises = {
             findSpecialists: null
@@ -31,7 +33,7 @@
 
         vm.baseUrl = conf.BASE_URL;
         vm.requestStatus = coreConstants.REQUEST_STATUSES;
-        vm.defaultPortrait = coreConstants.IMAGES.defaultPortrait;
+        vm.defaultPortrait = mobileService.getImagePath(coreConstants.IMAGES.defaultPortrait);
 
         vm.findSpecialists = findSpecialists;
         vm.createChat = createChat;

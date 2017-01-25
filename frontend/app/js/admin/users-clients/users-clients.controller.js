@@ -5,10 +5,16 @@
         .module('app.admin')
         .controller('AdminUsersClientsController', AdminUsersClientsController);
 
-    AdminUsersClientsController.$inject = ['$mdMedia', 'coreConstants', 'conf', 'adminDataservice'];
+    AdminUsersClientsController.$inject = [
+        '$mdMedia',
+        'conf',
+        'coreConstants',
+        'adminDataservice',
+        'mobileService'
+    ];
 
     /* @ngInject */
-    function AdminUsersClientsController($mdMedia, coreConstants, conf, adminDataservice) {
+    function AdminUsersClientsController($mdMedia, conf, coreConstants, adminDataservice, mobileService) {
         var promises = {
             getAllUsers: null
         };
@@ -19,7 +25,7 @@
 
         vm.baseUrl = conf.BASE_URL;
         vm.paginationOptions = coreConstants.PAGINATION_OPTIONS;
-        vm.defaultPortrait = coreConstants.IMAGES.defaultPortrait;
+        vm.defaultPortrait = mobileService.getImagePath(coreConstants.IMAGES.defaultPortrait);
         vm.dateFormat = coreConstants.DATE_FORMAT;
 
         vm.isAllUsersLoaded = false;

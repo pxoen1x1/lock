@@ -8,15 +8,16 @@
     GroupRequestMapController.$inject = [
         '$scope',
         '$stateParams',
+        'conf',
         'coreConstants',
         'chatSocketservice',
         'currentRequestService',
-        'conf'
+        'mobileService'
     ];
 
     /* @ngInject */
-    function GroupRequestMapController($scope, $stateParams, coreConstants, chatSocketservice,
-                                            currentRequestService, conf) {
+    function GroupRequestMapController($scope, $stateParams, conf, coreConstants, chatSocketservice,
+                                       currentRequestService, mobileService) {
         var requestHandler;
         var currentRequestId = $stateParams.requestId;
 
@@ -26,7 +27,7 @@
 
         vm.baseUrl = conf.BASE_URL;
         vm.requestStatus = coreConstants.REQUEST_STATUSES;
-        vm.defaultPortrait = coreConstants.IMAGES.defaultPortrait;
+        vm.defaultPortrait = mobileService.getImagePath(coreConstants.IMAGES.defaultPortrait);
 
         activate();
 
@@ -62,7 +63,7 @@
                     listenRequestEvent();
                 });
 
-            $scope.$on('$destroy', function(){
+            $scope.$on('$destroy', function () {
                 chatSocketservice.offRequest(requestHandler);
             });
         }

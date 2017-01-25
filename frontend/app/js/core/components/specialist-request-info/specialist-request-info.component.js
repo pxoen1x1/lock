@@ -17,13 +17,15 @@
         .component('specialistRequestInfo', specialistRequestInfoConfig);
 
     SpecialistRequestInfoController.$inject = [
+        'conf',
         'coreConstants',
         'coreDataservice',
         'currentRequestService',
-        'conf'
+        'mobileService'
     ];
 
-    function SpecialistRequestInfoController(coreConstants, coreDataservice, currentRequestService, conf) {
+    function SpecialistRequestInfoController(conf, coreConstants, coreDataservice, currentRequestService,
+                                             mobileService) {
         var promises = {
             getRequest: null
         };
@@ -45,7 +47,7 @@
 
         vm.baseUrl = conf.BASE_URL;
         vm.dateFormat = coreConstants.DATE_FORMAT;
-        vm.defaultPortrait = coreConstants.IMAGES.defaultPortrait;
+        vm.defaultPortrait = mobileService.getImagePath(coreConstants.IMAGES.defaultPortrait);
         vm.requestStatus = coreConstants.REQUEST_STATUSES;
 
         activate();

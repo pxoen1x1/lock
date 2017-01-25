@@ -30,18 +30,20 @@
         '$scope',
         '$mdMedia',
         '$mdSidenav',
-        'chatSocketservice',
+        'conf',
         'coreConstants',
-        'conf'
+        'chatSocketservice',
+        'mobileService'
     ];
 
     /* @ngInject */
-    function SpecialistBidListController($scope, $mdMedia, $mdSidenav, chatSocketservice, coreConstants, conf) {
+    function SpecialistBidListController($scope, $mdMedia, $mdSidenav, conf, coreConstants, chatSocketservice,
+                                         mobileService) {
         var bidHandler;
         var vm = this;
 
         vm.baseUrl = conf.BASE_URL;
-        vm.defaultPortrait = coreConstants.IMAGES.defaultPortrait;
+        vm.defaultPortrait = mobileService.getImagePath(coreConstants.IMAGES.defaultPortrait);
 
         vm.changeCurrentBid = changeCurrentBid;
 
@@ -73,7 +75,7 @@
                         return item.id !== bid.id;
                     });
 
-                    if(vm.bids.length === 0) {
+                    if (vm.bids.length === 0) {
                         vm.selectedTab = 'chats';
                     }
                 }

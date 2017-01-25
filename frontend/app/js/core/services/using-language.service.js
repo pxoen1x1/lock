@@ -5,10 +5,10 @@
         .module('app.core')
         .factory('usingLanguageService', usingLanguageService);
 
-    usingLanguageService.$inject = ['$mdDialog', 'localService'];
+    usingLanguageService.$inject = ['$q', '$mdDialog', 'localService'];
 
     /* @ngInject */
-    function usingLanguageService($mdDialog, localService) {
+    function usingLanguageService($q, $mdDialog, localService) {
         var service = {
             getLanguage: getLanguage,
             setLanguage: setLanguage,
@@ -42,7 +42,7 @@
         function showUsingLanguageModal() {
             if (isLanguageSelected()) {
 
-                return;
+                return $q.resolve();
             }
 
             return $mdDialog.show({
@@ -52,7 +52,12 @@
                 clickOutsideToClose: false,
                 escapeToClose: false,
                 hasBackdrop: true
-            });
+            })
+                .then(function (language) {
+                    setLanguage(language);
+
+                    return language;
+                });
         }
     }
 })();

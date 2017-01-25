@@ -27,12 +27,12 @@
         'coreConstants',
         'customerDataservice',
         'geocoderService',
-        'conf'
+        'mobileService'
     ];
 
     /* @ngInject */
     function ClientMapViewerController($scope, $window, uiGmapIsReady, coreConstants, customerDataservice,
-                                       geocoderService, conf) {
+                                       geocoderService, mobileService) {
         var promises = {
             findSpecialists: null
         };
@@ -48,7 +48,7 @@
         var locationHandler;
         var requestLocationMarker = {
             icon: {
-                url: coreConstants.IMAGES.requestLocationMarker,
+                url: mobileService.getImagePath(coreConstants.IMAGES.requestLocationMarker),
                 scaledSize: {
                     width: 30,
                     height: 30
@@ -89,7 +89,7 @@
             specialistMarker: {
                 options: {
                     icon: {
-                        url: coreConstants.IMAGES.locksmithLocationMarker,
+                        url: mobileService.getImagePath(coreConstants.IMAGES.locksmithLocationMarker),
                         scaledSize: {
                             width: 28,
                             height: 41
@@ -146,10 +146,11 @@
 
             if (!boundsOfDistance) {
                 boundsOfDistance = getBoundsOfDistance(vm.currentRequest);
-                if(!boundsOfDistance) {
+            }
 
-                    return;
-                }
+            if(!boundsOfDistance) {
+
+                return;
             }
 
             var bounds = gMarker.getBounds();
