@@ -32,7 +32,7 @@
     "angular-file-upload": "^2.3.4",
     "angular-sails": "^1.1.4",
     "angular-translate": "^2.13.1",
-    "angular-translate-handler-log": "^2.13.1"
+    "angular-translate-handler-log": "^2.13.1",
     "angular-jk-carousel": "^0.1.9"
   },
   "devDependencies": {},

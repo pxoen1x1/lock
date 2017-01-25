@@ -61,12 +61,11 @@ let AuthController = waterlock.waterlocked({
             )
             .then(
                 (createdUser) => {
-                    MailerService.generatedPassword(auth.password, auth.email);
 
-                    return createdUser;
+                    return [createdUser, MailerService.generatedPassword(auth.password, auth.email)];
                 }
             )
-            .then(
+            .spread(
                 (createdUser) => {
                     // store user in && authenticate the session
                     req.session.user = createdUser;
@@ -241,11 +240,11 @@ let AuthController = waterlock.waterlocked({
         let promiseGetUser = hasToken ? AuthService.getUserByToken(req) : Promise.resolve();
 
         Promise.all([
-                promiseCheckSSN,
-                promiseCheckPhoneNumber,
-                promiseCheckEmail,
-                promiseGetUser
-            ])
+            promiseCheckSSN,
+            promiseCheckPhoneNumber,
+            promiseCheckEmail,
+            promiseGetUser
+        ])
             .then(
                 (params) => {
                     let userId = params[3] ? params[3].id : null;
