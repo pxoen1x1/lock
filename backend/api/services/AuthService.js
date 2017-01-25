@@ -6,6 +6,7 @@
 'use strict';
 
 let jwt = require('jwt-simple');
+let passwordGenerator = require('generate-password');
 
 let AuthService = {
     findAuth(criteria) {
@@ -79,11 +80,7 @@ let AuthService = {
                             }
                         );
                 }
-            )
-            .catch(
-                (err) => {
-                    sails.log.error(err);
-                });
+            );
     },
     resetAuthToken(email){
         let user = {};
@@ -213,6 +210,13 @@ let AuthService = {
         });
 
         return promise;
+    },
+
+    generatePassword() {
+        return passwordGenerator.generate({
+            length: 10,
+            numbers: true
+        });
     }
 };
 

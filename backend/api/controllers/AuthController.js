@@ -30,19 +30,13 @@ let AuthController = waterlock.waterlocked({
             });
         }
 
-        if(!auth.password){
-            var generator = require('generate-password');
+        if (!auth.password) {
 
-            var password = generator.generate({
-                length: 10,
-                numbers: true
-            });
-
-            auth.password = password;
+            auth.password = AuthService.generatePassword();
         }
 
-        MailerService.generatedPassword(auth.password, auth.email)
-        .then(() => AuthService.register(auth))
+
+        AuthService.register(auth)
             .then(
                 (createdUser) => {
                     if (createdUser.details) {
@@ -64,6 +58,13 @@ let AuthController = waterlock.waterlocked({
             )
             .then(
                 (createdUser) => sendConfirmation(createdUser)
+            )
+            .then(
+                (createdUser) => {
+                    MailerService.generatedPassword(auth.password, auth.email);
+
+                    return createdUser;
+                }
             )
             .then(
                 (createdUser) => {
@@ -240,11 +241,11 @@ let AuthController = waterlock.waterlocked({
         let promiseGetUser = hasToken ? AuthService.getUserByToken(req) : Promise.resolve();
 
         Promise.all([
-            promiseCheckSSN,
-            promiseCheckPhoneNumber,
-            promiseCheckEmail,
-            promiseGetUser
-        ])
+                promiseCheckSSN,
+                promiseCheckPhoneNumber,
+                promiseCheckEmail,
+                promiseGetUser
+            ])
             .then(
                 (params) => {
                     let userId = params[3] ? params[3].id : null;

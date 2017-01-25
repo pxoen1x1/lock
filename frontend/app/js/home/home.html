@@ -1,8 +1,6 @@
 <div layout="row" class="home-header" layout-xs="column">
     <div flex="20" layout="row" layout-align="center center" layout-xs="column" flex-xs="20">
-        <div>
-            <img src="/images/logo.png">
-        </div>
+        <div class="logo"></div>
     </div>
     <div ng-if="!vm.isAuthenticated()" flex="80" layout="row" layout-align="end top" layout-xs="column"
          layout-align-xs="start center" flex-xs="80">
@@ -12,11 +10,11 @@
             <md-nav-item md-nav-sref="login">Sign in</md-nav-item>
             <md-nav-item md-nav-sref="registration.customer" name="customer">Register</md-nav-item>
             <md-nav-item md-nav-sref="registration.provider" name="provider">
-                <img src="/images/button_join_as_a_locksmith.png">
+                <span class="join-as-a-locksmith"></span>
             </md-nav-item>
         </md-nav-bar>
 
-        <a href="#"><img src="/images/button_watch video button.png" hide show-xs></a>
+        <a href="#" hide show-xs><span class="watch-video"></span></a>
 
     </div>
 </div>
@@ -28,7 +26,7 @@
 
         <h2>The best specialists in the shortest possible time</h2>
 
-        <a href="#"><img src="/images/button_watch video button.png" hide show-gt-xs></a>
+        <a href="#" hide show-gt-xs><span class="watch-video"></span></a>
 
     </div>
 
@@ -99,13 +97,10 @@
 
 <div class="home-map" layout="row">
     <div class="map-wrapper" layout="column" flex>
-        <!--<img src="/images/home-map.png"/>-->
         <client-map-viewer class="map-viewer"
                            flex
                            current-request="vm.request"
-                           hire-specialist="vm.hireSpecialist(specialist)"
-        ><!--show-specialist-info="vm.showSelectedSpecialistInfo(selectedSpecialist)"
-                           selected-specialist="vm.selectedSpecialist"-->
+                           hire-specialist="vm.hireSpecialist(specialist)">
         </client-map-viewer>
     </div>
 </div>
@@ -116,8 +111,8 @@
             <span>download our app</span>
         </div>
         <div>
-            <img src="/images/appstore.png"/>
-            <img src="/images/googleplay.png"/>
+            <div class="appstore"></div>
+            <div class="googleplay"></div>
         </div>
     </div>
 </div>
@@ -128,21 +123,21 @@
     </div>
     <div layout="row" layout-align="space-around start">
         <div layout="column" layout-align="start center" flex="25">
-            <img src="/images/icon_send_a_reaquest.png"/>
+            <span class="img send-a-reaquest"></span>
 
             <h3 layout-align="center">send a request</h3>
 
             <span hide-xs>sdasda sdasda s asd asdas asdas asdasdasd asdasd as </span>
         </div>
         <div layout="column" layout-align="start center" flex="25">
-            <img src="/images/icon_choose_a_locksmith.png"/>
+            <span class="img choose-a-locksmith"></span>
 
             <h3>choose a locksmith</h3>
 
             <span hide-xs>sdasda sdasda s asd asdas asdas asdasdasd asdasd as</span>
         </div>
         <div layout="column" layout-align="start center" flex="25">
-            <img src="/images/icon_get_it_done.png"/>
+            <span class="img get-it-done"></span>
 
             <h3>get it done</h3>
 
@@ -165,13 +160,13 @@
             </div>
         </div>
         <div layout="row" layout-align="end" layout-align-xs="start" flex="60" flex-xs="40">
-            <img src="/images/icon_advanteges.png"/>
+            <div class="img icon-advanteges"></div>
         </div>
     </div>
 
     <div layout="row" class="item">
         <div flex="60" layout="row" layout-align="start" layout-align-xs="end" flex-xs="40">
-            <img src="/images/icon_same_day_help.png"/>
+            <div class="img icon-same-day-help"></div>
         </div>
         <div layout="row" flex="40" layout-align="start" flex-xs="60">
             <div layout="column" layout-align="center start" flex="50" flex-xs="100">
@@ -192,7 +187,7 @@
             </div>
         </div>
         <div flex="60" layout="row" layout-align="end" layout-align-xs="start" flex-xs="40">
-            <img src="/images/icon_trust_and_safe.png"/>
+            <div class="img icon-trust-and-safe"></div>
         </div>
     </div>
 </div>
@@ -211,7 +206,7 @@
 
 <div class="home-need" layout="column" layout-align="center center" layout-align-xs="center center">
     <h1>Need a locksmith?</h1>
-    <button type="submit"
+    <button scroll-to=".request-form" offset="-50" type="submit"
             aria-label="Send a request"
             class="md-button">
         Send a request
@@ -231,8 +226,8 @@
             </div>
             <div layout="column" class="apps" layout-align="start center" flex-sx="50">
                 <h3>download our app</h3>
-                <img src="/images/appstore.png"/>
-                <img src="/images/googleplay.png"/>
+                <div class="appstore"></div>
+                <div class="googleplay"></div>
             </div>
         </div>
         <div layout="column" flex="30" flex-xs="100">
@@ -240,11 +235,11 @@
                 <h3>we are social</h3>
             </div>
             <div layout="row">
-                <img src="/images/facebook.png"/>
-                <img src="/images/twitter.png"/>
-                <img src="/images/google+.png"/>
-                <img src="/images/instagram.png"/>
-                <img src="/images/youtube.png"/>
+                <span class="icon-facebook"></span>
+                <span class="icon-twitter"></span>
+                <span class="icon-google"></span>
+                <span class="icon-instagram"></span>
+                <span class="icon-youtube"></span>
             </div>
         </div>
     </div>

@@ -31,15 +31,7 @@ let Location = {
             collection: 'Request',
             via: 'location'
         }
-    },
-// doesn't work
-/*    beforeValidate(location, next){
-        if (location.id) {
-            delete location.id;
-        }
-
-        next();
-    }*/
+    }
 };
 
 module.exports = Location;

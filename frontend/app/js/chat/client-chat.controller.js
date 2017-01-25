@@ -75,8 +75,6 @@
                     chats.forEach(function(chat){
                         if(chat.id === chatId){
                             vm.currentChat = chat;
-
-                            return;
                         }
                     })
 

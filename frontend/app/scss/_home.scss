@@ -13,6 +13,111 @@ $title-color: #8e8e8e;
   height: auto;
 }
 
+.logo {
+  width: 166px;
+  height: 26px;
+  background: url('../images/logo.png');
+}
+
+.join-as-a-locksmith {
+  display: block;
+  width: 161px;
+  height: 35px;
+  margin-top: 11px;
+  background: url('../images/button_join_as_a_locksmith.png');
+}
+
+.watch-video {
+  display: block;
+  width: 161px;
+  height: 35px;
+  background: url('../images/button_watch_video_button.png');
+}
+
+.appstore {
+  display: inline-flex;
+  width: 135px;
+  height: 40px;
+  background: url('../images/appstore.png');
+}
+
+.googleplay {
+  display: inline-flex;
+  width: 135px;
+  height: 40px;
+  background: url('../images/googleplay.png');
+}
+
+.send-a-reaquest {
+  width: 107px;
+  height: 106px;
+  background: url("../images/icon_send_a_reaquest.png") no-repeat scroll 0 0 / 100% auto;
+}
+
+.choose-a-locksmith {
+  display: block;
+  width: 107px;
+  height: 106px;
+  background: url('../images/icon_choose_a_locksmith.png') no-repeat scroll 0 0 / 100% auto;
+}
+
+.get-it-done {
+  display: block;
+  width: 107px;
+  height: 106px;
+  background: url('../images/icon_get_it_done.png') no-repeat scroll 0 0 / 100% auto;
+}
+
+.icon-advanteges {
+  display: block;
+  background: url('../images/icon_advanteges.png') no-repeat scroll center center / auto 100%;
+}
+
+.icon-same-day-help {
+  display: block;
+  background: url('../images/icon_same_day_help.png') no-repeat scroll center center / auto 100%;
+}
+
+.icon-trust-and-safe {
+  display: block;
+  background: url('../images/icon_trust_and_safe.png') no-repeat scroll center center / auto 100%;
+}
+
+.icon-facebook {
+  display: block;
+  width: 38px;
+  height: 38px;
+  background: url('../images/facebook.png');
+}
+
+.icon-twitter {
+  display: block;
+  width: 38px;
+  height: 38px;
+  background: url('../images/twitter.png');
+}
+
+.icon-google {
+  display: block;
+  width: 38px;
+  height: 38px;
+  background: url('../images/google.png');
+}
+
+.icon-instagram {
+  display: block;
+  width: 38px;
+  height: 38px;
+  background: url('../images/instagram.png');
+}
+
+.icon-youtube {
+  display: block;
+  width: 38px;
+  height: 38px;
+  background: url('../images/youtube.png');
+}
+
 .home-header {
   height: 87px;
 
@@ -251,15 +356,18 @@ $title-color: #8e8e8e;
 
 .home-advanteges {
 
+  .item {
+    height: 434px;
+  }
+
   h1 {
     margin-top: 124px;
     margin-bottom: 97px;
   }
 
-  img {
+  .img {
     width: 100%;
-    max-width: 715px;
-    max-height: 433px;
+    height: 100%;
   }
 }
 
@@ -394,6 +502,10 @@ $title-color: #8e8e8e;
 
 @media only screen and (max-device-width: 599px) {
 
+  .join-as-a-locksmith {
+    margin-top: 0;
+  }
+
   .home-header {
     height: 304px;
     background: url('../images/imgpsh_fullsize_xs.png') center center;
@@ -482,7 +594,7 @@ $title-color: #8e8e8e;
       button {
         border-radius: 10px;
         width: 50%;
-        margin: 20px auto 0;
+        margin: 14px auto 0;
       }
     }
   }
@@ -507,6 +619,11 @@ $title-color: #8e8e8e;
     h3 {
       margin-top: 4px;
       text-align: center;
+      color: #8a8a8a;
+    }
+
+    .img {
+      height: 85px;
     }
   }
 
@@ -516,10 +633,6 @@ $title-color: #8e8e8e;
       font-size: 20px;
       margin-bottom: 20px;
       margin-top: 20px;
-    }
-
-    img {
-      width: auto;
     }
 
     .item {
@@ -534,6 +647,18 @@ $title-color: #8e8e8e;
     span {
       text-align: left;
       font-size: 12px;
+    }
+
+    .icon-advanteges {
+      background-position: left center;
+    }
+
+    .icon-same-day-help {
+      background-position: right center;
+    }
+
+    .icon-trust-and-safe {
+      background-position: left center;
     }
   }
 
@@ -552,7 +677,7 @@ $title-color: #8e8e8e;
       button {
         width: 32px;
         height: 32px;
-        top: 78px;
+        top: 44%;
 
         md-icon {
           font-size: 32px;
@@ -599,6 +724,10 @@ $title-color: #8e8e8e;
 
     span {
       font-size: 13px;
+    }
+
+    .appstore {
+      margin-bottom: 5px;
     }
   }
 

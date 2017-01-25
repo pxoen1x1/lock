@@ -24,13 +24,16 @@
 
         vm.feedbacksDataArray= [
             {
-                txt: 'asda sdas das dasd'
+                txt: 'Just want to thank you for a job well done.',
+                author: 'Michael smith'
             },
             {
-                txt: 'qweq weqweqweqwe qwe '
+                txt: 'Just want to thank you for a job well done.',
+                author: 'Michael smith'
             },
             {
-                txt: 'zczxcz zc z cz czxczxcz  zc z'
+                txt: 'Just want to thank you for a job well done.',
+                author: 'Michael smith'
             }
         ];
 
@@ -170,6 +173,8 @@
         function hireSpecialist(specialist) {
 
             vm.specialistId = specialist.id;
+
+
         }
 
 

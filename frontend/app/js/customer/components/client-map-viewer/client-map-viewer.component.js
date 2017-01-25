@@ -89,7 +89,7 @@
             specialistMarker: {
                 options: {
                     icon: {
-                        url: '/images/location.png',
+                        url: coreConstants.IMAGES.locksmithLocationMarker,
                         scaledSize: {
                             width: 28,
                             height: 41
