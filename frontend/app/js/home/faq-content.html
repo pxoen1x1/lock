@@ -1,0 +1,39 @@
+<div class="how-content">
+    <div layout="column" class="home-first" style="height: 338px;">
+        <div layout-align="center center" layout="column" flex-xs="25">
+            <h1>Lorem ipsum dolor sit amet</h1>
+        </div>
+    </div>
+    <div class="home-advanteges block" layout="column">
+        <div class="item">
+            <div layout="row" layout-align="center">
+                <h1>FAQ</h1>
+            </div>
+            <div layout="row" layout-align="center start">
+                <div flex="50">
+                    <p>The directive renders a list of material tabs that can be used for top-level page navigation.
+                        Unlike
+                        , it has no concept of a tab body and no bar pagination.
+
+                        Because it deals with page navigation, certain routing concepts are built-in. Route changes via
+                        via
+                        ng-href, ui-sref, or ng-click events are supported. Alternatively, the user could simply watch
+                        currentNavItem for changes.
+
+                        Accessibility functionality is implemented as a site navigator with a listbox, according to
+                        https://www.w3.org/TR/wai-aria-practices/#Site_Navigator_Tabbed_Style
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="home-need" layout="column" layout-align="center center" layout-align-xs="center center">
+    <h1>Need a locksmith?</h1>
+    <button ui-sref="home({'#': 'createRequest'})"
+            aria-label="Send a request"
+            class="md-button">
+        Send a request
+    </button>
+</div>

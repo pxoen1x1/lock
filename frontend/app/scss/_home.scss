@@ -1,10 +1,17 @@
 @mixin placeholder {
-  ::-webkit-input-placeholder {@content}
-  :-moz-placeholder           {@content}
-  ::-moz-placeholder          {@content}
-  :-ms-input-placeholder      {@content}
+  ::-webkit-input-placeholder {
+    @content
+  }
+  :-moz-placeholder {
+    @content
+  }
+  ::-moz-placeholder {
+    @content
+  }
+  :-ms-input-placeholder {
+    @content
+  }
 }
-
 
 $primary-blue: #01579b;
 $title-color: #8e8e8e;
@@ -31,6 +38,7 @@ $title-color: #8e8e8e;
   width: 166px;
   height: 26px;
   background: url('../images/logo.png');
+  cursor: pointer;
 }
 
 .join-as-a-locksmith {
@@ -42,7 +50,7 @@ $title-color: #8e8e8e;
 }
 
 .watch-video {
-  background-color: rgba(158,158,158,0.3);
+  background-color: rgba(158, 158, 158, 0.3);
 }
 
 .appstore {
@@ -147,10 +155,10 @@ $title-color: #8e8e8e;
 
     .md-button.join {
       background-color: $primary-blue;
-      color:#fff;
+      color: #fff;
     }
     .md-button.join:hover {
-      color:#fff;
+      color: #fff;
     }
 
     .md-button:hover, .md-button:active, .md-button:focus, .md-button.md-active {
@@ -209,7 +217,7 @@ $title-color: #8e8e8e;
       border-radius: 10px 0 0 10px;
     }
 
-    md-input-container.location input{
+    md-input-container.location input {
       border-left: 1px solid;
       border-color: #ddd;
     }
@@ -243,7 +251,7 @@ $title-color: #8e8e8e;
       md-select {
         height: 36px;
 
-        .md-select-value{
+        .md-select-value {
           border: none;
         }
       }
@@ -254,11 +262,10 @@ $title-color: #8e8e8e;
     }
 
     md-input-container.md-input-has-value, md-input-container.md-input-focused {
-      i, label{
+      i, label {
         display: none;
       }
     }
-
 
     md-input-container.md-input-focused .md-select-placeholder span {
       display: none;
@@ -507,7 +514,7 @@ $title-color: #8e8e8e;
     text-align: center;
   }
 
-  .apps img:last-child {
+  .apps .googleplay {
     margin-top: 10px;
   }
 }
@@ -750,5 +757,30 @@ $title-color: #8e8e8e;
     }
   }
 
+
+}
+
+.how-content {
+
+  .home-advanteges {
+
+    h1 {
+      margin-bottom: 46px;
+      margin-top: 100px;
+    }
+
+    p {
+      color: #868686;
+    }
+
+    .item {
+      height: auto;
+      padding-bottom: 95px;
+    }
+
+    .item.even {
+      background-color: #f9f9f9;
+    }
+  }
 }
 
