@@ -12,12 +12,15 @@
         'coreConstants',
         'currentUserService',
         'currentRequestService',
+        'chatSocketservice',
     ];
 
     /* @ngInject */
     function ClientChatController($q, $stateParams, $mdSidenav, coreConstants, currentUserService,
-                                  currentRequestService) {
+                                  currentRequestService, chatSocketservice) {
+
         var currentRequestId = $stateParams.requestId;
+        var currentChatId = $stateParams.chatId;
         var vm = this;
 
         vm.chats = [];
@@ -36,6 +39,7 @@
 
         vm.requestStatus = coreConstants.REQUEST_STATUSES;
         vm.userType = coreConstants.USER_TYPES;
+
 
         vm.toggleSidenav = toggleSidenav;
 
@@ -63,6 +67,21 @@
                 });
         }
 
+        function setCurrentChat(chatId) {
+
+            return chatSocketservice.getClientChats(vm.currentRequest)
+                .then(function (chats) {
+                    vm.chats = chats;
+                    chats.forEach(function(chat){
+                        if(chat.id === chatId){
+                            vm.currentChat = chat;
+                        }
+                    })
+
+                    return vm.chats;
+                });
+        }
+
         function toggleSidenav(navID) {
             $mdSidenav(navID).toggle();
         }
@@ -71,6 +90,10 @@
             $q.all([
                 getCurrentUser(),
                 getRequest(currentRequestId)
+                    .then(function(){
+
+                        return setCurrentChat(currentChatId);
+                    })
             ]);
         }
     }

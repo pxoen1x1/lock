@@ -59,7 +59,6 @@ let User = {
         },
         phoneNumber: {
             type: 'string',
-            required: true,
             unique: true,
             columnName: 'phone_number'
         },
