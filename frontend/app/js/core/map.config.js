@@ -12,7 +12,7 @@
         uiGmapGoogleMapApiProvider.configure({
             key: 'AIzaSyBqoLrvITR5sTXbNHaNFJsq3thbioSOks8',
             //v: '3',
-            libraries: 'weather,geometry,visualization'
+            libraries: 'weather,geometry,visualization,places'
         });
     }
 })();
