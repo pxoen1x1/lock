@@ -22,6 +22,11 @@
             forDate: null
         };
 
+        vm.mapOptions = {
+            scrollwheel: false,
+            disableDoubleClickZoom: true
+        };
+
         vm.feedbacksDataArray = [
             {
                 txt: 'Just want to thank you for a job well done.',
