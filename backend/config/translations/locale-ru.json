@@ -217,5 +217,8 @@
   "CORPORATE_CHECKING_ACCOUNT": "Corporate checking account",
   "SAVINGS_ACCOUNT": "Savings account",
   "CHECKING_ACCOUNT": "Checking account",
-  "SEARCH_FOR_A_GROUP_MEMBER": "Искать сотрудника"
+  "SEARCH_FOR_A_GROUP_MEMBER": "Искать сотрудника",
+  "NOW": "Сейчас",
+  "ERROR_DURING_CANCELLING_PAYMENT": "Error during cancelling payment",
+  "PLEASE_CONTACT_SUPPORT": "Please contact support"
 }

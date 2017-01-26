@@ -111,20 +111,11 @@ let UserService = {
     },
     getUserBySSN(ssn) {
 
-        return User.findOneBySsn(ssn)
-            .then(
-                (user) => {
-
-                    return user;
-                }
-            );
+        return User.findOneBySsn(ssn);
     },
     getUserByPhoneNumber(phoneNumber) {
 
-        return User.findOneByPhoneNumber(phoneNumber)
-            .then(
-                (user) => user
-            );
+        return User.findOneByPhoneNumber(phoneNumber);
     }
 };
 

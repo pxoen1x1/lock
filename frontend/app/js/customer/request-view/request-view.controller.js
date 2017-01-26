@@ -14,18 +14,24 @@
         'chatSocketservice',
         'currentRequestService',
         'customerDataservice',
-        'conf'
+        'conf',
+        '$translate'
     ];
 
     /* @ngInject */
     function CustomerViewRequestController($q, $stateParams, $mdDialog, coreConstants, coreDataservice,
-                                           chatSocketservice, currentRequestService, customerDataservice, conf) {
+                                           chatSocketservice, currentRequestService, customerDataservice, conf, $translate) {
         var promises = {
             getRequest: null,
             getFeedback: null
         };
 
         var vm = this;
+        var dialog = {
+            title: 'ERROR_DURING_CANCELLING_PAYMENT',
+            textContent: 'PLEASE_CONTACT_SUPPORT',
+            ok: 'CLOSE'
+        };
 
         vm.request = {};
         vm.feedback = {};
@@ -161,9 +167,9 @@
                         $mdDialog.show(
                             $mdDialog.alert()
                                 .clickOutsideToClose(true)
-                                .title('Error during cancelling payment')
-                                .textContent('Please contact support')
-                                .ok('Close')
+                                .title(dialog.title)
+                                .textContent(dialog.textContent)
+                                .ok(dialog.ok)
                         );
 
                         return $q.reject('');
@@ -226,10 +232,26 @@
                 });
         }
 
+        function getDialogTranslation() {
+            $translate('ERROR_DURING_CANCELLING_PAYMENT')
+                .then(function(translation) {
+                    dialog.title = translation;
+                });
+            $translate('PLEASE_CONTACT_SUPPORT')
+                .then(function(translation) {
+                    dialog.textContent = translation;
+                });
+            $translate('CLOSE')
+                .then(function(translation) {
+                    dialog.ok = translation;
+                });
+        }
+
         function activate() {
             getRequest()
                 .then(getFeedback)
-                .then(listenRequestEvent);
+                .then(listenRequestEvent)
+                .then(getDialogTranslation);
         }
     }
 })();
