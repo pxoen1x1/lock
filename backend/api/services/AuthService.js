@@ -6,6 +6,7 @@
 'use strict';
 
 let jwt = require('jwt-simple');
+let passwordGenerator = require('generate-password');
 
 let AuthService = {
     findAuth(criteria) {
@@ -128,7 +129,7 @@ let AuthService = {
                             resetToken: null,
                             password: password
                         }
-                    )
+                        )
                         .then(
                             () => ResetToken.destroy(tokenId)
                         );
@@ -209,6 +210,13 @@ let AuthService = {
         });
 
         return promise;
+    },
+
+    generatePassword() {
+        return passwordGenerator.generate({
+            length: 10,
+            numbers: true
+        });
     }
 };
 

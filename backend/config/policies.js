@@ -56,7 +56,8 @@ module.exports.policies = {
     UserController: {
         'getCurrentUser': [
             'hasJsonWebToken'
-        ]
+        ],
+        'findServiceProviders': true
     },
 
     StateController: {
@@ -89,7 +90,11 @@ module.exports.policies = {
             'hasJsonWebToken',
             'isUserEnabled',
             'isRequestStatusChangeAllowed'
-        ]
+        ],
+        // for homepage form
+        'createRequest': 'hasJsonWebToken',
+        'getAllClientRequests': 'hasJsonWebToken',
+        'getClientRequestById': 'hasJsonWebToken'
     },
 
     FeedbackController: {
@@ -116,10 +121,16 @@ module.exports.policies = {
         'createChat': [
             'isSocketRequest',
             'hasJsonWebToken',
-            'isUserEnabled',
+        //    'isUserEnabled', // for homepage form
             'isRequestAllowed',
             'isRequestOwner',
             'isChatUnique'
+        ],
+        'getClientChats': [
+            'isSocketRequest',
+            'hasJsonWebToken',
+            'isRequestAllowed',
+            'isRequestOwner',
         ],
         'subscribeToChat': [
             'isSocketRequest',

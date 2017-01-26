@@ -88,7 +88,7 @@ let SplashPaymentService = {
                 () => SplashPaymentService.getMerchantEntity(user.spMerchantId)
             )
             .then(
-                (merchantEntity) => [merchantEntity, SplashPaymentService.createMerchantFee(merchantEntity.id)]
+                (merchantEntity) => [merchantEntity, SplashPaymentService.addMerchantToGroup(merchantEntity.id)]
             )
             .spread(
                 (merchantEntity) => merchantEntity
@@ -377,7 +377,6 @@ let SplashPaymentService = {
 
         return SplashPaymentService.makeRequest(options, bodyJson);
     },
-
     createMerchantFee(entityId){
         let options = {
             method: 'POST',
@@ -391,8 +390,22 @@ let SplashPaymentService = {
             schedule: SPLASH_PAYMENT.fee.schedule,
             start: SplashPaymentService._getDateString(), // today
             //org: "g1abcdefghijklm",
-            entity: SPLASH_PAYMENT.serviceSplashPaymentEntityId, // service's entity
+            entity: sails.config.splashpaymentParams.serviceSplashPaymentEntityId, // service's entity
             forentity: entityId // service provider entity
+        };
+
+        return SplashPaymentService.makeRequest(options, bodyJson);
+    },
+
+    addMerchantToGroup(entityId) {
+        let options = {
+            method: 'POST',
+            path: SPLASH_PAYMENT.endpoints.orgEntities
+        };
+
+        let bodyJson = {
+            "org": sails.config.splashpaymentParams.merchantsGroupId,
+            "entity": entityId
         };
 
         return SplashPaymentService.makeRequest(options, bodyJson);
@@ -754,7 +767,7 @@ let SplashPaymentService = {
         }
 
         options.headers['Content-Type'] = SPLASH_PAYMENT.contentType;
-        options.headers.APIKEY = SPLASH_PAYMENT.apikey;
+        options.headers.APIKEY = sails.config.splashpaymentParams.apikey;
 
 
         // return new pending promise

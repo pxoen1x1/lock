@@ -114,9 +114,8 @@ module.exports = {
         },
         description: 'Lockheal app.',
         icon: {
-            src: 'www/images/logo.png',
-            dest: 'resources',
-            name: 'icon.png'
+            src: 'www/images/icon.png',
+            dest: 'resources'
         },
         splash: {
             src:'www/images/splash.png',

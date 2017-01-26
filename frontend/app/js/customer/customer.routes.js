@@ -139,6 +139,9 @@
                         title: 'CHAT',
                         icon: 'chat'
                     }
+                },
+                params: {
+                    chatId: null
                 }
             })
             .state('customer.requests.request.recommended', {
