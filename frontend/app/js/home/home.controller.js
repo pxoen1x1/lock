@@ -5,10 +5,10 @@
         .module('app.home')
         .controller('HomeController', HomeController);
 
-    HomeController.$inject = ['$state', '$scope', 'geocoderService', 'coreDictionary', 'authService', 'customerDataservice', 'chatSocketservice'];
+    HomeController.$inject = ['$state', '$scope', 'geocoderService', 'coreDictionary', 'authService', 'customerDataservice', 'chatSocketservice', 'coreConstants', 'currentUserService'];
 
     /* @ngInject */
-    function HomeController($state, $scope, geocoderService, coreDictionary, authService, customerDataservice, chatSocketservice) {
+    function HomeController($state, $scope, geocoderService, coreDictionary, authService, customerDataservice, chatSocketservice, coreConstants, currentUserService) {
         var vm = this;
         vm.request = {
             location: {
@@ -22,7 +22,7 @@
             forDate: null
         };
 
-        vm.feedbacksDataArray= [
+        vm.feedbacksDataArray = [
             {
                 txt: 'Just want to thank you for a job well done.',
                 author: 'Michael smith'
@@ -173,12 +173,42 @@
         function hireSpecialist(specialist) {
 
             vm.specialistId = specialist.id;
+        }
 
+        function getUserType() {
 
+        }
+
+        function setMenuType(type) {
+            switch (type) {
+                case coreConstants.USER_TYPES.SPECIALIST:
+                    vm.menuItems = serviceProviderConstants.MENU_ITEMS;
+                    vm.profileState = 'provider.profile';
+                    break;
+                case coreConstants.USER_TYPES.GROUP_ADMIN:
+                    vm.menuItems = groupConstants.MENU_ITEMS;
+                    vm.profileState = 'group.profile';
+                    break;
+                default:
+                    vm.menuItems = customerConstants.MENU_ITEMS;
+                    vm.profileState = 'customer.profile';
+            }
+        }
+
+        function redirectIfLoggedIn() {
+            if (authService.isAuthenticated()) {
+
+                return currentUserService.getType()
+                    .then(function (userType) {
+                        $state.go(coreConstants.USER_TYPE_DEFAULT_STATE[userType]);
+                    });
+            }
         }
 
 
         function activate() {
+            redirectIfLoggedIn();
+
             getServiceTypes();
             showRequestOnMap(); // works only in Chrome
 
