@@ -93,9 +93,10 @@ module.exports = {
         }
     },
 
-    baseUrl: 'http://localhost:1337',
-    homePage: 'http://localhost:9000',
     session: {
         host: 'localhost'
-    }
+    },
+
+    baseUrl: 'http://localhost:1337',
+    homePage: 'http://localhost:9000'
 };
