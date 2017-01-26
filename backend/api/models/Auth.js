@@ -35,6 +35,15 @@ let Auth = {
         }
     }),
 
+    beforeValidate(auth, next){
+        if(auth.id) {
+
+            delete auth.id;
+        }
+
+        next();
+    },
+
     beforeCreate: waterlock.models.auth.beforeCreate,
     beforeUpdate: waterlock.models.auth.beforeUpdate
 };
