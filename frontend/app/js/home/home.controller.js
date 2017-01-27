@@ -93,7 +93,7 @@
                     vm.createdRequest = createdRequest.request;
 
                     if (!vm.specialistId) {
-                        $state.go('customer.requests.request', {requestId: vm.createdRequest.id});
+                        $state.go('customer.requests.request.view', {requestId: vm.createdRequest.id});
                     } else {
                         var member = {
                             member: {
