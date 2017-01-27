@@ -3,16 +3,17 @@
         <div flex="20" layout="row" layout-align="center center" layout-xs="column" flex-xs="20">
             <div class="logo"></div>
         </div>
-        <div ng-if="!vm.isAuthenticated()" flex="80" layout="row" layout-align="end top" layout-xs="column"
+        <div flex="80" layout="row" layout-align="end top" layout-xs="column"
              layout-align-xs="start center" flex-xs="80">
             <md-nav-bar md-selected-nav-item="currentNavItem" nav-bar-aria-label="navigation links">
                 <md-nav-item md-nav-click="goto('page1')" name="page1">How it works</md-nav-item>
                 <md-nav-item md-nav-click="goto('page2')" name="page2">FAQ</md-nav-item>
                 <md-nav-item md-nav-sref="login">Sign in</md-nav-item>
                 <md-nav-item md-nav-sref="registration.customer" name="customer">Register</md-nav-item>
-                <md-nav-item md-nav-sref="registration.provider" name="provider" aria-label="">
+                <md-nav-item md-nav-sref="registration.provider" name="provider">
                     <button class="md-button join btn" aria-label="Join as locksmith">Join as locksmith</button>
                 </md-nav-item>
+
             </md-nav-bar>
 
             <a href="#" hide show-xs>
@@ -37,6 +38,7 @@
 
         <div layout="column" layout-align="start start" layout-align-xs="start stretch" class="request-form"
              flex-xs="75">
+            <span class="hint" ng-if="vm.specialistId">To <b>hire</b> specialist fill the form below</span>
             <form role="form"
                   name="newRequestForm"
                   novalidate layout="row" layout-xs="column"
@@ -106,6 +108,7 @@
         <div class="map-wrapper" layout="column" flex>
             <client-map-viewer class="map-viewer"
                                flex
+                               map-options="vm.mapOptions"
                                current-request="vm.request"
                                hire-specialist="vm.hireSpecialist(specialist)">
             </client-map-viewer>
@@ -205,7 +208,7 @@
                     data="vm.feedbacksDataArray"
                     item-template-url="'home/feedback-item-template.html'"
                     max-width="800"
-                    ng-attr-max-height="{{$mdMedia('gt-xs') && '260' || '' }}"
+                    ng-attr-max-height="{{$mdMedia('gt-xs') && '260' || '560' }}"
                     auto-slide="false">
             </jk-carousel>
         </md-card>

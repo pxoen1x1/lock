@@ -48,8 +48,11 @@
 
             return authService.register(user)
                 .then(function () {
-
-                    $state.go('home');
+                    if(vm.isCompanyRegistrationSelected){
+                        $state.go(coreConstants.USER_TYPE_DEFAULT_STATE[coreConstants.USER_TYPES.GROUP_ADMIN]);
+                    }else{
+                        $state.go(coreConstants.USER_TYPE_DEFAULT_STATE[coreConstants.USER_TYPES.SPECIALIST]);
+                    }
                 });
         }
 
