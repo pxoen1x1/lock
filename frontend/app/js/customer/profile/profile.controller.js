@@ -46,7 +46,7 @@
 
         vm.getCities = getCities;
         vm.searchText = null;
-        vm.selectedItem = null;
+        vm.selectedCityItem = null;
         vm.selectedItemChange = selectedItemChange;
 
         activate();
@@ -66,7 +66,6 @@
 
                 return;
             }
-
 
             return coreDataservice.updateCustomer(customerData)
                 .then(function (customer) {
@@ -200,6 +199,8 @@
             vm.isEditingCard = false;
             if (vm.userProfile.customerData && vm.userProfile.customerData.city) {
                 vm.selectedCityItem = vm.userProfile.customerData.city;
+            } else {
+                vm.selectedCityItem = null;
             }
         }
 

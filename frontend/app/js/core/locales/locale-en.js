@@ -227,7 +227,8 @@
                  'PLEASE_CONTACT_SUPPORT': 'Please contact support',
                  'WITHDRAWALS_REQUEST_CREATED': 'Withdrawals request created',
                  'ERROR_DURING_WITHDRAWALS': 'Error during withdrawals',
-                 'NEW_REQUESTS': 'New requests'
+                 'NEW_REQUESTS': 'New requests',
+                 'NO_REQUESTS': 'No requests'
              }
          });
 })();

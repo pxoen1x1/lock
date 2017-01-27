@@ -223,5 +223,6 @@
   "PLEASE_CONTACT_SUPPORT": "Пожалуйста, свяжитесь со службой поддержики",
   "WITHDRAWALS_REQUEST_CREATED": "Запрос на вывод создан",
   "ERROR_DURING_WITHDRAWALS": "В процессе вывода произошла ошибка",
-  "NEW_REQUESTS": "Новые запросы"
+  "NEW_REQUESTS": "Новые запросы",
+  "NO_REQUESTS": "Нет запросов"
 }
