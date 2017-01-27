@@ -162,6 +162,10 @@
     cursor: pointer;
   }
 
+  md-input-container:not(.md-input-has-value) input:not(:focus) {
+    color: black;
+  }
+
 }
 
 .profile-content.mobile {

@@ -27,7 +27,7 @@
                 title: 'ERROR_DURING_WITHDRAWALS',
                 textContent: 'PLEASE_CONTACT_SUPPORT'
             }
-        }
+        };
 
         vm.languages = [];
         vm.userProfile = {};

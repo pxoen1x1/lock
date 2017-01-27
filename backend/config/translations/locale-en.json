@@ -223,5 +223,6 @@
   "ERROR_DURING_CANCELLING_PAYMENT": "Error during cancelling payment",
   "PLEASE_CONTACT_SUPPORT": "Please contact support",
   "WITHDRAWALS_REQUEST_CREATED": "Withdrawals request created",
-  "ERROR_DURING_WITHDRAWALS": "Error during withdrawals"
+  "ERROR_DURING_WITHDRAWALS": "Error during withdrawals",
+  "NEW_REQUESTS": "New requests"
 }

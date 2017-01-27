@@ -22,6 +22,14 @@
     function ProviderProfileController($q, conf, coreConstants, coreDataservice, coreDictionary, currentUserService,
                                        usingLanguageService, $mdDialog, $translate, citiesLoader) {
         var vm = this;
+        var dialog = {
+            title: 'WITHDRAWALS_REQUEST_CREATED',
+            ok: 'CLOSE',
+            error: {
+                title: 'ERROR_DURING_WITHDRAWALS',
+                textContent: 'PLEASE_CONTACT_SUPPORT'
+            }
+        };
 
         vm.languages = [];
         vm.userProfile = {};
@@ -170,16 +178,16 @@
                     if (result === true) {
                         $mdDialog.alert()
                             .clickOutsideToClose(true)
-                            .title('Withdrawals request created')
-                            .ok('Close');
+                            .title(dialog.title)
+                            .ok(dialog.ok);
 
                         vm.enableWithdrawals = false;
                     } else {
                         $mdDialog.alert()
                             .clickOutsideToClose(true)
-                            .title('Error during withdrawals')
-                            .textContent('Please contact support')
-                            .ok('Close');
+                            .title(dialog.error.title)
+                            .textContent(dialog.error.textContent)
+                            .ok(dialog.ok);
                     }
                 });
         }
@@ -269,7 +277,7 @@
         }
 
         function selectedItemChange(city) {
-            if(!city){
+            if (!city) {
                 return;
             }
 
@@ -301,13 +309,33 @@
             return statesList;
         }
 
+        function getDialogTranslation() {
+            $translate('WITHDRAWALS_REQUEST_CREATED')
+                .then(function(translation) {
+                    dialog.title = translation;
+                });
+            $translate('ERROR_DURING_WITHDRAWALS')
+                .then(function(translation) {
+                    dialog.error.title = translation;
+                });
+            $translate('CLOSE')
+                .then(function(translation) {
+                    dialog.ok = translation;
+                });
+            $translate('PLEASE_CONTACT_SUPPORT')
+                .then(function(translation) {
+                    dialog.error.textContent = translation;
+                });
+        }
+
         function activate() {
             $q.all([
                     getUser(),
                     getLanguages(),
                     getStates(),
                     getBankAccountTypes(),
-                    getServiceTypes()
+                    getServiceTypes(),
+                    getDialogTranslation()
                 ])
                 .then(function () {
                         vm.userProfile.usingLanguage = vm.userProfile.usingLanguage || usingLanguageService.getLanguage();

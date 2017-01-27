@@ -219,8 +219,9 @@
   "CHECKING_ACCOUNT": "Checking account",
   "SEARCH_FOR_A_GROUP_MEMBER": "Искать сотрудника",
   "NOW": "Сейчас",
-  "ERROR_DURING_CANCELLING_PAYMENT": "Error during cancelling payment",
-  "PLEASE_CONTACT_SUPPORT": "Please contact support",
-  "WITHDRAWALS_REQUEST_CREATED": "Withdrawals request created",
-  "ERROR_DURING_WITHDRAWALS": "Error during withdrawals"
+  "ERROR_DURING_CANCELLING_PAYMENT": "Произошла ошибка в процессе отмены платежа",
+  "PLEASE_CONTACT_SUPPORT": "Пожалуйста, свяжитесь со службой поддержики",
+  "WITHDRAWALS_REQUEST_CREATED": "Запрос на вывод создан",
+  "ERROR_DURING_WITHDRAWALS": "В процессе вывода произошла ошибка",
+  "NEW_REQUESTS": "Новые запросы"
 }
