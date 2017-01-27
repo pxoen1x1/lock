@@ -27,12 +27,13 @@
         'coreConstants',
         'customerDataservice',
         'geocoderService',
-        'mobileService'
+        'mobileService',
+        'conf'
     ];
 
     /* @ngInject */
     function ClientMapViewerController($scope, $window, uiGmapIsReady, coreConstants, customerDataservice,
-                                       geocoderService, mobileService) {
+                                       geocoderService, mobileService, conf) {
         var promises = {
             findSpecialists: null
         };
@@ -104,6 +105,8 @@
             markers: [],
             zoom: 16
         };
+        vm.baseUrl = conf.BASE_URL;
+        vm.defaultPortrait = mobileService.getImagePath(coreConstants.IMAGES.defaultPortrait);
 
         vm.requestStatus = coreConstants.REQUEST_STATUSES;
         vm.hire = hire;

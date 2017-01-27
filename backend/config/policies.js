@@ -57,6 +57,18 @@ module.exports.policies = {
         'getCurrentUser': [
             'hasJsonWebToken'
         ],
+        'updateUser': [
+            'hasJsonWebToken'
+        ],
+        'getCustomer': [
+            'hasJsonWebToken'
+        ],
+        'updateCustomer': [
+            'hasJsonWebToken'
+        ],
+        'updateCustomerCard': [
+            'hasJsonWebToken'
+        ],
         'findServiceProviders': true
     },
 
