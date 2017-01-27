@@ -24,9 +24,8 @@
     </div>
     <md-button ng-if="!vm.isEditingCustomer"
                class="md-button-blue"
-               ng-click="vm.isEditingCustomer = true"
-               translate>
-        EDIT
+               ng-click="vm.isEditingCustomer = true">
+        <span translate>EDIT</span>
     </md-button>
 
 </div>
@@ -63,7 +62,7 @@
                                  md-items="city in vm.getCities(vm.searchText)"
                                  md-item-text="city.city"
                                  md-require-match
-                                 md-floating-label="City"
+                                 md-floating-label="{{'CITY' | translate }}"
                                  md-selected-item-change="vm.selectedItemChange(city)">
                     <md-item-template>
                         <span md-highlight-text="vm.searchText">{{city.city}}</span>
@@ -88,15 +87,13 @@
         <md-button type="submit"
                    class="md-button-blue"
                    aria-label="Save"
-                   translate
                    ng-if="vm.isEditingCustomer">
-            SAVE
+            <span translate>SAVE</span>
         </md-button>
         <md-button class="md-button-blue"
                    ng-if="vm.isEditingCustomer"
-                   translate
                    ng-click="vm.cancelEditing()">
-            CANCEL
+            <span translate>CANCEL</span>
         </md-button>
     </form>
 </div>
