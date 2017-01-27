@@ -221,5 +221,7 @@
   "SEARCH_FOR_A_GROUP_MEMBER": "Search for a group member",
   "NOW": "Now",
   "ERROR_DURING_CANCELLING_PAYMENT": "Error during cancelling payment",
-  "PLEASE_CONTACT_SUPPORT": "Please contact support"
+  "PLEASE_CONTACT_SUPPORT": "Please contact support",
+  "WITHDRAWALS_REQUEST_CREATED": "Withdrawals request created",
+  "ERROR_DURING_WITHDRAWALS": "Error during withdrawals"
 }
