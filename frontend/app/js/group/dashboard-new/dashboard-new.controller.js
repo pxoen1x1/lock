@@ -5,10 +5,16 @@
         .module('app.group')
         .controller('GroupNewRequestsController', GroupNewRequestsController);
 
-    GroupNewRequestsController.$inject = ['coreDataservice', 'chatSocketservice', 'conf', 'coreConstants'];
+    GroupNewRequestsController.$inject = [
+        'conf',
+        'coreConstants',
+        'coreDataservice',
+        'chatSocketservice',
+        'mobileService'
+    ];
 
     /* @ngInject */
-    function GroupNewRequestsController(coreDataservice, chatSocketservice, conf, coreConstants) {
+    function GroupNewRequestsController(conf, coreConstants, coreDataservice, chatSocketservice, mobileService) {
         var promises = {
             loadRequests: null
         };
@@ -18,7 +24,7 @@
         vm.requests = [];
 
         vm.baseUrl = conf.BASE_URL;
-        vm.defaultPortrait = coreConstants.IMAGES.defaultPortrait;
+        vm.defaultPortrait = mobileService.getImagePath(coreConstants.IMAGES.defaultPortrait);
         vm.requestStatus = coreConstants.REQUEST_STATUSES;
         vm.dateFormat = coreConstants.DATE_FORMAT;
 

@@ -7,17 +7,18 @@
 
     UserMenuController.$inject = [
         '$mdSidenav',
+        'conf',
+        'coreConstants',
+        'customerConstants',
         'serviceProviderConstants',
         'groupConstants',
-        'customerConstants',
-        'coreConstants',
         'currentUserService',
-        'conf'
+        'mobileService',
     ];
 
     /* @ngInject */
-    function UserMenuController($mdSidenav, serviceProviderConstants, groupConstants, customerConstants, coreConstants,
-                                currentUserService, conf) {
+    function UserMenuController($mdSidenav, conf, coreConstants, customerConstants, serviceProviderConstants,
+                                groupConstants, currentUserService, mobileService) {
         var vm = this;
 
         vm.toggleMenu = toggleMenu;
@@ -25,7 +26,7 @@
 
         vm.profileState = '';
 
-        vm.defaultPortrait = coreConstants.IMAGES.defaultPortrait;
+        vm.defaultPortrait = mobileService.getImagePath(coreConstants.IMAGES.defaultPortrait);
         vm.baseUrl = conf.BASE_URL;
 
         activate();

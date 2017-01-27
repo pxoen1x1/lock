@@ -251,7 +251,7 @@
               min-width: 30%;
 
               &:before {
-                background-image: url('/images/bubble-left.png');
+                background-image: url('../images/bubble-left.png');
                 content: '';
                 position: absolute;
                 left: -11px;
@@ -309,7 +309,7 @@
                 &:before {
                   right: -11px;
                   left: auto;
-                  background-image: url('/images/bubble-right.png');
+                  background-image: url('../images/bubble-right.png');
                 }
               }
             }

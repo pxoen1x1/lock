@@ -96,6 +96,10 @@ let UserService = {
         return User.create(user);
     },
     updateUser(user) {
+        if(user.auth && user.auth.password) {
+
+            delete user.auth.password;
+        }
 
         return User.update({id: user.id}, user)
             .then(

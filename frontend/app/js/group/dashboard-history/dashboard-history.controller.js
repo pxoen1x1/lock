@@ -5,16 +5,22 @@
         .module('app.group')
         .controller('GroupDashboardHistoryController', GroupDashboardHistoryController);
 
-    GroupDashboardHistoryController.$inject = ['$mdMedia', 'coreConstants', 'groupDataservice', 'conf'];
+    GroupDashboardHistoryController.$inject = [
+        '$mdMedia',
+        'conf',
+        'coreConstants',
+        'groupDataservice',
+        'mobileService'
+    ];
 
     /* @ngInject */
-    function GroupDashboardHistoryController($mdMedia, coreConstants, groupDataservice, conf) {
+    function GroupDashboardHistoryController($mdMedia, conf, coreConstants, groupDataservice, mobileService) {
         var vm = this;
 
         vm.requests = [];
 
         vm.baseUrl = conf.BASE_URL;
-        vm.defaultPortrait = coreConstants.IMAGES.defaultPortrait;
+        vm.defaultPortrait = mobileService.getImagePath(coreConstants.IMAGES.defaultPortrait);
         vm.paginationOptions = coreConstants.PAGINATION_OPTIONS;
         vm.requestStatus = coreConstants.REQUEST_STATUSES;
 

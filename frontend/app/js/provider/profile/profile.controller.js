@@ -7,20 +7,21 @@
 
     ProviderProfileController.$inject = [
         '$q',
-        'conf',
-        'coreConstants',
-        'coreDataservice',
-        'coreDictionary',
-        'currentUserService',
-        'usingLanguageService',
         '$mdDialog',
         '$translate',
-        'citiesLoader'
+        'conf',
+        'coreConstants',
+        'coreDictionary',
+        'coreDataservice',
+        'currentUserService',
+        'usingLanguageService',
+        'citiesLoader',
+        'mobileService'
     ];
 
     /* @ngInject */
-    function ProviderProfileController($q, conf, coreConstants, coreDataservice, coreDictionary, currentUserService,
-                                       usingLanguageService, $mdDialog, $translate, citiesLoader) {
+    function ProviderProfileController($q, $mdDialog, $translate, conf, coreConstants, coreDictionary, coreDataservice,
+                                       currentUserService, usingLanguageService, citiesLoader, mobileService) {
         var vm = this;
         var dialog = {
             title: 'WITHDRAWALS_REQUEST_CREATED',
@@ -59,7 +60,7 @@
         vm.fileUploaderOptions = coreConstants.FILE_UPLOADER_OPTIONS;
         vm.newPortrait = '';
         vm.baseUrl = conf.BASE_URL;
-        vm.defaultPortrait = coreConstants.IMAGES.defaultPortrait;
+        vm.defaultPortrait = mobileService.getImagePath(coreConstants.IMAGES.defaultPortrait);
 
         vm.updateUser = updateUser;
         vm.setMerchantAccount = setMerchantAccount;
@@ -213,7 +214,7 @@
                             if (merchantEntity) {
                                 vm.userProfile.merchantData = merchantEntity;
                                 if (vm.userProfile.merchantData.city) {
-                                    vm.selectedCityItem  = vm.userProfile.merchantData.city;
+                                    vm.selectedCityItem = vm.userProfile.merchantData.city;
                                 }
                             }
 
@@ -262,7 +263,7 @@
         }
 
         function getCities(query) {
-            if(!vm.userProfile.merchantData.state){
+            if (!vm.userProfile.merchantData.state) {
 
                 return;
             }

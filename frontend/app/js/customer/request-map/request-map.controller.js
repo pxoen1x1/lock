@@ -7,21 +7,19 @@
 
     CustomerRequestMapController.$inject = [
         '$state',
-        '$timeout',
         '$stateParams',
-        'uiGmapIsReady',
+        '$timeout',
+        'conf',
         'coreConstants',
         'chatSocketservice',
-        'customerDataservice',
         'currentRequestService',
         'geocoderService',
-        'conf'
+        'mobileService'
     ];
 
     /* @ngInject */
-    function CustomerRequestMapController($state, $timeout, $stateParams, uiGmapIsReady, coreConstants,
-                                          chatSocketservice, customerDataservice, currentRequestService,
-                                          geocoderService, conf) {
+    function CustomerRequestMapController($state, $stateParams, $timeout, conf, coreConstants, chatSocketservice,
+                                          currentRequestService, geocoderService, mobileService) {
         var currentRequestId = $stateParams.requestId;
 
         var vm = this;
@@ -34,7 +32,7 @@
 
         vm.baseUrl = conf.BASE_URL;
         vm.requestStatus = coreConstants.REQUEST_STATUSES;
-        vm.defaultPortrait = coreConstants.IMAGES.defaultPortrait;
+        vm.defaultPortrait = mobileService.getImagePath(coreConstants.IMAGES.defaultPortrait);
 
         vm.createChat = createChat;
         vm.showSelectedSpecialistInfo = showSelectedSpecialistInfo;

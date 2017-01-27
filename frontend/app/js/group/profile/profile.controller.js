@@ -7,18 +7,19 @@
 
     GroupProfileController.$inject = [
         '$q',
+        '$mdDialog',
         'conf',
         'coreConstants',
         'coreDataservice',
         'coreDictionary',
         'currentUserService',
-        '$mdDialog',
-        '$translate'
-    ];
+        '$translate',
+        'mobileService'
+];
 
     /* @ngInject */
-    function GroupProfileController($q, conf, coreConstants, coreDataservice, coreDictionary, currentUserService,
-                                    $mdDialog, $translate) {
+    function GroupProfileController($q, $mdDialog, conf, coreConstants, coreDataservice, coreDictionary,
+                                    currentUserService, $translate, mobileService) {
         var vm = this;
         var dialog = {
             title: 'WITHDRAWALS_REQUEST_CREATED',
@@ -54,7 +55,7 @@
         vm.fileUploaderOptions = coreConstants.FILE_UPLOADER_OPTIONS;
         vm.newPortrait = '';
         vm.baseUrl = conf.BASE_URL;
-        vm.defaultPortrait = coreConstants.IMAGES.defaultPortrait;
+        vm.defaultPortrait = mobileService.getImagePath(coreConstants.IMAGES.defaultPortrait);
 
         vm.updateUser = updateUser;
         vm.setMerchantAccount = setMerchantAccount;
@@ -203,7 +204,7 @@
                     return coreDataservice.getMerchantFunds();
                 })
                 .then(function (funds) {
-                    if(funds && funds.available){
+                    if (funds && funds.available) {
                         vm.userProfile.merchantFunds = funds.available / 100; // in cents
                     }
 

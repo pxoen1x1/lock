@@ -9,22 +9,23 @@
         '$state',
         '$stateParams',
         'uiGmapIsReady',
-        'coreConstants',
         'conf',
+        'coreConstants',
         'groupDataservice',
-        'geocoderService'
+        'geocoderService',
+        'mobileService'
     ];
 
     /* @ngInject */
-    function GroupMemberInfoController($state, $stateParams, uiGmapIsReady, coreConstants, conf, groupDataservice,
-                                       geocoderService) {
+    function GroupMemberInfoController($state, $stateParams, uiGmapIsReady, conf, coreConstants, groupDataservice,
+                                       geocoderService, mobileService) {
         var memberId = $stateParams.memberId;
 
         var vm = this;
         vm.member = {};
 
         vm.baseUrl = conf.BASE_URL;
-        vm.defaultPortrait = coreConstants.IMAGES.defaultPortrait;
+        vm.defaultPortrait = mobileService.getImagePath(coreConstants.IMAGES.defaultPortrait);
 
         vm.map = {
             center: {

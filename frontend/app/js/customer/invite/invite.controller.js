@@ -5,10 +5,10 @@
         .module('app.customer')
         .controller('CustomerInviteController', CustomerInviteController);
 
-    CustomerInviteController.$inject = ['$mdDialog', '$window', '$location'];
+    CustomerInviteController.$inject = ['$mdDialog', '$window', 'urlService'];
 
     /* @ngInject */
-    function CustomerInviteController($mdDialog, $window, $location) {
+    function CustomerInviteController($mdDialog, $window, urlService) {
         var vm = this;
 
         vm.inviteData = {};
@@ -22,7 +22,7 @@
                 return;
             }
 
-            var url = getUrl();
+            var url = urlService.getUrl();
 
             var mailTo = 'mailto:' + inviteData.email;
             var mailSubject = '?subject=Lockheal';
@@ -39,19 +39,6 @@
             var link = mailTo + mailSubject + mailBody + mailMessage;
 
             $window.open(link, '_self');
-        }
-
-        function getUrl() {
-            var url = '';
-
-            var protocol = $location.protocol();
-            var host = $location.host();
-            var port = $location.port();
-
-            url = protocol + '://' + host;
-            url += port ? ':' + port : '';
-
-            return url;
         }
 
         function cancel() {
