@@ -715,6 +715,13 @@ $title-color: #8e8e8e;
     }
 
     .jk-carousel {
+
+      .slide {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+
       button {
         width: 32px;
         height: 32px;

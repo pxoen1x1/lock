@@ -29,7 +29,7 @@
 
         vm.feedbacksDataArray = [
             {
-                txt: 'Just want to thank you for a job well done.',
+                txt: 'Just want to thank you for a job well done. Just want to thank you for a job well done.Just want to thank you for a job well done.Just want to thank you for a job well done.Just want to thank you for a job well done.',
                 author: 'Michael smith'
             },
             {
