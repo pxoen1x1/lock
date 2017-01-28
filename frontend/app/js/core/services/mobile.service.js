@@ -5,13 +5,21 @@
         .module('app.core')
         .factory('mobileService', mobileService);
 
-    mobileService.$inject = ['$window'];
+    mobileService.$inject = [
+        '$q',
+        '$window',
+        'pushNotificationConstants',
+        'localService',
+        'coreDataservice'
+    ];
 
     /* @ngInject */
-    function mobileService($window) {
+    function mobileService($q, $window, pushNotificationConstants, localService, coreDataservice) {
         var service = {
             isMobileApplication: isMobileApplication,
-            getImagePath: getImagePath
+            getImagePath: getImagePath,
+            saveDeviceInfo: saveDeviceInfo,
+            initPushNotifications: initPushNotifications
         };
 
         return service;
@@ -34,6 +42,52 @@
             }
 
             return imagePath;
+        }
+
+        function saveDeviceInfo(deviceInfo) {
+            deviceInfo = deviceInfo || localService.getDeviceInfo();
+
+            if (!deviceInfo || !isMobileApplication()) {
+
+                return $q.reject();
+            }
+
+            deviceInfo = {
+                device: deviceInfo
+            };
+
+            return coreDataservice.saveDeviceInfo(deviceInfo)
+                .then(function (savedDeviceInfo) {
+                    localService.setDeviceInfo(savedDeviceInfo);
+
+                    return savedDeviceInfo;
+                });
+        }
+
+        function initPushNotifications() {
+            var pushNotification = $window.PushNotification.init(
+                {
+                    android: pushNotificationConstants.ANDROID,
+                    ios: pushNotificationConstants.IOS
+                }
+            );
+
+            pushNotification.on('registration', function (data) {
+                var deviceInfo = {
+                    token: data.registrationId,
+                    platform: $window.cordova.platformId,
+                    uuid: $window.device.uuid
+                };
+
+                var existingDeviceInfo = localService.getDeviceInfo();
+
+                if (existingDeviceInfo && existingDeviceInfo.token && existingDeviceInfo.token === deviceInfo.token) {
+
+                    return;
+                }
+
+                return saveDeviceInfo(deviceInfo);
+            });
         }
     }
 })();
