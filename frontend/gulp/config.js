@@ -113,25 +113,16 @@ module.exports = {
             www: 'http://i-deasoft.com/'
         },
         description: 'Lockheal app.',
-        icon: {
-            src: 'www/images/icon.png',
-            dest: 'resources'
+        plugins: {
+            'cordova-plugin-crosswalk-webview': 'latest',
+            'cordova-plugin-device': 'latest',
+            'cordova-plugin-statusbar': 'latest',
+            'cordova-plugin-splashscreen': 'latest',
+            'cordova-plugin-camera': 'latest',
+            'cordova-plugin-file': 'latest',
+            'cordova-plugin-geolocation': 'latest',
+            'phonegap-plugin-push': 'latest'
         },
-        splash: {
-            src:'www/images/splash.png',
-            dest: 'resources',
-            name: 'splash.png'
-        },
-        plugins: [
-            'cordova-plugin-whitelist',
-            'cordova-plugin-crosswalk-webview',
-            'cordova-plugin-device',
-            'cordova-plugin-statusbar',
-            'cordova-plugin-splashscreen',
-            'cordova-plugin-camera',
-            'cordova-plugin-file',
-            'cordova-plugin-geolocation'
-        ],
         preferences: {
             'FadeSplashScreen': true,
             'FadeSplashScreenDuration': 1500,
@@ -140,7 +131,11 @@ module.exports = {
             'ShowSplashScreenSpinner': false,
             'StatusBarOverlaysWebView': false,
             'StatusBarStyle': 'default'
-        }
+        },
+        resources: {
+            src:'mobile-resources/**/*',
+            dest: paths.mobile.src
+        },
     },
     delete: {
         app: {
