@@ -39,7 +39,14 @@ let AuthController = waterlock.waterlocked({
         AuthService.register(auth)
             .then(
                 (createdUser) => {
-                    if (createdUser.details) {
+
+                    return [createdUser, GroupService.getAdminsGroup(createdUser)];
+                }
+            )
+            .spread(
+                (createdUser, groups) => {
+
+                    if (createdUser.details || groups) {
 
                         return createdUser;
                     }
@@ -240,11 +247,11 @@ let AuthController = waterlock.waterlocked({
         let promiseGetUser = hasToken ? AuthService.getUserByToken(req) : Promise.resolve();
 
         Promise.all([
-            promiseCheckSSN,
-            promiseCheckPhoneNumber,
-            promiseCheckEmail,
-            promiseGetUser
-        ])
+                promiseCheckSSN,
+                promiseCheckPhoneNumber,
+                promiseCheckEmail,
+                promiseGetUser
+            ])
             .then(
                 (params) => {
                     let userId = params[3] ? params[3].id : null;
