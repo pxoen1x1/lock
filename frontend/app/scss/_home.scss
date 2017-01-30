@@ -111,17 +111,17 @@ $title-color: #8e8e8e;
 
 .icon-advanteges {
   display: block;
-  background: url('../images/icon_advanteges.png') no-repeat scroll center center / auto 100%;
+  background: url('../images/icon_advanteges.png') no-repeat scroll center center / 100%;
 }
 
 .icon-same-day-help {
   display: block;
-  background: url('../images/icon_same_day_help.png') no-repeat scroll center center / auto 100%;
+  background: url('../images/icon_same_day_help.png') no-repeat scroll center center / 100%;
 }
 
 .icon-trust-and-safe {
   display: block;
-  background: url('../images/icon_trust_and_safe.png') no-repeat scroll center center / auto 100%;
+  background: url('../images/icon_trust_and_safe.png') no-repeat scroll center center / 100%;
 }
 
 .icon-facebook {
@@ -716,14 +716,17 @@ $title-color: #8e8e8e;
 
     .icon-advanteges {
       background-position: left center;
+      background-size: auto 100%;
     }
 
     .icon-same-day-help {
       background-position: right center;
+      background-size: auto 100%;
     }
 
     .icon-trust-and-safe {
       background-position: left center;
+      background-size: auto 100%;
     }
   }
 
