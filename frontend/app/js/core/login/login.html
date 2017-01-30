@@ -17,6 +17,20 @@
     </md-toolbar>
     <md-dialog-content>
       <div class="md-dialog-content" layout="column">
+<!--        <div layout="row"
+             layout-align="end center"
+             flex
+             hide-gt-sm>
+          <md-button class="md-button-social-icon facebook" aria-label="Facebook">
+            <i class="fa fa-facebook"></i>
+          </md-button>
+          <md-button class="md-button-social-icon google-plus" aria-label="Google+">
+            <i class="fa fa-google-plus"></i>
+          </md-button>
+          <md-button class="md-button-social-icon twitter" aria-label="Twitter">
+            <i class="fa fa-twitter"></i>
+          </md-button>
+        </div>-->
         <!-- E-mail -->
         <div layout="row">
           <md-input-container class="hide-error-msg" flex>
@@ -64,6 +78,27 @@
                  aria-label="{{ vm.isForgotPasswordEnabled ? 'RESET_PASSWORD' : 'LOG_IN' | translate }}">
         <span ng-bind="vm.isForgotPasswordEnabled ? 'RESET_PASSWORD' : 'LOG_IN' | translate"></span>
       </md-button>
+<!--      <div class="social-buttons"
+           hide-xs
+           hide-sm
+           ng-if="!vm.isForgotPasswordEnabled">
+        <a class="md-button social-button facebook"
+                   flex
+                   translate
+                   ng-click="vm.loginWithFacebook()">
+          LOGIN_WITH_FB
+        </a>
+        <a class="md-button social-button google-plus"
+           translate
+           flex>
+          LOGIN_WITH_G+
+        </a>
+        <a class="md-button social-button twitter"
+           translate
+           flex>
+          LOGIN_WITH_TWITTER
+        </a>
+      </div>-->
     </md-dialog-actions>
   </form>
 </md-dialog>
