@@ -5,10 +5,16 @@
         .module('app.customer')
         .controller('CustomerRequestsListController', CustomerRequestsListController);
 
-    CustomerRequestsListController.$inject = ['$mdMedia', 'coreConstants', 'customerDataservice', 'conf'];
+    CustomerRequestsListController.$inject = [
+        '$mdMedia',
+        'conf',
+        'coreConstants',
+        'customerDataservice',
+        'mobileService'
+    ];
 
     /* @ngInject */
-    function CustomerRequestsListController($mdMedia, coreConstants, customerDataservice, conf) {
+    function CustomerRequestsListController($mdMedia, conf, coreConstants, customerDataservice, mobileService) {
         var promises = {
             getAllRequests: null
         };
@@ -21,7 +27,7 @@
         vm.paginationOptions = coreConstants.PAGINATION_OPTIONS;
         vm.requestStatus = coreConstants.REQUEST_STATUSES;
         vm.dateFormat = coreConstants.DATE_FORMAT;
-        vm.defaultPortrait = coreConstants.IMAGES.defaultPortrait;
+        vm.defaultPortrait = mobileService.getImagePath(coreConstants.IMAGES.defaultPortrait);
 
         vm.isAllRequestsLoaded = false;
 

@@ -28,13 +28,20 @@
         return directive;
     }
 
-    MessageBidController.$inject = ['$scope', 'chatSocketservice', 'coreConstants', 'chatConstants', '$mdDialog'];
+    MessageBidController.$inject = [
+        '$scope',
+        '$mdDialog',
+        'coreConstants',
+        'chatConstants',
+        'chatSocketservice',
+        'mobileService'
+    ];
 
     /* @ngInject */
-    function MessageBidController($scope, chatSocketservice, coreConstants, chatConstants, $mdDialog) {
+    function MessageBidController($scope, $mdDialog, coreConstants, chatConstants, chatSocketservice, mobileService) {
         var vm = this;
 
-        vm.defaultPortrait = coreConstants.IMAGES.defaultPortrait;
+        vm.defaultPortrait = mobileService.getImagePath(coreConstants.IMAGES.defaultPortrait);
         vm.requestStatus = coreConstants.REQUEST_STATUSES;
         vm.userType = coreConstants.USER_TYPES;
         vm.messageType = chatConstants.MESSAGE_TYPES;
@@ -143,14 +150,14 @@
                 controllerAs: 'vm',
                 templateUrl: 'chat/payment-dialog/payment-dialog.html',
                 targetEvent: ev,
-                clickOutsideToClose:true,
-                locals: { currentBid: vm.currentBid, currentRequest: vm.currentRequest }
+                clickOutsideToClose: true,
+                locals: {currentBid: vm.currentBid, currentRequest: vm.currentRequest}
             })
-             .then(function(paymentResult) {
-                 if(paymentResult){
-                     vm.acceptBid(vm.currentBid, vm.currentRequest);
-                 }
-             });
+                .then(function (paymentResult) {
+                    if (paymentResult) {
+                        vm.acceptBid(vm.currentBid, vm.currentRequest);
+                    }
+                });
         };
 
     }

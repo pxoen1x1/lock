@@ -1,50 +1,55 @@
 <md-toolbar class="md-menu-toolbar" md-whiteframe="1">
-  <div class="md-toolbar-tools">
-    <md-button class="md-icon-button button-menu"
-               hide-gt-sm ng-click="vm.toggleMenu()"
-               aria-label="Menu">
-      <md-icon>menu</md-icon>
-    </md-button>
-    <h2 class="root"
-        hide-xs>
-      <span ng-repeat="pageTitle in vm.pageTitles track by $index">
-        <a ng-href="{{pageTitle.url}}"
-           ng-bind="pageTitle.title.toUpperCase() | translate">
-        </a>
-        <i class="material-icons"
-           ng-if="$index != vm.pageTitles.length-1 && vm.pageTitles[$index+1].title">
-          chevron_right
-        </i>
-      </span>
-    </h2>
-    <span flex></span>
-    <h2 class="root bold" hide-gt-xs>
-      <span ng-bind="vm.pageTitles[vm.pageTitles.length - 1].title"></span>
-    </h2>
-    <span flex hide-gt-sm></span>
-    <div>
-      <a class="md-button button-login"
-         layout="row"
-         layout-align="center center"
-         aria-label="Log in"
-         ui-sref="login"
-         ng-if="!vm.isAuthenticated()">
-        <i class="fa fa-sign-in"
-           aria-hidden="true">
-        </i>
-        <span class="m-l-xs" hide-xs translate>LOG_IN</span>
-      </a>
-      <a class="md-button button-login"
-         layout="row"
-         layout-align="center center"
-         aria-label="Log out"
-         ng-if="vm.isAuthenticated()"
-         logout>
-        <i class="fa fa-sign-out"
-           aria-hidden="true">
-        </i>
-        <span class="m-l-xs" hide-xs translate>LOG_OUT</span>
-      </a>
+    <div class="md-toolbar-tools">
+        <md-button class="md-icon-button button-menu"
+                   hide-gt-sm ng-click="vm.toggleMenu()"
+                   aria-label="Menu">
+            <md-icon>menu</md-icon>
+        </md-button>
+        <h2 class="root"
+            hide-xs>
+            <a  ng-click="vm.goBack()">
+            <i class="material-icons">
+                chevron_left
+            </i>
+                </a>
+            <span ng-bind="vm.pageTitles[vm.pageTitles.length-1].title.toUpperCase() | translate">
+            </span>
+        </h2>
+        <span flex></span>
+
+        <h2 class="root bold" hide-gt-xs>
+            <a  ng-click="vm.goBack()">
+                <i class="material-icons">
+                    chevron_left
+                </i>
+            </a>
+            <span ng-bind="vm.pageTitles[vm.pageTitles.length - 1].title"></span>
+        </h2>
+        <span flex hide-gt-sm></span>
+
+        <div>
+            <a class="md-button button-login"
+               layout="row"
+               layout-align="center center"
+               aria-label="Log in"
+               ui-sref="login"
+               ng-if="!vm.isAuthenticated()">
+                <i class="fa fa-sign-in"
+                   aria-hidden="true">
+                </i>
+                <span class="m-l-xs" hide-xs translate>LOG_IN</span>
+            </a>
+            <a class="md-button button-login"
+               layout="row"
+               layout-align="center center"
+               aria-label="Log out"
+               ng-if="vm.isAuthenticated()"
+               logout>
+                <i class="fa fa-sign-out"
+                   aria-hidden="true">
+                </i>
+                <span class="m-l-xs" hide-xs translate>LOG_OUT</span>
+            </a>
+        </div>
     </div>
-  </div>
 </md-toolbar>

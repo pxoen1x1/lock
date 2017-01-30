@@ -17,7 +17,7 @@ var currentPlatform = process.platform === 'darwin' ?
 gulp.task('cordova:build', function () {
 
     return gulp.src(paths.src)
-        .pipe(gulpif(currentPlatform === 'linux', android({release: true})))
+        .pipe(gulpif(currentPlatform === 'linux', android({release: false})))
         .pipe(gulpif(currentPlatform === 'ios', ios({release: true})))
         .pipe(gulp.dest(paths.dest));
 });

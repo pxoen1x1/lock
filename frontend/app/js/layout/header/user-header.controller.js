@@ -14,6 +14,7 @@
         vm.pageTitles = [];
 
         vm.toggleMenu = toggleMenu;
+        vm.goBack = goBack;
         vm.isAuthenticated = authService.isAuthenticated;
 
         activate();
@@ -44,6 +45,10 @@
             }
 
             return pageTitles;
+        }
+
+        function goBack () {
+            history.back();
         }
 
         function activate() {

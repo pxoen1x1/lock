@@ -29,18 +29,20 @@
         '$q',
         '$state',
         '$mdDialog',
+        'conf',
         'coreConstants',
         'coreDataservice',
         'chatSocketservice',
         'currentRequestService',
         'geocoderService',
         'speechRecognition',
-        'conf'
+        'mobileService',
     ];
 
     /* @ngInject */
-    function ChatMessagesController($scope, $q, $state, $mdDialog, coreConstants, coreDataservice, chatSocketservice,
-                                    currentRequestService, geocoderService, speechRecognition, conf) {
+    function ChatMessagesController($scope, $q, $state, $mdDialog, conf, coreConstants, coreDataservice,
+                                    chatSocketservice, currentRequestService, geocoderService, speechRecognition,
+                                    mobileService) {
         var messageHandler;
         var isAllMessagesLoaded = {};
         var pagination = {
@@ -58,7 +60,7 @@
         vm.baseUrl = conf.BASE_URL;
         vm.userType = coreConstants.USER_TYPES;
         vm.requestStatus = coreConstants.REQUEST_STATUSES;
-        vm.defaultPortrait = coreConstants.IMAGES.defaultPortrait;
+        vm.defaultPortrait = mobileService.getImagePath(coreConstants.IMAGES.defaultPortrait);
         vm.fileUploaderOptions = coreConstants.FILE_UPLOADER_OPTIONS;
 
         vm.isScrollDisabled = true;

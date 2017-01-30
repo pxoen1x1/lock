@@ -29,18 +29,20 @@
         '$q',
         '$mdMedia',
         '$mdSidenav',
-        'chatSocketservice',
+        'conf',
         'coreConstants',
-        'conf'
+        'chatSocketservice',
+        'mobileService'
     ];
 
     /* @ngInject */
-    function ClientBidListController($scope, $q, $mdMedia, $mdSidenav, chatSocketservice, coreConstants, conf) {
+    function ClientBidListController($scope, $q, $mdMedia, $mdSidenav, conf, coreConstants, chatSocketservice,
+                                     mobileService) {
         var bidHandler;
         var vm = this;
 
         vm.baseUrl = conf.BASE_URL;
-        vm.defaultPortrait = coreConstants.IMAGES.defaultPortrait;
+        vm.defaultPortrait = mobileService.getImagePath(coreConstants.IMAGES.defaultPortrait);
 
         vm.changeCurrentBid = changeCurrentBid;
 

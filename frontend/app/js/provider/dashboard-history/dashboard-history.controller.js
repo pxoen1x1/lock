@@ -5,10 +5,17 @@
         .module('app.provider')
         .controller('ProviderDashboardHistoryController', ProviderDashboardHistoryController);
 
-    ProviderDashboardHistoryController.$inject = ['$mdMedia', 'coreConstants', 'serviceProviderDataservice', 'conf'];
+    ProviderDashboardHistoryController.$inject = [
+        '$mdMedia',
+        'conf',
+        'coreConstants',
+        'serviceProviderDataservice',
+        'mobileService',
+    ];
 
     /* @ngInject */
-    function ProviderDashboardHistoryController($mdMedia, coreConstants, serviceProviderDataservice, conf) {
+    function ProviderDashboardHistoryController($mdMedia, conf, coreConstants, serviceProviderDataservice,
+                                                mobileService) {
         var promises = {
             getAllRequests: null
         };
@@ -18,7 +25,7 @@
         vm.requests = [];
 
         vm.baseUrl = conf.BASE_URL;
-        vm.defaultPortrait = coreConstants.IMAGES.defaultPortrait;
+        vm.defaultPortrait = mobileService.getImagePath(coreConstants.IMAGES.defaultPortrait);
         vm.paginationOptions = coreConstants.PAGINATION_OPTIONS;
         vm.requestStatus = coreConstants.REQUEST_STATUSES;
 

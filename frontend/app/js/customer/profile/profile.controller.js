@@ -7,19 +7,20 @@
 
     CustomerProfileController.$inject = [
         '$q',
+        '$translate',
+        'conf',
+        'coreConstants',
         'coreDictionary',
         'currentUserService',
-        'coreConstants',
         'coreDataservice',
-        'conf',
         'usingLanguageService',
         'citiesLoader',
-        '$translate'
+        'mobileService',
     ];
 
     /* @ngInject */
-    function CustomerProfileController($q, coreDictionary, currentUserService, coreConstants, coreDataservice, conf,
-    usingLanguageService, citiesLoader, $translate) {
+    function CustomerProfileController($q, $translate, conf, coreConstants, coreDictionary, currentUserService,
+                                       coreDataservice, usingLanguageService, citiesLoader, mobileService) {
         var vm = this;
 
         vm.userProfile = {};
@@ -30,7 +31,7 @@
         vm.languages = [];
         vm.states = [];
         vm.baseUrl = conf.BASE_URL;
-        vm.defaultPortrait = coreConstants.IMAGES.defaultPortrait;
+        vm.defaultPortrait = mobileService.getImagePath(coreConstants.IMAGES.defaultPortrait);
 
         vm.isEditing = false;
 
@@ -72,7 +73,7 @@
                 .then(function (customer) {
                     vm.userProfile.customerData = customer.customer[0];
                     return vm.userProfile;
-                }).then(function(){
+                }).then(function () {
                     vm.isEditingCustomer = false;
                 });
         }
@@ -84,14 +85,14 @@
 
             return coreDataservice.updateCustomerCard(cardData)
                 .then(function (spCardNumber) {
-                    if(!spCardNumber){
+                    if (!spCardNumber) {
                         return;
                     }
 
                     vm.userProfile.spCardNumber = '****' + spCardNumber;
 
                     return currentUserService.setUserToLocalStorage(vm.userProfile);
-                }).finally(function(){
+                }).finally(function () {
                     vm.isEditingCard = false;
                 });
         }
@@ -132,9 +133,9 @@
                     vm.userProfile.portrait = user.portrait ? conf.BASE_URL + user.portrait : '';
 
                     return coreDataservice.getCustomer()
-                        .then(function(customer){
+                        .then(function (customer) {
 
-                            if(customer && customer.length > 0){
+                            if (customer && customer.customer[0]) {
                                 vm.userProfile.customerData = customer.customer[0];
                                 if (vm.userProfile.customerData.city) {
                                     vm.selectedCityItem = vm.userProfile.customerData.city;
@@ -158,7 +159,7 @@
 
         function getStatesList(states) {
             var statesList = {};
-            states.forEach(function(state) {
+            states.forEach(function (state) {
                 statesList[state.state] = state;
             });
 
@@ -166,7 +167,7 @@
         }
 
         function getCities(query) {
-            if(!vm.userProfile.customerData.state){
+            if (!vm.userProfile.customerData.state) {
 
                 return;
             }
@@ -175,13 +176,13 @@
 
             return citiesLoader.getCities(selectedState.id, query)
                 .then(function (cities) {
-                    
+
                     return cities;
                 });
         }
 
         function selectedItemChange(city) {
-            if(!city){
+            if (!city) {
                 return;
             }
 
@@ -205,15 +206,18 @@
 
         function activate() {
             $q.all([
-                getUser(),
-                getLanguages(),
-                getStates()
-            ])
+                    getUser(),
+                    getLanguages(),
+                    getStates()
+                ])
                 .then(function () {
                     vm.userProfile.usingLanguage = vm.userProfile.usingLanguage || usingLanguageService.getLanguage();
 
                     vm.nonChangedUserProfile = angular.copy(vm.userProfile);
-                    vm.getCities(vm.userProfile.customerData.state);
+
+                    if (vm.userProfile.customerData && vm.userProfile.customerData.state) {
+                        vm.getCities(vm.userProfile.customerData.state);
+                    }
                 });
         }
     }

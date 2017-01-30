@@ -7,17 +7,18 @@
 
     ProviderPublicProfileController.$inject = [
         '$stateParams',
-        'coreDataservice',
         'conf',
-        'coreConstants'
+        'coreConstants',
+        'coreDataservice',
+        'mobileService'
     ];
 
     /* @ngInject */
-    function ProviderPublicProfileController($stateParams, coreDataservice, conf, coreConstants) {
+    function ProviderPublicProfileController($stateParams, conf, coreConstants, coreDataservice, mobileService) {
         var vm = this;
 
         vm.profileId = $stateParams.profileId;
-        vm.defaultPortrait = coreConstants.IMAGES.defaultPortrait;
+        vm.defaultPortrait = mobileService.getImagePath(coreConstants.IMAGES.defaultPortrait);
         vm.baseUrl = conf.BASE_URL;
 
         // vm.profileData = {};
@@ -34,7 +35,6 @@
                 .then(function (response) {
                     var user = response.data.user;
 
-                    // vm.profileData = user;
                     vm.userProfile = user;
                     vm.userProfile.portrait = user.portrait ? user.portrait : '';
 
@@ -51,6 +51,5 @@
         function activate() {
             getUser();
         }
-
     }
 })();

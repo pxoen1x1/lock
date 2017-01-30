@@ -30,22 +30,24 @@
 
     SpecialistChatListController.$inject = [
         '$q',
-        'chatSocketservice',
         '$mdSidenav',
         '$mdMedia',
+        'conf',
         'coreConstants',
-        'conf'
+        'chatSocketservice',
+        'mobileService'
     ];
 
     /* @ngInject */
-    function SpecialistChatListController($q, chatSocketservice, $mdSidenav, $mdMedia, coreConstants, conf) {
+    function SpecialistChatListController($q, $mdSidenav, $mdMedia, conf, coreConstants, chatSocketservice,
+                                          mobileService) {
         var selectedChats = {};
         var vm = this;
 
         vm.chatSearch = '';
 
         vm.baseUrl = conf.BASE_URL;
-        vm.defaultPortrait = coreConstants.IMAGES.defaultPortrait;
+        vm.defaultPortrait = mobileService.getImagePath(coreConstants.IMAGES.defaultPortrait);
 
         vm.changeCurrentChat = changeCurrentChat;
 

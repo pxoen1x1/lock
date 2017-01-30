@@ -5,10 +5,16 @@
         .module('app.group')
         .controller('GroupMembersController', GroupMembersController);
 
-    GroupMembersController.$inject = ['$mdMedia', 'conf', 'coreConstants', 'groupDataservice'];
+    GroupMembersController.$inject = [
+        '$mdMedia',
+        'conf',
+        'coreConstants',
+        'groupDataservice',
+        'mobileService'
+    ];
 
     /* @ngInject */
-    function GroupMembersController($mdMedia, conf, coreConstants, groupDataservice) {
+    function GroupMembersController($mdMedia, conf, coreConstants, groupDataservice, mobileService) {
         var vm = this;
 
         vm.members = [];
@@ -16,7 +22,7 @@
         vm.isAllMembersLoaded = false;
 
         vm.baseUrl = conf.BASE_URL;
-        vm.defaultPortrait = coreConstants.IMAGES.defaultPortrait;
+        vm.defaultPortrait = mobileService.getImagePath(coreConstants.IMAGES.defaultPortrait);
         vm.paginationOptions = coreConstants.PAGINATION_OPTIONS;
         vm.paginationOptions = coreConstants.PAGINATION_OPTIONS;
 

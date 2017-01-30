@@ -32,13 +32,11 @@ $title-color: #8e8e8e;
     width: 161px;
     height: 35px;
   }
-}
-
-.logo {
-  width: 166px;
-  height: 26px;
-  background: url('../images/logo.png');
-  cursor: pointer;
+  .logo {
+    width: 166px;
+    height: 26px;
+    background: url('../images/logo.png');
+  }
 }
 
 .join-as-a-locksmith {
@@ -211,6 +209,17 @@ $title-color: #8e8e8e;
 
     > span {
       color: #fff;
+    }
+
+    > span.hint {
+      color: #fff;
+      font-size: 20px;
+      margin-bottom: 20px;
+      width: 100%;
+
+        b {
+          text-transform: uppercase;
+        }
     }
 
     md-input-container:first-child {
@@ -583,6 +592,12 @@ $title-color: #8e8e8e;
       margin: 0;
       width: auto;
 
+      span.hint {
+        color: $primary-blue;
+        font-size: 14px;
+        margin: auto auto 10px;
+      }
+
       md-input-container:first-child {
         border-top: 1px solid #e1e1e1;
         border-bottom: 1px solid #e1e1e1;
@@ -700,6 +715,13 @@ $title-color: #8e8e8e;
     }
 
     .jk-carousel {
+
+      .slide {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+
       button {
         width: 32px;
         height: 32px;
