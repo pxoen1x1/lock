@@ -224,5 +224,12 @@
   "WITHDRAWALS_REQUEST_CREATED": "Запрос на вывод создан",
   "ERROR_DURING_WITHDRAWALS": "В процессе вывода произошла ошибка",
   "NEW_REQUESTS": "Новые запросы",
-  "NO_REQUESTS": "Нет запросов"
+  "NO_REQUESTS": "Нет запросов",
+  "EMERGENCY_HINT": "Emergency hint",
+  "RESIDENTIAL_HINT": "Residential hint",
+  "COMMERCIAL_HINT": "Commercial hint",
+  "AUTOMOBILE_HINT": "Пожалуйста, укажите модель и год выпуска автомобиля",
+  "INSTITUTIONAL_HINT": "Institutional hint",
+  "FORENSIC_HINT": "Forensic hint",
+  "SEARCH_FOR_A_CITY": "Искать город"
 }

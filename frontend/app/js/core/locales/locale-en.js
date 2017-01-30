@@ -228,7 +228,14 @@
                  'WITHDRAWALS_REQUEST_CREATED': 'Withdrawals request created',
                  'ERROR_DURING_WITHDRAWALS': 'Error during withdrawals',
                  'NEW_REQUESTS': 'New requests',
-                 'NO_REQUESTS': 'No requests'
+                 'NO_REQUESTS': 'No requests',
+                 'EMERGENCY_HINT': 'Please describe your problem',
+                 'RESIDENTIAL_HINT': 'Residential hint',
+                 'COMMERCIAL_HINT': 'Commercial hint',
+                 'AUTOMOBILE_HINT': 'Please note model and manufacture year of the car',
+                 'INSTITUTIONAL_HINT': 'Institutional hint',
+                 'FORENSIC_HINT': 'Forensic hint',
+                 'SEARCH_FOR_A_CITY': 'Search for a city..'
              }
          });
 })();

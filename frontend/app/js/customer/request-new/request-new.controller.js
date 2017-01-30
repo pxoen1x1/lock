@@ -14,14 +14,23 @@
         'coreDataservice',
         'coreDictionary',
         'customerDataservice',
-        'coreConstants'
+        'coreConstants',
+        '$translate'
     ];
 
     /* @ngInject */
     function CustomerNewRequestController($q, $state, moment, citiesLoader, geocoderService,
-                                          coreDataservice, coreDictionary, customerDataservice, coreConstants) {
+                                          coreDataservice, coreDictionary, customerDataservice, coreConstants, $translate) {
         var promises = {
             getStates: null
+        };
+        var hints = {
+            emergency: 'EMERGENCY_HINT',
+            residential: 'RESIDETNTIAL_HINT',
+            commercial: 'COMMERCIAL_HINT',
+            automobile: 'AUTOMOBILE_HINT',
+            institutional: 'INSTITUTIONAL_HINT',
+            forensic: 'FORENSIC_HINT'
         };
 
         var vm = this;
@@ -177,11 +186,39 @@
                 });
         }
 
+        function getHintsTranslation() {
+            $translate('EMERGENCY_HINT')
+                .then(function(translation) {
+                    hints.emergency = translation;
+                });
+            $translate('RESIDENTIAL_HINT')
+                .then(function(translation) {
+                    hints.residential = translation;
+                });
+            $translate('COMMERCIAL_HINT')
+                .then(function(translation) {
+                    hints.commercial = translation;
+                });
+            $translate('AUTOMOBILE_HINT')
+                .then(function(translation) {
+                    hints.automobile = translation;
+                });
+            $translate('INSTITUTIONAL_HINT')
+                .then(function(translation) {
+                    hints.institutional = translation;
+                });
+            $translate('FORENSIC_HINT')
+                .then(function(translation) {
+                    hints.forensic = translation;
+                });
+        }
+
         function activate() {
             $q.all(
                 getServiceTypes(),
                 getLanguages(),
-                getStates()
+                getStates(),
+                getHintsTranslation()
             );
         }
     }
