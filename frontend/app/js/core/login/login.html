@@ -78,27 +78,6 @@
                  aria-label="{{ vm.isForgotPasswordEnabled ? 'RESET_PASSWORD' : 'LOG_IN' | translate }}">
         <span ng-bind="vm.isForgotPasswordEnabled ? 'RESET_PASSWORD' : 'LOG_IN' | translate"></span>
       </md-button>
-      <div class="social-buttons"
-           hide-xs
-           hide-sm
-           ng-if="!vm.isForgotPasswordEnabled">
-        <a class="md-button social-button facebook"
-                   flex
-                   translate
-                   ng-click="vm.loginWithFacebook()">
-          LOGIN_WITH_FB
-        </a>
-        <a class="md-button social-button google-plus"
-           translate
-           flex>
-          LOGIN_WITH_G+
-        </a>
-        <a class="md-button social-button twitter"
-           translate
-           flex>
-          LOGIN_WITH_TWITTER
-        </a>
-      </div>
     </md-dialog-actions>
   </form>
 </md-dialog>
