@@ -5,10 +5,10 @@
         .module('app.home')
         .controller('HomeController', HomeController);
 
-    HomeController.$inject = ['$state', '$scope', 'geocoderService', 'coreDictionary', 'authService', 'customerDataservice', 'chatSocketservice', 'coreConstants', 'currentUserService'];
+    HomeController.$inject = ['$state', '$scope', 'geocoderService', 'coreDictionary', 'authService', 'customerDataservice', 'chatSocketservice', 'coreConstants', 'currentUserService', '$mdDialog'];
 
     /* @ngInject */
-    function HomeController($state, $scope, geocoderService, coreDictionary, authService, customerDataservice, chatSocketservice, coreConstants, currentUserService) {
+    function HomeController($state, $scope, geocoderService, coreDictionary, authService, customerDataservice, chatSocketservice, coreConstants, currentUserService, $mdDialog) {
         var vm = this;
         vm.request = {
             location: {
@@ -50,9 +50,13 @@
 
         vm.locationAutocompleteSelector = 'gmaps_autocomplete';
         vm.locationAutocomplete = {};
+        vm.videoDialog = null;
+
         vm.initAutocomplete = initAutocomplete;
         vm.hireSpecialist = hireSpecialist;
         vm.submit = submit;
+        vm.showVideo = showVideo;
+        vm.closeVideo = closeVideo;
 
         activate();
 
@@ -210,6 +214,18 @@
             }
         }
 
+        function showVideo() {
+            vm.videoDialog = $mdDialog.show({
+                templateUrl: 'home/video.html',
+                fullscreen: true,
+                controllerAs: 'vm',
+                controller: 'HomeController'
+            });
+        }
+
+        function closeVideo() {
+            $mdDialog.hide(vm.videoDialog, 'finished');
+        }
 
         function activate() {
             redirectIfLoggedIn();
