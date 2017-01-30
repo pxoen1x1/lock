@@ -550,6 +550,10 @@ $title-color: #8e8e8e;
   .apps img:last-child {
     margin-top: 10px;
   }
+
+  .appstore {
+    margin-bottom: 5px;
+  }
 }
 
 @media only screen and (min-device-width: 600px) and (max-device-width: 960px) {
@@ -633,6 +637,10 @@ $title-color: #8e8e8e;
       }
       md-input-container {
         border-bottom: 1px solid #e1e1e1;
+
+        label {
+          padding: 0;
+        }
 
         label, md-select-value span {
           font-size: 14px;
@@ -801,9 +809,6 @@ $title-color: #8e8e8e;
       font-size: 13px;
     }
 
-    .appstore {
-      margin-bottom: 5px;
-    }
   }
 
 }
