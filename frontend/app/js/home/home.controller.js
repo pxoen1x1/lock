@@ -5,10 +5,10 @@
         .module('app.home')
         .controller('HomeController', HomeController);
 
-    HomeController.$inject = ['$state', '$scope', 'geocoderService', 'coreDictionary', 'authService', 'customerDataservice', 'chatSocketservice', 'coreConstants', 'currentUserService', '$mdDialog'];
+    HomeController.$inject = ['$state', '$scope', 'geocoderService', 'coreDictionary', 'authService', 'customerDataservice', 'chatSocketservice', '$mdDialog', 'routingService'];
 
     /* @ngInject */
-    function HomeController($state, $scope, geocoderService, coreDictionary, authService, customerDataservice, chatSocketservice, coreConstants, currentUserService, $mdDialog) {
+    function HomeController($state, $scope, geocoderService, coreDictionary, authService, customerDataservice, chatSocketservice, $mdDialog, routingService) {
         var vm = this;
         vm.request = {
             location: {
@@ -184,36 +184,6 @@
             vm.specialistId = specialist.id;
         }
 
-        function getUserType() {
-
-        }
-
-        function setMenuType(type) {
-            switch (type) {
-                case coreConstants.USER_TYPES.SPECIALIST:
-                    vm.menuItems = serviceProviderConstants.MENU_ITEMS;
-                    vm.profileState = 'provider.profile';
-                    break;
-                case coreConstants.USER_TYPES.GROUP_ADMIN:
-                    vm.menuItems = groupConstants.MENU_ITEMS;
-                    vm.profileState = 'group.profile';
-                    break;
-                default:
-                    vm.menuItems = customerConstants.MENU_ITEMS;
-                    vm.profileState = 'customer.profile';
-            }
-        }
-
-        function redirectIfLoggedIn() {
-            if (authService.isAuthenticated()) {
-
-                return currentUserService.getType()
-                    .then(function (userType) {
-                        $state.go(coreConstants.USER_TYPE_DEFAULT_STATE[userType]);
-                    });
-            }
-        }
-
         function showVideo() {
             vm.videoDialog = $mdDialog.show({
                 templateUrl: 'home/video.html',
@@ -228,7 +198,7 @@
         }
 
         function activate() {
-            redirectIfLoggedIn();
+            routingService.redirectIfLoggedIn();
 
             getServiceTypes();
             showRequestOnMap(); // works only in Chrome
