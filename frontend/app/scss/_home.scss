@@ -758,8 +758,10 @@ $title-color: #8e8e8e;
       }
 
       button {
-        width: 32px;
         height: 32px;
+        min-height: 32px;
+        min-width: 32px;
+        width: 32px;
         top: 44%;
 
         md-icon {
