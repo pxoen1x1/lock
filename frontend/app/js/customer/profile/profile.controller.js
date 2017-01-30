@@ -30,11 +30,12 @@
         vm.newPortrait = '';
         vm.languages = [];
         vm.states = [];
-        vm.baseUrl = conf.BASE_URL;
-        vm.defaultPortrait = mobileService.getImagePath(coreConstants.IMAGES.defaultPortrait);
-
+        vm.searchText = null;
+        vm.selectedCityItem = null;
         vm.isEditing = false;
 
+        vm.baseUrl = conf.BASE_URL;
+        vm.defaultPortrait = mobileService.getImagePath(coreConstants.IMAGES.defaultPortrait);
         vm.fileUploaderOptions = coreConstants.FILE_UPLOADER_OPTIONS;
 
         vm.updateUser = updateUser;
@@ -44,11 +45,9 @@
         vm.getCities = getCities;
         vm.cancelEditing = cancelEditing;
         vm.resetSelectedCity = resetSelectedCity;
-
         vm.getCities = getCities;
-        vm.searchText = null;
-        vm.selectedCityItem = null;
         vm.selectedItemChange = selectedItemChange;
+        vm.viewUserPhoto = viewUserPhoto;
 
         activate();
 
@@ -94,6 +93,16 @@
                 }).finally(function () {
                     vm.isEditingCard = false;
                 });
+        }
+
+        function viewUserPhoto() {
+            if (vm.newPortrait !== '') {
+
+                return vm.newPortrait;
+            } else {
+
+                return vm.userProfile.portrait ? vm.userProfile.portrait : vm.defaultPortrait;
+            }
         }
 
         function updateUser(user, isFormValid) {
