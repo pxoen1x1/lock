@@ -64,6 +64,7 @@
         vm.removeLicenseForm = removeLicenseForm;
         vm.updateMerchant = updateMerchant;
         vm.withdrawal = withdrawal;
+        vm.viewUserPhoto = viewUserPhoto();
 
         activate();
 
@@ -91,6 +92,16 @@
 
                     return vm.bankAccountTypes;
                 });
+        }
+
+        function viewUserPhoto() {
+            if (vm.newPortrait !== '') {
+
+                return vm.newPortrait;
+            } else {
+
+                return vm.userProfile.portrait ? vm.userProfile.portrait : vm.defaultPortrait;
+            }
         }
 
         function updateUser(user, isFormValid) {

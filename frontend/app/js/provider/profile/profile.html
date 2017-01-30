@@ -59,8 +59,7 @@
            flex-gt-xs="25">
         <div class="avatar-wrapper">
           <div class="profile-avatar"
-               ng-style="{ 'background-image': 'url(' + (vm.userProfile.portrait ?
-               vm.baseUrl + vm.userProfile.portrait : vm.defaultPortrait)           + ')' }">
+               ng-style="{ 'background-image': 'url(' + vm.viewUserPhoto() + ')' }">
           </div>
         </div>
         <div flex="5"></div>

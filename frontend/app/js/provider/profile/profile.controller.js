@@ -61,6 +61,8 @@
         vm.newPortrait = '';
         vm.baseUrl = conf.BASE_URL;
         vm.defaultPortrait = mobileService.getImagePath(coreConstants.IMAGES.defaultPortrait);
+        vm.searchText = null;
+        vm.selectedCityItem = null;
 
         vm.updateUser = updateUser;
         vm.setMerchantAccount = setMerchantAccount;
@@ -72,8 +74,7 @@
         vm.withdrawal = withdrawal;
 
         vm.getCities = getCities;
-        vm.searchText = null;
-        vm.selectedCityItem = null;
+        vm.viewUserPhoto = viewUserPhoto();
         vm.selectedItemChange = selectedItemChange;
         vm.resetSelectedCity = resetSelectedCity;
 
@@ -191,6 +192,16 @@
                             .ok(dialog.ok);
                     }
                 });
+        }
+
+        function viewUserPhoto() {
+            if (vm.newPortrait !== '') {
+
+                return vm.newPortrait;
+            } else {
+
+                return vm.userProfile.portrait ? vm.userProfile.portrait : vm.defaultPortrait;
+            }
         }
 
         function getUser() {
