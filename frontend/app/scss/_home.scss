@@ -109,9 +109,9 @@ $title-color: #8e8e8e;
   background: url('../images/icon_get_it_done.png') no-repeat scroll 0 0 / 100% auto;
 }
 
-.icon-advanteges {
+.icon-advantages {
   display: block;
-  background: url('../images/icon_advanteges.png') no-repeat scroll center center / 100%;
+  background: url('../images/icon_advantages.png') no-repeat scroll center center / 100%;
 }
 
 .icon-same-day-help {
@@ -413,7 +413,7 @@ $title-color: #8e8e8e;
   }
 }
 
-.home-advanteges {
+.home-advantages {
 
   .item {
     height: 434px;
@@ -700,7 +700,7 @@ $title-color: #8e8e8e;
     }
   }
 
-  .home-advanteges {
+  .home-advantages {
 
     h1 {
       font-size: 20px;
@@ -722,7 +722,7 @@ $title-color: #8e8e8e;
       font-size: 12px;
     }
 
-    .icon-advanteges {
+    .icon-advantages {
       background-position: left center;
       background-size: auto 100%;
     }
@@ -802,6 +802,12 @@ $title-color: #8e8e8e;
     padding-left: 15px;
     padding-right: 15px;
     padding-top: 15px;
+
+    height: 247px;
+
+    .footer-social {
+      max-height: 80px;
+    }
 
     h3 {
       font-size: 13px;
