@@ -222,9 +222,11 @@
             ])
                 .then(function () {
                     vm.userProfile.usingLanguage = vm.userProfile.usingLanguage || usingLanguageService.getLanguage();
-
                     vm.nonChangedUserProfile = angular.copy(vm.userProfile);
-                    vm.getCities(vm.userProfile.customerData.state);
+
+                    if (vm.userProfile.customerData && vm.userProfile.customerData.state) {
+                        vm.getCities(vm.userProfile.customerData.state);
+                    }
                 });
         }
     }
