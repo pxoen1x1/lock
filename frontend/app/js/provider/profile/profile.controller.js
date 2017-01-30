@@ -167,9 +167,14 @@
                     vm.userProfile.merchantData = merchantEntity;
                     vm.userProfile.spMerchantId = vm.userProfile.merchantData.id;
 
-                    return currentUserService.setUserToLocalStorage(vm.userProfile);
+                    return coreDataservice.getMerchantAccount();
+                })
+                .then(function (userPayment) {
+                    vm.userProfile.paymentData = userPayment;
 
-                }).finally(function () {
+                    return currentUserService.setUserToLocalStorage(vm.userProfile);
+                })
+                .finally(function () {
                     vm.isEditingMerchant = false;
                 });
         }

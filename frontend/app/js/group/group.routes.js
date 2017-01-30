@@ -64,7 +64,7 @@
                     }
                 },
                 data: {
-                    title: 'DASHBOARD',
+                    title: 'NEW_REQUESTS',
                     tab: {
                         title: 'DASHBOARD_NEW',
                         icon: 'whatshot'

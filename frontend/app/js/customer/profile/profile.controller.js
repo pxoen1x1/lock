@@ -143,7 +143,7 @@
                     return coreDataservice.getCustomer()
                         .then(function (customer) {
 
-                            if (customer && customer.length > 0) {
+                            if (customer && customer.customer[0]) {
                                 vm.userProfile.customerData = customer.customer[0];
                                 if (vm.userProfile.customerData.city) {
                                     vm.selectedCityItem = vm.userProfile.customerData.city;
@@ -216,10 +216,10 @@
 
         function activate() {
             $q.all([
-                getUser(),
-                getLanguages(),
-                getStates()
-            ])
+                    getUser(),
+                    getLanguages(),
+                    getStates()
+                ])
                 .then(function () {
                     vm.userProfile.usingLanguage = vm.userProfile.usingLanguage || usingLanguageService.getLanguage();
                     vm.nonChangedUserProfile = angular.copy(vm.userProfile);
