@@ -114,10 +114,31 @@
                 member: selectedSpecialist
             };
 
-            return chatSocketservice.createChat(vm.request, member)
-                .then(function () {
-                    $state.go('customer.requests.request.chat');
+            return chatSocketservice.getClientChats(vm.request)
+            .then(function(chats) {
+                var createdChatId = null;
+
+                chats.forEach(function(chat) {
+                    if(chat.members[0].id === selectedSpecialist.id){
+                        createdChatId = chat.id;
+                    }
                 });
+
+                if(createdChatId) {
+                    $state.go('customer.requests.request.chat', {
+                        requestId: vm.request.id,
+                        chatId: createdChatId
+                    });
+                    
+                    return;
+                }else{
+
+                    return chatSocketservice.createChat(vm.request, member)
+                        .then(function () {
+                            $state.go('customer.requests.request.chat');
+                        });
+                }
+            });
         }
 
         function activate() {
