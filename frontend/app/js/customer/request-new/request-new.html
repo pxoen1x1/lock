@@ -230,10 +230,8 @@
           REQUEST_NOTE_(OPTIONAL)
         </p>
         <md-input-container class="md-block">
-          <label translate>
-            {{ vm.request.serviceType === 4 ? 'AUTOMOBILE_HINT' : 'DO_YOU_WANT_TO_CLARIFY_SMTH' }}
-          </label>
-          <textarea name="description"
+          <label translate ng-bind="vm.serviceTypes[vm.request.serviceType - 1].hintKey | translate"></label>
+            <textarea name="description"
                     rows="3"
                     md-maxlength="300"
                     ng-required="{{ vm.request.serviceType === 4 }}"

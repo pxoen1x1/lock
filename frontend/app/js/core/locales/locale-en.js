@@ -149,7 +149,6 @@
                  'MINIMUM_DISTANCE': 'The minimum distance is 1 mile.',
                  'MAXIMUM_DISTANCE': 'The maximum distance is 100 miles.',
                  'REQUEST_NOTE_(OPTIONAL)': 'Request note (optional)',
-                 'DO_YOU_WANT_TO_CLARIFY_SMTH': 'Do you want to clarify something?',
                  'RECOMMENDED': 'Recommended',
                  'SHOW_ONLY_AVAILABLE': 'Show only available',
                  'WORKING_HOURS': 'Working hours',
@@ -229,12 +228,13 @@
                  'ERROR_DURING_WITHDRAWALS': 'Error during withdrawals',
                  'NEW_REQUESTS': 'New requests',
                  'NO_REQUESTS': 'No requests',
-                 'EMERGENCY_HINT': 'Please describe your problem',
-                 'RESIDENTIAL_HINT': 'Residential hint',
-                 'COMMERCIAL_HINT': 'Commercial hint',
+                 'DEFAULT_HINT': 'Here you can describe the problem',
+                 'EMERGENCY_HINT': 'Here you can describe the problem',
+                 'RESIDENTIAL_HINT': 'Here you can describe the problem',
+                 'COMMERCIAL_HINT': 'Here you can describe the problem',
                  'AUTOMOBILE_HINT': 'Please note model and manufacture year of the car',
-                 'INSTITUTIONAL_HINT': 'Institutional hint',
-                 'FORENSIC_HINT': 'Forensic hint',
+                 'INSTITUTIONAL_HINT': 'Here you can describe the problem',
+                 'FORENSIC_HINT': 'Here you can describe the problem',
                  'SEARCH_FOR_A_CITY': 'Search for a city..'
              }
          });
