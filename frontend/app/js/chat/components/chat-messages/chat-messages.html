@@ -20,7 +20,8 @@
           layout-align="start center"
           ng-submit="vm.reply(null, vm.replyMessage[vm.currentChat.id], vm.currentChat)">
       <md-input-container flex md-no-float>
-              <label translate>TYPE_AND_HIT_ENTER_TO_SEND_MESSAGE</label>
+              <label hide-xs translate>TYPE_AND_HIT_ENTER_TO_SEND_MESSAGE</label>
+              <label hide-gt-xs translate>TYPE_MESSAGE</label>
               <textarea md-no-autogrow
                         ng-if="vm.selectedTab === 'chats' || !vm.currentBid"
                         ng-class="{ 'grow': vm.textareaGrow[vm.currentChat.id] }"

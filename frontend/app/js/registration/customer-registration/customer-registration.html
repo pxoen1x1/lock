@@ -7,10 +7,10 @@
        layout-gt-xs="row"
        layout-align="start center">
     <div class="registration-form"
-         flex-gt-xs="50">
+         flex-gt-xs="100"> <!--flex-gt-xs="50"-->
       <div layout="row">
         <h1 class="registration-name" flex="50" translate>SIGN_UP</h1>
-        <div class="go-to-social"
+<!--        <div class="go-to-social"
              hide-gt-xs
              flex="50"
              layout="row"
@@ -24,7 +24,7 @@
           <md-button class="md-button-social-icon twitter" aria-label="Twitter">
             <i class="fa fa-twitter"></i>
           </md-button>
-        </div>
+        </div>-->
       </div>
       <form name="registrationForm"
             novalidate
@@ -36,7 +36,7 @@
             <input name="firstName"
                    required
                    ng-maxlength="20"
-                   ng-pattern="/^[a-zA-Z]*$/"
+                   ng-pattern="/^[a-zA-Z-]*$/"
                    ng-model="vm.user.firstName">
             <div ng-messages="registrationForm.firstName.$error">
               <div ng-message="maxlength" translate>FIRST_NAME_IS_TOO_LONG</div>
@@ -47,7 +47,7 @@
             <input name="lastName"
                    required
                    ng-maxlength="20"
-                   ng-pattern="/^[a-zA-Z]*$/"
+                   ng-pattern="/^[a-zA-Z-]*$/"
                    ng-model="vm.user.lastName">
             <div ng-messages="registrationForm.lastName.$error">
               <div ng-message="maxlength" translate>LAST_NAME_IS_TOO_LONG</div>
@@ -111,7 +111,7 @@
         <md-button type="submit" translate>SUBMIT</md-button>
       </form>
     </div>
-    <div class="social-wrapper"
+<!--    <div class="social-wrapper"
          flex-gt-xs="50"
          hide-xs="">
       <h1 class="registration-name social" translate>SIGN_IN_WITH_SOCIAL_NETWORK</h1>
@@ -129,6 +129,6 @@
           <span translate>JOIN_IN_WITH_TWITTER</span>
         </md-button>
       </div>
-    </div>
+    </div>-->
   </div>
 </div>

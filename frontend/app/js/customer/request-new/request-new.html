@@ -51,6 +51,7 @@
                ng-if="vm.isEmergency === false">
             <mdp-date-picker name="date"
                              mdp-min-date="vm.datePickerOptions.minDate"
+                             mdp-max-date="vm.datePickerOptions.maxDate"
                              ng-required="!vm.request.forDate"
                              ng-class="{ 'has-error': requestForm.date.$invalid && requestForm.$submitted }"
                              ng-click="vm.isEmergency = false"
