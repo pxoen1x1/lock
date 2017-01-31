@@ -40,12 +40,14 @@ let PushNotificationService = {
                     {
                         collapseKey: SERVICES.GCM.COLLAPSE_KEY,
                         timeToLive: SERVICES.GCM.TIME_TO_LIVE,
-                        notofication: {
+                        notification: {
                             title: title,
                             body: message
                         }
                     }
                 );
+
+                token = [token];
 
                 return this._sendToGMC(gmcNotification, token);
 
@@ -63,15 +65,15 @@ let PushNotificationService = {
             default:
                 let error = new Error(`${platform} is not supported`);
 
-                Promise.reject(error);
+                return Promise.reject(error);
         }
     },
     sendNewMessageNotifications(message) {
         let notification = {
             title: sails.__('You have a new message.'),
-            message: message.message
         };
 
+        notification.message = `${message.sender.firstName} ${message.sender.lastName}: ${message.message}`;
 
         return ChatService.getChatMembers(message.chat)
             .then(
@@ -81,20 +83,21 @@ let PushNotificationService = {
                         return Promise.reject();
                     }
 
-                    chatMembers = chatMembers.map(
+                    let devices = [];
+
+                    chatMembers.forEach(
                         (chatMember) => {
                             if (chatMember.id !== message.sender.id) {
-
-                                return chatMember.id;
+                                devices.push(chatMember.id);
                             }
                         }
                     );
 
                     if (message.sender.id !== message.chat.owner) {
-                        chatMembers.push(message.sender.id);
+                        devices.push(message.chat.owner);
                     }
 
-                    return Device.find({user: chatMembers});
+                    return Device.find({user: devices});
                 }
             )
             .then(
@@ -105,6 +108,11 @@ let PushNotificationService = {
                     }
 
                     return Promise.all(this.sendNotifications(notification, chatMembersDvices));
+                }
+            )
+            .catch(
+                (err) => {
+                    sails.log.error(err);
                 }
             );
     },
