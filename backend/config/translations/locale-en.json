@@ -142,7 +142,7 @@
   "PROVIDER_DISTANCE_(MILES)": "Provider distance (miles)",
   "MINIMUM_DISTANCE": "The minimum distance is 1 mile.",
   "MAXIMUM_DISTANCE": "The maximum distance is 100 miles.",
-  "REQUEST_NOTE_(OPTIONAL)": "Request note (optional)",
+  "DESCRIPTION_(OPTIONAL)": "Description (optional)",
   "RECOMMENDED": "Recommended",
   "SHOW_ONLY_AVAILABLE": "Show only available",
   "WORKING_HOURS": "Working hours",

@@ -148,7 +148,7 @@
                  'PROVIDER_DISTANCE_(MILES)': 'Provider distance (miles)',
                  'MINIMUM_DISTANCE': 'The minimum distance is 1 mile.',
                  'MAXIMUM_DISTANCE': 'The maximum distance is 100 miles.',
-                 'REQUEST_NOTE_(OPTIONAL)': 'Request note (optional)',
+                 'DESCRIPTION_(OPTIONAL)': 'Description (optional)',
                  'RECOMMENDED': 'Recommended',
                  'SHOW_ONLY_AVAILABLE': 'Show only available',
                  'WORKING_HOURS': 'Working hours',
@@ -235,7 +235,7 @@
                  'AUTOMOBILE_HINT': 'Please note model and manufacture year of the car',
                  'INSTITUTIONAL_HINT': 'Here you can describe the problem',
                  'FORENSIC_HINT': 'Here you can describe the problem',
-                 'SEARCH_FOR_A_CITY': 'Search for a city..'
+                 'SEARCH_FOR_A_CITY': 'Search for a city..',
              }
          });
 })();

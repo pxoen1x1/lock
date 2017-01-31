@@ -141,7 +141,7 @@
   "PROVIDER_DISTANCE_(MILES)": "Максимальное расстояние до специалиста (миль)",
   "MINIMUM_DISTANCE": "Минимальное расстояние - 1 миля",
   "MAXIMUM_DISTANCE": "Максимальное расстояние - 100 миль",
-  "REQUEST_NOTE_(OPTIONAL)": "Подробности (если необходимо)",
+  "DESCRIPTION_(OPTIONAL)": "Описание (если необходимо)",
   "RECOMMENDED": "Рекомендации",
   "SHOW_ONLY_AVAILABLE": "Показывать только не занятых",
   "WORKING_HOURS": "Время работы",

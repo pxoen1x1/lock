@@ -227,7 +227,7 @@
            translate
            layout-align="center start"
            layout-align-gt-xs="start start">
-          REQUEST_NOTE_(OPTIONAL)
+          {{ vm.request.serviceType === 4 ? 'DESCRIPTION' : 'DESCRIPTION_(OPTIONAL)' }}
         </p>
         <md-input-container class="md-block">
           <label translate ng-bind="vm.serviceTypes[vm.request.serviceType - 1].hintKey | translate"></label>
