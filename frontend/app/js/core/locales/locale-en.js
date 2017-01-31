@@ -212,6 +212,7 @@
                  'NOT_AVAILABLE_NOW': 'Not available now',
                  'SEARCH_THE_CHAT': 'Search the chat',
                  'TYPE_AND_HIT_ENTER_TO_SEND_MESSAGE': 'Type and hit enter to send message',
+                 'TYPE_MESSAGE': 'Type message',
                  'TITLE': 'Title',
                  'MESSAGES': 'Messages',
                  'DASHBOARD': 'Dashboard',
