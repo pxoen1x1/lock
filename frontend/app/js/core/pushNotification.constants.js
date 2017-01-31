@@ -5,7 +5,7 @@
         .module('app.core')
         .constant('pushNotificationConstants', {
             ANDROID: {
-                senderID: 55458036830
+                senderID: 805709722944
             },
             IOS: {
                 alert: true,
