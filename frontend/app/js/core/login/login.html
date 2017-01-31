@@ -17,7 +17,7 @@
     </md-toolbar>
     <md-dialog-content>
       <div class="md-dialog-content" layout="column">
-        <div layout="row"
+<!--        <div layout="row"
              layout-align="end center"
              flex
              hide-gt-sm>
@@ -30,7 +30,7 @@
           <md-button class="md-button-social-icon twitter" aria-label="Twitter">
             <i class="fa fa-twitter"></i>
           </md-button>
-        </div>
+        </div>-->
         <!-- E-mail -->
         <div layout="row">
           <md-input-container class="hide-error-msg" flex>
@@ -78,7 +78,7 @@
                  aria-label="{{ vm.isForgotPasswordEnabled ? 'RESET_PASSWORD' : 'LOG_IN' | translate }}">
         <span ng-bind="vm.isForgotPasswordEnabled ? 'RESET_PASSWORD' : 'LOG_IN' | translate"></span>
       </md-button>
-      <div class="social-buttons"
+<!--      <div class="social-buttons"
            hide-xs
            hide-sm
            ng-if="!vm.isForgotPasswordEnabled">
@@ -98,7 +98,7 @@
            flex>
           LOGIN_WITH_TWITTER
         </a>
-      </div>
+      </div>-->
     </md-dialog-actions>
   </form>
 </md-dialog>

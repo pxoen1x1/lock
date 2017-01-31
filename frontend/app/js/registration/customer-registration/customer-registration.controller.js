@@ -5,10 +5,10 @@
         .module('app.registration')
         .controller('CustomerRegistrationController', CustomerRegistrationController);
 
-    CustomerRegistrationController.$inject = ['$state', 'authService', 'usingLanguageService', 'coreConstants'];
+    CustomerRegistrationController.$inject = ['$state', 'authService', 'usingLanguageService', 'coreConstants', 'routingService'];
 
     /* @ngInject */
-    function CustomerRegistrationController($state, authService, usingLanguageService, coreConstants) {
+    function CustomerRegistrationController($state, authService, usingLanguageService, coreConstants, routingService) {
         var vm = this;
 
         vm.user = {};
@@ -17,6 +17,8 @@
 
         vm.loginWithFacebook = loginWithFacebook;
         vm.createUser = createUser;
+
+        activate();
 
         function login(type) {
 
@@ -50,6 +52,11 @@
                 .then(function () {
                     $state.go(coreConstants.USER_TYPE_DEFAULT_STATE[coreConstants.USER_TYPES.CLIENT]);
                 });
+        }
+
+        function activate() {
+
+            routingService.redirectIfLoggedIn();
         }
     }
 })();

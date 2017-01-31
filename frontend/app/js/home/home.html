@@ -16,9 +16,8 @@
 
             </md-nav-bar>
 
-            <a href="#" hide show-xs>
-                <button class="md-button watch-video btn" aria-label="Watch video">Watch video</button>
-            </a>
+            <button  hide show-xs ng-click="vm.showVideo()" class="md-button watch-video btn" aria-label="Watch video">Watch video</button>
+
 
         </div>
     </div>
@@ -30,9 +29,8 @@
 
             <h2>The best specialists in the shortest possible time</h2>
 
-            <a href="#" hide show-gt-xs>
-                <button class="md-button watch-video btn" aria-label="Watch video">Watch video</button>
-            </a>
+            <button  hide show-gt-xs ng-click="vm.showVideo()" class="md-button watch-video btn" aria-label="Watch video">Watch video</button>
+
 
         </div>
 
@@ -156,9 +154,9 @@
         </div>
     </div>
 
-    <div class="home-advanteges block" layout="column">
+    <div class="home-advantages block" layout="column">
         <div layout="row" layout-align="center">
-            <h1>advanteges</h1>
+            <h1>advantages</h1>
         </div>
         <div layout="row" class="item">
             <div layout="row" flex="40" layout-align="end" flex-xs="60">
@@ -170,7 +168,7 @@
                 </div>
             </div>
             <div layout="row" layout-align="end" layout-align-xs="start" flex="60" flex-xs="40">
-                <div class="img icon-advanteges"></div>
+                <div class="img icon-advantages"></div>
             </div>
         </div>
 
@@ -228,7 +226,7 @@
         <div layout="row" flex="100" layout-align="space-around start" layout-xs="column"
              layout-align-xs="start stretch">
             <div layout="row" flex="60" layout-align="space-around start" layout-align-xs="space-between start"
-                 flex-xs="40">
+                 flex-xs="55">
                 <div layout="column" layout-align="start start" flex-sx="50">
 
                     <h3>get in touch</h3>
@@ -243,7 +241,7 @@
                     <div class="googleplay"></div>
                 </div>
             </div>
-            <div layout="column" flex="30" flex-xs="100">
+            <div layout="column" flex="30" flex-xs="100" class="footer-social">
                 <div>
                     <h3>we are social</h3>
                 </div>

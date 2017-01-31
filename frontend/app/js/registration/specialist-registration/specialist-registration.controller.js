@@ -10,12 +10,13 @@
         'coreConstants',
         'authService',
         'registrationConstants',
-        'usingLanguageService'
+        'usingLanguageService',
+        'routingService'
     ];
 
     /* @ngInject */
     function SpecialistRegistrationController($state, coreConstants, authService,
-                                              registrationConstants, usingLanguageService) {
+                                              registrationConstants, usingLanguageService, routingService) {
 
         var vm = this;
 
@@ -43,6 +44,8 @@
         vm.goToPrevStep = goToPrevStep;
         vm.goToStep = goToStep;
         vm.createNewUser = createNewUser;
+
+        activate();
 
         function createUser(user) {
 
@@ -94,6 +97,11 @@
             };
 
             createUser(params);
+        }
+
+        function activate() {
+
+            routingService.redirectIfLoggedIn();
         }
     }
 })();

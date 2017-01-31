@@ -20,6 +20,7 @@ let AuthController = waterlock.waterlocked({
     register(req, res) {
         let params = req.allParams();
         let auth = params.auth;
+        let sendGeneratedPassword = false;
 
 
         if ((!auth || !auth.email) ||
@@ -31,7 +32,7 @@ let AuthController = waterlock.waterlocked({
         }
 
         if (!auth.password) {
-
+            sendGeneratedPassword = true;
             auth.password = AuthService.generatePassword();
         }
 
@@ -68,8 +69,11 @@ let AuthController = waterlock.waterlocked({
             )
             .then(
                 (createdUser) => {
-
-                    return [createdUser, MailerService.generatedPassword(auth.password, auth.email)];
+                    if (sendGeneratedPassword) {
+                        return [createdUser, MailerService.generatedPassword(auth.password, auth.email)];
+                    } else {
+                        return [createdUser];
+                    }
                 }
             )
             .spread(
