@@ -7,7 +7,7 @@ let pushNotification = {
             COLLAPSE_KEY: 'demo',
             TIME_TO_LIVE: 7*24*3600,
             NUMBER_OF_RETRIES: 10,
-            API_KEY: 'AIzaSyDevz7BePeADxYNQsdKWrf0o-vujLHc58s'
+            API_KEY: 'AIzaSyB96VH1emUqoUIDxmWPTRxy1NOqjafD3x4'
         },
         APN: {
             PLATFORM: 'ios',
