@@ -1,6 +1,6 @@
 <md-toolbar class="chat-toolbar">
   <div class="md-toolbar-tools">
-    <md-button class="hide-gt-md responsive-chats-button md-icon-button"
+    <md-button ng-hide="vm.hideChatsButton" class="hide-gt-md responsive-chats-button md-icon-button"
                aria-label="chats button"
                ng-click="vm.toggleSidenav({ navID: 'left-sidenav' })">
       <i class="material-icons s28">textsms</i>

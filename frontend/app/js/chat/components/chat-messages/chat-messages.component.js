@@ -68,6 +68,8 @@
         vm.isMicrophoneAllowed = false;
         vm.recognizing = false;
 
+        vm.hideChatsButton = false;
+
         vm.sendMessage = sendMessage;
         vm.loadPrevMessages = loadPrevMessages;
         vm.updateRequestStatus = updateRequestStatus;
@@ -366,6 +368,11 @@
         }
 
         function activate() {
+            if($state.current.name === 'provider.dashboard.request.chat') {
+                vm.hideChatsButton = true;
+            }
+
+
             loadCurrentChatMessages(vm.currentChat)
                 .then(function () {
                     listenMessageEvent();

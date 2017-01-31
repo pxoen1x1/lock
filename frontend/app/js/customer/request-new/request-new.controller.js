@@ -42,7 +42,8 @@
         vm.searchCity = '';
 
         vm.datePickerOptions = {
-            minDate: moment().format('YYYY-MM-DD')
+            minDate: moment().format('YYYY-MM-DD'),
+            maxDate: moment().add('years', 1).format('YYYY-MM-DD')
         };
         vm.timePickerOptions = coreConstants.MD_PICKERS_OPTIONS.timePicker;
 
