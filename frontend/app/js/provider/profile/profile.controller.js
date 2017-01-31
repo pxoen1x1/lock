@@ -9,6 +9,7 @@
         '$q',
         '$mdDialog',
         '$translate',
+        '$filter',
         'conf',
         'coreConstants',
         'coreDictionary',
@@ -20,17 +21,9 @@
     ];
 
     /* @ngInject */
-    function ProviderProfileController($q, $mdDialog, $translate, conf, coreConstants, coreDictionary, coreDataservice,
+    function ProviderProfileController($q, $mdDialog, $translate, $filter, conf, coreConstants, coreDictionary, coreDataservice,
                                        currentUserService, usingLanguageService, citiesLoader, mobileService) {
         var vm = this;
-        var dialog = {
-            title: 'WITHDRAWALS_REQUEST_CREATED',
-            ok: 'CLOSE',
-            error: {
-                title: 'ERROR_DURING_WITHDRAWALS',
-                textContent: 'PLEASE_CONTACT_SUPPORT'
-            }
-        };
 
         vm.languages = [];
         vm.userProfile = {};
@@ -74,7 +67,7 @@
         vm.withdrawal = withdrawal;
 
         vm.getCities = getCities;
-        vm.viewUserPhoto = viewUserPhoto();
+        vm.viewUserPhoto = viewUserPhoto;
         vm.selectedItemChange = selectedItemChange;
         vm.resetSelectedCity = resetSelectedCity;
 
@@ -183,18 +176,22 @@
             coreDataservice.withdrawal(vm.userProfile.merchantData.id)
                 .then(function (result) {
                     if (result === true) {
-                        $mdDialog.alert()
-                            .clickOutsideToClose(true)
-                            .title(dialog.title)
-                            .ok(dialog.ok);
+                        $mdDialog.show(
+                            $mdDialog.alert()
+                                .clickOutsideToClose(true)
+                                .title($filter('translate')('WITHDRAWALS_REQUEST_CREATED'))
+                                .ok($filter('translate')('CLOSE'))
+                        );
 
                         vm.enableWithdrawals = false;
                     } else {
-                        $mdDialog.alert()
-                            .clickOutsideToClose(true)
-                            .title(dialog.error.title)
-                            .textContent(dialog.error.textContent)
-                            .ok(dialog.ok);
+                        $mdDialog.show(
+                            $mdDialog.alert()
+                                .clickOutsideToClose(true)
+                                .title($filter('translate')('ERROR_DURING_WITHDRAWALS'))
+                                .textContent($filter('translate')('PLEASE_CONTACT_SUPPORT'))
+                                .ok($filter('translate')('CLOSE'))
+                        );
                     }
                 });
         }
@@ -326,34 +323,14 @@
             return statesList;
         }
 
-        function getDialogTranslation() {
-            $translate('WITHDRAWALS_REQUEST_CREATED')
-                .then(function(translation) {
-                    dialog.title = translation;
-                });
-            $translate('ERROR_DURING_WITHDRAWALS')
-                .then(function(translation) {
-                    dialog.error.title = translation;
-                });
-            $translate('CLOSE')
-                .then(function(translation) {
-                    dialog.ok = translation;
-                });
-            $translate('PLEASE_CONTACT_SUPPORT')
-                .then(function(translation) {
-                    dialog.error.textContent = translation;
-                });
-        }
-
         function activate() {
             $q.all([
-                    getUser(),
-                    getLanguages(),
-                    getStates(),
-                    getBankAccountTypes(),
-                    getServiceTypes(),
-                    getDialogTranslation()
-                ])
+                getUser(),
+                getLanguages(),
+                getStates(),
+                getBankAccountTypes(),
+                getServiceTypes()
+            ])
                 .then(function () {
                         vm.userProfile.usingLanguage = vm.userProfile.usingLanguage || usingLanguageService.getLanguage();
                         vm.licensesPresent = vm.userProfile.details.licenses.length !== 0;

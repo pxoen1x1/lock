@@ -8,6 +8,7 @@
     GroupProfileController.$inject = [
         '$q',
         '$mdDialog',
+        '$filter',
         'conf',
         'coreConstants',
         'coreDataservice',
@@ -18,17 +19,9 @@
 ];
 
     /* @ngInject */
-    function GroupProfileController($q, $mdDialog, conf, coreConstants, coreDataservice, coreDictionary,
+    function GroupProfileController($q, $mdDialog, $filter, conf, coreConstants, coreDataservice, coreDictionary,
                                     currentUserService, $translate, mobileService) {
         var vm = this;
-        var dialog = {
-            title: 'WITHDRAWALS_REQUEST_CREATED',
-            ok: 'CLOSE',
-            error: {
-                title: 'ERROR_DURING_WITHDRAWALS',
-                textContent: 'PLEASE_CONTACT_SUPPORT'
-            }
-        };
 
         vm.languages = [];
         vm.userProfile = {};
@@ -64,7 +57,7 @@
         vm.removeLicenseForm = removeLicenseForm;
         vm.updateMerchant = updateMerchant;
         vm.withdrawal = withdrawal;
-        vm.viewUserPhoto = viewUserPhoto();
+        vm.viewUserPhoto = viewUserPhoto;
 
         activate();
 
@@ -169,18 +162,21 @@
             coreDataservice.withdrawal(vm.userProfile.merchantData.id)
                 .then(function (result) {
                     if (result === true) {
-                        $mdDialog.alert()
+                        $mdDialog.show(
+                            $mdDialog.alert()
                             .clickOutsideToClose(true)
-                            .title(dialog.title)
-                            .ok(dialog.ok);
-
+                            .title($filter('translate')('WITHDRAWALS_REQUEST_CREATED'))
+                            .ok($filter('translate')('CLOSE'))
+                        );
                         vm.enableWithdrawals = false;
                     } else {
-                        $mdDialog.alert()
+                        $mdDialog.show(
+                            $mdDialog.alert()
                             .clickOutsideToClose(true)
-                            .title(dialog.error.title)
-                            .textContent(dialog.error.textContent)
-                            .ok(dialog.ok);
+                            .title($filter('translate')('ERROR_DURING_WITHDRAWALS'))
+                            .textContent($filter('translate')('PLEASE_CONTACT_SUPPORT'))
+                            .ok($filter('translate')('CLOSE'))
+                        );
                     }
                 });
         }
@@ -248,32 +244,12 @@
                 });
         }
 
-        function getDialogTranslation() {
-            $translate('WITHDRAWALS_REQUEST_CREATED')
-                .then(function(translation) {
-                    dialog.title = translation;
-                });
-            $translate('ERROR_DURING_WITHDRAWALS')
-                .then(function(translation) {
-                    dialog.error.title = translation;
-                });
-            $translate('CLOSE')
-                .then(function(translation) {
-                    dialog.ok = translation;
-                });
-            $translate('PLEASE_CONTACT_SUPPORT')
-                .then(function(translation) {
-                    dialog.error.textContent = translation;
-                });
-        }
-
         function activate() {
             $q.all([
                 getUser(),
                 getLanguages(),
                 getBankAccountTypes(),
-                getStates(),
-                getDialogTranslation()
+                getStates()
             ]);
         }
 
