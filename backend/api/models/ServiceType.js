@@ -20,6 +20,9 @@ let ServiceType = {
         hintKey: {
             type: 'string'
         },
+        required: {
+            type: 'boolean'
+        },
 
         userDetails: {
             collection: 'UserDetail',

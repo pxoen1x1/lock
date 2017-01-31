@@ -177,13 +177,13 @@
         }
 
         function activate() {
-            $q.all(
+            $q.all([
                 getServiceTypes(),
                 getLanguages(),
                 getStates()
-            )
-                .then( function() {
-                    vm.request.serviceType = 1;
+            ])
+                .then(function() {
+                    vm.request.serviceType = vm.serviceTypes[0];
                 });
         }
     }
