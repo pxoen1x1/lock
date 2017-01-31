@@ -14,7 +14,9 @@ let pushNotification = {
             BADGE: 1,
             SOUND: 'default',
             FROM: 'Lockheal',
-            TOPIC: 'com.lockheal.inc'
+            TOPIC: 'com.lockheal.inc',
+            DEV_KEY_ID: 'W6W9NC6L9X',
+            TEAM_ID: 'JKVPR444VY'
         }
     }
 };
