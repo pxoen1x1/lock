@@ -99,7 +99,7 @@ module.exports = {
             src: paths.app.production,
             options: {
                 dir: paths.mobile.src,
-                id: 'com.lockheal',
+                id: 'com.lockheal.inc',
                 name: 'Lockheal'
             }
         },
