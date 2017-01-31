@@ -110,17 +110,14 @@ $title-color: #8e8e8e;
 }
 
 .icon-advantages {
-  display: block;
   background: url('../images/icon_advantages.png') no-repeat scroll center center / 100%;
 }
 
 .icon-same-day-help {
-  display: block;
   background: url('../images/icon_same_day_help.png') no-repeat scroll center center / 100%;
 }
 
 .icon-trust-and-safe {
-  display: block;
   background: url('../images/icon_trust_and_safe.png') no-repeat scroll center center / 100%;
 }
 
@@ -723,16 +720,22 @@ $title-color: #8e8e8e;
     }
 
     .icon-advantages {
+      width: 100%;
+      height: 143px;
       background-position: left center;
       background-size: auto 100%;
     }
 
     .icon-same-day-help {
+      width: 100%;
+      height: 143px;
       background-position: right center;
       background-size: auto 100%;
     }
 
     .icon-trust-and-safe {
+      width: 100%;
+      height: 143px;
       background-position: left center;
       background-size: auto 100%;
     }
