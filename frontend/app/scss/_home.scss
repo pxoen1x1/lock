@@ -821,8 +821,8 @@ $title-color: #8e8e8e;
   }
 
   .home-footer {
-    padding-left: 15px;
-    padding-right: 15px;
+    padding-left: 12px;
+    padding-right: 12px;
     padding-top: 15px;
 
     height: 247px;
@@ -837,6 +837,8 @@ $title-color: #8e8e8e;
 
     span {
       font-size: 13px;
+      padding-right: 2px;
+      text-align: left;
     }
 
   }
