@@ -193,7 +193,7 @@
                  'COMMERCIAL': 'Commercial',
                  'AUTOMOBILE': 'Automobile',
                  'INSTITUTIONAL': 'Institutional',
-                 'FORENSIC': 'Forensic',
+                 'LAW_ENFORCEMENT': 'Law enforcement',
                  'SPECIALIST': 'Specialist',
                  'PUBLIC': 'Public',
                  'FORGOT_YOUR_PASSWORD': 'Forgot your password?',
@@ -235,7 +235,7 @@
                  'COMMERCIAL_HINT': 'Here you can describe the problem',
                  'AUTOMOBILE_HINT': 'Please note model and manufacture year of the car',
                  'INSTITUTIONAL_HINT': 'Here you can describe the problem',
-                 'FORENSIC_HINT': 'Here you can describe the problem',
+                 'LAW_ENFORCEMENT_HINT': 'Here you can describe the problem',
                  'SEARCH_FOR_A_CITY': 'Search for a city..',
              }
          });
