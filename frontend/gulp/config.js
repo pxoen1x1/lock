@@ -118,7 +118,7 @@ module.exports = {
             dest: 'resources'
         },
         splash: {
-            src:'www/images/splash.png',
+            src: 'www/images/splash.png',
             dest: 'resources',
             name: 'splash.png'
         },
