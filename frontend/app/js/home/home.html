@@ -1,64 +1,6 @@
 <div class="home">
-    <div layout="row" class="home-header" layout-xs="column">
-        <div flex="20" layout="row" layout-align="center center" layout-xs="column" flex-xs="20">
-            <div class="logo" ui-sref="home"></div>
-        </div>
-        <div flex="80" layout="row" layout-align="end top" layout-xs="column"
-             layout-align-xs="start center" flex-xs="80">
-            <md-nav-bar md-selected-nav-item="currentNavItem" nav-bar-aria-label="navigation links">
-                <md-nav-item md-nav-sref="how" name="how">How it works</md-nav-item>
-                <md-nav-item md-nav-sref="faq" name="faq">FAQ</md-nav-item>
-                <md-nav-item md-nav-sref="login">Sign in</md-nav-item>
-                <md-nav-item md-nav-sref="registration.customer" name="customer">Register</md-nav-item>
-                <md-nav-item md-nav-sref="registration.provider" name="provider">
-                    <button class="md-button join btn" aria-label="Join as locksmith">Join as locksmith</button>
-                </md-nav-item>
 
-            </md-nav-bar>
-
-            <a href="#" hide show-xs>
-                <button class="md-button watch-video btn" aria-label="Watch video">Watch video</button>
-            </a>
-
-        </div>
-    </div>
-
+    <div ui-view="header"></div>
     <div ui-view="content"></div>
-
-
-
-    <div class="home-footer" layout="row" layout-align="center center" layout-xs="column"
-         layout-align-xs="start stretch">
-        <div layout="row" flex="100" layout-align="space-around start" layout-xs="column"
-             layout-align-xs="start stretch">
-            <div layout="row" flex="60" layout-align="space-around start" layout-align-xs="space-between start"
-                 flex-xs="40">
-                <div layout="column" layout-align="start start" flex-sx="50">
-
-                    <h3>get in touch</h3>
-
-                    <span>180 South Street, New York,</span>
-                    <span>NY 10038</span>
-                </div>
-                <div layout="column" class="apps" layout-align="start center" flex-sx="50">
-                    <h3>download our app</h3>
-
-                    <div class="appstore"></div>
-                    <div class="googleplay"></div>
-                </div>
-            </div>
-            <div layout="column" flex="30" flex-xs="100">
-                <div>
-                    <h3>we are social</h3>
-                </div>
-                <div layout="row">
-                    <span class="icon-facebook"></span>
-                    <span class="icon-twitter"></span>
-                    <span class="icon-google"></span>
-                    <span class="icon-instagram"></span>
-                    <span class="icon-youtube"></span>
-                </div>
-            </div>
-        </div>
-    </div>
+    <div ui-view="footer"></div>
 </div>
