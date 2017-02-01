@@ -228,7 +228,7 @@
            layout-align="center start"
            layout-align-gt-xs="start start">
           {{ vm.request.serviceType.required ? 'DESCRIPTION' : 'DESCRIPTION_(OPTIONAL)' | translate }}
-          <sup ng-if="vm.request.serviceTyperequired">*</sup>
+          <sup ng-if="vm.request.serviceType.required">*</sup>
         </p>
         <md-input-container class="md-block">
           <label translate ng-bind="vm.request.serviceType.hintKey | translate"></label>
