@@ -16,7 +16,7 @@
         'currentUserService',
         '$translate',
         'mobileService'
-];
+    ];
 
     /* @ngInject */
     function GroupProfileController($q, $mdDialog, $filter, conf, coreConstants, coreDataservice, coreDictionary,

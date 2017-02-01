@@ -9,19 +9,19 @@
         '$q',
         '$stateParams',
         '$mdDialog',
+        '$filter',
         'conf',
         'coreConstants',
         'coreDataservice',
         'chatSocketservice',
         'currentRequestService',
         'customerDataservice',
-        '$translate',
         'mobileService'
     ];
 
     /* @ngInject */
-    function CustomerViewRequestController($q, $stateParams, $mdDialog, conf, coreConstants, coreDataservice,
-                                           chatSocketservice, currentRequestService, customerDataservice, $translate,
+    function CustomerViewRequestController($q, $stateParams, $mdDialog, $filter, conf, coreConstants, coreDataservice,
+                                           chatSocketservice, currentRequestService, customerDataservice,
                                            mobileService) {
         var promises = {
             getRequest: null,
@@ -29,11 +29,6 @@
         };
 
         var vm = this;
-        var dialog = {
-            title: 'ERROR_DURING_CANCELLING_PAYMENT',
-            textContent: 'PLEASE_CONTACT_SUPPORT',
-            ok: 'CLOSE'
-        };
 
         vm.request = {};
         vm.feedback = {};
@@ -169,9 +164,9 @@
                         $mdDialog.show(
                             $mdDialog.alert()
                                 .clickOutsideToClose(true)
-                                .title(dialog.title)
-                                .textContent(dialog.textContent)
-                                .ok(dialog.ok)
+                                .title($filter('translate')('ERROR_DURING_CANCELLING_PAYMENT'))
+                                .textContent($filter('translate')('PLEASE_CONTACT_SUPPORT'))
+                                .ok($filter('translate')('CLOSE'))
                         );
 
                         return $q.reject('');
@@ -234,26 +229,10 @@
                 });
         }
 
-        function getDialogTranslation() {
-            $translate('ERROR_DURING_CANCELLING_PAYMENT')
-                .then(function(translation) {
-                    dialog.title = translation;
-                });
-            $translate('PLEASE_CONTACT_SUPPORT')
-                .then(function(translation) {
-                    dialog.textContent = translation;
-                });
-            $translate('CLOSE')
-                .then(function(translation) {
-                    dialog.ok = translation;
-                });
-        }
-
         function activate() {
             getRequest()
                 .then(getFeedback)
-                .then(listenRequestEvent)
-                .then(getDialogTranslation);
+                .then(listenRequestEvent);
         }
     }
 })();
