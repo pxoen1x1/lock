@@ -35,7 +35,8 @@
         </div>
       </div>
     </div>
-    <md-menu md-position-mode="target-right target">
+    <md-menu md-position-mode="target-right target"
+             ng-if="vm.currentUser.type !== vm.userType.CLIENT">
       <md-button class="md-icon-button"
                  aria-label="more"
                  ng-click="$mdOpenMenu()">

@@ -64,7 +64,7 @@
               <span ng-bind="request.createdAt | altDate"></span>
             </td>
             <td md-cell>
-              <span ng-bind="request.forDate ? (request.forDate | date: vm.dateFormat) : 'Now'"></span>
+              <span ng-bind="request.forDate ? (request.forDate | date: vm.dateFormat) : 'NOW' | translate"></span>
             </td>
             <td md-cell>
               <span ng-bind="request.serviceType.name | translate"></span>

@@ -25,7 +25,9 @@
     <md-button ng-if="!vm.isEditingMerchant"
                ng-click="vm.isEditingMerchant = true"
                class="md-button-blue"
-               aria-label="Edit profile" translate>EDIT</md-button>
+               aria-label="Edit profile">
+        <span translate>EDIT</span>
+    </md-button>
 </div>
 
 <div ng-if="vm.isEditingMerchant">
@@ -55,12 +57,12 @@
                 <md-autocomplete flex required
                                  md-input-name="autocompleteField"
                                  md-input-minlength="2"
-                                 md-selected-item="vm.selectedItem"
+                                 md-selected-item="vm.selectedCityItem"
                                  md-search-text="vm.searchText"
                                  md-items="city in vm.getCities(vm.searchText)"
                                  md-item-text="city.city"
                                  md-require-match
-                                 md-floating-label="City"
+                                 md-floating-label="{{'CITY' | translate}}"
                                  md-selected-item-change="vm.selectedItemChange(city)">
                     <md-item-template>
                         <span md-highlight-text="vm.searchText">{{city.city}}</span>
@@ -86,15 +88,13 @@
         <md-button type="submit"
                    class="md-button-blue"
                    aria-label="Save"
-                   translate
                    ng-if="vm.isEditingMerchant">
-            SAVE
+            <span translate>SAVE</span>
         </md-button>
         <md-button class="md-button-blue"
                    ng-if="vm.isEditingMerchant"
-                   translate
-                   ng-click="vm.cancelEditing()">
-            CANCEL
+                    ng-click="vm.cancelEditing()">
+            <span translate>CANCEL</span>
         </md-button>
     </form>
 </div>

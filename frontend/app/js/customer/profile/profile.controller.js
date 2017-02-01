@@ -30,11 +30,12 @@
         vm.newPortrait = '';
         vm.languages = [];
         vm.states = [];
-        vm.baseUrl = conf.BASE_URL;
-        vm.defaultPortrait = mobileService.getImagePath(coreConstants.IMAGES.defaultPortrait);
-
+        vm.searchText = null;
+        vm.selectedCityItem = null;
         vm.isEditing = false;
 
+        vm.baseUrl = conf.BASE_URL;
+        vm.defaultPortrait = mobileService.getImagePath(coreConstants.IMAGES.defaultPortrait);
         vm.fileUploaderOptions = coreConstants.FILE_UPLOADER_OPTIONS;
 
         vm.updateUser = updateUser;
@@ -44,11 +45,9 @@
         vm.getCities = getCities;
         vm.cancelEditing = cancelEditing;
         vm.resetSelectedCity = resetSelectedCity;
-
         vm.getCities = getCities;
-        vm.searchText = null;
-        vm.selectedItem = null;
         vm.selectedItemChange = selectedItemChange;
+        vm.viewUserPhoto = viewUserPhoto;
 
         activate();
 
@@ -67,7 +66,6 @@
 
                 return;
             }
-
 
             return coreDataservice.updateCustomer(customerData)
                 .then(function (customer) {
@@ -95,6 +93,16 @@
                 }).finally(function () {
                     vm.isEditingCard = false;
                 });
+        }
+
+        function viewUserPhoto() {
+            if (vm.newPortrait !== '') {
+
+                return vm.newPortrait;
+            } else {
+
+                return vm.userProfile.portrait ? vm.userProfile.portrait : vm.defaultPortrait;
+            }
         }
 
         function updateUser(user, isFormValid) {
@@ -130,7 +138,8 @@
                 .then(function (user) {
 
                     vm.userProfile = user;
-                    vm.userProfile.portrait = user.portrait ? conf.BASE_URL + user.portrait : '';
+                    vm.userProfile.portrait = user.portrait ? btoa(user.portrait) : '';
+                    // decodes from base64 to string
 
                     return coreDataservice.getCustomer()
                         .then(function (customer) {
@@ -200,7 +209,7 @@
             vm.isEditingCustomer = false;
             vm.isEditingCard = false;
             if (vm.userProfile.customerData && vm.userProfile.customerData.city) {
-                vm.selectedCityItem = vm.userProfile.customerData.city;
+                vm.selectedCityItem = vm.userProfile.customerData.city || null;
             }
         }
 
@@ -212,7 +221,6 @@
                 ])
                 .then(function () {
                     vm.userProfile.usingLanguage = vm.userProfile.usingLanguage || usingLanguageService.getLanguage();
-
                     vm.nonChangedUserProfile = angular.copy(vm.userProfile);
 
                     if (vm.userProfile.customerData && vm.userProfile.customerData.state) {

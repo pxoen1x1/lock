@@ -18,16 +18,15 @@
            flex-gt-xs="25">
         <div class="avatar-wrapper">
           <div class="profile-avatar"
-               ng-style="{ 'background-image': 'url(' + (vm.userProfile.portrait ?
-                      vm.userProfile.portrait : vm.defaultPortrait)           + ')' }">
+               ng-style="{ 'background-image': 'url(' + vm.viewUserPhoto() + ')' }">
           </div>
         </div>
         <div flex="5"></div>
         <div class="actions"
              layout="column">
           <md-button class="md-button-blue"
-                     ng-if="vm.isEditing"
                      aria-label="Change photo"
+                     ng-if="vm.isEditing"
                      file-uploader
                      is-single-file="true"
                      allowed-extensions="{{ vm.fileUploaderOptions.allowedFileExtensions.images }}"
@@ -70,6 +69,7 @@
               </md-content>
           </div>
       </div>
+    </div>
     </div>
   </div>
 </div>

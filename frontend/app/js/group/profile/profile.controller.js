@@ -8,17 +8,19 @@
     GroupProfileController.$inject = [
         '$q',
         '$mdDialog',
+        '$filter',
         'conf',
         'coreConstants',
         'coreDataservice',
         'coreDictionary',
         'currentUserService',
+        '$translate',
         'mobileService'
     ];
 
     /* @ngInject */
-    function GroupProfileController($q, $mdDialog, conf, coreConstants, coreDataservice, coreDictionary,
-                                    currentUserService,  mobileService) {
+    function GroupProfileController($q, $mdDialog, $filter, conf, coreConstants, coreDataservice, coreDictionary,
+                                    currentUserService, $translate, mobileService) {
         var vm = this;
 
         vm.languages = [];
@@ -55,6 +57,7 @@
         vm.removeLicenseForm = removeLicenseForm;
         vm.updateMerchant = updateMerchant;
         vm.withdrawal = withdrawal;
+        vm.viewUserPhoto = viewUserPhoto;
 
         activate();
 
@@ -82,6 +85,16 @@
 
                     return vm.bankAccountTypes;
                 });
+        }
+
+        function viewUserPhoto() {
+            if (vm.newPortrait !== '') {
+
+                return vm.newPortrait;
+            } else {
+
+                return vm.userProfile.portrait ? vm.userProfile.portrait : vm.defaultPortrait;
+            }
         }
 
         function updateUser(user, isFormValid) {
@@ -149,18 +162,21 @@
             coreDataservice.withdrawal(vm.userProfile.merchantData.id)
                 .then(function (result) {
                     if (result === true) {
-                        $mdDialog.alert()
+                        $mdDialog.show(
+                            $mdDialog.alert()
                             .clickOutsideToClose(true)
-                            .title('Withdrawals request created')
-                            .ok('Close');
-
+                            .title($filter('translate')('WITHDRAWALS_REQUEST_CREATED'))
+                            .ok($filter('translate')('CLOSE'))
+                        );
                         vm.enableWithdrawals = false;
                     } else {
-                        $mdDialog.alert()
+                        $mdDialog.show(
+                            $mdDialog.alert()
                             .clickOutsideToClose(true)
-                            .title('Error during withdrawals')
-                            .textContent('Please contact support')
-                            .ok('Close');
+                            .title($filter('translate')('ERROR_DURING_WITHDRAWALS'))
+                            .textContent($filter('translate')('PLEASE_CONTACT_SUPPORT'))
+                            .ok($filter('translate')('CLOSE'))
+                        );
                     }
                 });
         }
