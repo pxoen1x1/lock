@@ -9,6 +9,7 @@
         '$q',
         '$mdDialog',
         '$translate',
+        '$filter',
         'conf',
         'coreConstants',
         'coreDictionary',
@@ -20,7 +21,7 @@
     ];
 
     /* @ngInject */
-    function ProviderProfileController($q, $mdDialog, $translate, conf, coreConstants, coreDictionary, coreDataservice,
+    function ProviderProfileController($q, $mdDialog, $translate, $filter, conf, coreConstants, coreDictionary, coreDataservice,
                                        currentUserService, usingLanguageService, citiesLoader, mobileService) {
         var vm = this;
 
@@ -53,6 +54,8 @@
         vm.newPortrait = '';
         vm.baseUrl = conf.BASE_URL;
         vm.defaultPortrait = mobileService.getImagePath(coreConstants.IMAGES.defaultPortrait);
+        vm.searchText = null;
+        vm.selectedCityItem = null;
 
         vm.updateUser = updateUser;
         vm.setMerchantAccount = setMerchantAccount;
@@ -64,8 +67,7 @@
         vm.withdrawal = withdrawal;
 
         vm.getCities = getCities;
-        vm.searchText = null;
-        vm.selectedCityItem = null;
+        vm.viewUserPhoto = viewUserPhoto;
         vm.selectedItemChange = selectedItemChange;
         vm.resetSelectedCity = resetSelectedCity;
 
@@ -174,20 +176,34 @@
             coreDataservice.withdrawal(vm.userProfile.merchantData.id)
                 .then(function (result) {
                     if (result === true) {
-                        $mdDialog.alert()
-                            .clickOutsideToClose(true)
-                            .title('Withdrawals request created')
-                            .ok('Close');
+                        $mdDialog.show(
+                            $mdDialog.alert()
+                                .clickOutsideToClose(true)
+                                .title($filter('translate')('WITHDRAWALS_REQUEST_CREATED'))
+                                .ok($filter('translate')('CLOSE'))
+                        );
 
                         vm.enableWithdrawals = false;
                     } else {
-                        $mdDialog.alert()
-                            .clickOutsideToClose(true)
-                            .title('Error during withdrawals')
-                            .textContent('Please contact support')
-                            .ok('Close');
+                        $mdDialog.show(
+                            $mdDialog.alert()
+                                .clickOutsideToClose(true)
+                                .title($filter('translate')('ERROR_DURING_WITHDRAWALS'))
+                                .textContent($filter('translate')('PLEASE_CONTACT_SUPPORT'))
+                                .ok($filter('translate')('CLOSE'))
+                        );
                     }
                 });
+        }
+
+        function viewUserPhoto() {
+            if (vm.newPortrait !== '') {
+
+                return vm.newPortrait;
+            } else {
+
+                return vm.userProfile.portrait ? vm.userProfile.portrait : vm.defaultPortrait;
+            }
         }
 
         function getUser() {

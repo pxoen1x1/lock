@@ -54,13 +54,12 @@
         <md-button type="submit"
                    class="md-button-blue"
                    aria-label="Save"
-                   translate
                    ng-if="vm.isEditingCard">
-            SAVE
+            <span translate>SAVE</span>
         </md-button>
         <md-button class="md-button-blue" ng-if="vm.isEditingCard"
                    ng-click="vm.cancelEditing()">
-            CANCEL
+            <span translate>CANCEL</span>
         </md-button>
     </form>
 </div>
