@@ -88,6 +88,18 @@
 
                 return saveDeviceInfo(deviceInfo);
             });
+
+            pushNotification.on('notification', function(data) {
+                pushNotification.finish(function() {
+                    localStorage.setItem('PN finish', data);
+                });
+
+                localStorage.setItem('PN ON', data);
+            });
+
+            pushNotification.on('error', function(error) {
+                console.log(error.message);
+            });
         }
     }
 })();
