@@ -5,10 +5,10 @@
         .module('app.home')
         .controller('HomeController', HomeController);
 
-    HomeController.$inject = ['$state', '$scope', 'geocoderService', 'coreDictionary', 'authService', 'customerDataservice', 'chatSocketservice', 'coreConstants', 'currentUserService'];
+    HomeController.$inject = ['$state', '$scope', 'geocoderService', 'coreDictionary', 'authService', 'customerDataservice', 'chatSocketservice', '$mdDialog', 'routingService'];
 
     /* @ngInject */
-    function HomeController($state, $scope, geocoderService, coreDictionary, authService, customerDataservice, chatSocketservice, coreConstants, currentUserService) {
+    function HomeController($state, $scope, geocoderService, coreDictionary, authService, customerDataservice, chatSocketservice, $mdDialog, routingService) {
         var vm = this;
         vm.request = {
             location: {
@@ -50,9 +50,13 @@
 
         vm.locationAutocompleteSelector = 'gmaps_autocomplete';
         vm.locationAutocomplete = {};
+        vm.videoDialog = null;
+
         vm.initAutocomplete = initAutocomplete;
         vm.hireSpecialist = hireSpecialist;
         vm.submit = submit;
+        vm.showVideo = showVideo;
+        vm.closeVideo = closeVideo;
 
         activate();
 
@@ -98,7 +102,7 @@
                     vm.createdRequest = createdRequest.request;
 
                     if (!vm.specialistId) {
-                        $state.go('customer.requests.request', {requestId: vm.createdRequest.id});
+                        $state.go('customer.requests.request.view', {requestId: vm.createdRequest.id});
                     } else {
                         var member = {
                             member: {
@@ -180,39 +184,21 @@
             vm.specialistId = specialist.id;
         }
 
-        function getUserType() {
-
+        function showVideo() {
+            vm.videoDialog = $mdDialog.show({
+                templateUrl: 'home/video.html',
+                fullscreen: true,
+                controllerAs: 'vm',
+                controller: 'HomeController'
+            });
         }
 
-        function setMenuType(type) {
-            switch (type) {
-                case coreConstants.USER_TYPES.SPECIALIST:
-                    vm.menuItems = serviceProviderConstants.MENU_ITEMS;
-                    vm.profileState = 'provider.profile';
-                    break;
-                case coreConstants.USER_TYPES.GROUP_ADMIN:
-                    vm.menuItems = groupConstants.MENU_ITEMS;
-                    vm.profileState = 'group.profile';
-                    break;
-                default:
-                    vm.menuItems = customerConstants.MENU_ITEMS;
-                    vm.profileState = 'customer.profile';
-            }
+        function closeVideo() {
+            $mdDialog.hide(vm.videoDialog, 'finished');
         }
-
-        function redirectIfLoggedIn() {
-            if (authService.isAuthenticated()) {
-
-                return currentUserService.getType()
-                    .then(function (userType) {
-                        $state.go(coreConstants.USER_TYPE_DEFAULT_STATE[userType]);
-                    });
-            }
-        }
-
 
         function activate() {
-            redirectIfLoggedIn();
+            routingService.redirectIfLoggedIn();
 
             getServiceTypes();
             showRequestOnMap(); // works only in Chrome

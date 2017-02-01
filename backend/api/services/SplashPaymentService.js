@@ -760,7 +760,7 @@ let SplashPaymentService = {
     },
 
     makeRequest(options, bodyJson){
-        options.host = SPLASH_PAYMENT.host;
+        options.host = sails.config.splashpaymentParams.host;
 
         if (!options.headers) {
             options.headers = {};
