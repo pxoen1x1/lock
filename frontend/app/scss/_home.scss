@@ -546,7 +546,7 @@ $title-color: #8e8e8e;
     text-align: center;
   }
 
-  .apps img:last-child {
+  .apps .googleplay {
     margin-top: 10px;
   }
 
@@ -824,5 +824,30 @@ $title-color: #8e8e8e;
 
   }
 
+
+}
+
+.how-content {
+
+  .home-advanteges {
+
+    h1 {
+      margin-bottom: 46px;
+      margin-top: 100px;
+    }
+
+    p {
+      color: #868686;
+    }
+
+    .item {
+      height: auto;
+      padding-bottom: 95px;
+    }
+
+    .item.even {
+      background-color: #f9f9f9;
+    }
+  }
 }
 
