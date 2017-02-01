@@ -138,7 +138,8 @@
                 .then(function (user) {
 
                     vm.userProfile = user;
-                    vm.userProfile.portrait = user.portrait ? conf.BASE_URL + user.portrait : '';
+                    vm.userProfile.portrait = user.portrait ? btoa(user.portrait) : '';
+                    // decodes from base64 to string
 
                     return coreDataservice.getCustomer()
                         .then(function (customer) {
@@ -208,9 +209,7 @@
             vm.isEditingCustomer = false;
             vm.isEditingCard = false;
             if (vm.userProfile.customerData && vm.userProfile.customerData.city) {
-                vm.selectedCityItem = vm.userProfile.customerData.city;
-            } else {
-                vm.selectedCityItem = null;
+                vm.selectedCityItem = vm.userProfile.customerData.city || null;
             }
         }
 
