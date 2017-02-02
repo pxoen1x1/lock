@@ -53,7 +53,7 @@
     <form name="editPaymentForm"
           novalidate
           ng-submit="vm.setMerchantAccount(vm.userProfile.payment, editPaymentForm.$valid)">
-        <div layout="row">
+        <div layout="row" layout-xs="column">
             <md-input-container class="md-block" flex>
                 <label translate>TYPE_OF_ACCOUNT</label>
                 <md-select ng-model="vm.userProfile.payment.method">
