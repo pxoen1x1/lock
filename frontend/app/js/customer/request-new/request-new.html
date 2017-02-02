@@ -22,8 +22,8 @@
                           ng-model="vm.request.serviceType">
             <md-radio-button aria-label="{{ serviceType.name }}"
                              ng-repeat="serviceType in vm.serviceTypes track by serviceType.id"
-                             ng-value="serviceType.id">
-              <span ng-bind="serviceType.name | translate "></span>
+                             ng-value="serviceType">
+              <span ng-bind="serviceType.name | translate"></span>
             </md-radio-button>
           </md-radio-group>
         </div>
@@ -141,7 +141,7 @@
                            ng-model="vm.address.city">
                   <md-select-header>
                     <input type="search"
-                           placeholder="Search for a city.."
+                           placeholder="{{ 'SEARCH_FOR_A_CITY' | translate }}"
                            ng-change="vm.getCities(vm.address.state, vm.searchCity)"
                            ng-model-options="{ debounce: 400 }"
                            ng-model="vm.searchCity">
@@ -225,16 +225,17 @@
       </div>
       <div layout="column">
         <p layout="row"
-           translate
            layout-align="center start"
            layout-align-gt-xs="start start">
-          REQUEST_NOTE_(OPTIONAL)
+          {{ vm.request.serviceType.required ? 'DESCRIPTION' : 'DESCRIPTION_(OPTIONAL)' | translate }}
+          <sup ng-if="vm.request.serviceType.required">*</sup>
         </p>
         <md-input-container class="md-block">
-          <label translate>DO_YOU_WANT_TO_CLARIFY_SMTH</label>
+          <label translate ng-bind="vm.request.serviceType.hintKey | translate"></label>
           <textarea name="description"
                     rows="3"
                     md-maxlength="300"
+                    ng-required="vm.request.serviceType.required"
                     ng-model="vm.request.description">
           </textarea>
         </md-input-container>

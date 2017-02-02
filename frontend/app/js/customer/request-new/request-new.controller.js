@@ -11,7 +11,6 @@
         'moment',
         'citiesLoader',
         'geocoderService',
-        'coreDataservice',
         'coreDictionary',
         'customerDataservice',
         'coreConstants'
@@ -19,7 +18,7 @@
 
     /* @ngInject */
     function CustomerNewRequestController($q, $state, moment, citiesLoader, geocoderService,
-                                          coreDataservice, coreDictionary, customerDataservice, coreConstants) {
+                                          coreDictionary, customerDataservice, coreConstants) {
         var promises = {
             getStates: null
         };
@@ -179,11 +178,14 @@
         }
 
         function activate() {
-            $q.all(
+            $q.all([
                 getServiceTypes(),
                 getLanguages(),
                 getStates()
-            );
+            ])
+                .then(function() {
+                    vm.request.serviceType = vm.serviceTypes[0];
+                });
         }
     }
 })();

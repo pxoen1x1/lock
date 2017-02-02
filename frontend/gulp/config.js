@@ -135,7 +135,7 @@ module.exports = {
         resources: {
             src:'mobile-resources/**/*',
             dest: paths.mobile.src
-        },
+        }
     },
     delete: {
         app: {

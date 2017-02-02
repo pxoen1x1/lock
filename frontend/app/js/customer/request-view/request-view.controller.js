@@ -9,6 +9,7 @@
         '$q',
         '$stateParams',
         '$mdDialog',
+        '$filter',
         'conf',
         'coreConstants',
         'coreDataservice',
@@ -19,7 +20,7 @@
     ];
 
     /* @ngInject */
-    function CustomerViewRequestController($q, $stateParams, $mdDialog, conf, coreConstants, coreDataservice,
+    function CustomerViewRequestController($q, $stateParams, $mdDialog, $filter, conf, coreConstants, coreDataservice,
                                            chatSocketservice, currentRequestService, customerDataservice,
                                            mobileService) {
         var promises = {
@@ -163,9 +164,9 @@
                         $mdDialog.show(
                             $mdDialog.alert()
                                 .clickOutsideToClose(true)
-                                .title('Error during cancelling payment')
-                                .textContent('Please contact support')
-                                .ok('Close')
+                                .title($filter('translate')('ERROR_DURING_CANCELLING_PAYMENT'))
+                                .textContent($filter('translate')('PLEASE_CONTACT_SUPPORT'))
+                                .ok($filter('translate')('CLOSE'))
                         );
 
                         return $q.reject('');

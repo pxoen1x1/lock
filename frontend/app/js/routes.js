@@ -19,17 +19,6 @@
                     }
                 }
             })
-            .state('home', {
-                parent: 'root',
-                url: '/',
-                views: {
-                    'content@root': {
-                        templateUrl: 'home/home.html',
-                        controller: 'HomeController',
-                        controllerAs: 'vm'
-                    }
-                }
-            })
             .state('login', {
                 reloadOnSearch: false
             });
@@ -37,7 +26,7 @@
         $urlRouterProvider.otherwise(function ($injector) {
             var $state = $injector.get('$state');
 
-            $state.go('home');
+            $state.go('home.main');
         });
     }
 })();
