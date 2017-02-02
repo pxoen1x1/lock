@@ -72,6 +72,15 @@ module.exports.policies = {
         'findServiceProviders': true
     },
 
+    UserDetailsController: {
+        'setBackgroundCheckCompleted': [
+            'hasJsonWebToken',
+            'isUserEnabled',
+            'isUserAdmin',
+            'isSpecialist',
+        ]
+    },
+
     StateController: {
         'getStates': true
     },
