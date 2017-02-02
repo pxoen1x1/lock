@@ -258,7 +258,10 @@
                  'TRUST_AND_SAFETY': 'trust and safety',
                  'NEED_A_LOCKSMITH?': 'Need a locksmith?',
                  'GET_IN_TOUCH': 'get in touch',
-                 'WE_ARE_SOCIAL': 'we are social'
+                 'WE_ARE_SOCIAL': 'we are social',
+                 'BACKGROUND_CHECK_TITLE': 'Background Check',
+                 'BACKGROUND_CHECK_CONTENT': 'Please, click accept to pass background check. ' +
+                    'Site features will be available after your information will be checked.'
              }
          });
 })();
