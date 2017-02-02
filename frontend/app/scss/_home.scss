@@ -34,7 +34,7 @@ $title-color: #8e8e8e;
   }
   .logo {
     width: 166px;
-    height: 26px;
+    height: 100%;
     background: url('../images/logo.png') no-repeat scroll center center / 100% auto;
   }
 }
@@ -46,10 +46,10 @@ $title-color: #8e8e8e;
   width: 100%;
   position: relative;
 
-  md-toolbar{
+  md-toolbar {
     position: absolute;
     background: transparent;
-    color:#fff;
+    color: #fff;
   }
 
   md-dialog-content {
@@ -238,9 +238,9 @@ $title-color: #8e8e8e;
       margin-bottom: 20px;
       width: 100%;
 
-        b {
-          text-transform: uppercase;
-        }
+      b {
+        text-transform: uppercase;
+      }
     }
 
     md-input-container:first-child {
@@ -552,8 +552,39 @@ $title-color: #8e8e8e;
   }
 }
 
-@media only screen and (min-device-width: 600px) and (max-device-width: 960px) {
+.home-inner {
+  color: #868686;
 
+  .home-first {
+    height: 338px;
+  }
+
+
+
+  .item {
+    padding-bottom: 98px;
+  }
+
+  .block {
+    padding-top: 50px;
+
+    h1 {
+      margin-bottom: 46px;
+      margin-top: 100px;
+    }
+  }
+
+  .item.even {
+    background-color: #f9f9f9;
+  }
+
+  .home-advanteges {
+
+
+  }
+}
+
+@media only screen and (min-device-width: 600px) and (max-device-width: 960px) {
 
   .home .logo {
     width: 140px;
@@ -575,9 +606,9 @@ $title-color: #8e8e8e;
 
 @media only screen and (max-device-width: 599px) {
 
-
   .home .logo {
-    background: url('../images/logo_white.png');
+    height: 26px;
+    background: url('../images/logo_white.png') no-repeat center center;
   }
 
   .join-as-a-locksmith {
@@ -813,6 +844,7 @@ $title-color: #8e8e8e;
 
   .home-need {
     height: 214px;
+    background-size: auto 100%;
 
     h1 {
       font-size: 18px;
@@ -842,30 +874,30 @@ $title-color: #8e8e8e;
 
   }
 
+  .home-inner {
 
-}
-
-.how-content {
-
-  .home-advanteges {
-
-    h1 {
-      margin-bottom: 46px;
-      margin-top: 100px;
-    }
-
-    p {
-      color: #868686;
+    .block {
+      padding: 0;
     }
 
     .item {
-      height: auto;
-      padding-bottom: 95px;
+      padding-bottom: 30px;
     }
 
-    .item.even {
-      background-color: #f9f9f9;
+    .home-first {
+      height: auto;
     }
+
+    > div h1, .block h1 {
+      font-weight: normal;
+      margin: 30px 0 10px;
+      font-size: 16px;
+    }
+    p {
+      font-size: 10px;
+    }
+
   }
 }
+
 
