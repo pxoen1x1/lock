@@ -1,0 +1,32 @@
+<md-dialog aria-label="Background Check" class="background-check-dialog" flex-gt-xs="50" flex-gt-lg="30">
+  <form role="form"
+        name="backgroundCheckForm"
+        flex
+        novalidate
+        ng-submit="vm.submit(vm.user, backgroundCheckForm.$valid, vm.isForgotPasswordEnabled)">
+    <md-toolbar class="md-menu-toolbar">
+      <div class="md-toolbar-tools">
+        <h2 translate>BACKGROUND_CHECK_TITLE</h2>
+      </div>
+    </md-toolbar>
+    <md-dialog-content>
+      <div class="p-lg" layout="column"
+           layout-align="center center"
+           flex>
+        <span translate>BACKGROUND_CHECK_CONTENT</span>
+      </div>
+    </md-dialog-content>
+    <md-dialog-actions layout="row" layout-align="center start" flex>
+      <a class="md-button md-button-blue" ng-href="{{ vm.linkToBGCheck }}">
+        <span translate>ACCEPT</span>
+      </a>
+      <!--ToDo: Remove it. Just for test.-->
+      <md-button type="button"
+                 class="md-button-blue"
+                 aria-label="Skip"
+                 ng-click="vm.skipBackgroundCheck()">
+        <span translate>Skip</span>
+      </md-button>
+    </md-dialog-actions>
+  </form>
+</md-dialog>
