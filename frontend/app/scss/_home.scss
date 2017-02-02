@@ -199,7 +199,7 @@ $title-color: #8e8e8e;
 }
 
 .home-first {
-  background: url('../images/imgpsh_fullsize.png') no-repeat fixed center top / 100% auto;
+  background: url('../images/imgpsh_fullsize.png') no-repeat fixed center top;
   height: 599px;
 
   > div {
@@ -544,7 +544,7 @@ $title-color: #8e8e8e;
   }
 
   .apps .googleplay {
-    margin-top: 10px;
+    margin-left: 10px;
   }
 
   .appstore {
@@ -854,12 +854,15 @@ $title-color: #8e8e8e;
   .home-footer {
     padding-left: 12px;
     padding-right: 12px;
-    padding-top: 15px;
 
     height: 247px;
 
     .footer-social {
       max-height: 80px;
+    }
+
+    .apps .googleplay {
+      margin: 0;
     }
 
     h3 {
