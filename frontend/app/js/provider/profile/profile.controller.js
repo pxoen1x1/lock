@@ -123,6 +123,7 @@
                 .then(function (user) {
 
                     vm.userProfile = user;
+                    vm.nonChangedUserProfile = user;
                     vm.newPortrait = '';
                     vm.isEditing = false;
 
@@ -236,7 +237,7 @@
                         .then(function (funds) {
 
                             if (funds && funds.available) {
-                                vm.userProfile.merchantFunds = funds.available / 100; // in cents
+                                vm.merchantFunds = funds.available / 100; // in cents
                             }
 
                             return coreDataservice.isCreatedTodaysPayout();

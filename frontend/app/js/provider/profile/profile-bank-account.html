@@ -41,9 +41,13 @@
         </div>
     </div>
     <md-button class="md-button-blue"
-               aria-label="Add bank account" ng-if="vm.userProfile.paymentData.length === 0 && !vm.isEditingPayment" ng-click="vm.isEditingPayment = true"">Add</md-button>
+               aria-label="Add bank account" ng-if="vm.userProfile.paymentData.length === 0 && !vm.isEditingPayment" ng-click="vm.isEditingPayment = true">
+    <span translate>ADD</span>
+    </md-button>
     <md-button class="md-button-blue"
-               aria-label="Edit bank account" ng-if="vm.userProfile.paymentData.length > 0 && !vm.isEditingPayment" ng-click="vm.isEditingPayment = true">Edit</md-button>
+               aria-label="Edit bank account" ng-if="vm.userProfile.paymentData.length > 0 && !vm.isEditingPayment" ng-click="vm.isEditingPayment = true">
+        <span translate>EDIT</span>
+    </md-button>
 </div>
 <div ng-if="vm.isEditingPayment">
     <form name="editPaymentForm"
@@ -54,7 +58,7 @@
                 <label translate>TYPE_OF_ACCOUNT</label>
                 <md-select ng-model="vm.userProfile.payment.method">
                     <md-option ng-repeat="type in vm.bankAccountTypes" ng-value="type.code">
-                        {{type.name}}
+                        <span>{{type.name | translate}}</span>
                     </md-option>
                 </md-select>
             </md-input-container>
