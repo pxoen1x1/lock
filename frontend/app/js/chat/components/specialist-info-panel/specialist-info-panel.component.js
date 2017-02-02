@@ -22,10 +22,11 @@
         'conf',
         'coreConstants',
         'chatSocketservice',
-        'mobileService'
+        'mobileService',
+        'coreDataservice'
     ];
 
-    function SpecialistInfoPanelController($scope, $q, conf, coreConstants, chatSocketservice, mobileService) {
+    function SpecialistInfoPanelController($scope, $q, conf, coreConstants, chatSocketservice, mobileService, coreDataservice) {
         var pagination = {
             reviews: {}
         };
@@ -94,6 +95,12 @@
                 if (!vm.reviews[newSelectedSpecialistId]) {
                     loadPrevReviews();
                 }
+
+                // selected specialist has no details, need to do request to get full user data
+                return coreDataservice.getUser(newSelectedSpecialistId)
+                    .then(function(response) {
+                        vm.selectedSpecialist = response.data.user;
+                    });
             });
         }
     }

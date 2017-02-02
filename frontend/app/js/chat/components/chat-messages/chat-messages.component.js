@@ -80,6 +80,7 @@
         vm.startSpeechRecognition = startSpeechRecognition;
         vm.isChatDisabled = isChatDisabled;
         vm.joinGroupMember = joinGroupMember;
+        vm.showSpecialistInfo = showSpecialistInfo;
 
         activate();
 
@@ -365,6 +366,12 @@
                         vm.currentChat.members.push(member);
                     }
                 );
+        }
+
+
+        function showSpecialistInfo(specialist){
+            vm.selectedSpecialist = specialist;
+            vm.toggleSidenav({ navID: 'right-sidenav' });
         }
 
         function activate() {

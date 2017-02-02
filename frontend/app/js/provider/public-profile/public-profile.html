@@ -32,12 +32,11 @@
              layout-align="center center"
              layout-align-gt-xs="end center">
           <star-rating value="vm.userProfile.details.rating" readonly></star-rating>
-          <span ng-bind="vm.userProfile.details.rating"></span>
         </div>
       </div>
       <div class="section first">
         <span class="md-body-2">Joined:</span>
-        <span class="md-body-1" ng-bind="vm.userProfile.createdAt | altDate"></span>
+        <span class="md-body-1" ng-bind="vm.userProfile.createdAt | date:'MM/dd/yyyy'"></span>
       </div>
       <div class="section">
         <span class="md-body-2"><span translate>SERVICES</span>:</span>

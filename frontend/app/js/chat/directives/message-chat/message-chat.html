@@ -8,7 +8,7 @@
        ng-click="vm.showChatMemberInfo(vm.message.sender)">
   </div>
   <div class="bubble">
-    <message-translator message="vm.message"></message-translator>
+    <message-translator message="vm.message" ng-hide="vm.isImage"></message-translator>
     <div class="message"
          ng-if="!vm.isImage">
       <span ng-bind="vm.message.message"></span>

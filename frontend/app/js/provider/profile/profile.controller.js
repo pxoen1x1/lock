@@ -197,7 +197,7 @@
         }
 
         function viewUserPhoto() {
-            if (vm.newPortrait !== '') {
+            if (vm.newPortrait) {
 
                 return vm.newPortrait;
             } else {
