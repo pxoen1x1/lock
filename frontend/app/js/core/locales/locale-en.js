@@ -258,7 +258,12 @@
                  'TRUST_AND_SAFETY': 'trust and safety',
                  'NEED_A_LOCKSMITH?': 'Need a locksmith?',
                  'GET_IN_TOUCH': 'get in touch',
-                 'WE_ARE_SOCIAL': 'we are social'
+                 'WE_ARE_SOCIAL': 'we are social',
+                 'I_HAVE_NO_ACCOUNT': 'I have no account',
+                 'JOIN': 'Join',
+                 'I_ALREADY_HAVE_AN_ACCOUNT': 'I already have an account',
+                 'REGISTRATE_AS_CLIENT': 'Registrate as client',
+                 'REGISTRATE_AS_PROVIDER': 'Registrate as provider'
              }
          });
 })();

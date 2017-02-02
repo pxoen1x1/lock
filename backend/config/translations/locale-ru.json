@@ -254,5 +254,10 @@
   "TRUST_AND_SAFETY": "Гарантия и безопасность",
   "NEED_A_LOCKSMITH?": "Нужен слесарь?",
   "GET_IN_TOUCH": "Связаться с нами",
-  "WE_ARE_SOCIAL": "Мы в социальных сетях"
+  "WE_ARE_SOCIAL": "Мы в социальных сетях",
+  "I_HAVE_NO_ACCOUNT": "У меня ещё нет аккаунта",
+  "I_ALREADY_HAVE_AN_ACCOUNT": "У меня уже есть аккаунт",
+  "JOIN": "Присоединиться как",
+  "REGISTRATE_AS_CLIENT": "Клиент",
+  "REGISTRATE_AS_PROVIDER": "Специалист"
 }
