@@ -129,15 +129,14 @@
                         requestId: vm.request.id,
                         chatId: createdChatId
                     });
-                    
-                    return;
-                }else{
 
-                    return chatSocketservice.createChat(vm.request, member)
-                        .then(function () {
-                            $state.go('customer.requests.request.chat');
-                        });
+                    return;
                 }
+
+                return chatSocketservice.createChat(vm.request, member)
+                    .then(function () {
+                        $state.go('customer.requests.request.chat');
+                    });
             });
         }
 
