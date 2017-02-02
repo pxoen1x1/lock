@@ -199,7 +199,7 @@ $title-color: #8e8e8e;
 }
 
 .home-first {
-  background: url('../images/imgpsh_fullsize.png') center center;
+  background: url('../images/imgpsh_fullsize.png') no-repeat fixed center top / 100% auto;
   height: 599px;
 
   > div {
@@ -510,8 +510,7 @@ $title-color: #8e8e8e;
 }
 
 .home-need {
-  background: url('../images/background_need_a_locksmith.png') no-repeat;
-  background-position: center center;
+  background: url('../images/background_need_a_locksmith.png') no-repeat center center / 100% auto;
   height: 261px;
 
   h1 {
