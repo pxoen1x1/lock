@@ -5,14 +5,14 @@
 
         <h2>The best specialists in the shortest possible time</h2>
 
-        <a href="#" hide show-gt-xs>
-            <button class="md-button watch-video btn" aria-label="Watch video">Watch video</button>
-        </a>
+        <button  hide show-gt-xs ng-click="vm.showVideo()" class="md-button watch-video btn" aria-label="Watch video">Watch video</button>
+
 
     </div>
-    <div id="createRequest"></div>
+
     <div layout="column" layout-align="start start" layout-align-xs="start stretch" class="request-form"
          flex-xs="75">
+        <span class="hint" ng-if="vm.specialistId">To <b>hire</b> specialist fill the form below</span>
         <form role="form"
               name="newRequestForm"
               novalidate layout="row" layout-xs="column"
@@ -82,6 +82,7 @@
     <div class="map-wrapper" layout="column" flex>
         <client-map-viewer class="map-viewer"
                            flex
+                           map-options="vm.mapOptions"
                            current-request="vm.request"
                            hire-specialist="vm.hireSpecialist(specialist)">
         </client-map-viewer>
@@ -129,9 +130,9 @@
     </div>
 </div>
 
-<div class="home-advanteges block" layout="column">
+<div class="home-advantages block" layout="column">
     <div layout="row" layout-align="center">
-        <h1>advanteges</h1>
+        <h1>advantages</h1>
     </div>
     <div layout="row" class="item">
         <div layout="row" flex="40" layout-align="end" flex-xs="60">
@@ -143,7 +144,7 @@
             </div>
         </div>
         <div layout="row" layout-align="end" layout-align-xs="start" flex="60" flex-xs="40">
-            <div class="img icon-advanteges"></div>
+            <div class="img icon-advantages"></div>
         </div>
     </div>
 
@@ -181,7 +182,7 @@
                 data="vm.feedbacksDataArray"
                 item-template-url="'home/feedback-item-template.html'"
                 max-width="800"
-                ng-attr-max-height="{{$mdMedia('gt-xs') && '260' || '' }}"
+                ng-attr-max-height="{{$mdMedia('gt-xs') && '260' || '560' }}"
                 auto-slide="false">
         </jk-carousel>
     </md-card>
@@ -189,7 +190,7 @@
 
 <div class="home-need" layout="column" layout-align="center center" layout-align-xs="center center">
     <h1>Need a locksmith?</h1>
-    <button scroll-to=".request-form" offset="-50"
+    <button scroll-to=".request-form" offset="-50" type="submit"
             aria-label="Send a request"
             class="md-button">
         Send a request
