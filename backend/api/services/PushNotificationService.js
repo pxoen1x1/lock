@@ -1,4 +1,4 @@
-/* global sails */
+/* global sails, Device, ChatService */
 
 'use strict';
 
@@ -36,25 +36,19 @@ let PushNotificationService = {
         let {platform, token} = device;
 
         platform = platform.toLowerCase();
+
         switch (platform) {
             case SERVICES.GCM.PLATFORM:
-                let gmcNotification = new gcm.Message(
-                    {
-                        collapseKey: SERVICES.GCM.COLLAPSE_KEY,
-                        timeToLive: SERVICES.GCM.TIME_TO_LIVE,
-                        'content-available': true,
-                        notification: {
-                            title: title,
-                            body: message
-                        }
-                    }
-                );
+                let gmcNotification = new gcm.Message();
 
-                /*if(additionalData){
-                    gmcNotification.addData('data', additionalData);
-                }*/
+                if (additionalData) {
+                    gmcNotification.addData(additionalData);
+                }
 
+                gmcNotification.addData('title', title);
+                gmcNotification.addData('message', message);
                 gmcNotification.addData('content-available', '1');
+                gmcNotification.addData('sound', 'default');
 
                 if (!Array.isArray(token)) {
                     token = [token];
@@ -66,9 +60,12 @@ let PushNotificationService = {
                 let apnNotification = new apn.Notification();
 
                 apnNotification.expiry = Math.floor(Date.now() / 1000) + 3600; // Expires 1 hour from now.
-                apnNotification.badge = SERVICES.APN.BADGE;
-                apnNotification.sound = SERVICES.APN.SOUND;
-                apnNotification.alert = message;
+                apnNotification.aps = {
+                    alert: message,
+                    badge: SERVICES.APN.BADGE,
+                    sound: SERVICES.APN.SOUND,
+                    'content-available': 1
+                };
                 apnNotification.topic = SERVICES.APN.TOPIC;
 
                 if (additionalData) {
@@ -95,7 +92,7 @@ let PushNotificationService = {
                 (chatMembers) => {
                     if (!chatMembers || chatMembers.length === 0) {
 
-                        return Promise.reject();
+                        return;
                     }
 
                     let devices = [];
@@ -119,12 +116,15 @@ let PushNotificationService = {
                 (message, chatMembersDvices) => {
                     if (!chatMembersDvices || chatMembersDvices.length === 0) {
 
-                        return Promise.reject();
+                        return;
                     }
 
                     let data = {
-                        route: 'chat',
-                        request: message.chat.request
+                        state: {
+                            name: 'chat',
+                            request: message.chat.request,
+                            chat: message.chat.id
+                        }
                     };
 
                     return Promise.all(this.sendNotifications(notification, chatMembersDvices, data));
@@ -132,9 +132,10 @@ let PushNotificationService = {
             )
             .catch(
                 (err) => {
-                    sails.log.error(err);
+                    let error = new Error(err);
+                    sails.log.error(error);
 
-                    return err;
+                    return error;
                 }
             );
     },
@@ -149,8 +150,9 @@ let PushNotificationService = {
                     SERVICES.GCM.NUMBER_OF_RETRIES,
                     (err, result) => {
                         if (err) {
+                            let error = new Error(err);
 
-                            return reject(err);
+                            return reject(error);
                         }
 
                         resolve(result);
