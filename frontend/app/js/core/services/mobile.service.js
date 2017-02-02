@@ -8,13 +8,17 @@
     mobileService.$inject = [
         '$q',
         '$window',
+        '$state',
+        'coreConstants',
         'pushNotificationConstants',
         'localService',
-        'coreDataservice'
+        'coreDataservice',
+        'currentUserService'
     ];
 
     /* @ngInject */
-    function mobileService($q, $window, pushNotificationConstants, localService, coreDataservice) {
+    function mobileService($q, $window, $state, coreConstants, pushNotificationConstants, localService, coreDataservice,
+                           currentUserService) {
         var service = {
             isMobileApplication: isMobileApplication,
             getImagePath: getImagePath,
@@ -89,17 +93,37 @@
                 return saveDeviceInfo(deviceInfo);
             });
 
-            pushNotification.on('notification', function(data) {
-                pushNotification.finish(function() {
-                    localStorage.setItem('PN finish', data);
+            pushNotification.on('notification', function (response) {
+                var state = response.additionalData.state;
+
+                if (!response.additionalData.foreground) {
+
+                    goToState(state);
+                }
+            });
+        }
+
+        function goToState(state) {
+
+            return currentUserService.getType()
+                .then(function (userTypeId) {
+                    var userType = coreConstants.USER_TYPES[userTypeId];
+
+                    switch (state.name) {
+                        case 'chat':
+                            $state.go(
+                                pushNotificationConstants.STATES.CHAT[userType],
+                                {requestId: state.request, chatId: state.chat}
+                            );
+
+                            break;
+
+                        case 'request':
+                            $state.go(pushNotificationConstants.STATES.CHAT[userType], {requestId: state.request});
+
+                            break;
+                    }
                 });
-
-                localStorage.setItem('PN ON', data);
-            });
-
-            pushNotification.on('error', function(error) {
-                console.log(error.message);
-            });
         }
     }
 })();
