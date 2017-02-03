@@ -259,5 +259,6 @@
   "I_ALREADY_HAVE_AN_ACCOUNT": "У меня уже есть аккаунт",
   "JOIN": "Присоединиться как",
   "REGISTRATE_AS_CLIENT": "Клиент",
-  "REGISTRATE_AS_PROVIDER": "Специалист"
+  "REGISTRATE_AS_PROVIDER": "Специалист",
+  "SKIP": "Пропустить"
 }
