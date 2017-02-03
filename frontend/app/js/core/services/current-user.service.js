@@ -27,11 +27,7 @@
                 return $q.reject(new Error('You are not logged.'));
             }
 
-            return $q.when(getUserFromLocalStorage() || getUserFromHttp())
-                .then(function (user) {
-
-                    return user;
-                });
+            return $q.when(getUserFromLocalStorage() || getUserFromHttp());
         }
 
         function getUserFromLocalStorage() {
