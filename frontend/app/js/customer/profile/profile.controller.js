@@ -96,12 +96,12 @@
         }
 
         function viewUserPhoto() {
-            if (vm.newPortrait !== '') {
+            if (vm.newPortrait) {
 
                 return vm.newPortrait;
             } else {
 
-                return vm.userProfile.portrait ? vm.userProfile.portrait : vm.defaultPortrait;
+                return vm.userProfile.portrait ? conf.BASE_URL + vm.userProfile.portrait : vm.defaultPortrait;
             }
         }
 
@@ -138,7 +138,7 @@
                 .then(function (user) {
 
                     vm.userProfile = user;
-                    vm.userProfile.portrait = user.portrait ? btoa(user.portrait) : '';
+                    vm.userProfile.portrait = user.portrait ? user.portrait : '';
                     // decodes from base64 to string
 
                     return coreDataservice.getCustomer()
@@ -222,7 +222,6 @@
                 .then(function () {
                     vm.userProfile.usingLanguage = vm.userProfile.usingLanguage || usingLanguageService.getLanguage();
                     vm.nonChangedUserProfile = angular.copy(vm.userProfile);
-
                     if (vm.userProfile.customerData && vm.userProfile.customerData.state) {
                         vm.getCities(vm.userProfile.customerData.state);
                     }
