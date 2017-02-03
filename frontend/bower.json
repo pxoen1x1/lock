@@ -33,7 +33,8 @@
     "angular-sails": "^1.1.4",
     "angular-translate": "^2.13.1",
     "angular-translate-handler-log": "^2.13.1",
-    "angular-jk-carousel": "^0.1.9"
+    "angular-jk-carousel": "^0.1.9",
+    "angular-translate-loader-static-files": "^2.13.1"
   },
   "devDependencies": {},
   "overrides": {

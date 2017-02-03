@@ -174,6 +174,12 @@ module.exports = {
             interlaced: true
         }
     },
+    json: {
+        translation:{
+            src: paths.app.src + 'locales/*.json',
+            dest: paths.app.production + 'locales/'
+        }
+    },
     jshint: {
         app: {
             src: paths.app.src + 'js/*.js'

@@ -8,28 +8,31 @@
     GroupProfileController.$inject = [
         '$q',
         '$mdDialog',
+        '$translate',
         '$filter',
         'conf',
         'coreConstants',
         'coreDataservice',
         'coreDictionary',
         'currentUserService',
-        '$translate',
+        'usingLanguageService',
+        'citiesLoader',
         'mobileService'
     ];
 
     /* @ngInject */
-    function GroupProfileController($q, $mdDialog, $filter, conf, coreConstants, coreDataservice, coreDictionary,
-                                    currentUserService, $translate, mobileService) {
+    function GroupProfileController($q, $mdDialog, $translate, $filter, conf, coreConstants, coreDataservice, coreDictionary,
+                                    currentUserService, usingLanguageService, citiesLoader, mobileService) {
         var vm = this;
 
         vm.languages = [];
         vm.userProfile = {};
         vm.userProfile.merchantData = {};
         vm.userProfile.paymentData = {};
-        vm.userProfile.merchantFunds = 0;
+        vm.merchantFunds = 0;
         vm.userProfile.licenses = {};
         vm.enableWithdrawals = false;
+        vm.nonChangedUserProfile = {};
 
         var promises = {
             getBankAccountTypes: null,
@@ -49,6 +52,8 @@
         vm.newPortrait = '';
         vm.baseUrl = conf.BASE_URL;
         vm.defaultPortrait = mobileService.getImagePath(coreConstants.IMAGES.defaultPortrait);
+        vm.searchText = null;
+        vm.selectedCityItem = null;
 
         vm.updateUser = updateUser;
         vm.setMerchantAccount = setMerchantAccount;
@@ -58,6 +63,11 @@
         vm.updateMerchant = updateMerchant;
         vm.withdrawal = withdrawal;
         vm.viewUserPhoto = viewUserPhoto;
+        vm.cancelEditing = cancelEditing;
+
+        vm.getCities = getCities;
+        vm.selectedItemChange = selectedItemChange;
+        vm.resetSelectedCity = resetSelectedCity;
 
         activate();
 
@@ -93,7 +103,7 @@
                 return vm.newPortrait;
             } else {
 
-                return vm.userProfile.portrait ? vm.userProfile.portrait : vm.defaultPortrait;
+                return vm.userProfile.portrait ? vm.baseUrl + vm.userProfile.portrait : vm.defaultPortrait;
             }
         }
 
@@ -112,12 +122,15 @@
             return currentUserService.setUser(user)
                 .then(function (user) {
                     coreDataservice.updateUser(user); //todo: ?? set and then update ??
+                    $translate.use(user.usingLanguage.code);
+                    usingLanguageService.setLanguage(user.usingLanguage);
 
                     return user;
                 })
                 .then(function (user) {
 
                     vm.userProfile = user;
+                    vm.nonChangedUserProfile = user;
                     vm.newPortrait = '';
                     vm.isEditing = false;
 
@@ -151,6 +164,10 @@
                     }
                     vm.userProfile.merchantData = merchantEntity;
                     vm.userProfile.spMerchantId = vm.userProfile.merchantData.id;
+
+                    if (vm.userProfile.merchantData.city) {
+                        vm.selectedCityItem = vm.userProfile.merchantData.city;
+                    }
                     return currentUserService.setUserToLocalStorage(vm.userProfile);
 
                 }).finally(function () {
@@ -186,6 +203,7 @@
             return currentUserService.getUser()
                 .then(function (user) {
                     vm.userProfile = user;
+                    vm.nonChangedUserProfile = angular.copy(vm.userProfile);
 
                     return coreDataservice.getAdminsGroup();
                 })
@@ -206,19 +224,22 @@
                 .then(function (merchantEntity) {
                     if (merchantEntity) {
                         vm.userProfile.merchantData = merchantEntity;
+                        if (vm.userProfile.merchantData.city) {
+                            vm.selectedCityItem = vm.userProfile.merchantData.city;
+                        }
                     }
 
                     return coreDataservice.getMerchantFunds();
                 })
                 .then(function (funds) {
                     if (funds && funds.available) {
-                        vm.userProfile.merchantFunds = funds.available / 100; // in cents
+                        vm.merchantFunds = funds.available / 100; // in cents
                     }
 
                     return coreDataservice.isCreatedTodaysPayout();
                 })
                 .then(function (payoutCreated) {
-                    if (!payoutCreated && vm.userProfile.merchantFunds > 0) {
+                    if (!payoutCreated && vm.merchantFunds > 0) {
                         vm.enableWithdrawals = true;
                     }
 
@@ -238,10 +259,56 @@
         function getStates() {
             return coreDictionary.getStates()
                 .then(function (response) {
-                    vm.states = response.states;
+                    vm.states = getStatesList(response.states);
 
                     return vm.states;
                 });
+        }
+
+        function getStatesList(states) {
+            var statesList = {};
+
+            states.forEach(function (state) {
+                statesList[state.code] = state;
+            });
+
+            return statesList;
+        }
+
+        function getCities(query) {
+            if (!vm.userProfile.merchantData.state) {
+
+                return;
+            }
+
+            var selectedState = vm.states[vm.userProfile.merchantData.state];
+
+            return citiesLoader.getCities(selectedState.id, query)
+                .then(function (cities) {
+
+                    return cities;
+                });
+        }
+
+        function selectedItemChange(city) {
+            if (!city) {
+                return;
+            }
+
+            vm.userProfile.merchantData.city = city.city;
+        }
+
+        function resetSelectedCity() {
+            vm.userProfile.merchantData.city = null;
+            vm.selectedCityItem = null;
+        }
+
+
+        function cancelEditing() {
+            vm.userProfile = angular.copy(vm.nonChangedUserProfile);
+            vm.isEditing = false;
+            vm.isEditingMerchant = false;
+            vm.isEditingPayment = false;
         }
 
         function activate() {

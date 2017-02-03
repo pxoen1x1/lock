@@ -95,10 +95,13 @@
 
         function getCurrentUser() {
 
-            return request.httpWithTimeout({
-                url: conf.BASE_URL + conf.URL_PREFIX + 'user',
-                method: 'GET'
-            });
+            return $sails.get(conf.URL_PREFIX + 'user')
+                .then(getCurrentUserComplete);
+
+            function getCurrentUserComplete(message) {
+
+                return message.data.user;
+            }
         }
 
         function getUser(userId) {

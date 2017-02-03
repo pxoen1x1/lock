@@ -40,6 +40,11 @@ let UserDetail = {
             min: 1,
             max: 5
         },
+        isBGCheckCompleted: {
+            type: 'boolean',
+            defaultsTo: false,
+            columnName: 'is_bg_check_completed'
+        },
 
         user: {
             model: 'User',

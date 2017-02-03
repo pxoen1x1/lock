@@ -22,6 +22,7 @@
 
         'app.core',
         'app.home',
+        'app.login',
         'app.registration',
         'app.chat',
         'app.customer',
