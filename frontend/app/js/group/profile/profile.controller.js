@@ -93,7 +93,7 @@
                 return vm.newPortrait;
             } else {
 
-                return vm.userProfile.portrait ? vm.userProfile.portrait : vm.defaultPortrait;
+                return vm.userProfile.portrait ? conf.BASE_URL + vm.userProfile.portrait : vm.defaultPortrait;
             }
         }
 
