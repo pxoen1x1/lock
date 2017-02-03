@@ -9,10 +9,12 @@
 
     /* @ngInject */
     function currentUserService($q, coreDataservice, localService, coreConstants) {
+        var currUser = {'userProfile': ''};
         var getUserPromise;
         var userType;
 
         var service = {
+            currUser: currUser,
             getUser: getUser,
             setUserToLocalStorage: setUserToLocalStorage,
             setUser: setUser,
@@ -28,7 +30,13 @@
                 return $q.reject(new Error('You are not logged.'));
             }
 
-            return $q.when(getUserFromLocalStorage() || getUserFromHttp());
+            return $q.when(getUserFromLocalStorage() || getUserFromHttp())
+                .then(function(currentUser) {
+
+                    currUser.userProfile = currentUser;
+
+                    return currentUser;
+                });
         }
 
         function getUserFromLocalStorage() {
@@ -64,6 +72,8 @@
 
                     localService.setUser(currentUser);
                     setCurrentUserType(currentUser);
+
+                    currUser.userProfile = currentUser;
 
                     return currentUser;
                 });

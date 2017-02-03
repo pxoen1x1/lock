@@ -121,7 +121,7 @@
                 .then(function (user) {
 
                     vm.userProfile = user;
-                    vm.userProfile.portrait = user.portrait ? conf.BASE_URL + user.portrait : '';
+                    vm.userProfile.portrait = user.portrait ? user.portrait : '';
                     vm.newPortrait = '';
                     vm.isEditing = false;
 
@@ -138,8 +138,6 @@
                 .then(function (user) {
 
                     vm.userProfile = user;
-                    vm.userProfile.portrait = user.portrait ? btoa(user.portrait) : '';
-                    // decodes from base64 to string
 
                     return coreDataservice.getCustomer()
                         .then(function (customer) {
