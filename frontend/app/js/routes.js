@@ -18,14 +18,15 @@
                         templateUrl: 'layout/layout.html'
                     }
                 }
-            })
-            .state('login', {
-                reloadOnSearch: false
             });
 
         $urlRouterProvider.otherwise(function ($injector) {
             var $state = $injector.get('$state');
+            var $mobileService = $injector.get('$mobileService');
 
+            if ($mobileService.isMobileApplication()) {
+                $state.go('login');
+            }
             $state.go('home.main');
         });
     }

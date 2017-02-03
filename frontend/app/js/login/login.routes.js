@@ -10,24 +10,18 @@
     /* @ngInject */
     function configureState($stateProvider) {
         $stateProvider
-            .state('loginMobile', {
+            .state('login', {
                 parent: 'root',
-                abstract: true,
                 views: {
                     'content@root': {
                         templateUrl: 'login/layout/layout.html'
                     },
-                    'header@loginMobile': {
+                    'header@login': {
                         templateUrl: 'login/layout/header/header.html'
-                    }
-                }
-            })
-            .state('loginMobile.login', {
-                url: '/loginMobile',
-                views: {
-                    'content@loginMobile': {
+                    },
+                    'content@login': {
                         templateUrl: 'login/login.html',
-                        controller: 'MobileLoginController',
+                        controller: 'LoginController',
                         controllerAs: 'vm'
                     }
                 }

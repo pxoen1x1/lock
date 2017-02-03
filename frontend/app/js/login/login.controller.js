@@ -6,9 +6,9 @@
 
     angular
         .module('app.core')
-        .controller('MobileLoginController', MobileLoginController);
+        .controller('LoginController', LoginController);
 
-    MobileLoginController.$inject = [
+    LoginController.$inject = [
         '$state',
         '$mdDialog',
         'toastService',
@@ -20,7 +20,7 @@
     ];
 
     /* @ngInject */
-    function MobileLoginController($state, $mdDialog, toastService, coreDataservice, authService,
+    function LoginController($state, $mdDialog, toastService, coreDataservice, authService,
                                    currentUserService, specialistGeoService, coreConstants) {
         var vm = this;
 
