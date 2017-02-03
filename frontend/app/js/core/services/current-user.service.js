@@ -9,7 +9,6 @@
 
     /* @ngInject */
     function currentUserService($q, coreDataservice, localService, coreConstants) {
-        var getUserPromise;
         var userType;
 
         var service = {
@@ -42,19 +41,8 @@
         }
 
         function getUserFromHttp() {
-            if (getUserPromise) {
-                getUserPromise.cancel();
-            }
 
-            getUserPromise = coreDataservice.getCurrentUser();
-
-            return getUserPromise
-                .then(getUserFromHttpComplete);
-        }
-
-        function getUserFromHttpComplete(response) {
-
-            return response.data.user;
+            return coreDataservice.getCurrentUser();
         }
 
         function setUser(user) {
