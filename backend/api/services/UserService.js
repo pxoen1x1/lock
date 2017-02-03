@@ -60,6 +60,7 @@ let UserService = {
                     details.latitude AS 'details.latitude',
                     details.longitude AS 'details.longitude',
                     details.rating AS 'details.rating',
+                    details.is_bg_check_completed AS 'details.isBGCheckCompleted',
                     details_workingHours.id AS 'details.workingHours.id',
                     details_workingHours.time_from AS 'details.workingHours.timeFrom',
                     details_workingHours.time_to AS 'details.workingHours.timeTo'

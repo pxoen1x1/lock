@@ -14,7 +14,7 @@
       <md-card>
         <md-card-title>
           <md-card-title-text>
-            <div class="md-headline" ng-bind="specialist.fullName"></div>
+            <div class="md-headline" ><a ng-bind="specialist.fullName" ui-sref="provider.profile.public({ profileId: specialist.id })"></a></div>
             <star-rating class="md-subhead" value="specialist.details.rating" readonly></star-rating>
             <div class="md-subhead" ng-if="specialist.distance">
               <span class="md-subhead" ng-bind="specialist.distance | number : 2"></span>

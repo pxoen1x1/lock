@@ -79,6 +79,32 @@ let UserDetailsController = {
                     return res.serverError();
                 }
             );
+    },
+    setBackgroundCheckCompleted(req, res) {
+        let userId = req.params.userId;
+
+        if (!userId) {
+
+            return res.badRequest({
+                message: req.__('Submitted data is invalid.')
+            });
+        }
+
+        let specialist = {
+            id: userId
+        };
+
+        UserDetailService.setBackgroundCheckCompleted(specialist)
+            .then(
+                () => res.ok(true)
+            )
+            .catch(
+                (err) => {
+                    sails.log.error(err);
+
+                    return res.serverError();
+                }
+            );
     }
 };
 

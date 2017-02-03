@@ -263,7 +263,10 @@
                  'JOIN': 'Join',
                  'I_ALREADY_HAVE_AN_ACCOUNT': 'I already have an account',
                  'REGISTRATE_AS_CLIENT': 'Registrate as client',
-                 'REGISTRATE_AS_PROVIDER': 'Registrate as provider'
+                 'REGISTRATE_AS_PROVIDER': 'Registrate as provider',
+                 'BACKGROUND_CHECK_TITLE': 'Background Check',
+                 'BACKGROUND_CHECK_CONTENT': 'Please, click accept to pass background check. ' +
+                 'Site features will be available after your information will be checked.'
              }
          });
 })();

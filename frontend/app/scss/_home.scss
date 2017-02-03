@@ -35,7 +35,7 @@ $title-color: #8e8e8e;
   .logo {
     width: 166px;
     height: 26px;
-    background: url('../images/logo.png');
+    background: url('../images/logo.png') no-repeat scroll center center / 100% auto;
   }
 }
 
@@ -557,13 +557,32 @@ $title-color: #8e8e8e;
 }
 
 @media only screen and (min-device-width: 600px) and (max-device-width: 960px) {
+
+
+  .home .logo {
+    width: 140px;
+  }
+
   .home-header .md-nav-bar .md-button {
     padding-left: 0;
     padding-right: 0;
+    min-width: 55px;
+    font-size: 12px;
+  }
+  .home .home-header .md-button.btn {
+    width: 133px;
+    height: 30px;
+    min-height: 30px;
+    padding: 0 6px;
   }
 }
 
 @media only screen and (max-device-width: 599px) {
+
+
+  .home .logo {
+    background: url('../images/logo_white.png');
+  }
 
   .join-as-a-locksmith {
     margin-top: 0;
@@ -805,8 +824,8 @@ $title-color: #8e8e8e;
   }
 
   .home-footer {
-    padding-left: 15px;
-    padding-right: 15px;
+    padding-left: 12px;
+    padding-right: 12px;
     padding-top: 15px;
 
     height: 247px;
@@ -821,6 +840,8 @@ $title-color: #8e8e8e;
 
     span {
       font-size: 13px;
+      padding-right: 2px;
+      text-align: left;
     }
 
   }

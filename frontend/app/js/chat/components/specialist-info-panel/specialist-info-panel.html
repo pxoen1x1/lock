@@ -26,11 +26,25 @@
       </div>
     </div>
   </md-toolbar>
-  <md-content class="md-hue-2"
-              flex
-              infinite-scroll
-              on-scroll="vm.loadPrevReviews()">
+  <md-content class="md-hue-2" flex >
+    <div class="infinite-scroll-wrapper">
+      <div class="infinite-scroll-container"
+           infinite-scroll
+           scroll-disabled="pagination.reviews[vm.selectedSpecialist.id].isAllReviewsLoad"
+           on-scroll="vm.loadPrevReviews()">
     <md-card ng-if="vm.reviews[vm.selectedSpecialist.id]">
+      <md-card-title><h3 class="m-t-none m-b-none"><span translate>SERVICES</span>:</h3></md-card-title>
+      <md-card-content>
+        <span  ng-repeat="service in vm.selectedSpecialist.details.serviceTypes track by service.id">
+          <span ng-bind="service.name + ($last ? '' : ', ')"></span>
+        </span>
+      </md-card-content>
+      <md-card-title><h3 class="m-t-none m-b-none"><span translate>LICENSES</span>:</h3></md-card-title>
+      <md-card-content>
+        <span  ng-repeat="service in vm.selectedSpecialist.details.serviceTypes track by service.id">
+          <span ng-bind="service.name + ($last ? '' : ', ')"></span>
+        </span>
+      </md-card-content>
       <md-card-title>
         <h3 class="m-t-none m-b-none"><span translate>REVIEWS</span>:</h3>
       </md-card-title>
@@ -72,5 +86,7 @@
         </div>
       </md-card-content>
     </md-card>
+        </div>
+    </div>
   </md-content>
 </div>

@@ -87,6 +87,7 @@ let getBidRawQuery = `SELECT bid.id,
                              specialist_details.latitude AS 'specialist.details.latitude',
                              specialist_details.longitude AS 'specialist.details.longitude',
                              specialist_details.rating AS 'specialist.details.rating',
+                             specialist_details.is_bg_check_completed AS 'specialist.details.isBGCheckCompleted',
                              specialist_details_workingHours.id AS 'specialist.details.workingHours.id',
                              specialist_details_workingHours.time_from AS 'specialist.details.workingHours.timeFrom',
                              specialist_details_workingHours.time_to AS 'specialist.details.workingHours.timeTo'
