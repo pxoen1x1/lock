@@ -22,10 +22,10 @@
 
         $urlRouterProvider.otherwise(function ($injector) {
             var $state = $injector.get('$state');
-            var $mobileService = $injector.get('$mobileService');
+            var mobileService = $injector.get('mobileService');
 
-            if ($mobileService.isMobileApplication()) {
-                $state.go('login');
+            if (mobileService.isMobileApplication()) {
+                return $state.go('login');
             }
             $state.go('home.main');
         });
