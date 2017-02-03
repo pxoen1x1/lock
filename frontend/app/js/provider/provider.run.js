@@ -11,12 +11,13 @@
         'serviceProviderConstants',
         'authService',
         'specialistGeoService',
-        'backgroundCheckService'
+        'backgroundCheckService',
+        'localService'
     ];
 
     /* @ngInject */
     function providerRun($rootScope, cfpLoadingBar, serviceProviderConstants, authService, specialistGeoService,
-                         backgroundCheckService) {
+                         backgroundCheckService, localService) {
 
         if (authService.isAuthenticated()) {
             backgroundCheckService.isBackgroundCheckCompleted()
@@ -37,6 +38,9 @@
                             if (!isCompleted) {
                                 cfpLoadingBar.complete();
                                 event.preventDefault();
+
+                                // ToDo: when skip function will be removed in BackgroundCheckController, remove comment
+                                // localService.removeUser();
 
                                 return backgroundCheckService.showBackgroundCheckDialog();
                             }
