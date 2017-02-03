@@ -17,7 +17,6 @@
         return service;
 
         function isBackgroundCheckCompleted() {
-
             return currentUserService.getUser()
                 .then(function (currentUser) {
 
