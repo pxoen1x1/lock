@@ -123,6 +123,7 @@
                 .then(function (user) {
 
                     vm.userProfile = user;
+                    vm.nonChangedUserProfile = user;
                     vm.newPortrait = '';
                     vm.isEditing = false;
 
@@ -201,7 +202,8 @@
 
                 return vm.newPortrait;
             } else {
-                return vm.userProfile.portrait ? conf.BASE_URL + vm.userProfile.portrait : vm.defaultPortrait;
+
+                return vm.userProfile.portrait ? vm.baseUrl + vm.userProfile.portrait : vm.defaultPortrait;
             }
         }
 
@@ -211,6 +213,7 @@
                 .then(function (user) {
 
                     vm.userProfile = user;
+                    vm.nonChangedUserProfile = angular.copy(vm.userProfile);
 
                     return coreDataservice.getMerchantAccount()
                         .then(function (userPayment) {
@@ -235,7 +238,7 @@
                         .then(function (funds) {
 
                             if (funds && funds.available) {
-                                vm.userProfile.merchantFunds = funds.available / 100; // in cents
+                                vm.merchantFunds = funds.available / 100; // in cents
                             }
 
                             return coreDataservice.isCreatedTodaysPayout();
@@ -334,7 +337,6 @@
                         vm.userProfile.usingLanguage = vm.userProfile.usingLanguage || usingLanguageService.getLanguage();
                         vm.licensesPresent = vm.userProfile.details.licenses.length !== 0;
                         vm.servicesPresent = vm.userProfile.details.serviceTypes.length !== 0;
-                        vm.nonChangedUserProfile = angular.copy(vm.userProfile);
                     }
                 );
         }

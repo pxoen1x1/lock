@@ -30,7 +30,7 @@
         <span class="md-body-2"><span translate>PHONE</span>:</span>
         <span class="md-body-1" ng-bind="vm.userProfile.phoneNumber"></span>
     </div>
-    <div class="section" layout="row">
+    <div class="section" layout="row" ng-if="vm.userProfile.licenses.length > 0">
         <span class="md-body-2"><span translate>LICENSES</span>:</span>
         <div layout="column">
             <div layout="row" ng-repeat="license in vm.userProfile.licenses track by $index">
@@ -62,20 +62,6 @@
                        ng-model="vm.userProfile.lastName">
             </md-input-container>
         </div>
-        <p><span translate>EMAIL</span>: <sup>*</sup></p>
-        <md-input-container class="md-block" flex>
-            <label translate>EMAIL</label>
-            <input name="email"
-                   required
-                   email-validation
-                   availability-validation
-                   ng-model-options="{ 'debounce': 400 }"
-                   ng-model="vm.userProfile.auth.email">
-            <div ng-messages="editForm.email.$error">
-                <div ng-message="email" translate>INVALID_EMAIL</div>
-                <div ng-message="availability" translate>EMAIL_ALREADY_EXIST</div>
-            </div>
-        </md-input-container>
         <p><span translate>PHONE_NUMBER</span>: <sup>*</sup></p>
         <md-input-container class="md-block" flex>
             <label translate>PHONE_NUMBER</label>
@@ -154,10 +140,20 @@
             </md-button>
         </div>
         <md-button type="submit"
-                   class="md-raised md-warn"
+                   class="md-button-blue"
                    aria-label="Save"
                    ng-if="vm.isEditing">
             <span translate>SAVE</span>
         </md-button>
+        <md-button class="md-button-blue" ng-if="vm.isEditing"
+                   ng-click="vm.cancelEditing()">
+            <span translate>CANCEL</span>
+        </md-button>
     </form>
 </div>
+<md-button ng-if="!vm.isEditing"
+           class="md-button-blue"
+           ng-click="vm.isEditing = true"
+           aria-label="Edit">
+    <span translate>EDIT</span>
+</md-button>

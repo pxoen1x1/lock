@@ -35,7 +35,7 @@
             <input name="firstName"
                    required
                    ng-maxlength="20"
-                   ng-pattern="/^[a-zA-Z-]*$/"
+                   ng-pattern="/^[a-zA-Z- ]*$/"
                    ng-model="vm.user.firstName">
             <div ng-messages="registrationForm.firstName.$error">
               <div ng-message="maxlength" translate>FIRST_NAME_IS_TOO_LONG</div>
@@ -46,7 +46,7 @@
             <input name="lastName"
                    required
                    ng-maxlength="20"
-                   ng-pattern="/^[a-zA-Z-]*$/"
+                   ng-pattern="/^[a-zA-Z- ]*$/"
                    ng-model="vm.user.lastName">
             <div ng-messages="registrationForm.lastName.$error">
               <div ng-message="maxlength" translate>LAST_NAME_IS_TOO_LONG</div>

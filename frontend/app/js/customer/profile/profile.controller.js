@@ -121,7 +121,7 @@
                 .then(function (user) {
 
                     vm.userProfile = user;
-                    vm.userProfile.portrait = user.portrait ? conf.BASE_URL + user.portrait : '';
+                    vm.userProfile.portrait = user.portrait ? user.portrait : '';
                     vm.newPortrait = '';
                     vm.isEditing = false;
 
@@ -138,8 +138,7 @@
                 .then(function (user) {
 
                     vm.userProfile = user;
-                    vm.userProfile.portrait = user.portrait ? user.portrait : '';
-                    // decodes from base64 to string
+                    vm.nonChangedUserProfile = angular.copy(vm.userProfile);
 
                     return coreDataservice.getCustomer()
                         .then(function (customer) {
@@ -221,7 +220,7 @@
                 ])
                 .then(function () {
                     vm.userProfile.usingLanguage = vm.userProfile.usingLanguage || usingLanguageService.getLanguage();
-                    vm.nonChangedUserProfile = angular.copy(vm.userProfile);
+
                     if (vm.userProfile.customerData && vm.userProfile.customerData.state) {
                         vm.getCities(vm.userProfile.customerData.state);
                     }
