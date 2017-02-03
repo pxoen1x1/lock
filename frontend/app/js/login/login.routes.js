@@ -12,6 +12,7 @@
         $stateProvider
             .state('login', {
                 parent: 'root',
+                url: '/login',
                 views: {
                     'content@root': {
                         templateUrl: 'login/layout/layout.html'
