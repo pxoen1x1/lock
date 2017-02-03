@@ -27,8 +27,8 @@ gulp.task('usemin:app', function () {
             ],
             html: [htmlmin(htmlminOptions)],
             js: [
-                // stripDebug(),
-                // uglify(),
+                stripDebug(),
+                uglify(),
                 rev()
             ],
             vendorcss: [
