@@ -16,7 +16,7 @@ module.exports = function (req, res, next) {
 
     UserDetail.findOneByUser(user.id)
         .then(function (userDetail) {
-            if(userDetail && userDetail.isBGCheckCompleted){
+            if(userDetail && !userDetail.isBGCheckCompleted){
                 sails.log.debug(new Error('You should pass background check.'));
 
                 return res.forbidden(
