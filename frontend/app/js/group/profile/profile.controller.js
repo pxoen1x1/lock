@@ -203,6 +203,7 @@
             return currentUserService.getUser()
                 .then(function (user) {
                     vm.userProfile = user;
+                    vm.nonChangedUserProfile = angular.copy(vm.userProfile);
 
                     return coreDataservice.getAdminsGroup();
                 })
@@ -317,7 +318,6 @@
                 getBankAccountTypes(),
                 getStates()
             ]).then(function(){
-                vm.nonChangedUserProfile = angular.copy(vm.userProfile);
             });
         }
 

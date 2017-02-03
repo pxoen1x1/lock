@@ -138,6 +138,7 @@
                 .then(function (user) {
 
                     vm.userProfile = user;
+                    vm.nonChangedUserProfile = angular.copy(vm.userProfile);
 
                     return coreDataservice.getCustomer()
                         .then(function (customer) {
@@ -219,7 +220,6 @@
                 ])
                 .then(function () {
                     vm.userProfile.usingLanguage = vm.userProfile.usingLanguage || usingLanguageService.getLanguage();
-                    vm.nonChangedUserProfile = angular.copy(vm.userProfile);
 
                     if (vm.userProfile.customerData && vm.userProfile.customerData.state) {
                         vm.getCities(vm.userProfile.customerData.state);
