@@ -16,6 +16,7 @@
 
         vm.skipBackgroundCheck = skipBackgroundCheck;
 
+        //ToDo: Just for test. Remove comment from provider.run.js
         function skipBackgroundCheck() {
             var user = localService.getUser();
 
