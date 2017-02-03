@@ -5,18 +5,30 @@
   <div flex="80" layout="row" layout-align="end top" layout-xs="column"
        layout-align-xs="start center" flex-xs="80">
     <md-nav-bar md-selected-nav-item="currentNavItem" nav-bar-aria-label="navigation links">
-      <md-nav-item md-nav-sref="home.how" name="how">How it works</md-nav-item>
-      <md-nav-item md-nav-sref="home.faq" name="faq">FAQ</md-nav-item>
-      <md-nav-item md-nav-sref="login">Sign in</md-nav-item>
-      <md-nav-item md-nav-sref="registration.customer" name="customer">Register</md-nav-item>
+      <md-nav-item md-nav-sref="home.how" name="how">
+        <span translate>HOW_IT_WORKS</span>
+      </md-nav-item>
+      <md-nav-item md-nav-sref="home.faq" name="faq">
+        <span translate>FAQ</span>
+      </md-nav-item>
+      <md-nav-item md-nav-sref="login">
+        <span translate>SIGN_IN</span>
+      </md-nav-item>
+      <md-nav-item md-nav-sref="registration.customer" name="customer">
+        <span translate>REGISTER</span>
+      </md-nav-item>
       <md-nav-item md-nav-sref="registration.provider" name="provider">
-        <button class="md-button join btn" aria-label="Join as locksmith">Join as locksmith</button>
+        <button class="md-button join btn" aria-label="Join as locksmith">
+          <span translate>JOIN_AS_LOCKSMITH</span>
+        </button>
       </md-nav-item>
 
     </md-nav-bar>
 
     <a href="#" hide show-xs>
-      <button class="md-button watch-video btn" aria-label="Watch video">Watch video</button>
+      <button class="md-button watch-video btn" aria-label="Watch video">
+        <span translate>WATCH_VIDEO</span>
+      </button>
     </a>
   </div>
 </div>

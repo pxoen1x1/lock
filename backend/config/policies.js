@@ -72,6 +72,15 @@ module.exports.policies = {
         'findServiceProviders': true
     },
 
+    UserDetailsController: {
+        'setBackgroundCheckCompleted': [
+            'hasJsonWebToken',
+            'isUserEnabled',
+            'isUserAdmin',
+            'isSpecialist',
+        ]
+    },
+
     StateController: {
         'getStates': true
     },
@@ -93,6 +102,26 @@ module.exports.policies = {
     },
 
     RequestController: {
+        'getSpecialistRequests': [
+            'hasJsonWebToken',
+            'isUserEnabled',
+            'isSpecialistBGCompleted'
+        ],
+        'getSpecialistNewRequests': [
+            'hasJsonWebToken',
+            'isUserEnabled',
+            'isSpecialistBGCompleted'
+        ],
+        'getSpecialistRequestById': [
+            'hasJsonWebToken',
+            'isUserEnabled',
+            'isSpecialistBGCompleted'
+        ],
+        'checkSpecialistRequestsStatus': [
+            'hasJsonWebToken',
+            'isUserEnabled',
+            'isSpecialistBGCompleted'
+        ],
         'confirmOffer': [
             'hasJsonWebToken',
             'isUserEnabled',
@@ -101,6 +130,7 @@ module.exports.policies = {
         'changeStatus': [
             'hasJsonWebToken',
             'isUserEnabled',
+            'isSpecialistBGCompleted',
             'isRequestStatusChangeAllowed'
         ],
         // for homepage form
@@ -128,12 +158,13 @@ module.exports.policies = {
             'isSocketRequest',
             'hasJsonWebToken',
             'isUserEnabled',
-            'isChatMember'
+            'isChatMember',
+            'isSpecialistBGCompleted'
         ],
         'createChat': [
             'isSocketRequest',
             'hasJsonWebToken',
-        //    'isUserEnabled', // for homepage form
+            //    'isUserEnabled', // for homepage form
             'isRequestAllowed',
             'isRequestOwner',
             'isChatUnique'
@@ -175,6 +206,7 @@ module.exports.policies = {
             'isSocketRequest',
             'hasJsonWebToken',
             'isUserEnabled',
+            'isSpecialistBGCompleted',
             'isRequestAllowed',
             'isBidUnique'
         ],
@@ -203,6 +235,7 @@ module.exports.policies = {
             'isSocketRequest',
             'hasJsonWebToken',
             'isUserEnabled',
+            'isSpecialistBGCompleted',
             'isRequestAllowed',
             'isChatMember'
         ],
@@ -210,6 +243,7 @@ module.exports.policies = {
             'isSocketRequest',
             'hasJsonWebToken',
             'isUserEnabled',
+            'isSpecialistBGCompleted',
             'isRequestAllowed',
             'isChatMember',
             'isCreateOfferAllowed'
@@ -218,12 +252,14 @@ module.exports.policies = {
             'isSocketRequest',
             'hasJsonWebToken',
             'isUserEnabled',
+            'isSpecialistBGCompleted',
             'isMessageAllowed',
             'isLanguageSupported'
         ],
         'uploadFile': [
             'hasJsonWebToken',
             'isUserEnabled',
+            'isSpecialistBGCompleted',
             'isRequestAllowed',
             'isChatMember'
         ]

@@ -317,8 +317,7 @@
                 getLanguages(),
                 getBankAccountTypes(),
                 getStates()
-            ]).then(function(){
-            });
+            ]);
         }
 
     }

@@ -48,6 +48,10 @@ let UserDetailService = {
                     return location;
                 }
             );
+    },
+    setBackgroundCheckCompleted(user) {
+
+        return UserDetail.update({user: user.id}, {isBGCheckCompleted: true});
     }
 };
 

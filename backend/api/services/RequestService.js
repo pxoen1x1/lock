@@ -86,6 +86,7 @@ let getRequestsRawQuery = `SELECT request.id,
                                   executor_details.latitude AS 'executor.details.latitude',
                                   executor_details.longitude AS 'executor.details.longitude',
                                   executor_details.rating AS 'executor.details.rating',
+                                  executor_details.is_bg_check_completed AS 'executor.details.isBGCheckCompleted',
                                   executor_details_workingHours.id AS 'executor.details.workingHours.id',
                                   executor_details_workingHours.time_from AS 'executor.details.workingHours.timeFrom',
                                   executor_details_workingHours.time_to AS 'executor.details.workingHours.timeTo'

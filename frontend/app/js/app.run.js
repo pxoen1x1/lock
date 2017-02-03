@@ -57,18 +57,6 @@
                 return;
             }
 
-            if (toState.name === 'login') {
-                cfpLoadingBar.complete();
-                event.preventDefault();
-
-                return $mdDialog.show({
-                    templateUrl: 'core/login/login.html',
-                    controller: 'LoginController',
-                    controllerAs: 'vm',
-                    fullscreen: true
-                });
-            }
-
             if (toState.name === 'customer.invite' && authService.authorize(toState.data.isPrivate)) {
                 cfpLoadingBar.complete();
                 event.preventDefault();

@@ -96,12 +96,12 @@
         }
 
         function viewUserPhoto() {
-            if (vm.newPortrait !== '') {
+            if (vm.newPortrait) {
 
                 return vm.newPortrait;
             } else {
 
-                return vm.userProfile.portrait ? vm.baseUrl + vm.userProfile.portrait : vm.defaultPortrait;
+                return vm.userProfile.portrait ? conf.BASE_URL + vm.userProfile.portrait : vm.defaultPortrait;
             }
         }
 
