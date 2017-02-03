@@ -11,6 +11,7 @@ gulp.task('build:app:production', function (callback) {
     runSequence('build:app',
         [
             'copy:fonts:app',
+            'copy:translation:app',
             'usemin:app',
             'imagemin:app'
         ],

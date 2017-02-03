@@ -25,6 +25,7 @@
             var mobileService = $injector.get('mobileService');
 
             if (mobileService.isMobileApplication()) {
+
                 return $state.go('login');
             }
             $state.go('home.main');
