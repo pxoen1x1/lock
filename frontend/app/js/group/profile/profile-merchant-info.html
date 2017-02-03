@@ -7,30 +7,34 @@
     <div>
         <div class="section first">
             <span class="md-body-2"><span translate>ADDRESS</span>:</span>
-            <span class="md-body-1" ng-bind="vm.userProfile.merchantData.address1"></span>
+            <span class="md-body-1" ng-bind="vm.userProfile.merchantData.address1 || '-'"></span>
         </div>
         <div class="section">
             <span class="md-body-2"><span translate>STATE</span>:</span>
-            <span class="md-body-1" ng-bind="vm.userProfile.merchantData.state"></span>
+            <span class="md-body-1" ng-bind="vm.states[vm.userProfile.merchantData.state].state || '-'"></span>
         </div>
         <div class="section">
             <span class="md-body-2"><span translate>CITY</span>:</span>
-            <span class="md-body-1" ng-bind="vm.userProfile.merchantData.city"></span>
+            <span class="md-body-1" ng-bind="vm.userProfile.merchantData.city || '-'"></span>
         </div>
         <div class="section">
             <span class="md-body-2"><span translate>ZIP</span>:</span>
-            <span class="md-body-1" ng-bind="vm.userProfile.merchantData.zip"></span>
+            <span class="md-body-1" ng-bind="vm.userProfile.merchantData.zip || '-'"></span>
         </div>
     </div>
-    <md-button ng-if="!vm.isEditingMerchant" ng-click="vm.isEditingMerchant = true"">Edit</md-button>
-
+    <md-button ng-if="!vm.isEditingMerchant"
+               ng-click="vm.isEditingMerchant = true"
+               class="md-button-blue"
+               aria-label="Edit profile">
+        <span translate>EDIT</span>
+    </md-button>
 </div>
 
 <div ng-if="vm.isEditingMerchant">
     <form name="editMerchantForm"
           novalidate
           ng-submit="vm.updateMerchant(vm.userProfile, editMerchantForm.$valid)">
-        <div layout="row">
+        <div layout="column">
             <md-input-container class="md-block" flex>
                 <label translate>ADDRESS</label>
                 <input name="paymentRouting"
@@ -49,31 +53,47 @@
             </md-input-container>
 
             <md-input-container class="md-block" flex>
-                <label translate>CITY</label>
-                <input name="City"
-                       required
-                       ng-maxlength="20"
-                       ng-model="vm.userProfile.merchantData.city">
+                <md-autocomplete flex required
+                                 md-input-name="autocompleteField"
+                                 md-input-minlength="2"
+                                 md-selected-item="vm.selectedCityItem"
+                                 md-search-text="vm.searchText"
+                                 md-items="city in vm.getCities(vm.searchText)"
+                                 md-item-text="city.city"
+                                 md-require-match
+                                 md-floating-label="{{'CITY' | translate}}"
+                                 md-selected-item-change="vm.selectedItemChange(city)">
+                    <md-item-template>
+                        <span md-highlight-text="vm.searchText">{{city.city}}</span>
+                    </md-item-template>
+                    <div ng-messages="editMerchantForm.autocompleteField.$error"
+                         ng-if="editMerchantForm.autocompleteField.$touched">
+                        <div ng-message="md-require-match">SELECT_AN_EXISTING_CITY</div>
+                        <div ng-message="minlength" translate>NOT_LONG_ENOUGH</div>
+                        <div ng-message="maxlength" translate>TOO_LONG</div>
+                    </div>
+                </md-autocomplete>
             </md-input-container>
 
             <md-input-container class="md-block" flex>
                 <label translate>ZIP</label>
                 <input name="Zip"
                        required
-                       ng-maxlength="20"
+                       placeholder="00000(-0000)"
+                       ng-pattern="/^[0-9]{5}(?:[-\s][0-9]{4})?$/"
                        ng-model="vm.userProfile.merchantData.zip">
             </md-input-container>
         </div>
         <md-button type="submit"
-                   class="md-raised md-warn"
+                   class="md-button-blue"
                    aria-label="Save"
                    ng-if="vm.isEditingMerchant">
             <span translate>SAVE</span>
         </md-button>
-        <md-button ng-click="vm.isEditingMerchant = false"
-                   ng-if="vm.isEditingMerchant">
+        <md-button class="md-button-blue"
+                   ng-if="vm.isEditingMerchant"
+                   ng-click="vm.cancelEditing()">
             <span translate>CANCEL</span>
         </md-button>
-
     </form>
 </div>

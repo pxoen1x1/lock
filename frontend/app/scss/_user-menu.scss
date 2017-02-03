@@ -10,27 +10,16 @@
   .md-menu-toolbar.menu-header {
     background-color: rgba(255, 255, 255, .05);
     padding: 0 16px 0 24px;
+
+    .md-toolbar-tools {
+      padding: 0;
+    }
   }
 
-  .logo .logo-image {
-    display: block;
-    background: #039BE5;
-    width: 32px;
-    min-width: 32px;
-    height: 32px;
-    line-height: 32px;
-    text-align: center;
-    font-size: 16px;
-    font-weight: 500;
-    color: #FFF;
-    border-radius: 2px;
-  }
-
-  .logo .logo-text {
-    color: #FFF;
-    margin-left: 16px;
-    font-size: 16px;
-    text-transform: uppercase;
+  .logo {
+    height: 26px;
+    width: 166px;
+    background: url('../images/logo_white.png') no-repeat center center;
   }
 
   .profile {

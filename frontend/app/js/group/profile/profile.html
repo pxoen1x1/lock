@@ -35,12 +35,6 @@
             <i class="material-icons vertical-middle">photo_camera</i>
             <span class="vertical-middle" translate>CHANGE_PHOTO</span>
           </md-button>
-          <md-button ng-if="!vm.isEditing"
-                     class="md-button-blue"
-                     ng-click="vm.isEditing = true"
-                     aria-label="Edit profile">
-            <span translate>EDIT_GENERAL_INFO</span>
-          </md-button>
         </div>
       </div>
       <div flex-gt-xs="5"></div>
@@ -55,19 +49,19 @@
           <md-content>
             <md-tabs md-dynamic-height md-border-bottom>
               <md-tab>
-                <md-tab-label translate>GENERAL_INFO</md-tab-label>
+                <md-tab-label><span translate>GENERAL_INFO</span></md-tab-label>
                 <md-tab-body class="md-padding">
                   <div ng-include="'group/profile/profile-general.html'"></div>
                 </md-tab-body>
               </md-tab>
               <md-tab>
-                <md-tab-label translate>COMPANY_INFO</md-tab-label>
+                <md-tab-label><span translate>CONTACT_INFO</span></md-tab-label>
                 <md-tab-body class="md-padding">
                   <div ng-include="'group/profile/profile-merchant-info.html'"></div>
                 </md-tab-body>
               </md-tab>
               <md-tab>
-                <md-tab-label translate>BANK_ACCOUNT</md-tab-label>
+                <md-tab-label><span translate>BANK_ACCOUNT</span></md-tab-label>
                 <md-tab-body class="md-padding">
                   <div ng-include="'group/profile/profile-bank-account.html'"></div>
                 </md-tab-body>

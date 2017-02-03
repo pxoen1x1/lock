@@ -23,7 +23,7 @@
         $translateProvider.preferredLanguage(langCode);
         $translateProvider.fallbackLanguage('en');
         $translateProvider.useStaticFilesLoader({
-            prefix: '/js/core/locales/locale-',
+            prefix: '/locales/locale-',
             suffix: '.json'
         });
         // $translateProvider.useMissingTranslationHandlerLog();

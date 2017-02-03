@@ -1,7 +1,7 @@
 <div>
     <div><h2 translate>ACCOUNT_BALANCE</h2></div>
     <div class="section">
-        <span class="md-body-2">$ </span><span  class="md-body-1" ng-bind="vm.userProfile.merchantFunds"></span>
+        <span class="md-body-2">$ </span><span  class="md-body-1" ng-bind="vm.merchantFunds"></span>
     </div>
     <div layout="row">
         <md-button class="md-button-blue"
@@ -21,7 +21,7 @@
     </div>
 
     <div><h2 translate>BANK_ACCOUNT</h2></div>
-    <div ng-if="!vm.userProfile.merchantData" translate>FILL_MERCHANT_ACCOUNT_BEFORE_ADDING_BANK_ACCOUNT</div>
+    <div ng-if="!vm.userProfile.merchantData" translate>FILL_COMPANY_INFO_BEFORE_ADDING_BANK_ACCOUNT</div>
     <div ng-repeat="account in vm.userProfile.paymentData">
         <div class="section first">
             <span class="md-body-2"><span translate>NAME</span>:</span>
@@ -40,18 +40,16 @@
             <span class="md-body-1" ng-bind="account.status"></span>
         </div>
     </div>
-    <md-button ng-if="vm.userProfile.paymentData.length === 0 && !vm.isEditingPayment" ng-click="vm.isEditingPayment = true"">
-        <span translate>ADD</span>
-    </md-button>
-    <md-button ng-if="vm.userProfile.paymentData.length > 0 && !vm.isEditingPayment" ng-click="vm.isEditingPayment = true">
-        <span translate>EDIT</span>
-    </md-button>
+    <md-button class="md-button-blue"
+               aria-label="Add bank account" ng-if="vm.userProfile.paymentData.length === 0 && !vm.isEditingPayment" ng-click="vm.isEditingPayment = true"" translate>ADD</md-button>
+    <md-button class="md-button-blue"
+               aria-label="Edit bank account" ng-if="vm.userProfile.paymentData.length > 0 && !vm.isEditingPayment" ng-click="vm.isEditingPayment = true" translate>EDIT</md-button>
 </div>
 <div ng-if="vm.isEditingPayment">
     <form name="editPaymentForm"
           novalidate
           ng-submit="vm.setMerchantAccount(vm.userProfile.payment, editPaymentForm.$valid)">
-        <div layout="row">
+        <div layout="row" layout-xs="column">
             <md-input-container class="md-block" flex>
                 <label translate>TYPE_OF_ACCOUNT</label>
                 <md-select ng-model="vm.userProfile.payment.method">
@@ -76,13 +74,13 @@
             </md-input-container>
         </div>
         <md-button type="submit"
-                   class="md-raised md-warn"
+                   class="md-button-blue"
                    aria-label="Save"
                    ng-if="vm.isEditingPayment">
             <span translate>SAVE</span>
         </md-button>
-        <md-button ng-click="vm.isEditingPayment = false"
-                   ng-if="vm.isEditingPayment">
+        <md-button class="md-button-blue" ng-if="vm.isEditingPayment"
+                   ng-click="vm.cancelEditing()">
             <span translate>CANCEL</span>
         </md-button>
     </form>

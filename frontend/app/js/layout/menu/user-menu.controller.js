@@ -13,7 +13,7 @@
         'serviceProviderConstants',
         'groupConstants',
         'currentUserService',
-        'mobileService',
+        'mobileService'
     ];
 
     /* @ngInject */
@@ -23,23 +23,13 @@
 
         vm.toggleMenu = toggleMenu;
         vm.menuItems = [];
-
+        vm.currentUser = currentUserService.currUser;
         vm.profileState = '';
 
         vm.defaultPortrait = mobileService.getImagePath(coreConstants.IMAGES.defaultPortrait);
         vm.baseUrl = conf.BASE_URL;
 
         activate();
-
-        function getUser() {
-
-            return currentUserService.getUser()
-                .then(function (user) {
-                    vm.userProfile = user;
-
-                    return vm.userProfile;
-                });
-        }
 
         function getUserType() {
             return currentUserService.getType()
@@ -70,11 +60,8 @@
         }
 
         function activate() {
-            getUser()
-                .then(function () {
 
-                    return getUserType();
-                })
+             return getUserType()
                 .then(function (userType) {
                     setMenuType(userType);
                 });
