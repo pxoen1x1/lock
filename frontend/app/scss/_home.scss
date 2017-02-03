@@ -244,7 +244,7 @@ $title-color: #8e8e8e;
       }
     }
 
-    md-input-container:first-child {
+    md-input-container:first-child, md-input-container:first-child input {
       border-radius: 10px 0 0 10px;
     }
 
@@ -262,9 +262,11 @@ $title-color: #8e8e8e;
 
       input {
         border-width: 0 1px 0 0;
-        border-color: #ddd;
         height: 36px;
         padding: 0 20px;
+      }
+      input.ng-valid {
+        border-color: #ddd;
       }
 
       input#input_5 {
