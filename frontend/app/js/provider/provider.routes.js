@@ -36,6 +36,9 @@
             .state('provider.messages', {
                 parent: 'provider',
                 url: '/messages',
+                params: {
+                    chat: {}
+                },
                 views: {
                     'content@provider': {
                         templateUrl: 'chat/templates/chat.html',
