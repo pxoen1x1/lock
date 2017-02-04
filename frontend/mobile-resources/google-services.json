@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "805709722944",
+    "firebase_url": "https://com-lockheal-inc.firebaseio.com",
+    "project_id": "com-lockheal-inc",
+    "storage_bucket": "com-lockheal-inc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:805709722944:android:cdc379fec2442684",
+        "android_client_info": {
+          "package_name": "com.lockheal.inc"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "805709722944-gtndtn4i0altsj631oq4um8ivg0igbqe.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDO-PCb40_L7G65Fs-nS7MySDgWk34fNfE"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

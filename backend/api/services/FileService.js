@@ -15,7 +15,6 @@ let FileService = {
                         if (err) {
                             let error = new Error();
                             error.message = `File doesn't exist.`;
-                            error.isToSend = true;
 
                             return reject(error);
                         }

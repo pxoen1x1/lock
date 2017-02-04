@@ -28,7 +28,7 @@
 
                     if (currentUserType !== coreConstants.USER_TYPES.SPECIALIST) {
 
-                        return $q.reject();
+                        return $q.resolve();
                     }
 
                     return geocoderService.startGeoTracking();

@@ -49,14 +49,7 @@
 
         function createUser(user) {
 
-            return authService.register(user)
-                .then(function () {
-                    if(vm.isCompanyRegistrationSelected){
-                        $state.go(coreConstants.USER_TYPE_DEFAULT_STATE[coreConstants.USER_TYPES.GROUP_ADMIN]);
-                    }else{
-                        $state.go(coreConstants.USER_TYPE_DEFAULT_STATE[coreConstants.USER_TYPES.SPECIALIST]);
-                    }
-                });
+            return authService.register(user);
         }
 
         function goToNextStep(isStepValid) {
@@ -96,7 +89,14 @@
                 auth: auth
             };
 
-            createUser(params);
+            createUser(params)
+                .then(function () {
+                    if (vm.isCompanyRegistrationSelected) {
+                        $state.go(coreConstants.USER_TYPE_DEFAULT_STATE[coreConstants.USER_TYPES.GROUP_ADMIN]);
+                    } else {
+                        $state.go(coreConstants.USER_TYPE_DEFAULT_STATE[coreConstants.USER_TYPES.SPECIALIST]);
+                    }
+                });
         }
 
         function activate() {

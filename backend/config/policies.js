@@ -53,6 +53,10 @@ module.exports.policies = {
         '*': true
     },
 
+    DeviceController: {
+        'saveDevice': true
+    },
+
     UserController: {
         'getCurrentUser': [
             'hasJsonWebToken'

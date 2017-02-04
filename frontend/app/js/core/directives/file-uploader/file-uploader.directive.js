@@ -154,7 +154,9 @@
                     break;
             }
 
-            vm.onFail({message: message});
+            if (vm.onFail) {
+                vm.onFail({message: message});
+            }
         }
 
         function deleteUploadedFile(item) {

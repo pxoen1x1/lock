@@ -12,6 +12,8 @@ gulp.task('build:mobile', function (callback) {
         'delete:mobile',
         'build:app:production',
         'cordova:create',
+        'copy:resources:mobile',
+        'replace:mobile',
         [
             'prepare:index:mobile',
             'cordova:plugins',

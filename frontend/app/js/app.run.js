@@ -19,8 +19,8 @@
     ];
 
     /* @ngInject */
-    function runApp($rootScope, $state, $mdDialog, $mdMedia, cfpLoadingBar,
-                    socketService, authService, usingLanguageService, toastService, mobileService) {
+    function runApp($rootScope, $state, $mdDialog, $mdMedia, cfpLoadingBar, socketService, authService,
+                    usingLanguageService, toastService, mobileService) {
         socketService.onConnect(function () {
             if (authService.isAuthenticated()) {
                 socketService.subscribe();
