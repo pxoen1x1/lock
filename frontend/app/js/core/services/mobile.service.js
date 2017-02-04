@@ -54,7 +54,7 @@
 
             if (!deviceInfo || !isMobileApplication()) {
 
-                return $q.reject();
+                return $q.resolve();
             }
 
             deviceInfo = {
