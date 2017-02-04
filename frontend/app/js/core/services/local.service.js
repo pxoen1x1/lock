@@ -9,20 +9,24 @@
         var authKeyName = 'auth';
         var userKeyName = 'user';
         var languageKeyName = 'language';
+        var deviceInfoKeyName = 'device';
 
         var service = {
             get: get,
             getAuth: getAuth,
             getUser: getUser,
             getLanguage: getLanguage,
+            getDeviceInfo: getDeviceInfo,
             set: set,
             setAuth: setAuth,
             setUser: setUser,
             setLanguage: setLanguage,
+            setDeviceInfo: setDeviceInfo,
             remove: remove,
             removeAuth: removeAuth,
             removeUser: removeUser,
             removeLanguage: removeLanguage,
+            removeDeviceInfo: removeDeviceInfo,
             clear: clear
         };
 
@@ -70,6 +74,18 @@
             }
         }
 
+        function getDeviceInfo() {
+            var deviceInfo = get(deviceInfoKeyName);
+
+            try {
+                return angular.fromJson(deviceInfo);
+            }
+            catch (err) {
+
+                return deviceInfo;
+            }
+        }
+
         function set(key, value) {
             if (!key || !value) {
 
@@ -94,6 +110,11 @@
             return set(languageKeyName, JSON.stringify(language));
         }
 
+        function setDeviceInfo(deviceInfo) {
+
+            return set(deviceInfoKeyName, JSON.stringify(deviceInfo));
+        }
+
         function remove(key) {
 
             return localStorage.removeItem(key);
@@ -112,6 +133,11 @@
         function removeLanguage() {
 
             return remove(languageKeyName);
+        }
+
+        function removeDeviceInfo() {
+
+            return remove(deviceInfoKeyName);
         }
 
         function clear() {

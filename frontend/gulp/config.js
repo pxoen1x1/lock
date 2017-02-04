@@ -99,7 +99,7 @@ module.exports = {
             src: paths.app.production,
             options: {
                 dir: paths.mobile.src,
-                id: 'com.lockheal',
+                id: 'com.lockheal.inc',
                 name: 'Lockheal'
             }
         },
@@ -113,25 +113,16 @@ module.exports = {
             www: 'http://i-deasoft.com/'
         },
         description: 'Lockheal app.',
-        icon: {
-            src: 'www/images/icon.png',
-            dest: 'resources'
+        plugins: {
+            'cordova-plugin-crosswalk-webview': 'latest',
+            'cordova-plugin-device': 'latest',
+            'cordova-plugin-statusbar': 'latest',
+            'cordova-plugin-splashscreen': 'latest',
+            'cordova-plugin-camera': 'latest',
+            'cordova-plugin-file': 'latest',
+            'cordova-plugin-geolocation': 'latest',
+            'phonegap-plugin-push': 'latest'
         },
-        splash: {
-            src: 'www/images/splash.png',
-            dest: 'resources',
-            name: 'splash.png'
-        },
-        plugins: [
-            'cordova-plugin-whitelist',
-            'cordova-plugin-crosswalk-webview',
-            'cordova-plugin-device',
-            'cordova-plugin-statusbar',
-            'cordova-plugin-splashscreen',
-            'cordova-plugin-camera',
-            'cordova-plugin-file',
-            'cordova-plugin-geolocation'
-        ],
         preferences: {
             'FadeSplashScreen': true,
             'FadeSplashScreenDuration': 1500,
@@ -140,6 +131,10 @@ module.exports = {
             'ShowSplashScreenSpinner': false,
             'StatusBarOverlaysWebView': false,
             'StatusBarStyle': 'default'
+        },
+        resources: {
+            src: 'mobile-resources/**/*',
+            dest: paths.mobile.src
         }
     },
     delete: {
@@ -179,8 +174,18 @@ module.exports = {
             interlaced: true
         }
     },
+    inject: {
+        mobile: {
+            index: {
+                src: paths.mobile.src + 'www/',
+                file: 'index.html',
+                search: '</body>',
+                string: '<script src="cordova.js"></script><script>document.addEventListener("deviceready", function () {angular.element(document).ready(function () {angular.bootstrap(document, [\'app\']);});}, false); </script>'
+            }
+        }
+    },
     json: {
-        translation:{
+        translation: {
             src: paths.app.src + 'locales/*.json',
             dest: paths.app.production + 'locales/'
         }
@@ -237,12 +242,23 @@ module.exports = {
         },
         mobile: {
             src: paths.mobile.src + 'www/',
-            injectionsFrom: '="/',
-            injectionsTo: '="',
-            ngAppFrom: 'ng-app="app"',
-            ngAppTo: '',
-            scriptsFrom: '</body>',
-            scriptsTo: '<script src="cordova.js"></script><script>document.addEventListener("deviceready", function () {angular.element(document).ready(function () {angular.bootstrap(document, [\'app\']);});}, false); </script>'
+            files: '**/{index.html,app*.js}',
+            link: {
+                from: 'href="/',
+                to: 'href="'
+            },
+            script: {
+                from: 'src="/',
+                to: 'src="'
+            },
+            ngApp: {
+                from: 'ng-app="app"',
+                to: ''
+            },
+            translation: {
+                from: '/locales',
+                to: 'locales'
+            }
         }
     },
     sass: {

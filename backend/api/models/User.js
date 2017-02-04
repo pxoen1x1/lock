@@ -151,6 +151,10 @@ let User = {
             collection: 'GroupInvitation',
             via: 'user'
         },
+        devices: {
+            collection: 'Device',
+            via: 'user'
+        },
 
         fullName() {
 

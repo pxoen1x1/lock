@@ -1,4 +1,4 @@
-/* global sails, MessageService */
+/* global sails, MessageService, PushNotificationService */
 /**
  * MessageController
  *
@@ -108,6 +108,14 @@ let MessageController = {
                         },
                         req
                     );
+
+                    return message;
+                }
+            )
+            .then(
+                (message) => {
+
+                    return PushNotificationService.sendNewMessageNotifications(message);
                 }
             )
             .catch(

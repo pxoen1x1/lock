@@ -12,7 +12,7 @@ let Feedback = {
 
     attributes: {
         message: {
-            type: 'string',
+            type: 'text',
         },
         rating: {
             type: 'integer',
