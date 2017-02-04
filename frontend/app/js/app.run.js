@@ -14,12 +14,13 @@
         'socketService',
         'authService',
         'usingLanguageService',
-        'toastService'
+        'toastService',
+        'mobileService'
     ];
 
     /* @ngInject */
     function runApp($rootScope, $state, $mdDialog, $mdMedia, cfpLoadingBar,
-                    socketService, authService, usingLanguageService, toastService) {
+                    socketService, authService, usingLanguageService, toastService, mobileService) {
         socketService.onConnect(function () {
             if (authService.isAuthenticated()) {
                 socketService.subscribe();
@@ -28,6 +29,7 @@
 
         $rootScope.$state = $state;
         $rootScope.$mdMedia = $mdMedia;
+        $rootScope.$isMobile = mobileService.isMobileApplication();
 
         $rootScope.$on('$stateChangeStart', function (event, toState) {
             cfpLoadingBar.start();
