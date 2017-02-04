@@ -252,14 +252,9 @@ let GroupService = {
             );
     },
     getAdminsGroup(user) {
-        return Group.findOneByAdmin(user.id)
-            .populate('licenses')
-            .then(
-                (foundGroup) => {
 
-                    return foundGroup;
-                }
-            );
+        return Group.findOneByAdmin(user.id)
+            .populate('licenses');
     },
 };
 
