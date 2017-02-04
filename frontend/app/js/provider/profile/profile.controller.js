@@ -70,6 +70,7 @@
         vm.viewUserPhoto = viewUserPhoto;
         vm.selectedItemChange = selectedItemChange;
         vm.resetSelectedCity = resetSelectedCity;
+        vm.spAgreementModal = spAgreementModal;
 
 
         activate();
@@ -325,14 +326,31 @@
             return statesList;
         }
 
+        function spAgreementModal(ev) {
+
+            $mdDialog.show({
+                    controller: 'SpAgreementDialogController',
+                    controllerAs: 'vm',
+                    templateUrl: 'provider/sp-agreement-dialog/sp-agreement-dialog.html',
+                    targetEvent: ev,
+                    clickOutsideToClose: true,
+                    fullscreen: true
+                })
+                .then(function (result) {
+                    if (result) {
+                        return getUser();
+                    }
+                });
+        }
+
         function activate() {
             $q.all([
-                getUser(),
-                getLanguages(),
-                getStates(),
-                getBankAccountTypes(),
-                getServiceTypes()
-            ])
+                    getUser(),
+                    getLanguages(),
+                    getStates(),
+                    getBankAccountTypes(),
+                    getServiceTypes()
+                ])
                 .then(function () {
                         vm.userProfile.usingLanguage = vm.userProfile.usingLanguage || usingLanguageService.getLanguage();
                         vm.licensesPresent = vm.userProfile.details.licenses.length !== 0;
