@@ -206,13 +206,14 @@ module.exports.policies = {
             'isUserEnabled',
             'isRequestOwner'
         ],
-        'create': [
+        'createBid': [
             'isSocketRequest',
             'hasJsonWebToken',
             'isUserEnabled',
             'isSpecialistBGCompleted',
             'isRequestAllowed',
-            'isBidUnique'
+            'isBidUnique',
+            'isMerchantProfileCompleted'
         ],
         'refuseBidByClient': [
             'isSocketRequest',
@@ -250,7 +251,8 @@ module.exports.policies = {
             'isSpecialistBGCompleted',
             'isRequestAllowed',
             'isChatMember',
-            'isCreateOfferAllowed'
+            'isCreateOfferAllowed',
+            'isMerchantProfileCompleted'
         ],
         'translateMessage': [
             'isSocketRequest',
@@ -281,6 +283,9 @@ module.exports.policies = {
         'removeMember': [
             'hasJsonWebToken',
             'isUserEnabled',
+            'isGroupMember'
+        ],
+        'setSpAgree':[
             'isGroupMember'
         ]
     },

@@ -200,7 +200,7 @@ $title-color: #8e8e8e;
 }
 
 .home-first {
-  background: url('../images/imgpsh_fullsize.png') no-repeat fixed center top;
+  background: url('../images/imgpsh_fullsize.png') no-repeat fixed center center / cover;
   height: 599px;
 
   > div {
@@ -244,7 +244,7 @@ $title-color: #8e8e8e;
       }
     }
 
-    md-input-container:first-child {
+    md-input-container:first-child, md-input-container:first-child input {
       border-radius: 10px 0 0 10px;
     }
 
@@ -262,9 +262,11 @@ $title-color: #8e8e8e;
 
       input {
         border-width: 0 1px 0 0;
-        border-color: #ddd;
         height: 36px;
         padding: 0 20px;
+      }
+      input.ng-valid {
+        border-color: #ddd;
       }
 
       input#input_5 {
@@ -513,7 +515,7 @@ $title-color: #8e8e8e;
 }
 
 .home-need {
-  background: url('../images/background_need_a_locksmith.png') no-repeat center center / 100% auto;
+  background: url('../images/background_need_a_locksmith.png') no-repeat center center / cover;
   height: 261px;
 
   h1 {
@@ -847,7 +849,6 @@ $title-color: #8e8e8e;
 
   .home-need {
     height: 214px;
-    background-size: auto 100%;
 
     h1 {
       font-size: 18px;

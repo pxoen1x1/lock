@@ -21,6 +21,11 @@ let Group = {
             model: 'User',
             columnName: 'admin_id'
         },
+        isSpAgreed: {
+            type: 'boolean',
+            defaultsTo: false,
+            columnName: 'is_sp_agreed'
+        },
 
         members: {
             collection: 'User',

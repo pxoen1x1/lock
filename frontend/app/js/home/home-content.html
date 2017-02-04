@@ -20,11 +20,15 @@
               ng-submit="vm.submit(vm.newRequest, newRequestForm.$valid)">
             <md-input-container class="md-block" flex-gt-sm>
                 <label translate>FIRST_NAME</label>
-                <input ng-model="vm.newRequest.name">
+                <input ng-maxlength="20"
+                       ng-pattern="/^[a-zA-Z- ]*$/"
+                       ng-model="vm.newRequest.name">
             </md-input-container>
             <md-input-container class="md-block" flex-gt-sm>
                 <label translate>LAST_NAME</label>
-                <input ng-model="vm.newRequest.lastName">
+                <input  ng-maxlength="20"
+                        ng-pattern="/^[a-zA-Z- ]*$/"
+                        ng-model="vm.newRequest.lastName">
             </md-input-container>
             <!--<md-input-container class="md-block" flex-gt-sm>
                 <label>Phone</label>

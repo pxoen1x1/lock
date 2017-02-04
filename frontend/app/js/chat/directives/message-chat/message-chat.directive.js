@@ -78,6 +78,7 @@
     }
 
     MessageChatController.$inject = [
+        '$mdDialog',
         'conf',
         'coreConstants',
         'chatConstants',
@@ -85,7 +86,7 @@
     ];
 
     /* @ngInject */
-    function MessageChatController(conf, coreConstants, chatConstants, mobileService) {
+    function MessageChatController($mdDialog, conf, coreConstants, chatConstants, mobileService) {
         var vm = this;
 
         vm.isImage = false;
@@ -105,6 +106,7 @@
         vm.confirmOffer = confirmOffer;
         vm.changeRequestStatus = changeRequestStatus;
         vm.showChatMemberInfo = showChatMemberInfo;
+        vm.showPaymentModal = showPaymentModal;
 
         function confirmOffer(message, currentRequest) {
             if (currentRequest.status !== vm.requestStatus.NEW) {
@@ -149,5 +151,27 @@
 
             vm.toggleSidenav({navID: 'right-sidenav'});
         }
+
+        function showPaymentModal(ev) {
+
+            var offer = {
+                cost: vm.message.cost,
+                executor: vm.message.sender
+            }
+
+            $mdDialog.show({
+                    controller: 'PaymentDialogController',
+                    controllerAs: 'vm',
+                    templateUrl: 'chat/payment-dialog/payment-dialog.html',
+                    targetEvent: ev,
+                    clickOutsideToClose: true,
+                    locals: {offer: offer, currentRequest: vm.currentRequest}
+                })
+                .then(function (paymentResult) {
+                    if (paymentResult) {
+                        vm.confirmOffer(vm.message, vm.currentRequest);
+                    }
+                });
+        };
     }
 })();
