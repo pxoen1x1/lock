@@ -145,13 +145,19 @@
 
 
         function showPaymentModal(ev) {
+
+            var offer = {
+                cost: vm.currentBid.cost,
+                executor: vm.currentBid.specialist
+            };
+
             $mdDialog.show({
                 controller: 'PaymentDialogController',
                 controllerAs: 'vm',
                 templateUrl: 'chat/payment-dialog/payment-dialog.html',
                 targetEvent: ev,
                 clickOutsideToClose: true,
-                locals: {currentBid: vm.currentBid, currentRequest: vm.currentRequest}
+                locals: {offer: offer, currentRequest: vm.currentRequest}
             })
                 .then(function (paymentResult) {
                     if (paymentResult) {

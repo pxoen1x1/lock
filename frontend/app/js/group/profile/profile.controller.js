@@ -15,6 +15,7 @@
         'coreDataservice',
         'coreDictionary',
         'currentUserService',
+        'localService',
         'usingLanguageService',
         'citiesLoader',
         'mobileService'
@@ -22,7 +23,7 @@
 
     /* @ngInject */
     function GroupProfileController($q, $mdDialog, $translate, $filter, conf, coreConstants, coreDataservice, coreDictionary,
-                                    currentUserService, usingLanguageService, citiesLoader, mobileService) {
+                                    currentUserService, localService, usingLanguageService, citiesLoader, mobileService) {
         var vm = this;
 
         vm.languages = [];
@@ -68,6 +69,8 @@
         vm.getCities = getCities;
         vm.selectedItemChange = selectedItemChange;
         vm.resetSelectedCity = resetSelectedCity;
+        vm.resetSelectedCity = resetSelectedCity;
+        vm.spAgreementModal = spAgreementModal;
 
         activate();
 
@@ -309,6 +312,30 @@
             vm.isEditing = false;
             vm.isEditingMerchant = false;
             vm.isEditingPayment = false;
+        }
+
+        function spAgreementModal(ev) {
+
+            $mdDialog.show({
+                    controller: 'SpAgreementDialogController',
+                    controllerAs: 'vm',
+                    templateUrl: 'provider/sp-agreement-dialog/sp-agreement-dialog.html',
+                    targetEvent: ev,
+                    clickOutsideToClose: true,
+                    fullscreen: true
+                })
+                .then(function (result) {
+                    if (result) {
+
+                        return coreDataservice.setGroupSpAgreed(vm.userProfile.groups[0].id)
+                            .then(function(group) {
+
+                                vm.userProfile.groups[0] = group;
+
+                                return localService.setUser(vm.userProfile);
+                            });
+                    }
+                });
         }
 
         function activate() {

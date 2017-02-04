@@ -45,6 +45,11 @@ let UserDetail = {
             defaultsTo: false,
             columnName: 'is_bg_check_completed'
         },
+        isSpAgreed: {
+            type: 'boolean',
+            defaultsTo: false,
+            columnName: 'is_sp_agreed'
+        },
 
         user: {
             model: 'User',
