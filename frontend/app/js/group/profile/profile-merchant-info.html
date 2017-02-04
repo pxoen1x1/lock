@@ -22,8 +22,12 @@
             <span class="md-body-1" ng-bind="vm.userProfile.merchantData.zip || '-'"></span>
         </div>
     </div>
+    <div ng-show="!vm.userProfile.groups[0].isSpAgreed">
+        <span>You must agree with <a href="#" ng-click="vm.spAgreementModal()">Splash Payment terms and condition before</a> filling contact info and adding bank account</span>
+    </div>
     <md-button ng-if="!vm.isEditingMerchant"
                ng-click="vm.isEditingMerchant = true"
+               ng-disabled="!vm.userProfile.groups[0].isSpAgreed"
                class="md-button-blue"
                aria-label="Edit profile">
         <span translate>EDIT</span>

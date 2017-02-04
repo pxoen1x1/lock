@@ -27,6 +27,10 @@ let groupRoutes = {
         controller: 'GroupController',
         action: 'inviteMember'
     },
+    'POST /api/group/spagreed': {
+        controller: 'GroupController',
+        action: 'setSpAgreed'
+    },
     'DELETE /api/group/members/:memberId': {
         controller: 'GroupController',
         action: 'removeMember'

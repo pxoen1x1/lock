@@ -22,6 +22,7 @@
             getRequest: getRequest,
             getAvailabilityInfo: getAvailabilityInfo,
             getAdminsGroup: getAdminsGroup,
+            setGroupSpAgreed: setGroupSpAgreed,
             getCustomer: getCustomer,
             getBankAccountTypes: getBankAccountTypes,
             getMerchant: getMerchant,
@@ -152,6 +153,16 @@
             function getAdminsGroupComplete(response) {
 
                 return response.data.group;
+            }
+        }
+
+        function setGroupSpAgreed(groupId) {
+
+            return $sails.post(conf.URL_PREFIX + 'group/spagreed', {groupId: groupId}).then(setSpAgreedComplete);
+
+            function setSpAgreedComplete(response) {
+
+                return response.data.group[0];
             }
         }
 

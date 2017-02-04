@@ -280,6 +280,9 @@ module.exports.policies = {
             'hasJsonWebToken',
             'isUserEnabled',
             'isGroupMember'
+        ],
+        'setSpAgree':[
+            'isGroupMember'
         ]
     },
 

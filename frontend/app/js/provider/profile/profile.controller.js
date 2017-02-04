@@ -15,6 +15,7 @@
         'coreDictionary',
         'coreDataservice',
         'currentUserService',
+        'localService',
         'usingLanguageService',
         'citiesLoader',
         'mobileService'
@@ -22,7 +23,7 @@
 
     /* @ngInject */
     function ProviderProfileController($q, $mdDialog, $translate, $filter, conf, coreConstants, coreDictionary, coreDataservice,
-                                       currentUserService, usingLanguageService, citiesLoader, mobileService) {
+                                       currentUserService, localService, usingLanguageService, citiesLoader, mobileService) {
         var vm = this;
 
         vm.languages = [];
@@ -338,7 +339,12 @@
                 })
                 .then(function (result) {
                     if (result) {
-                        return getUser();
+                        vm.userProfile.details.isSpAgreed = true;
+
+                        coreDataservice.updateUser(vm.userProfile)
+                            .then(function () {
+                                return localService.setUser(vm.userProfile);
+                            });
                     }
                 });
         }
