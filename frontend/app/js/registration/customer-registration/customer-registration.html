@@ -53,24 +53,6 @@
             </div>
           </md-input-container>
         </div>
-        <!-- Phone number -->
-        <div layout="row">
-          <md-input-container class="hide-error-msg" flex>
-            <label translate>PHONE_NUMBER</label>
-            <input type="tel"
-                   name="phoneNumber"
-                   required
-                   autocomplete="off"
-                   ui-us-phone-number
-                   availability-validation
-                   ng-model-options="{ 'debounce': 400 }"
-                   ng-model="vm.user.phoneNumber">
-            <div ng-messages="registrationForm.phoneNumber.$error">
-              <span ng-message="usPhoneNumber" translate>INVALID_PHONE</span>
-              <span ng-message="availability" translate>PHONE_EXIST</span>
-            </div>
-          </md-input-container>
-        </div>
         <!-- E-mail -->
         <div layout="row">
           <md-input-container class="hide-error-msg" flex>
@@ -109,6 +91,12 @@
         <!-- Submit -->
         <md-button type="submit" translate>SUBMIT</md-button>
       </form>
+      <div layout="column">
+        <div class="text-center p-xxxs">
+
+          <a ui-sref="registration.provider" translate class="grey-small">REGISTER_AS_PROVIDER</a>
+        </div>
+      </div>
     </div>
 <!--    <div class="social-wrapper"
          flex-gt-xs="50"
