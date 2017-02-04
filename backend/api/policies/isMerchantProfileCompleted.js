@@ -29,17 +29,20 @@ module.exports = function (req, res, next) {
             (user) => {
                 if (!user.spMerchantId) {
 
-                    throw new Error();
+                    return null;
                 }
 
                 return SplashPaymentService.getMerchantAccounts(user.spMerchantId);
             }
         )
         .then(
-            (merchantAccounts) => {
-                if(merchantAccounts.length === 0){
-
-                    throw new Error();
+            (result) => {
+                if(result === null || result.length === 0){
+                    return res.forbidden(
+                        {
+                            message: req.__('Complete your profile: fill Contact info and add Bank account.')
+                        }
+                    );
                 }
 
                 return next();
@@ -49,11 +52,7 @@ module.exports = function (req, res, next) {
             (err) => {
                 sails.log.error(err);
 
-                return res.forbidden(
-                    {
-                        message: req.__('Complete your profile: fill Contact info and add Bank account.')
-                    }
-                );
+                res.serverError();
             }
         );
 
