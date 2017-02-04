@@ -5,21 +5,17 @@
          layout-align-gt-xs="start center">
     </div>
     <div>
-        <div class="section first">
+        <div class="section first" ng-show="vm.userProfile.customerData.address1">
             <span class="md-body-2"><span translate>ADDRESS</span>:</span>
-            <span class="md-body-1" ng-bind="vm.userProfile.customerData.address1 || '-'"></span>
+            <span class="md-body-1" ng-bind="vm.userProfile.customerData.address1"></span>
         </div>
-        <div class="section">
+        <div class="section" ng-show="vm.userProfile.customerData.state">
             <span class="md-body-2"><span translate>STATE</span>:</span>
-            <span class="md-body-1" ng-bind="vm.userProfile.customerData.state || '-'"></span>
+            <span class="md-body-1" ng-bind="vm.userProfile.customerData.state"></span>
         </div>
-        <div class="section">
+        <div class="section" ng-show="vm.userProfile.customerData.city">
             <span class="md-body-2"><span translate>CITY</span>:</span>
-            <span class="md-body-1" ng-bind="vm.userProfile.customerData.city || '-'"></span>
-        </div>
-        <div class="section">
-            <span class="md-body-2"><span translate>ZIP</span>:</span>
-            <span class="md-body-1" ng-bind="vm.userProfile.customerData.zip || '-'"></span>
+            <span class="md-body-1" ng-bind="vm.userProfile.customerData.city"></span>
         </div>
     </div>
     <md-button ng-if="!vm.isEditingCustomer"
@@ -73,15 +69,6 @@
                         <div ng-message="maxlength" translate>TOO_LONG</div>
                     </div>
                 </md-autocomplete>
-            </md-input-container>
-
-            <md-input-container class="md-block" flex>
-                <label translate>ZIP</label>
-                <input name="zip"
-                       required
-                       placeholder="00000(-0000)"
-                       ng-pattern="/^[0-9]{5}(?:[-\s][0-9]{4})?$/"
-                       ng-model="vm.userProfile.customerData.zip">
             </md-input-container>
         </div>
         <md-button type="submit"
