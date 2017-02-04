@@ -133,7 +133,7 @@ module.exports = {
             'StatusBarStyle': 'default'
         },
         resources: {
-            src:'mobile-resources/**/*',
+            src: 'mobile-resources/**/*',
             dest: paths.mobile.src
         }
     },
@@ -174,8 +174,18 @@ module.exports = {
             interlaced: true
         }
     },
+    inject: {
+        mobile: {
+            index: {
+                src: paths.mobile.src + 'www/',
+                file: 'index.html',
+                search: '</body>',
+                string: '<script src="cordova.js"></script><script>document.addEventListener("deviceready", function () {angular.element(document).ready(function () {angular.bootstrap(document, [\'app\']);});}, false); </script>'
+            }
+        }
+    },
     json: {
-        translation:{
+        translation: {
             src: paths.app.src + 'locales/*.json',
             dest: paths.app.production + 'locales/'
         }
@@ -232,12 +242,23 @@ module.exports = {
         },
         mobile: {
             src: paths.mobile.src + 'www/',
-            injectionsFrom: '="/',
-            injectionsTo: '="',
-            ngAppFrom: 'ng-app="app"',
-            ngAppTo: '',
-            scriptsFrom: '</body>',
-            scriptsTo: '<script src="cordova.js"></script><script>document.addEventListener("deviceready", function () {angular.element(document).ready(function () {angular.bootstrap(document, [\'app\']);});}, false); </script>'
+            files: '**/{index.html,app*.js}',
+            link: {
+                from: 'href="/',
+                to: 'href="'
+            },
+            script: {
+                from: 'src="/',
+                to: 'src="'
+            },
+            ngApp: {
+                from: 'ng-app="app"',
+                to: ''
+            },
+            translation: {
+                from: '/locales',
+                to: 'locales'
+            }
         }
     },
     sass: {
