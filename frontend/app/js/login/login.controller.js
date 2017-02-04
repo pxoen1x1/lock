@@ -86,14 +86,13 @@
                 .then(function () {
                     $mdDialog.hide();
 
-                    goToDefaultState();
+                    return goToDefaultState();
                 })
         }
 
         function goToDefaultState() {
-            var userType = getCurrentUserType();
 
-            getCurrentUserType().then(function(userType) {
+            return getCurrentUserType().then(function(userType) {
                 var stateName = coreConstants.USER_TYPE_DEFAULT_STATE[userType];
 
                 specialistGeoService.startGeoTracking(userType);
@@ -101,8 +100,6 @@
 
                 $state.go(stateName);
             })
-
-
         }
 
         function cancel() {
