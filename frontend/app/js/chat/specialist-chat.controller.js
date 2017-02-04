@@ -1,3 +1,4 @@
+/* ToDo: It all should be refactored */
 (function () {
     'use strict';
 
@@ -8,6 +9,7 @@
     SpecialistChatController.$inject = [
         '$scope',
         '$q',
+        '$stateParams',
         '$mdSidenav',
         'coreConstants',
         'coreDataservice',
@@ -17,13 +19,14 @@
     ];
 
     /* @ngInject */
-    function SpecialistChatController($scope, $q, $mdSidenav, coreConstants, coreDataservice, chatSocketservice,
-                                      currentUserService, currentRequestService) {
+    function SpecialistChatController($scope, $q, $stateParams, $mdSidenav, coreConstants, coreDataservice,
+                                      chatSocketservice, currentUserService, currentRequestService) {
         var requestHandler;
         var chatHandler;
         var promises = {
             getRequest: null
         };
+
         var vm = this;
 
         vm.chats = [];
@@ -36,6 +39,7 @@
 
         vm.isInfoTabOpen = false;
 
+        vm.selectedChat = $stateParams.chat;
         vm.selectedTab = 'chats';
 
         vm.requestStatus = coreConstants.REQUEST_STATUSES;
@@ -102,7 +106,7 @@
         function changeCurrentRequest(request) {
             if (!request || !request.id) {
 
-                return $q.reject('');
+                return $q.resolve();
             }
 
             return $q.when(vm.requests[request.id] || getRequest(request))

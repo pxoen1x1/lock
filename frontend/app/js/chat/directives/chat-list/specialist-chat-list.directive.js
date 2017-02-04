@@ -15,6 +15,7 @@
                 chats: '=',
                 messages: '=',
                 currentChat: '=',
+                selectedChat: '=?',
                 currentRequest: '=?',
                 chatSearch: '=?',
                 isScrollDisabled: '=?scrollChatDisabled',
@@ -76,12 +77,12 @@
             if (chat === null) {
                 vm.currentChat = null;
 
-                return;
+                return $q.resolve();
             }
 
             if (vm.currentChat && vm.currentChat.id === chat.id) {
 
-                return;
+                return $q.resolve();
             }
 
             vm.isScrollDisabled = true;
@@ -103,8 +104,26 @@
                 });
         }
 
+        function setCurrentChat(chat) {
+            if (vm.chats.length === 0) {
+
+                return $q.resolve();
+            }
+
+            if (!chat || !chat.id) {
+
+                chat = vm.chats[0];
+            }
+
+            return changeCurrentChat(chat);
+        }
+
         function activate() {
-            getChats();
+            getChats()
+                .then(function () {
+
+                    return setCurrentChat(vm.selectedChat);
+                });
         }
     }
 })();
