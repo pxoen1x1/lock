@@ -18,7 +18,8 @@
             setUserToLocalStorage: setUserToLocalStorage,
             setUser: setUser,
             getType: getType,
-            clearType: clearType
+            clearType: clearType,
+            isAuthenticated: isAuthenticated
         };
 
         return service;
@@ -119,7 +120,7 @@
 
         function isAuthenticated() {
 
-            return localService.getAuth();
+            return angular.isObject(localService.getAuth());
         }
     }
 })();

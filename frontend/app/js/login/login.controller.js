@@ -32,6 +32,14 @@
         vm.submit = submit;
         vm.cancel = cancel;
 
+        activate();
+
+        function activate() {
+            if (currentUserService.isAuthenticated()) {
+                goToDefaultState();
+            }
+        }
+
         function login(user) {
 
             return authService.login(user)
@@ -78,23 +86,20 @@
                 .then(function () {
                     $mdDialog.hide();
 
-                    return getCurrentUserType();
+                    return goToDefaultState();
                 })
-                .then(function (currentUserType) {
-                    var stateName = coreConstants.USER_TYPE_DEFAULT_STATE[currentUserType];
+        }
 
-                    $state.go(stateName);
+        function goToDefaultState() {
 
-                    return currentUserType;
-                })
-                .then(function (currentUserType) {
+            return getCurrentUserType().then(function(userType) {
+                var stateName = coreConstants.USER_TYPE_DEFAULT_STATE[userType];
 
-                    return specialistGeoService.startGeoTracking(currentUserType);
-                })
-                .then(function () {
+                specialistGeoService.startGeoTracking(userType);
+                mobileService.saveDeviceInfo();
 
-                    return mobileService.saveDeviceInfo();
-                });
+                $state.go(stateName);
+            })
         }
 
         function cancel() {
