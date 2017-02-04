@@ -5,36 +5,12 @@
          layout="row"
          layout-align="center center"
          aria-label="Go Back"
-         ui-sref="home.main">
+         ui-sref="login">
         <md-icon>navigate_before</md-icon>
-        <span hide-xs="" translate>GO_BACK</span>
+        <span hide-xs="" translate>SIGN_IN</span>
       </a>
       <div layout="row" layout-align="center center" flex>
         <h2 class="page-name" translate>REGISTRATION</h2>
-      </div>
-      <div>
-        <a class="md-button button-login"
-           layout="row"
-           layout-align="center center"
-           aria-label="Log in"
-           ui-sref="login"
-           ng-if="!vm.isAuthenticated()">
-          <i class="fa fa-sign-in"
-             aria-hidden="true">
-          </i>
-          <span class="m-l-xs" hide-xs translate>LOG_IN</span>
-        </a>
-        <a class="md-button button-login"
-           layout="row"
-           layout-align="center center"
-           aria-label="Log out"
-           ng-if="vm.isAuthenticated()"
-           logout>
-          <i class="fa fa-sign-out"
-             aria-hidden="true">
-          </i>
-          <span class="m-l-xs" hide-xs translate>LOG_OUT</span>
-        </a>
       </div>
     </div>
   </md-toolbar>
