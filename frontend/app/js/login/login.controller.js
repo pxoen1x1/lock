@@ -11,17 +11,18 @@
     LoginController.$inject = [
         '$state',
         '$mdDialog',
+        'coreConstants',
         'toastService',
         'coreDataservice',
         'authService',
         'currentUserService',
         'specialistGeoService',
-        'coreConstants'
+        'mobileService'
     ];
 
     /* @ngInject */
-    function LoginController($state, $mdDialog, toastService, coreDataservice, authService,
-                                   currentUserService, specialistGeoService, coreConstants) {
+    function LoginController($state, $mdDialog, coreConstants, toastService, coreDataservice, authService,
+                             currentUserService, specialistGeoService, mobileService) {
         var vm = this;
 
         vm.user = {};
@@ -88,7 +89,12 @@
                     return currentUserType;
                 })
                 .then(function (currentUserType) {
-                    specialistGeoService.startGeoTracking(currentUserType);
+
+                    return specialistGeoService.startGeoTracking(currentUserType);
+                })
+                .then(function () {
+
+                    return mobileService.saveDeviceInfo();
                 });
         }
 
