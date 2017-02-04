@@ -27,7 +27,6 @@
         vm.user = {};
 
         vm.isForgotPasswordEnabled = false;
-        vm.isAlreadyHaveAccount = true;
 
         vm.submit = submit;
         vm.cancel = cancel;
