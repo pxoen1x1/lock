@@ -13,12 +13,13 @@
         'pushNotificationConstants',
         'localService',
         'coreDataservice',
-        'currentUserService'
+        'currentUserService',
+        'toastService'
     ];
 
     /* @ngInject */
     function mobileService($q, $window, $state, coreConstants, pushNotificationConstants, localService, coreDataservice,
-                           currentUserService) {
+                           currentUserService, toastService) {
         var service = {
             isMobileApplication: isMobileApplication,
             getImagePath: getImagePath,
@@ -94,11 +95,14 @@
             });
 
             pushNotification.on('notification', function (response) {
-                var state = response.additionalData.state;
-
                 if (!response.additionalData.foreground) {
+                    var state = response.additionalData.state;
 
                     goToState(state);
+                } else {
+                    var text = response.title || response.additionalData.title;
+
+                    toastService.success(text);
                 }
             });
         }
