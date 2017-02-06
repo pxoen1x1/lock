@@ -248,9 +248,8 @@ $title-color: #8e8e8e;
       border-radius: 10px 0 0 10px;
     }
 
-    md-input-container.location input {
-      border-left: 1px solid;
-      border-color: #ddd;
+    md-input-container.location input.ng-valid {
+      border-left: 1px solid #ddd;
     }
 
     md-input-container {

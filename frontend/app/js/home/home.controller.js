@@ -44,6 +44,7 @@
 
         vm.serviceTypes = [];
         vm.newRequest = {};
+        vm.newRequestForm = {};
         vm.specialistId = null;
 
         vm.createdRequest = null;
@@ -62,6 +63,11 @@
 
 
         function submit(newRequest, isFromValid) {
+
+            if(vm.request.location.address === null) {
+
+                vm.newRequestForm.location.$setValidity('invalidAddress', false);
+            }
 
             if (!isFromValid) {
 
@@ -163,6 +169,7 @@
                     vm.locationAutocomplete = locationAutocomplete;
 
                     vm.locationAutocomplete.addListener('place_changed', function () {
+                        vm.newRequestForm.location.$setValidity('invalidAddress', true);
 
                         var place = vm.locationAutocomplete.getPlace();
 
