@@ -28,6 +28,7 @@
     }
 
     ClientChatListController.$inject = [
+        '$q',
         '$mdSidenav',
         '$mdMedia',
         'conf',
@@ -37,7 +38,7 @@
     ];
 
     /* @ngInject */
-    function ClientChatListController($mdSidenav, $mdMedia, conf, coreConstants, chatSocketservice, mobileService) {
+    function ClientChatListController($q, $mdSidenav, $mdMedia, conf, coreConstants, chatSocketservice, mobileService) {
         var vm = this;
 
         vm.chatSearch = '';
@@ -81,8 +82,26 @@
             }
         }
 
+        function setCurrentChat(chat) {
+            if (vm.chats.length === 0) {
+
+                return $q.resolve();
+            }
+
+            if (!chat || !chat.id) {
+
+                chat = vm.chats[0];
+            }
+
+            return changeCurrentChat(chat);
+        }
+
         function activate() {
-            getChats(vm.currentRequest);
+            getChats(vm.currentRequest)
+                .then(function () {
+
+                    return setCurrentChat(vm.currentChat);
+                });
         }
     }
 })();

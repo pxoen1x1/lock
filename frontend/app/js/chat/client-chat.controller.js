@@ -1,3 +1,4 @@
+/* ToDo: It all should be refactored */
 (function () {
     'use strict';
 
@@ -11,16 +12,14 @@
         '$mdSidenav',
         'coreConstants',
         'currentUserService',
-        'currentRequestService',
-        'chatSocketservice',
+        'currentRequestService'
     ];
 
     /* @ngInject */
     function ClientChatController($q, $stateParams, $mdSidenav, coreConstants, currentUserService,
-                                  currentRequestService, chatSocketservice) {
+                                  currentRequestService) {
 
         var currentRequestId = $stateParams.requestId;
-        var currentChatId = $stateParams.chatId;
         var vm = this;
 
         vm.chats = [];
@@ -29,7 +28,7 @@
         vm.reviews = {};
 
         vm.currentUser = {};
-        vm.currentChat = null;
+        vm.currentChat = $stateParams.chat;
         vm.currentBid = null;
         vm.currentRequest = {};
         vm.selectedSpecialist = {};
@@ -67,21 +66,6 @@
                 });
         }
 
-        function setCurrentChat(chatId) {
-
-            return chatSocketservice.getClientChats(vm.currentRequest)
-                .then(function (chats) {
-                    vm.chats = chats;
-                    chats.forEach(function(chat){
-                        if(chat.id === chatId){
-                            vm.currentChat = chat;
-                        }
-                    })
-
-                    return vm.chats;
-                });
-        }
-
         function toggleSidenav(navID) {
             $mdSidenav(navID).toggle();
         }
@@ -90,10 +74,6 @@
             $q.all([
                 getCurrentUser(),
                 getRequest(currentRequestId)
-                    .then(function(){
-
-                        return setCurrentChat(currentChatId);
-                    })
             ]);
         }
     }

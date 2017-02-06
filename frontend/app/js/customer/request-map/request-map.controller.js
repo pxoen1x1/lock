@@ -90,8 +90,13 @@
             };
 
             return chatSocketservice.createChat(vm.request, member)
-                .then(function () {
-                    $state.go('customer.requests.request.chat');
+                .then(function (createdChat) {
+                    $state.go('customer.requests.request.chat',
+                        {
+                            requestId: vm.request.id,
+                            chat: createdChat
+                        }
+                    );
                 });
         }
 

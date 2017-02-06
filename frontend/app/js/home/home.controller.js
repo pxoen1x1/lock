@@ -110,13 +110,12 @@
                             }
                         };
 
-
                         return chatSocketservice.createChat(vm.createdRequest, member)
                             .then(function (createdChat) {
 
                                 $state.go('customer.requests.request.chat', {
                                     requestId: vm.createdRequest.id,
-                                    chatId: createdChat.id
+                                    chat: createdChat
                                 });
 
                                 return createdChat;
@@ -126,7 +125,6 @@
         }
 
         function showRequestOnMap() {
-
 
             geocoderService.getCurrentCoordinates()
                 .then(function (position) {
