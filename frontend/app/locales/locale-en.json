@@ -134,7 +134,7 @@
   "I_NEED_A_LOCKSMITH_FOR_CUSTOM_DATE": "I need a locksmith for custom date",
   "INVALID_FORMAT": "Invalid format",
   "PROVIDE_LOCATION_BY_GPS": "Provide location by GPS",
-  "YOUR_GPS_IS_WRONG": "Your GPS is wrong. Please, check your settings or enter an address manually",
+  "YOUR_GPS_IS_WRONG": "Your GPS is wrong. Please, check your browser settings or enter an address manually",
   "PROVIDE_LOCATION_MANUALLY": "Provide location manually",
   "YOUR_ADDRESS_IS_WRONG": "Your address is wrong. Please, check it.",
   "TYPE_OF_REQUEST": "Type of request",
