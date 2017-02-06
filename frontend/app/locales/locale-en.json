@@ -196,7 +196,7 @@
   "SPECIALIST": "Specialist",
   "PUBLIC": "Public",
   "FORGOT_YOUR_PASSWORD": "Forgot your password?",
-  "RESET_PASSWORD": "Reset Password",
+  "GET_A_LINK": "Get a link",
   "ENTER_DATE": "Enter date",
   "TIME": "Time",
   "SETTINGS": "Settings",
@@ -263,5 +263,6 @@
   "REGISTER_AS_PROVIDER": "Want to register as locksmith?",
   "BACKGROUND_CHECK_TITLE": "Background Check",
   "BACKGROUND_CHECK_CONTENT": "Please, click accept to pass background check. Site features will be available after your information will be checked.",
-  "SKIP": "Skip"
+  "SKIP": "Skip",
+  "PROVIDE_US_WITH_YOUR_MAIL": "Please enter registration email. We will send you a letter with resetting password link."
 }

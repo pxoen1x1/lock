@@ -31,6 +31,11 @@
             novalidate
             ng-submit="vm.submit(vm.user, loginForm.$valid, vm.isForgotPasswordEnabled)">
         <div class="md-dialog-content" layout="column">
+          <span translate
+                class="grey-small"
+                ng-if="vm.isForgotPasswordEnabled">
+            PROVIDE_US_WITH_YOUR_MAIL
+          </span>
           <div layout="row">
             <md-input-container class="hide-error-msg" flex>
               <label translate>EMAIL</label>
@@ -73,8 +78,8 @@
         <div layout="column">
           <md-button type="submit"
                      class="md-button-blue"
-                     aria-label="{{ vm.isForgotPasswordEnabled ? 'RESET_PASSWORD' : 'LOG_IN' | translate }}">
-            <span ng-bind="vm.isForgotPasswordEnabled ? 'RESET_PASSWORD' : 'LOG_IN' | translate"></span>
+                     aria-label="{{ vm.isForgotPasswordEnabled ? 'GET_A_LINK' : 'LOG_IN' | translate }}">
+            <span ng-bind="vm.isForgotPasswordEnabled ? 'GET_A_LINK' : 'LOG_IN' | translate"></span>
           </md-button>
 
           <div class="text-center p-xxxs">

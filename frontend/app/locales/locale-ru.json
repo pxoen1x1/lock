@@ -195,7 +195,7 @@
   "INSTITUTIONAL": "Ведомственные объекты",
   "LAW_ENFORCEMENT": "Правовое принуждение",
   "FORGOT_YOUR_PASSWORD": "Я не помню пароль",
-  "RESET_PASSWORD": "Сменить пароль",
+  "GET_A_LINK": "Получить ссылку",
   "ENTER_DATE": "Введите дату",
   "TIME": "Время",
   "SETTINGS": "Настройки",
@@ -260,5 +260,6 @@
   "JOIN": "Присоединиться как",
   "REGISTRATE_AS_CLIENT": "Клиент",
   "REGISTRATE_AS_PROVIDER": "Специалист",
-  "SKIP": "Пропустить"
+  "SKIP": "Пропустить",
+  "PROVIDE_US_WITH_YOUR_MAIL": "Введите указанный при регистрации email. Мы вышлем вам ссылку для смены пароля."
 }
