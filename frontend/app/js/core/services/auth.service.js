@@ -10,11 +10,13 @@
         'socketService',
         'localService',
         'currentUserService',
-        'geocoderService'
+        'geocoderService',
+        'mobileService'
     ];
 
     /* @ngInject */
-    function authService(coreDataservice, socketService, localService, currentUserService, geocoderService) {
+    function authService(coreDataservice, socketService, localService, currentUserService, geocoderService,
+                         mobileService) {
         var service = {
             authorize: authorize,
             isAuthenticated: isAuthenticated,
@@ -64,7 +66,7 @@
 
                     return socketService.unsubscribe();
                 })
-                .then(function(){
+                .then(function () {
                     clearData();
 
                     geocoderService.stopGeoTracking();
@@ -89,6 +91,10 @@
                     }
 
                     return socketService.subscribe();
+                })
+                .then(function () {
+
+                    return mobileService.saveDeviceInfo();
                 });
         }
 

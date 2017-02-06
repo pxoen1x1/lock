@@ -30,6 +30,7 @@
             getMerchantFunds: getMerchantFunds,
             isCreatedTodaysPayout: isCreatedTodaysPayout,
             withdrawal: withdrawal,
+            saveDeviceInfo: saveDeviceInfo,
             createUser: createUser,
             createAuthTxn: createAuthTxn,
             createCaptureTxn: createCaptureTxn,
@@ -254,6 +255,17 @@
             function withdrawalComplete(response) {
 
                 return response.data;
+            }
+        }
+
+        function saveDeviceInfo(deviceInfo) {
+
+            return $sails.post(conf.URL_PREFIX + 'devices', deviceInfo)
+                .then(saveDeviceInfoComplete);
+
+            function saveDeviceInfoComplete(response) {
+
+                return response.data.device;
             }
         }
 

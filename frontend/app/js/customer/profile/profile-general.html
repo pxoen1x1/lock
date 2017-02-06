@@ -14,10 +14,6 @@
         <span class="md-body-1" ng-bind="vm.userProfile.auth.email"></span>
     </div>
     <div class="section">
-        <span class="md-body-2"><span translate>PHONE</span>:</span>
-        <span class="md-body-1" ng-bind="vm.userProfile.phoneNumber"></span>
-    </div>
-    <div class="section">
         <span class="md-body-2"><span translate>LANGUAGE</span>:</span>
         <span class="md-body-1" ng-bind="vm.userProfile.usingLanguage.name"></span>
     </div>
@@ -59,20 +55,7 @@
                 <div ng-message="availability" translate>EMAIL_ALREADY_EXIST</div>
             </div>
         </md-input-container>-->
-        <p><span translate>PHONE_NUMBER</span>:</p>
-        <md-input-container class="md-block" flex>
-            <label translate>PHONE_NUMBER</label>
-            <input type="tel"
-                   name="phoneNumber"
-                   ui-us-phone-number
-                   availability-validation
-                   ng-model-options="{ 'debounce': 400 }"
-                   ng-model="vm.userProfile.phoneNumber">
-            <div ng-messages="editForm.phoneNumber.$error">
-                <span ng-message="usPhoneNumber" translate>INVALID_PHONE</span>
-                <span ng-message="availability" translate>PHONE_ALREADY_EXIST</span>
-            </div>
-        </md-input-container>
+
 
         <p><span translate>LANGUAGE</span>:</p>
         <md-select flex

@@ -5,13 +5,26 @@
         .module('app.core')
         .factory('mobileService', mobileService);
 
-    mobileService.$inject = ['$window'];
+    mobileService.$inject = [
+        '$q',
+        '$window',
+        '$state',
+        'coreConstants',
+        'pushNotificationConstants',
+        'localService',
+        'coreDataservice',
+        'currentUserService',
+        'toastService'
+    ];
 
     /* @ngInject */
-    function mobileService($window) {
+    function mobileService($q, $window, $state, coreConstants, pushNotificationConstants, localService, coreDataservice,
+                           currentUserService, toastService) {
         var service = {
             isMobileApplication: isMobileApplication,
-            getImagePath: getImagePath
+            getImagePath: getImagePath,
+            saveDeviceInfo: saveDeviceInfo,
+            initPushNotifications: initPushNotifications
         };
 
         return service;
@@ -34,6 +47,87 @@
             }
 
             return imagePath;
+        }
+
+        function saveDeviceInfo(deviceInfo) {
+            deviceInfo = deviceInfo || localService.getDeviceInfo();
+
+            if (!deviceInfo || !isMobileApplication()) {
+
+                return $q.resolve();
+            }
+
+            deviceInfo = {
+                device: deviceInfo
+            };
+
+            return coreDataservice.saveDeviceInfo(deviceInfo)
+                .then(function (savedDeviceInfo) {
+                    localService.setDeviceInfo(savedDeviceInfo);
+
+                    return savedDeviceInfo;
+                });
+        }
+
+        function initPushNotifications() {
+            var pushNotification = $window.PushNotification.init(
+                {
+                    android: pushNotificationConstants.ANDROID,
+                    ios: pushNotificationConstants.IOS
+                }
+            );
+
+            pushNotification.on('registration', function (data) {
+                var deviceInfo = {
+                    token: data.registrationId,
+                    platform: $window.cordova.platformId,
+                    uuid: $window.device.uuid
+                };
+
+                var existingDeviceInfo = localService.getDeviceInfo();
+
+                if (existingDeviceInfo && existingDeviceInfo.token && existingDeviceInfo.token === deviceInfo.token) {
+
+                    return;
+                }
+
+                return saveDeviceInfo(deviceInfo);
+            });
+
+            pushNotification.on('notification', function (response) {
+                if (!response.additionalData.foreground) {
+                    var state = response.additionalData.state;
+
+                    goToState(state);
+                } else {
+                    var text = response.title || response.additionalData.title;
+
+                    toastService.success(text);
+                }
+            });
+        }
+
+        function goToState(state) {
+
+            return currentUserService.getType()
+                .then(function (userTypeId) {
+                    var userType = coreConstants.USER_TYPES[userTypeId];
+
+                    switch (state.name) {
+                        case 'chat':
+                            $state.go(
+                                pushNotificationConstants.STATES.CHAT[userType],
+                                {requestId: state.request, chatId: state.chat}
+                            );
+
+                            break;
+
+                        case 'request':
+                            $state.go(pushNotificationConstants.STATES.CHAT[userType], {requestId: state.request});
+
+                            break;
+                    }
+                });
         }
     }
 })();
