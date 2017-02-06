@@ -92,14 +92,15 @@
 
         function goToDefaultState() {
 
-            return getCurrentUserType().then(function (userType) {
-                var stateName = coreConstants.USER_TYPE_DEFAULT_STATE[userType];
+            return getCurrentUserType()
+                .then(function (userType) {
+                    var stateName = coreConstants.USER_TYPE_DEFAULT_STATE[userType];
 
-                specialistGeoService.startGeoTracking(userType);
-                mobileService.saveDeviceInfo();
+                    specialistGeoService.startGeoTracking(userType);
+                    mobileService.saveDeviceInfo();
 
-                $state.go(stateName);
-            });
+                    $state.go(stateName);
+                });
         }
 
         function cancel() {
