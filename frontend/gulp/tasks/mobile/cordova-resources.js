@@ -17,7 +17,6 @@ var currentPlatform = process.platform === 'darwin' ?
 var platformsToBuild = platforms[currentPlatform];
 
 gulp.task('cordova:resources',
-    ['cordova:icon', 'cordova:splash'],
     function () {
 
         return run('echo {} > ionic.config.json && ionic resources ' + platformsToBuild).exec();

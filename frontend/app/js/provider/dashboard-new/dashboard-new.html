@@ -40,6 +40,9 @@
           </tr>
           </thead>
           <tbody md-body>
+          <tr ng-show="vm.requests.length == 0">
+            <th colspan="7"><h2>NO_REQUESTS</h2></th>
+          </tr>
           <tr md-row
               ui-sref="provider.dashboard.request.info({ requestId: request.id })"
               ng-repeat="request in vm.requests track by request.id">

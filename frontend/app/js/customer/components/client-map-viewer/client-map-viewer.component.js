@@ -85,7 +85,7 @@
             options: {
                 streetViewControl: false,
                 maxZoom: 21,
-                minZoom: 3
+                minZoom: 5
             },
             specialistMarker: {
                 options: {

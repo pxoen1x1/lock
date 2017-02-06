@@ -11,26 +11,34 @@
     LoginController.$inject = [
         '$state',
         '$mdDialog',
+        'coreConstants',
         'toastService',
         'coreDataservice',
         'authService',
         'currentUserService',
         'specialistGeoService',
-        'coreConstants'
+        'mobileService'
     ];
 
     /* @ngInject */
-    function LoginController($state, $mdDialog, toastService, coreDataservice, authService,
-                                   currentUserService, specialistGeoService, coreConstants) {
+    function LoginController($state, $mdDialog, coreConstants, toastService, coreDataservice, authService,
+                             currentUserService, specialistGeoService, mobileService) {
         var vm = this;
 
         vm.user = {};
 
         vm.isForgotPasswordEnabled = false;
-        vm.isAlreadyHaveAccount = true;
 
         vm.submit = submit;
         vm.cancel = cancel;
+
+        activate();
+
+        function activate() {
+            if (currentUserService.isAuthenticated()) {
+                goToDefaultState();
+            }
+        }
 
         function login(user) {
 
@@ -78,18 +86,20 @@
                 .then(function () {
                     $mdDialog.hide();
 
-                    return getCurrentUserType();
+                    return goToDefaultState();
                 })
-                .then(function (currentUserType) {
-                    var stateName = coreConstants.USER_TYPE_DEFAULT_STATE[currentUserType];
+        }
 
-                    $state.go(stateName);
+        function goToDefaultState() {
 
-                    return currentUserType;
-                })
-                .then(function (currentUserType) {
-                    specialistGeoService.startGeoTracking(currentUserType);
-                });
+            return getCurrentUserType().then(function(userType) {
+                var stateName = coreConstants.USER_TYPE_DEFAULT_STATE[userType];
+
+                specialistGeoService.startGeoTracking(userType);
+                mobileService.saveDeviceInfo();
+
+                $state.go(stateName);
+            })
         }
 
         function cancel() {

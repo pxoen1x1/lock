@@ -30,7 +30,7 @@
             flex
             novalidate
             ng-submit="vm.submit(vm.user, loginForm.$valid, vm.isForgotPasswordEnabled)">
-        <div class="md-dialog-content" layout="column" ng-hide="!vm.isAlreadyHaveAccount">
+        <div class="md-dialog-content" layout="column">
           <div layout="row">
             <md-input-container class="hide-error-msg" flex>
               <label translate>EMAIL</label>
@@ -62,45 +62,35 @@
             </md-input-container>
           </div>
           <div layout="row">
-            <a class="text-center p-xxs forgot-password"
+            <a class="text-center p-xxs forgot-password grey-small" ng-if="!vm.isForgotPasswordEnabled"
                flex
-               aria-label="{{ vm.isForgotPasswordEnabled ? 'LOG_IN': 'FORGOT_YOUR_PASSWORD' | translate }}"
+               aria-label="{{ 'FORGOT_YOUR_PASSWORD' | translate }}"
                ng-click="vm.isForgotPasswordEnabled = !vm.isForgotPasswordEnabled">
-              <span ng-bind="vm.isForgotPasswordEnabled ? 'LOG_IN': 'FORGOT_YOUR_PASSWORD' | translate"></span>
+              <span ng-bind="'FORGOT_YOUR_PASSWORD' | translate"></span>
             </a>
           </div>
         </div>
         <div layout="column">
           <md-button type="submit"
-                     ng-hide="!vm.isAlreadyHaveAccount"
                      class="md-button-blue"
                      aria-label="{{ vm.isForgotPasswordEnabled ? 'RESET_PASSWORD' : 'LOG_IN' | translate }}">
             <span ng-bind="vm.isForgotPasswordEnabled ? 'RESET_PASSWORD' : 'LOG_IN' | translate"></span>
           </md-button>
-          <div class="text-center p-xxxs"
-               ng-click="vm.isAlreadyHaveAccount = !vm.isAlreadyHaveAccount">
-            <span ng-if="vm.isAlreadyHaveAccount" translate
-                  class="grey-small">I_HAVE_NO_ACCOUNT</span>
-            <span class="join-span"
-               ng-if="!vm.isAlreadyHaveAccount"
-               translate>JOIN</span>
+
+          <div class="text-center p-xxxs">
+
+            <a class="grey-small"
+               flex
+               ng-if="vm.isForgotPasswordEnabled"
+               aria-label="{{ 'LOG_IN' | translate }}"
+               ng-click="vm.isForgotPasswordEnabled = !vm.isForgotPasswordEnabled">
+              <span ng-bind="'LOG_IN' | translate"></span>
+            </a>
+
+            <a ui-sref="registration.customer" translate class="grey-small" ng-if="!vm.isForgotPasswordEnabled">I_HAVE_NO_ACCOUNT</a>
+
           </div>
-          <div layout="row"
-               class="registration-buttons-wrapper"
-               ng-hide="vm.isAlreadyHaveAccount">
-            <md-button class="md-button-outline join-button"
-                       ui-sref="registration.customer">
-              <span translate>REGISTRATE_AS_CLIENT</span>
-            </md-button>
-            <md-button class="md-button-outline join-button"
-                       ui-sref="registration.provider">
-              <span translate>REGISTRATE_AS_PROVIDER</span>
-            </md-button>
-          </div>
-          <span class="text-center grey-small"
-                ng-if="!vm.isAlreadyHaveAccount"
-                ng-click="vm.isAlreadyHaveAccount = !vm.isAlreadyHaveAccount"
-                translate>I_ALREADY_HAVE_AN_ACCOUNT</span>
+
         </div>
       </form>
     </div>

@@ -1,4 +1,4 @@
-/* global sails, GroupService, UserService */
+/* global sails, GroupService, Group, UserService */
 /**
  * GroupController
  *
@@ -215,6 +215,28 @@ let GroupController = {
                     return res.serverError(message);
                 }
             );
+    },
+    setSpAgreed(req, res) {
+        let params = req.body;
+        let groupId = params.groupId;
+
+        Group.findOneById(groupId)
+            .then(
+                (group) => {
+                    group.isSpAgreed = true;
+
+                    return Group.update({id: groupId}, group);
+                }
+            )
+        .then(
+            (group) => {
+                return res.ok(
+                    {
+                        group: group
+                    }
+                );
+            }
+        );
     }
 };
 

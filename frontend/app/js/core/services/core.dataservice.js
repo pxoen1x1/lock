@@ -22,6 +22,7 @@
             getRequest: getRequest,
             getAvailabilityInfo: getAvailabilityInfo,
             getAdminsGroup: getAdminsGroup,
+            setGroupSpAgreed: setGroupSpAgreed,
             getCustomer: getCustomer,
             getBankAccountTypes: getBankAccountTypes,
             getMerchant: getMerchant,
@@ -29,6 +30,7 @@
             getMerchantFunds: getMerchantFunds,
             isCreatedTodaysPayout: isCreatedTodaysPayout,
             withdrawal: withdrawal,
+            saveDeviceInfo: saveDeviceInfo,
             createUser: createUser,
             createAuthTxn: createAuthTxn,
             createCaptureTxn: createCaptureTxn,
@@ -155,6 +157,16 @@
             }
         }
 
+        function setGroupSpAgreed(groupId) {
+
+            return $sails.post(conf.URL_PREFIX + 'group/spagreed', {groupId: groupId}).then(setSpAgreedComplete);
+
+            function setSpAgreedComplete(response) {
+
+                return response.data.group[0];
+            }
+        }
+
         function getCustomer() {
 
             return request.httpWithTimeout({
@@ -243,6 +255,17 @@
             function withdrawalComplete(response) {
 
                 return response.data;
+            }
+        }
+
+        function saveDeviceInfo(deviceInfo) {
+
+            return $sails.post(conf.URL_PREFIX + 'devices', deviceInfo)
+                .then(saveDeviceInfoComplete);
+
+            function saveDeviceInfoComplete(response) {
+
+                return response.data.device;
             }
         }
 

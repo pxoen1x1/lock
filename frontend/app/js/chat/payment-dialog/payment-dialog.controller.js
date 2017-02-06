@@ -12,12 +12,12 @@
         'currentUserService',
         'coreDataservice',
         '$mdDialog',
-        'currentBid',
+        'offer',
         'currentRequest'
     ];
 
     /* @ngInject */
-    function PaymentDialogController(currentUserService, coreDataservice, $mdDialog, currentBid, currentRequest) {
+    function PaymentDialogController(currentUserService, coreDataservice, $mdDialog, offer, currentRequest) {
 
         var vm = this;
 
@@ -45,11 +45,11 @@
 
         function payWithLinked() {
 
-            return coreDataservice.getUser(currentBid.specialist.id)
+            return coreDataservice.getUser(offer.executor.id)
                 .then(function (response) {
                     var specialist = response.data.user;
 
-                    return coreDataservice.createAuthTxn(specialist.spMerchantId, currentBid.cost, currentRequest.id);
+                    return coreDataservice.createAuthTxn(specialist.spMerchantId, offer.cost, currentRequest.id);
                 })
                 .then(function (res) {
                     $mdDialog.hide({result: true});
@@ -83,11 +83,11 @@
 
             var tokenAndTxnResult;
 
-            return coreDataservice.getUser(currentBid.specialist.id)
+            return coreDataservice.getUser(offer.executor.id)
                 .then(function (response) {
                     var specialist = response.data.user;
 
-                    return coreDataservice.createTokenAndAuthTxn(txnData, specialist.spMerchantId, currentBid.cost);
+                    return coreDataservice.createTokenAndAuthTxn(txnData, specialist.spMerchantId, offer.cost);
                 })
                 .then(function (result) {
                     tokenAndTxnResult = result; //todo: redo with spread

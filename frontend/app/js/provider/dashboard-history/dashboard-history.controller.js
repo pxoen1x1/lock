@@ -49,7 +49,7 @@
             }
 
             var queryOptions = {
-                status: [coreConstants.REQUEST_STATUSES.DONE, coreConstants.REQUEST_STATUSES.CLOSED],
+                status: [coreConstants.REQUEST_STATUSES.CLOSED], //coreConstants.REQUEST_STATUSES.DONE,
                 order: vm.queryOptions.orderBy.replace(/-(\w+)/, '$1 DESC'),
                 limit: vm.queryOptions.limit,
                 page: vm.queryOptions.page

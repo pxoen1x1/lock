@@ -26,7 +26,7 @@ let Request = {
             columnName: 'is_public'
         },
         description: {
-            type: 'string'
+            type: 'text'
         },
         cost: {
             type: 'float',
