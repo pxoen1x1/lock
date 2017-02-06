@@ -34,12 +34,6 @@
 
         activate();
 
-        function activate() {
-            if (currentUserService.isAuthenticated()) {
-                goToDefaultState();
-            }
-        }
-
         function login(user) {
 
             return authService.login(user)
@@ -105,6 +99,12 @@
 
         function cancel() {
             $mdDialog.cancel();
+        }
+
+        function activate() {
+            if (currentUserService.isAuthenticated()) {
+                goToDefaultState();
+            }
         }
     }
 })();
