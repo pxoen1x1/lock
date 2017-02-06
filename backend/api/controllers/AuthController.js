@@ -104,7 +104,6 @@ let AuthController = waterlock.waterlocked({
         let token = req.param('token');
 
         if (!token) {
-
             return res.badRequest(
                 {
                     message: req.__('Token is not defined.')
@@ -120,7 +119,7 @@ let AuthController = waterlock.waterlocked({
 
         User.update({emailConfirmationToken: token}, user)
             .then(
-                () => res.redirect(sails.config.homePage)
+                () => res.redirect(sails.config.homePage + sails.config.EmailConfirmedUrl)
             )
             .catch(
                 (err) => {

@@ -5,10 +5,10 @@
         .module('app.home')
         .controller('HomeController', HomeController);
 
-    HomeController.$inject = ['$state', '$scope', 'geocoderService', 'coreDictionary', 'authService', 'customerDataservice', 'chatSocketservice', '$mdDialog', 'routingService'];
+    HomeController.$inject = ['$state', '$location', 'geocoderService', 'coreDictionary', 'authService', 'customerDataservice', 'chatSocketservice', '$mdDialog', 'routingService', 'toastService', 'conf'];
 
     /* @ngInject */
-    function HomeController($state, $scope, geocoderService, coreDictionary, authService, customerDataservice, chatSocketservice, $mdDialog, routingService) {
+    function HomeController($state, $location, geocoderService, coreDictionary, authService, customerDataservice, chatSocketservice, $mdDialog, routingService, toastService, conf) {
         var vm = this;
         vm.request = {
             location: {
@@ -203,6 +203,9 @@
             getServiceTypes();
             showRequestOnMap(); // works only in Chrome
 
+            if($location.url() === conf.EMAIL_CONFIRMED_URL){
+                toastService.success('Email confirmed. Please log in.');
+            }
         }
     }
 })();
