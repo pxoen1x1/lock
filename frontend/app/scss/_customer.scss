@@ -45,6 +45,16 @@
         }
       }
     }
+
+    ::-webkit-inner-spin-button {
+      display: none;
+    }
+    ::-webkit-calendar-picker-indicator {
+      display: none;
+    }
+    ::-webkit-clear-button {
+      display: none;
+    }
   }
 
   .tab-bar {
