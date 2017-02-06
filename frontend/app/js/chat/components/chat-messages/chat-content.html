@@ -55,11 +55,6 @@
             <span translate>SEND_BID</span>
           </md-button>
         </md-menu-item>
-        <md-menu-item ng-if="vm.currentUser.type !== vm.userType.CLIENT">
-          <md-button ng-click="vm.toggleSidenav({ navID: 'right-sidenav' })">
-            <span translate>REQUEST_INFO</span>
-          </md-button>
-        </md-menu-item>
         <md-menu-item ng-if="vm.currentUser.type === vm.userType.GROUP_ADMIN">
           <md-button ng-click="vm.joinGroupMember()">
             <span translate>JOIN_GROUP_MEMBER</span>
