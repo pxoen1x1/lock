@@ -31,7 +31,7 @@
             </div>
           </md-card-title-text>
           <md-card-title-media>
-            <div class="avatar-wrapper">
+            <div class="avatar-wrapper" ui-sref="provider.profile.public({ profileId: specialist.id })">
               <div class="profile-avatar md-media card-media"
                    ng-style="{ 'background-image': 'url(' + (specialist.portrait ? vm.baseUrl + specialist.portrait : vm.defaultPortrait) + ')' }">
               </div>
