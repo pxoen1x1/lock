@@ -104,6 +104,7 @@
             return distance;
         }
 
+        //ToDo: It needs refactoring. Separate to few function.
         function createChat(selectedSpecialist, currentRequest) {
             if (currentRequest && currentRequest.status !== vm.requestStatus.NEW) {
 
@@ -116,26 +117,31 @@
 
             return chatSocketservice.getClientChats(vm.request)
             .then(function(chats) {
-                var createdChatId = null;
+                var createdChat = {};
 
                 chats.forEach(function(chat) {
                     if(chat.members[0].id === selectedSpecialist.id){
-                        createdChatId = chat.id;
+                        createdChat = chat;
                     }
                 });
 
-                if(createdChatId) {
+                if(createdChat && createdChat.id) {
                     $state.go('customer.requests.request.chat', {
                         requestId: vm.request.id,
-                        chatId: createdChatId
+                        chat: createdChat
                     });
 
                     return;
                 }
 
                 return chatSocketservice.createChat(vm.request, member)
-                    .then(function () {
-                        $state.go('customer.requests.request.chat');
+                    .then(function (createdChat) {
+                        $state.go('customer.requests.request.chat',
+                            {
+                                requestId: vm.request.id,
+                                chat: createdChat
+                            }
+                        );
                     });
             });
         }
