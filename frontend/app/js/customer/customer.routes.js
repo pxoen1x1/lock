@@ -126,6 +126,9 @@
             .state('customer.requests.request.chat', {
                 parent: 'customer.requests.request',
                 url: '/chat',
+                params: {
+                    chat: {}
+                },
                 views: {
                     'content@customer.requests.request': {
                         templateUrl: 'chat/templates/chat.html',
@@ -139,9 +142,6 @@
                         title: 'CHAT',
                         icon: 'chat'
                     }
-                },
-                params: {
-                    chatId: null
                 }
             })
             .state('customer.requests.request.recommended', {

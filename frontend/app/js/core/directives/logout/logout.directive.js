@@ -22,7 +22,7 @@
                 authService.logout()
                     .then(function () {
 
-                        $state.go('home.main');
+                        $state.go('login');
                     });
             });
         }
