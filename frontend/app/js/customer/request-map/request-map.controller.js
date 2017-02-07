@@ -36,6 +36,7 @@
 
         vm.createChat = createChat;
         vm.showSelectedSpecialistInfo = showSelectedSpecialistInfo;
+        vm.hireSpecialist = hireSpecialist;
 
         activate();
 
@@ -77,6 +78,10 @@
 
                 vm.isSpecialistCardShown = true;
             }, 200);
+        }
+
+        function hireSpecialist(specialist) {
+            createChat(vm.selectedSpecialist, vm.request);
         }
 
         function createChat(selectedSpecialist, currentRequest) {
