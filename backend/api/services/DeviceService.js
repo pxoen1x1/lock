@@ -4,19 +4,19 @@
 
 let DeviceService = {
     saveDevice(user, device) {
-        if(device.user) {
+        if (device.user) {
 
             delete device.user;
         }
 
-        if(user) {
+        if (user) {
             device.user = user;
         }
 
         return Device.findOneByUuid(device.uuid)
             .then(
                 (foundDevice) => {
-                    if(!foundDevice) {
+                    if (!foundDevice) {
 
                         return Device.create(device)
                             .then(
@@ -30,6 +30,18 @@ let DeviceService = {
                         );
                 }
             );
+    },
+    removeUserFromDevice(uuid){
+        if (!uuid) {
+
+            return Promise.resolve();
+        }
+
+        let device = {
+            user: null
+        };
+
+        return Device.update({uuid: uuid}, device);
     }
 };
 

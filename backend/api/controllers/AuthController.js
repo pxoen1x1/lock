@@ -100,6 +100,19 @@ let AuthController = waterlock.waterlocked({
                 }
             );
     },
+    logout(req, res){
+        let user = req.session.user;
+        let uuid = req.body.uuid;
+
+        AuthService.logout(req, res, user, uuid)
+            .catch(
+                (err) => {
+                    sails.log.error(err);
+
+                    return res.serverError();
+                }
+            );
+    },
     confirmEmail(req, res) {
         let token = req.param('token');
 
@@ -251,11 +264,11 @@ let AuthController = waterlock.waterlocked({
         let promiseGetUser = hasToken ? AuthService.getUserByToken(req) : Promise.resolve();
 
         Promise.all([
-                promiseCheckSSN,
-                promiseCheckPhoneNumber,
-                promiseCheckEmail,
-                promiseGetUser
-            ])
+            promiseCheckSSN,
+            promiseCheckPhoneNumber,
+            promiseCheckEmail,
+            promiseGetUser
+        ])
             .then(
                 (params) => {
                     let userId = params[3] ? params[3].id : null;
