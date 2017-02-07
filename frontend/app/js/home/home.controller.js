@@ -209,7 +209,7 @@
             showRequestOnMap(); // works only in Chrome
 
             if($location.url() === conf.EMAIL_CONFIRMED_URL){
-                toastService.success('Email confirmed. Please log in.');
+                toastService.success($filter('translate')('EMAIL_WAS_CONFIRMED'));
             }
         }
     }
