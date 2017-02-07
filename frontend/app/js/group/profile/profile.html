@@ -16,9 +16,14 @@
            layout-align="start center"
            layout-align-gt-xs="start start"
            flex-gt-xs="25">
-        <div class="avatar-wrapper">
+        <div class="avatar-wrapper" layout="row">
           <div class="profile-avatar"
                ng-style="{ 'background-image': 'url(' + vm.viewUserPhoto() + ')' }">
+          </div>
+          <div class="photo-remove"
+               ng-if="vm.isEditing">
+            <i ng-click="vm.removePhoto()"
+               class="material-icons">clear</i>
           </div>
         </div>
         <div flex="5"></div>

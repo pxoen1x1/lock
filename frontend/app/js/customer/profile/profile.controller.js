@@ -48,6 +48,7 @@
         vm.getCities = getCities;
         vm.selectedItemChange = selectedItemChange;
         vm.viewUserPhoto = viewUserPhoto;
+        vm.removePhoto = removePhoto;
 
         activate();
 
@@ -103,6 +104,11 @@
 
                 return vm.userProfile.portrait ? conf.BASE_URL + vm.userProfile.portrait : vm.defaultPortrait;
             }
+        }
+
+        function removePhoto() {
+            vm.userProfile.portrait = '';
+            vm.newPortrait = '';
         }
 
         function updateUser(user, isFormValid) {
