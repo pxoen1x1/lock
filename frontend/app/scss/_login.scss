@@ -67,8 +67,8 @@
 }
 
 .login-header {
-  a {
-    position: absolute;
+  .page-name {
+    margin-left: -106px;
   }
 }
 
@@ -83,5 +83,11 @@
       display: flex;
       justify-content: space-around;
     }
-   }
+  }
+
+  .login-header {
+    .page-name {
+      margin-left: -40px;
+    }
+  }
 }
