@@ -37,7 +37,8 @@
                             <label translate>CARD_NUMBER</label>
                             <input name="number"
                                    required
-                                   ng-maxlength="16"
+                                   ng-maxlength="19"
+                                   ng-pattern="/^[0-9]{13,19}$/"
                                    ng-model="vm.txnData.number">
                         </md-input-container>
                         <md-input-container class="md-block">
@@ -45,6 +46,7 @@
                             <input name="cardCvv"
                                    required
                                    ng-maxlength="3"
+                                   ng-pattern="/^[0-9]{3}$/"
                                    ng-model="vm.txnData.cvv">
                         </md-input-container>
                         <md-input-container class="md-block">
@@ -52,6 +54,7 @@
                             <input name="expiration"
                                    required
                                    ng-maxlength="4"
+                                   ng-pattern="/^(1[0-2]|0[1-9]|\d)([0-9]{2})$/"
                                    ng-model="vm.txnData.expiration">
                         </md-input-container>
                     </div>
