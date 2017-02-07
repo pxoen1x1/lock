@@ -19,6 +19,10 @@ let authRoutes = {
         controller: 'AuthController',
         action: 'register'
     },
+    'POST /auth/logout': {
+        controller: 'AuthController',
+        action: 'logout'
+    },
     'POST /auth/password/reset': {
         controller: 'AuthController',
         action: 'createResetAuthToken'

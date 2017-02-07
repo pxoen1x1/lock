@@ -1,4 +1,5 @@
-/* global sails, waterlock, User, AuthService, MailerService, JwtService, UserService, SplashPaymentService */
+/* global sails, waterlock, User, AuthService, MailerService, JwtService, UserService, GroupService,
+          SplashPaymentService */
 /**
  * AuthController
  *
@@ -100,11 +101,23 @@ let AuthController = waterlock.waterlocked({
                 }
             );
     },
+    logout(req, res){
+        let user = req.session.user;
+        let uuid = req.body.uuid;
+
+        AuthService.logout(req, res, user, uuid)
+            .catch(
+                (err) => {
+                    sails.log.error(err);
+
+                    return res.serverError();
+                }
+            );
+    },
     confirmEmail(req, res) {
         let token = req.param('token');
 
         if (!token) {
-
             return res.badRequest(
                 {
                     message: req.__('Token is not defined.')
@@ -120,7 +133,7 @@ let AuthController = waterlock.waterlocked({
 
         User.update({emailConfirmationToken: token}, user)
             .then(
-                () => res.redirect(sails.config.homePage)
+                () => res.redirect(sails.config.homePage + sails.config.EmailConfirmedUrl)
             )
             .catch(
                 (err) => {
@@ -251,11 +264,11 @@ let AuthController = waterlock.waterlocked({
         let promiseGetUser = hasToken ? AuthService.getUserByToken(req) : Promise.resolve();
 
         Promise.all([
-                promiseCheckSSN,
-                promiseCheckPhoneNumber,
-                promiseCheckEmail,
-                promiseGetUser
-            ])
+            promiseCheckSSN,
+            promiseCheckPhoneNumber,
+            promiseCheckEmail,
+            promiseGetUser
+        ])
             .then(
                 (params) => {
                     let userId = params[3] ? params[3].id : null;

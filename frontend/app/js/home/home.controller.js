@@ -5,10 +5,10 @@
         .module('app.home')
         .controller('HomeController', HomeController);
 
-    HomeController.$inject = ['$state', '$scope', 'geocoderService', 'coreDictionary', 'authService', 'customerDataservice', 'chatSocketservice', '$mdDialog', 'routingService'];
+    HomeController.$inject = ['$state', '$location', 'geocoderService', 'coreDictionary', 'authService', 'customerDataservice', 'chatSocketservice', '$mdDialog', 'routingService', 'toastService', 'conf'];
 
     /* @ngInject */
-    function HomeController($state, $scope, geocoderService, coreDictionary, authService, customerDataservice, chatSocketservice, $mdDialog, routingService) {
+    function HomeController($state, $location, geocoderService, coreDictionary, authService, customerDataservice, chatSocketservice, $mdDialog, routingService, toastService, conf) {
         var vm = this;
         vm.request = {
             location: {
@@ -44,6 +44,7 @@
 
         vm.serviceTypes = [];
         vm.newRequest = {};
+        vm.newRequestForm = {};
         vm.specialistId = null;
 
         vm.createdRequest = null;
@@ -62,6 +63,11 @@
 
 
         function submit(newRequest, isFromValid) {
+
+            if(vm.request.location.address === null) {
+
+                vm.newRequestForm.location.$setValidity('invalidAddress', false);
+            }
 
             if (!isFromValid) {
 
@@ -161,6 +167,7 @@
                     vm.locationAutocomplete = locationAutocomplete;
 
                     vm.locationAutocomplete.addListener('place_changed', function () {
+                        vm.newRequestForm.location.$setValidity('invalidAddress', true);
 
                         var place = vm.locationAutocomplete.getPlace();
 
@@ -201,6 +208,9 @@
             getServiceTypes();
             showRequestOnMap(); // works only in Chrome
 
+            if($location.url() === conf.EMAIL_CONFIRMED_URL){
+                toastService.success($filter('translate')('EMAIL_WAS_CONFIRMED'));
+            }
         }
     }
 })();

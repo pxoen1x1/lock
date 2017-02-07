@@ -38,5 +38,6 @@ module.exports = {
 
     port: 1337,
     baseUrl: 'https://lockheal.com',
-    homePage: 'https://lockheal.com'
+    homePage: 'https://lockheal.com',
+    EmailConfirmedUrl: '/?emailConfirmed'
 };

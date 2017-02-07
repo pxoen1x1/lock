@@ -536,7 +536,7 @@
     .contact-view,
     .request-view {
       md-toolbar {
-        padding: 0 10px;
+        padding-left: 10px;
 
         &.md-accent {
           background-color: $primary-color;
@@ -547,6 +547,9 @@
           height: inherit;
           max-height: none;
           padding: 10px 0;
+
+          overflow-y: auto;
+          padding-right: 10px;
 
           .contact-name {
             margin: 8px 0;
@@ -585,7 +588,7 @@
 
   .request-info {
     font-size: 16px;
-    margin: 8px 0;
+    margin: 8px 0 0;
 
     & > div {
       margin-bottom: 8px;

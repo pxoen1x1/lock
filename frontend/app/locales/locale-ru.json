@@ -261,5 +261,7 @@
   "REGISTRATE_AS_CLIENT": "Клиент",
   "REGISTRATE_AS_PROVIDER": "Специалист",
   "SKIP": "Пропустить",
-  "PROVIDE_US_WITH_YOUR_MAIL": "Введите указанный при регистрации email. Мы вышлем вам ссылку для смены пароля."
+  "PROVIDE_US_WITH_YOUR_MAIL": "Введите указанный при регистрации email. Мы вышлем вам ссылку для смены пароля.",
+  "CHOOSE_VALID_ADDRESS": "Выберите корректный адрес",
+  "EMAIL_WAS_CONFIRMED": "Email подтвержден. Пожалуйста, авторизуйтесь"
 }

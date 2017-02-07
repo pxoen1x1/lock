@@ -1,4 +1,4 @@
-/* global waterlock, Auth, ResetToken, HelperService, UserService */
+/* global waterlock, Auth, ResetToken, HelperService, UserService, SocketService, DeviceService */
 /**
  * Auth Service
  */
@@ -82,6 +82,23 @@ let AuthService = {
                 }
             );
     },
+    logout(req, res, user, uuid) {
+        let roomName = `user_${user.id}`;
+
+        return SocketService.unsubscribeFromAll(roomName)
+            .then(
+                () => {
+                    waterlock.cycle.logout(req, res);
+
+                    if (!uuid) {
+
+                        return;
+                    }
+
+                    return DeviceService.removeUserFromDevice(uuid);
+                }
+            );
+    },
     resetAuthToken(email){
         let user = {};
 
@@ -129,7 +146,7 @@ let AuthService = {
                             resetToken: null,
                             password: password
                         }
-                        )
+                    )
                         .then(
                             () => ResetToken.destroy(tokenId)
                         );
