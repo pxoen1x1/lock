@@ -267,5 +267,6 @@
   "PROVIDE_US_WITH_YOUR_MAIL": "Please enter registration email. We will send you a letter with resetting password link.",
   "CHOOSE_VALID_ADDRESS": "Choose valid address",
   "AGREE": "Agree",
-  "NOT_AGREE": "Not agree"
+  "NOT_AGREE": "Not agree",
+  "NO_FEEDBACKS_YET": "No feedbacks yet"
 }

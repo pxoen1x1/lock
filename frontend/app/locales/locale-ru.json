@@ -264,5 +264,7 @@
   "PROVIDE_US_WITH_YOUR_MAIL": "Введите указанный при регистрации email. Мы вышлем вам ссылку для смены пароля.",
   "CHOOSE_VALID_ADDRESS": "Выберите корректный адрес",
   "AGREE": "Согласен",
-  "NOT_AGREE": "Не согласен"
+  "NOT_AGREE": "Не согласен",
+  "SELECT_AN_EXISTING_CITY": "Выберите существующий город",
+  "NO_FEEDBACKS_YET": "Еще нет отзывов"
 }
