@@ -1,4 +1,5 @@
-/* global sails, waterlock, User, AuthService, MailerService, JwtService, UserService, SplashPaymentService */
+/* global sails, waterlock, User, AuthService, MailerService, JwtService, UserService, GroupService,
+          SplashPaymentService */
 /**
  * AuthController
  *
