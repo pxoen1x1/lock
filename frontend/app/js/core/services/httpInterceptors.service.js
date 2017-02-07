@@ -43,7 +43,7 @@
                     var $state = $injector.get('$state');
 
                     localService.removeAuth();
-                    $state.go('home.main');
+                    $state.go('login');
                 }
 
                 if (response.data) {
