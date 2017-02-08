@@ -47,6 +47,9 @@
         vm.newRequest = {};
         vm.newRequestForm = {};
         vm.details = {};
+        vm.options = {
+            country: 'us'
+        };
         vm.specialistId = null;
         vm.createdRequest = null;
         vm.videoDialog = null;
