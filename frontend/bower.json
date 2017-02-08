@@ -35,8 +35,7 @@
     "angular-translate-handler-log": "^2.13.1",
     "angular-jk-carousel": "^0.1.9",
     "angular-translate-loader-static-files": "^2.13.1",
-    "ngAutocomplete": "^1.0.0",
-    "angularjs-google-maps": "^0.5.0"
+    "ngAutocomplete": "^1.0.0"
   },
   "devDependencies": {},
   "overrides": {
