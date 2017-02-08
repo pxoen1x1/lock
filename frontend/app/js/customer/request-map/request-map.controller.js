@@ -25,7 +25,7 @@
         var vm = this;
 
         vm.request = {};
-        vm.selectedSpecialist = {};
+        vm.specialist = {};
         vm.specialists = [];
 
         vm.isSpecialistCardShown = false;
@@ -55,33 +55,33 @@
                 });
         }
 
-        function showSelectedSpecialistInfo(slectedSpecialist) {
-            if (!slectedSpecialist || Object.keys(slectedSpecialist).length === 0 || !vm.request.location) {
+        function showSelectedSpecialistInfo(selectedSpecialist) {
+            if (!selectedSpecialist || Object.keys(selectedSpecialist).length === 0 || !vm.request.location) {
 
                 return;
             }
 
-            if (!slectedSpecialist.distance) {
+            if (!selectedSpecialist.distance) {
                 var distance = geocoderService.getDistance(
                     vm.request.location.latitude,
                     vm.request.location.longitude,
-                    slectedSpecialist.details.latitude,
-                    slectedSpecialist.details.longitude
+                    selectedSpecialist.details.latitude,
+                    selectedSpecialist.details.longitude
                 );
             }
 
             vm.isSpecialistCardShown = false;
 
             $timeout(function () {
-                vm.selectedSpecialist = slectedSpecialist;
-                vm.selectedSpecialist.distance = distance ? distance : slectedSpecialist.distance;
+                vm.specialist = selectedSpecialist;
+                vm.specialist.distance = distance ? distance : selectedSpecialist.distance;
 
                 vm.isSpecialistCardShown = true;
             }, 200);
         }
 
         function hireSpecialist(specialist) {
-            createChat(vm.selectedSpecialist, vm.request);
+            createChat(vm.specialist, vm.request);
         }
 
         function createChat(selectedSpecialist, currentRequest) {
@@ -126,7 +126,7 @@
                 .then(function (request) {
                     if (request.status === vm.requestStatus.IN_PROGRESS) {
                         vm.isSpecialistCardShown = true;
-                        vm.selectedSpecialist = request.executor;
+                        vm.specialist = request.executor;
                     }
 
                     listenRequestEvent();

@@ -16,9 +16,9 @@
       <client-map-viewer class="map-viewer"
                          flex
                          current-request="vm.request"
-                         show-specialist-info="vm.showSelectedSpecialistInfo(selectedSpecialist)"
-                         selected-specialist="vm.selectedSpecialist"
-                         hire-specialist="vm.hireSpecialist(vm.selectedSpecialist)"
+                         show-specialist-info="vm.showSelectedSpecialistInfo(specialist)"
+                         selected-specialist="vm.specialist"
+                         hire-specialist="vm.hireSpecialist(vm.specialist)"
                          ng-if="vm.request.id">
       </client-map-viewer>
 
@@ -28,37 +28,37 @@
         <div class="map-card-provider" layout="row">
           <div class="m-r-lg">
             <div class="avatar"
-                 ng-style="{'background-image': 'url('+ (vm.selectedSpecialist.portrait ?
-                 vm.baseUrl + vm.selectedSpecialist.portrait : vm.defaultPortrait) +')'}">
+                 ng-style="{'background-image': 'url('+ (vm.specialist.portrait ?
+                 vm.baseUrl + vm.specialist.portrait : vm.defaultPortrait) +')'}">
             </div>
           </div>
           <div flex>
             <div class="text-truncate-multiline">
               <span class="md-headline"
-                    ng-bind="vm.selectedSpecialist.fullName">
+                    ng-bind="vm.specialist.fullName">
               </span>
               <span class="md-subhead"> · </span>
               <star-rating class="inline-block md-body-1"
-                           value="vm.selectedSpecialist.details.rating"
+                           value="vm.specialist.details.rating"
                            readonly>
               </star-rating>
             </div>
             <div class="md-subhead" layout="row" layout-align="start center">
-              <div ng-if="vm.selectedSpecialist.distance">
-                <span ng-bind="vm.selectedSpecialist.distance | number : 1"></span>
+              <div ng-if="vm.specialist.distance">
+                <span ng-bind="vm.specialist.distance | number : 1"></span>
                 <span translate>MILES_AWAY</span>
               </div>
-              <div ng-if="vm.selectedSpecialist.duration && vm.request.status === vm.requestStatus.IN_PROGRESS">
+              <div ng-if="vm.specialist.duration && vm.request.status === vm.requestStatus.IN_PROGRESS">
                 <span class="m-l-xs">
                   <span>- </span>
                   <span translation>ESTIMATED_TIME_OF_ARRIVAL</span>:
                 </span>
-                <span ng-bind="vm.selectedSpecialist.duration.text"></span>
+                <span ng-bind="vm.specialist.duration.text"></span>
               </div>
             </div>
             <div class="md-subhead status"
-                 ng-class="{ 'not-available': !vm.selectedSpecialist.details.isAvailable }"
-                 ng-bind="vm.selectedSpecialist.details.isAvailable ? 'AVAILABLE' : 'NOT_AVAILABLE_NOW' | translate">
+                 ng-class="{ 'not-available': !vm.specialist.details.isAvailable }"
+                 ng-bind="vm.specialist.details.isAvailable ? 'AVAILABLE' : 'NOT_AVAILABLE_NOW' | translate">
             </div>
           </div>
 
@@ -67,7 +67,7 @@
                layout-align="start center">
             <md-button class="md-button-blue md-fab"
                        ng-disabled="vm.request.status !== vm.requestStatus.NEW"
-                       ng-click="vm.createChat(vm.selectedSpecialist, vm.request)">
+                       ng-click="vm.createChat(vm.specialist, vm.request)">
               <md-icon>chat</md-icon>
             </md-button>
           </div>
