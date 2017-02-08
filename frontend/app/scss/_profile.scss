@@ -11,6 +11,11 @@
   .avatar-wrapper {
     position: relative;
     width: 100%;
+
+    .photo-remove {
+      color: grey;
+      z-index: 5;
+    }
   }
 
   .avatar-wrapper:after {

@@ -69,8 +69,8 @@
 }
 
 .login-header {
-  a {
-    position: absolute;
+  .page-name {
+    margin-left: -106px;
   }
 }
 
@@ -80,10 +80,11 @@
       font-size: 32px;
       text-align: center;
     }
+  }
 
-    .registration-buttons-wrapper {
-      display: flex;
-      justify-content: space-around;
+  .login-header {
+    .page-name {
+      margin-left: -40px;
     }
-   }
+  }
 }
