@@ -38,7 +38,7 @@
         <span class="md-body-2">Joined:</span>
         <span class="md-body-1" ng-bind="vm.userProfile.createdAt | date:'MM/dd/yyyy'"></span>
       </div>
-      <div class="section">
+      <div class="section" ng-if="vm.userProfile.details.serviceTypes.length > 0">
         <span class="md-body-2"><span translate>SERVICES</span>:</span>
             <span class="md-body-1"
                   ng-repeat="service in vm.userProfile.details.serviceTypes"
@@ -50,11 +50,16 @@
   <div class="container-title">
     <i class="material-icons">star</i>
     <span translate>FEEDBACKS</span>
-    <span class="divider-dot">⋅</span>
-    <span class="md-title" ng-bind="vm.feedbackData.totalCount"></span>
+    <span ng-if="vm.feedbackData.totalCount > 0">
+        <span class="divider-dot">⋅</span>
+        <span class="md-title" ng-bind="vm.feedbackData.totalCount"></span>
+    </span>
   </div>
   <div class="container-content public-profile-feedbacks"
        layout="column">
+    <div class="feedback" ng-if="vm.feedbackData.totalCount == 0">
+      <div class="md-body-1 text">No feedbacks yet</div>
+    </div>
     <div class="feedback"
          layout="row"
          ng-repeat="feedback in vm.feedbackData.items track by feedback.id">

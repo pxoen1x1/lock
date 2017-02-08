@@ -12,8 +12,8 @@
   "MODIFIED": "Modified",
   "STATUS": "Status",
   "TYPE_OF_ACCOUNT": "Type of Account",
-  "PAYMENT_ROUTING": "paymentRouting",
-  "PAYMENT_NUMBER": "paymentNumber",
+  "PAYMENT_ROUTING": "Routing number",
+  "PAYMENT_NUMBER": "Account number",
   "SAVE": "Save",
   "CANCEL": "Cancel",
   "EMAIL": "Email",
@@ -266,5 +266,8 @@
   "SKIP": "Skip",
   "PROVIDE_US_WITH_YOUR_MAIL": "Please enter registration email. We will send you a letter with resetting password link.",
   "CHOOSE_VALID_ADDRESS": "Choose valid address",
-  "EMAIL_WAS_CONFIRMED": "Email was confirmed. Please log in."
+  "EMAIL_WAS_CONFIRMED": "Email was confirmed. Please log in.",
+  "AGREE": "Agree",
+  "NOT_AGREE": "Not agree",
+  "NO_FEEDBACKS_YET": "No feedbacks yet"
 }
