@@ -1,12 +1,14 @@
 .login {
 
   background-image: linear-gradient(to top, rgba(1, 91, 163, 1) 0%, rgba(3, 129, 227, 1) 33%);
-  height: 100%;
+  height: auto;
+  min-height: 100%;
 
   .form-wrapper {
     background: #fff;
     box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 2px 1px -1px rgba(0, 0, 0, 0.12);
     max-width: 274px;
+    margin: 20px 0;
   }
 
   .login-form {
