@@ -349,9 +349,9 @@
             }
         }
 
-        function logout() {
+        function logout(params) {
 
-            return $sails.post('/auth/logout')
+            return $sails.post('/auth/logout', params)
                 .then(logoutComplete);
 
             function logoutComplete(response) {
