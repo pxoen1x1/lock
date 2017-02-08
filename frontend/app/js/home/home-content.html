@@ -17,18 +17,18 @@
         <form role="form"
               name="vm.newRequestForm"
               novalidate layout="row" layout-xs="column"
-              ng-submit="vm.submit(vm.newRequest, $valid)">
+              ng-submit="vm.submit(vm.newRequest, vm.newRequestForm.$valid)">
             <md-input-container class="md-block" flex-gt-sm>
                 <label translate>FIRST_NAME</label>
                 <input ng-maxlength="20"
                        ng-pattern="/^[a-zA-Z- ]*$/"
-                       ng-model="vm.newRequest.name">
+                       ng-model="vm.auth.user.firstName">
             </md-input-container>
             <md-input-container class="md-block" flex-gt-sm>
                 <label translate>LAST_NAME</label>
                 <input  ng-maxlength="20"
                         ng-pattern="/^[a-zA-Z- ]*$/"
-                        ng-model="vm.newRequest.lastName">
+                        ng-model="vm.auth.user.lastName">
             </md-input-container>
             <!--<md-input-container class="md-block" flex-gt-sm>
                 <label>Phone</label>
@@ -37,7 +37,7 @@
             <md-input-container class="md-block" flex-gt-sm>
                 <input email-validation
                        availability-validation
-                       placeholder="Email" ng-model="vm.newRequest.email" name="email" type="email">
+                       placeholder="Email" ng-model="vm.auth.email" name="email" type="email">
 
                 <div ng-messages="newRequestForm.email.$error">
                     <div ng-message="email" translate>INVALID_EMAIL</div>
@@ -66,11 +66,17 @@
             </md-input-container>
 
             <md-input-container class="md-block location" flex-gt-sm layout="row">
-                <input name="location" id="gmaps_autocomplete" ng-init="vm.initAutocomplete()" placeholder="{{'LOCATION' | translate}}"
-                       ng-model="vm.newRequest.location">
+                <!--<input address-validation name="location" id="gmaps_autocomplete" ng-init="vm.initAutocomplete()" placeholder="{{'LOCATION' | translate}}"
+                       ng-model="vm.newRequest.location">-->
+                <input type="text" name="location"
+                       gm-places-autocomplete="vm.autocompleteOptions"
+                       ng-model="vm.newRequest.location"
+                       placeholder="{{'LOCATION' | translate}}"
+                       ng-change="vm.changeLocation()"
+                />
                 <i class="material-icons">place</i>
                 <div ng-messages="vm.newRequestForm.location.$error">
-                    <div ng-message="invalidAddress" translate>CHOOSE_VALID_ADDRESS</div>
+                    <div ng-message="address" translate>CHOOSE_VALID_ADDRESS</div>
                 </div>
             </md-input-container>
 

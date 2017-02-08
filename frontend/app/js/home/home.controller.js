@@ -5,10 +5,10 @@
         .module('app.home')
         .controller('HomeController', HomeController);
 
-    HomeController.$inject = ['$state', '$location', 'geocoderService', 'coreDictionary', 'authService', 'customerDataservice', 'chatSocketservice', '$mdDialog', 'routingService', 'toastService', 'conf'];
+    HomeController.$inject = ['$state', '$scope', '$location', 'geocoderService', 'coreDictionary', 'authService', 'customerDataservice', 'chatSocketservice', '$mdDialog', 'routingService', 'toastService', 'conf'];
 
     /* @ngInject */
-    function HomeController($state, $location, geocoderService, coreDictionary, authService, customerDataservice, chatSocketservice, $mdDialog, routingService, toastService, conf) {
+    function HomeController($state, $scope, $location, geocoderService, coreDictionary, authService, customerDataservice, chatSocketservice, $mdDialog, routingService, toastService, conf) {
         var vm = this;
         vm.request = {
             location: {
@@ -41,51 +41,55 @@
                 author: 'Michael smith'
             }
         ];
-
+        vm.auth = {};
+        vm.auth.user = {};
         vm.serviceTypes = [];
         vm.newRequest = {};
         vm.newRequestForm = {};
+        vm.details = {};
         vm.specialistId = null;
-
         vm.createdRequest = null;
-
-        vm.locationAutocompleteSelector = 'gmaps_autocomplete';
-        vm.locationAutocomplete = {};
         vm.videoDialog = null;
 
-        vm.initAutocomplete = initAutocomplete;
+        vm.autocompleteOptions = {};
+
         vm.hireSpecialist = hireSpecialist;
         vm.submit = submit;
         vm.showVideo = showVideo;
         vm.closeVideo = closeVideo;
 
+        vm.changeLocation = changeLocation;
+
         activate();
 
+        function changeLocation() {
+console.log('changeLocation');
+console.log(vm.newRequest.location);
+            vm.newRequestForm.location.$setValidity('address', false);
+        }
+
+        $scope.$on('gmPlacesAutocomplete::placeChanged', function(){ // set map center to location
+            var location = vm.newRequest.location.getPlace();
+
+             vm.request.location.address = location.formatted_address;
+             vm.request.location.latitude = location.geometry.location.lat();
+             vm.request.location.longitude = location.geometry.location.lng();
+
+
+            vm.newRequestForm.location.$setValidity('address', true); // todo: refactor to async custom validation
+        })
 
         function submit(newRequest, isFromValid) {
-
-            if(vm.request.location.address === null) {
-
-                vm.newRequestForm.location.$setValidity('invalidAddress', false);
-            }
 
             if (!isFromValid) {
 
                 return;
             }
 
-            var auth = {};
-            var user = {};
-            auth.email = newRequest.email;
-
-            user.firstName = newRequest.name;
-            user.lastName = newRequest.lastName;
-            user.phoneNumber = newRequest.phone;
-
-            auth.user = user;
-
+console.log(vm.request);
+            return;
             var params = {
-                auth: auth
+                auth: vm.auth
             };
 
             return authService.register(params)
@@ -156,31 +160,6 @@
                     vm.serviceTypes = serviceTypes;
 
                     return vm.serviceTypes;
-                });
-        }
-
-        function initAutocomplete() {
-            var locationAutocompleteInput = document.getElementById(vm.locationAutocompleteSelector);
-
-            geocoderService.initLocationAutocomplete(vm.locationAutocompleteSelector)
-                .then(function (locationAutocomplete) {
-                    vm.locationAutocomplete = locationAutocomplete;
-
-                    vm.locationAutocomplete.addListener('place_changed', function () {
-                        vm.newRequestForm.location.$setValidity('invalidAddress', true);
-
-                        var place = vm.locationAutocomplete.getPlace();
-
-                        if (place) {
-                            vm.request.location.address = place.formatted_address;
-                            vm.request.location.latitude = place.geometry.location.lat();
-                            vm.request.location.longitude = place.geometry.location.lng();
-                        }
-
-                        locationAutocompleteInput.focus(); // patch, watch doesn't call function without this line
-                    });
-
-                    return vm.locationAutocomplete;
                 });
         }
 
