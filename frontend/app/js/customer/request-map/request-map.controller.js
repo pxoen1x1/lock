@@ -25,7 +25,7 @@
         var vm = this;
 
         vm.request = {};
-        vm.specialist = {};
+        vm.selectedSpecialist = {};
         vm.specialists = [];
 
         vm.isSpecialistCardShown = false;
@@ -73,15 +73,15 @@
             vm.isSpecialistCardShown = false;
 
             $timeout(function () {
-                vm.specialist = selectedSpecialist;
-                vm.specialist.distance = distance ? distance : selectedSpecialist.distance;
+                vm.selectedSpecialist = selectedSpecialist;
+                vm.selectedSpecialist.distance = distance ? distance : selectedSpecialist.distance;
 
                 vm.isSpecialistCardShown = true;
             }, 200);
         }
 
         function hireSpecialist(specialist) {
-            createChat(vm.specialist, vm.request);
+            createChat(specialist, vm.request);
         }
 
         function createChat(selectedSpecialist, currentRequest) {
@@ -126,7 +126,7 @@
                 .then(function (request) {
                     if (request.status === vm.requestStatus.IN_PROGRESS) {
                         vm.isSpecialistCardShown = true;
-                        vm.specialist = request.executor;
+                        vm.selectedSpecialist = request.executor;
                     }
 
                     listenRequestEvent();
