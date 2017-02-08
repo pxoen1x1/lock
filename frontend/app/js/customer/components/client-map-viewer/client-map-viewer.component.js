@@ -263,8 +263,9 @@
         }
 
         function hire(specialist) {
-
-            vm.hireSpecialist({specialist: specialist});
+            if (vm.hireSpecialist) {
+                vm.hireSpecialist({specialist: specialist});
+            }
         }
 
         function setMapCenter(latitude, longitude) {
