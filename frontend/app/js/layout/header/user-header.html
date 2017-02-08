@@ -6,12 +6,12 @@
             <md-icon>menu</md-icon>
         </md-button>
         <h2 class="root"
+            layout="row"
+            layout-align="start center"
             hide-xs>
-            <a  ng-click="vm.goBack()">
-            <i class="material-icons">
-                chevron_left
-            </i>
-                </a>
+            <a ng-click="vm.goBack()">
+                <md-icon>chevron_left</md-icon>
+            </a>
             <span ng-bind="vm.pageTitles[vm.pageTitles.length-1].title.toUpperCase() | translate">
             </span>
         </h2>

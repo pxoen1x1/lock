@@ -50,6 +50,38 @@
                         templateUrl: 'home/faq-content.html'
                     }
                 }
+            })
+            .state('home.commission', {
+                url: '/commission',
+                views: {
+                    'content@home': {
+                        templateUrl: 'layout/legal/commission-content.html'
+                    }
+                }
+            })
+            .state('home.copyright', {
+                url: '/copyright',
+                views: {
+                    'content@home': {
+                        templateUrl: 'layout/legal/copyright-content.html'
+                    }
+                }
+            })
+            .state('home.privacy', {
+                url: '/privacy',
+                views: {
+                    'content@home': {
+                        templateUrl: 'layout/legal/privacy-content.html'
+                    }
+                }
+            })
+            .state('home.terms', {
+                url: '/terms',
+                views: {
+                    'content@home': {
+                        templateUrl: 'layout/legal/terms-content.html'
+                    }
+                }
             });
     }
 })();

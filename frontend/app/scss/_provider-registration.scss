@@ -149,6 +149,10 @@
       margin-bottom: 15px;
       max-height: 35vh;
       overflow-y: scroll;
+
+      .terms-wrapper p {
+        font-weight: normal;
+      }
     }
 
     .service-remove {
