@@ -60,17 +60,33 @@
 
         activate();
 
+
+        function getLocation() {
+            var location = {};
+
+            if (!vm.details.geometry) {
+
+                return;
+            }
+
+            location.id = 1; // for displaying marker on the map
+            location.address = vm.details.formatted_address;
+            location.latitude = vm.details.geometry.location.lat();
+            location.longitude = vm.details.geometry.location.lng();
+
+            return location;
+        }
+
         function submit(newRequest, isFromValid) {
 
-            if(vm.details.geometry){
-                vm.request.location.address = vm.details.formatted_address;
-                vm.request.location.latitude = vm.details.geometry.location.lat();
-                vm.request.location.longitude = vm.details.geometry.location.lng();
-
-                vm.newRequestForm.location.$setValidity('address', true);
-            }else{
+            vm.request.location = getLocation();
+            if (!vm.request.location) {
                 vm.newRequestForm.location.$setValidity('address', false);
+
+                return;
             }
+
+            vm.newRequestForm.location.$setValidity('address', true);
 
             if (!isFromValid) {
 
@@ -176,9 +192,18 @@
             getServiceTypes();
             showRequestOnMap(); // works only in Chrome
 
-            if($location.url() === conf.EMAIL_CONFIRMED_URL){
+            if ($location.url() === conf.EMAIL_CONFIRMED_URL) {
                 toastService.success($filter('translate')('EMAIL_WAS_CONFIRMED'));
             }
+
+            $scope.$watch('vm.details.formatted_address', function (newLocation, oldLocation) {
+                if (newLocation === oldLocation) {
+
+                    return;
+                }
+
+                vm.request.location = getLocation();
+            });
         }
     }
 })();
