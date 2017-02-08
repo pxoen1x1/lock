@@ -58,36 +58,25 @@
         vm.showVideo = showVideo;
         vm.closeVideo = closeVideo;
 
-        vm.changeLocation = changeLocation;
-
         activate();
 
-        function changeLocation() {
-console.log('changeLocation');
-console.log(vm.newRequest.location);
-            vm.newRequestForm.location.$setValidity('address', false);
-        }
-
-        $scope.$on('gmPlacesAutocomplete::placeChanged', function(){ // set map center to location
-            var location = vm.newRequest.location.getPlace();
-
-             vm.request.location.address = location.formatted_address;
-             vm.request.location.latitude = location.geometry.location.lat();
-             vm.request.location.longitude = location.geometry.location.lng();
-
-
-            vm.newRequestForm.location.$setValidity('address', true); // todo: refactor to async custom validation
-        })
-
         function submit(newRequest, isFromValid) {
+
+            if(vm.details.geometry){
+                vm.request.location.address = vm.details.formatted_address;
+                vm.request.location.latitude = vm.details.geometry.location.lat();
+                vm.request.location.longitude = vm.details.geometry.location.lng();
+
+                vm.newRequestForm.location.$setValidity('address', true);
+            }else{
+                vm.newRequestForm.location.$setValidity('address', false);
+            }
 
             if (!isFromValid) {
 
                 return;
             }
 
-console.log(vm.request);
-            return;
             var params = {
                 auth: vm.auth
             };

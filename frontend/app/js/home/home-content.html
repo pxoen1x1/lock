@@ -66,13 +66,11 @@
             </md-input-container>
 
             <md-input-container class="md-block location" flex-gt-sm layout="row">
-                <!--<input address-validation name="location" id="gmaps_autocomplete" ng-init="vm.initAutocomplete()" placeholder="{{'LOCATION' | translate}}"
-                       ng-model="vm.newRequest.location">-->
                 <input type="text" name="location"
-                       gm-places-autocomplete="vm.autocompleteOptions"
+                       ng-autocomplete
                        ng-model="vm.newRequest.location"
+                       details="vm.details"
                        placeholder="{{'LOCATION' | translate}}"
-                       ng-change="vm.changeLocation()"
                 />
                 <i class="material-icons">place</i>
                 <div ng-messages="vm.newRequestForm.location.$error">
