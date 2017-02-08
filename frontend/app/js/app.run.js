@@ -51,9 +51,9 @@
 
                 toastService.warning('Please log in.');
 
-                if (toState.name !== 'home.main') {
+                if (toState.name !== 'login') {
 
-                    $state.go('home.main');
+                    $state.go('login');
                 }
 
                 return;

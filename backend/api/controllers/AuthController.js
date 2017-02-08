@@ -1,4 +1,5 @@
-/* global sails, waterlock, User, AuthService, MailerService, JwtService, UserService, SplashPaymentService */
+/* global sails, waterlock, User, AuthService, MailerService, JwtService, UserService, GroupService,
+          SplashPaymentService */
 /**
  * AuthController
  *
@@ -97,6 +98,19 @@ let AuthController = waterlock.waterlocked({
                     let message = err.isToSend ? {message: err.message} : null;
 
                     return res.serverError(message);
+                }
+            );
+    },
+    logout(req, res){
+        let user = req.session.user;
+        let uuid = req.body.uuid;
+
+        AuthService.logout(req, res, user, uuid)
+            .catch(
+                (err) => {
+                    sails.log.error(err);
+
+                    return res.serverError();
                 }
             );
     },
@@ -250,11 +264,11 @@ let AuthController = waterlock.waterlocked({
         let promiseGetUser = hasToken ? AuthService.getUserByToken(req) : Promise.resolve();
 
         Promise.all([
-                promiseCheckSSN,
-                promiseCheckPhoneNumber,
-                promiseCheckEmail,
-                promiseGetUser
-            ])
+            promiseCheckSSN,
+            promiseCheckPhoneNumber,
+            promiseCheckEmail,
+            promiseGetUser
+        ])
             .then(
                 (params) => {
                     let userId = params[3] ? params[3].id : null;

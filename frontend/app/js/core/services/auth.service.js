@@ -60,12 +60,15 @@
         }
 
         function logout() {
+            var device = localService.getDeviceInfo();
 
-            return coreDataservice.logout()
-                .then(function () {
+            var params = {};
 
-                    return socketService.unsubscribe();
-                })
+            if (device && device.uuid) {
+                params.uuid = device.uuid;
+            }
+
+            return coreDataservice.logout(params)
                 .then(function () {
                     clearData();
 

@@ -17,6 +17,7 @@ let DeviceController = {
         let device = params.device;
 
         if (!device || !device.token || !device.uuid || !device.platform) {
+
             return res.badRequest({
                 message: req.__('Submitted data is invalid.')
             });

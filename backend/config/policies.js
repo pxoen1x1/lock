@@ -50,7 +50,10 @@ module.exports.policies = {
     // }
 
     AuthController: {
-        '*': true
+        '*': true,
+        'logout': [
+            'hasJsonWebToken'
+        ]
     },
 
     DeviceController: {
