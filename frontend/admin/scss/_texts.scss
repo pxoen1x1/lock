@@ -2,6 +2,24 @@
   font-size: 17px;
 }
 
+.text-capitalize {
+  text: {
+    transform: capitalize;
+  }
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.text-justify {
+  text-align: justify;
+}
+
 .secondary-text {
   font-size: 14px;
   color: $secondary-text-color;

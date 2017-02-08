@@ -10,15 +10,10 @@ $secondary-text-color: rgba(0, 0, 0, .54);
 $disabled-color: rgba(0, 0, 0, 0.38);
 $disabled-background-color: rgba(0, 0, 0, 0.12);
 $panel-background-color: rgb(245, 245, 245);
+$background-filling: linear-gradient(to top, rgba(1, 91, 163, 1) 0%, rgba(3, 129, 227, 1) 33%);
 
 .primary-color {
   color: $primary-color;
-}
-
-.text-capitalize {
-  text: {
-    transform: capitalize;
-  }
 }
 
 .has-error {
@@ -42,14 +37,6 @@ $panel-background-color: rgb(245, 245, 245);
 
 .vertical-bottom {
   vertical-align: bottom;
-}
-
-.text-center {
-  text-align: center;
-}
-
-.text-right {
-  text-align: right;
 }
 
 .inline-block {
@@ -326,21 +313,6 @@ md-content {
   }
 }
 
-.secondary-text {
-  color: rgba(0, 0, 0, 0.54);
-}
-
-.text-truncate {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.text-truncate-multiline {
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
 /* start scroll */
 
 ::-webkit-scrollbar {
@@ -469,6 +441,7 @@ md-content {
   }
 }
 
+@import 'text';
 @import 'toast';
 @import 'icons';
 @import 'md-select';
