@@ -198,6 +198,17 @@
                         icon: 'message'
                     }
                 }
+            })
+            .state('customer.blocker', {
+                parent: 'root',
+                url: '',
+                views: {
+                    'content@root': {
+                        templateUrl: 'customer/blocker/blocker.html',
+                        controller: 'BlockerDialogController',
+                        controllerAs: 'vm'
+                    }
+                }
             });
     }
 })();
