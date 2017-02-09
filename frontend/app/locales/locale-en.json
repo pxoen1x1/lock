@@ -274,5 +274,6 @@
   "READY_FOR_VERIFICATION": "Ready for verification",
   "CHALLENGED": "Challenged",
   "VERIFIED": "Verified",
-  "MANUAL": "Manual"
+  "MANUAL": "Manual",
+  "INVITE_WAS_SENT": "Invite was sent"
 }
