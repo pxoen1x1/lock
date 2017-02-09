@@ -269,5 +269,10 @@
   "EMAIL_WAS_CONFIRMED": "Email was confirmed. Please log in.",
   "AGREE": "Agree",
   "NOT_AGREE": "Not agree",
-  "NO_FEEDBACKS_YET": "No feedbacks yet"
+  "NO_FEEDBACKS_YET": "No feedbacks yet",
+  "NOT_READY": "Not ready",
+  "READY_FOR_VERIFICATION": "Ready for verification",
+  "CHALLENGED": "Challenged",
+  "VERIFIED": "Verified",
+  "MANUAL": "Manual"
 }
