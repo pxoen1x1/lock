@@ -191,6 +191,10 @@ let UserController = waterlock.actions.user({
             });
         }
 
+        delete user.isEnabled;
+        delete user.isEmailConfirmed;
+        delete user.emailConfirmationToken;
+
         if (user.details) {
             user.userDetail = user.details;
 
