@@ -201,7 +201,7 @@
             })
             .state('customer.blocker', {
                 parent: 'root',
-                url: '',
+                url: '/locked',
                 views: {
                     'content@root': {
                         templateUrl: 'customer/blocker/blocker.html',
