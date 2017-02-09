@@ -12,7 +12,7 @@ let application = {
     urls: {
         emailConfirmation: '/auth/email/confirm',
         passwordResetRequest: '/auth/password/reset',
-        groupInvitation: '/group/members/invite'
+        groupInvitation: '/api/group/members/invite'
     },
     mailer: {
         from: `LockHeal <no-reply@lockheal.com>`,
