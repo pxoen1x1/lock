@@ -7,15 +7,11 @@
 
     customerRun.$inject = [
         '$rootScope',
-        '$state',
-        'cfpLoadingBar',
-        'coreConstants',
-        'customerConstants',
-        'currentUserService'
+        'customerConstants'
     ];
 
     /* @ngInject */
-    function customerRun($rootScope, $state, cfpLoadingBar, coreConstants, customerConstants, currentUserService) {
+    function customerRun($rootScope, customerConstants) {
 
         $rootScope.$on('$stateChangeStart',
             function (event, toState, toParams, fromState) {
@@ -29,21 +25,6 @@
                     elem.addClass('anim-slide-right');
                     elem.removeClass('anim-slide-left');
                 }
-
-                currentUserService.getType()
-                    .then(function (userType) {
-                        if (userType !== coreConstants.USER_TYPES.CLIENT) {
-
-                            return;
-                        }
-
-                        if (toState.name !== 'customer.blocker') {
-                            cfpLoadingBar.complete();
-                            event.preventDefault();
-
-                            $state.go('customer.blocker');
-                        }
-                    });
             }
         );
     }

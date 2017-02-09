@@ -7,20 +7,26 @@
 
     runApp.$inject = [
         '$rootScope',
+        '$q',
         '$state',
         '$mdDialog',
         '$mdMedia',
         'cfpLoadingBar',
+        'coreConstants',
+        'coreDataservice',
         'socketService',
         'authService',
         'usingLanguageService',
+        'currentUserService',
         'toastService',
-        'mobileService'
+        'mobileService',
+        'backgroundCheckService'
     ];
 
     /* @ngInject */
-    function runApp($rootScope, $state, $mdDialog, $mdMedia, cfpLoadingBar, socketService, authService,
-                    usingLanguageService, toastService, mobileService) {
+    function runApp($rootScope, $q, $state, $mdDialog, $mdMedia, cfpLoadingBar, coreConstants, coreDataservice,
+                    socketService, authService, usingLanguageService, currentUserService, toastService, mobileService,
+                    backgroundCheckService) {
         socketService.onConnect(function () {
             if (authService.isAuthenticated()) {
                 socketService.subscribe();
@@ -31,8 +37,12 @@
         $rootScope.$mdMedia = $mdMedia;
         $rootScope.$isMobile = mobileService.isMobileApplication();
 
-        $rootScope.$on('$stateChangeStart', function (event, toState) {
+        $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
             cfpLoadingBar.start();
+
+            if (toState.data && toState.data.isPrivate) {
+                blockUsers(event, toState, toParams, fromParams);
+            }
 
             if (!usingLanguageService.isLanguageSelected() && toState.name !== 'login') {
                 cfpLoadingBar.complete();
@@ -80,5 +90,43 @@
         $rootScope.$on('$stateNotFound', function () {
             cfpLoadingBar.complete();
         });
+
+        function blockUsers(event, toState, toParams, fromParams) {
+            if (fromParams.skipSomeAsync) {
+
+                return;
+            }
+
+            cfpLoadingBar.complete();
+            event.preventDefault();
+
+            $q.all(
+                [
+                    coreDataservice.getPolicies(),
+                    currentUserService.getType(),
+                    backgroundCheckService.isBackgroundCheckCompleted()
+                ]
+            )
+                .then(function (results) {
+                    var policies = results[0];
+                    var userType = results[1];
+                    var isCompleted = results[2];
+
+                    fromParams.skipSomeAsync = true;
+
+                    if (policies.isBGCheckEnabled && !isCompleted &&
+                        userType === coreConstants.USER_TYPES.SPECIALIST) {
+
+                        return backgroundCheckService.showBackgroundCheckDialog();
+                    }
+
+                    if (policies.isCustomersLockingEnabled && userType === coreConstants.USER_TYPES.CLIENT) {
+
+                        return $state.go('customer.blocker');
+                    }
+
+                    $state.go(toState, toParams);
+                });
+        }
     }
 })();
