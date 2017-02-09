@@ -15,9 +15,9 @@
         .module('app.group')
         .component('memberInvitation', memberInvitationConfig);
 
-    MemberInvitationController.$inject = ['groupDataservice'];
+    MemberInvitationController.$inject = ['$filter', 'groupDataservice','toastService'];
 
-    function MemberInvitationController(groupDataservice) {
+    function MemberInvitationController($filter, groupDataservice, toastService) {
         var vm = this;
 
         vm.newMemberEmail = '';
@@ -29,6 +29,7 @@
             return groupDataservice.inviteMember(email)
                 .then(function () {
                     vm.newMemberEmail = '';
+                    toastService.success($filter('translate')('INVITE_WAS_SENT'));
                 });
         }
 
