@@ -1,12 +1,14 @@
 .login {
 
   background-image: $background-filling;
-  height: 100%;
+  height: auto;
+  min-height: 100%;
 
   .form-wrapper {
     background: #fff;
     box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 2px 1px -1px rgba(0, 0, 0, 0.12);
     max-width: 274px;
+    margin: 20px 0;
   }
 
   .login-form {
@@ -67,8 +69,8 @@
 }
 
 .login-header {
-  a {
-    position: absolute;
+  .page-name {
+    margin-left: -106px;
   }
 }
 
@@ -78,10 +80,11 @@
       font-size: 32px;
       text-align: center;
     }
+  }
 
-    .registration-buttons-wrapper {
-      display: flex;
-      justify-content: space-around;
+  .login-header {
+    .page-name {
+      margin-left: -40px;
     }
-   }
+  }
 }

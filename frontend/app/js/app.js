@@ -19,6 +19,7 @@
         'ngSails',                  // Module allows to use Sails.JS's awesome socket.io api with AngularJS.
         'jkAngularCarousel',
         'pascalprecht.translate',   // Translation module for AngularJS
+        'ngAutocomplete',
 
         'app.core',
         'app.home',

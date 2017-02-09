@@ -69,6 +69,7 @@
 
         vm.getCities = getCities;
         vm.viewUserPhoto = viewUserPhoto;
+        vm.removePhoto = removePhoto;
         vm.selectedItemChange = selectedItemChange;
         vm.resetSelectedCity = resetSelectedCity;
         vm.spAgreementModal = spAgreementModal;
@@ -207,6 +208,11 @@
 
                 return vm.userProfile.portrait ? vm.baseUrl + vm.userProfile.portrait : vm.defaultPortrait;
             }
+        }
+
+        function removePhoto() {
+            vm.userProfile.portrait = '';
+            vm.newPortrait = '';
         }
 
         function getUser() {

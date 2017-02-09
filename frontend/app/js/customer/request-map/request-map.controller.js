@@ -36,6 +36,7 @@
 
         vm.createChat = createChat;
         vm.showSelectedSpecialistInfo = showSelectedSpecialistInfo;
+        vm.hireSpecialist = hireSpecialist;
 
         activate();
 
@@ -54,29 +55,33 @@
                 });
         }
 
-        function showSelectedSpecialistInfo(slectedSpecialist) {
-            if (!slectedSpecialist || Object.keys(slectedSpecialist).length === 0 || !vm.request.location) {
+        function showSelectedSpecialistInfo(selectedSpecialist) {
+            if (!selectedSpecialist || Object.keys(selectedSpecialist).length === 0 || !vm.request.location) {
 
                 return;
             }
 
-            if (!slectedSpecialist.distance) {
+            if (!selectedSpecialist.distance) {
                 var distance = geocoderService.getDistance(
                     vm.request.location.latitude,
                     vm.request.location.longitude,
-                    slectedSpecialist.details.latitude,
-                    slectedSpecialist.details.longitude
+                    selectedSpecialist.details.latitude,
+                    selectedSpecialist.details.longitude
                 );
             }
 
             vm.isSpecialistCardShown = false;
 
             $timeout(function () {
-                vm.selectedSpecialist = slectedSpecialist;
-                vm.selectedSpecialist.distance = distance ? distance : slectedSpecialist.distance;
+                vm.selectedSpecialist = selectedSpecialist;
+                vm.selectedSpecialist.distance = distance ? distance : selectedSpecialist.distance;
 
                 vm.isSpecialistCardShown = true;
             }, 200);
+        }
+
+        function hireSpecialist(specialist) {
+            createChat(specialist, vm.request);
         }
 
         function createChat(selectedSpecialist, currentRequest) {

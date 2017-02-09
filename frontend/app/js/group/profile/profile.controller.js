@@ -64,6 +64,7 @@
         vm.updateMerchant = updateMerchant;
         vm.withdrawal = withdrawal;
         vm.viewUserPhoto = viewUserPhoto;
+        vm.removePhoto = removePhoto;
         vm.cancelEditing = cancelEditing;
 
         vm.getCities = getCities;
@@ -108,6 +109,11 @@
 
                 return vm.userProfile.portrait ? vm.baseUrl + vm.userProfile.portrait : vm.defaultPortrait;
             }
+        }
+
+        function removePhoto() {
+            vm.userProfile.portrait = '';
+            vm.newPortrait = '';
         }
 
         function updateUser(user, isFormValid) {
