@@ -7,17 +7,15 @@
 
     providerRun.$inject = [
         '$rootScope',
-        'cfpLoadingBar',
         'serviceProviderConstants',
         'authService',
         'specialistGeoService',
-        'backgroundCheckService',
-        'localService'
+        'backgroundCheckService'
     ];
 
     /* @ngInject */
-    function providerRun($rootScope, cfpLoadingBar, serviceProviderConstants, authService, specialistGeoService,
-                         backgroundCheckService, localService) {
+    function providerRun($rootScope, serviceProviderConstants, authService, specialistGeoService,
+                         backgroundCheckService) {
 
         if (authService.isAuthenticated()) {
             backgroundCheckService.isBackgroundCheckCompleted()
@@ -31,22 +29,6 @@
 
         $rootScope.$on('$stateChangeStart',
             function (event, toState, toParams, fromState) {
-                if (toState.data && toState.data.isPrivate) {
-                    backgroundCheckService.isBackgroundCheckCompleted()
-                        .then(function (isCompleted) {
-
-                            if (!isCompleted) {
-                                cfpLoadingBar.complete();
-                                event.preventDefault();
-
-                                // ToDo: when skip function will be removed in BackgroundCheckController, remove comment
-                                // localService.removeUser();
-
-                                return backgroundCheckService.showBackgroundCheckDialog();
-                            }
-                        });
-                }
-
                 var elem = angular.element(document.getElementsByClassName('content'));
                 var statesFlow = serviceProviderConstants.MENU_ITEMS;
 

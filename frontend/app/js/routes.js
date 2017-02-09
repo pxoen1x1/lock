@@ -28,6 +28,7 @@
 
                 return $state.go('login');
             }
+
             $state.go('home.main');
         });
     }
