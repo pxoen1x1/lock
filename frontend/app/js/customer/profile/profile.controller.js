@@ -88,7 +88,7 @@
                         return;
                     }
 
-                    vm.userProfile.spCardNumber = '****' + spCardNumber;
+                    vm.userProfile.spCardNumber = spCardNumber;
 
                     return currentUserService.setUserToLocalStorage(vm.userProfile);
                 }).finally(function () {
