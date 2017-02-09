@@ -5,10 +5,10 @@
         .module('app.home')
         .controller('HomeController', HomeController);
 
-    HomeController.$inject = ['$state', '$location', 'geocoderService', 'coreDictionary', 'authService', 'customerDataservice', 'chatSocketservice', '$mdDialog', 'routingService', 'toastService', 'conf'];
+    HomeController.$inject = ['$state', '$scope', '$location', 'geocoderService', 'coreDictionary', 'authService', 'customerDataservice', 'chatSocketservice', '$mdDialog', 'routingService', 'toastService', 'conf'];
 
     /* @ngInject */
-    function HomeController($state, $location, geocoderService, coreDictionary, authService, customerDataservice, chatSocketservice, $mdDialog, routingService, toastService, conf) {
+    function HomeController($state, $scope, $location, geocoderService, coreDictionary, authService, customerDataservice, chatSocketservice, $mdDialog, routingService, toastService, conf) {
         var vm = this;
         vm.request = {
             location: {
@@ -41,19 +41,21 @@
                 author: 'Michael smith'
             }
         ];
-
+        vm.auth = {};
+        vm.auth.user = {};
         vm.serviceTypes = [];
         vm.newRequest = {};
         vm.newRequestForm = {};
+        vm.details = {};
+        vm.options = {
+            country: 'us'
+        };
         vm.specialistId = null;
-
         vm.createdRequest = null;
-
-        vm.locationAutocompleteSelector = 'gmaps_autocomplete';
-        vm.locationAutocomplete = {};
         vm.videoDialog = null;
 
-        vm.initAutocomplete = initAutocomplete;
+        vm.autocompleteOptions = {};
+
         vm.hireSpecialist = hireSpecialist;
         vm.submit = submit;
         vm.showVideo = showVideo;
@@ -62,30 +64,40 @@
         activate();
 
 
+        function getLocation() {
+            var location = {};
+
+            if (!vm.details.geometry) {
+
+                return;
+            }
+
+            location.id = 1; // for displaying marker on the map
+            location.address = vm.details.formatted_address;
+            location.latitude = vm.details.geometry.location.lat();
+            location.longitude = vm.details.geometry.location.lng();
+
+            return location;
+        }
+
         function submit(newRequest, isFromValid) {
 
-            if(vm.request.location.address === null) {
+            vm.request.location = getLocation();
+            if (!vm.request.location) {
+                vm.newRequestForm.location.$setValidity('address', false);
 
-                vm.newRequestForm.location.$setValidity('invalidAddress', false);
+                return;
             }
+
+            vm.newRequestForm.location.$setValidity('address', true);
 
             if (!isFromValid) {
 
                 return;
             }
 
-            var auth = {};
-            var user = {};
-            auth.email = newRequest.email;
-
-            user.firstName = newRequest.name;
-            user.lastName = newRequest.lastName;
-            user.phoneNumber = newRequest.phone;
-
-            auth.user = user;
-
             var params = {
-                auth: auth
+                auth: vm.auth
             };
 
             return authService.register(params)
@@ -159,31 +171,6 @@
                 });
         }
 
-        function initAutocomplete() {
-            var locationAutocompleteInput = document.getElementById(vm.locationAutocompleteSelector);
-
-            geocoderService.initLocationAutocomplete(vm.locationAutocompleteSelector)
-                .then(function (locationAutocomplete) {
-                    vm.locationAutocomplete = locationAutocomplete;
-
-                    vm.locationAutocomplete.addListener('place_changed', function () {
-                        vm.newRequestForm.location.$setValidity('invalidAddress', true);
-
-                        var place = vm.locationAutocomplete.getPlace();
-
-                        if (place) {
-                            vm.request.location.address = place.formatted_address;
-                            vm.request.location.latitude = place.geometry.location.lat();
-                            vm.request.location.longitude = place.geometry.location.lng();
-                        }
-
-                        locationAutocompleteInput.focus(); // patch, watch doesn't call function without this line
-                    });
-
-                    return vm.locationAutocomplete;
-                });
-        }
-
         function hireSpecialist(specialist) {
 
             vm.specialistId = specialist.id;
@@ -208,9 +195,18 @@
             getServiceTypes();
             showRequestOnMap(); // works only in Chrome
 
-            if($location.url() === conf.EMAIL_CONFIRMED_URL){
+            if ($location.url() === conf.EMAIL_CONFIRMED_URL) {
                 toastService.success($filter('translate')('EMAIL_WAS_CONFIRMED'));
             }
+
+            $scope.$watch('vm.details.formatted_address', function (newLocation, oldLocation) {
+                if (newLocation === oldLocation) {
+
+                    return;
+                }
+
+                vm.request.location = getLocation();
+            });
         }
     }
 })();
