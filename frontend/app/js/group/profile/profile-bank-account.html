@@ -62,14 +62,16 @@
                 <label translate>PAYMENT_ROUTING</label>
                 <input name="paymentRouting"
                        required
-                       ng-maxlength="20"
+                       ng-maxlength="9"
+                       ng-pattern="/^[0-9]*$/"
                        ng-model="vm.userProfile.payment.routing">
             </md-input-container>
             <md-input-container class="md-block" flex>
                 <label translate>PAYMENT_NUMBER</label>
                 <input name="paymentNumber"
                        required
-                       ng-maxlength="20"
+                       ng-maxlength="9"
+                       ng-pattern="/^[0-9]*$/"
                        ng-model="vm.userProfile.payment.number">
             </md-input-container>
         </div>
