@@ -13,8 +13,11 @@
     width: 100%;
 
     .photo-remove {
+      position: absolute;
+      top: 5px;
+      right: 5px;
       color: grey;
-      z-index: 5;
+      z-index: 1;
     }
   }
 
@@ -25,11 +28,7 @@
   }
 
   .profile-avatar {
-    border-radius: 0px;
-    position: absolute;
-    max-width: 280px;
-    width: 100%;
-    height: 100%;
+    border-radius: 0;
     background-size: cover;
     background-position: center;
   }
@@ -94,11 +93,11 @@
       background-color: #fff;
     }
 
-    md-tabs md-tab-item.md-active span{
+    md-tabs md-tab-item.md-active span {
       color: $primary-color;
     }
 
-    md-tabs md-ink-bar{
+    md-tabs md-ink-bar {
       background-color: $primary-color;
     }
 
@@ -111,7 +110,6 @@
   .license-container {
     width: 100%;
   }
-
 
   .license-number {
     min-width: 50px;
@@ -198,16 +196,16 @@
   .avatar-wrapper:after {
     content: "";
     display: block;
-    padding-bottom: 0px;
-    width: 0px;
-    height: 0px;
+    padding-bottom: 0;
+    width: 0;
+    height: 0;
   }
 
   md-dialog {
     .mdp-datepicker {
       .md-dialog-fullscreen {
-        min-height: 0px;
-        min-width: 0px;
+        min-height: 0;
+        min-width: 0;
       }
     }
   }
@@ -226,35 +224,35 @@
 
 }
 
-@media only screen and (min-device-width: 320px) and (max-device-width: 600px) {
+@media only screen and (max-device-width: 600px) {
 
-    .profile-content {
+  .profile-content {
 
-      .profile-left {
-        width: 170px;
-      }
-
-      .avatar {
-        border-radius: 50%;
-        box-shadow: none;
-        width: 170px;
-        height: 170px;
-      }
-
-      .profile-right {
-        margin-left: 0;
-        margin-top: 10px;
-        width: 100%;
-      }
-
-      .profile-right h1 {
-        margin-top: 22px;
-        margin-bottom: 16px;
-      }
-
-      .md-button-blue {
-        line-height: normal;
-      }
+    .profile-left {
+      width: 170px;
     }
+
+    .avatar {
+      border-radius: 50%;
+      box-shadow: none;
+      width: 170px;
+      height: 170px;
+    }
+
+    .profile-right {
+      margin-left: 0;
+      margin-top: 10px;
+      width: 100%;
+    }
+
+    .profile-right h1 {
+      margin-top: 22px;
+      margin-bottom: 16px;
+    }
+
+    .md-button-blue {
+      line-height: normal;
+    }
+  }
 
 }
