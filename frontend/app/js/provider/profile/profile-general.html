@@ -68,6 +68,7 @@
                 <input name="firstName"
                        required
                        ng-maxlength="20"
+                       ng-pattern="/^[a-zA-Z- ]*$/"
                        ng-model="vm.userProfile.firstName">
             </md-input-container>
             <md-input-container class="md-block" flex>
@@ -75,6 +76,7 @@
                 <input name="lastName"
                        required
                        ng-maxlength="20"
+                       ng-pattern="/^[a-zA-Z- ]*$/"
                        ng-model="vm.userProfile.lastName">
             </md-input-container>
         </div>
