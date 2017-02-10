@@ -45,7 +45,8 @@
         vm.states = [];
 
         vm.datePickerOptions = {
-            minDate: new Date()
+            minDate: moment(),
+            maxDate: moment().add(10, 'years')
         };
 
         vm.isEditing = false;

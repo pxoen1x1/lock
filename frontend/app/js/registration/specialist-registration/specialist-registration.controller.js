@@ -34,7 +34,7 @@
         vm.isCompanyRegistrationSelected = false;
 
         vm.datePickerOptions = {
-            minDate: new Date()
+            minDate:  moment()
         };
 
         vm.timePickerOptions = coreConstants.MD_PICKERS_OPTIONS.timePicker;
