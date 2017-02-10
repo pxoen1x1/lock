@@ -47,7 +47,8 @@
         vm.bankAccountStatuses = serviceProviderConstants.ACCOUNT_STATUSES;
 
         vm.datePickerOptions = {
-            minDate: new Date()
+            minDate: moment(),
+            maxDate: moment().add(10, 'years')
         };
         vm.dateFormat = coreConstants.DATE_FORMAT;
 
@@ -171,6 +172,7 @@
                 })
                 .then(function (userPayment) {
                     vm.userProfile.paymentData = userPayment;
+                    vm.userProfile.paymentData[0].modified = new Date(vm.userProfile.paymentData[0].modified.replace(' ','T'));
 
                     return currentUserService.setUserToLocalStorage(vm.userProfile);
                 })
@@ -229,6 +231,7 @@
                     return coreDataservice.getMerchantAccount()
                         .then(function (userPayment) {
                             vm.userProfile.paymentData = userPayment;
+                            vm.userProfile.paymentData[0].modified = new Date(vm.userProfile.paymentData[0].modified.replace(' ','T'));
 
                             return vm.userProfile;
                         })

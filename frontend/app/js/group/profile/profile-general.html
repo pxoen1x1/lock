@@ -52,6 +52,7 @@
                 <input name="firstName"
                        required
                        ng-maxlength="20"
+                       ng-pattern="/^[a-zA-Z- ]*$/"
                        ng-model="vm.userProfile.firstName">
             </md-input-container>
             <md-input-container class="md-block" flex>
@@ -59,6 +60,7 @@
                 <input name="lastName"
                        required
                        ng-maxlength="20"
+                       ng-pattern="/^[a-zA-Z- ]*$/"
                        ng-model="vm.userProfile.lastName">
             </md-input-container>
         </div>
@@ -111,16 +113,18 @@
                     </md-input-container>
                     <mdp-date-picker name="licenseDate"
                                      mdp-min-date="vm.datePickerOptions.minDate"
+                                     mdp-max-date="vm.datePickerOptions.maxDate"
                                      date-formatter
                                      ng-required
                                      ng-model="vm.userProfile.licenses[$index].date">
                         <label translate>LICENSE_EXPIRATION</label>
+                        <div ng-messages="editForm.licenseDate.$error">
+                            <div ng-message="required" translate>ENTER_DATE</div>
+                            <div ng-message="format" translate>INVALID_FORMAT</div>
+                            <div ng-message="minDate" translate>DATE_IS_TOO_EARLY</div>
+                            <div ng-message="maxDate" translate>DATE_IS_TOO_LATE</div>
+                        </div>
                     </mdp-date-picker>
-                    <div class="validation-messages"
-                         ng-messages="editForm.licenseDate.$error">
-                        <div ng-message="valid" translate>NOT_A_DATE</div>
-                        <div ng-message="mindate" translate>DATE_IS_TOO_EARLY</div>
-                    </div>
                     <div class="service-remove"
                          flex="100"
                          flex-gt-xs="5"

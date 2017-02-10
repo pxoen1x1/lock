@@ -370,8 +370,11 @@
 
 
         function showSpecialistInfo(specialist){
-            vm.selectedSpecialist = specialist;
-            vm.toggleSidenav({ navID: 'right-sidenav' });
+            return coreDataservice.getUser(specialist.id)
+                .then(function(response) {
+                    vm.selectedSpecialist = response.data.user;
+                    vm.toggleSidenav({ navID: 'right-sidenav' });
+                });
         }
 
         function activate() {
