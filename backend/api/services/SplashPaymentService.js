@@ -245,7 +245,7 @@ let SplashPaymentService = {
             )
             .then(
                 (token) => {
-
+                    user.spCardNumber = token.payment.number;
                     return [token.payment.number, User.update({id: user.id}, user)];
                 }
             )

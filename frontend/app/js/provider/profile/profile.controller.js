@@ -18,12 +18,13 @@
         'localService',
         'usingLanguageService',
         'citiesLoader',
-        'mobileService'
+        'mobileService',
+        'serviceProviderConstants'
     ];
 
     /* @ngInject */
     function ProviderProfileController($q, $mdDialog, $translate, $filter, conf, coreConstants, coreDictionary, coreDataservice,
-                                       currentUserService, localService, usingLanguageService, citiesLoader, mobileService) {
+                                       currentUserService, localService, usingLanguageService, citiesLoader, mobileService, serviceProviderConstants) {
         var vm = this;
 
         vm.languages = [];
@@ -43,10 +44,12 @@
         vm.bankAccountTypes = [];
         vm.states = [];
         vm.serviceTypes = [];
+        vm.bankAccountStatuses = serviceProviderConstants.ACCOUNT_STATUSES;
 
         vm.datePickerOptions = {
             minDate: new Date()
         };
+        vm.dateFormat = coreConstants.DATE_FORMAT;
 
         vm.isEditing = false;
         vm.licensesPresent = '';
@@ -252,7 +255,7 @@
                             return coreDataservice.isCreatedTodaysPayout();
                         })
                         .then(function (payoutCreated) {
-                            if (!payoutCreated && vm.merchantFunds > 0) {
+                            if (!payoutCreated && vm.merchantFunds > 0 && vm.userProfile.paymentData[0].status === vm.bankAccountStatuses.VERIFIED) {
                                 vm.enableWithdrawals = true;
                             }
 
