@@ -37,7 +37,7 @@
         </div>
         <div class="section">
             <span class="md-body-2"><span translate>STATUS</span>:</span>
-            <span class="md-body-1" ng-bind="account.status"></span>
+            <span class="md-body-1" ng-bind="vm.bankAccountStatuses[account.status] | translate"></span>
         </div>
     </div>
     <md-button class="md-button-blue"
