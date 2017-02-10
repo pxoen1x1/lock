@@ -108,6 +108,12 @@ module.exports.policies = {
         'getTranslation': true
     },
 
+    PolicyController: {
+        'getPolicies': [
+            'hasJsonWebToken'
+        ]
+    },
+
     RequestController: {
         'getSpecialistRequests': [
             'hasJsonWebToken',

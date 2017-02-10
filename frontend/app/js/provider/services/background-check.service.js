@@ -5,10 +5,10 @@
         .module('app.provider')
         .factory('backgroundCheckService', backgroundCheckService);
 
-    backgroundCheckService.$inject = ['$mdDialog', 'currentUserService'];
+    backgroundCheckService.$inject = ['$mdDialog', 'coreDataservice'];
 
     /* @ngInject */
-    function backgroundCheckService($mdDialog, currentUserService) {
+    function backgroundCheckService($mdDialog, coreDataservice) {
         var service = {
             isBackgroundCheckCompleted: isBackgroundCheckCompleted,
             showBackgroundCheckDialog: showBackgroundCheckDialog
@@ -17,7 +17,8 @@
         return service;
 
         function isBackgroundCheckCompleted() {
-            return currentUserService.getUser()
+
+            return coreDataservice.getCurrentUser()
                 .then(function (currentUser) {
 
                     return !currentUser.details || currentUser.details.isBGCheckCompleted;
@@ -25,7 +26,8 @@
         }
 
         function showBackgroundCheckDialog() {
-            $mdDialog.show(
+
+            return $mdDialog.show(
                 {
                     controller: 'BackgroundCheckController',
                     controllerAs: 'vm',

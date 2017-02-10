@@ -1,0 +1,29 @@
+.title {
+  font-size: 17px;
+}
+
+.text-capitalize {
+  text: {
+    transform: capitalize;
+  }
+}
+
+.text-justify {
+  text-align: justify;
+}
+
+.text-truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.text-truncate-multiline {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.secondary-text {
+  font-size: 14px;
+  color: rgba(0, 0, 0, 0.54);
+}

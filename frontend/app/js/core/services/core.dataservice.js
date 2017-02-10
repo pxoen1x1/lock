@@ -15,6 +15,7 @@
             getStates: getStates,
             getCities: getCities,
             getTranslation: getTranslation,
+            getPolicies: getPolicies,
             getCurrentUser: getCurrentUser,
             getUser: getUser,
             getFeedbacks: getFeedbacks,
@@ -91,6 +92,17 @@
             function getTranslationCompleted(message) {
 
                 return message.data.translation;
+            }
+        }
+
+        function getPolicies() {
+
+            return $sails.get(conf.URL_PREFIX + 'policies')
+                .then(getPoliciesComplete);
+
+            function getPoliciesComplete(message) {
+
+                return message.data.policies;
             }
         }
 
