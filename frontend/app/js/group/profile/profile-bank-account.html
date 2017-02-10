@@ -33,7 +33,7 @@
         </div>
         <div class="section">
             <span class="md-body-2"><span translate>MODIFIED</span>:</span>
-            <span class="md-body-1" ng-bind="account.modified"></span>
+            <span class="md-body-1" ng-bind="account.modified | date: vm.dateFormat"></span>
         </div>
         <div class="section">
             <span class="md-body-2"><span translate>STATUS</span>:</span>

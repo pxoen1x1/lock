@@ -48,6 +48,7 @@
             minDate: moment(),
             maxDate: moment().add(10, 'years')
         };
+        vm.dateFormat = coreConstants.DATE_FORMAT;
 
         vm.isEditing = false;
         vm.fileUploaderOptions = coreConstants.FILE_UPLOADER_OPTIONS;
@@ -157,6 +158,8 @@
             return coreDataservice.setMerchantAccount(userPayment)
                 .then(function (userPayment) {
                     vm.userProfile.paymentData = userPayment;
+                    vm.userProfile.paymentData[0].modified = new Date(vm.userProfile.paymentData[0].modified.replace(' ','T'));
+
                     vm.isEditingPayment = false;
                     return vm.userProfile;
                 });
@@ -224,6 +227,7 @@
                 })
                 .then(function (userPayment) {
                     vm.userProfile.paymentData = userPayment;
+                    vm.userProfile.paymentData[0].modified = new Date(vm.userProfile.paymentData[0].modified.replace(' ','T'));
 
                     return vm.userProfile;
                 })

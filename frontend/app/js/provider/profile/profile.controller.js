@@ -172,6 +172,7 @@
                 })
                 .then(function (userPayment) {
                     vm.userProfile.paymentData = userPayment;
+                    vm.userProfile.paymentData[0].modified = new Date(vm.userProfile.paymentData[0].modified.replace(' ','T'));
 
                     return currentUserService.setUserToLocalStorage(vm.userProfile);
                 })
@@ -230,6 +231,7 @@
                     return coreDataservice.getMerchantAccount()
                         .then(function (userPayment) {
                             vm.userProfile.paymentData = userPayment;
+                            vm.userProfile.paymentData[0].modified = new Date(vm.userProfile.paymentData[0].modified.replace(' ','T'));
 
                             return vm.userProfile;
                         })
