@@ -11,69 +11,67 @@
          layout-align-gt-xs="start start"
          layout-align="start center">
       <div class="profile-left"
+           flex
            layout="row"
            layout-gt-xs="column"
            layout-align="start center"
-           layout-align-gt-xs="start start"
-           flex-gt-xs="25">
-        <div class="avatar-wrapper" layout="row" flex layout-align="end">
+           layout-align-gt-xs="start start">
+        <div class="avatar-wrapper" layout="row">
           <div class="profile-avatar"
+               flex
                ng-style="{ 'background-image': 'url(' + vm.viewUserPhoto() + ')' }">
           </div>
           <div class="photo-remove"
                ng-if="vm.isEditing">
-            <i ng-click="vm.removePhoto()"
-               class="material-icons">clear</i>
+            <md-icon ng-click="vm.removePhoto()">clear</md-icon>
           </div>
         </div>
-        <div flex="5"></div>
         <div class="actions"
-             layout="column">
+             layout="column"
+             layout-align-xs="center start"
+             flex-offset-xs="5">
           <md-button class="md-button-blue"
-                     ng-if="vm.isEditing && $mdMedia('gt-xs')"
                      aria-label="Change photo"
+                     ng-if="vm.isEditing"
                      file-uploader
                      is-single-file="true"
                      allowed-extensions="{{ vm.fileUploaderOptions.allowedFileExtensions.images }}"
                      max-size="{{ vm.fileUploaderOptions.maxFileSize }}"
                      selected-file-src="vm.newPortrait">
-            <i class="material-icons vertical-middle">photo_camera</i>
-            <span class="vertical-middle" translate>CHANGE_PHOTO</span>
+            <md-icon>photo_camera</md-icon>
+            <span translate>CHANGE_PHOTO</span>
           </md-button>
         </div>
       </div>
-      <div flex-gt-xs="5"></div>
       <div layout="row"
            class="profile-right"
+           flex-xs="grow"
            flex-gt-xs="70"
+           flex-offset-gt-xs="5"
            layout-align="start center"
            layout-align-gt-xs="start start">
-
-
-        <div style="width: 100%;" ng-cloak>
-          <md-content>
-            <md-tabs md-dynamic-height md-border-bottom>
-              <md-tab>
-                <md-tab-label><span translate>GENERAL_INFO</span></md-tab-label>
-                <md-tab-body class="md-padding">
-                  <div ng-include="'group/profile/profile-general.html'"></div>
-                </md-tab-body>
-              </md-tab>
-              <md-tab>
-                <md-tab-label><span translate>CONTACT_INFO</span></md-tab-label>
-                <md-tab-body class="md-padding">
-                  <div ng-include="'group/profile/profile-merchant-info.html'"></div>
-                </md-tab-body>
-              </md-tab>
-              <md-tab>
-                <md-tab-label><span translate>BANK_ACCOUNT</span></md-tab-label>
-                <md-tab-body class="md-padding">
-                  <div ng-include="'group/profile/profile-bank-account.html'"></div>
-                </md-tab-body>
-              </md-tab>
-            </md-tabs>
-          </md-content>
-        </div>
+        <md-content flex>
+          <md-tabs md-dynamic-height md-border-bottom>
+            <md-tab>
+              <md-tab-label><span translate>GENERAL_INFO</span></md-tab-label>
+              <md-tab-body class="md-padding">
+                <div ng-include="'group/profile/profile-general.html'"></div>
+              </md-tab-body>
+            </md-tab>
+            <md-tab>
+              <md-tab-label><span translate>CONTACT_INFO</span></md-tab-label>
+              <md-tab-body class="md-padding">
+                <div ng-include="'group/profile/profile-merchant-info.html'"></div>
+              </md-tab-body>
+            </md-tab>
+            <md-tab>
+              <md-tab-label><span translate>BANK_ACCOUNT</span></md-tab-label>
+              <md-tab-body class="md-padding">
+                <div ng-include="'group/profile/profile-bank-account.html'"></div>
+              </md-tab-body>
+            </md-tab>
+          </md-tabs>
+        </md-content>
       </div>
     </div>
   </div>
