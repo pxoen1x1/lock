@@ -113,6 +113,7 @@
         <md-input-container class="md-block" flex>
           <label translate>CAR_LICENSE_PLATE_NUMBER</label>
           <input name="carLicensePlateNumber"
+                 ng-maxlength="7"
                  ng-model-options="{ 'debounce': 400 }"
                  ng-model="vm.userProfile.details.carLicensePlateNumber">
         </md-input-container>
