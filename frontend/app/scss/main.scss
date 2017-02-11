@@ -20,6 +20,10 @@ $background-filling: linear-gradient(to top, rgba(1, 91, 163, 1) 0%, rgba(3, 129
   color: $error-color;
 }
 
+md-input-container .md-errors-spacer {
+  min-height: 0 !important;
+}
+
 .block-center {
   position: absolute;
   top: 50%;
