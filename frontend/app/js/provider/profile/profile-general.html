@@ -5,10 +5,6 @@
          layout-align-gt-xs="start center">
         <div class="md-display-1">
             <span class="vertical-middle" ng-bind="vm.userProfile.fullName"></span>
-            <i class="material-icons vertical-middle verified"
-               ng-if="vm.userProfile.isPro">
-                verified_user
-            </i>
         </div>
         <div class="profile-rating"
              flex
@@ -62,7 +58,6 @@
     <form name="editForm"
           novalidate
           ng-submit="vm.updateUser(vm.userProfile, editForm.$valid)">
-        <p><span translate>NAME</span>: <sup>*</sup></p>
 
         <div layout="row">
             <md-input-container class="md-block" flex>
@@ -82,7 +77,6 @@
                        ng-model="vm.userProfile.lastName">
             </md-input-container>
         </div>
-        <p><span translate>EMAIL</span>: <sup>*</sup></p>
         <md-input-container class="md-block" flex>
             <label translate>EMAIL</label>
             <input name="email"
@@ -97,7 +91,6 @@
                 <div ng-message="availability" translate>EMAIL_ALREADY_EXIST</div>
             </div>
         </md-input-container>
-        <p><span translate>PHONE_NUMBER</span>: <sup>*</sup></p>
         <md-input-container class="md-block" flex>
             <label translate>PHONE_NUMBER</label>
             <input type="tel"
@@ -113,7 +106,6 @@
                 <span ng-message="availability" translate>PHONE_EXIST</span>
             </div>
         </md-input-container>
-        <p><span translate>CAR_LICENSE_PLATE_NUMBER</span>: </p>
         <md-input-container class="md-block" flex>
             <label translate>CAR_LICENSE_PLATE_NUMBER</label>
             <input name="carLicensePlateNumber"
@@ -121,7 +113,6 @@
                    ng-model-options="{ 'debounce': 400 }"
                    ng-model="vm.userProfile.details.carLicensePlateNumber">
         </md-input-container>
-        <p><span translate>LICENSE_INFORMATION</span>:</p>
 
         <div class="licenses"
              ng-repeat="license in vm.userProfile.details.licenses track by $index">
@@ -181,11 +172,10 @@
             </div>
         </div>
         <div layout-gt-xs="row">
-            <md-button class="add-license-btn" ng-click="vm.addLicenseForm()">
+            <md-button class="add-license-btn md-raised" ng-click="vm.addLicenseForm()">
                 <span translate>ADD_LICENSE</span>
             </md-button>
         </div>
-        <p translate>SERVICES</p>
 
         <div layout-gt-xs="row">
             <md-input-container class="md-block" flex>
@@ -201,7 +191,6 @@
                 </md-select>
             </md-input-container>
         </div>
-        <p translate>LANGUAGE</p>
 
         <div layout-gt-xs="row">
             <md-input-container class="md-block" flex>
