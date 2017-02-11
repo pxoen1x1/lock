@@ -21,18 +21,17 @@
            layout-align-gt-xs="start center">
         <div class="md-display-1">
           <span class="vertical-middle" ng-bind="vm.userProfile.fullName"></span>
-          <i class="material-icons vertical-middle verified"
-             ng-if="vm.userProfile.details.isPro">
-            verified_user
-          </i>
+
         </div>
         <div class="public-profile-rating"
              flex
              layout="row"
              layout-align="center center"
              layout-align-gt-xs="end center">
-          <star-rating value="vm.userProfile.details.rating" readonly></star-rating>
         </div>
+      </div>
+      <div class="section ">
+        <star-rating value="vm.userProfile.details.rating" readonly></star-rating>
       </div>
       <div class="section first">
         <span class="md-body-2">Joined:</span>
