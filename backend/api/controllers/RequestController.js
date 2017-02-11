@@ -200,7 +200,7 @@ let RequestController = {
                         });
                     }
 
-                    if(foundRequest.executor) {
+                    if (foundRequest.executor) {
                         if (foundRequest.executor.phoneNumber) {
                             delete foundRequest.executor.phoneNumber;
                         }
@@ -244,12 +244,14 @@ let RequestController = {
                         foundRequest.location = hiddenLocation;
                     }
 
-                    if (foundRequest.owner.phoneNumber) {
-                        delete foundRequest.owner.phoneNumber;
-                    }
+                    if (foundRequest.owner) {
+                        if (foundRequest.owner.phoneNumber) {
+                            delete foundRequest.owner.phoneNumber;
+                        }
 
-                    if (foundRequest.owner.auth) {
-                        delete foundRequest.owner.auth;
+                        if (foundRequest.owner.auth) {
+                            delete foundRequest.owner.auth;
+                        }
                     }
 
                     return res.ok(

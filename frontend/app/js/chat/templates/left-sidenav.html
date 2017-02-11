@@ -29,10 +29,10 @@
         flex
         md-selected-nav-item="vm.selectedTab"
         nav-bar-aria-label="navigation links">
-      <md-nav-item md-nav-click name="chats" aria-label="chats">
+      <md-nav-item md-nav-click="vm.selectTab('chats')" name="chats" aria-label="chats">
         <span translate>CHATS</span>
       </md-nav-item>
-      <md-nav-item md-nav-click name="bids" aria-label="bids">
+      <md-nav-item md-nav-click="vm.selectTab('bids')" name="bids" aria-label="bids">
         <span translate>BIDS</span>
       </md-nav-item>
     </md-nav-bar>
