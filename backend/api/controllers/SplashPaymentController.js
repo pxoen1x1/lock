@@ -280,6 +280,8 @@ let SplashPaymentController = {
     // transaction (txn)
     createAuthTxn(req, res) {
         let params = req.allParams();
+        let requestId = params.requestId;
+
         let user = req.session.user;
 
         SplashPaymentService.createAuthTxnByToken(user.spCustomerId, params)
@@ -293,17 +295,15 @@ let SplashPaymentController = {
                         return Promise.reject(error);
                     }
 
-                    return [txnArr, RequestService.getRequestById({id: params.requestId})];
-                }
-            )
-            .spread(
-                (txnArr, request) => {
-                    request.spAuthTxnId = txnArr[0].id;
+                    let request = {
+                        id: requestId,
+                        spAuthTxnId: txnArr[0].id
+                    };
 
                     return [txnArr, RequestService.updateRequest(request)];
                 }
             )
-            .then(
+            .spread(
                 (txnArr) => res.ok(
                     {
                         resTxn: txnArr
@@ -353,33 +353,32 @@ let SplashPaymentController = {
     },
     createReverseAuthTxn(req, res) {
         let params = req.allParams();
+        let requestId = params.requestId;
 
-
-        RequestService.getRequestById({id: params.requestId})
+        RequestService.getRequestById({id: requestId})
             .then(
-                (request) => [
-                    request,
-                    SplashPaymentService
-                        .createReverseAuthTxn(
-                            request.owner.spCustomerId,
-                            request.executor.spMerchantId,
-                            request.spAuthTxnId
-                        )
-                ]
+                (request) => SplashPaymentService
+                    .createReverseAuthTxn(
+                        request.owner.spCustomerId,
+                        request.executor.spMerchantId,
+                        request.spAuthTxnId
+                    )
             )
-            .spread(
-                (request, response) => {
+            .then(
+                (response) => {
                     let txnArr = JSON.parse(response);
 
-                    if (txnArr.length > 0) {
-                        request.spAuthTxnId = null;
-
-                        return RequestService.updateRequest(request);
-                    } else {
+                    if (txnArr.length === 0) {
 
                         return Promise.reject('Error during creating reverse transaction');
                     }
 
+                    let request = {
+                        id: requestId,
+                        spAuthTxnId: null
+                    };
+
+                    return RequestService.updateRequest(request);
                 })
             .then(
                 (request) => res.ok(
