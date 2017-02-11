@@ -25,11 +25,6 @@
         function link(scope, element, attrs) {
             var isCompileAsMenu = typeof attrs.viewMode === 'undefined' && attrs.viewMode !== 'buttons';
 
-            if ($mdMedia('gt-xs') && !isCompileAsMenu) {
-
-                return;
-            }
-
             var template = isCompileAsMenu ?
                 $templateCache.get('provider/directives/request-action-buttons/request-action-menu.html') :
                 $templateCache.get('provider/directives/request-action-buttons/request-action-buttons.html');
