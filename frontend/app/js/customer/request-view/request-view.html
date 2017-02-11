@@ -5,14 +5,14 @@
            layout="row"
            layout-align="end none">
           <button class="md-button md-button-red"
-                  ng-if="vm.request.status == vm.requestStatus.IN_PROGRESS"
+                  ng-if="vm.request.status !== vm.requestStatus.NEW && vm.request.status !== vm.requestStatus.CLOSED"
                   translate
                   ng-click="vm.cancelRequest(vm.request)">
             CANCEL
           </button>
           <button class="md-button md-button-red"
-                  ng-class="{ disabled: vm.request.status !== vm.requestStatus.NEW }"
                   translate
+                  ng-if="vm.request.status === vm.requestStatus.NEW"
                   ng-click="vm.closeRequest(vm.request)">
             CANCEL
           </button>
@@ -135,7 +135,8 @@
             ADD_FEEDBACK
           </button>
           <button class="md-button md-button-green"
-                  ng-class="{ disabled: vm.request.status !== vm.requestStatus.DONE }"
+                  ng-class="{ disabled: vm.request.status !== vm.requestStatus.PENDING }"
+                  ng-if="vm.request.status !== vm.requestStatus.CLOSED"
                   translate
                   ng-click="vm.setRequestStatusAsDone(vm.request)">
             DONE
