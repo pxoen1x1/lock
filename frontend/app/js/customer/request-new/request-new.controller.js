@@ -172,8 +172,8 @@
             }
 
             return createNewRequest(request)
-                .then(function () {
-                    $state.go('customer.requests');
+                .then(function (request) {
+                    $state.go('customer.requests.request.map', {requestId: request.id});
                 });
         }
 
