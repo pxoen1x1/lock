@@ -1,15 +1,9 @@
 <div class="container view-content">
-  <div class="container-title"
-       layout="row"
-       layout-align="start center">
-  </div>
   <div class="container-content">
     <div class="request-info">
       <div class="title md-headline"
            layout="row"
-           layout-align="start center">
-        <div translate>DETAILS</div>
-        <div class="text-right" flex>
+           layout-align="end none">
           <button class="md-button md-button-red"
                   ng-if="vm.request.status == vm.requestStatus.IN_PROGRESS"
                   translate
@@ -20,9 +14,8 @@
                   ng-class="{ disabled: vm.request.status !== vm.requestStatus.NEW }"
                   translate
                   ng-click="vm.closeRequest(vm.request)">
-            CLOSE
+            CANCEL
           </button>
-        </div>
       </div>
       <div layout-gt-xs="row">
         <div class="map-wrapper"
