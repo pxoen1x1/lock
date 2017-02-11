@@ -186,7 +186,11 @@
                 },
                 data: {
                     isPrivate: true,
-                    title: 'Profile'
+                    menu: {
+                        title: 'PROFILE',
+                        icon: 'person'
+                    },
+                    title: 'PROFILE'
                 }
             })
             .state('customer.invite', {

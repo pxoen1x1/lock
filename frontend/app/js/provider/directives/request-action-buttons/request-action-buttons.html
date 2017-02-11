@@ -6,7 +6,8 @@
          (vm.currentRequest.status !== vm.requestStatus.DONE ||
          vm.currentRequest.status === vm.requestStatus.CLOSED))">
     <button ng-if="vm.currentRequest.status === vm.requestStatus.NEW"
-            ng-click="vm.openBidDialog(vm.currentRequest)">
+            ng-click="vm.openBidDialog(vm.currentRequest)"
+            class="md-button md-raised">
         <span translate>SEND_BID</span>
     </button>
     <div ng-if="vm.currentRequest.executor.id === vm.currentUser.id">

@@ -6,7 +6,8 @@
         .constant('serviceProviderConstants',{
             MENU_ITEMS: [
                 'provider.dashboard.new',
-                'provider.messages'
+                'provider.messages',
+                'provider.profile'
             ],
             DASHBOARD_TABBAR_ITEMS: [
                 'provider.dashboard.new',

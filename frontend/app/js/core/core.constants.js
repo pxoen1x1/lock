@@ -15,7 +15,7 @@
             CHAT_PAGINATION_OPTIONS: {
                 limit: 50
             },
-            DATE_FORMAT: 'MMM/dd/yyyy hh:mm a',
+            DATE_FORMAT: ' hh:mm a on MMMM dd, yyyy',
             DEFAULT_LANGUAGE: {
                 name: 'English',
                 code: 'en'
