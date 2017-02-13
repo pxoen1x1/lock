@@ -27,11 +27,13 @@ let MailerService = {
     },
     confirmRegistration(user) {
         let templatePath;
+
         if (user.details || user.isGroupAdmin) {
             templatePath = sails.config.application.mailer.templates.confirmRegistration.provider;
         } else {
             templatePath = sails.config.application.mailer.templates.confirmRegistration.customer;
         }
+
         let options = {};
         options.user = user;
         options.email = user.auth.email;
