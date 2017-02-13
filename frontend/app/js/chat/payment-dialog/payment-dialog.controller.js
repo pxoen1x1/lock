@@ -87,7 +87,7 @@
                 .then(function (response) {
                     var specialist = response.data.user;
 
-                    return coreDataservice.createTokenAndAuthTxn(txnData, specialist.spMerchantId, offer.cost);
+                    return coreDataservice.createTokenAndAuthTxn(txnData, specialist.spMerchantId, offer.cost, currentRequest.id); // add , request.id
                 })
                 .then(function (result) {
                     tokenAndTxnResult = result; //todo: redo with spread

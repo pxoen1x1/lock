@@ -394,9 +394,9 @@ let SplashPaymentController = {
 
         return SplashPaymentService.createTokenAndAuthTxn(user, params)
             .spread(
-                (spCardNumber, txnData) => res.ok(
+                (spCardNumber, txnArr) => res.ok(
                     {
-                        resTxn: JSON.parse(txnData),
+                        resTxn: txnArr,
                         spCardNumber: spCardNumber
                     }
                 )

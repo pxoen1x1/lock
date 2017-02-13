@@ -750,16 +750,30 @@ let SplashPaymentService = {
                         return Promise.reject('Error during saving payment info');
                     }
 
-                    user.spCardNumber = token.payment.number;
 
-                    return [token, User.update({id: user.id}, user)];
+                    let userToUpdate = {
+                        id: user.id,
+                        spCardNumber: token.payment.number
+                    };
+                    return [token, UserService.updateUser(userToUpdate)];
                 }
             )
             .spread(
                 (token, updatedUsers) => [
-                    updatedUsers[0].spCardNumber,
+                    updatedUsers.spCardNumber,
                     SplashPaymentService.createAuthTxn(token.token, params)
                 ]
+            )
+            .spread(
+                (spCardNumber, txnData) => {
+                    let txnArr = JSON.parse(txnData);
+                    let request = {
+                        id: params.requestId,
+                        spAuthTxnId: txnArr[0].id
+                    };
+
+                    return [spCardNumber, txnArr, RequestService.updateRequest(request)];
+                }
             );
     },
 
