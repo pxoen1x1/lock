@@ -48,6 +48,7 @@
             return $mdDialog.show({
                 controller: 'UsingLanguageModalController',
                 controllerAs: 'vm',
+                bindToController: true,
                 templateUrl: 'core/using-language-modal/using-language-modal.html',
                 clickOutsideToClose: false,
                 escapeToClose: false,

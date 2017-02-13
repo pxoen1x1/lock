@@ -55,7 +55,10 @@
                 url: '/commission',
                 views: {
                     'content@home': {
-                        templateUrl: 'layout/legal/commission-content.html'
+                        templateUrl: 'layout/legal/commission-content.html',
+                        resolve: {
+                            validateAccess: validateUserAccess
+                        }
                     }
                 }
             })
@@ -81,6 +84,16 @@
                     'content@home': {
                         templateUrl: 'layout/legal/terms-content.html'
                     }
+                }
+            });
+    }
+
+    function validateUserAccess(currentUserService, coreConstants, $state) {
+        return currentUserService.getType()
+            .then(function(userType) {
+                if (userType !== coreConstants.USER_TYPES.SPECIALIST && userType !== coreConstants.USER_TYPES.GROUP_ADMIN) {
+
+                    return $state.go('login');
                 }
             });
     }

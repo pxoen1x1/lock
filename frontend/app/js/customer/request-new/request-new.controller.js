@@ -41,8 +41,8 @@
         vm.searchCity = '';
 
         vm.datePickerOptions = {
-            minDate: moment().format('YYYY-MM-DD'),
-            maxDate: moment().add(1, 'years').format('YYYY-MM-DD')
+            minDate: moment(),
+            maxDate: moment().add(1, 'years')
         };
         vm.timePickerOptions = coreConstants.MD_PICKERS_OPTIONS.timePicker;
 
@@ -172,8 +172,8 @@
             }
 
             return createNewRequest(request)
-                .then(function () {
-                    $state.go('customer.requests');
+                .then(function (request) {
+                    $state.go('customer.requests.request.map', {requestId: request.id});
                 });
         }
 

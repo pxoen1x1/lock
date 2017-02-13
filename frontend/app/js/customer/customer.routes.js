@@ -186,7 +186,11 @@
                 },
                 data: {
                     isPrivate: true,
-                    title: 'Profile'
+                    menu: {
+                        title: 'PROFILE',
+                        icon: 'person'
+                    },
+                    title: 'PROFILE'
                 }
             })
             .state('customer.invite', {
@@ -196,6 +200,17 @@
                     menu: {
                         title: 'INVITE_A_FRIEND',
                         icon: 'message'
+                    }
+                }
+            })
+            .state('customer.blocker', {
+                parent: 'root',
+                url: '/locked',
+                views: {
+                    'content@root': {
+                        templateUrl: 'customer/blocker/blocker.html',
+                        controller: 'BlockerDialogController',
+                        controllerAs: 'vm'
                     }
                 }
             });

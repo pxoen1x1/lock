@@ -83,10 +83,11 @@
         'coreConstants',
         'chatConstants',
         'mobileService',
+        'coreDataservice',
     ];
 
     /* @ngInject */
-    function MessageChatController($mdDialog, conf, coreConstants, chatConstants, mobileService) {
+    function MessageChatController($mdDialog, conf, coreConstants, chatConstants, mobileService, coreDataservice) {
         var vm = this;
 
         vm.isImage = false;
@@ -147,9 +148,11 @@
                 return;
             }
 
-            vm.selectedSpecialist = selectedMember;
-
-            vm.toggleSidenav({navID: 'right-sidenav'});
+            return coreDataservice.getUser(selectedMember.id)
+                .then(function(response) {
+                    vm.selectedSpecialist = response.data.user;
+                    vm.toggleSidenav({ navID: 'right-sidenav' });
+                });
         }
 
         function showPaymentModal(ev) {

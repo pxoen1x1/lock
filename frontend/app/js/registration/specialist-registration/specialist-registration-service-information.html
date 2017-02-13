@@ -58,12 +58,15 @@
                          mdp-min-date="vm.datePickerOptions.minDate"
                          ng-required="vm.licenses[$index].number"
                          ng-model="vm.licenses[$index].date">
+              <label translate>LICENSE_EXPIRATION</label>
+
+              <div ng-messages="editForm.licenseDate.$error">
+                  <div ng-message="required" translate>ENTER_DATE</div>
+                  <div ng-message="format" translate>INVALID_FORMAT</div>
+                  <div ng-message="minDate" translate>DATE_IS_TOO_EARLY</div>
+                  <div ng-message="maxDate" translate>DATE_IS_TOO_LATE</div>
+              </div>
         </mdp-date-picker>
-        <div class="validation-messages"
-             ng-messages="registrationForm.licenseDate.$error">
-          <div ng-message="invalid">The entered value is not a date!</div>
-          <div ng-message="mindate">Date is too early!</div>
-        </div>
       </md-input-container>
 
       <div class="service-remove"

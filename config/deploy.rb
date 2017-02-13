@@ -18,6 +18,7 @@ set :ssh_options, {
   auth_methods: ["publickey"],
   keys: ["~/.ssh/lockheal.pem"]
 }
+set :local_js, 'module.exports = { IS_BG_CHECK_ENABLED: false, IS_CUSTOMERS_LOCKING_ENABLED: false }'
 
 namespace :deploy do
     def app_status
@@ -77,6 +78,14 @@ namespace :deploy do
       end
     end
 
+    task :backend_create_local_js do
+      on roles(:app) do
+        local_js = fetch(:local_js)
+
+        execute "echo #{local_js} > #{release_path}/backend/config/local.js"
+      end
+    end
+
     task :restart do
       on roles(:app) do
         case app_status
@@ -97,6 +106,7 @@ namespace :deploy do
     end
 
     after :updated, :cleanup
+    after :updated, :backend_create_local_js
     after :updated, :npm_install
     after :updated, :bower_install
     after :updated, :frontend_build

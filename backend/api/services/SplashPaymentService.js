@@ -79,9 +79,13 @@ let SplashPaymentService = {
             .then(
                 (merchantResponse) => {
                     merchantArray = JSON.parse(merchantResponse);
-                    user.spMerchantId = merchantArray[0].merchant.id;
 
-                    return UserService.updateUser(user);
+                    let merchant = {
+                        id: user.id,
+                        spMerchantId: merchantArray[0].merchant.id
+                    };
+
+                    return UserService.updateUser(merchant);
                 }
             )
             .then(
@@ -245,7 +249,7 @@ let SplashPaymentService = {
             )
             .then(
                 (token) => {
-
+                    user.spCardNumber = token.payment.number;
                     return [token.payment.number, User.update({id: user.id}, user)];
                 }
             )

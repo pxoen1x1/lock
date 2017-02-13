@@ -8,7 +8,7 @@
       <i class="material-icons">person</i> <span translate>PROFILE</span>
     </div>
     <div flex layout="row" layout-align="end center" class="title-actions">
-      <button class="md-button md-button-blue"
+      <button class="md-button"
               aria-label="Show public profile"
               hide-xs
               ui-sref="provider.profile.public({'profileId': vm.userProfile.id})">
@@ -38,12 +38,11 @@
                        max-size="{{ vm.fileUploaderOptions.maxFileSize }}"
                        selected-file-src="vm.newPortrait">
               <md-icon>photo_camera</md-icon>
-              <span class="verical-middle" translate>CHANGE_PHOTO</span>
+              <span translate>CHANGE_PHOTO</span>
             </md-button>
           </md-menu-item>
         </md-menu-content>
       </md-menu>
-
     </div>
   </div>
   <div class="container-content">
@@ -52,70 +51,66 @@
          layout-align-gt-xs="start start"
          layout-align="start center">
       <div class="profile-left"
+           flex
            layout="row"
            layout-gt-xs="column"
            layout-align="start center"
-           layout-align-gt-xs="start start"
-           flex-gt-xs="25">
-        <div class="avatar-wrapper" layout="row" flex layout-align="end">
+           layout-align-gt-xs="start start">
+        <div class="avatar-wrapper" layout="row">
           <div class="profile-avatar"
+               flex
                ng-style="{ 'background-image': 'url(' + vm.viewUserPhoto() + ')' }">
           </div>
           <div class="photo-remove"
                ng-if="vm.isEditing">
-            <i ng-click="vm.removePhoto()"
-               class="material-icons">clear</i>
+            <md-icon ng-click="vm.removePhoto()">clear</md-icon>
           </div>
         </div>
-        <div flex="5"></div>
         <div class="actions"
              layout="column">
           <md-button class="md-button-blue"
-                     ng-if="vm.isEditing && $mdMedia('gt-xs')"
+                     ng-if="vm.isEditing"
+                     hide-xs
                      aria-label="Change photo"
                      file-uploader
                      is-single-file="true"
                      allowed-extensions="{{ vm.fileUploaderOptions.allowedFileExtensions.images }}"
                      max-size="{{ vm.fileUploaderOptions.maxFileSize }}"
                      selected-file-src="vm.newPortrait">
-            <i class="material-icons vertical-middle">photo_camera</i>
-            <span class="verical-middle" translate>CHANGE_PHOTO</span>
+            <md-icon>photo_camera</md-icon>
+            <span translate>CHANGE_PHOTO</span>
           </md-button>
-
         </div>
       </div>
-      <div flex-gt-xs="5"></div>
       <div layout="row"
            class="profile-right"
+           flex-xs="grow"
            flex-gt-xs="70"
+           flex-offset-gt-xs="5"
            layout-align="start center"
            layout-align-gt-xs="start start">
-
-        <div flex ng-cloak>
-          <md-content>
-            <md-tabs md-dynamic-height md-border-bottom>
-              <md-tab>
-                <md-tab-label><span translate>GENERAL_INFO</span></md-tab-label>
-                <md-tab-body class="md-padding">
-                  <div ng-include="'provider/profile/profile-general.html'"></div>
-                </md-tab-body>
-              </md-tab>
-              <md-tab>
-                <md-tab-label><span translate>CONTACT_INFO</span></md-tab-label>
-                <md-tab-body class="md-padding">
-                  <div ng-include="'provider/profile/profile-merchant-info.html'"></div>
-                </md-tab-body>
-              </md-tab>
-              <md-tab>
-                <md-tab-label><span translate>BANK_ACCOUNT</span></md-tab-label>
-                <md-tab-body class="md-padding">
-                  <div ng-include="'provider/profile/profile-bank-account.html'"></div>
-                </md-tab-body>
-              </md-tab>
-            </md-tabs>
-          </md-content>
-
-        </div>
+        <md-content flex>
+          <md-tabs md-dynamic-height md-border-bottom>
+            <md-tab>
+              <md-tab-label><span translate>GENERAL_INFO</span></md-tab-label>
+              <md-tab-body class="md-padding">
+                <div ng-include="'provider/profile/profile-general.html'"></div>
+              </md-tab-body>
+            </md-tab>
+            <md-tab>
+              <md-tab-label><span translate>CONTACT_INFO</span></md-tab-label>
+              <md-tab-body class="md-padding">
+                <div ng-include="'provider/profile/profile-merchant-info.html'"></div>
+              </md-tab-body>
+            </md-tab>
+            <md-tab>
+              <md-tab-label><span translate>BANK_ACCOUNT</span></md-tab-label>
+              <md-tab-body class="md-padding">
+                <div ng-include="'provider/profile/profile-bank-account.html'"></div>
+              </md-tab-body>
+            </md-tab>
+          </md-tabs>
+        </md-content>
       </div>
     </div>
   </div>

@@ -143,7 +143,15 @@
                 status: coreConstants.REQUEST_STATUSES.CLOSED
             };
 
-            return changeRequestStatus(request, status)
+            var dialog = $mdDialog.confirm()
+                .title($filter('translate')('ARE_YOU_SURE'))
+                .ok($filter('translate')('YES'))
+                .cancel($filter('translate')('NO'));
+
+            return $mdDialog.show(dialog)
+                .then(function() {
+                    return changeRequestStatus(request, status)
+                })
                 .then(function (request) {
                     vm.request = request;
                     currentRequestService.setRequest(vm.request);
@@ -153,13 +161,20 @@
         }
 
         function cancelRequest(request) {
-            if (!request || vm.request.status !== vm.requestStatus.IN_PROGRESS) {
+            if (!request || vm.request.status === vm.requestStatus.CLOSED) {
 
                 return;
             }
 
-            return coreDataservice.reverseAuthTxn(request.id)
-                .then(function (response) {
+            var dialog = $mdDialog.confirm()
+                .title($filter('translate')('ARE_YOU_SURE'))
+                .ok($filter('translate')('YES'))
+                .cancel($filter('translate')('NO'));
+
+            return $mdDialog.show(dialog)
+                .then(function() {
+                    return coreDataservice.reverseAuthTxn(request.id)
+                }).then(function (response) {
                     if (response.result !== true) {
                         $mdDialog.show(
                             $mdDialog.alert()
@@ -187,13 +202,20 @@
         }
 
         function setRequestStatusAsDone(request) {
-            if (!request || vm.request.status !== vm.requestStatus.DONE) {
+            if (!request || vm.request.status === vm.requestStatus.DONE) {
 
                 return;
             }
 
-            return coreDataservice.createCaptureTxn(request.id)
-                .then(function (res) {
+            var dialog = $mdDialog.confirm()
+                .title($filter('translate')('ARE_YOU_SURE'))
+                .ok($filter('translate')('YES'))
+                .cancel($filter('translate')('NO'));
+
+            return $mdDialog.show(dialog)
+                .then(function () {
+                    return coreDataservice.createCaptureTxn(request.id);
+                }).then(function (res) {
                     if (res.resTxn.length === 0) {
 
                         return $q.reject();
