@@ -14,6 +14,7 @@
                  flex
                  translate
                  translate-attr-placeholder="SEARCH_THE_CHAT"
+                 aria-label="Search the chat"
                  ng-model="vm.chatSearch">
         </md-input-container>
       </div>
@@ -28,11 +29,11 @@
         flex
         md-selected-nav-item="vm.selectedTab"
         nav-bar-aria-label="navigation links">
-      <md-nav-item md-nav-click name="chats">
-        CHATS
+      <md-nav-item md-nav-click="vm.selectTab('chats')" name="chats" aria-label="chats">
+        <span translate>CHATS</span>
       </md-nav-item>
-      <md-nav-item md-nav-click name="bids">
-        BIDS
+      <md-nav-item md-nav-click="vm.selectTab('bids')" name="bids" aria-label="bids">
+        <span translate>BIDS</span>
       </md-nav-item>
     </md-nav-bar>
   </div>

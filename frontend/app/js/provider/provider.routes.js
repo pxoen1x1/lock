@@ -67,6 +67,10 @@
                 },
                 data: {
                     title: 'PROFILE',
+                    menu: {
+                        title: 'PROFILE',
+                        icon: 'person'
+                    },
                     isPrivate: true
                 }
             })

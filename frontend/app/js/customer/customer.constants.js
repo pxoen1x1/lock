@@ -7,7 +7,8 @@
             MENU_ITEMS: [
                 'customer.newRequest',
                 'customer.requests',
-                'customer.invite'
+                'customer.invite',
+                'customer.profile'
             ],
             REQUEST_TABBAR_ITEMS: [
                 'customer.requests.request.view',

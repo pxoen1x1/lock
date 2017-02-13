@@ -550,10 +550,6 @@ $title-color: #8e8e8e;
   .apps {
     margin-left: 10px;
   }
-
-  .appstore {
-    margin: 3px;
-  }
 }
 
 .home-inner {
@@ -864,8 +860,12 @@ $title-color: #8e8e8e;
       max-height: 80px;
     }
 
-    .apps .googleplay {
+    .googleplay {
       margin: 0;
+    }
+
+    .appstore {
+      margin:  0 0 3px;
     }
 
     h3 {

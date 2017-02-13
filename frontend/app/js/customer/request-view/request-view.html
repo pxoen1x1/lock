@@ -1,34 +1,21 @@
 <div class="container view-content">
-  <div class="container-title"
-       layout="row"
-       layout-align="start center">
-    <div>
-      <i class="material-icons">list</i> <span translate>REQUEST</span>
-    </div>
-    <div class="text-right secondary-text" flex>
-      <span ng-bind="vm.request.createdAt | date : vm.dateFormat"></span>
-    </div>
-  </div>
   <div class="container-content">
     <div class="request-info">
       <div class="title md-headline"
            layout="row"
-           layout-align="start center">
-        <div translate>DETAILS</div>
-        <div class="text-right" flex>
+           layout-align="end none">
           <button class="md-button md-button-red"
-                  ng-if="vm.request.status == vm.requestStatus.IN_PROGRESS"
+                  ng-if="vm.request.status !== vm.requestStatus.NEW && vm.request.status !== vm.requestStatus.CLOSED"
                   translate
                   ng-click="vm.cancelRequest(vm.request)">
             CANCEL
           </button>
           <button class="md-button md-button-red"
-                  ng-class="{ disabled: vm.request.status !== vm.requestStatus.NEW }"
                   translate
+                  ng-if="vm.request.status === vm.requestStatus.NEW"
                   ng-click="vm.closeRequest(vm.request)">
-            CLOSE
+            CANCEL
           </button>
-        </div>
       </div>
       <div layout-gt-xs="row">
         <div class="map-wrapper"
@@ -148,7 +135,8 @@
             ADD_FEEDBACK
           </button>
           <button class="md-button md-button-green"
-                  ng-class="{ disabled: vm.request.status !== vm.requestStatus.DONE }"
+                  ng-class="{ disabled: vm.request.status !== vm.requestStatus.PENDING }"
+                  ng-if="vm.request.status !== vm.requestStatus.CLOSED"
                   translate
                   ng-click="vm.setRequestStatusAsDone(vm.request)">
             DONE
