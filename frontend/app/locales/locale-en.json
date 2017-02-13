@@ -77,7 +77,7 @@
   "FIRST_NAME_IS_TOO_LONG": "Your first name is too long.",
   "LAST_NAME_IS_TOO_LONG": "Your last name is too long.",
   "PASSWORD": "Password",
-  "PASSWORD_MUST_CONTAIN": "Your password must contain 6 characters (at least one number and one letter).",
+  "PASSWORD_MUST_CONTAIN": "Your password must contain at least 6 characters (at least one number and one letter).",
   "SUBMIT": "Submit",
   "SIGN_IN_WITH_SOCIAL_NETWORK": "Sign in with social network",
   "JOIN_IN_WITH_FB": "Join in with Facebook",
