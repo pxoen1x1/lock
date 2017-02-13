@@ -316,12 +316,15 @@
             }
         }
 
-        function createTokenAndAuthTxn(txnData, merchantId, amount) {
-            return $sails.post(conf.URL_PREFIX + 'splashpayment/tokenandauthtxn', {
+        function createTokenAndAuthTxn(txnData, merchantId, amount, requestId) {
+            var params = {
                 txnData: txnData,
                 merchantId: merchantId,
-                amount: amount
-            })
+                amount: amount,
+                requestId: requestId
+            };
+
+            return $sails.post(conf.URL_PREFIX + 'splashpayment/tokenandauthtxn', params)
                 .then(createTokenAndAuthTxnComplete);
 
             function createTokenAndAuthTxnComplete(response) {
