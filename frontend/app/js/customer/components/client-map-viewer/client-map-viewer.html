@@ -11,11 +11,10 @@
                     control="specialist"
                     events="vm.map.specialistMarker.events"
                     ng-repeat="specialist in vm.specialists track by specialist.id">
-        <ui-gmap-window ng-cloak>
+        <ui-gmap-window ng-cloak ng-if="!vm.currentRequest || vm.currentRequest.status === vm.requestStatus.NEW">
             <div layout="row" class="specialist-window">
                 <div class="avatar"
-                     ng-style="{'background-image': 'url({{($parent.specialist.portrait ?
-                 vm.baseUrl + $parent.specialist.portrait : vm.defaultPortrait)}})'}">
+                     ng-style="{ 'background-image': 'url(' + ($parent.specialist.portrait ? $parent.vm.baseUrl + $parent.specialist.portrait : vm.defaultPortrait) + ')' }">
                 </div>
                 <div layout="column">
                     <div layout="column" layout-align="start start">
