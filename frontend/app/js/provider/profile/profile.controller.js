@@ -30,7 +30,7 @@
         vm.languages = [];
         vm.userProfile = {};
         vm.userProfile.merchantData = {};
-        vm.userProfile.paymentData = {};
+        vm.userProfile.paymentData = null;
         vm.merchantFunds = 0;
         vm.nonChangedUserProfile = {};
         vm.enableWithdrawals = false;
@@ -172,7 +172,7 @@
                 })
                 .then(function (userPayment) {
                     vm.userProfile.paymentData = userPayment;
-                    if(vm.userProfile.paymentData[0] && vm.userProfile.paymentData[0].modified){
+                    if(vm.userProfile.paymentData && vm.userProfile.paymentData[0] && vm.userProfile.paymentData[0].modified){
                         vm.userProfile.paymentData[0].modified = new Date(vm.userProfile.paymentData[0].modified.replace(' ', 'T'));
                     }
 
@@ -233,7 +233,7 @@
                     return coreDataservice.getMerchantAccount()
                         .then(function (userPayment) {
                             vm.userProfile.paymentData = userPayment;
-                            if (vm.userProfile.paymentData[0]) {
+                            if (vm.userProfile.paymentData && vm.userProfile.paymentData[0]) {
                                 vm.userProfile.paymentData[0].modified = new Date(vm.userProfile.paymentData[0].modified.replace(' ', 'T'));
                             }
                             return vm.userProfile;
