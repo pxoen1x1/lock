@@ -41,7 +41,7 @@
         </div>
     </div>
     <md-button class="md-button-blue"
-               aria-label="Add bank account" ng-if="vm.userProfile.paymentData.length === 0 && !vm.isEditingPayment" ng-click="vm.isEditingPayment = true">
+               aria-label="Add bank account" ng-if="vm.userProfile.merchantData && !vm.userProfile.paymentData && !vm.isEditingPayment" ng-click="vm.isEditingPayment = true">
     <span translate>ADD</span>
     </md-button>
     <md-button class="md-button-blue"
