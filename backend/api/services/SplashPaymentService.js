@@ -80,6 +80,10 @@ let SplashPaymentService = {
                 (merchantResponse) => {
                     merchantArray = JSON.parse(merchantResponse);
 
+                    if(!merchantArray[0] || !merchantArray[0].merchant) {
+                        return Promise.reject('createMerchant error');
+                    }
+
                     let merchant = {
                         id: user.id,
                         spMerchantId: merchantArray[0].merchant.id
@@ -799,6 +803,11 @@ let SplashPaymentService = {
                         let response = JSON.parse(chunk);
 
                         if (!response.response || !response.response.data) {
+                            let date = new Date();
+                            sails.log.debug(date);
+                            sails.log.debug('unhandled response from SP');
+                            sails.log.debug(response);
+                            sails.log.debug(date);
 
                             return reject('unhandled response from SP');
                         }
