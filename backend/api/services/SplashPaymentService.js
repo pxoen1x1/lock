@@ -93,7 +93,7 @@ let SplashPaymentService = {
                 }
             )
             .then(
-                () => SplashPaymentService.getMerchantEntity(user.spMerchantId)
+                (user) => SplashPaymentService.getMerchantEntity(user.spMerchantId)
             )
             .then(
                 (merchantEntity) => [merchantEntity, SplashPaymentService.addMerchantToGroup(merchantEntity.id)]
