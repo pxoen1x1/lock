@@ -211,6 +211,8 @@ let ChatService = {
         JOIN  chat_members__user_chatmembers AS cu ON cu.user_chatMembers = ?
         WHERE chat.id = cu.chat_members`;
 
+        rawQuery = rawQuery + ' ORDER BY chat.updatedAt DESC ';
+
         rawQuery = rawQuery.replace(/\s*request_location.address AS 'request.location.address',/, '');
         rawQuery = rawQuery.replace(/\s*owner.phone_number AS 'owner.phoneNumber',/, '');
         rawQuery = rawQuery.replace(/\s*owner_auth.email AS 'owner.auth.email',/, '');
