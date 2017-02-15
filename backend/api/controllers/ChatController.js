@@ -31,6 +31,13 @@ let ChatController = {
         ChatService.getChat(chat)
             .then(
                 (foundChat) => {
+                    if (!foundChat) {
+                        return res.badRequest(
+                            {
+                                message: req.__('Chat was not founded.')
+                            }
+                        );
+                    }
                     if (!foundChat.request.executor || foundChat.request.executor.id !== user) {
                         let hiddenLocation = HelperService.hideLocation(foundChat.request.location);
 
