@@ -36,13 +36,13 @@
       <md-card-title><h3 class="m-t-none m-b-none"><span translate>SERVICES</span>:</h3></md-card-title>
       <md-card-content>
         <span  ng-repeat="service in vm.selectedSpecialist.details.serviceTypes track by service.id">
-          <span ng-bind="service.name + ($last ? '' : ', ')"></span>
+          <span ng-bind="(service.name | translate) + ($last ? '' : ', ')"></span>
         </span>
       </md-card-content>
       <md-card-title><h3 class="m-t-none m-b-none"><span translate>LICENSES</span>:</h3></md-card-title>
       <md-card-content>
         <span  ng-repeat="service in vm.selectedSpecialist.details.serviceTypes track by service.id">
-          <span ng-bind="service.name + ($last ? '' : ', ')"></span>
+          <span ng-bind="(service.name | translate) + ($last ? '' : ', ')"></span>
         </span>
       </md-card-content>
       <md-card-title>

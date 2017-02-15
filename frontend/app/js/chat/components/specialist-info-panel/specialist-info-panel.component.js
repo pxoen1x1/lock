@@ -95,12 +95,6 @@
                 if (!vm.reviews[newSelectedSpecialistId]) {
                     loadPrevReviews();
                 }
-
-                // selected specialist has no details, need to do request to get full user data
-                return coreDataservice.getUser(newSelectedSpecialistId)
-                    .then(function(response) {
-                        vm.selectedSpecialist = response.data.user;
-                    });
             });
         }
     }

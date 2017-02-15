@@ -319,7 +319,8 @@
         }
 
         function isChatDisabled() {
-            if (!vm.currentChat || !vm.currentRequest) {
+
+            if (!vm.currentChat || angular.equals(vm.currentChat, {}) || !vm.currentRequest) {
 
                 return true;
             }
@@ -331,6 +332,7 @@
 
             var isRequestClosed = vm.currentRequest.status === vm.requestStatus.CLOSED;
             var isRequestNew = vm.currentRequest.status !== vm.requestStatus.NEW;
+
             var isRequestExecutorChatMember = vm.currentChat.members.some(function (member) {
 
                 return member.id === vm.currentRequest.executor.id;
@@ -370,8 +372,11 @@
 
 
         function showSpecialistInfo(specialist){
-            vm.selectedSpecialist = specialist;
-            vm.toggleSidenav({ navID: 'right-sidenav' });
+            return coreDataservice.getUser(specialist.id)
+                .then(function(response) {
+                    vm.selectedSpecialist = response.data.user;
+                    vm.toggleSidenav({ navID: 'right-sidenav' });
+                });
         }
 
         function activate() {

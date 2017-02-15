@@ -18,18 +18,19 @@
         'localService',
         'usingLanguageService',
         'citiesLoader',
-        'mobileService'
+        'mobileService',
+        'serviceProviderConstants'
     ];
 
     /* @ngInject */
     function ProviderProfileController($q, $mdDialog, $translate, $filter, conf, coreConstants, coreDictionary, coreDataservice,
-                                       currentUserService, localService, usingLanguageService, citiesLoader, mobileService) {
+                                       currentUserService, localService, usingLanguageService, citiesLoader, mobileService, serviceProviderConstants) {
         var vm = this;
 
         vm.languages = [];
         vm.userProfile = {};
         vm.userProfile.merchantData = {};
-        vm.userProfile.paymentData = {};
+        vm.userProfile.paymentData = null;
         vm.merchantFunds = 0;
         vm.nonChangedUserProfile = {};
         vm.enableWithdrawals = false;
@@ -43,10 +44,13 @@
         vm.bankAccountTypes = [];
         vm.states = [];
         vm.serviceTypes = [];
+        vm.bankAccountStatuses = serviceProviderConstants.ACCOUNT_STATUSES;
 
         vm.datePickerOptions = {
-            minDate: new Date()
+            minDate: moment(),
+            maxDate: moment().add(10, 'years')
         };
+        vm.dateFormat = coreConstants.DATE_FORMAT;
 
         vm.isEditing = false;
         vm.licensesPresent = '';
@@ -168,6 +172,9 @@
                 })
                 .then(function (userPayment) {
                     vm.userProfile.paymentData = userPayment;
+                    if(vm.userProfile.paymentData && vm.userProfile.paymentData[0] && vm.userProfile.paymentData[0].modified){
+                        vm.userProfile.paymentData[0].modified = new Date(vm.userProfile.paymentData[0].modified.replace(' ', 'T'));
+                    }
 
                     return currentUserService.setUserToLocalStorage(vm.userProfile);
                 })
@@ -226,7 +233,9 @@
                     return coreDataservice.getMerchantAccount()
                         .then(function (userPayment) {
                             vm.userProfile.paymentData = userPayment;
-
+                            if (vm.userProfile.paymentData && vm.userProfile.paymentData[0]) {
+                                vm.userProfile.paymentData[0].modified = new Date(vm.userProfile.paymentData[0].modified.replace(' ', 'T'));
+                            }
                             return vm.userProfile;
                         })
                         .then(function () {
@@ -252,7 +261,7 @@
                             return coreDataservice.isCreatedTodaysPayout();
                         })
                         .then(function (payoutCreated) {
-                            if (!payoutCreated && vm.merchantFunds > 0) {
+                            if (!payoutCreated && vm.merchantFunds > 0 && vm.userProfile.paymentData[0] && vm.userProfile.paymentData[0].status === vm.bankAccountStatuses.VERIFIED) {
                                 vm.enableWithdrawals = true;
                             }
 

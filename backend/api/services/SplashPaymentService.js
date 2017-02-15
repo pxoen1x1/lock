@@ -79,13 +79,21 @@ let SplashPaymentService = {
             .then(
                 (merchantResponse) => {
                     merchantArray = JSON.parse(merchantResponse);
-                    user.spMerchantId = merchantArray[0].merchant.id;
 
-                    return UserService.updateUser(user);
+                    if(!merchantArray[0] || !merchantArray[0].merchant) {
+                        return Promise.reject('createMerchant error');
+                    }
+
+                    let merchant = {
+                        id: user.id,
+                        spMerchantId: merchantArray[0].merchant.id
+                    };
+
+                    return UserService.updateUser(merchant);
                 }
             )
             .then(
-                () => SplashPaymentService.getMerchantEntity(user.spMerchantId)
+                (user) => SplashPaymentService.getMerchantEntity(user.spMerchantId)
             )
             .then(
                 (merchantEntity) => [merchantEntity, SplashPaymentService.addMerchantToGroup(merchantEntity.id)]
@@ -245,7 +253,7 @@ let SplashPaymentService = {
             )
             .then(
                 (token) => {
-
+                    user.spCardNumber = token.payment.number;
                     return [token.payment.number, User.update({id: user.id}, user)];
                 }
             )
@@ -746,16 +754,30 @@ let SplashPaymentService = {
                         return Promise.reject('Error during saving payment info');
                     }
 
-                    user.spCardNumber = token.payment.number;
 
-                    return [token, User.update({id: user.id}, user)];
+                    let userToUpdate = {
+                        id: user.id,
+                        spCardNumber: token.payment.number
+                    };
+                    return [token, UserService.updateUser(userToUpdate)];
                 }
             )
             .spread(
                 (token, updatedUsers) => [
-                    updatedUsers[0].spCardNumber,
+                    updatedUsers.spCardNumber,
                     SplashPaymentService.createAuthTxn(token.token, params)
                 ]
+            )
+            .spread(
+                (spCardNumber, txnData) => {
+                    let txnArr = JSON.parse(txnData);
+                    let request = {
+                        id: params.requestId,
+                        spAuthTxnId: txnArr[0].id
+                    };
+
+                    return [spCardNumber, txnArr, RequestService.updateRequest(request)];
+                }
             );
     },
 
@@ -780,7 +802,22 @@ let SplashPaymentService = {
                     res.on('data', (chunk) => {
                         let response = JSON.parse(chunk);
 
+                        // -------------
+                        var stringify = require('json-stringify');
+
+                        let date = new Date();
+                        sails.log.debug('-- response from SP --');
+                        sails.log.debug(date);
+                        let response_str = stringify(response);
+                        sails.log.debug(response_str);
+                        sails.log.debug('-- response from SP --');
+                        // -------------
+                        
                         if (!response.response || !response.response.data) {
+                            /*sails.log.debug(date);
+                            sails.log.debug('unhandled response from SP');
+                            sails.log.debug(stringify(response));
+                            sails.log.debug(date);*/
 
                             return reject('unhandled response from SP');
                         }

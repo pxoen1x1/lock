@@ -29,7 +29,8 @@
             MENU_ITEMS: [
                 'group.dashboard.new',
                 'group.members',
-                'group.messages'
+                'group.messages',
+                'group.profile'
             ],
             DASHBOARD_TABBAR_ITEMS: [
                 'group.dashboard.new',

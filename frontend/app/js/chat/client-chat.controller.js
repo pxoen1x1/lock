@@ -41,6 +41,7 @@
 
 
         vm.toggleSidenav = toggleSidenav;
+        vm.selectTab = selectTab;
 
         activate();
 
@@ -68,6 +69,11 @@
 
         function toggleSidenav(navID) {
             $mdSidenav(navID).toggle();
+        }
+
+        function selectTab(tabName) {
+
+            vm.selectedTab = tabName;
         }
 
         function activate() {

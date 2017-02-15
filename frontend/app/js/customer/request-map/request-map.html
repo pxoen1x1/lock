@@ -1,12 +1,6 @@
 <div class="container map-content"
      layout="column"
      flex>
-  <div class="container-title" layout="row">
-    <div flex>
-      <i class="material-icons">location_on</i>
-      <span translate>MAP</span>
-    </div>
-  </div>
   <div class="container-content"
        layout="column"
        flex>
@@ -51,7 +45,7 @@
               <div ng-if="vm.selectedSpecialist.duration && vm.request.status === vm.requestStatus.IN_PROGRESS">
                 <span class="m-l-xs">
                   <span>- </span>
-                  <span translation>ESTIMATED_TIME_OF_ARRIVAL</span>:
+                  <span translate>ESTIMATED_TIME_OF_ARRIVAL</span>:
                 </span>
                 <span ng-bind="vm.selectedSpecialist.duration.text"></span>
               </div>

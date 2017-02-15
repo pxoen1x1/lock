@@ -44,7 +44,6 @@
   "ADDRESS": "Адрес",
   "CITY": "Город",
   "ZIP": "Почтовый индекс",
-  "SELECT_AN_EXISTING_CITY": "Пожалуйста, выберите город из списка",
   "NOT_LONG_ENOUGH": "Введите более длинное название",
   "TOO_LONG": "Введите название покороче",
   "JOINED": "Зарегистрирован",
@@ -76,7 +75,7 @@
   "FIRST_NAME_IS_TOO_LONG": "Введите более короткое имя",
   "LAST_NAME_IS_TOO_LONG": "Введите более короткую фамилию",
   "PASSWORD": "Пароль",
-  "PASSWORD_MUST_CONTAIN": "Пароль должен быть не короче шести знаков и содержать по крайней мере одну букву и одну цифру",
+  "PASSWORD_MUST_CONTAIN": "Пароль должен должен содержать не менее шести знаков и включать по крайней мере одну букву и одну цифру",
   "SUBMIT": "Готово",
   "SIGN_IN_WITH_SOCIAL_NETWORK": "Зарегистрироваться через социальную сеть",
   "JOIN_IN_WITH_FB": "Зарегистрироваться через Facebook",
@@ -266,6 +265,12 @@
   "EMAIL_WAS_CONFIRMED": "Email подтвержден. Пожалуйста, авторизуйтесь",
   "AGREE": "Согласен",
   "NOT_AGREE": "Не согласен",
-  "SELECT_AN_EXISTING_CITY": "Выберите существующий город",
-  "NO_FEEDBACKS_YET": "Еще нет отзывов"
+  "NO_FEEDBACKS_YET": "Еще нет отзывов",
+  "NOT_READY": "Не готов",
+  "READY_FOR_VERIFICATION": "Готов к верификакии",
+  "CHALLENGED": "Проверяется",
+  "VERIFIED": "Верицирован",
+  "MANUAL": "Ручная проверка",
+  "INVITE_WAS_SENT": "Приглашение отправлено",
+  "PAYMENT_HOLD": "Accepting this offer you agree with proposed terms. <br/>We will hold your money until work is done."
 }
