@@ -135,7 +135,7 @@
             ADD_FEEDBACK
           </button>
           <button class="md-button md-button-green"
-                  ng-class="{ disabled: vm.request.status !== vm.requestStatus.PENDING }"
+                  ng-disabled="request.status === vm.requestStatus.IN_PROGRESS"
                   ng-if="vm.request.status !== vm.requestStatus.CLOSED"
                   translate
                   ng-click="vm.setRequestStatusAsDone(vm.request)">
