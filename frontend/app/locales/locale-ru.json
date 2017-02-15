@@ -5,14 +5,14 @@
   "ACCOUNT_BALANCE": "Баланс",
   "WITHDRAWAL": "Вывод",
   "BANK_ACCOUNT": "Банковский счёт",
-  "FILL_COMPANY_INFO_BEFORE_ADDING_BANK_ACCOUNT": "Перед добавлением банковского счёта заполните информацию о компании",
+  "FILL_COMPANY_INFO_BEFORE_ADDING_BANK_ACCOUNT": "Перед добавлением банковского счёта заполните контактную информацию",
   "NAME": "Имя",
   "CURRENCY": "Валюта",
   "MODIFIED": "Изменён",
   "STATUS": "Статус",
   "TYPE_OF_ACCOUNT": "Вид счёта",
-  "PAYMENT_ROUTING": "Назначение платежа",
-  "PAYMENT_NUMBER": "Номер платежа",
+  "PAYMENT_ROUTING": "Маршрутный номер АБА",
+  "PAYMENT_NUMBER": "Номер счёта",
   "SAVE": "Сохранить",
   "CANCEL": "Отмена",
   "EMAIL": "E-mail",
@@ -272,5 +272,6 @@
   "VERIFIED": "Верицирован",
   "MANUAL": "Ручная проверка",
   "INVITE_WAS_SENT": "Приглашение отправлено",
-  "PAYMENT_HOLD": "Accepting this offer you agree with proposed terms. <br/>We will hold your money until work is done."
+  "PAYMENT_HOLD": "Accepting this offer you agree with proposed terms. <br/>We will hold your money until work is done.",
+  "ADD": "Добавить"
 }

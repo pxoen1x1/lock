@@ -5,7 +5,7 @@
   "ACCOUNT_BALANCE": "Account balance",
   "WITHDRAWAL": "Withdraw",
   "BANK_ACCOUNT": "Bank account",
-  "FILL_COMPANY_INFO_BEFORE_ADDING_BANK_ACCOUNT": "Fill Company info before adding bank account",
+  "FILL_COMPANY_INFO_BEFORE_ADDING_BANK_ACCOUNT": "Fill contact info before adding bank account",
   "FILL_MERCHANT_ACCOUNT_BEFORE_ADDING_BANK_ACCOUNT": "Fill Merchant info before adding bank account",
   "NAME": "Name",
   "CURRENCY": "Currency",
@@ -279,5 +279,6 @@
   "PAYMENT_HOLD": "Accepting this offer you agree with proposed terms. <br/>We will hold your money until work is done.",
   "ARE_YOU_SURE": "Are you sure?",
   "YES": "Yes",
-  "NO" : "No"
+  "NO" : "No",
+  "ADD": "Add"
 }
