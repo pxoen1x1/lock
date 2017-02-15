@@ -802,11 +802,16 @@ let SplashPaymentService = {
                     res.on('data', (chunk) => {
                         let response = JSON.parse(chunk);
 
+                        let date = new Date();
+                        sails.log.debug('-- response from SP --');
+                        sails.log.debug(date);
+                        sails.log.debug(Json.stringify(response));
+                        sails.log.debug('-- response from SP --');
+
                         if (!response.response || !response.response.data) {
-                            let date = new Date();
                             sails.log.debug(date);
                             sails.log.debug('unhandled response from SP');
-                            sails.log.debug(response);
+                            sails.log.debug(Json.stringify(response));
                             sails.log.debug(date);
 
                             return reject('unhandled response from SP');
