@@ -12,7 +12,8 @@
             isSpecialistHidden: '@',
             selectedSpecialist: '=?',
             showSpecialistInfo: '&?',
-            hireSpecialist: '&?'
+            hireSpecialist: '&?',
+            showInfoWindows: '<?'
         }
     };
 
