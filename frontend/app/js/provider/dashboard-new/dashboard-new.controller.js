@@ -93,6 +93,7 @@
 
         function activate() {
             listenRequestEvent();
+            loadPrevRequests();
         }
     }
 })();

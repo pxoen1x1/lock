@@ -30,7 +30,7 @@
         vm.languages = [];
         vm.userProfile = {};
         vm.userProfile.merchantData = {};
-        vm.userProfile.paymentData = {};
+        vm.userProfile.paymentData = null;
         vm.merchantFunds = 0;
         vm.nonChangedUserProfile = {};
         vm.enableWithdrawals = false;
@@ -172,7 +172,9 @@
                 })
                 .then(function (userPayment) {
                     vm.userProfile.paymentData = userPayment;
-                    vm.userProfile.paymentData[0].modified = new Date(vm.userProfile.paymentData[0].modified.replace(' ','T'));
+                    if(vm.userProfile.paymentData && vm.userProfile.paymentData[0] && vm.userProfile.paymentData[0].modified){
+                        vm.userProfile.paymentData[0].modified = new Date(vm.userProfile.paymentData[0].modified.replace(' ', 'T'));
+                    }
 
                     return currentUserService.setUserToLocalStorage(vm.userProfile);
                 })
@@ -231,8 +233,9 @@
                     return coreDataservice.getMerchantAccount()
                         .then(function (userPayment) {
                             vm.userProfile.paymentData = userPayment;
-                            vm.userProfile.paymentData[0].modified = new Date(vm.userProfile.paymentData[0].modified.replace(' ','T'));
-
+                            if (vm.userProfile.paymentData && vm.userProfile.paymentData[0]) {
+                                vm.userProfile.paymentData[0].modified = new Date(vm.userProfile.paymentData[0].modified.replace(' ', 'T'));
+                            }
                             return vm.userProfile;
                         })
                         .then(function () {
@@ -258,7 +261,7 @@
                             return coreDataservice.isCreatedTodaysPayout();
                         })
                         .then(function (payoutCreated) {
-                            if (!payoutCreated && vm.merchantFunds > 0 && vm.userProfile.paymentData[0].status === vm.bankAccountStatuses.VERIFIED) {
+                            if (!payoutCreated && vm.merchantFunds > 0 && vm.userProfile.paymentData[0] && vm.userProfile.paymentData[0].status === vm.bankAccountStatuses.VERIFIED) {
                                 vm.enableWithdrawals = true;
                             }
 
