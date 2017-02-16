@@ -53,7 +53,7 @@
 
         vm.closeRequest = closeRequest;
         vm.cancelRequest = cancelRequest;
-        vm.setRequestStatusAsDone = setRequestStatusAsDone;
+        vm.setRequestStatusAsClosed = setRequestStatusAsClosed;
         vm.addFeedback = addFeedback;
 
         activate();
@@ -201,8 +201,8 @@
                 });
         }
 
-        function setRequestStatusAsDone(request) {
-            if (!request || vm.request.status === vm.requestStatus.DONE) {
+        function setRequestStatusAsClosed(request) {
+            if (!request || vm.request.status === coreConstants.REQUEST_STATUSES.CLOSED) {
 
                 return;
             }
