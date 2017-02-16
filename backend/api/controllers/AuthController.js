@@ -50,6 +50,8 @@ let AuthController = waterlock.waterlocked({
 
                     if (createdUser.details || groups) {
 
+                        createdUser.isGroupAdmin = !!groups;
+
                         return createdUser;
                     }
 
