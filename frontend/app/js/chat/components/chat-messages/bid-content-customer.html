@@ -1,0 +1,58 @@
+<div class="md-toolbar-tools">
+  <md-button class="hide-gt-md responsive-chats-button md-icon-button"
+             aria-label="chats button"
+             ng-click="vm.toggleSidenav({ navID: 'left-sidenav' })">
+    <i class="material-icons s28">textsms</i>
+  </md-button>
+  <div class="chat-contact"
+       ng-if="vm.currentBid.specialist.id"
+       ng-click="vm.showSpecialistInfo(vm.currentBid.specialist)">
+    <div layout="row"
+         layout-align="start center"
+         ng-if="vm.currentUser.type === vm.userType.CLIENT">
+      <div class="avatar-wrapper">
+        <div class="avatar"
+             ng-style="{ 'background-image': 'url(' + (vm.currentBid.specialist.portrait ?
+             vm.baseUrl + vm.currentBid.specialist.portrait : vm.defaultPortrait) + ')' }">
+        </div>
+        <i class="material-icons s14 status-icon"
+           ng-if="vm.currentBid.specialist.details.isAvailable">check_circle
+        </i>
+        <i class="material-icons s14 status-icon unavailable"
+           ng-if="!vm.currentBid.specialist.details.isAvailable">schedule
+        </i>
+      </div>
+      <div class="chat-contact-name">
+        <span ng-bind="vm.currentBid.specialist.fullName"></span>
+      </div>
+    </div>
+    <div layout="row"
+         layout-align="start center"
+         ng-if="vm.currentUser.type !== vm.userType.CLIENT">
+      <div class="avatar-wrapper">
+        <div class="avatar"
+             ng-style="{ 'background-image': 'url(' + (vm.currentBid.client.portrait ?
+               vm.baseUrl + vm.currentBid.client.portrait : vm.defaultPortrait) + ')' }">
+        </div>
+      </div>
+      <div class="chat-contact-name">
+        <span ng-bind="vm.currentBid.client.fullName"></span>
+      </div>
+    </div>
+  </div>
+  <md-menu md-position-mode="target-right target">
+    <md-button class="md-icon-button"
+               aria-label="more"
+               ng-click="$mdOpenMenu()">
+      <i class="material-icons">more_vert</i>
+    </md-button>
+    <md-menu-content width="3">
+      <md-menu-item>
+        <md-button ng-click="vm.showSpecialistInfo(vm.currentBid.specialist)"
+                   aria-label="'CONTACT_INFORMATION' | translate">
+          <span ng-bind="'CONTACT_INFORMATION' | translate"></span>
+        </md-button>
+      </md-menu-item>
+    </md-menu-content>
+  </md-menu>
+</div>
