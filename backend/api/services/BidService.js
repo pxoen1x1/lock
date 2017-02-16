@@ -127,6 +127,8 @@ let BidService = {
     getClientBids(params) {
         let rawQuery = `${getBidRawQuery} WHERE bid.request_id = ? AND bid.is_refused <> true`;
 
+        rawQuery = rawQuery + ' ORDER BY bid.updatedAt DESC ';
+
         let bidQueryAsync = promise.promisify(Bid.query);
 
         return bidQueryAsync(rawQuery, [params.request])
@@ -140,6 +142,8 @@ let BidService = {
     getSpecialistBids(criteria) {
         let tableAlias = 'bid';
         let rawQuery = HelperService.buildQuery(getBidRawQuery, criteria, tableAlias);
+
+        rawQuery = rawQuery + ' ORDER BY bid.updatedAt DESC ';
 
         rawQuery = rawQuery.replace(/\s*request_location.address AS 'request.location.address',/, '');
         rawQuery = rawQuery.replace(/\s*client.phone_number AS 'client.phoneNumber',/, '');

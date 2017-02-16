@@ -203,7 +203,7 @@ let ChatService = {
     },
     getChats(criteria) {
 
-        return Chat.find(criteria)
+        return Chat.find(criteria).sort('updatedAt DESC')
             .populateAll();
     },
     getSpecialistChats(member) {
