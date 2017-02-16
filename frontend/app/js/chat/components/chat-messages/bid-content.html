@@ -7,7 +7,7 @@
     </md-button>
     <div class="chat-contact"
          ng-if="vm.currentBid.specialist.id"
-         ng-click="vm.toggleSidenav({ navID: 'right-sidenav' })">
+         ng-click="vm.showSpecialistInfo(vm.currentBid.specialist)">
       <div layout="row"
            layout-align="start center"
            ng-if="vm.currentUser.type === vm.userType.CLIENT">
@@ -49,7 +49,7 @@
       </md-button>
       <md-menu-content width="3">
         <md-menu-item>
-          <md-button ng-click="vm.toggleSidenav({ navID: 'right-sidenav' })"
+          <md-button ng-click="vm.showSpecialistInfo(vm.currentBid.specialist)"
                      aria-label="vm.currentUser.type === vm.userType.CLIENT ? 'CONTACT_INFORMATION' : 'REQUEST_INFO | translate'">
             <span ng-bind="vm.currentUser.type === vm.userType.CLIENT ? 'CONTACT_INFORMATION' : 'REQUEST_INFO | translate'"></span>
           </md-button>
