@@ -29,8 +29,8 @@
 
         vm.languages = [];
         vm.userProfile = {};
-        vm.userProfile.merchantData = {};
-        vm.userProfile.paymentData = null;
+        vm.merchantData = {};
+        vm.paymentData = null;
         vm.merchantFunds = 0;
         vm.nonChangedUserProfile = {};
         vm.enableWithdrawals = false;
@@ -146,34 +146,38 @@
 
             return coreDataservice.setMerchantAccount(userPayment)
                 .then(function (userPayment) {
-                    vm.userProfile.paymentData = userPayment;
+                    vm.paymentData = userPayment;
                     vm.isEditingPayment = false;
                     return vm.userProfile;
                 });
         }
 
-        function updateMerchant(userProfile, isFormValid) {
+        function updateMerchant(merchantData, isFormValid) {
             if (!isFormValid) {
 
                 return;
             }
 
-            return coreDataservice.updateMerchant(userProfile)
+            var params = {
+                merchantData: merchantData
+            };
+
+            return coreDataservice.updateMerchant(params)
                 .then(function (merchantEntity) {
                     if (!merchantEntity) {
 
                         return false;
                     }
 
-                    vm.userProfile.merchantData = merchantEntity;
-                    vm.userProfile.spMerchantId = vm.userProfile.merchantData.id;
+                    vm.merchantData = merchantEntity;
+                    vm.userProfile.spMerchantId = vm.merchantData.id;
 
                     return coreDataservice.getMerchantAccount();
                 })
                 .then(function (userPayment) {
-                    vm.userProfile.paymentData = userPayment;
-                    if(vm.userProfile.paymentData && vm.userProfile.paymentData[0] && vm.userProfile.paymentData[0].modified){
-                        vm.userProfile.paymentData[0].modified = new Date(vm.userProfile.paymentData[0].modified.replace(' ', 'T'));
+                    vm.paymentData = userPayment;
+                    if(vm.paymentData && vm.paymentData[0] && vm.paymentData[0].modified){
+                        vm.paymentData[0].modified = new Date(vm.paymentData[0].modified.replace(' ', 'T'));
                     }
 
                     return currentUserService.setUserToLocalStorage(vm.userProfile);
@@ -184,7 +188,7 @@
         }
 
         function withdrawal() {
-            coreDataservice.withdrawal(vm.userProfile.merchantData.id)
+            coreDataservice.withdrawal(vm.merchantData.id)
                 .then(function (result) {
                     if (result === true) {
                         $mdDialog.show(
@@ -232,9 +236,9 @@
 
                     return coreDataservice.getMerchantAccount()
                         .then(function (userPayment) {
-                            vm.userProfile.paymentData = userPayment;
-                            if (vm.userProfile.paymentData && vm.userProfile.paymentData[0]) {
-                                vm.userProfile.paymentData[0].modified = new Date(vm.userProfile.paymentData[0].modified.replace(' ', 'T'));
+                            vm.paymentData = userPayment;
+                            if (vm.paymentData && vm.paymentData[0]) {
+                                vm.paymentData[0].modified = new Date(vm.paymentData[0].modified.replace(' ', 'T'));
                             }
                             return vm.userProfile;
                         })
@@ -244,9 +248,9 @@
                         })
                         .then(function (merchantEntity) {
                             if (merchantEntity) {
-                                vm.userProfile.merchantData = merchantEntity;
-                                if (vm.userProfile.merchantData.city) {
-                                    vm.selectedCityItem = vm.userProfile.merchantData.city;
+                                vm.merchantData = merchantEntity;
+                                if (vm.merchantData.city) {
+                                    vm.selectedCityItem = vm.merchantData.city;
                                 }
                             }
 
@@ -261,7 +265,7 @@
                             return coreDataservice.isCreatedTodaysPayout();
                         })
                         .then(function (payoutCreated) {
-                            if (!payoutCreated && vm.merchantFunds > 0 && vm.userProfile.paymentData[0] && vm.userProfile.paymentData[0].status === vm.bankAccountStatuses.VERIFIED) {
+                            if (!payoutCreated && vm.merchantFunds > 0 && vm.paymentData[0] && vm.paymentData[0].status === vm.bankAccountStatuses.VERIFIED) {
                                 vm.enableWithdrawals = true;
                             }
 
@@ -295,12 +299,12 @@
         }
 
         function getCities(query) {
-            if (!vm.userProfile.merchantData.state) {
+            if (!vm.merchantData.state) {
 
                 return;
             }
 
-            var selectedState = vm.states[vm.userProfile.merchantData.state];
+            var selectedState = vm.states[vm.merchantData.state];
 
             return citiesLoader.getCities(selectedState.id, query)
                 .then(function (cities) {
@@ -314,11 +318,11 @@
                 return;
             }
 
-            vm.userProfile.merchantData.city = city.city;
+            vm.merchantData.city = city.city;
         }
 
         function resetSelectedCity() {
-            vm.userProfile.merchantData.city = null;
+            vm.merchantData.city = null;
             vm.selectedCityItem = null;
         }
 

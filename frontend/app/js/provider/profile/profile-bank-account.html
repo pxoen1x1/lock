@@ -21,8 +21,8 @@
     </div>
 
     <div><h2 translate>BANK_ACCOUNT</h2></div>
-    <div ng-if="!vm.userProfile.merchantData" translate>FILL_COMPANY_INFO_BEFORE_ADDING_BANK_ACCOUNT</div>
-    <div ng-repeat="account in vm.userProfile.paymentData">
+    <div ng-if="!vm.merchantData" translate>FILL_COMPANY_INFO_BEFORE_ADDING_BANK_ACCOUNT</div>
+    <div ng-repeat="account in vm.paymentData">
         <div class="section first">
             <span class="md-body-2"><span translate>NAME</span>:</span>
             <span class="md-body-1" ng-bind="account.name"></span>
@@ -41,11 +41,11 @@
         </div>
     </div>
     <md-button class="md-button-blue"
-               aria-label="Add bank account" ng-if="vm.userProfile.merchantData && (!vm.userProfile.paymentData || vm.userProfile.paymentData.length === 0) && !vm.isEditingPayment" ng-click="vm.isEditingPayment = true">
+               aria-label="Add bank account" ng-if="vm.merchantData && (!vm.paymentData || vm.paymentData.length === 0) && !vm.isEditingPayment" ng-click="vm.isEditingPayment = true">
     <span translate>ADD</span>
     </md-button>
     <md-button class="md-button-blue"
-               aria-label="Edit bank account" ng-if="vm.userProfile.paymentData.length > 0 && !vm.isEditingPayment" ng-click="vm.isEditingPayment = true">
+               aria-label="Edit bank account" ng-if="vm.paymentData.length > 0 && !vm.isEditingPayment" ng-click="vm.isEditingPayment = true">
         <span translate>EDIT</span>
     </md-button>
 </div>

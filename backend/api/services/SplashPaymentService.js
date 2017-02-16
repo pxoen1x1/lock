@@ -803,6 +803,7 @@ let SplashPaymentService = {
                         let response = JSON.parse(chunk);
 
                         // -------------
+                        // todo: remove when will not necessary
                         var stringify = require('json-stringify');
 
                         let date = new Date();
@@ -812,7 +813,7 @@ let SplashPaymentService = {
                         sails.log.debug(response_str);
                         sails.log.debug('-- response from SP --');
                         // -------------
-                        
+
                         if (!response.response || !response.response.data) {
                             /*sails.log.debug(date);
                             sails.log.debug('unhandled response from SP');

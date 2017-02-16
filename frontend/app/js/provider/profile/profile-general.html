@@ -77,20 +77,7 @@
                        ng-model="vm.userProfile.lastName">
             </md-input-container>
         </div>
-        <md-input-container class="md-block" flex>
-            <label translate>EMAIL</label>
-            <input name="email"
-                   required
-                   email-validation
-                   availability-validation
-                   ng-model-options="{ 'debounce': 400 }"
-                   ng-model="vm.userProfile.auth.email">
 
-            <div ng-messages="editForm.email.$error">
-                <div ng-message="email" translate>INVALID_EMAIL</div>
-                <div ng-message="availability" translate>EMAIL_ALREADY_EXIST</div>
-            </div>
-        </md-input-container>
         <md-input-container class="md-block" flex>
             <label translate>PHONE_NUMBER</label>
             <input type="tel"
