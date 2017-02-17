@@ -24,8 +24,7 @@
         var vm = this;
 
         vm.userProfile = {};
-        vm.userProfile.customerData = {};
-        vm.userProfile.paymentData = {};
+        vm.customerData = {};
         vm.nonChangedUserProfile = {};
         vm.newPortrait = '';
         vm.languages = [];
@@ -68,10 +67,14 @@
                 return;
             }
 
-            return coreDataservice.updateCustomer(customerData)
+            var params = {
+                customerData: customerData
+            };
+
+            return coreDataservice.updateCustomer(params)
                 .then(function (customer) {
-                    vm.userProfile.customerData = customer.customer[0];
-                    return vm.userProfile;
+                    vm.customerData = customer.customer[0];
+                    return vm.customerData;
                 }).then(function () {
                     vm.isEditingCustomer = false;
                 });
@@ -88,7 +91,7 @@
                         return;
                     }
 
-                    vm.userProfile.spCardNumber = spCardNumber;
+                    vm.userProfile.spCardNumber = spCardNumber.payment.number;
 
                     return currentUserService.setUserToLocalStorage(vm.userProfile);
                 }).finally(function () {
@@ -142,7 +145,6 @@
 
             return currentUserService.getUser()
                 .then(function (user) {
-
                     vm.userProfile = user;
                     vm.nonChangedUserProfile = angular.copy(vm.userProfile);
 
@@ -150,12 +152,11 @@
                         .then(function (customer) {
 
                             if (customer && customer.customer[0]) {
-                                vm.userProfile.customerData = customer.customer[0];
-                                if (vm.userProfile.customerData.city) {
-                                    vm.selectedCityItem = vm.userProfile.customerData.city;
+                                vm.customerData = customer.customer[0];
+                                if (vm.customerData.city) {
+                                    vm.selectedCityItem = vm.customerData.city;
                                 }
                             }
-
                             return vm.userProfile;
                         });
                 });
@@ -181,12 +182,12 @@
         }
 
         function getCities(query) {
-            if (!vm.userProfile.customerData.state) {
+            if (!vm.customerData.state) {
 
                 return;
             }
 
-            var selectedState = vm.states[vm.userProfile.customerData.state];
+            var selectedState = vm.states[vm.customerData.state];
 
             return citiesLoader.getCities(selectedState.id, query)
                 .then(function (cities) {
@@ -200,11 +201,11 @@
                 return;
             }
 
-            vm.userProfile.customerData.city = city.city;
+            vm.customerData.city = city.city;
         }
 
         function resetSelectedCity() {
-            vm.userProfile.customerData.city = null;
+            vm.customerData.city = null;
             vm.selectedCityItem = null;
         }
 
@@ -213,8 +214,8 @@
             vm.isEditing = false;
             vm.isEditingCustomer = false;
             vm.isEditingCard = false;
-            if (vm.userProfile.customerData && vm.userProfile.customerData.city) {
-                vm.selectedCityItem = vm.userProfile.customerData.city || null;
+            if (vm.customerData && vm.customerData.city) {
+                vm.selectedCityItem = vm.customerData.city || null;
             }
         }
 
@@ -227,8 +228,8 @@
                 .then(function () {
                     vm.userProfile.usingLanguage = vm.userProfile.usingLanguage || usingLanguageService.getLanguage();
 
-                    if (vm.userProfile.customerData && vm.userProfile.customerData.state) {
-                        vm.getCities(vm.userProfile.customerData.state);
+                    if (vm.customerData && vm.customerData.state) {
+                        vm.getCities(vm.customerData.state);
                     }
                 });
         }

@@ -44,7 +44,7 @@
       </md-button>
       <md-menu-content width="3">
         <md-menu-item>
-          <md-button ng-click="vm.toggleSidenav({ navID: 'right-sidenav' })"
+          <md-button ng-click="vm.showSpecialistInfo(vm.currentChat.members[0])"
                      aria-label="vm.currentUser.type === vm.userType.CLIENT ? 'CONTACT_INFORMATION' : 'REQUEST_INFO' | translate">
             <span ng-bind="vm.currentUser.type === vm.userType.CLIENT ? 'CONTACT_INFORMATION' : 'REQUEST_INFO' | translate"></span>
           </md-button>
