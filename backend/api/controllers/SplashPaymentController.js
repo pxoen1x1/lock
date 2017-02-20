@@ -116,9 +116,14 @@ let SplashPaymentController = {
     updateMerchantEntity(req, res){
         let user = req.session.user;
         let params = req.allParams();
-        let email = params.auth.email;
+        let that = this;
 
-        return this._saveMerchant(user, params, email)
+        return UserService.getUser({id: user.id})
+            .then(
+                (foundUser) => {
+                    return that._saveMerchant(user, params, foundUser.auth.email);
+                }
+            )
             .then(
                 (merchantEntity) => res.ok(
                     {

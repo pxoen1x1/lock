@@ -91,7 +91,7 @@
                         return;
                     }
 
-                    vm.userProfile.spCardNumber = spCardNumber;
+                    vm.userProfile.spCardNumber = spCardNumber.payment.number;
 
                     return currentUserService.setUserToLocalStorage(vm.userProfile);
                 }).finally(function () {
@@ -130,8 +130,6 @@
                 .then(function (user) {
 
                     vm.userProfile = user;
-                    console.log('user');
-                    console.log(user);
                     vm.userProfile.portrait = user.portrait ? user.portrait : '';
                     vm.newPortrait = '';
                     vm.isEditing = false;
@@ -147,7 +145,6 @@
 
             return currentUserService.getUser()
                 .then(function (user) {
-
                     vm.userProfile = user;
                     vm.nonChangedUserProfile = angular.copy(vm.userProfile);
 
@@ -160,7 +157,6 @@
                                     vm.selectedCityItem = vm.customerData.city;
                                 }
                             }
-
                             return vm.userProfile;
                         });
                 });
