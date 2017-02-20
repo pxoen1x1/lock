@@ -11,7 +11,7 @@
   .avatar-wrapper {
     position: relative;
     width: 100%;
-    height: 250px;
+    height: 250px; // need for FF
 
     .photo-remove {
       position: absolute;
@@ -227,10 +227,24 @@
 
 @media only screen and (max-device-width: 600px) {
 
+  .wrapper .content .profile-content {
+      .container-content.prof {
+        padding: 0;
+      }
+
+    md-tabs-content-wrapper{
+      padding: 0 10px;
+    }
+  }
+
   .profile-content {
 
     .profile-left {
       width: 170px;
+    }
+
+    .avatar-wrapper {
+      height: 100px;
     }
 
     .avatar {
