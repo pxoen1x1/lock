@@ -5,14 +5,14 @@
       <i class="material-icons">person</i> <span translate>PROFILE</span>
     </div>
   </div>
-  <div class="container-content">
+  <div class="container-content prof">
     <div layout="column"
          layout-gt-xs="row"
          layout-align-gt-xs="start start"
          layout-align="start center">
       <div class="profile-left"
            flex
-           layout="row"
+           layout-xs="column"
            layout-gt-xs="column"
            layout-align="start center"
            layout-align-gt-xs="start start">
@@ -27,8 +27,8 @@
           </div>
         </div>
         <div class="actions"
+             layout-align-xs="center center"
              layout="column"
-             layout-align-xs="center start"
              flex-offset-xs="5">
           <md-button class="md-button-blue"
                      aria-label="Change photo"
@@ -45,7 +45,6 @@
       </div>
       <div layout="row"
            class="profile-right"
-           flex-xs="grow"
            flex-gt-xs="70"
            flex-offset-gt-xs="5"
            layout-align="start center"
