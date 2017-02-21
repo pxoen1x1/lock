@@ -30,29 +30,18 @@
               <span class="vertical-middle" translate>SHOW_PUBLIC_PROFILE</span>
             </md-button>
           </md-menu-item>
-          <md-menu-item ng-if="vm.isEditing">
-            <md-button aria-label="Change photo"
-                       file-uploader
-                       is-single-file="true"
-                       allowed-extensions="{{ vm.fileUploaderOptions.allowedFileExtensions.images }}"
-                       max-size="{{ vm.fileUploaderOptions.maxFileSize }}"
-                       selected-file-src="vm.newPortrait">
-              <md-icon>photo_camera</md-icon>
-              <span translate>CHANGE_PHOTO</span>
-            </md-button>
-          </md-menu-item>
         </md-menu-content>
       </md-menu>
     </div>
   </div>
-  <div class="container-content">
+  <div class="container-content prof">
     <div layout="column"
          layout-gt-xs="row"
          layout-align-gt-xs="start start"
          layout-align="start center">
       <div class="profile-left"
            flex
-           layout="row"
+           layout-xs="column"
            layout-gt-xs="column"
            layout-align="start center"
            layout-align-gt-xs="start start">
@@ -67,10 +56,11 @@
           </div>
         </div>
         <div class="actions"
+             layout-align-xs="center center"
              layout="column">
           <md-button class="md-button-blue"
                      ng-if="vm.isEditing"
-                     hide-xs
+
                      aria-label="Change photo"
                      file-uploader
                      is-single-file="true"
@@ -84,7 +74,6 @@
       </div>
       <div layout="row"
            class="profile-right"
-           flex-xs="grow"
            flex-gt-xs="70"
            flex-offset-gt-xs="5"
            layout-align="start center"

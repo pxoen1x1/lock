@@ -5,7 +5,8 @@
          flex class="cursor-pointer">
       <i class="material-icons">person</i> <span translate>PROFILE</span>
     </div>
-    <div class="container-content">
+    </div>
+    <div class="container-content prof">
       <div layout="column"
            layout-gt-xs="row"
            layout-align-gt-xs="start start"
@@ -13,6 +14,7 @@
         <div class="profile-left"
              flex
              layout="row"
+             layout-xs="column"
              layout-gt-xs="column"
              layout-align="start center"
              layout-align-gt-xs="start start">
@@ -28,8 +30,8 @@
           </div>
           <div class="actions"
                layout="column"
-               layout-align-xs="center start"
-               flex-offset-xs="5">
+               layout-align-xs="center center"
+            >
             <md-button class="md-button-blue"
                        aria-label="Change photo"
                        ng-if="vm.isEditing"
@@ -45,8 +47,7 @@
         </div>
         <div layout="row"
              class="profile-right"
-             flex-xs="grow"
-             flex-gt-xs="70"
+
              flex-offset-gt-xs="5"
              layout-align="start center"
              layout-align-gt-xs="start start">
