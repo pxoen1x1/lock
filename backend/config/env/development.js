@@ -36,7 +36,7 @@ module.exports = {
 
     hookTimeout: 120000,
 
-    baseUrl: 'https://lockheal.com',
-    homePage: 'https://lockheal.com',
+    baseUrl: 'https://dev.lockheal.com',
+    homePage: 'https://dev.lockheal.com',
     EmailConfirmedUrl: '/?emailConfirmed'
 };
