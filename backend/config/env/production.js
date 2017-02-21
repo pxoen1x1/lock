@@ -20,16 +20,18 @@ module.exports = {
     connections: {
         productionMysqlServer: {
             adapter: 'sails-mysql',
-            host: 'localhost',
-            user: 'locksmith',
+            host: 'lockhealdb.c6qxt1uj9j0m.us-east-1.rds.amazonaws.com',
+            user: 'lockheal',
             password: 'l0ck$m1th_p@$$',
-            database: 'locksmith'
+            database: 'lockheal',
+            charset: 'utf8',
+            collation: 'utf8_general_ci'
         }
     },
 
     models: {
         connection: 'productionMysqlServer',
-        migrate: 'alter'
+        migrate: 'save'
     },
 
     /***************************************************************************
@@ -46,4 +48,7 @@ module.exports = {
     //   level: "silent"
     // }
 
+    baseUrl: 'https://lockheal.com',
+    homePage: 'https://lockheal.com',
+    EmailConfirmedUrl: '/?emailConfirmed'
 };
