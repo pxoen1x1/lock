@@ -22,7 +22,7 @@ module.exports = {
             adapter: 'sails-mysql',
             host: 'lockhealdb.c6qxt1uj9j0m.us-east-1.rds.amazonaws.com',
             user: 'lockheal',
-            password: 'l0ck$m1th_p@$$',
+            password: '10ckhe@1',
             database: 'lockheal',
             charset: 'utf8',
             collation: 'utf8_general_ci'
