@@ -21,8 +21,8 @@
     </div>
 
     <div><h2 translate>BANK_ACCOUNT</h2></div>
-    <div ng-if="!vm.userProfile.merchantData" translate>FILL_COMPANY_INFO_BEFORE_ADDING_BANK_ACCOUNT</div>
-    <div ng-repeat="account in vm.userProfile.paymentData">
+    <div ng-if="!vm.merchantData" translate>FILL_COMPANY_INFO_BEFORE_ADDING_BANK_ACCOUNT</div>
+    <div ng-repeat="account in vm.paymentData">
         <div class="section first">
             <span class="md-body-2"><span translate>NAME</span>:</span>
             <span class="md-body-1" ng-bind="account.name"></span>
@@ -37,22 +37,22 @@
         </div>
         <div class="section">
             <span class="md-body-2"><span translate>STATUS</span>:</span>
-            <span class="md-body-1" ng-bind="account.status"></span>
+            <span class="md-body-1" ng-bind="vm.bankAccountStatuses[account.status] | translate"></span>
         </div>
     </div>
     <md-button class="md-button-blue"
-               aria-label="Add bank account" ng-if="vm.userProfile.paymentData.length === 0 && !vm.isEditingPayment" ng-click="vm.isEditingPayment = true"" translate>ADD</md-button>
+               aria-label="Add bank account" ng-if="vm.merchantData && (!vm.paymentData || vm.paymentData.length === 0) && !vm.isEditingPayment" ng-click="vm.isEditingPayment = true"" translate>ADD</md-button>
     <md-button class="md-button-blue"
-               aria-label="Edit bank account" ng-if="vm.userProfile.paymentData.length > 0 && !vm.isEditingPayment" ng-click="vm.isEditingPayment = true" translate>EDIT</md-button>
+               aria-label="Edit bank account" ng-if="vm.paymentData.length > 0 && !vm.isEditingPayment" ng-click="vm.isEditingPayment = true" translate>EDIT</md-button>
 </div>
 <div ng-if="vm.isEditingPayment">
     <form name="editPaymentForm"
           novalidate
-          ng-submit="vm.setMerchantAccount(vm.userProfile.payment, editPaymentForm.$valid)">
+          ng-submit="vm.setMerchantAccount(vm.payment, editPaymentForm.$valid)">
         <div layout="row" layout-xs="column">
             <md-input-container class="md-block" flex>
                 <label translate>TYPE_OF_ACCOUNT</label>
-                <md-select ng-model="vm.userProfile.payment.method">
+                <md-select ng-model="vm.payment.method">
                     <md-option ng-repeat="type in vm.bankAccountTypes" ng-value="type.code">
                         <span>{{type.name | translate}}</span>
                     </md-option>
@@ -62,17 +62,15 @@
                 <label translate>PAYMENT_ROUTING</label>
                 <input name="paymentRouting"
                        required
-                       ng-maxlength="9"
-                       ng-pattern="/^[0-9]*$/"
-                       ng-model="vm.userProfile.payment.routing">
+                       ng-pattern="/^[0-9]{9}$/"
+                       ng-model="vm.payment.routing">
             </md-input-container>
             <md-input-container class="md-block" flex>
                 <label translate>PAYMENT_NUMBER</label>
                 <input name="paymentNumber"
                        required
-                       ng-maxlength="9"
-                       ng-pattern="/^[0-9]*$/"
-                       ng-model="vm.userProfile.payment.number">
+                       ng-pattern="/^[0-9]{9}$/"
+                       ng-model="vm.payment.number">
             </md-input-container>
         </div>
         <md-button type="submit"
