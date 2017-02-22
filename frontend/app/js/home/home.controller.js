@@ -82,6 +82,12 @@
 
         function submit(newRequest, isFromValid) {
 
+            if (newRequest) {
+                toastService.warning('Please wait release to get immediate help');
+
+                return;
+            }
+
             vm.request.location = getLocation();
             if (!vm.request.location) {
                 vm.newRequestForm.location.$setValidity('address', false);
