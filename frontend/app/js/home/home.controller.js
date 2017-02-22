@@ -84,6 +84,9 @@
 
             if (newRequest) {
                 toastService.warning('Please wait release to get immediate help');
+                setTimeout(function() {
+                    toastService.success('You can pass through registration and we\'ll be glad to let you know when we get start!');
+                }, 3000);
 
                 return;
             }
