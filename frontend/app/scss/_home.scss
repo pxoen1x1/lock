@@ -38,6 +38,10 @@ $title-color: #8e8e8e;
   }
 }
 
+::-webkit-scrollbar {
+  display: none;
+}
+
 .video-dialog {
   height: 100%;
   max-height: 100%;
