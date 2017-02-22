@@ -280,5 +280,6 @@
   "ARE_YOU_SURE": "Are you sure?",
   "YES": "Yes",
   "NO" : "No",
-  "ADD": "Add"
+  "ADD": "Add",
+  "NOT_PROVIDED": "Not provided yet"
 }
