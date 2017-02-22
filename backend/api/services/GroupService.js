@@ -256,6 +256,14 @@ let GroupService = {
         return Group.findOneByAdmin(user.id)
             .populate('licenses');
     },
+    getSpecialistsGroupAdmin(specialist){
+
+        if (specialist.groupMembers[0]) {
+            let user = {id: specialist.groupMembers[0].admin}
+            return UserService.getUser(user);
+        }
+        return null;
+    }
 };
 
 module.exports = GroupService;

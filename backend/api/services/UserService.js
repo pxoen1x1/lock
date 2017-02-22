@@ -11,6 +11,7 @@ let UserService = {
             .populate('auth')
             .populate('usingLanguage')
             .populate('groups')
+            .populate('groupMembers')
             .then(
                 (foundUser) => {
 
