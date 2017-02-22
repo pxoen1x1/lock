@@ -1,15 +1,14 @@
-set :application, "lockheal"
-set :environment, "production"
-set :server_ip, '34.200.108.242'
-set :deploy_to, "/srv/www/lockheal"
-set :document_root, "/srv/www/lockheal"
+set :application, "lockheal_dev"
+set :server_ip, '34.195.79.36'
+set :environment, "development"
+set :deploy_to, "/srv/www/lockheal_dev"
+set :document_root, "/srv/www/lockheal_dev"
 set :ssh_options, {
   forward_agent: true,
   auth_methods: ["publickey"],
-  keys: ["~/.ssh/lockheal_production.pem"]
+  keys: ["~/.ssh/lockheal.pem"]
 }
-set :keep_releases, 3
-
+set :keep_releases, 1
 
 # server-based syntax
 # ======================

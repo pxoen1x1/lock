@@ -1,23 +1,12 @@
-set :application, "lockheal"
 set :scm, :git
 set :repo_url, "git@git.i-deasoft.com:pliashkou/locksmith.git"
 set :branch, "master"
-set :environment, "development"
-set :deploy_to, "/srv/www/lockheal"
 set :deploy_via, :remote_cache
 set :copy_strategy, :checkout
-set :keep_releases, 1
 set :use_sudo, false
 set :copy_compression, :bz2
 set :normalize_asset_timestamps, false
-set :document_root, "/srv/www/lockheal"
 set :user, 'ubuntu'
-set :server_ip, '34.195.79.36'
-set :ssh_options, {
-  forward_agent: true,
-  auth_methods: ["publickey"],
-  keys: ["~/.ssh/lockheal.pem"]
-}
 set :local_js, 'module.exports = { IS_BG_CHECK_ENABLED: false, IS_CUSTOMERS_LOCKING_ENABLED: false }'
 
 namespace :deploy do
