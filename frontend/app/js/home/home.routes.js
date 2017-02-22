@@ -89,6 +89,7 @@
     }
 
     function validateUserAccess(currentUserService, coreConstants, $state) {
+
         return currentUserService.getType()
             .then(function(userType) {
                 if (userType !== coreConstants.USER_TYPES.SPECIALIST && userType !== coreConstants.USER_TYPES.GROUP_ADMIN) {
