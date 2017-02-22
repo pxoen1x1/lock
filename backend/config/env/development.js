@@ -21,9 +21,9 @@ module.exports = {
         developmentMysqlServer: {
             adapter: 'sails-mysql',
             host: 'lockhealdb.c6qxt1uj9j0m.us-east-1.rds.amazonaws.com',
-            user: 'lockheal',
-            password: '10ckhe@1',
-            database: 'lockheal',
+            user: 'lockheal_dev',
+            password: 'DEV_10ckhe@l',
+            database: 'lockheal_dev',
             charset: 'utf8',
             collation: 'utf8_general_ci'
         }
@@ -31,13 +31,12 @@ module.exports = {
 
     models: {
         connection: 'developmentMysqlServer',
-        migrate: 'alter'
+        migrate: 'safe'
     },
 
     hookTimeout: 120000,
 
-    port: 1337,
-    baseUrl: 'https://lockheal.com',
-    homePage: 'https://lockheal.com',
+    baseUrl: 'https://dev.lockheal.com',
+    homePage: 'https://dev.lockheal.com',
     EmailConfirmedUrl: '/?emailConfirmed'
 };

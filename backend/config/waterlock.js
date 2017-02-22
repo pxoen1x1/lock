@@ -109,7 +109,7 @@ module.exports.waterlock = {
             // obj - {controller: 'blog', action: 'post'}
             // string - 'custom json response string'
             // default - 'default'
-            failure: `{ "message": "User not found." }`
+            failure: `{ "message": "User not found. Please check your login and password." }`
         },
 
         //post logout event
