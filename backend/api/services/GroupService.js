@@ -258,11 +258,16 @@ let GroupService = {
     },
     getSpecialistsGroupAdmin(specialist){
 
-        if (specialist.groupMembers[0]) {
-            let user = {id: specialist.groupMembers[0].admin}
-            return UserService.getUser(user);
+        if (!specialist.groupMembers[0]) {
+
+            return Promise.resolve();
         }
-        return null;
+
+        let user = {
+            id: specialist.groupMembers[0].admin
+        };
+
+        return UserService.getUser(user);
     }
 };
 
