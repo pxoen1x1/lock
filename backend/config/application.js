@@ -19,11 +19,10 @@ let application = {
         providerPath: '/usr/sbin/sendmail',
         templates: {
             successRegistration: 'emails/successRegistration',
-            confirmRegistration: 'emails/confirmCustomerRegistration',
-            /*confirmRegistration: {
+            confirmRegistration: {
                 provider: 'emails/confirmProviderRegistration',
                 customer: 'emails/confirmCustomerRegistration'
-            },*/
+            },
             generatedPassword: 'emails/generatedPassword',
             passwordResetRequest: 'emails/passwordResetRequest',
             passwordResetConfirmation: 'emails/passwordResetConfirmation',

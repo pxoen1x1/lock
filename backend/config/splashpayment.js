@@ -56,7 +56,7 @@ let splashpayment = {
         new: 0,
         annualCCSales: '500000',
         status: 1,
-        mcc: '1750',
+        mcc: '7399',
         country: 'USA',
         //website: "http://www.splashpayments.com", // -
         /**

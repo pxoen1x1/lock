@@ -325,12 +325,31 @@ let SplashPaymentController = {
     },
     createCaptureTxn(req, res) {
         let params = req.allParams();
+        let request;
+        let specialist;
 
-        RequestService.getRequestById({id: params.requestId})
-            .then(
-                (request) => SplashPaymentService
-                    .createCaptureTxn(request.owner.spCustomerId, request.executor.spMerchantId, request.spAuthTxnId)
-            )
+        return RequestService.getRequestById({id: params.requestId})
+            .then((requestResponse) => {
+                request = requestResponse;
+                let user = {id: request.executor.id};
+
+                return UserService.getUser(user);
+            })
+            .then((specialistResponse) => {
+                specialist = specialistResponse;
+                return GroupService.getSpecialistsGroupAdmin(specialist);
+            })
+            .then((admin)=> {
+
+                if(admin){
+
+                    return SplashPaymentService
+                        .createCaptureTxn(request.owner.spCustomerId, admin.spMerchantId, request.spAuthTxnId);
+                }
+
+                return SplashPaymentService
+                    .createCaptureTxn(request.owner.spCustomerId, specialist.spMerchantId, request.spAuthTxnId);
+            })
             .then(
                 (response) => {
                     let txnArr = JSON.parse(response);

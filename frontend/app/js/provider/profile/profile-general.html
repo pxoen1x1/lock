@@ -43,7 +43,7 @@
         <span class="md-body-2" translate>SERVICES</span>:
         <span class="md-body-1"
               ng-repeat="service in vm.userProfile.details.serviceTypes track by service.id">
-            {{service.name | translate}} {{' (' + (service.price | currency:'$') + ')' + ($last ? '':', ')}}
+            {{service.name | translate}} {{service.price ?' (' + (service.price | currency:'$') + ')' : '' + ($last ? '':', ')}}
         </span>
     </div>
     <div class="section">

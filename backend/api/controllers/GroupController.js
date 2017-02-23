@@ -216,6 +216,22 @@ let GroupController = {
                 }
             );
     },
+    getSpecialistsGroupAdmin(req, res) {
+        let user = {id: req.params.userId};
+
+        return UserService.getUser(user)
+            .then((specialist) =>{
+                return GroupService.getSpecialistsGroupAdmin(specialist);
+            })
+            .then((groupAdmin)=>{
+                return res.ok(
+                    {
+                        groupAdmin: groupAdmin
+                    }
+                );
+            });
+
+    },
     setSpAgreed(req, res) {
         let params = req.body;
         let groupId = params.groupId;

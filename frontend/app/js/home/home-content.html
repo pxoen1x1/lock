@@ -5,8 +5,8 @@
 
         <h2>The best specialists in the shortest possible time</h2>
 
-        <button  hide show-gt-xs ng-click="vm.showVideo()" class="md-button watch-video btn" aria-label="Watch video">
-            <span translate>WATCH_VIDEO</button>
+        <!--<button  hide show-gt-xs ng-click="vm.showVideo()" class="md-button watch-video btn" aria-label="Watch video">-->
+            <!--<span translate>WATCH_VIDEO</button>-->
 
 
     </div>
@@ -95,6 +95,7 @@
     <div class="map-wrapper" layout="column" flex>
         <client-map-viewer class="map-viewer"
                            flex
+                           show-info-windows="true"
                            map-options="vm.mapOptions"
                            current-request="vm.request"
                            hire-specialist="vm.hireSpecialist(specialist)">

@@ -91,7 +91,7 @@
       </message-chat>
     </div>
     <div class="chat-message"
-         ng-if="vm.currentUser.type !== vm.userType.CLIENT &&
+         ng-if="vm.currentUser.type !== vm.userType.CLIENT && vm.currentUser.type !== vm.userType.GROUP_ADMIN &&
          (vm.currentRequest.executor && vm.currentRequest.executor.id !== vm.currentUser.id)"
          ng-include="'chat/templates/system-message-unselected-specialist.html'">
     </div>
