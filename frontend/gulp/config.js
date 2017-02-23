@@ -240,6 +240,13 @@ module.exports = {
             from: 'url(MaterialIcons-Regular',
             to: 'url(../fonts/MaterialIcons-Regular'
         },
+        url: {
+            src: paths.app.production + 'js/',
+            file: 'app*.js',
+            baseUrl: /BASE_URL:".+",EMAIL_CONFIRMED_URL/,
+            development: 'BASE_URL:"https://dev.lockheal.com",EMAIL_CONFIRMED_URL',
+            production: 'BASE_URL:"https://lockheal.com",EMAIL_CONFIRMED_URL'
+        },
         mobile: {
             src: paths.mobile.src + 'www/',
             files: '**/{index.html,app*.js}',
