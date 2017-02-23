@@ -44,12 +44,20 @@
         }
 
         function payWithLinked() {
+            var specialist;
 
             return coreDataservice.getUser(offer.executor.id)
-                .then(function (response) {
-                    var specialist = response.data.user;
+                .then(function(response) {
+                    specialist = response.data.user;
 
-                    return coreDataservice.createAuthTxn(specialist.spMerchantId, offer.cost, currentRequest.id);
+                    return coreDataservice.getSpecialistsGroupAdmin(specialist.id);
+                })
+                .then(function (admin) {
+                    if(admin){
+                        return coreDataservice.createAuthTxn(admin.spMerchantId, offer.cost, currentRequest.id);
+                    }
+
+                   return coreDataservice.createAuthTxn(specialist.spMerchantId, offer.cost, currentRequest.id);
                 })
                 .then(function (res) {
                     $mdDialog.hide({result: true});
@@ -82,12 +90,21 @@
             }
 
             var tokenAndTxnResult;
+            var specialist;
 
             return coreDataservice.getUser(offer.executor.id)
-                .then(function (response) {
-                    var specialist = response.data.user;
+                .then(function(response) {
+                    specialist = response.data.user;
 
-                    return coreDataservice.createTokenAndAuthTxn(txnData, specialist.spMerchantId, offer.cost, currentRequest.id); // add , request.id
+                    return coreDataservice.getSpecialistsGroupAdmin(specialist.id);
+                })
+                .then(function (admin) {
+                    if(admin) {
+
+                        return coreDataservice.createTokenAndAuthTxn(txnData, admin.spMerchantId, offer.cost, currentRequest.id);
+                    }
+
+                    return coreDataservice.createTokenAndAuthTxn(txnData, specialist.spMerchantId, offer.cost, currentRequest.id);
                 })
                 .then(function (result) {
                     tokenAndTxnResult = result; //todo: redo with spread

@@ -70,19 +70,19 @@
       <div class="p-xs"
            layout="column"
            flex>
-        <span class="md-body-2" translate>LICENSES</span>:
+        <span><span class="md-body-2" translate>LICENSES</span>:</span>
         <div class="md-body-1"
              layout="column"
              layout-align="start start"
              ng-repeat="license in vm.member.details.licenses track by license.id">
           <div>
-            <span class="md-body-1" translate>NUMBER</span>:
+            <span><span class="md-body-1" translate>NUMBER</span>:</span>
             <span class="md-body-1"
                   ng-bind="license.number">
             </span>
           </div>
           <div>
-            <span class="md-body-1" translate>DATE_EXPIRATION</span>:
+            <span><span class="md-body-1" translate>DATE_EXPIRATION</span>:</span>
             <span class="md-body-1"
                   ng-bind="license.date | date: 'MMM/dd/yyyy'">
             </span>
@@ -93,20 +93,20 @@
            layout="column"
            flex-gt-xs="40">
         <div layout="column">
-          <span class="md-body-2" translate>SERVICE_TYPES</span>:
+          <span><span class="md-body-2" translate>SERVICE_TYPES</span>:</span>
           <div class="">
             <span class="md-body-1"
                   ng-repeat="serviceType in vm.member.details.serviceTypes track by serviceType.id">
-              {{ serviceType.name | translate }} + {{ $last ? '' : ', '}}
+              {{ serviceType.name | translate }}{{ $last ? '' : ', '}}
             </span>
           </div>
         </div>
         <div class="m-t-xs" layout="column">
-          <span class="md-body-2" translate>LANGUAGE</span>:
+          <span><span class="md-body-2" translate>LANGUAGE</span>:</span>
           <div class="">
             <span class="md-body-1"
-                  ng-repeat="language in vm.member.details.languages track by language.id"
-                  ng-bind="language.name + {{ $last ? '' : ', '}}">
+                  ng-repeat="language in vm.member.details.languages track by language.id">
+              {{ language.name }}{{ $last ? '' : ', '}}
             </span>
           </div>
         </div>

@@ -29,7 +29,8 @@
 
         vm.languages = [];
         vm.userProfile = {};
-        vm.merchantData = {};
+        vm.merchantData = null;
+        vm.payment = null;
         vm.paymentData = null;
         vm.merchantFunds = 0;
         vm.nonChangedUserProfile = {};

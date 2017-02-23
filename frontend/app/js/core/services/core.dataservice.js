@@ -23,6 +23,7 @@
             getRequest: getRequest,
             getAvailabilityInfo: getAvailabilityInfo,
             getAdminsGroup: getAdminsGroup,
+            getSpecialistsGroupAdmin: getSpecialistsGroupAdmin,
             setGroupSpAgreed: setGroupSpAgreed,
             getCustomer: getCustomer,
             getBankAccountTypes: getBankAccountTypes,
@@ -169,6 +170,16 @@
             }
         }
 
+        function getSpecialistsGroupAdmin(userId) {
+
+            return $sails.get(conf.URL_PREFIX + 'group/getspecialistsgroupadmin/'+userId).then(findGroupAdminByChatMembersComplete);
+
+            function findGroupAdminByChatMembersComplete(response) {
+
+                return response.body.groupAdmin;
+            }
+        }
+
         function setGroupSpAgreed(groupId) {
 
             return $sails.post(conf.URL_PREFIX + 'group/spagreed', {groupId: groupId}).then(setSpAgreedComplete);
@@ -178,6 +189,8 @@
                 return response.data.group[0];
             }
         }
+
+
 
         function getCustomer() {
 
